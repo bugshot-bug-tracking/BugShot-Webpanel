@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32">
+    <defs>
+        <clipPath id="clip-path">
+            <rect width="32" height="32" fill="none"></rect>
+        </clipPath>
+    </defs>
+    <g id="Repeat_Grid_1" data-name="Repeat Grid 1" clip-path="url(#clip-path)">
+        <g transform="translate(-136 -512)">
+            <g id="Component_698_7" data-name="Component 698 – 7" transform="translate(136 512)">
+                <g id="Ellipse_31" data-name="Ellipse 31" fill="none" stroke="#18d992" stroke-width="2">
+                    <circle cx="16" cy="16" r="16" stroke="none"></circle>
+                    <circle cx="16" cy="16" r="15" fill="none"></circle>
+                </g>
+                <g id="plus" transform="translate(8 8)">
+                    <g id="Group_85" data-name="Group 85" transform="translate(1.333 1.333)">
+                        <line id="Line_13" data-name="Line 13" y2="13.333" transform="translate(6.667)" fill="none" stroke="#18d992" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></line>
+                        <line id="Line_14" data-name="Line 14" x1="13.333" transform="translate(0 6.667)" fill="none" stroke="#18d992" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></line>
+                    </g>
+                    <rect id="Rectangle_70" data-name="Rectangle 70" width="16" height="16" fill="rgba(0,0,0,0)"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
