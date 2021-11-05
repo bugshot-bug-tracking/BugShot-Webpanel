@@ -1,304 +1,250 @@
 <template>
 	<Layout>
-		<form method="POST" action="" id="login-form" class="login-form">
-			<h1 class="title">Register</h1>
+		<div class="title">Register</div>
 
-			<div class="input-inside">
+		<form id="login-form" @submit.prevent="submit">
+			<div class="form-group">
 				<input
 					id="first_name"
 					type="first_name"
-					class="@error('email') is-invalid @enderror input-design"
 					name="first_name"
+					class="field"
 					placeholder="First Name"
 					required
 					autocomplete="given-name"
-				/>
-
-				<label for="first_name"></label>
-
-				<img
-					src="../../assets/icons/at@.svg"
-					class="input-float-icon"
+					v-model="first_name"
 				/>
 			</div>
 
-			<div class="input-inside">
+			<div class="form-group">
 				<input
 					id="last_name"
 					type="last_name"
-					class="@error('email') is-invalid @enderror input-design"
 					name="last_name"
+					class="field"
 					placeholder="Last Name"
 					required
 					autocomplete="family-name"
-				/>
-
-				<label for="last_name"></label>
-
-				<img
-					src="../../assets/icons/at@.svg"
-					class="input-float-icon"
+					v-model="last_name"
 				/>
 			</div>
 
-			<div class="input-inside email">
+			<div class="form-group">
 				<input
 					id="email"
 					type="email"
-					class="@error('email') is-invalid @enderror input-design"
 					name="email"
+					class="field"
 					placeholder="E-mail address"
 					required
 					autocomplete="email"
+					v-model="email"
 				/>
 
-				<label for="email"></label>
-
-				<img
-					src="../../assets/icons/at@.svg"
-					class="input-float-icon"
-				/>
+				<img class="email-img" src="../../assets/icons/at@.svg" />
 			</div>
 
-			<div class="input-inside password">
+			<div class="form-group">
 				<input
 					id="password"
-					type="password"
-					class="@error('password') is-invalid @enderror input-design"
+					:type="passwordType"
 					name="password"
+					class="field"
 					placeholder="Password"
+					minlength="8"
 					required
+					v-model="password"
 					autocomplete="new-password"
 				/>
 
-				<label for="password"></label>
+				<img
+					class="password-img"
+					v-if="showPassword"
+					@click="togglePassword"
+					src="../../assets/icons/hide_password.svg"
+				/>
 
 				<img
+					class="password-img"
+					v-if="!showPassword"
+					@click="togglePassword"
 					src="../../assets/icons/show_password.svg"
-					class="input-float-icon"
-					onclick="togglePasswordVisibility()"
 				/>
 			</div>
 
-			<div class="input-inside">
+			<div class="form-group">
 				<input
 					id="confirm_password"
-					type="password"
-					class="@error('password') is-invalid @enderror input-design"
+					:type="passwordType"
 					name="confirm_password"
-					placeholder="Confirm password"
+					class="field"
+					placeholder="Confirm Password"
+					minlength="8"
 					required
+					v-model="confirm_password"
 					autocomplete="new-password"
 				/>
 
-				<label for="confirm_password"></label>
+				<img
+					class="password-img"
+					v-if="showPassword"
+					@click="togglePassword"
+					src="../../assets/icons/hide_password.svg"
+				/>
 
 				<img
+					class="password-img"
+					v-if="!showPassword"
+					@click="togglePassword"
 					src="../../assets/icons/show_password.svg"
-					class="input-float-icon"
-					onclick="togglePasswordVisibility()"
 				/>
 			</div>
 
-			<div class="three-between-wrap">
-				<button type="submit" class="round-btn" form="login-form">
-					Sing up
+			<div class="from-buttons">
+				<label>
+					<input
+						type="checkbox"
+						name="tos"
+						id="tos"
+						v-model="tos"
+						required
+					/>
+					Terms of Service
+				</label>
+
+				<button id="form-submit" type="submit" class="btn btn-primary">
+					<span>Register</span>
 				</button>
 			</div>
 		</form>
-
-		<div class="register-form">
-			<div class="twin-between">
-				<p>
-					Not a member yet? <br />
-					Feel free to join our service today.
-				</p>
-				<router-link to="/register">Register</router-link>
-			</div>
-		</div>
 	</Layout>
 </template>
 
-<script setup>
+<script>
+import { ref } from "@vue/reactivity";
 import Layout from "./Layout.vue";
+import router from "../../router";
+
+export default {
+	components: { Layout },
+	name: "RegisterPage",
+	setup() {
+		const first_name = ref("");
+		const last_name = ref("");
+		const email = ref("");
+		const password = ref("");
+		const confirm_password = ref("");
+		const showPassword = ref(false);
+		const passwordType = ref("password");
+
+		const togglePassword = () => {
+			showPassword.value = !showPassword.value;
+			if (showPassword.value) passwordType.value = "text";
+			else passwordType.value = "password";
+		};
+
+		const submit = () => {};
+
+		return {
+			first_name,
+			last_name,
+			email,
+			password,
+			confirm_password,
+			showPassword,
+			passwordType,
+			submit,
+			togglePassword,
+		};
+	},
+};
 </script>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .title {
-	color: #7a2ee6;
-	font-size: 33px;
-	font-weight: bold;
-	margin-bottom: 30px;
+	margin: 2% 0 5% 0 !important;
+	color: hsl(265, 79%, 41%);
+	font-weight: 700;
+	font-size: 22px;
 }
 
-.input-inside {
-	position: relative;
-	margin-bottom: 28px;
+#login-form {
+	width: 100%;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 
-	input {
-		text-decoration: none;
-		outline: none;
-		background-color: hsl(0, 0%, 100%);
-	}
-
-	.input-design {
-		text-align: center;
+	.from-buttons {
+		display: inline-flex;
+		align-items: baseline;
 		width: 100%;
-		position: relative;
-		height: 40px;
-		border: 0;
-		font-size: 17px;
-		color: #1a2040;
-		transition: 0.3s;
-		background: transparent;
-		padding: 0 40px 0 15px;
+		justify-content: space-evenly;
+		margin-bottom: 10px;
 
-		&:focus {
-			border-radius: 30px;
-			background-color: hsl(0, 0%, 100%);
+		#form-submit {
+			background: hsl(158, 80%, 47%) 0% 0% no-repeat padding-box;
+			border-radius: 20px;
+			border-color: hsl(158, 80%, 47%);
+			padding: 8px 20px;
+			font-weight: 500;
 		}
 
-		&:focus + label {
-			opacity: 0;
-			visibility: hidden;
-		}
-
-		&:focus + label::after {
-			width: 23px;
-			height: 2px;
-			background: #bc97f2;
-			content: "";
-			position: absolute;
-			bottom: 14px;
-			left: 0;
-			transform: rotate(90deg);
-			transform-origin: 16px 1px;
-			animation-name: borderAnimation;
-			animation-timing-function: 0.3s;
-			animation-duration: 0.3s;
+		#remember {
+			filter: hue-rotate(40deg);
 		}
 	}
 
-	.input-float-icon {
-		position: absolute;
-		right: 15px;
+	.form-group {
+		width: 95%;
+		display: flex;
+		position: relative;
+		align-items: center;
+	}
+
+	.field {
+		border: 1px solid hsl(264, 78%, 77%);
+		border-radius: 8px;
+		margin: 16px 0;
+		width: 100%;
+		padding: 10px;
+		padding-right: 40px;
+
+		&:focus,
+		&:focus-visible,
+		&:hover {
+			border-color: hsl(265, 79%, 41%);
+			outline-color: hsl(265, 79%, 41%);
+		}
+	}
+
+	.email-img {
 		width: 20px;
 	}
 
-	label {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		left: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: #1a2040;
-		font-size: 17px;
-		transition: 0.3s;
-		margin: 0;
-		cursor: pointer;
-		padding-right: 14px;
-
-		&::after {
-			width: 100%;
-			height: 2px;
-			background: #bc97f2;
-			content: "";
-			position: absolute;
-			bottom: 0;
-			left: 0;
-			transition: 0.3s;
+	#password {
+		&::-ms-reveal,
+		&::-ms-clear {
+			display: none;
 		}
 	}
-}
 
-@keyframes borderAnimation {
-	0% {
-		width: 100%;
+	.email-img,
+	.password-img {
+		position: absolute;
+		width: 22px;
+		right: 12px;
 	}
 
-	25% {
-		width: 40%;
-	}
+	.register {
+		border-top: 2px solid #bc97f2;
+		padding: 15px 0;
 
-	50% {
-		width: 30%;
-	}
-
-	75% {
-		width: 10%;
-	}
-
-	100% {
-		width: 23px;
-	}
-}
-
-.three-between-wrap {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-
-	p {
-		font-size: 14px;
-		color: #1f0237;
-	}
-}
-
-.recover {
-	color: #18d992;
-	font-size: 14px;
-	font-weight: 500;
-	text-transform: uppercase;
-
-	&:hover {
-		color: #18d992;
-	}
-}
-
-.round-btn {
-	background: #18d992;
-	color: #fff;
-	font-size: 14px;
-	font-weight: 500;
-	/* text-transform: uppercase; */
-	border: 2px solid #18d992;
-	border-radius: 30px;
-	padding: 8px 23px;
-	transition: 0.3s;
-
-	&:hover {
-		background: #15be80;
-		border-color: #15be80;
-		color: #fff;
-	}
-}
-
-.twin-between {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	border-top: 2px solid #bc97f2;
-	padding: 15px 0;
-
-	p {
-		font-size: 14px;
-		color: #1f0237;
-		line-height: 22px;
-	}
-}
-
-.round-btn.style-2 {
-	background: transparent;
-	color: #18d992;
-
-	&:hover {
-		background: #c2f8e4;
-		border-color: #18d992;
+		p {
+			font-size: 14px;
+			color: #1f0237;
+			line-height: 22px;
+		}
 	}
 }
 </style>
