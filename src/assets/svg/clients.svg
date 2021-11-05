@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="58" height="58" viewBox="0 0 58 58">
+    <defs>
+        <filter id="Ellipse_41" x="0" y="0" width="58" height="58" filterUnits="userSpaceOnUse">
+            <feOffset dy="3" input="SourceAlpha"/>
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feFlood flood-opacity="0.239"/>
+            <feComposite operator="in" in2="blur"/>
+            <feComposite in="SourceGraphic"/>
+        </filter>
+        <style>
+            .a {
+                fill: #7A2EE6;
+            }
+
+            .b {
+                fill: #ffffff;
+            }
+        </style>
+    </defs>
+  <g id="Group_1618" data-name="Group 1618" transform="translate(-15 -906)">
+    <g transform="matrix(1, 0, 0, 1, 15, 906)" filter="url(#Ellipse_41)">
+      <circle id="Ellipse_41-2" data-name="Ellipse 41" cx="20" cy="20" r="20" transform="translate(9 6)" class="a"/>
+    </g>
+    <g id="Settings" transform="translate(32 920)">
+        <rect class="a" width="24" height="24"/>
+        <path class="b" d="M5,20.989H3V4.465L5.6,2H18.4L21,4.465V21.348H19V5.324L17.6,4H6.4L5,5.324Z"/>
+        <rect class="b" width="2.967" height="2.967" transform="translate(7 6)"/>
+        <rect class="b" width="3.022" height="3.022" transform="translate(13.978 6)"/>
+        <rect class="b" width="2.967" height="2.967" transform="translate(7 11.022)"/>
+        <rect class="b" width="3.022" height="3.022" transform="translate(13.978 11.022)"/>
+        <rect class="b" width="4.065" height="5.064" transform="translate(9.967 16)"/>
+        <rect class="b" width="22.011" height="2" transform="translate(0.935 19.989)"/>
+    </g>
+  </g>
+</svg>
