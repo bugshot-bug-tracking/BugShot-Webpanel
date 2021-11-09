@@ -2,6 +2,10 @@
 	<Layout>
 		<div class="title">Register</div>
 
+		<div class="errors" v-if="errMessage != null">
+			{{ errMessage }}
+		</div>
+
 		<form id="login-form" @submit.prevent="submit">
 			<div class="form-group">
 				<input
@@ -11,6 +15,7 @@
 					class="field"
 					placeholder="First Name"
 					required
+					maxlength="255"
 					autocomplete="given-name"
 					v-model="first_name"
 				/>
@@ -24,6 +29,7 @@
 					class="field"
 					placeholder="Last Name"
 					required
+					maxlength="255"
 					autocomplete="family-name"
 					v-model="last_name"
 				/>
@@ -37,8 +43,11 @@
 					class="field"
 					placeholder="E-mail address"
 					required
+					maxlength="255"
 					autocomplete="email"
 					v-model="email"
+					:class="{ error: errField.email }"
+					@focus="resetError"
 				/>
 
 				<img class="email-img" src="../../assets/icons/at@.svg" />
@@ -53,8 +62,11 @@
 					placeholder="Password"
 					minlength="8"
 					required
+					maxlength="255"
 					v-model="password"
 					autocomplete="new-password"
+					:class="{ error: errField.password }"
+					@focus="resetError"
 				/>
 
 				<img
@@ -81,8 +93,11 @@
 					placeholder="Confirm Password"
 					minlength="8"
 					required
+					maxlength="255"
 					v-model="confirm_password"
 					autocomplete="new-password"
+					:class="{ error: errField.password }"
+					@focus="resetError"
 				/>
 
 				<img
@@ -121,9 +136,10 @@
 </template>
 
 <script>
-import { ref } from "@vue/reactivity";
+import { ref, reactive } from "@vue/reactivity";
 import Layout from "./Layout.vue";
 import router from "../../router";
+import axios from "axios";
 
 export default {
 	components: { Layout },
@@ -134,8 +150,24 @@ export default {
 		const email = ref("");
 		const password = ref("");
 		const confirm_password = ref("");
+
 		const showPassword = ref(false);
 		const passwordType = ref("password");
+
+		const tos = ref(false);
+
+		const errMessage = ref(null);
+
+		const errField = reactive({
+			email: false,
+			password: false,
+		});
+
+		const resetError = () => {
+			errMessage.value = null;
+			errField.email = null;
+			errField.password = null;
+		};
 
 		const togglePassword = () => {
 			showPassword.value = !showPassword.value;
@@ -143,7 +175,46 @@ export default {
 			else passwordType.value = "password";
 		};
 
-		const submit = () => {};
+		const submit = () => {
+			axios
+				.post("auth/register", {
+					first_name: first_name.value,
+					last_name: last_name.value,
+					email: email.value,
+					password: password.value,
+					password_confirmation: confirm_password.value,
+				})
+				.then((response) => {
+					console.log(response.data);
+				})
+				.then(() => {
+					router.push("/login");
+				})
+				.catch((error) => {
+					console.dir(error);
+
+					errMessage.value = null;
+					errField.email = null;
+					errField.password = null;
+
+					if (error.response.status !== 422)
+						console.error(error.response.data.errors);
+
+					const resError = error.response.data.errors;
+
+					if (resError?.email) {
+						errMessage.value = resError.email[0];
+						errField.email = true;
+						return;
+					}
+
+					if (resError?.password) {
+						errMessage.value = resError.password[0];
+						errField.password = true;
+						return;
+					}
+				});
+		};
 
 		return {
 			first_name,
@@ -153,8 +224,12 @@ export default {
 			confirm_password,
 			showPassword,
 			passwordType,
+			tos,
+			errMessage,
+			errField,
 			submit,
 			togglePassword,
+			resetError,
 		};
 	},
 };
@@ -246,5 +321,22 @@ export default {
 			line-height: 22px;
 		}
 	}
+
+	.error {
+		color: red;
+		border: 1px solid red;
+
+		&:focus,
+		&:focus-visible,
+		&:hover {
+			border-color: red;
+			outline-color: red;
+		}
+	}
+}
+
+.errors {
+	color: red;
+	font-weight: 500;
 }
 </style>

@@ -5,9 +5,11 @@
 		</template>
 
 		<template v-slot:title>Projects</template>
+
 		<template v-slot:sub-title>{{
 			activeCompany?.attributes?.designation
 		}}</template>
+
 		<template v-slot:top> Top Content </template>
 
 		<h1>Main Page</h1>
@@ -25,7 +27,6 @@ export default {
 	name: "MainPage",
 	setup() {
 		const activeCompany = computed(() => {
-			console.log(store.getters.getActiveCompany);
 			return store.getters.getActiveCompany;
 		});
 

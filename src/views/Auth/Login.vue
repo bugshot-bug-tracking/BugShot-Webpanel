@@ -2,6 +2,10 @@
 	<Layout>
 		<div class="title">Log In</div>
 
+		<div class="errors" v-if="errMessage != null">
+			{{ errMessage }}
+		</div>
+
 		<form id="login-form" @submit.prevent="submit">
 			<div class="form-group">
 				<input
@@ -11,8 +15,11 @@
 					class="field"
 					placeholder="E-mail address"
 					required
+					maxlength="255"
 					autocomplete="email"
 					v-model="email"
+					@focus="errMessage = null"
+					:class="{ error: errMessage }"
 				/>
 
 				<img class="email-img" src="../../assets/icons/at@.svg" />
@@ -27,8 +34,11 @@
 					placeholder="Password"
 					minlength="8"
 					required
+					maxlength="255"
 					v-model="password"
 					autocomplete="current-password"
+					@focus="errMessage = null"
+					:class="{ error: errMessage }"
 				/>
 
 				<img
@@ -75,8 +85,11 @@ export default {
 	setup() {
 		const email = ref("");
 		const password = ref("");
+
 		const showPassword = ref(false);
 		const passwordType = ref("password");
+
+		const errMessage = ref(null);
 
 		const togglePassword = () => {
 			showPassword.value = !showPassword.value;
@@ -94,12 +107,11 @@ export default {
 					console.log({
 						store: store.state.auth,
 					});
-				})
-				.then(() => {
-					router.push("/main");
-				})
-				.catch((error) => {
-					console.log(error);
+
+					console.log(response);
+
+					if (response === false)
+						errMessage.value = "Incorect E-Mail or Password.";
 				});
 		};
 
@@ -108,6 +120,7 @@ export default {
 			password,
 			showPassword,
 			passwordType,
+			errMessage,
 			submit,
 			togglePassword,
 		};
@@ -200,5 +213,22 @@ export default {
 			line-height: 22px;
 		}
 	}
+
+	.error {
+		color: red;
+		border: 1px solid red;
+
+		&:focus,
+		&:focus-visible,
+		&:hover {
+			border-color: red;
+			outline-color: red;
+		}
+	}
+}
+
+.errors {
+	color: red;
+	font-weight: 500;
 }
 </style>
