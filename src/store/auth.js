@@ -5,14 +5,17 @@ export default {
 		token: null,
 		user: {},
 	},
+
 	mutations: {
 		SET_TOKEN: (state, payload) => {
 			state.token = payload;
 		},
+
 		SET_USER: (state, payload) => {
 			state.user = payload;
 		},
 	},
+
 	// api calls
 	actions: {
 		login: async (state, payload) => {
@@ -43,6 +46,7 @@ export default {
 					// 2xx
 					.then((response) => {
 						state.commit("SET_TOKEN", null);
+						state.commit("SET_USER", null);
 
 						return true;
 					})

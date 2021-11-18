@@ -1,149 +1,145 @@
 <template>
-	<Layout>
-		<div class="title">Register</div>
+	<div class="title">Register</div>
 
-		<div class="errors" v-if="errMessage != null">
-			{{ errMessage }}
+	<div class="errors" v-if="errMessage != null">
+		{{ errMessage }}
+	</div>
+
+	<form id="login-form" @submit.prevent="submit">
+		<div class="form-group">
+			<input
+				id="first_name"
+				type="first_name"
+				name="first_name"
+				class="field"
+				placeholder="First Name"
+				required
+				maxlength="255"
+				autocomplete="given-name"
+				v-model="first_name"
+			/>
 		</div>
 
-		<form id="login-form" @submit.prevent="submit">
-			<div class="form-group">
+		<div class="form-group">
+			<input
+				id="last_name"
+				type="last_name"
+				name="last_name"
+				class="field"
+				placeholder="Last Name"
+				required
+				maxlength="255"
+				autocomplete="family-name"
+				v-model="last_name"
+			/>
+		</div>
+
+		<div class="form-group">
+			<input
+				id="email"
+				type="email"
+				name="email"
+				class="field"
+				placeholder="E-mail address"
+				required
+				maxlength="255"
+				autocomplete="email"
+				v-model="email"
+				:class="{ error: errField.email }"
+				@focus="resetError"
+			/>
+
+			<img class="email-img" src="../../assets/icons/at@.svg" />
+		</div>
+
+		<div class="form-group">
+			<input
+				id="password"
+				:type="passwordType"
+				name="password"
+				class="field"
+				placeholder="Password"
+				minlength="8"
+				required
+				maxlength="255"
+				v-model="password"
+				autocomplete="new-password"
+				:class="{ error: errField.password }"
+				@focus="resetError"
+			/>
+
+			<img
+				class="password-img"
+				v-if="showPassword"
+				@click="togglePassword"
+				src="../../assets/icons/hide_password.svg"
+			/>
+
+			<img
+				class="password-img"
+				v-if="!showPassword"
+				@click="togglePassword"
+				src="../../assets/icons/show_password.svg"
+			/>
+		</div>
+
+		<div class="form-group">
+			<input
+				id="confirm_password"
+				:type="passwordType"
+				name="confirm_password"
+				class="field"
+				placeholder="Confirm Password"
+				minlength="8"
+				required
+				maxlength="255"
+				v-model="confirm_password"
+				autocomplete="new-password"
+				:class="{ error: errField.password }"
+				@focus="resetError"
+			/>
+
+			<img
+				class="password-img"
+				v-if="showPassword"
+				@click="togglePassword"
+				src="../../assets/icons/hide_password.svg"
+			/>
+
+			<img
+				class="password-img"
+				v-if="!showPassword"
+				@click="togglePassword"
+				src="../../assets/icons/show_password.svg"
+			/>
+		</div>
+
+		<div class="from-buttons">
+			<label>
 				<input
-					id="first_name"
-					type="first_name"
-					name="first_name"
-					class="field"
-					placeholder="First Name"
+					type="checkbox"
+					name="tos"
+					id="tos"
+					v-model="tos"
 					required
-					maxlength="255"
-					autocomplete="given-name"
-					v-model="first_name"
 				/>
-			</div>
+				Terms of Service
+			</label>
 
-			<div class="form-group">
-				<input
-					id="last_name"
-					type="last_name"
-					name="last_name"
-					class="field"
-					placeholder="Last Name"
-					required
-					maxlength="255"
-					autocomplete="family-name"
-					v-model="last_name"
-				/>
-			</div>
-
-			<div class="form-group">
-				<input
-					id="email"
-					type="email"
-					name="email"
-					class="field"
-					placeholder="E-mail address"
-					required
-					maxlength="255"
-					autocomplete="email"
-					v-model="email"
-					:class="{ error: errField.email }"
-					@focus="resetError"
-				/>
-
-				<img class="email-img" src="../../assets/icons/at@.svg" />
-			</div>
-
-			<div class="form-group">
-				<input
-					id="password"
-					:type="passwordType"
-					name="password"
-					class="field"
-					placeholder="Password"
-					minlength="8"
-					required
-					maxlength="255"
-					v-model="password"
-					autocomplete="new-password"
-					:class="{ error: errField.password }"
-					@focus="resetError"
-				/>
-
-				<img
-					class="password-img"
-					v-if="showPassword"
-					@click="togglePassword"
-					src="../../assets/icons/hide_password.svg"
-				/>
-
-				<img
-					class="password-img"
-					v-if="!showPassword"
-					@click="togglePassword"
-					src="../../assets/icons/show_password.svg"
-				/>
-			</div>
-
-			<div class="form-group">
-				<input
-					id="confirm_password"
-					:type="passwordType"
-					name="confirm_password"
-					class="field"
-					placeholder="Confirm Password"
-					minlength="8"
-					required
-					maxlength="255"
-					v-model="confirm_password"
-					autocomplete="new-password"
-					:class="{ error: errField.password }"
-					@focus="resetError"
-				/>
-
-				<img
-					class="password-img"
-					v-if="showPassword"
-					@click="togglePassword"
-					src="../../assets/icons/hide_password.svg"
-				/>
-
-				<img
-					class="password-img"
-					v-if="!showPassword"
-					@click="togglePassword"
-					src="../../assets/icons/show_password.svg"
-				/>
-			</div>
-
-			<div class="from-buttons">
-				<label>
-					<input
-						type="checkbox"
-						name="tos"
-						id="tos"
-						v-model="tos"
-						required
-					/>
-					Terms of Service
-				</label>
-
-				<button id="form-submit" type="submit" class="btn btn-primary">
-					<span>Register</span>
-				</button>
-			</div>
-		</form>
-	</Layout>
+			<button id="form-submit" type="submit" class="btn btn-primary">
+				<span>Register</span>
+			</button>
+		</div>
+	</form>
 </template>
 
 <script>
 import { ref, reactive } from "@vue/reactivity";
-import Layout from "./Layout.vue";
 import router from "../../router";
 import axios from "axios";
 
 export default {
-	components: { Layout },
-	name: "RegisterPage",
+	name: "Register",
 	setup() {
 		const first_name = ref("");
 		const last_name = ref("");
