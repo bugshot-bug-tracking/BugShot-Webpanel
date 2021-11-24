@@ -5,47 +5,58 @@ export default {
 		token: null,
 		user: {},
 	},
+
 	mutations: {
 		SET_TOKEN: (state, payload) => {
 			state.token = payload;
 		},
+
 		SET_USER: (state, payload) => {
 			state.user = payload;
 		},
 	},
+
 	// api calls
 	actions: {
 		login: async (state, payload) => {
-			axios
-				.post("auth/login", {
-					email: payload.email,
-					password: payload.password,
-				})
-				// 2xx
-				.then((response) => {
-					return state.dispatch("attempt", response.data.data.token);
-				})
-				// 4xx, 5xx
-				.catch((error) => {
-					return state.dispatch("attempt", null);
-				});
+			return (
+				axios
+					.post("auth/login", {
+						email: payload.email,
+						password: payload.password,
+					})
+					// 2xx
+					.then((response) => {
+						return state.dispatch(
+							"attempt",
+							response.data.data.token
+						);
+					})
+					// 4xx, 5xx
+					.catch((error) => {
+						return state.dispatch("attempt", null);
+					})
+			);
 		},
 
 		logout: async (state, payload) => {
-			axios
-				.post("auth/logout")
-				// 2xx
-				.then((response) => {
-					state.commit("SET_TOKEN", null);
+			return (
+				axios
+					.post("auth/logout")
+					// 2xx
+					.then((response) => {
+						state.commit("SET_TOKEN", null);
+						state.commit("SET_USER", null);
 
-					return true;
-				})
-				// 4xx, 5xx
-				.catch((error) => {
-					//? needs a verification why the error happened if it will happen
-					//? 5xx may be a posibility of when you arrife in this block
-					return false;
-				});
+						return true;
+					})
+					// 4xx, 5xx
+					.catch((error) => {
+						//? needs a verification why the error happened if it will happen
+						//? 5xx may be a posibility of when you arrife in this block
+						return false;
+					})
+			);
 		},
 
 		// validate token by setting the user

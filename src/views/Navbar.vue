@@ -1,15 +1,15 @@
 <template>
-	<div class="sidebar-menu">
+	<nav class="nav-bar">
 		<ul class="verticle-menu">
 			<li class="home-logo">
-				<router-link to="/main">
-					<img src="../../assets/extern/m-1.svg" alt="" />
+				<router-link :to="{ name: 'Home' }">
+					<img src="../assets/extern/m-1.svg" alt="" />
 				</router-link>
 			</li>
 
 			<li class="notification">
 				<a href="#">
-					<img src="../../assets/extern/m-2.svg" alt="" />
+					<img src="../assets/extern/m-2.svg" alt="" />
 				</a>
 				<div class="notification-submenu">
 					<div class="notification-header">
@@ -76,29 +76,41 @@
 			</li>
 
 			<li class="at-bottom clients">
-				<router-link to="/companies">
-					<img src="../../assets/svg/clients.svg" alt="" />
+				<router-link :to="{ name: 'UserSettings' }">
+					<img src="../assets/svg/clients.svg" alt="" />
 				</router-link>
 			</li>
 
 			<li class="at-bottom">
-				<router-link to="/settings">
-					<img src="../../assets/extern/m-3.svg" alt="" />
+				<router-link :to="{ name: 'UserSettings' }">
+					<img src="../assets/extern/m-3.svg" alt="" />
 				</router-link>
 			</li>
 
-			<li class="at-bottom logout">
-				<router-link to="/logout">
-					<img src="../../assets/extern/logout.svg" alt="" />
-				</router-link>
+			<li class="btn at-bottom logout">
+				<img src="../assets/extern/logout.svg" @click="logout" />
 			</li>
 		</ul>
-	</div>
+	</nav>
 </template>
 
 <script>
+import router from "../router";
+import store from "@/store";
+
 export default {
-	name: "Sidebar",
+	name: "Navbar",
+	setup() {
+		const logout = () => {
+			store.dispatch("logout").then(() => {
+				router.push({ name: "Login" });
+			});
+		};
+
+		return {
+			logout,
+		};
+	},
 };
 </script>
 
@@ -110,9 +122,10 @@ ol {
 	list-style-type: none;
 }
 
-.sidebar-menu {
+.nav-bar {
 	background: #1a2040;
 	width: 88px;
+	min-width: 88px;
 	height: 100vh;
 }
 

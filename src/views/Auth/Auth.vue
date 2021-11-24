@@ -7,7 +7,7 @@
 
 		<!-- ./right-port -->
 		<div class="right-port">
-			<slot></slot>
+			<router-view />
 		</div>
 	</div>
 </template>

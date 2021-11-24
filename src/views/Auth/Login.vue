@@ -1,82 +1,91 @@
 <template>
-	<Layout>
-		<div class="title">Log In</div>
+	<div class="title">Log In</div>
 
-		<form id="login-form" @submit.prevent="submit">
-			<div class="form-group">
-				<input
-					id="email"
-					type="email"
-					name="email"
-					class="field"
-					placeholder="E-mail address"
-					required
-					autocomplete="email"
-					v-model="email"
-				/>
+	<div class="errors" v-if="errMessage != null">
+		{{ errMessage }}
+	</div>
 
-				<img class="email-img" src="../../assets/icons/at@.svg" />
+	<form id="login-form" @submit.prevent="submit">
+		<div class="form-group">
+			<input
+				id="email"
+				type="email"
+				name="email"
+				class="field"
+				placeholder="E-mail address"
+				required
+				maxlength="255"
+				autocomplete="email"
+				v-model="email"
+				@focus="errMessage = null"
+				:class="{ error: errMessage }"
+			/>
+
+			<img class="email-img" src="../../assets/icons/at@.svg" />
+		</div>
+
+		<div class="form-group">
+			<input
+				id="password"
+				:type="passwordType"
+				name="password"
+				class="field"
+				placeholder="Password"
+				minlength="8"
+				required
+				maxlength="255"
+				v-model="password"
+				autocomplete="current-password"
+				@focus="errMessage = null"
+				:class="{ error: errMessage }"
+			/>
+
+			<img
+				class="password-img"
+				v-if="showPassword"
+				@click="togglePassword"
+				src="../../assets/icons/hide_password.svg"
+			/>
+
+			<img
+				class="password-img"
+				v-if="!showPassword"
+				@click="togglePassword"
+				src="../../assets/icons/show_password.svg"
+			/>
+		</div>
+
+		<div class="from-buttons">
+			<div class="recover">
+				<p>Forgot Password?</p>
+
+				<router-link to="/recover" class="btn btn-recover">
+					Recover
+				</router-link>
 			</div>
 
-			<div class="form-group">
-				<input
-					id="password"
-					:type="passwordType"
-					name="password"
-					class="field"
-					placeholder="Password"
-					minlength="8"
-					required
-					v-model="password"
-					autocomplete="current-password"
-				/>
-
-				<img
-					class="password-img"
-					v-if="showPassword"
-					@click="togglePassword"
-					src="../../assets/icons/hide_password.svg"
-				/>
-
-				<img
-					class="password-img"
-					v-if="!showPassword"
-					@click="togglePassword"
-					src="../../assets/icons/show_password.svg"
-				/>
-			</div>
-
-			<div class="from-buttons">
-				<div class="recover">
-					<p>Forgot Password?</p>
-
-					<router-link to="/recover" class="btn btn-recover">
-						Recover
-					</router-link>
-				</div>
-
-				<button id="form-submit" type="submit" class="btn btn-primary">
-					<span>Log In</span>
-				</button>
-			</div>
-		</form>
-	</Layout>
+			<button id="form-submit" type="submit" class="btn btn-primary">
+				<span>Log In</span>
+			</button>
+		</div>
+	</form>
 </template>
 
 <script>
 import { ref } from "@vue/reactivity";
 import store from "../../store";
-import Layout from "./Layout.vue";
 import router from "../../router";
 
 export default {
-	components: { Layout },
-	name: "LoginPage",
+	name: "Login",
 	setup() {
 		const email = ref("");
 		const password = ref("");
+
 		const showPassword = ref(false);
 		const passwordType = ref("password");
+
+		const errMessage = ref(null);
 
 		const togglePassword = () => {
 			showPassword.value = !showPassword.value;
@@ -91,15 +100,9 @@ export default {
 					password: password.value,
 				})
 				.then((response) => {
-					console.log({
-						store: store.state.auth,
-					});
-				})
-				.then(() => {
-					router.push("/main");
-				})
-				.catch((error) => {
-					console.log(error);
+					if (response === false)
+						errMessage.value = "Incorect E-Mail or Password.";
+					else router.push({ name: "Home" });
 				});
 		};
 
@@ -108,6 +111,7 @@ export default {
 			password,
 			showPassword,
 			passwordType,
+			errMessage,
 			submit,
 			togglePassword,
 		};
@@ -200,5 +204,22 @@ export default {
 			line-height: 22px;
 		}
 	}
+
+	.error {
+		color: red;
+		border: 1px solid red;
+
+		&:focus,
+		&:focus-visible,
+		&:hover {
+			border-color: red;
+			outline-color: red;
+		}
+	}
+}
+
+.errors {
+	color: red;
+	font-weight: 500;
 }
 </style>
