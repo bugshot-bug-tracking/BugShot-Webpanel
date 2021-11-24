@@ -32,6 +32,10 @@
 				/>
 			</Column>
 		</BugsTable>
+
+		<div class="bug-info" v-if="info.show">
+			<BugInfo :bug_id="info.id" @close="close" />
+		</div>
 	</Layout>
 </template>
 
@@ -77,13 +81,42 @@ export default {
 			return store.getters.getStatusBugs(status_id);
 		};
 
+		const info = reactive({
+			show: false,
+			id: -1,
+		});
+
+		const bugInfo = (value) => {
+			info.show = true;
+			info.id = value;
+
+			store.dispatch("fetchScreenshots", value);
+			store.dispatch("fetchAttachments", value);
+			store.dispatch("fetchComments", value);
+		};
+
+		const close = () => {
+			info.show = false;
+			info.id = -1;
+		};
+
 		return {
 			project,
 			statuses,
 			bugs,
+			bugInfo,
+			info,
+			close,
 		};
 	},
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.bug-info {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	right: 0;
+}
+</style>

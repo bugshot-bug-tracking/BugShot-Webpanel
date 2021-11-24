@@ -41,6 +41,17 @@ export default {
 			state.companies.get(payload.id).projects = payload.list;
 		},
 
+		SET_BUG_SCREENSHOT: (state, payload) => {
+			state.bugs.get(payload.id).screenshots = payload.list;
+		},
+
+		SET_BUG_ATTACHMENTS: (state, payload) => {
+			state.bugs.get(payload.id).attachments = payload.list;
+		},
+
+		SET_BUG_COMMENTS: (state, payload) => {
+			state.bugs.get(payload.id).comments = payload.list;
+		},
 	},
 
 	// api calls
@@ -146,6 +157,92 @@ export default {
 			}
 		},
 
+		fetchScreenshots: async (state, bug_id) => {
+			try {
+				// fetch bug screenshots
+				let screenshots = (await axios.get(`bug/${bug_id}/screenshots`))
+					.data.data;
+
+				for (const screenshot of screenshots) {
+					// fetch each status bugs
+					screenshot.attributes["image"] = (
+						await axios.get(`screenshot/${screenshot.id}/download`)
+					).data;
+				}
+
+				// store the status in memory
+				state.commit("SET_BUG_SCREENSHOT", {
+					id: bug_id,
+					list: screenshots,
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
+		fetchAttachments: async (state, bug_id) => {
+			try {
+				// fetch bug screenshots
+				let attachments = (await axios.get(`bug/${bug_id}/attachments`))
+					.data.data;
+
+				// store the status in memory
+				state.commit("SET_BUG_ATTACHMENTS", {
+					id: bug_id,
+					list: attachments,
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
+		fetchComments: async (state, bug_id) => {
+			try {
+				// fetch bug screenshots
+				let comments = (await axios.get(`bug/${bug_id}/comments`)).data
+					.data;
+
+				// store the status in memory
+				state.commit("SET_BUG_COMMENTS", {
+					id: bug_id,
+					list: comments,
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
+		refetchProjectStatus: async (state, status_id) => {
+			try {
+				//get a refference to the status
+				const status = state.state.statuses.get(status_id);
+
+				// fetch each status bugs
+				let bugs = (await axios.get(`status/${status_id}/bugs`)).data
+					.data;
+
+				// set the status bugs array to store bug id's
+				status["bugs"] = new Array();
+
+				for (const bug of bugs) {
+					// prepare space for bug additional contents
+					bug["screenshots"] = new Array();
+					bug["attachments"] = new Array();
+					bug["comments"] = new Array();
+
+					// add the bug id to the status array
+					status.bugs.push(bug.id);
+
+					// store the bug in memory
+					state.commit("SET_BUG", bug);
+				}
+
+				// store the status in memory
+				state.commit("SET_STATUS", status);
+			} catch (error) {
+				console.log(error);
+			}
+		},
 	},
 
 	getters: {
