@@ -4,6 +4,8 @@ export default {
 	state: {
 		companies: new Map(),
 		projects: new Map(),
+		statuses: new Map(),
+		bugs: new Map(),
 	},
 
 	mutations: {
@@ -14,6 +16,12 @@ export default {
 		SET_PROJECTS: (state, payload) => {
 			state.projects = payload;
 		},
+		SET_STATUSES: (state, payload) => {
+			state.statuses = payload;
+		},
+		SET_BUGS: (state, payload) => {
+			state.bugs = payload;
+		},
 
 		// single assignment of payload, payload needs a root id property
 		SET_COMPANY: (state, payload) => {
@@ -21,6 +29,12 @@ export default {
 		},
 		SET_PROJECT: (state, payload) => {
 			state.projects.set(payload.id, payload);
+		},
+		SET_STATUS: (state, payload) => {
+			state.statuses.set(payload.id, payload);
+		},
+		SET_BUG: (state, payload) => {
+			state.bugs.set(payload.id, payload);
 		},
 
 		SET_COMPANY_PROJECTS: (state, payload) => {
@@ -89,6 +103,49 @@ export default {
 			}
 		},
 
+		fetchBugs: async (state, project_id) => {
+			try {
+				//get a refference to the project
+				const project = state.state.projects.get(project_id);
+				project.statuses = new Array();
+
+				// fetch the project statuses
+				let statuses = (
+					await axios.get(`project/${project_id}/statuses`)
+				).data.data;
+
+				for (const status of statuses) {
+					// fetch each status bugs
+					let bugs = (await axios.get(`status/${status.id}/bugs`))
+						.data.data;
+
+					// set the status bugs array to store bug id's
+					status["bugs"] = new Array();
+
+					for (const bug of bugs) {
+						// prepare space for bug additional contents
+						bug["screenshots"] = new Array();
+						bug["attachments"] = new Array();
+						bug["comments"] = new Array();
+
+						// add the bug id to the status array
+						status.bugs.push(bug.id);
+
+						// store the bug in memory
+						state.commit("SET_BUG", bug);
+					}
+
+					// store the status in memory
+					state.commit("SET_STATUS", status);
+
+					// add the status id to the project array
+					project.statuses.push(status.id);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
 	},
 
 	getters: {
@@ -115,5 +172,26 @@ export default {
 			return state.projects.get(project_id);
 		},
 
+		getProjectStatuses: (state) => (project_id) => {
+			const project = state.projects.get(project_id);
+
+			// null if no status exists
+			if (project.statuses.size === 0) return null;
+
+			return project.statuses.map((status_id) =>
+				state.statuses.get(status_id)
+			);
+		},
+
+		getStatusBugs: (state) => (status_id) => {
+			const status = state.statuses.get(status_id);
+
+			// null if no status exists
+			if (status.bugs.size === 0) return null;
+
+			return status.bugs.map((bug_id) => state.bugs.get(bug_id));
+		},
+
+		getBugById: (state) => (bug_id) => state.bugs.get(bug_id),
 	},
 };
