@@ -10,8 +10,11 @@ import EmptyView from "../views/Main/EmptyView.vue";
 
 import Company from "../views/Main/Company/Company.vue";
 import CompanyNavSidebar from "../views/Main/Company/NavSidebar.vue";
+import CompanyProjects from "../views/Main/Company/CompanyProjects.vue";
 import Project from "../views/Main/Project/Project.vue";
 
+import CompanySettings from "../views/Main/Company/Settings.vue";
+import CompanySettingsSidebar from "../views/Main/Company/SettingsSidebar.vue";
 import AllProjects from "../views/Main/Project/All.vue";
 
 const routes = [
@@ -36,9 +39,30 @@ const routes = [
 						component: AllProjects,
 					},
 	{
+						path: "company/:id",
+						name: "CompanyProjects",
+						component: CompanyProjects,
+						props: true,
+					},
+
+					{
+						path: "project/:id",
+						name: "Project",
+						component: Project,
+						props: true,
+					},
 				],
 			},
 
+			{
+				path: "settings/company/:id",
+				name: "CompanySettings",
+				components: {
+					default: CompanySettings,
+					sidebar: CompanySettingsSidebar,
+				},
+				props: true,
+			},
 		],
 		meta: {
 			requiresAuth: true,
