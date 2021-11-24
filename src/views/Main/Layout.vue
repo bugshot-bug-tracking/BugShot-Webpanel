@@ -42,6 +42,7 @@ export default {
 	height: 100vh;
 	overflow: hidden;
 	background-color: hsl(240, 40%, 98%);
+	position: relative;
 
 	> .top {
 		grid-area: top;

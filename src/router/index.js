@@ -11,7 +11,8 @@ import EmptyView from "../views/Main/EmptyView.vue";
 import Company from "../views/Main/Company/Company.vue";
 import CompanyNavSidebar from "../views/Main/Company/NavSidebar.vue";
 import Project from "../views/Main/Project/Project.vue";
-import Main from "../views/Main/Main.vue";
+
+import AllProjects from "../views/Main/Project/All.vue";
 
 const routes = [
 	{
@@ -27,7 +28,17 @@ const routes = [
 					default: EmptyView,
 					sidebar: CompanyNavSidebar,
 	},
+				redirect: { name: "allProjects" },
+				children: [
+					{
+						path: "",
+						name: "allProjects",
+						component: AllProjects,
+					},
 	{
+				],
+			},
+
 		],
 		meta: {
 			requiresAuth: true,
