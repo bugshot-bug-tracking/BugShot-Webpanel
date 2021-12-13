@@ -1,95 +1,94 @@
 <template>
 	<nav class="nav-bar">
 		<ul class="verticle-menu">
-			<li class="home-logo">
-				<router-link :to="{ name: 'Home' }">
-					<img src="../assets/extern/m-1.svg" alt="" />
-				</router-link>
-			</li>
+			<div class="btn-sets">
+				<li class="home-logo">
+					<router-link :to="{ name: 'Home' }">
+						<img src="../assets/extern/m-1.svg" alt="" />
+					</router-link>
+				</li>
 
-			<li class="notification">
-				<a href="#">
-					<img src="../assets/extern/m-2.svg" alt="" />
-				</a>
-				<div class="notification-submenu">
-					<div class="notification-header">
-						<h3>Benachrichtigungen</h3>
+				<li class="notification">
+					<a>
+						<img src="../assets/extern/m-2.svg" alt="" />
+					</a>
+
+					<div class="notification-submenu">
+						<div class="notification-header">
+							<h3>Benachrichtigungen</h3>
+						</div>
+						<div class="notification-body">
+							<!--@if(count($invitations) > 0) @foreach($invitations
+								as $invitation) @if((explode('#',
+								$invitation->target_id))[0] == 'project') @php
+								$invitation_project =
+								DB::table('projects')->where('id', (explode('#',
+								$invitation->target_id))[1])->first() @endphp
+								@elseif((explode('#', $invitation->target_id))[0] ==
+								'company') @php $invitation_company =
+								DB::table('companies')->where('id', (explode('#',
+								$invitation->target_id))[1])->first() @endphp @endif
+								<div
+									class="notification-single"
+									id="{{ $invitation->id }}"
+								>
+									<div class="notification-info-wrapper">
+										@if((explode('#',
+										$invitation->target_id))[0] == 'project')
+										<div class="notification-event">
+											Sie wurden zu einem Projekt eingeladen
+											<strong
+												>{{ $invitation_project->designation }}</strong
+											>
+										</div>
+										@elseif((explode('#',
+										$invitation->target_id))[0] == 'company')
+										<div class="notification-event">
+											Sie wurden zu einer Firma eingeladen
+											<strong
+												>{{ $invitation_company->designation }}</strong
+											>
+										</div>
+										@endif
+										<div class="notification-detail">
+											<strong>{{ $invitation->day }}</strong
+											>{{ ", " . $invitation->created_at . " von " . $invitation->initiator }}
+										</div>
+									</div>
+									<div class="notification-actions">
+										<button
+											class="btn decline_invitation"
+											data-id="{{ $invitation->id }}"
+										>
+											<i class="fas fa-times"></i>
+										</button>
+										<button
+											class="btn accept_invitation"
+											data-id="{{ $invitation->id }}"
+										>
+											<i class="fas fa-check"></i>
+										</button>
+									</div>
+								</div>
+								@endforeach @else
+								<p>Keine Benachrichtigungen</p>
+								@endif-->
+						</div>
 					</div>
-					<!-- <div class="notification-body">
-							@if(count($invitations) > 0) @foreach($invitations
-							as $invitation) @if((explode('#',
-							$invitation->target_id))[0] == 'project') @php
-							$invitation_project =
-							DB::table('projects')->where('id', (explode('#',
-							$invitation->target_id))[1])->first() @endphp
-							@elseif((explode('#', $invitation->target_id))[0] ==
-							'company') @php $invitation_company =
-							DB::table('companies')->where('id', (explode('#',
-							$invitation->target_id))[1])->first() @endphp @endif
-							<div
-								class="notification-single"
-								id="{{ $invitation->id }}"
-							>
-								<div class="notification-info-wrapper">
-									@if((explode('#',
-									$invitation->target_id))[0] == 'project')
-									<div class="notification-event">
-										Sie wurden zu einem Projekt eingeladen
-										<strong
-											>{{ $invitation_project->designation }}</strong
-										>
-									</div>
-									@elseif((explode('#',
-									$invitation->target_id))[0] == 'company')
-									<div class="notification-event">
-										Sie wurden zu einer Firma eingeladen
-										<strong
-											>{{ $invitation_company->designation }}</strong
-										>
-									</div>
-									@endif
-									<div class="notification-detail">
-										<strong>{{ $invitation->day }}</strong
-										>{{ ", " . $invitation->created_at . " von " . $invitation->initiator }}
-									</div>
-								</div>
-								<div class="notification-actions">
-									<button
-										class="btn decline_invitation"
-										data-id="{{ $invitation->id }}"
-									>
-										<i class="fas fa-times"></i>
-									</button>
-									<button
-										class="btn accept_invitation"
-										data-id="{{ $invitation->id }}"
-									>
-										<i class="fas fa-check"></i>
-									</button>
-								</div>
-							</div>
-							@endforeach @else
-							<p>Keine Benachrichtigungen</p>
-							@endif
-						</div> -->
-				</div>
-			</li>
+				</li>
+			</div>
 
-			<li class="at-bottom clients">
-				<router-link :to="{ name: 'UserSettings' }">
-					<img src="../assets/svg/clients.svg" alt="" />
-				</router-link>
-			</li>
+			<div class="btn-sets">
+				<li>
+					<router-link :to="{ name: 'UserSettings' }">
+						<img src="../assets/extern/m-3.svg" alt="" />
+					</router-link>
+				</li>
 
-			<li class="at-bottom">
-				<router-link :to="{ name: 'UserSettings' }">
-					<img src="../assets/extern/m-3.svg" alt="" />
-				</router-link>
-			</li>
-
-			<li class="btn at-bottom logout">
-				<img src="../assets/extern/logout.svg" @click="logout" />
-			</li>
+				<li class="btn logout">
+					<img src="../assets/extern/logout.svg" @click="logout" />
+				</li>
+			</div>
 		</ul>
 	</nav>
 </template>
@@ -115,13 +114,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-ul,
-ol {
-	margin: 0px;
-	padding: 0px;
-	list-style-type: none;
-}
-
 .nav-bar {
 	background: #1a2040;
 	width: 88px;
@@ -133,12 +125,23 @@ ol {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: space-between;
 	height: 100%;
-	padding: 35px 0 25px 0;
+	padding: 32px 16px;
 
-	.home-logo {
-		margin-bottom: 45px;
+	.btn-sets {
+		> * {
+			margin: 40px 0;
+		}
+
+		> *:first-child {
+			margin: 0 0 40px 0;
+		}
+		> *:last-child {
+			margin: 40px 0 0 0;
+		}
 	}
+
 	.notification {
 		li {
 			display: block;
@@ -177,6 +180,7 @@ ol {
 		&:hover .notification-submenu {
 			opacity: 1;
 			visibility: visible;
+			z-index: 100;
 		}
 
 		.notification-title-wrap {
@@ -200,6 +204,20 @@ ol {
 				font-size: 15px;
 				color: #1a2040;
 			}
+		}
+
+		.notification-submenu {
+			position: absolute;
+			left: calc(100% + 10px);
+			background: #fff;
+			width: 350px;
+			border-radius: 12px;
+			box-shadow: 0 2px 10px #0000001c;
+			padding: 15px;
+			top: 0;
+			opacity: 0;
+			visibility: hidden;
+			transition: 0.3s;
 		}
 
 		.notification-rw {
@@ -253,37 +271,12 @@ ol {
 	}
 }
 
-.at-bottom {
-	margin-top: auto;
-}
-
-.verticle-menu li a img {
-	max-width: 100%;
-}
-
 .verticle-menu li {
 	display: block;
 	position: relative;
 }
 
-.notification-submenu {
-	position: absolute;
-	left: calc(100% + 10px);
-	background: #fff;
-	width: 350px;
-	border-radius: 12px;
-	box-shadow: 0 2px 10px #0000001c;
-	padding: 15px;
-	top: 0;
-	opacity: 0;
-	visibility: hidden;
-	transition: 0.3s;
-}
-
-.logout {
-	img {
-		transform: rotateZ(90deg);
-		margin: 0 10px 0 0;
-	}
+.logout > img {
+	transform: rotateZ(90deg);
 }
 </style>

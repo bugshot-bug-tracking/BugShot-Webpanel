@@ -50,6 +50,7 @@ export default {
 		border-bottom: 1px solid hsl(263, 79%, 94%);
 		padding: 0 50px;
 		align-items: center;
+		overflow: hidden;
 
 		.left {
 			width: 25%;
@@ -58,25 +59,29 @@ export default {
 			align-items: flex-start;
 
 			.title {
-				font-size: 2.5rem;
+				font-size: 1.7vw;
 				font-weight: 600;
 			}
 
 			.sub-title {
-				font-size: 1.3rem;
+				font-size: 1vw;
 				color: hsl(265, 79%, 54%);
 			}
 		}
 
 		.right {
 			width: 100%;
-			background-color: hsl(339, 30%, 75%);
 			display: inline-flex;
+			justify-content: flex-end;
+			align-items: center;
+			align-content: center;
+			gap: 20px;
 		}
 	}
 
 	.main {
 		grid-area: main;
+		overflow: auto;
 	}
 }
 </style>

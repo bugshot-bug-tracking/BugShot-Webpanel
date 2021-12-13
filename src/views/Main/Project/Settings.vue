@@ -1,6 +1,6 @@
 <template>
 	<Layout>
-		<h1>Companies Page</h1>
+		<h1>Settings Page Project</h1>
 	</Layout>
 </template>
 
@@ -8,6 +8,12 @@
 import Layout from "../Layout.vue";
 export default {
 	components: { Layout },
+	name: "ProjectSettings",
+	props: {
+		id: {
+			required: true,
+		},
+	},
 };
 </script>
 

@@ -1,9 +1,15 @@
 <template>
-	<h1>Comp set sidebar</h1>
+	<div class="companies">
+		<h1>Companies Settings</h1>
+
+	</div>
 </template>
 
 <script>
-export default {};
+export default {
+	name: "CompanySettings",
+};
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+</style>

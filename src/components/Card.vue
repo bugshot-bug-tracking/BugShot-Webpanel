@@ -95,14 +95,16 @@ export default {
 		> .left {
 			display: flex;
 			justify-content: space-between;
-			width: 89%;
-			border-right: 1px solid hsl(263, 79%, 94%);
+			width: 99%;
+			// width: 89%;
+			// border-right: 1px solid hsl(263, 79%, 94%); no settings on card for now
 			padding: 10px 10px;
 			font-weight: bold;
 		}
 
 		> .right {
-			display: flex;
+			display: none;
+			// display: flex; no settings on card for now
 			height: 100%;
 			img {
 				width: 50px;
