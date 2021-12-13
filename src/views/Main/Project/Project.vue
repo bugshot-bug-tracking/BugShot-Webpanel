@@ -7,27 +7,31 @@
 		</template>
 
 		<template v-slot:top>
-			<button>Project Settings</button>
+			<InviteModal :dataType="'Project'" :id="id" />
+
+			<router-link
+				:to="{ name: 'ProjectSettings', params: { id: id } }"
+				class="btn bs be-green"
+			>
+				Project Settings
+			</router-link>
 		</template>
 
 		<BugsTable v-if="project?.statuses">
-			<Column
-				v-for="status of statuses(project.id)"
-				:key="'s' + status.id"
-			>
+			<Column v-for="status of project.statuses" :key="status">
 				<template v-slot:header>
-					{{ status.attributes.designation }}
+					{{ statusData(status).attributes.designation }}
 				</template>
 
 				<BugCard
-					v-for="bug in bugs(status.id)"
-					:key="'b' + bug.id"
-					:id="bug.id"
-					:title="bug.attributes.designation"
+							:id="bugData(element).id"
+							:title="bugData(element).attributes.designation"
 					:deadline="
-						bug.attributes.deadline ? bug.attributes.deadline : ''
+								bugData(element).attributes.deadline
+									? bugData(element).attributes.deadline
+									: ''
 					"
-					:priority="bug.attributes.priority.id"
+							:priority="bugData(element).attributes.priority.id"
 					@info="bugInfo"
 				/>
 			</Column>
@@ -47,6 +51,8 @@ import BugsTable from "./BugsTable/Index.vue";
 import Column from "./BugsTable/Column.vue";
 import BugCard from "../../../components/BugCard.vue";
 import BugInfo from "../../../components/BugInfo.vue";
+import InviteModal from "../../../components/InviteModal.vue";
+
 
 export default {
 	components: {
@@ -55,6 +61,7 @@ export default {
 		Column,
 		BugCard,
 		BugInfo,
+		InviteModal,
 	},
 	props: {
 		id: {
@@ -100,6 +107,15 @@ export default {
 			info.id = -1;
 		};
 
+
+		const statusData = (value) => {
+			return store.state.data.statuses.get(value);
+		};
+
+		const bugData = (value) => {
+			return store.state.data.bugs.get(value);
+		};
+
 		return {
 			project,
 			statuses,
@@ -107,6 +123,8 @@ export default {
 			bugInfo,
 			info,
 			close,
+			statusData,
+			bugData,
 		};
 	},
 };

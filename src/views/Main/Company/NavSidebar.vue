@@ -2,15 +2,16 @@
 	<div class="sidebar">
 		<h3>Companies</h3>
 
-		<div class="search">
+		<!-- <div class="search">
 			<Search />
-		</div>
+		</div> -->
 
 		<div class="companies">
 			<ul>
 				<li v-for="[, company] of companies" :key="company.company.id">
 					<div class="company">
 						<router-link
+							@click="linkOpen"
 							:to="{
 								name: 'CompanyProjects',
 								params: { id: company.company.id },
@@ -22,42 +23,54 @@
 						<img
 							src="@/assets/icons/icn_left_arrow.svg"
 							v-if="company.projects?.length > 0"
+							@click="collapse"
 						/>
 					</div>
 
-					<ul v-if="company.projects?.length > 0">
-						<li
+					<ul v-if="company.projects?.length > 0" class="proj-list">
+						<router-link
+							@change="clg"
 							v-for="project of companyProjects(
 								company.company.id
 							)"
 							:key="project.id"
 							class="project"
+							:to="{
+								name: 'Project',
+								params: { id: project.id },
+							}"
 						>
-							<div class="dot" />
-
-							<router-link
-								:to="{
-									name: 'Project',
-									params: { id: project.id },
+							<div
+								class="dot"
+								:style="{
+									'background-color': project.attributes
+										.color_hex
+										? project.attributes.color_hex
+										: '#7a2de6',
 								}"
-							>
-								{{ project.attributes.designation }}
-							</router-link>
-						</li>
+							/>
+
+							{{ project.attributes.designation }}
+						</router-link>
 					</ul>
 				</li>
 			</ul>
+		</div>
+
+		<div class="add-company">
+			<CreateDataModal :dataType="'Company'" :postPath="'company'" />
 		</div>
 	</div>
 </template>
 
 <script>
-import { computed } from "@vue/runtime-core";
+import { computed, nextTick, ref } from "@vue/runtime-core";
 import Search from "../../../components/Search.vue";
 import store from "../../../store";
+import CreateDataModal from "../../../components/CreateDataModal.vue";
 
 export default {
-	components: { Search },
+	components: { Search, CreateDataModal },
 	name: "CompanySidebar",
 	setup() {
 		const companies = computed(() => {
@@ -68,9 +81,27 @@ export default {
 			return store.getters.getCompanyProjects(company_id);
 		};
 
+		const collapse = (event) => {
+			if (event.path[1].classList.contains("open")) {
+				event.path[1].classList.remove("open");
+			} else {
+				event.path[1].classList.add("open");
+			}
+		};
+
+		const linkOpen = (event) => {
+			event.path[1].classList.add("open");
+		};
+
+		const clg = (event) => {
+			console.log(event);
+		};
 		return {
 			companies,
 			companyProjects,
+			collapse,
+			linkOpen,
+			clg,
 		};
 	},
 };
@@ -94,6 +125,9 @@ export default {
 	.companies {
 		padding: 10px;
 		font-size: 20px;
+		border-top: 1px solid #ede4fc;
+		overflow: auto;
+		height: 100%;
 
 		ul {
 			list-style-type: none;
@@ -103,7 +137,7 @@ export default {
 			flex-direction: column;
 
 			> li {
-				padding: 10px 10px 10px 20px;
+				padding: 10px;
 			}
 		}
 
@@ -117,10 +151,18 @@ export default {
 			justify-content: space-between;
 			font-weight: 600;
 			margin-bottom: 10px;
+			padding: 6px 12px;
+
+			&:hover {
+				background-color: hsl(263, 79%, 94%);
+				width: 100%;
+				border-radius: 6px;
+			}
 
 			> img {
 				transform: rotateZ(-90deg);
 				cursor: pointer;
+				transition: 0.3s;
 			}
 
 			&.open {
@@ -128,11 +170,28 @@ export default {
 					transform: rotateZ(90deg);
 				}
 			}
+
+			> a.router-link-exact-active {
+				color: #7a2de6;
+			}
+		}
+
+		.company.open + .proj-list {
+			display: flex;
+		}
+		.company > a.router-link-exact-active + .proj-list {
+			display: flex;
+		}
+
+		.proj-list {
+			display: none;
+			overflow: hidden;
 		}
 
 		.project {
 			display: inline-flex;
 			align-items: center;
+			padding: 10px 10px 10px 30px;
 
 			&:hover {
 				background-color: hsl(263, 79%, 94%);
@@ -145,10 +204,22 @@ export default {
 				padding: 7px;
 				margin: 0 10px 0 0;
 			}
-		}
-		a.router-link-exact-active {
-			text-decoration: underline;
+			&.router-link-exact-active {
+				border-radius: 6px;
+				background: hsl(158, 79%, 87%);
+			}
 		}
 	}
+}
+
+.add-company {
+	height: 8vh;
+	min-height: 60px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-top: 1px solid #ede4fc;
+	padding: 10px 0;
 }
 </style>
