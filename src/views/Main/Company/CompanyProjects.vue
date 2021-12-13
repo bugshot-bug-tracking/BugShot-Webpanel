@@ -7,16 +7,24 @@
 		</template>
 
 		<template v-slot:top>
-			<Search />
+			<InviteModal :dataType="'Company'" :id="id" />
 
-			<button>Create Project</button>
+			<CreateDataModal
+				:dataType="'Project'"
+				:postPath="'project'"
+				:aditionalBody="{
+					company_id: id,
+				}"
+				:subTitle="`For Company: ${record?.company.attributes.designation}`"
+			/>
 
-			<router-link :to="{ name: 'CompanySettings', params: { id: id } }">
-				<button>Company Settings</button>
+			<router-link
+				:to="{ name: 'CompanySettings', params: { id: id } }"
+				class="btn bs be-green"
+			>
+				Company Settings
 			</router-link>
 		</template>
-
-		<h1>Company Projects Page</h1>
 
 		<div v-if="arePojects">
 			<GroupContainer :mainText="record.company.attributes.designation">
@@ -25,7 +33,22 @@
 					:key="project.id"
 					:title="project.attributes.designation"
 					:mainText="'Task Overview'"
-					:secondText="'5 / 10'"
+					:secondText="
+						bugsStats(
+							project.attributes.bugsDone,
+							project.attributes.bugsTotal
+						)
+					"
+					:color="
+						project.attributes.color_hex
+							? project.attributes.color_hex
+							: '#7A2EE6'
+					"
+					:image="
+						project.attributes.image
+							? project.attributes.image
+							: null
+					"
 					:routeTo="{ name: 'Project', params: { id: project.id } }"
 				/>
 			</GroupContainer>
@@ -40,9 +63,18 @@ import GroupContainer from "../../../components/GroupContainer.vue";
 import Layout from "../Layout.vue";
 import store from "../../../store";
 import Search from "../../../components/Search.vue";
+import CreateDataModal from "../../../components/CreateDataModal.vue";
+import InviteModal from "../../../components/InviteModal.vue";
 
 export default {
-	components: { Layout, GroupContainer, Card, Search },
+	components: {
+		Layout,
+		GroupContainer,
+		Card,
+		Search,
+		CreateDataModal,
+		InviteModal,
+	},
 	name: "CompanyProjects",
 	props: {
 		id: {
@@ -66,10 +98,19 @@ export default {
 			return true;
 		});
 
+		const bugsStats = (done, total) => {
+			let str = "";
+			str += done ? done : "D";
+			str += " / ";
+			str += total ? total : "T";
+			return str;
+		};
+
 		return {
 			record,
 			arePojects,
 			companyProjects,
+			bugsStats,
 		};
 	},
 };

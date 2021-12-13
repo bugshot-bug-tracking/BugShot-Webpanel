@@ -2,9 +2,9 @@
 	<Layout>
 		<template v-slot:title>All Projects</template>
 
-		<template v-slot:top>
+		<!-- <template v-slot:top>
 			<Search />
-		</template>
+		</template> -->
 
 		<GroupContainer
 			v-for="item of companies"
@@ -16,7 +16,20 @@
 				:key="'p' + project.id"
 				:title="project.attributes.designation"
 				:mainText="'Task Overview'"
-				:secondText="'5 / 10'"
+				:secondText="
+					bugsStats(
+						project.attributes.bugsDone,
+						project.attributes.bugsTotal
+					)
+				"
+				:color="
+					project.attributes.color_hex
+						? project.attributes.color_hex
+						: '#7A2EE6'
+				"
+				:image="
+					project.attributes.image ? project.attributes.image : null
+				"
 				:routeTo="{ name: 'Project', params: { id: project.id } }"
 			/>
 		</GroupContainer>
@@ -48,9 +61,18 @@ export default {
 			return store.getters.getCompanyProjects(company_id);
 		};
 
+		const bugsStats = (done, total) => {
+			let str = "";
+			str += done ? done : "D";
+			str += " / ";
+			str += total ? total : "T";
+			return str;
+		};
+
 		return {
 			companies,
 			companyProjects,
+			bugsStats,
 		};
 	},
 };

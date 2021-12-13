@@ -6,6 +6,8 @@ export default {
 		projects: new Map(),
 		statuses: new Map(),
 		bugs: new Map(),
+
+		roles: new Map(), // all the possible roles
 	},
 
 	mutations: {
@@ -52,6 +54,9 @@ export default {
 		SET_BUG_COMMENTS: (state, payload) => {
 			state.bugs.get(payload.id).comments = payload.list;
 		},
+		SET_ROLE: (state, payload) => {
+			state.roles.set(payload.id, payload);
+		},
 	},
 
 	// api calls
@@ -59,6 +64,7 @@ export default {
 		init: async (state, payload) => {
 			await state.dispatch("fetchCompanies");
 			await state.dispatch("fetchProjects");
+			await state.dispatch("fetchRoles");
 			return true;
 		},
 
@@ -243,6 +249,19 @@ export default {
 				console.log(error);
 			}
 		},
+
+		// fetch all roles
+		fetchRoles: async (state) => {
+			try {
+				let roles = (await axios.get("role")).data.data;
+
+				for (const role of roles) {
+					state.commit("SET_ROLE", role);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
 	},
 
 	getters: {
@@ -289,6 +308,10 @@ export default {
 			return status.bugs.map((bug_id) => state.bugs.get(bug_id));
 		},
 
+		getStatusById: (state) => (status_id) => state.statuses.get(status_id),
+
 		getBugById: (state) => (bug_id) => state.bugs.get(bug_id),
+
+		getRoles: (state) => state.roles,
 	},
 };

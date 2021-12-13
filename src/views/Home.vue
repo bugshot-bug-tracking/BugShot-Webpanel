@@ -39,11 +39,16 @@ export default {
 .sidebar-container {
 	position: relative;
 	border-right: 1px solid hsl(263, 79%, 94%);
+	height: 100vh;
 
 	.sidebar-wraper {
 		width: 12vw;
 		min-width: 200px;
 		max-width: 300px;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 	}
 
 	> .hide {
@@ -57,6 +62,7 @@ export default {
 		border: 1px solid #ede4fc;
 		border-left: 1px solid #f8f8fc;
 		display: flex;
+		z-index: 1;
 
 		> img {
 			transform: rotateZ(90deg);
@@ -73,6 +79,57 @@ export default {
 
 		> .sidebar-wraper {
 			display: none;
+		}
+	}
+}
+</style>
+
+<style lang="scss">
+.btn {
+	&.bs {
+		border-radius: 22px;
+		letter-spacing: 0.14px;
+		font-size: 18px;
+		padding: 8px 22px;
+
+		&.bf-green {
+			background: hsl(158, 80%, 47%);
+			color: hsl(0, 0%, 100%);
+
+			&:hover {
+				background: hsl(158, 80%, 41%);
+			}
+		}
+
+		&.be-green {
+			background: transparent;
+			border: 2px solid hsl(158, 80%, 47%);
+			color: hsl(158, 80%, 47%);
+			font-weight: bold;
+
+			&:hover {
+				background: hsl(158, 79%, 87%);
+			}
+		}
+
+		&.bf-purple {
+			background: hsl(265, 79%, 54%);
+			color: hsl(0, 0%, 100%);
+
+			&:hover {
+				background: hsl(265, 80%, 41%);
+			}
+		}
+
+		&.be-purple {
+			background: transparent;
+			border: 2px solid hsl(265, 79%, 54%);
+			color: hsl(265, 79%, 54%);
+			font-weight: bold;
+
+			&:hover {
+				background: hsl(265, 79%, 92%);
+			}
 		}
 	}
 }
