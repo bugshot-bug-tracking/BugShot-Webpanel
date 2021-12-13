@@ -23,17 +23,30 @@
 					{{ statusData(status).attributes.designation }}
 				</template>
 
-				<BugCard
+				<draggable
+					:list="statusData(status).bugs"
+					:animation="200"
+					ghost-class="ghost-card"
+					group="tasks"
+					:item-key="(item) => item"
+					@change="log"
+					class="drag-zone"
+					@move="dir"
+				>
+					<template #item="{ element }">
+						<BugCard
 							:id="bugData(element).id"
 							:title="bugData(element).attributes.designation"
-					:deadline="
+							:deadline="
 								bugData(element).attributes.deadline
 									? bugData(element).attributes.deadline
 									: ''
-					"
+							"
 							:priority="bugData(element).attributes.priority.id"
-					@info="bugInfo"
-				/>
+							@info="bugInfo"
+						/>
+					</template>
+				</draggable>
 			</Column>
 		</BugsTable>
 
@@ -53,6 +66,7 @@ import BugCard from "../../../components/BugCard.vue";
 import BugInfo from "../../../components/BugInfo.vue";
 import InviteModal from "../../../components/InviteModal.vue";
 
+import draggable from "vuedraggable";
 
 export default {
 	components: {
@@ -62,6 +76,7 @@ export default {
 		BugCard,
 		BugInfo,
 		InviteModal,
+		draggable,
 	},
 	props: {
 		id: {
@@ -107,6 +122,16 @@ export default {
 			info.id = -1;
 		};
 
+		const log = (event) => {
+			console.log(event);
+			if (event.removed || event.moved) {
+				console.log("sync");
+			}
+		};
+
+		const dir = (event) => {
+			console.dir(event);
+		};
 
 		const statusData = (value) => {
 			return store.state.data.statuses.get(value);
@@ -123,6 +148,8 @@ export default {
 			bugInfo,
 			info,
 			close,
+			log,
+			dir,
 			statusData,
 			bugData,
 		};
@@ -136,5 +163,16 @@ export default {
 	z-index: 1;
 	top: 0;
 	right: 0;
+}
+
+.ghost-card {
+	opacity: 0.5;
+	background: #f7fafc;
+}
+
+.drag-zone {
+	min-height: 50px;
+	margin-bottom: 50px;
+	overflow: hidden;
 }
 </style>
