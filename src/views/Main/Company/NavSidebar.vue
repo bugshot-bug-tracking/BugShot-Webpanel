@@ -82,15 +82,16 @@ export default {
 		};
 
 		const collapse = (event) => {
-			if (event.path[1].classList.contains("open")) {
-				event.path[1].classList.remove("open");
+			console.log(event);
+			if (event.target.parentNode.classList.contains("open")) {
+				event.target.parentNode.classList.remove("open");
 			} else {
-				event.path[1].classList.add("open");
+				event.target.parentNode.classList.add("open");
 			}
 		};
 
 		const linkOpen = (event) => {
-			event.path[1].classList.add("open");
+			event.target.parentNode.classList.add("open");
 		};
 
 		const clg = (event) => {

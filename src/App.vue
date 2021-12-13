@@ -5,6 +5,7 @@
 <style lang="scss">
 body {
 	background-color: hsl(240, 40%, 98%);
+	overflow: hidden;
 }
 
 #app {

@@ -163,6 +163,7 @@ export default {
 	z-index: 1;
 	top: 0;
 	right: 0;
+	box-shadow: -16px 0px 24px #1a20403d;
 }
 
 .ghost-card {

@@ -53,15 +53,11 @@
 
 			<div id="technical" :class="{ open: open }">
 				<div
-					class="
-						technical-label
-						d-inline-flex
-						justify-content-between
-					"
+					class="technical-label d-inline-flex justify-content-between"
 					@click="open = !open"
 				>
 					<span>Technical information:</span>
-					<img />
+					<img src="../assets/icons/caret-down-fill.svg" />
 				</div>
 				<div class="technical-info">
 					<div class="os">
@@ -207,7 +203,6 @@ export default {
 
 		img {
 			transition: 0.3s;
-			content: url("../assets/icons/caret-down-fill.svg");
 		}
 
 		&.open {
