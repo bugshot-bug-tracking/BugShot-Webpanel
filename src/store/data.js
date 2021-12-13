@@ -308,6 +308,8 @@ export default {
 			return status.bugs.map((bug_id) => state.bugs.get(bug_id));
 		},
 
+		getStatusById: (state) => (status_id) => state.statuses.get(status_id),
+
 		getBugById: (state) => (bug_id) => state.bugs.get(bug_id),
 
 		getRoles: (state) => state.roles,

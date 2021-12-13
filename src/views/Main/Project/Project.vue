@@ -29,9 +29,9 @@
 					ghost-class="ghost-card"
 					group="tasks"
 					:item-key="(item) => item"
-					@change="log"
+					@change="bugMove"
 					class="drag-zone"
-					@move="dir"
+					@move="setStatusKey"
 				>
 					<template #item="{ element }">
 						<BugCard
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { computed, reactive } from "@vue/reactivity";
+import { computed, reactive, ref } from "@vue/reactivity";
 import Layout from "../Layout.vue";
 import store from "../../../store";
 import BugsTable from "./BugsTable/Index.vue";
@@ -122,15 +122,37 @@ export default {
 			info.id = -1;
 		};
 
-		const log = (event) => {
-			console.log(event);
-			if (event.removed || event.moved) {
-				console.log("sync");
-			}
+		const statusKey = ref("");
+
+		const setStatusKey = (event) => {
+			// take the status id from the vue node key attribute
+			statusKey.value =
+				event.to.parentNode.parentNode.__vueParentComponent.vnode.key;
 		};
 
-		const dir = (event) => {
-			console.dir(event);
+		const bugMove = (event) => {
+			// sync only on the add and move events
+			if (!(event.added || event.moved)) return;
+
+			// unify events to get the info in one go
+			let data = {};
+			if (event.added) data = event.added;
+			if (event.moved) data = event.moved;
+
+			let resource = {
+				bug_id: data.element,
+				status_id: statusKey.value,
+				bug: store.getters.getBugById(data.element),
+				status: store.getters.getStatusById(statusKey.value),
+				order: data.newIndex,
+			};
+
+			resource.bug.attributes.status = {
+				id: resource.status.id,
+				designation: resource.status.attributes.designation,
+			};
+
+			console.log("resource", resource);
 		};
 
 		const statusData = (value) => {
@@ -148,8 +170,8 @@ export default {
 			bugInfo,
 			info,
 			close,
-			log,
-			dir,
+			setStatusKey,
+			bugMove,
 			statusData,
 			bugData,
 		};
@@ -173,7 +195,7 @@ export default {
 
 .drag-zone {
 	min-height: 50px;
-	margin-bottom: 50px;
+	padding-bottom: 50px;
 	overflow: hidden;
 }
 </style>
