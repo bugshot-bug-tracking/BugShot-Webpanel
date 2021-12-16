@@ -13,6 +13,11 @@ export default createStore({
 		start: async (state, payload) => {
 			state.dispatch("init");
 		},
+
+		destroy: async (state, payload) => {
+			state.dispatch("auth_destroy");
+			state.dispatch("data_destroy");
+		},
 	},
 	getters: {},
 });

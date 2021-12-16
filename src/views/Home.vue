@@ -65,6 +65,7 @@ export default {
 		z-index: 1;
 
 		> img {
+			user-select: none;
 			transform: rotateZ(90deg);
 			width: 18px;
 			filter: invert(26%) sepia(92%) saturate(4327%) hue-rotate(258deg)
@@ -91,6 +92,7 @@ export default {
 		letter-spacing: 0.14px;
 		font-size: 18px;
 		padding: 8px 22px;
+		box-shadow: none;
 
 		&.bf-green {
 			background: hsl(158, 80%, 47%);

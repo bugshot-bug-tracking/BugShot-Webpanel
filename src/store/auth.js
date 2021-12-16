@@ -18,6 +18,12 @@ export default {
 
 	// api calls
 	actions: {
+		auth_destroy: async (state, payload) => {
+			state.commit("SET_TOKEN", null);
+			state.commit("SET_USER", {});
+			return true;
+		},
+
 		login: async (state, payload) => {
 			return (
 				axios
@@ -45,8 +51,7 @@ export default {
 					.post("auth/logout")
 					// 2xx
 					.then((response) => {
-						state.commit("SET_TOKEN", null);
-						state.commit("SET_USER", null);
+						state.dispatch("destroy");
 
 						return true;
 					})

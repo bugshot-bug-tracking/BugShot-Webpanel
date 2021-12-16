@@ -108,6 +108,7 @@ const routes = [
 			requiresAuth: true,
 		},
 	},
+
 	{
 		path: "/auth",
 		name: "auth",
@@ -129,6 +130,7 @@ const routes = [
 			{
 				path: "recover",
 				name: "Recover",
+				component: Recover,
 			},
 		],
 	},

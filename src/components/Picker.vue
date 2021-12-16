@@ -37,9 +37,9 @@
 
 				<div class="text">Drag and drop your logo here or</div>
 
-				<label for="pick-upload" class="btn bs be-green"
-					>Browse Logo</label
-				>
+				<label for="pick-upload" class="btn bs be-green">
+					Upload Logo
+				</label>
 
 				<input type="file" name="upload" id="pick-upload" />
 
@@ -64,6 +64,7 @@
 						:value="index"
 						:style="{ color: color }"
 						class="col-option"
+						@change="colorChange"
 					/>
 				</div>
 			</div>
@@ -135,6 +136,11 @@ export default {
 
 			imgg.value = URL.createObjectURL(file);
 		};
+
+		const colorChange = (event) => {
+			context.emit("setColor", props.colorPicked);
+		};
+
 		return {
 			pickOption,
 			colors,
@@ -145,6 +151,7 @@ export default {
 			imgg,
 			resetImage,
 			change,
+			colorChange,
 		};
 	},
 };
@@ -212,12 +219,15 @@ export default {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
+
 			> * {
 				margin: 10px 0;
 			}
+
 			> img {
 				width: 46px;
 				height: 46px;
+				margin: 0;
 			}
 
 			.text {
@@ -274,6 +284,10 @@ export default {
 					background-repeat: no-repeat;
 					background-position: center;
 					background-size: 65%;
+
+					outline: 5px solid;
+					outline-offset: -1px;
+					outline-color: currentColor;
 				}
 			}
 		}

@@ -2,8 +2,12 @@
 	<Layout>
 		<template v-slot:title>{{ project?.attributes.designation }}</template>
 
-		<template v-slot:sub-title>
-			{{ project?.attributes.company.designation }}
+		<template v-slot:sub-title v-if="project">
+			{{
+				projectCompany(project.attributes.company_id).attributes
+					.designation
+			}}
+			<!-- {{ project?.attributes.company.designation }} -->
 		</template>
 
 		<template v-slot:top>
@@ -81,19 +85,23 @@ export default {
 	props: {
 		id: {
 			required: true,
+			type: String,
+			desciption: "Project ID",
 		},
 	},
 	setup(props) {
 		const project = computed(() => {
-			//!!!!!!!!!!!!!!!!! !TODO! update after UUID Changes
-
-			const match = store.getters.getProjectById(parseInt(props.id));
+			const match = store.getters.getProjectById(props.id);
 
 			if (match != null && match.statuses === null)
 				store.dispatch("fetchBugs", match.id);
 
 			return match;
 		});
+
+		const projectCompany = (company_id) => {
+			return store.getters.getCompanyById(company_id);
+		};
 
 		const statuses = (project_id) => {
 			return store.getters.getProjectStatuses(project_id);
@@ -147,10 +155,7 @@ export default {
 				order: data.newIndex,
 			};
 
-			resource.bug.attributes.status = {
-				id: resource.status.id,
-				designation: resource.status.attributes.designation,
-			};
+			resource.bug.attributes.status_id = resource.status_id;
 
 			console.log("resource", resource);
 		};
@@ -174,6 +179,7 @@ export default {
 			bugMove,
 			statusData,
 			bugData,
+			projectCompany,
 		};
 	},
 };
@@ -185,7 +191,7 @@ export default {
 	z-index: 1;
 	top: 0;
 	right: 0;
-	box-shadow: -16px 0px 24px #1a20403d;
+	box-shadow: -10px 0px 24px hsla(231, 42%, 18%, 0.11);
 }
 
 .ghost-card {

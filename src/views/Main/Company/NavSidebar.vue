@@ -8,16 +8,16 @@
 
 		<div class="companies">
 			<ul>
-				<li v-for="[, company] of companies" :key="company.company.id">
+				<li v-for="[, company] of companies" :key="company.id">
 					<div class="company">
 						<router-link
 							@click="linkOpen"
 							:to="{
 								name: 'CompanyProjects',
-								params: { id: company.company.id },
+								params: { id: company.id },
 							}"
 						>
-							{{ company.company.attributes.designation }}
+							{{ company.attributes.designation }}
 						</router-link>
 
 						<img
@@ -30,9 +30,7 @@
 					<ul v-if="company.projects?.length > 0" class="proj-list">
 						<router-link
 							@change="clg"
-							v-for="project of companyProjects(
-								company.company.id
-							)"
+							v-for="project of companyProjects(company.id)"
 							:key="project.id"
 							class="project"
 							:to="{
@@ -58,7 +56,7 @@
 		</div>
 
 		<div class="add-company">
-			<CreateDataModal :dataType="'Company'" :postPath="'company'" />
+			<CreateDataModal :dataType="'Company'" :postPath="'companies'" />
 		</div>
 	</div>
 </template>
@@ -164,6 +162,7 @@ export default {
 				transform: rotateZ(-90deg);
 				cursor: pointer;
 				transition: 0.3s;
+				user-select: none;
 			}
 
 			&.open {
@@ -210,6 +209,9 @@ export default {
 				background: hsl(158, 79%, 87%);
 			}
 		}
+
+		scrollbar-color: #cbb0f6 #f1f1f1;
+		scrollbar-width: thin;
 
 		/* width */
 		&::-webkit-scrollbar {

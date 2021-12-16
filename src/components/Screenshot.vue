@@ -5,7 +5,7 @@
 	</div>
 
 	<Modal :show="modal" @close="modal = !modal">
-		<img :src="shownImage.image" alt="Screenshots" />
+		<img :src="shownImage.image" alt="Screenshots" class="screen" />
 
 		<div
 			v-show="showMark"
@@ -83,7 +83,7 @@ export default {
 
 		let thumbnail = computed(() => {
 			if (props.screenshots.length > 0)
-				return props.screenshots[0].attributes.image;
+				return props.screenshots[0].attributes.base64;
 			return "/";
 		});
 
@@ -92,10 +92,10 @@ export default {
 
 			// used for getting the image dimensions from base64 data
 			let i = new Image();
-			i.src = img.attributes.image;
+			i.src = img.attributes.base64;
 
 			return {
-				image: img.attributes.image,
+				image: img.attributes.base64,
 				number: counter.value + 1,
 				// needed the position relative to the original image resolution so it can account for different image distorsions while shown via modal
 				mark: {
@@ -285,5 +285,9 @@ export default {
 	&.minor {
 		background-image: url("../assets/marks/mark_min.svg");
 	}
+}
+
+.screen {
+	overflow: auto;
 }
 </style>

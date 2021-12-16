@@ -3,7 +3,7 @@
 		<template v-slot:title>Projects</template>
 
 		<template v-slot:sub-title>
-			{{ record ? record.company.attributes.designation : "loading" }}
+			{{ record ? record.attributes.designation : "loading" }}
 		</template>
 
 		<template v-slot:top>
@@ -11,11 +11,11 @@
 
 			<CreateDataModal
 				:dataType="'Project'"
-				:postPath="'project'"
+				:postPath="`companies/${id}/projects`"
 				:aditionalBody="{
 					company_id: id,
 				}"
-				:subTitle="`For Company: ${record?.company.attributes.designation}`"
+				:subTitle="`Company: ${record?.attributes.designation}`"
 			/>
 
 			<router-link
@@ -27,9 +27,9 @@
 		</template>
 
 		<div v-if="arePojects">
-			<GroupContainer :mainText="record.company.attributes.designation">
+			<GroupContainer :mainText="record.attributes.designation">
 				<Card
-					v-for="project of companyProjects(record.company.id)"
+					v-for="project of companyProjects(record.id)"
 					:key="project.id"
 					:title="project.attributes.designation"
 					:mainText="'Task Overview'"
@@ -79,12 +79,13 @@ export default {
 	props: {
 		id: {
 			required: true,
+			type: String,
+			description: "Company ID",
 		},
 	},
 	setup(props) {
 		const record = computed(() => {
-			//!!!!!!!!!!!!!!!!! !TODO! update after UUID Changes
-			return store.getters.getCompanyById(parseInt(props.id));
+			return store.getters.getCompanyById(props.id);
 		});
 
 		const companyProjects = (company_id) => {
@@ -100,9 +101,9 @@ export default {
 
 		const bugsStats = (done, total) => {
 			let str = "";
-			str += done ? done : "D";
+			str += done ? done : "0";
 			str += " / ";
-			str += total ? total : "T";
+			str += total ? total : "0";
 			return str;
 		};
 

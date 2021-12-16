@@ -8,11 +8,11 @@
 
 		<GroupContainer
 			v-for="item of companies"
-			:key="'c' + item.company.id"
-			:mainText="item.company.attributes.designation"
+			:key="item.id"
+			:mainText="item.attributes.designation"
 		>
 			<Card
-				v-for="project of companyProjects(item.company.id)"
+				v-for="project of companyProjects(item.id)"
 				:key="'p' + project.id"
 				:title="project.attributes.designation"
 				:mainText="'Task Overview'"
@@ -27,9 +27,7 @@
 						? project.attributes.color_hex
 						: '#7A2EE6'
 				"
-				:image="
-					project.attributes.image ? project.attributes.image : null
-				"
+				:image="project.attributes.image"
 				:routeTo="{ name: 'Project', params: { id: project.id } }"
 			/>
 		</GroupContainer>
@@ -63,9 +61,9 @@ export default {
 
 		const bugsStats = (done, total) => {
 			let str = "";
-			str += done ? done : "D";
+			str += done ? done : "0";
 			str += " / ";
-			str += total ? total : "T";
+			str += total ? total : "0";
 			return str;
 		};
 

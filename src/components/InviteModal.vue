@@ -55,7 +55,7 @@ export default {
 		},
 		id: {
 			required: true,
-			type: Number,
+			type: String,
 		},
 	},
 	components: { FormInput, Modal },
@@ -78,8 +78,8 @@ export default {
 		const sendInvite = async () => {
 			try {
 				let base = "";
-				if (props.dataType === "Company") base = "company";
-				else if (props.dataType === "Project") base = "project";
+				if (props.dataType === "Company") base = "companies";
+				else if (props.dataType === "Project") base = "projects";
 
 				await axios.post(`${base}/${props.id}/invite`, {
 					target_email: email.value,
@@ -122,6 +122,7 @@ export default {
 		width: 90%;
 		display: flex;
 		justify-content: space-between;
+		user-select: none;
 
 		> span {
 			font-weight: bold;

@@ -1,5 +1,5 @@
 <template>
-	<div class="title">Log In</div>
+	<div class="title">Recover</div>
 
 	<form id="login-form" @submit.prevent="submit">
 		<div class="form-group">
@@ -10,11 +10,8 @@
 				class="field"
 				placeholder="E-mail address"
 				required
-				maxlength="255"
 				autocomplete="email"
 				v-model="email"
-				@focus="errMessage = null"
-				:class="{ error: errMessage }"
 			/>
 
 			<img class="email-img" src="../../assets/icons/at@.svg" />
@@ -29,11 +26,8 @@
 				placeholder="Password"
 				minlength="8"
 				required
-				maxlength="255"
 				v-model="password"
-				autocomplete="current-password"
-				@focus="errMessage = null"
-				:class="{ error: errMessage }"
+				autocomplete="new-password"
 			/>
 
 			<img
@@ -51,21 +45,48 @@
 			/>
 		</div>
 
-		<div class="errors" v-if="errMessage != null">
-			{{ errMessage }}
+		<div class="form-group">
+			<input
+				id="confirm_password"
+				:type="passwordType"
+				name="confirm_password"
+				class="field"
+				placeholder="Confirm Password"
+				minlength="8"
+				required
+				v-model="confirm_password"
+				autocomplete="new-password"
+			/>
+
+			<img
+				class="password-img"
+				v-if="showPassword"
+				@click="togglePassword"
+				src="../../assets/icons/hide_password.svg"
+			/>
+
+			<img
+				class="password-img"
+				v-if="!showPassword"
+				@click="togglePassword"
+				src="../../assets/icons/show_password.svg"
+			/>
 		</div>
 
 		<div class="from-buttons">
-			<div class="recover">
-				<p>Forgot Password?</p>
+			<label>
+				<input
+					type="checkbox"
+					name="tos"
+					id="tos"
+					v-model="tos"
+					required
+				/>
+				Terms of Service
+			</label>
 
-				<router-link to="/recover" class="btn btn-recover">
-					Recover
-				</router-link>
-			</div>
-
-			<button id="form-submit" type="submit" class="btn bs bf-green">
-				Log In
+			<button id="form-submit" type="submit" class="btn btn-primary">
+				<span>Register</span>
 			</button>
 		</div>
 	</form>
@@ -73,19 +94,16 @@
 
 <script>
 import { ref } from "@vue/reactivity";
-import store from "../../store";
 import router from "../../router";
 
 export default {
-	name: "Login",
+	name: "Recover",
 	setup() {
 		const email = ref("");
 		const password = ref("");
-
+		const confirm_password = ref("");
 		const showPassword = ref(false);
 		const passwordType = ref("password");
-
-		const errMessage = ref(null);
 
 		const togglePassword = () => {
 			showPassword.value = !showPassword.value;
@@ -93,25 +111,14 @@ export default {
 			else passwordType.value = "password";
 		};
 
-		const submit = () => {
-			store
-				.dispatch("login", {
-					email: email.value,
-					password: password.value,
-				})
-				.then((response) => {
-					if (response === false)
-						errMessage.value = "Incorect E-Mail or Password.";
-					else router.push({ name: "Home" });
-				});
-		};
+		const submit = () => {};
 
 		return {
 			email,
 			password,
+			confirm_password,
 			showPassword,
 			passwordType,
-			errMessage,
 			submit,
 			togglePassword,
 		};
@@ -141,6 +148,14 @@ export default {
 		justify-content: space-evenly;
 		margin-bottom: 10px;
 
+		#form-submit {
+			background: hsl(158, 80%, 47%) 0% 0% no-repeat padding-box;
+			border-radius: 20px;
+			border-color: hsl(158, 80%, 47%);
+			padding: 8px 20px;
+			font-weight: 500;
+		}
+
 		#remember {
 			filter: hue-rotate(40deg);
 		}
@@ -168,6 +183,7 @@ export default {
 			outline-color: hsl(265, 79%, 41%);
 		}
 	}
+
 	.email-img {
 		width: 20px;
 	}
@@ -196,25 +212,5 @@ export default {
 			line-height: 22px;
 		}
 	}
-
-	.error {
-		color: red;
-		border: 1px solid red;
-
-		&:focus,
-		&:focus-visible,
-		&:hover {
-			border-color: red;
-			outline-color: red;
-		}
-	}
-}
-
-.errors {
-	color: red;
-	font-weight: 500;
-	width: 85%;
-	text-align: right;
-	padding-bottom: 10px;
 }
 </style>

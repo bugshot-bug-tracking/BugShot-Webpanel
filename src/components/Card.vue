@@ -3,8 +3,11 @@
 		<router-link
 			:to="routeTo"
 			class="top"
-			:style="{ 'background-color': color }"
+			:style="{
+				'background-color': color,
+			}"
 		>
+			<img v-if="image" :src="image.attributes.base64" alt="IMG" />
 			<div class="text">{{ title }}</div>
 		</router-link>
 
@@ -22,6 +25,7 @@
 </template>
 
 <script>
+import { computed } from "@vue/reactivity";
 export default {
 	name: "Card",
 	props: {
@@ -32,8 +36,7 @@ export default {
 		},
 
 		image: {
-			type: String,
-			default: "///Image",
+			type: Object,
 		},
 
 		color: {
@@ -57,6 +60,21 @@ export default {
 			type: Object,
 		},
 	},
+	setup(props) {
+		const imageURL = computed(() => {
+			if (props.image == null) return;
+			console.log(props.image);
+			let l = URL.createObjectURL(
+				new Blob([props.image.attributes.base64])
+			);
+			console.log(l);
+			return props.image.attributes.base64;
+		});
+
+		return {
+			imageURL,
+		};
+	},
 };
 </script>
 
@@ -77,6 +95,12 @@ export default {
 		align-items: center;
 		justify-content: center;
 		position: relative;
+		overflow: hidden;
+
+		> img {
+			min-width: 100%;
+			min-height: 100%;
+		}
 
 		> .text {
 			position: absolute;

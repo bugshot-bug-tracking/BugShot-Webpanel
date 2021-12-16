@@ -3,7 +3,7 @@
 		<template v-slot:title>General Settings</template>
 
 		<template v-slot:sub-title>
-			{{ record?.company.attributes.designation }}
+			{{ record?.attributes.designation }}
 		</template>
 
 		<div class="settings-table" v-if="record">
@@ -18,9 +18,7 @@
 								@input="
 									(i) => (companyParams.name = i.target.value)
 								"
-								:placeholder="
-									record.company.attributes.designation
-								"
+								:placeholder="record.attributes.designation"
 								:type="'text'"
 							/>
 							<!-- change color Picked to the record color -->
@@ -34,17 +32,21 @@
 										))
 								"
 							/>
-						</div>
 
-						<a
-							class="save-button btn btn-primary"
-							@click="saveChanges"
-							aria-disabled="true"
-						>
-							Save changes
-						</a>
+							<a
+								class="save-button btn bs bf-green"
+								@click="saveChanges"
+								aria-disabled="true"
+							>
+								Save changes
+							</a>
+						</div>
 					</Container>
 				</div>
+
+				<span>
+					Delete company and associated projects \n(can't be reverted)
+				</span>
 			</Column>
 
 			<Column>
@@ -76,6 +78,7 @@ import Picker from "../../../components/Picker.vue";
 import Column from "../Project/BugsTable/Column.vue";
 import TeamTable from "../../../components/TeamTable.vue";
 import Plan from "../../../components/Plan.vue";
+
 export default {
 	components: {
 		Layout,
@@ -90,17 +93,18 @@ export default {
 	props: {
 		id: {
 			required: true,
+			type: String,
+			description: "Company ID",
 		},
 	},
 	setup(props) {
 		const record = computed(() => {
-			//!!!!!!!!!!!!!!!!! !TODO! update after UUID Changes
-			return store.getters.getCompanyById(parseInt(props.id));
+			return store.getters.getCompanyById(props.id);
 		});
 
 		const companyParams = reactive({
 			name: "",
-			color: "",
+			color: 0,
 			image: {},
 		});
 
@@ -136,6 +140,16 @@ export default {
 		padding: 15px;
 		width: 100%;
 		border-right: 1px solid #ede4fc;
+	}
+
+	.wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		.save-button {
+			margin: 10px;
+		}
 	}
 }
 </style>

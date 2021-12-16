@@ -13,66 +13,26 @@
 						<img src="../assets/extern/m-2.svg" alt="" />
 					</a>
 
+					<div class="badge" v-if="invitations.size > 0">
+						{{ invitations.size }}
+					</div>
+
 					<div class="notification-submenu">
 						<div class="notification-header">
-							<h3>Benachrichtigungen</h3>
+							<span>Notifications</span>
+							<div><a hidden> Clear all</a></div>
 						</div>
+
 						<div class="notification-body">
-							<!--@if(count($invitations) > 0) @foreach($invitations
-								as $invitation) @if((explode('#',
-								$invitation->target_id))[0] == 'project') @php
-								$invitation_project =
-								DB::table('projects')->where('id', (explode('#',
-								$invitation->target_id))[1])->first() @endphp
-								@elseif((explode('#', $invitation->target_id))[0] ==
-								'company') @php $invitation_company =
-								DB::table('companies')->where('id', (explode('#',
-								$invitation->target_id))[1])->first() @endphp @endif
-								<div
-									class="notification-single"
-									id="{{ $invitation->id }}"
-								>
-									<div class="notification-info-wrapper">
-										@if((explode('#',
-										$invitation->target_id))[0] == 'project')
-										<div class="notification-event">
-											Sie wurden zu einem Projekt eingeladen
-											<strong
-												>{{ $invitation_project->designation }}</strong
-											>
-										</div>
-										@elseif((explode('#',
-										$invitation->target_id))[0] == 'company')
-										<div class="notification-event">
-											Sie wurden zu einer Firma eingeladen
-											<strong
-												>{{ $invitation_company->designation }}</strong
-											>
-										</div>
-										@endif
-										<div class="notification-detail">
-											<strong>{{ $invitation->day }}</strong
-											>{{ ", " . $invitation->created_at . " von " . $invitation->initiator }}
-										</div>
-									</div>
-									<div class="notification-actions">
-										<button
-											class="btn decline_invitation"
-											data-id="{{ $invitation->id }}"
-										>
-											<i class="fas fa-times"></i>
-										</button>
-										<button
-											class="btn accept_invitation"
-											data-id="{{ $invitation->id }}"
-										>
-											<i class="fas fa-check"></i>
-										</button>
-									</div>
-								</div>
-								@endforeach @else
-								<p>Keine Benachrichtigungen</p>
-								@endif-->
+							<div class="list" v-if="invitations.size > 0">
+								<Notification
+									v-for="[, invite] of invitations"
+									:key="invite.id"
+									:id="invite.id"
+								/>
+							</div>
+
+							<div v-else>No new notifications</div>
 						</div>
 					</div>
 				</li>
@@ -95,7 +55,9 @@
 
 <script>
 import router from "../router";
-import store from "@/store";
+import store from "../store";
+import { computed } from "@vue/reactivity";
+import Notification from "../components/Notification.vue";
 
 export default {
 	name: "Navbar",
@@ -106,10 +68,16 @@ export default {
 			});
 		};
 
+		const invitations = computed(() => {
+			return store.getters.getInvitations;
+		});
+
 		return {
 			logout,
+			invitations,
 		};
 	},
+	components: { Notification },
 };
 </script>
 
@@ -119,6 +87,7 @@ export default {
 	width: 88px;
 	min-width: 88px;
 	height: 100vh;
+	user-select: none;
 }
 
 .verticle-menu {
@@ -143,6 +112,23 @@ export default {
 	}
 
 	.notification {
+		position: relative;
+
+		.badge {
+			width: 16px;
+			height: 16px;
+			position: absolute;
+			background-color: red;
+			z-index: 1;
+			border-radius: 100%;
+			top: -10px;
+			right: -2px;
+			font-size: 12px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
 		li {
 			display: block;
 
@@ -180,7 +166,6 @@ export default {
 		&:hover .notification-submenu {
 			opacity: 1;
 			visibility: visible;
-			z-index: 100;
 		}
 
 		.notification-title-wrap {
@@ -210,7 +195,7 @@ export default {
 			position: absolute;
 			left: calc(100% + 10px);
 			background: #fff;
-			width: 350px;
+			width: 400px;
 			border-radius: 12px;
 			box-shadow: 0 2px 10px #0000001c;
 			padding: 15px;
@@ -218,6 +203,65 @@ export default {
 			opacity: 0;
 			visibility: hidden;
 			transition: 0.3s;
+			user-select: auto;
+			z-index: 100;
+
+			.notification-header {
+				display: flex;
+				justify-content: space-between;
+				border-bottom: 2px solid #eee5fc;
+				margin-bottom: 10px;
+
+				> span {
+					font-weight: bold;
+					font-size: 18px;
+				}
+			}
+
+			.notification-body {
+				.list {
+					display: flex;
+					flex-direction: column-reverse;
+					gap: 10px;
+					max-height: 360px;
+					overflow: auto;
+
+					> * {
+						border-bottom: 1px solid #eee5fc;
+					}
+
+					> :first-child {
+						border: none;
+					}
+
+					overflow-y: auto;
+					scrollbar-gutter: stable;
+
+					scrollbar-color: #cbb0f6 #f1f1f1;
+					scrollbar-width: thin;
+
+					/* width */
+					&::-webkit-scrollbar {
+						width: 8px;
+					}
+
+					/* Track */
+					&::-webkit-scrollbar-track {
+						background: #f1f1f1;
+					}
+
+					/* Handle */
+					&::-webkit-scrollbar-thumb {
+						background: #cbb0f6;
+						border-radius: 8px;
+					}
+
+					/* Handle on hover */
+					&::-webkit-scrollbar-thumb:hover {
+						background: #555;
+					}
+				}
+			}
 		}
 
 		.notification-rw {

@@ -1,47 +1,50 @@
 <template>
-	<div class="companies">
-		<h1>Companies Settings</h1>
-
-		<ul>
-			<li v-for="[, company] of companies" :key="company.company.id">
-				<div class="company">
-					<router-link
-						:to="{
-							name: 'CompanyGeneral',
-							params: { id: company.company.id },
-						}"
-					>
-						{{ company.company.attributes.designation }}
-					</router-link>
-
-					<img src="@/assets/icons/icn_left_arrow.svg" />
-				</div>
-
-				<ul>
-					<li class="entry">
+	<div class="sidebar">
+		<h3>Companies</h3>
+		<div class="companies">
+			<ul>
+				<li v-for="[, company] of companies" :key="company.company.id">
+					<div class="company">
 						<router-link
+							@click="linkOpen"
 							:to="{
 								name: 'CompanyGeneral',
 								params: { id: company.company.id },
 							}"
 						>
+							{{ company.company.attributes.designation }}
+						</router-link>
+
+						<img
+							src="@/assets/icons/icn_left_arrow.svg"
+							@click="collapse"
+						/>
+					</div>
+
+					<ul class="list">
+						<router-link
+							class="entry"
+							:to="{
+								name: 'CompanyGeneral',
+								params: { id: company.id },
+							}"
+						>
 							General
 						</router-link>
-					</li>
 
-					<li class="entry">
 						<router-link
+							class="entry"
 							:to="{
 								name: 'CompanyInvoices',
-								params: { id: company.company.id },
+								params: { id: company.id },
 							}"
 						>
 							Invoices
 						</router-link>
-					</li>
-				</ul>
-			</li>
-		</ul>
+					</ul>
+				</li>
+			</ul>
+		</div>
 	</div>
 </template>
 
@@ -50,81 +53,151 @@ import { computed } from "@vue/reactivity";
 import store from "../../../store";
 export default {
 	name: "CompanySettings",
-	setup(props) {
-		const record = computed(() => {
-			//!!!!!!!!!!!!!!!!! !TODO! update after UUID Changes
-			return store.getters.getCompanyById(parseInt(props.id));
-		});
+	setup() {
 		const companies = computed(() => {
 			return store.getters.getCompanies;
 		});
 
+		const collapse = (event) => {
+			if (event.target.parentNode.classList.contains("open")) {
+				event.target.parentNode.classList.remove("open");
+			} else {
+				event.target.parentNode.classList.add("open");
+			}
+		};
+
+		const linkOpen = (event) => {
+			event.target.parentNode.classList.add("open");
+		};
+
 		return {
-			record,
 			companies,
+			collapse,
+			linkOpen,
 		};
 	},
 };
 </script>
 
 <style lang="scss" scoped>
-.companies {
-	padding: 10px;
-	font-size: 20px;
+.sidebar {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 
-	ul {
-		list-style-type: none;
-		padding: 0;
+	> h3:first-child {
+		padding: 20px;
 		text-align: left;
-		display: flex;
-		flex-direction: column;
-
-		> li {
-			padding: 10px 10px 10px 20px;
-		}
 	}
+	.companies {
+		padding: 10px;
+		font-size: 20px;
+		border-top: 1px solid #ede4fc;
+		overflow: auto;
+		height: 100%;
 
-	a {
-		text-decoration: none;
-		color: black;
-	}
+		ul {
+			list-style-type: none;
+			padding: 0;
+			text-align: left;
+			display: flex;
+			flex-direction: column;
 
-	.company {
-		display: flex;
-		justify-content: space-between;
-		font-weight: 600;
-		margin-bottom: 10px;
-
-		> img {
-			transform: rotateZ(-90deg);
-			cursor: pointer;
-		}
-
-		&.open {
-			> img {
-				transform: rotateZ(90deg);
+			> li {
+				padding: 10px;
 			}
 		}
-	}
 
-	.entry {
-		display: inline-flex;
-		align-items: center;
+		a {
+			text-decoration: none;
+			color: black;
+		}
 
-		&:hover {
-			background-color: hsl(263, 79%, 94%);
-			width: 100%;
-			border-radius: 6px;
+		.company {
+			display: flex;
+			justify-content: space-between;
+			font-weight: 600;
+			margin-bottom: 10px;
+			padding: 6px 12px;
+
+			&:hover {
+				background-color: hsl(263, 79%, 94%);
+				width: 100%;
+				border-radius: 6px;
+			}
+
+			> img {
+				transform: rotateZ(-90deg);
+				cursor: pointer;
+				transition: 0.3s;
+				user-select: none;
+			}
+
+			&.open {
+				> img {
+					transform: rotateZ(90deg);
+				}
+			}
+
+			a.router-link-exact-active {
+				color: #7a2de6;
+			}
 		}
-		> .dot {
-			border-radius: 100%;
-			background-color: red;
-			padding: 7px;
-			margin: 0 10px 0 0;
+
+		.company.open + .list {
+			display: flex;
 		}
-	}
-	a.router-link-exact-active {
-		text-decoration: underline;
+
+		.company > a.router-link-exact-active + .list {
+			display: flex;
+		}
+
+		.list {
+			display: none;
+			overflow: hidden;
+		}
+
+		.entry {
+			display: inline-flex;
+			align-items: center;
+			padding: 10px 10px 10px 30px;
+
+			&:hover {
+				background-color: hsl(263, 79%, 94%);
+				width: 100%;
+				border-radius: 6px;
+			}
+
+			&.router-link-exact-active {
+				border-radius: 6px;
+				background: hsl(158, 79%, 87%);
+			}
+		}
+
+		scrollbar-color: #cbb0f6 #f1f1f1;
+		scrollbar-width: thin;
+
+		/* width */
+		&::-webkit-scrollbar {
+			width: 8px;
+		}
+
+		/* Track */
+		&::-webkit-scrollbar-track {
+			background: #f1f1f1;
+		}
+
+		/* Handle */
+		&::-webkit-scrollbar-thumb {
+			background: #cbb0f6;
+			border-radius: 8px;
+		}
+
+		/* Handle on hover */
+		&::-webkit-scrollbar-thumb:hover {
+			background: #555;
+		}
 	}
 }
 </style>

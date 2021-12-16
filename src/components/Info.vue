@@ -14,17 +14,17 @@
 				<div class="content">{{ bug.id }}</div>
 			</div>
 
-			<div class="justify-content-between">
-				<div class="creator">
-					<label>Creator:</label>
-					<div class="content">
+			<div class="creator">
+				<label>Creator:</label>
+
+				<div class="content">
+					<div class="name">
 						{{
-							`${bug.attributes.user.first_name} ${bug.attributes.user.last_name}`
+							`${bug.attributes.user.attributes.first_name} ${bug.attributes.user.attributes.last_name}`
 						}}
 					</div>
-				</div>
-				<div class="date">
-					<div class="content">
+
+					<div class="date">
 						{{ date(bug.attributes.created_at) }}
 					</div>
 				</div>
@@ -98,7 +98,10 @@
 				<div class="grid1x2 status">
 					<label>Status:</label>
 					<div class="content status">
-						{{ bug.attributes.status.designation }}
+						{{
+							statusInfo(bug.attributes.status_id).attributes
+								.designation
+						}}
 					</div>
 				</div>
 			</div>
@@ -119,31 +122,42 @@
 </template>
 
 <script>
-import { ref } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
 import Container from "./Container.vue";
 import Screenshot from "./Screenshot.vue";
+import store from "../store";
 
 export default {
 	components: { Container, Screenshot },
 	name: "Info",
 	props: {
-		bug: {
+		bug_id: {
 			required: true,
-			type: Object,
+			type: String,
 		},
 	},
 	emits: ["close"],
 	setup(props, context) {
 		const open = ref(false);
 
+		const bug = computed(() => {
+			return store.getters.getBugById(props.bug_id);
+		});
+
 		const date = (dateString) => {
 			if (dateString === "" || dateString === null) return "";
 			return new Date(dateString).toLocaleString();
 		};
 
+		const statusInfo = (status_id) => {
+			return store.getters.getStatusById(status_id);
+		};
+
 		return {
 			open,
 			date,
+			statusInfo,
+			bug,
 		};
 	},
 };
@@ -159,6 +173,7 @@ export default {
 		font-size: 15px;
 		text-transform: capitalize;
 		margin-right: 5px;
+		align-self: start;
 	}
 
 	> div {
