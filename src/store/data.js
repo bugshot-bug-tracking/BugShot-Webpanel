@@ -8,6 +8,7 @@ export default {
 		bugs: new Map(),
 
 		roles: new Map(), // all the possible roles
+		invitations: new Map(),
 	},
 
 	mutations: {
@@ -23,6 +24,14 @@ export default {
 		},
 		SET_BUGS: (state, payload) => {
 			state.bugs = payload;
+		},
+
+		SET_ROLES: (state, payload) => {
+			state.roles = payload;
+		},
+
+		SET_INVITATIONS: (state, payload) => {
+			state.invitations = payload;
 		},
 
 		// single assignment of payload, payload needs a root id property
@@ -54,8 +63,17 @@ export default {
 		SET_BUG_COMMENTS: (state, payload) => {
 			state.bugs.get(payload.id).comments = payload.list;
 		},
+
 		SET_ROLE: (state, payload) => {
 			state.roles.set(payload.id, payload);
+		},
+
+		SET_INVITATION: (state, payload) => {
+			state.invitations.set(payload.id, payload);
+		},
+
+		REMOVE_INVITATION: (state, payload) => {
+			state.invitations.delete(payload);
 		},
 	},
 
@@ -65,6 +83,17 @@ export default {
 			await state.dispatch("fetchCompanies");
 			await state.dispatch("fetchProjects");
 			await state.dispatch("fetchRoles");
+			await state.dispatch("fetchInvitations");
+			return true;
+		},
+
+		data_destroy: async (state, payload) => {
+			state.commit("SET_COMPANIES", new Map());
+			state.commit("SET_PROJECTS", new Map());
+			state.commit("SET_STATUSES", new Map());
+			state.commit("SET_BUGS", new Map());
+			state.commit("SET_ROLES", new Map());
+			state.commit("SET_INVITATIONS", new Map());
 			return true;
 		},
 
@@ -84,7 +113,7 @@ export default {
 				for (const company of companies) {
 					// used to determine if projects were fetched or not
 					company["projects"] = null;
-					console.log(company);
+
 					if (company.attributes.image != null)
 						company.attributes.image.attributes.base64 = atob(
 							company.attributes.image.attributes.base64
@@ -109,8 +138,6 @@ export default {
 							},
 						})
 					).data.data;
-
-					console.log(projects);
 
 					// object with the list of projects for a company
 					let cProj = {
@@ -289,6 +316,19 @@ export default {
 				console.log(error);
 			}
 		},
+
+		// fetch all invitations
+		fetchInvitations: async (state) => {
+			try {
+				let roles = (await axios.get("user/invitations")).data.data;
+
+				for (const role of roles) {
+					state.commit("SET_INVITATION", role);
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
 	},
 
 	getters: {
@@ -340,5 +380,10 @@ export default {
 		getBugById: (state) => (bug_id) => state.bugs.get(bug_id),
 
 		getRoles: (state) => state.roles,
+
+		getInvitations: (state) => state.invitations,
+
+		getInvitationById: (state) => (invitation_id) =>
+			state.invitations.get(invitation_id),
 	},
 };

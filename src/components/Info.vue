@@ -14,17 +14,17 @@
 				<div class="content">{{ bug.id }}</div>
 			</div>
 
-			<div class="justify-content-between">
-				<div class="creator">
-					<label>Creator:</label>
-					<div class="content">
+			<div class="creator">
+				<label>Creator:</label>
+
+				<div class="content">
+					<div class="name">
 						{{
 							`${bug.attributes.user.attributes.first_name} ${bug.attributes.user.attributes.last_name}`
 						}}
 					</div>
-				</div>
-				<div class="date">
-					<div class="content">
+
+					<div class="date">
 						{{ date(bug.attributes.created_at) }}
 					</div>
 				</div>
@@ -173,6 +173,7 @@ export default {
 		font-size: 15px;
 		text-transform: capitalize;
 		margin-right: 5px;
+		align-self: start;
 	}
 
 	> div {

@@ -27,9 +27,7 @@
 						? project.attributes.color_hex
 						: '#7A2EE6'
 				"
-				:image="
-					project.attributes.image ? project.attributes.image : null
-				"
+				:image="project.attributes.image"
 				:routeTo="{ name: 'Project', params: { id: project.id } }"
 			/>
 		</GroupContainer>

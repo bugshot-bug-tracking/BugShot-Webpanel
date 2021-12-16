@@ -70,6 +70,10 @@ export default {
 			required: true,
 			type: String,
 		},
+		aditionalBody: {
+			required: false,
+			type: Object,
+		},
 	},
 	components: { FormInput, Picker, Modal },
 	setup(props) {
@@ -138,7 +142,8 @@ export default {
 				await axios.post(props.postPath, {
 					designation: resource.name,
 					color_hex: colors[resource.color],
-					...aditionalBody, // in case aditional body props are necessary
+					...aditionalBody, // local body extra params
+					...props.aditionalBody, // in case aditional body props are necessary from outside
 				});
 
 				modalActive.value = false;

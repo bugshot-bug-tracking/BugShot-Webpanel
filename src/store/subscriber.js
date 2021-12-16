@@ -33,6 +33,7 @@ axios.interceptors.response.use(
 		if (error.response.status === 401) {
 			// clear the localstorage then redirect
 			state.commit("SET_TOKEN", payload);
+			store.dispatch("destroy");
 
 			router.push({ name: "Login" });
 		}
