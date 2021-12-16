@@ -26,7 +26,7 @@
 							class="entry"
 							:to="{
 								name: 'CompanyGeneral',
-								params: { id: company.company.id },
+								params: { id: company.id },
 							}"
 						>
 							General
@@ -36,7 +36,7 @@
 							class="entry"
 							:to="{
 								name: 'CompanyInvoices',
-								params: { id: company.company.id },
+								params: { id: company.id },
 							}"
 						>
 							Invoices
@@ -53,11 +53,7 @@ import { computed } from "@vue/reactivity";
 import store from "../../../store";
 export default {
 	name: "CompanySettings",
-	setup(props) {
-		const record = computed(() => {
-			//!!!!!!!!!!!!!!!!! !TODO! update after UUID Changes
-			return store.getters.getCompanyById(parseInt(props.id));
-		});
+	setup() {
 		const companies = computed(() => {
 			return store.getters.getCompanies;
 		});
@@ -75,7 +71,6 @@ export default {
 		};
 
 		return {
-			record,
 			companies,
 			collapse,
 			linkOpen,

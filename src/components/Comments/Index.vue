@@ -64,7 +64,7 @@ export default {
 		},
 		bug_id: {
 			required: true,
-			type: Number,
+			type: String,
 		},
 	},
 	emits: ["loading"],
@@ -79,7 +79,7 @@ export default {
 		const postComment = () => {
 			try {
 				axios
-					.post("comment", {
+					.post(`bugs/${props.bug_id}/comments`, {
 						bug_id: props.bug_id,
 						content: chars.value,
 					})

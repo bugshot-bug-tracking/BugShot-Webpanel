@@ -37,7 +37,7 @@
 				class="my-2"
 				:colorPicked="color"
 				@setImage="setImage"
-				@input="(i) => (color = parseInt(i.target.value))"
+				@setColor="setColor"
 			/>
 
 			<a class="create-button btn bs bf-green" @click="createResource">
@@ -89,6 +89,11 @@ export default {
 			file.value = value;
 		};
 
+		const setColor = (value) => {
+			console.log("setImage", value);
+			color.value = value;
+		};
+
 		const toBase64 = (file) =>
 			new Promise((resolve, reject) => {
 				const reader = new FileReader();
@@ -103,20 +108,41 @@ export default {
 				image: file.value,
 				color: color.value,
 			};
-			// console.log("resource", { ...resource, ...props.aditionalBody });
-			console.log(resource.image);
 
-			if (resource.image != null && resource.image instanceof File)
-				console.log(await toBase64(resource.image));
+			const colors = [
+				"#F23838", // red
+				"#F66808", // orange
+				"#FFB157", // yellow
+				"#7A2EE6", // purple <- default [3]
+				"#15BE80", // green
+				"#1849CF", // blue
+				"#89A3EB", // gray
+			];
+
+			// console.log("resource", { ...resource, ...props.aditionalBody });
+
+			let aditionalBody = {};
 
 			try {
-				if (props.dataType === "Project" && url.value != null) {
+				if (
+					props.dataType === "Project" &&
+					url.value != null &&
+					url.value != ""
+				) {
+					console.log(url.value);
 					let u = new URL(url.value);
-					props.aditionalBody["url"] = u.origin;
+					aditionalBody["url"] = u.origin;
+				}
+
+				if (resource.image != null && resource.image instanceof File) {
+					let base64 = btoa(await toBase64(resource.image));
+					aditionalBody["base64"] = base64;
 				}
 
 				await axios.post(props.postPath, {
 					designation: resource.name,
+					color_hex: colors[resource.color],
+					...aditionalBody, // local body extra params
 					...props.aditionalBody, // in case aditional body props are necessary from outside
 				});
 
@@ -127,6 +153,7 @@ export default {
 				console.log(error);
 			}
 		};
+
 		return {
 			modalActive,
 			name,
@@ -134,6 +161,7 @@ export default {
 			file,
 			url,
 			setImage,
+			setColor,
 			createResource,
 		};
 	},
