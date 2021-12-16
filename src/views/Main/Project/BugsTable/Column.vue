@@ -41,6 +41,9 @@ export default {};
 		overflow-y: auto;
 		scrollbar-gutter: stable;
 
+		scrollbar-color: #cbb0f6 #f1f1f1;
+		scrollbar-width: thin;
+
 		/* width */
 		&::-webkit-scrollbar {
 			width: 8px;

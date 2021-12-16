@@ -89,6 +89,14 @@ export default {
 			file.value = value;
 		};
 
+		const toBase64 = (file) =>
+			new Promise((resolve, reject) => {
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onload = () => resolve(reader.result);
+				reader.onerror = (error) => reject(error);
+			});
+
 		const createResource = async () => {
 			let resource = {
 				name: name.value,
@@ -96,6 +104,10 @@ export default {
 				color: color.value,
 			};
 			// console.log("resource", { ...resource, ...props.aditionalBody });
+			console.log(resource.image);
+
+			if (resource.image != null && resource.image instanceof File)
+				console.log(await toBase64(resource.image));
 
 			try {
 				if (props.dataType === "Project" && url.value != null) {
@@ -140,13 +152,17 @@ export default {
 	.header {
 		span {
 			font-weight: bold;
-			font-size: 32px;
+			font-size: 30px;
+		}
+
+		h4 {
+			font-size: 20px;
 		}
 	}
 }
 
 .create-button {
-	margin: 28px;
+	margin-top: 10px;
 	place-self: center;
 }
 </style>

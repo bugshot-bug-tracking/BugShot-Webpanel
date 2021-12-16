@@ -63,9 +63,9 @@ export default {
 
 		const bugsStats = (done, total) => {
 			let str = "";
-			str += done ? done : "D";
+			str += done ? done : "0";
 			str += " / ";
-			str += total ? total : "T";
+			str += total ? total : "0";
 			return str;
 		};
 

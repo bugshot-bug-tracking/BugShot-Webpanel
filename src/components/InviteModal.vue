@@ -122,6 +122,7 @@ export default {
 		width: 90%;
 		display: flex;
 		justify-content: space-between;
+		user-select: none;
 
 		> span {
 			font-weight: bold;

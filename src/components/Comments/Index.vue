@@ -165,6 +165,9 @@ export default {
 			padding-right: 10px;
 		}
 
+		scrollbar-color: hsl(158, 80%, 47%) hsl(240, 100%, 95%);
+		scrollbar-width: thin;
+
 		/* width */
 		&::-webkit-scrollbar {
 			width: 6px;

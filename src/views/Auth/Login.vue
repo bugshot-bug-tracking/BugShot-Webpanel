@@ -1,10 +1,6 @@
 <template>
 	<div class="title">Log In</div>
 
-	<div class="errors" v-if="errMessage != null">
-		{{ errMessage }}
-	</div>
-
 	<form id="login-form" @submit.prevent="submit">
 		<div class="form-group">
 			<input
@@ -55,6 +51,10 @@
 			/>
 		</div>
 
+		<div class="errors" v-if="errMessage != null">
+			{{ errMessage }}
+		</div>
+
 		<div class="from-buttons">
 			<div class="recover">
 				<p>Forgot Password?</p>
@@ -64,8 +64,8 @@
 				</router-link>
 			</div>
 
-			<button id="form-submit" type="submit" class="btn btn-primary">
-				<span>Log In</span>
+			<button id="form-submit" type="submit" class="btn bs bf-green">
+				Log In
 			</button>
 		</div>
 	</form>
@@ -141,14 +141,6 @@ export default {
 		justify-content: space-evenly;
 		margin-bottom: 10px;
 
-		#form-submit {
-			background: hsl(158, 80%, 47%) 0% 0% no-repeat padding-box;
-			border-radius: 20px;
-			border-color: hsl(158, 80%, 47%);
-			padding: 8px 20px;
-			font-weight: 500;
-		}
-
 		#remember {
 			filter: hue-rotate(40deg);
 		}
@@ -221,5 +213,8 @@ export default {
 .errors {
 	color: red;
 	font-weight: 500;
+	width: 85%;
+	text-align: right;
+	padding-bottom: 10px;
 }
 </style>

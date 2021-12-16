@@ -34,17 +34,21 @@
 										))
 								"
 							/>
-						</div>
 
-						<a
-							class="save-button btn btn-primary"
-							@click="saveChanges"
-							aria-disabled="true"
-						>
-							Save changes
-						</a>
+							<a
+								class="save-button btn bs bf-green"
+								@click="saveChanges"
+								aria-disabled="true"
+							>
+								Save changes
+							</a>
+						</div>
 					</Container>
 				</div>
+
+				<span>
+					Delete company and associated projects \n(can't be reverted)
+				</span>
 			</Column>
 
 			<Column>
@@ -76,6 +80,7 @@ import Picker from "../../../components/Picker.vue";
 import Column from "../Project/BugsTable/Column.vue";
 import TeamTable from "../../../components/TeamTable.vue";
 import Plan from "../../../components/Plan.vue";
+
 export default {
 	components: {
 		Layout,
@@ -100,7 +105,7 @@ export default {
 
 		const companyParams = reactive({
 			name: "",
-			color: "",
+			color: 0,
 			image: {},
 		});
 
@@ -136,6 +141,16 @@ export default {
 		padding: 15px;
 		width: 100%;
 		border-right: 1px solid #ede4fc;
+	}
+
+	.wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		.save-button {
+			margin: 10px;
+		}
 	}
 }
 </style>

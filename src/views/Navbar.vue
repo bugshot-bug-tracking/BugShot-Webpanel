@@ -119,6 +119,7 @@ export default {
 	width: 88px;
 	min-width: 88px;
 	height: 100vh;
+	user-select: none;
 }
 
 .verticle-menu {
@@ -218,6 +219,7 @@ export default {
 			opacity: 0;
 			visibility: hidden;
 			transition: 0.3s;
+			user-select: auto;
 		}
 
 		.notification-rw {

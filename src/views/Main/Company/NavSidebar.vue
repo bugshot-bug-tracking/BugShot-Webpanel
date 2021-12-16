@@ -164,6 +164,7 @@ export default {
 				transform: rotateZ(-90deg);
 				cursor: pointer;
 				transition: 0.3s;
+				user-select: none;
 			}
 
 			&.open {
@@ -210,6 +211,9 @@ export default {
 				background: hsl(158, 79%, 87%);
 			}
 		}
+
+		scrollbar-color: #cbb0f6 #f1f1f1;
+		scrollbar-width: thin;
 
 		/* width */
 		&::-webkit-scrollbar {
