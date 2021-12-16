@@ -1,6 +1,6 @@
 <template>
 	<SideTab>
-		<Info v-if="bug" :bug="bug" @close="$emit('close')" />
+		<Info v-if="bug" :bug_id="bug_id" @close="$emit('close')" />
 
 		<Attachments :attachments="bug.attachments" :bug_id="bug.id" />
 
@@ -36,7 +36,7 @@ export default {
 	props: {
 		bug_id: {
 			required: true,
-			type: Number,
+			type: String,
 		},
 	},
 	emits: ["close", "deleted"],
@@ -45,16 +45,20 @@ export default {
 			return store.getters.getBugById(props.bug_id);
 		});
 
-		const deleteBug = () => {
+		const deleteBug = async () => {
 			try {
-				axios.delete(`bug/${props.bug_id}`).then(() => {
-					context.emit("close");
-					console.log(bug.value.attributes.status.id);
-					store.dispatch(
-						"refetchProjectStatus",
-						bug.value.attributes.status.id
-					);
-				});
+				let status = store.getters.getStatusById(
+					bug.value.attributes.status_id
+				);
+
+				let r = await axios.delete(
+					`statuses/${status.id}/bugs/${props.bug_id}`
+				);
+
+				let index = status.bugs.indexOf(bug.value.id);
+				status.bugs.splice(index, 1);
+				store.state.data.bugs.delete(bug.value.id);
+				context.emit("close");
 			} catch (error) {
 				console.error(error);
 			}

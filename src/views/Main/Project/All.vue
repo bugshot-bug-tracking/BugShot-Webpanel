@@ -8,11 +8,11 @@
 
 		<GroupContainer
 			v-for="item of companies"
-			:key="'c' + item.company.id"
-			:mainText="item.company.attributes.designation"
+			:key="item.id"
+			:mainText="item.attributes.designation"
 		>
 			<Card
-				v-for="project of companyProjects(item.company.id)"
+				v-for="project of companyProjects(item.id)"
 				:key="'p' + project.id"
 				:title="project.attributes.designation"
 				:mainText="'Task Overview'"

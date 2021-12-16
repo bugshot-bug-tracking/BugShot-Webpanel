@@ -53,11 +53,12 @@ export default {
 		},
 		bug_id: {
 			required: true,
-			type: Number,
+			type: String,
 		},
 	},
 	setup(props, context) {
 		const err = ref("");
+		const files = ref({});
 
 		const upload = (event) => {
 			files.value = event.target.files;
@@ -94,19 +95,24 @@ export default {
 			uploadRemote(fileInfos);
 		};
 
+		const toBase64 = (file) =>
+			new Promise((resolve, reject) => {
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onload = () => resolve(reader.result);
+				reader.onerror = (error) => reject(error);
+			});
+
 		const uploadRemote = (filesInfo) => {
 			if (filesInfo.length > 0) {
-				filesInfo.forEach((file) => {
+				filesInfo.forEach(async (file) => {
 					try {
-						let formData = new FormData();
-						formData.append("bug_id", props.bug_id);
-						formData.append("file", file);
+						let base64 = btoa(await toBase64(file));
 
 						axios
-							.post("attachment", formData, {
-								headers: {
-									"Content-Type": "multipart/form-data",
-								},
+							.post(`bugs/${props.bug_id}/attachments`, {
+								designation: file.name,
+								base64: base64,
 							})
 							.then(() => {
 								update();
@@ -120,12 +126,9 @@ export default {
 		};
 
 		const downloadFile = (id) => {
-			axios.get(`attachment/${id}/download`).then((response) => {
-				const url = window.URL.createObjectURL(
-					new Blob([response.data])
-				);
+			axios.get(`attachments/${id}/download`).then((response) => {
 				const link = document.createElement("a");
-				link.href = url;
+				link.href = response.data;
 				link.setAttribute(
 					"download",
 					props.attachments.find((att) => att.id === id).attributes
@@ -139,7 +142,7 @@ export default {
 
 		const deleteFile = (id) => {
 			try {
-				axios.delete(`attachment/${id}`).then(() => {
+				axios.delete(`attachments/${id}`).then(() => {
 					update();
 				});
 			} catch (error) {

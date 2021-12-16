@@ -71,15 +71,25 @@ export default {
 		// fetch all companies that the logged user is associated with
 		fetchCompanies: async (state) => {
 			try {
-				let companies = (await axios.get("user/companies")).data.data;
+				let companies = (
+					await axios.get("companies", {
+						headers: {
+							"include-image": "true",
+						},
+					})
+				).data.data;
 
 				// because i want to make a single mutation
 				let coMap = new Map();
 				for (const company of companies) {
 					// used to determine if projects were fetched or not
 					company["projects"] = null;
-
-					coMap.set(company.company.id, company);
+					console.log(company);
+					if (company.attributes.image != null)
+						company.attributes.image.attributes.base64 = atob(
+							company.attributes.image.attributes.base64
+						);
+					coMap.set(company.id, company);
 				}
 
 				state.commit("SET_COMPANIES", coMap);
@@ -93,20 +103,28 @@ export default {
 			try {
 				for (const company of state.state.companies.values()) {
 					let projects = (
-						await axios.get(
-							`company/${company.company.id}/projects`
-						)
-					).data;
+						await axios.get(`companies/${company.id}/projects`, {
+							headers: {
+								"include-image": "true",
+							},
+						})
+					).data.data;
+
+					console.log(projects);
 
 					// object with the list of projects for a company
 					let cProj = {
-						id: company.company.id,
+						id: company.id,
 						list: new Array(),
 					};
-
 					for (const project of projects) {
 						// used to determine if bugs were fetched or not
 						project["statuses"] = null;
+
+						if (project.attributes.image != null)
+							project.attributes.image.attributes.base64 = atob(
+								project.attributes.image.attributes.base64
+							);
 
 						state.commit("SET_PROJECT", project);
 
@@ -128,13 +146,19 @@ export default {
 
 				// fetch the project statuses
 				let statuses = (
-					await axios.get(`project/${project_id}/statuses`)
+					await axios.get(`projects/${project_id}/statuses`)
 				).data.data;
 
 				for (const status of statuses) {
 					// fetch each status bugs
-					let bugs = (await axios.get(`status/${status.id}/bugs`))
-						.data.data;
+					let bugs = (
+						await axios.get(`statuses/${status.id}/bugs`, {
+							headers: {
+								"include-owner": "true",
+								"include-bug-users": "true",
+							},
+						})
+					).data.data;
 
 					// set the status bugs array to store bug id's
 					status["bugs"] = new Array();
@@ -166,14 +190,16 @@ export default {
 		fetchScreenshots: async (state, bug_id) => {
 			try {
 				// fetch bug screenshots
-				let screenshots = (await axios.get(`bug/${bug_id}/screenshots`))
-					.data.data;
+				let screenshots = (
+					await axios.get(`bugs/${bug_id}/screenshots`)
+				).data.data;
 
 				for (const screenshot of screenshots) {
 					// fetch each status bugs
-					screenshot.attributes["image"] = (
-						await axios.get(`screenshot/${screenshot.id}/download`)
-					).data;
+					console.log(screenshot);
+					screenshot.attributes.base64 = atob(
+						screenshot.attributes.base64
+					);
 				}
 
 				// store the status in memory
@@ -189,8 +215,9 @@ export default {
 		fetchAttachments: async (state, bug_id) => {
 			try {
 				// fetch bug screenshots
-				let attachments = (await axios.get(`bug/${bug_id}/attachments`))
-					.data.data;
+				let attachments = (
+					await axios.get(`bugs/${bug_id}/attachments`)
+				).data.data;
 
 				// store the status in memory
 				state.commit("SET_BUG_ATTACHMENTS", {
@@ -205,7 +232,7 @@ export default {
 		fetchComments: async (state, bug_id) => {
 			try {
 				// fetch bug screenshots
-				let comments = (await axios.get(`bug/${bug_id}/comments`)).data
+				let comments = (await axios.get(`bugs/${bug_id}/comments`)).data
 					.data;
 
 				// store the status in memory
@@ -224,7 +251,7 @@ export default {
 				const status = state.state.statuses.get(status_id);
 
 				// fetch each status bugs
-				let bugs = (await axios.get(`status/${status_id}/bugs`)).data
+				let bugs = (await axios.get(`statuses/${status_id}/bugs`)).data
 					.data;
 
 				// set the status bugs array to store bug id's
@@ -253,7 +280,7 @@ export default {
 		// fetch all roles
 		fetchRoles: async (state) => {
 			try {
-				let roles = (await axios.get("role")).data.data;
+				let roles = (await axios.get("roles")).data.data;
 
 				for (const role of roles) {
 					state.commit("SET_ROLE", role);

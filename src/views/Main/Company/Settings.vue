@@ -3,7 +3,7 @@
 		<template v-slot:title>General Settings</template>
 
 		<template v-slot:sub-title>
-			{{ record?.company.attributes.designation }}
+			{{ record?.attributes.designation }}
 		</template>
 
 		<div class="settings-table" v-if="record">
@@ -18,9 +18,7 @@
 								@input="
 									(i) => (companyParams.name = i.target.value)
 								"
-								:placeholder="
-									record.company.attributes.designation
-								"
+								:placeholder="record.attributes.designation"
 								:type="'text'"
 							/>
 							<!-- change color Picked to the record color -->
@@ -95,12 +93,13 @@ export default {
 	props: {
 		id: {
 			required: true,
+			type: String,
+			description: "Company ID",
 		},
 	},
 	setup(props) {
 		const record = computed(() => {
-			//!!!!!!!!!!!!!!!!! !TODO! update after UUID Changes
-			return store.getters.getCompanyById(parseInt(props.id));
+			return store.getters.getCompanyById(props.id);
 		});
 
 		const companyParams = reactive({

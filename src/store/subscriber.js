@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from ".";
+import router from "../router";
 
 store.subscribe((mutations) => {
 	switch (mutations.type) {
@@ -23,3 +24,18 @@ store.subscribe((mutations) => {
 	}
 });
 
+// intercept 401 and redirect to login
+axios.interceptors.response.use(
+	(response) => {
+		return response;
+	},
+	(error) => {
+		if (error.response.status === 401) {
+			// clear the localstorage then redirect
+			state.commit("SET_TOKEN", payload);
+
+			router.push({ name: "Login" });
+		}
+		return error;
+	}
+);

@@ -64,6 +64,7 @@
 						:value="index"
 						:style="{ color: color }"
 						class="col-option"
+						@change="colorChange"
 					/>
 				</div>
 			</div>
@@ -135,6 +136,11 @@ export default {
 
 			imgg.value = URL.createObjectURL(file);
 		};
+
+		const colorChange = (event) => {
+			context.emit("setColor", props.colorPicked);
+		};
+
 		return {
 			pickOption,
 			colors,
@@ -145,6 +151,7 @@ export default {
 			imgg,
 			resetImage,
 			change,
+			colorChange,
 		};
 	},
 };
