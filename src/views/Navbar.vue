@@ -66,9 +66,8 @@ export default {
 	name: "Navbar",
 	setup() {
 		const logout = () => {
-			store.dispatch("logout").then(() => {
-				router.push({ name: "Login" });
-			});
+			store.dispatch("logout");
+			router.push({ name: "Login" });
 		};
 
 		const invitations = computed(() => {

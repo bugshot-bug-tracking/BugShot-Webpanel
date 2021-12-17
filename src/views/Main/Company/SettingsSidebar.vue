@@ -3,16 +3,16 @@
 		<h3>Companies</h3>
 		<div class="companies c-scroll s-purple">
 			<ul>
-				<li v-for="[, company] of companies" :key="company.company.id">
+				<li v-for="[, company] of companies" :key="company.id">
 					<div class="company">
 						<router-link
 							@click="linkOpen"
 							:to="{
 								name: 'CompanyGeneral',
-								params: { id: company.company.id },
+								params: { id: company.id },
 							}"
 						>
-							{{ company.company.attributes.designation }}
+							{{ company.attributes.designation }}
 						</router-link>
 
 						<img
