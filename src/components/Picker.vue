@@ -108,6 +108,7 @@ export default {
 			pickOption.value = 1;
 
 			let file = event.dataTransfer.files[0];
+			if (!file) return;
 			if (!file.type.includes("image")) {
 				imgg.value = null;
 				return;
@@ -127,6 +128,8 @@ export default {
 
 		const change = (event) => {
 			let file = event.target.files[0];
+
+			if (!file) return;
 			if (!file.type.includes("image")) {
 				imgg.value = null;
 				return;
