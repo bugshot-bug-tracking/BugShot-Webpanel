@@ -24,7 +24,10 @@
 						</div>
 
 						<div class="notification-body">
-							<div class="list" v-if="invitations.size > 0">
+							<div
+								class="list c-scroll s-purple"
+								v-if="invitations.size > 0"
+							>
 								<Notification
 									v-for="[, invite] of invitations"
 									:key="invite.id"
@@ -63,9 +66,8 @@ export default {
 	name: "Navbar",
 	setup() {
 		const logout = () => {
-			store.dispatch("logout").then(() => {
-				router.push({ name: "Login" });
-			});
+			store.dispatch("logout");
+			router.push({ name: "Login" });
 		};
 
 		const invitations = computed(() => {
@@ -232,33 +234,6 @@ export default {
 
 					> :first-child {
 						border: none;
-					}
-
-					overflow-y: auto;
-					scrollbar-gutter: stable;
-
-					scrollbar-color: #cbb0f6 #f1f1f1;
-					scrollbar-width: thin;
-
-					/* width */
-					&::-webkit-scrollbar {
-						width: 8px;
-					}
-
-					/* Track */
-					&::-webkit-scrollbar-track {
-						background: #f1f1f1;
-					}
-
-					/* Handle */
-					&::-webkit-scrollbar-thumb {
-						background: #cbb0f6;
-						border-radius: 8px;
-					}
-
-					/* Handle on hover */
-					&::-webkit-scrollbar-thumb:hover {
-						background: #555;
 					}
 				}
 			}
