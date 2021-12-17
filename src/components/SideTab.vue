@@ -1,5 +1,5 @@
 <template>
-	<div class="tab">
+	<div class="tab c-scroll s-purple">
 		<slot />
 	</div>
 </template>
@@ -25,32 +25,5 @@ export default {
 	overflow: auto;
 	padding: 0.6em;
 	position: relative;
-
-	overflow-y: auto;
-	scrollbar-gutter: stable;
-
-	scrollbar-color: #cbb0f6 #f1f1f1;
-	scrollbar-width: thin;
-
-	/* width */
-	&::-webkit-scrollbar {
-		width: 8px;
-	}
-
-	/* Track */
-	&::-webkit-scrollbar-track {
-		background: #f1f1f1;
-	}
-
-	/* Handle */
-	&::-webkit-scrollbar-thumb {
-		background: #cbb0f6;
-		border-radius: 8px;
-	}
-
-	/* Handle on hover */
-	&::-webkit-scrollbar-thumb:hover {
-		background: #555;
-	}
 }
 </style>

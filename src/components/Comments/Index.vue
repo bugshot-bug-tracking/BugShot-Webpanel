@@ -8,7 +8,7 @@
 				</div>
 			</div>
 
-			<div class="comments-center">
+			<div class="comments-center c-scroll s-green">
 				<div class="content" ref="msgs" v-if="comments.length > 0">
 					<Message
 						v-for="comment of comments"
@@ -163,31 +163,6 @@ export default {
 
 		> .content {
 			padding-right: 10px;
-		}
-
-		scrollbar-color: hsl(158, 80%, 47%) hsl(240, 100%, 95%);
-		scrollbar-width: thin;
-
-		/* width */
-		&::-webkit-scrollbar {
-			width: 6px;
-		}
-
-		/* Track */
-		&::-webkit-scrollbar-track {
-			background: hsl(240, 100%, 95%) 0% 0% no-repeat padding-box;
-			border-radius: 8px;
-		}
-
-		/* Handle */
-		&::-webkit-scrollbar-thumb {
-			background: hsl(158, 80%, 47%) 0% 0% no-repeat padding-box;
-			border-radius: 8px;
-		}
-
-		/* Handle on hover */
-		&::-webkit-scrollbar-thumb:hover {
-			background: hsl(158, 80%, 37%) 0% 0% no-repeat padding-box;
 		}
 	}
 

@@ -6,7 +6,7 @@
 			<Search />
 		</div> -->
 
-		<div class="companies">
+		<div class="companies c-scroll s-purple">
 			<ul>
 				<li v-for="[, company] of companies" :key="company.id">
 					<div class="company">
@@ -208,30 +208,6 @@ export default {
 				border-radius: 6px;
 				background: hsl(158, 79%, 87%);
 			}
-		}
-
-		scrollbar-color: #cbb0f6 #f1f1f1;
-		scrollbar-width: thin;
-
-		/* width */
-		&::-webkit-scrollbar {
-			width: 8px;
-		}
-
-		/* Track */
-		&::-webkit-scrollbar-track {
-			background: #f1f1f1;
-		}
-
-		/* Handle */
-		&::-webkit-scrollbar-thumb {
-			background: #cbb0f6;
-			border-radius: 8px;
-		}
-
-		/* Handle on hover */
-		&::-webkit-scrollbar-thumb:hover {
-			background: #555;
 		}
 	}
 }

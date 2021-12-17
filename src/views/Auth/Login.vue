@@ -128,7 +128,7 @@ export default {
 }
 
 #login-form {
-	width: 100%;
+	width: 70%;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

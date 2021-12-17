@@ -71,6 +71,7 @@ import BugInfo from "../../../components/BugInfo.vue";
 import InviteModal from "../../../components/InviteModal.vue";
 
 import draggable from "vuedraggable";
+import axios from "axios";
 
 export default {
 	components: {
@@ -138,7 +139,7 @@ export default {
 				event.to.parentNode.parentNode.__vueParentComponent.vnode.key;
 		};
 
-		const bugMove = (event) => {
+		const bugMove = async (event) => {
 			// sync only on the add and move events
 			if (!(event.added || event.moved)) return;
 
@@ -156,8 +157,25 @@ export default {
 			};
 
 			resource.bug.attributes.status_id = resource.status_id;
+			resource.bug.attributes.order_number = resource.order;
 
-			console.log("resource", resource);
+			await axios.put(
+				`statuses/${resource.status.id}/bugs/${resource.bug.id}`,
+				{
+					project_id: resource.bug.attributes.project_id,
+					designation: resource.bug.attributes.designation,
+					description: resource.bug.attributes.desciption,
+					url: resource.bug.attributes.url,
+					status_id: resource.status.id,
+					order_number: resource.order,
+					priority_id: resource.bug.attributes.priority.id,
+					operating_system: resource.bug.attributes.operating_system,
+					browser: resource.bug.attributes.browser,
+					selector: resource.bug.attributes.selector,
+					resolution: resource.bug.attributes.resolution,
+					deadline: resource.bug.attributes.deadline,
+				}
+			);
 		};
 
 		const statusData = (value) => {
@@ -200,8 +218,7 @@ export default {
 }
 
 .drag-zone {
-	min-height: 50px;
-	padding-bottom: 50px;
+	min-height: 100%;
 	overflow: hidden;
 }
 </style>

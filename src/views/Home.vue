@@ -135,4 +135,57 @@ export default {
 		}
 	}
 }
+
+.c-scroll {
+	overflow: auto;
+	overflow-y: auto;
+	scrollbar-gutter: stable;
+
+	scrollbar-width: thin;
+
+	/* width */
+	&::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+
+	/* Track */
+	&::-webkit-scrollbar-track {
+		background: #f1f1f1;
+	}
+
+	/* Handle */
+	&::-webkit-scrollbar-thumb {
+		border-radius: 8px;
+	}
+
+	/* Handle on hover */
+	&::-webkit-scrollbar-thumb:hover {
+		background: #555;
+	}
+
+	&.s-purple {
+		scrollbar-color: hsl(263, 80%, 83%) hsl(0, 0%, 95%);
+
+		&::-webkit-scrollbar-thumb {
+			background: hsl(263, 80%, 83%);
+		}
+
+		&::-webkit-scrollbar-thumb:hover {
+			background: hsl(263, 80%, 73%);
+		}
+	}
+
+	&.s-green {
+		scrollbar-color: hsl(158, 80%, 47%) hsl(240, 100%, 95%);
+
+		&::-webkit-scrollbar-thumb {
+			background: hsl(158, 80%, 47%);
+		}
+
+		&::-webkit-scrollbar-thumb:hover {
+			background: hsl(158, 80%, 37%);
+		}
+	}
+}
 </style>
