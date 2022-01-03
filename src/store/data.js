@@ -148,10 +148,16 @@ export default {
 						// used to determine if bugs were fetched or not
 						project["statuses"] = null;
 
-						if (project.attributes.image != null)
-							project.attributes.image.attributes.base64 = atob(
-								project.attributes.image.attributes.base64
+						let image = (
+							await axios.get(`projects/${project.id}/image`)
+						).data.data;
+
+						if (image != null)
+							image.attributes.base64 = atob(
+								image.attributes.base64
 							);
+
+						project.attributes.image = image;
 
 						state.commit("SET_PROJECT", project);
 
@@ -198,6 +204,9 @@ export default {
 
 						// add the bug id to the status array
 						status.bugs.push(bug.id);
+
+						// set the owner of the bug (remove if someone implements it in the api) [to first user in users]
+						bug.attributes.user = bug.attributes.users[0];
 
 						// store the bug in memory
 						state.commit("SET_BUG", bug);
@@ -293,6 +302,9 @@ export default {
 					// add the bug id to the status array
 					status.bugs.push(bug.id);
 
+					// set the owner of the bug (remove if someone implements it in the api) [to first user in users]
+					bug.attributes.user = bug.attributes.users[0];
+
 					// store the bug in memory
 					state.commit("SET_BUG", bug);
 				}
@@ -307,7 +319,7 @@ export default {
 		// fetch all roles
 		fetchRoles: async (state) => {
 			try {
-				let roles = (await axios.get("roles")).data.data;
+				let roles = (await axios.get("administration/roles")).data.data;
 
 				for (const role of roles) {
 					state.commit("SET_ROLE", role);
