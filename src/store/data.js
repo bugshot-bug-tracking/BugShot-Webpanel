@@ -152,10 +152,11 @@ export default {
 							await axios.get(`projects/${project.id}/image`)
 						).data.data;
 
-						if (image != null)
+						if (image != null && image.attributes)
 							image.attributes.base64 = atob(
 								image.attributes.base64
 							);
+						else image = null;
 
 						project.attributes.image = image;
 
@@ -204,9 +205,6 @@ export default {
 
 						// add the bug id to the status array
 						status.bugs.push(bug.id);
-
-						// set the owner of the bug (remove if someone implements it in the api) [to first user in users]
-						bug.attributes.user = bug.attributes.users[0];
 
 						// store the bug in memory
 						state.commit("SET_BUG", bug);
@@ -301,9 +299,6 @@ export default {
 
 					// add the bug id to the status array
 					status.bugs.push(bug.id);
-
-					// set the owner of the bug (remove if someone implements it in the api) [to first user in users]
-					bug.attributes.user = bug.attributes.users[0];
 
 					// store the bug in memory
 					state.commit("SET_BUG", bug);

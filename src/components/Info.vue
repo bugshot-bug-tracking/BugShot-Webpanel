@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="name">
 						{{
-							`${bug.attributes.user.attributes.first_name} ${bug.attributes.user.attributes.last_name}`
+							`${bug.attributes.creator.attributes.first_name} ${bug.attributes.creator.attributes.last_name}`
 						}}
 					</div>
 

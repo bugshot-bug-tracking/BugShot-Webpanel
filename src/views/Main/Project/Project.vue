@@ -3,11 +3,7 @@
 		<template v-slot:title>{{ project?.attributes.designation }}</template>
 
 		<template v-slot:sub-title v-if="project">
-			{{
-				projectCompany(project.attributes.company_id).attributes
-					.designation
-			}}
-			<!-- {{ project?.attributes.company.designation }} -->
+			{{ project.attributes.company.attributes.designation }}
 		</template>
 
 		<template v-slot:top>
