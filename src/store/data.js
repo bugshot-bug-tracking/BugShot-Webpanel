@@ -336,6 +336,33 @@ export default {
 				console.log(error);
 			}
 		},
+
+		syncBug: async (state, bug_id) => {
+			try {
+				//get a refference to the bug
+				const bug = state.state.bugs.get(bug_id);
+
+				await axios.put(
+					`statuses/${bug.attributes.status_id}/bugs/${bug.id}`,
+					{
+						project_id: bug.attributes.project_id,
+						designation: bug.attributes.designation,
+						description: bug.attributes.desciption,
+						url: bug.attributes.url,
+						status_id: bug.attributes.status_id,
+						order_number: bug.attributes.order_number,
+						priority_id: bug.attributes.priority.id,
+						operating_system: bug.attributes.operating_system,
+						browser: bug.attributes.browser,
+						selector: bug.attributes.selector,
+						resolution: bug.attributes.resolution,
+						deadline: bug.attributes.deadline,
+					}
+				);
+			} catch (error) {
+				console.log(error);
+			}
+		},
 	},
 
 	getters: {

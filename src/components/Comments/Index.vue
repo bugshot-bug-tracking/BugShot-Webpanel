@@ -191,7 +191,7 @@ export default {
 			width: 100%;
 			border: 1px solid hsl(265, 80%, 80%);
 			border-radius: 12px;
-			padding: 0px 10px;
+			padding: 4px 10px;
 			font-size: 14px;
 			transition: ease-out 0.1s;
 			resize: none;

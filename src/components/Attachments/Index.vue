@@ -126,18 +126,23 @@ export default {
 		};
 
 		const downloadFile = (id) => {
-			axios.get(`attachments/${id}/download`).then((response) => {
-				const link = document.createElement("a");
-				link.href = response.data;
-				link.setAttribute(
-					"download",
-					props.attachments.find((att) => att.id === id).attributes
-						.designation
-				); //or any other extension
-				document.body.appendChild(link);
-				link.click();
-				link.remove();
-			});
+			axios
+				.get(`bugs/${props.bug_id}/attachments/${id}`, {
+					headers: {
+						"include-attachment-base64": "true",
+					},
+				})
+				.then((response) => {
+					const link = document.createElement("a");
+					link.href = atob(response.data.data.attributes.base64);
+					link.setAttribute(
+						"download",
+						response.data.data.attributes.designation
+					); //or any other extension
+					document.body.appendChild(link);
+					link.click();
+					link.remove();
+				});
 		};
 
 		const deleteFile = (id) => {
