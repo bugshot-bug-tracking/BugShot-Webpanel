@@ -152,10 +152,11 @@ export default {
 							await axios.get(`projects/${project.id}/image`)
 						).data.data;
 
-						if (image != null)
+						if (image != null && image.attributes)
 							image.attributes.base64 = atob(
 								image.attributes.base64
 							);
+						else image = null;
 
 						project.attributes.image = image;
 
@@ -204,9 +205,6 @@ export default {
 
 						// add the bug id to the status array
 						status.bugs.push(bug.id);
-
-						// set the owner of the bug (remove if someone implements it in the api) [to first user in users]
-						bug.attributes.user = bug.attributes.users[0];
 
 						// store the bug in memory
 						state.commit("SET_BUG", bug);
@@ -302,9 +300,6 @@ export default {
 					// add the bug id to the status array
 					status.bugs.push(bug.id);
 
-					// set the owner of the bug (remove if someone implements it in the api) [to first user in users]
-					bug.attributes.user = bug.attributes.users[0];
-
 					// store the bug in memory
 					state.commit("SET_BUG", bug);
 				}
@@ -337,6 +332,33 @@ export default {
 				for (const role of roles) {
 					state.commit("SET_INVITATION", role);
 				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
+		syncBug: async (state, bug_id) => {
+			try {
+				//get a refference to the bug
+				const bug = state.state.bugs.get(bug_id);
+
+				await axios.put(
+					`statuses/${bug.attributes.status_id}/bugs/${bug.id}`,
+					{
+						project_id: bug.attributes.project_id,
+						designation: bug.attributes.designation,
+						description: bug.attributes.desciption,
+						url: bug.attributes.url,
+						status_id: bug.attributes.status_id,
+						order_number: bug.attributes.order_number,
+						priority_id: bug.attributes.priority.id,
+						operating_system: bug.attributes.operating_system,
+						browser: bug.attributes.browser,
+						selector: bug.attributes.selector,
+						resolution: bug.attributes.resolution,
+						deadline: bug.attributes.deadline,
+					}
+				);
 			} catch (error) {
 				console.log(error);
 			}

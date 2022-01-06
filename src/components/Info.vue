@@ -20,7 +20,7 @@
 				<div class="content">
 					<div class="name">
 						{{
-							`${bug.attributes.user.attributes.first_name} ${bug.attributes.user.attributes.last_name}`
+							`${bug.attributes.creator.attributes.first_name} ${bug.attributes.creator.attributes.last_name}`
 						}}
 					</div>
 
@@ -89,9 +89,10 @@
 			<div class="grid1x2 my-3">
 				<div class="grid1x2">
 					<label>Priority:</label>
-					<div
-						class="content priority"
-						:class="'p' + bug.attributes.priority.id"
+					<PriorityChange
+						:priority="bug.attributes.priority.id"
+						class="content"
+						@change="changePriority"
 					/>
 				</div>
 
@@ -126,9 +127,10 @@ import { computed, ref } from "@vue/reactivity";
 import Container from "./Container.vue";
 import Screenshot from "./Screenshot.vue";
 import store from "../store";
+import PriorityChange from "./PriorityChange.vue";
 
 export default {
-	components: { Container, Screenshot },
+	components: { Container, Screenshot, PriorityChange },
 	name: "Info",
 	props: {
 		bug_id: {
@@ -153,11 +155,19 @@ export default {
 			return store.getters.getStatusById(status_id);
 		};
 
+		const changePriority = (value) => {
+			// make the changes in store then sync with DB
+			bug.value.attributes.priority.id = value;
+
+			store.dispatch("syncBug", bug.value.id);
+		};
+
 		return {
 			open,
 			date,
 			statusInfo,
 			bug,
+			changePriority,
 		};
 	},
 };
@@ -321,52 +331,6 @@ export default {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		grid-template-rows: 1fr;
-	}
-}
-
-.priority {
-	font-weight: normal;
-	font-size: 12px;
-	line-height: 16px;
-	color: hsl(0, 0%, 100%);
-	border-radius: 30px;
-	width: fit-content;
-	height: fit-content;
-
-	&.p4 {
-		padding: 3px 10px;
-		background-color: hsl(0, 90%, 60%);
-
-		&::after {
-			content: "Critical";
-		}
-	}
-
-	&.p3 {
-		padding: 4px;
-		background-color: hsl(32, 100%, 67%);
-
-		&::after {
-			content: "Important";
-		}
-	}
-
-	&.p2 {
-		padding: 3px 10px;
-		background-color: hsl(218, 80%, 47%);
-
-		&::after {
-			content: "Normal";
-		}
-	}
-
-	&.p1 {
-		padding: 3px 10px;
-		background-color: hsl(188, 80%, 47%);
-
-		&::after {
-			content: "Minor";
-		}
 	}
 }
 </style>
