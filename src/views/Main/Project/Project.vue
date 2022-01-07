@@ -50,7 +50,7 @@
 			</Column>
 		</BugsTable>
 
-		<div class="bug-info" v-if="info.show">
+		<div class="bug-info" v-if="info.show" ref="tab">
 			<BugInfo :bug_id="info.id" @close="close" />
 		</div>
 	</Layout>
@@ -68,6 +68,7 @@ import InviteModal from "../../../components/InviteModal.vue";
 
 import draggable from "vuedraggable";
 import axios from "axios";
+import { onUnmounted } from "@vue/runtime-core";
 
 export default {
 	components: {
@@ -125,6 +126,7 @@ export default {
 		const close = () => {
 			info.show = false;
 			info.id = -1;
+			flag.value = false;
 		};
 
 		const statusKey = ref("");
@@ -182,6 +184,25 @@ export default {
 			return store.state.data.bugs.get(value);
 		};
 
+		const tab = ref(null);
+		// for ignoring the first tab open
+		const flag = ref(false);
+
+		const closeTab = (e) => {
+			if (!tab.value) return;
+
+			if (flag.value && e.path.find((e) => e == tab.value) == null)
+				close();
+
+			if (info.show && !flag.value) flag.value = true;
+		};
+
+		document.addEventListener("click", closeTab);
+
+		onUnmounted(() => {
+			document.addEventListener("click", closeTab);
+		});
+
 		return {
 			project,
 			statuses,
@@ -194,6 +215,7 @@ export default {
 			statusData,
 			bugData,
 			projectCompany,
+			tab,
 		};
 	},
 };
