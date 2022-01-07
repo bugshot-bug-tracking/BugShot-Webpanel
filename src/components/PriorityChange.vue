@@ -1,5 +1,10 @@
 <template>
-	<div class="pill priority" :class="'p' + priority" @click="toggleShow">
+	<div
+		class="pill priority"
+		:class="'p' + priority"
+		@click="toggleShow"
+		ref="popup"
+	>
 		<div class="container" v-if="show">
 			<div class="i i1" @click="$emit('change', 1)">Minor</div>
 			<div class="i i2" @click="$emit('change', 2)">Normal</div>
@@ -11,6 +16,7 @@
 
 <script>
 import { ref } from "@vue/reactivity";
+import { onUnmounted } from "@vue/runtime-core";
 export default {
 	name: "PriorityChange",
 	props: {
@@ -21,12 +27,25 @@ export default {
 	},
 	emits: ["change"],
 	setup(props) {
+		const popup = ref(null);
+
 		const show = ref(false);
 		const toggleShow = () => {
 			show.value = !show.value;
 		};
 
+		const close = (e) => {
+			if (e.target != popup.value) show.value = false;
+		};
+
+		document.addEventListener("click", close);
+
+		onUnmounted(() => {
+			document.addEventListener("click", close);
+		});
+
 		return {
+			popup,
 			show,
 			toggleShow,
 		};

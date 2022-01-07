@@ -356,7 +356,13 @@ export default {
 						browser: bug.attributes.browser,
 						selector: bug.attributes.selector,
 						resolution: bug.attributes.resolution,
-						deadline: bug.attributes.deadline,
+						...(bug.attributes.deadline
+							? {
+									deadline: new Date(bug.attributes.deadline)
+										.toISOString()
+										.slice(0, -1),
+							  }
+							: {}),
 					}
 				);
 			} catch (error) {
