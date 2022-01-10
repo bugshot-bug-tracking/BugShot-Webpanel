@@ -139,6 +139,7 @@ export default {
 						"download",
 						response.data.data.attributes.designation
 					); //or any other extension
+					link.id = "downloadAttachmentA";
 					document.body.appendChild(link);
 					link.click();
 					link.remove();

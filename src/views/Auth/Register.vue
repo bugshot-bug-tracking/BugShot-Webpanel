@@ -233,25 +233,28 @@ export default {
 
 <style scoped lang="scss">
 .title {
-	margin: 2% 0 5% 0 !important;
+	margin: 2% 0 4% 0 !important;
 	color: hsl(265, 79%, 41%);
 	font-weight: 700;
-	font-size: 22px;
+	font-size: 32px;
+	text-align: left;
+	width: 400px;
 }
 
 #login-form {
-	width: 70%;
+	width: 400px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 
 	.from-buttons {
-		display: inline-flex;
-		align-items: baseline;
+		display: flex;
+		align-items: center;
 		width: 100%;
-		justify-content: space-evenly;
-		margin-bottom: 10px;
+		justify-content: space-between;
+		align-content: center;
+		padding: 4% 1%;
 
 		#form-submit {
 			background: hsl(158, 80%, 47%) 0% 0% no-repeat padding-box;
@@ -264,10 +267,14 @@ export default {
 		#remember {
 			filter: hue-rotate(40deg);
 		}
+
+		> label {
+			user-select: none;
+		}
 	}
 
 	.form-group {
-		width: 95%;
+		width: 100%;
 		display: flex;
 		position: relative;
 		align-items: center;

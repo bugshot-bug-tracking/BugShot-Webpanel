@@ -1,5 +1,5 @@
 <template>
-	<div class="title">Log In</div>
+	<div class="title">Login</div>
 
 	<form id="login-form" @submit.prevent="submit">
 		<div class="form-group">
@@ -56,19 +56,19 @@
 		</div>
 
 		<div class="from-buttons">
-			<div class="recover">
-				<p>Forgot Password?</p>
-
-				<router-link to="/recover" class="btn btn-recover">
-					Recover
-				</router-link>
-			</div>
-
 			<button id="form-submit" type="submit" class="btn bs bf-green">
 				Log In
 			</button>
 		</div>
 	</form>
+
+	<div class="recover">
+		<p>Forgot Password?</p>
+
+		<router-link to="/recover" class="btn bs be-green">
+			Recover
+		</router-link>
+	</div>
 </template>
 
 <script>
@@ -121,25 +121,29 @@ export default {
 
 <style scoped lang="scss">
 .title {
-	margin: 2% 0 5% 0 !important;
+	margin: 2% 0 4% 0 !important;
 	color: hsl(265, 79%, 41%);
 	font-weight: 700;
-	font-size: 22px;
+	font-size: 32px;
+	text-align: left;
+	width: 400px;
 }
 
 #login-form {
-	width: 70%;
+	width: 400px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 
 	.from-buttons {
-		display: inline-flex;
-		align-items: baseline;
+		display: flex;
+		align-items: center;
 		width: 100%;
-		justify-content: space-evenly;
-		margin-bottom: 10px;
+		justify-content: flex-end;
+		border-bottom: 2px solid hsl(264, 78%, 77%);
+		align-content: center;
+		padding: 1% 0 10% 0%;
 
 		#remember {
 			filter: hue-rotate(40deg);
@@ -147,7 +151,7 @@ export default {
 	}
 
 	.form-group {
-		width: 95%;
+		width: 100%;
 		display: flex;
 		position: relative;
 		align-items: center;
@@ -216,5 +220,18 @@ export default {
 	width: 85%;
 	text-align: right;
 	padding-bottom: 10px;
+}
+
+.recover {
+	display: flex;
+	align-items: center;
+	align-content: center;
+	justify-content: space-between;
+	width: 400px;
+	padding: 2% 0 5% 0;
+
+	> p {
+		margin: 0;
+	}
 }
 </style>

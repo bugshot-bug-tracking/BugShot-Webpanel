@@ -80,7 +80,6 @@ export default {
 		};
 
 		const collapse = (event) => {
-			console.log(event);
 			if (event.target.parentNode.classList.contains("open")) {
 				event.target.parentNode.classList.remove("open");
 			} else {

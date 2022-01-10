@@ -111,11 +111,12 @@
 				<label>Deadline:</label>
 
 				<div class="content">
-					{{
-						bug.attributes.deadline
-							? date(bug.attributes.deadline)
-							: "No deadline"
-					}}
+					<Datepicker
+						v-model="datePicker"
+						placeholder="No Deadline"
+						@cleared="clearDeadline"
+						@closed="changeDeadline"
+					/>
 				</div>
 			</div>
 		</div>
@@ -129,8 +130,11 @@ import Screenshot from "./Screenshot.vue";
 import store from "../store";
 import PriorityChange from "./PriorityChange.vue";
 
+import Datepicker from "vue3-date-time-picker";
+import "vue3-date-time-picker/dist/main.css";
+
 export default {
-	components: { Container, Screenshot, PriorityChange },
+	components: { Container, Screenshot, PriorityChange, Datepicker },
 	name: "Info",
 	props: {
 		bug_id: {
@@ -142,12 +146,26 @@ export default {
 	setup(props, context) {
 		const open = ref(false);
 
+		const datePicker = ref(null);
+
 		const bug = computed(() => {
-			return store.getters.getBugById(props.bug_id);
+			let bug = store.getters.getBugById(props.bug_id);
+
+			datePicker.value = bug?.attributes.deadline;
+
+			if (
+				datePicker.value &&
+				datePicker.value.slice(-1).toUpperCase() !== "Z"
+			)
+				datePicker.value += "Z";
+
+			return bug;
 		});
 
 		const date = (dateString) => {
 			if (dateString === "" || dateString === null) return "";
+			if (dateString.slice(-1).toUpperCase() !== "Z") dateString += "Z";
+
 			return new Date(dateString).toLocaleString();
 		};
 
@@ -162,12 +180,42 @@ export default {
 			store.dispatch("syncBug", bug.value.id);
 		};
 
+		const clearDeadline = () => {
+			bug.value.attributes.deadline = null;
+
+			store.dispatch("syncBug", bug.value.id);
+		};
+
+		const changeDeadline = () => {
+			let newDate = datePicker.value
+				? new Date(datePicker.value).toISOString()
+				: null;
+
+			if (bug.value.attributes.deadline != null) {
+				let bug_deadline = bug.value.attributes.deadline;
+
+				if (bug_deadline.slice(-1).toUpperCase() !== "Z")
+					bug_deadline += "Z";
+
+				let deadline = new Date(bug_deadline).toISOString();
+
+				if (newDate && newDate === deadline) return;
+			}
+
+			bug.value.attributes.deadline = newDate;
+
+			store.dispatch("syncBug", bug.value.id);
+		};
+
 		return {
 			open,
 			date,
+			datePicker,
 			statusInfo,
 			bug,
 			changePriority,
+			clearDeadline,
+			changeDeadline,
 		};
 	},
 };
@@ -323,10 +371,17 @@ export default {
 		}
 	}
 
-	.deadline .content {
-		color: hsl(231, 45%, 75%);
-	}
+	.deadline {
+		> label {
+			margin: auto;
+			margin-right: 10px;
+		}
 
+		.content {
+			color: hsl(231, 45%, 75%);
+			width: 100%;
+		}
+	}
 	.grid1x2 {
 		display: grid;
 		grid-template-columns: 1fr 1fr;

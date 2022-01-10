@@ -50,7 +50,7 @@
 			</Column>
 		</BugsTable>
 
-		<div class="bug-info" v-if="info.show">
+		<div class="bug-info" v-if="info.show" ref="tab">
 			<BugInfo :bug_id="info.id" @close="close" />
 		</div>
 	</Layout>
@@ -68,6 +68,7 @@ import InviteModal from "../../../components/InviteModal.vue";
 
 import draggable from "vuedraggable";
 import axios from "axios";
+import { onUnmounted } from "@vue/runtime-core";
 
 export default {
 	components: {
@@ -125,6 +126,7 @@ export default {
 		const close = () => {
 			info.show = false;
 			info.id = -1;
+			flag.value = false;
 		};
 
 		const statusKey = ref("");
@@ -144,34 +146,12 @@ export default {
 			if (event.added) data = event.added;
 			if (event.moved) data = event.moved;
 
-			let resource = {
-				bug_id: data.element,
-				status_id: statusKey.value,
-				bug: store.getters.getBugById(data.element),
-				status: store.getters.getStatusById(statusKey.value),
-				order: data.newIndex,
-			};
+			let bug = store.getters.getBugById(data.element);
 
-			resource.bug.attributes.status_id = resource.status_id;
-			resource.bug.attributes.order_number = resource.order;
+			bug.attributes.status_id = statusKey.value;
+			bug.attributes.order_number = data.newIndex;
 
-			await axios.put(
-				`statuses/${resource.status.id}/bugs/${resource.bug.id}`,
-				{
-					project_id: resource.bug.attributes.project_id,
-					designation: resource.bug.attributes.designation,
-					description: resource.bug.attributes.desciption,
-					url: resource.bug.attributes.url,
-					status_id: resource.status.id,
-					order_number: resource.order,
-					priority_id: resource.bug.attributes.priority.id,
-					operating_system: resource.bug.attributes.operating_system,
-					browser: resource.bug.attributes.browser,
-					selector: resource.bug.attributes.selector,
-					resolution: resource.bug.attributes.resolution,
-					deadline: resource.bug.attributes.deadline,
-				}
-			);
+			store.dispatch("syncBug", bug.id);
 		};
 
 		const statusData = (value) => {
@@ -181,6 +161,29 @@ export default {
 		const bugData = (value) => {
 			return store.state.data.bugs.get(value);
 		};
+
+		const tab = ref(null);
+		// for ignoring the first tab open
+		const flag = ref(false);
+
+		const closeTab = (e) => {
+			if (!tab.value) return;
+
+			if (
+				flag.value &&
+				e.path.find((e) => e == tab.value) == null &&
+				e.target.id != "downloadAttachmentA"
+			)
+				close();
+
+			if (info.show && !flag.value) flag.value = true;
+		};
+
+		document.addEventListener("click", closeTab);
+
+		onUnmounted(() => {
+			document.addEventListener("click", closeTab);
+		});
 
 		return {
 			project,
@@ -194,6 +197,7 @@ export default {
 			statusData,
 			bugData,
 			projectCompany,
+			tab,
 		};
 	},
 };

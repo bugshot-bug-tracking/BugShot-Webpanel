@@ -148,17 +148,21 @@ export default {
 						// used to determine if bugs were fetched or not
 						project["statuses"] = null;
 
-						let image = (
-							await axios.get(`projects/${project.id}/image`)
-						).data.data;
+						try {
+							let image = (
+								await axios.get(`projects/${project.id}/image`)
+							).data.data;
 
-						if (image != null && image.attributes)
-							image.attributes.base64 = atob(
-								image.attributes.base64
-							);
-						else image = null;
+							if (image != null && image.attributes)
+								image.attributes.base64 = atob(
+									image.attributes.base64
+								);
+							else image = null;
 
-						project.attributes.image = image;
+							project.attributes.image = image;
+						} catch (error) {
+							console.log(error);
+						}
 
 						state.commit("SET_PROJECT", project);
 
@@ -356,7 +360,13 @@ export default {
 						browser: bug.attributes.browser,
 						selector: bug.attributes.selector,
 						resolution: bug.attributes.resolution,
-						deadline: bug.attributes.deadline,
+						...(bug.attributes.deadline
+							? {
+									deadline: new Date(bug.attributes.deadline)
+										.toISOString()
+										.slice(0, -1),
+							  }
+							: {}),
 					}
 				);
 			} catch (error) {
