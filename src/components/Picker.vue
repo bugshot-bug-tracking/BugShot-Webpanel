@@ -82,7 +82,11 @@ export default {
 			type: Number,
 			default: 3,
 		},
+		image: {
+			type: String,
+		},
 	},
+	emits: ["setImage", "setColor"],
 	setup(props, context) {
 		const pickOption = ref(1);
 
@@ -120,6 +124,7 @@ export default {
 		};
 
 		const imgg = ref(null);
+		if (props.image && props.image.length > 20) imgg.value = props.image;
 
 		const resetImage = () => {
 			imgg.value = null;
@@ -166,6 +171,7 @@ export default {
 	flex-direction: column;
 	width: 100%;
 	align-items: center;
+	min-width: 400px;
 
 	.header {
 		margin-bottom: 20px;

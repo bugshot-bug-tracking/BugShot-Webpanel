@@ -25,12 +25,9 @@
 							<Picker
 								:colorPicked="companyParams.color"
 								@setImage="setImage"
-								@input="
-									(i) =>
-										(companyParams.color = parseInt(
-											i.target.value
-										))
-								"
+								@setColor="setColor"
+								:image="companyParams.image"
+								v-if="imageFlag"
 							/>
 
 							<a
@@ -69,7 +66,7 @@
 </template>
 
 <script>
-import { computed, reactive } from "@vue/reactivity";
+import { computed, reactive, ref } from "@vue/reactivity";
 import Layout from "../Layout.vue";
 import store from "../../../store";
 import FormInput from "../../../components/FormInput.vue";
@@ -78,6 +75,7 @@ import Picker from "../../../components/Picker.vue";
 import Column from "../Project/BugsTable/Column.vue";
 import TeamTable from "../../../components/TeamTable.vue";
 import Plan from "../../../components/Plan.vue";
+import axios from "axios";
 
 export default {
 	components: {
@@ -98,27 +96,84 @@ export default {
 		},
 	},
 	setup(props) {
-		const record = computed(() => {
-			return store.getters.getCompanyById(props.id);
-		});
-
 		const companyParams = reactive({
 			name: "",
 			color: 0,
-			image: {},
+			image: null,
+		});
+		const imageFlag = ref(false);
+
+		const record = computed(() => {
+			let company = store.getters.getCompanyById(props.id);
+			imageFlag.value = false;
+
+			if (company) {
+				companyParams.name = company.attributes.designation;
+
+				companyParams.color = company.attributes.color_hex
+					? colors.indexOf(company.attributes.color_hex)
+					: 3;
+
+				try {
+					axios
+						.get(`companies/${company.id}/image`)
+						.then((response) => {
+							if (response.data.data.attributes)
+								companyParams.image = atob(
+									response.data.data.attributes.base64
+								);
+							else {
+								companyParams.image = null;
+							}
+							imageFlag.value = true;
+						});
+				} catch (error) {
+					console.log(error);
+				}
+			}
+
+			return company;
 		});
 
-		const setImage = (value) => {
+		const colors = [
+			"#F23838", // red
+			"#F66808", // orange
+			"#FFB157", // yellow
+			"#7A2EE6", // purple <- default [3]
+			"#15BE80", // green
+			"#1849CF", // blue
+			"#89A3EB", // gray
+		];
+
+		const toBase64 = (file) =>
+			new Promise((resolve, reject) => {
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onload = () => resolve(reader.result);
+				reader.onerror = (error) => reject(error);
+			});
+
+		const setImage = async (value) => {
 			console.log("setImage", value);
-			companyParams.image = value;
+			companyParams.image = await toBase64(value);
 		};
 
-		const saveChanges = () => {};
+		const setColor = (value) => {
+			console.log("setImage", value);
+			companyParams.color = value;
+		};
+
+		const saveChanges = () => {
+			console.log(companyParams);
+		};
 
 		return {
 			record,
 			companyParams,
 			setImage,
+			setColor,
+			imageFlag,
+			saveChanges,
 		};
 	},
 };
