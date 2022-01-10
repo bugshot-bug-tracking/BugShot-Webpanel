@@ -155,8 +155,7 @@ export default {
 
 			if (
 				datePicker.value &&
-				(datePicker.value.split(-1) !== "z" ||
-					datePicker.value.split(-1) !== "Z")
+				datePicker.value.slice(-1).toUpperCase() !== "Z"
 			)
 				datePicker.value += "Z";
 
@@ -165,8 +164,8 @@ export default {
 
 		const date = (dateString) => {
 			if (dateString === "" || dateString === null) return "";
-			if (dateString.split(-1) !== "z" || dateString.split(-1) !== "Z")
-				dateString += "Z";
+			if (dateString.slice(-1).toUpperCase() !== "Z") dateString += "Z";
+
 			return new Date(dateString).toLocaleString();
 		};
 
@@ -188,19 +187,22 @@ export default {
 		};
 
 		const changeDeadline = () => {
-			if (bug.value.attributes.deadline != null) {
-				let deadline = new Date(
-					bug.value.attributes.deadline
-				).toISOString();
+			let newDate = datePicker.value
+				? new Date(datePicker.value).toISOString()
+				: null;
 
-				if (
-					datePicker.value &&
-					new Date(datePicker.value).toISOString() === deadline
-				)
-					return;
+			if (bug.value.attributes.deadline != null) {
+				let bug_deadline = bug.value.attributes.deadline;
+
+				if (bug_deadline.slice(-1).toUpperCase() !== "Z")
+					bug_deadline += "Z";
+
+				let deadline = new Date(bug_deadline).toISOString();
+
+				if (newDate && newDate === deadline) return;
 			}
 
-			bug.value.attributes.deadline = datePicker.value?.toISOString();
+			bug.value.attributes.deadline = newDate;
 
 			store.dispatch("syncBug", bug.value.id);
 		};

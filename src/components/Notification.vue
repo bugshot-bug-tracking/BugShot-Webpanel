@@ -53,8 +53,8 @@ export default {
 
 		const date = (dateString) => {
 			if (dateString === "" || dateString === null) return "";
-			if (dateString.split(-1) !== "z" || dateString.split(-1) !== "Z")
-				dateString += "Z";
+			if (dateString.slice(-1).toUpperCase() !== "Z") dateString += "Z";
+
 			return new Date(dateString).toLocaleString();
 		};
 
