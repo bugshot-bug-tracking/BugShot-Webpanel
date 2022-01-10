@@ -153,11 +153,20 @@ export default {
 
 			datePicker.value = bug?.attributes.deadline;
 
+			if (
+				datePicker.value &&
+				(datePicker.value.split(-1) !== "z" ||
+					datePicker.value.split(-1) !== "Z")
+			)
+				datePicker.value += "Z";
+
 			return bug;
 		});
 
 		const date = (dateString) => {
 			if (dateString === "" || dateString === null) return "";
+			if (dateString.split(-1) !== "z" || dateString.split(-1) !== "Z")
+				dateString += "Z";
 			return new Date(dateString).toLocaleString();
 		};
 

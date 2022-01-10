@@ -53,12 +53,14 @@ export default {
 
 		const date = (dateString) => {
 			if (dateString === "" || dateString === null) return "";
+			if (dateString.split(-1) !== "z" || dateString.split(-1) !== "Z")
+				dateString += "Z";
 			return new Date(dateString).toLocaleString();
 		};
 
 		const accept = async () => {
 			try {
-				await axios.post(`invitations/${props.id}/accept`);
+				await axios.get(`user/invitations/${props.id}/accept`);
 
 				store.commit("REMOVE_INVITATION", props.id);
 				store.dispatch("init", props.id);
@@ -69,7 +71,7 @@ export default {
 
 		const decline = async () => {
 			try {
-				await axios.post(`invitations/${props.id}/accept`);
+				await axios.get(`user/invitations/${props.id}/accept`);
 
 				store.commit("REMOVE_INVITATION", props.id);
 				store.dispatch("init", props.id);
