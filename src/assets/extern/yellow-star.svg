@@ -1,0 +1,264 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1285" height="742" viewBox="0 0 1285 742">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_280" data-name="Rectangle 280" width="1285" height="742" transform="translate(3708 5318)" fill="none" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+    <filter id="Rectangle_134" x="2169" y="25" width="384" height="693" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Rectangle_132" x="1307" y="25" width="384" height="693" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2" result="blur-2"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Rectangle_133" x="448" y="25" width="384" height="693" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2" result="blur-3"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-3"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-path-2">
+      <rect id="Rectangle_1" data-name="Rectangle 1" width="152" height="40" rx="20" transform="translate(488 304)" fill="#17ffef" stroke="#16b89d" stroke-width="1"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" y1="1" x2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#400471"/>
+      <stop offset="1" stop-color="#7a2ee6"/>
+    </linearGradient>
+    <filter id="Rectangle_134-2" x="879" y="25" width="384" height="693" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2" result="blur-4"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-4"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient-2" x1="0.601" y1="-0.371" x2="0.216" y2="2.176" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#6407af"/>
+      <stop offset="1" stop-color="#1f0237"/>
+    </linearGradient>
+    <filter id="Rectangle_132-2" x="19" y="25" width="384" height="693" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2" result="blur-5"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-5"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="Rectangle_133-2" x="1738" y="25" width="384" height="693" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="2" result="blur-6"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-6"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <linearGradient id="linear-gradient-5" y1="1" x2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#066e5d"/>
+      <stop offset="1" stop-color="#16b89d"/>
+    </linearGradient>
+    <clipPath id="clip-path-5">
+      <rect id="Rectangle_1-4" data-name="Rectangle 1" width="112" height="40" rx="20" transform="translate(488 304)" fill="#17ffef" stroke="#16b89d" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="Mask_Group_12" data-name="Mask Group 12" transform="translate(-3708 -5318)" clip-path="url(#clip-path)">
+    <g id="Group_904" data-name="Group 904">
+      <g transform="matrix(1, 0, 0, 1, 3708, 5318)" filter="url(#Rectangle_134)">
+        <g id="Rectangle_134-3" data-name="Rectangle 134" transform="translate(2175 29)" fill="#fff" stroke="#eee5fc" stroke-width="1">
+          <rect width="372" height="681" rx="8" stroke="none"/>
+          <rect x="0.5" y="0.5" width="371" height="680" rx="7.5" fill="none"/>
+        </g>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, 3708, 5318)" filter="url(#Rectangle_132)">
+        <g id="Rectangle_132-3" data-name="Rectangle 132" transform="translate(1313 29)" fill="#fff" stroke="#eee5fc" stroke-width="1">
+          <rect width="372" height="681" rx="8" stroke="none"/>
+          <rect x="0.5" y="0.5" width="371" height="680" rx="7.5" fill="none"/>
+        </g>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, 3708, 5318)" filter="url(#Rectangle_133)">
+        <g id="Rectangle_133-3" data-name="Rectangle 133" transform="translate(454 29)" fill="#fff" stroke="#eee5fc" stroke-width="1">
+          <rect width="372" height="681" rx="8" stroke="none"/>
+          <rect x="0.5" y="0.5" width="371" height="680" rx="7.5" fill="none"/>
+        </g>
+      </g>
+      <text id="unlimited_Guests" data-name="unlimited Guests" transform="translate(4348 5662)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-62.957" y="0">unlimited Guests</tspan></text>
+      <text id="Screenshots_via_browser_extension_only_" data-name="Screenshots
+(via browser extension only)" transform="translate(4348 5714)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-44.982" y="0">Screenshots</tspan><tspan x="-104.552" y="19">(via browser extension only)</tspan></text>
+      <text id="_5_GB_storege" data-name="5 GB storege" transform="translate(4348 5785)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-48.261" y="0">5 GB storege</tspan></text>
+      <text id="_45_month" data-name="45 € / month" transform="translate(4348 5887)" fill="#1f0237" font-size="33" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="-73.392" y="0">45 € </tspan><tspan y="0" font-size="20" font-family="SegoeUI, Segoe UI" font-weight="400">/ month</tspan></text>
+      <g id="Component_3_2" data-name="Component 3 – 2" transform="translate(4256 5944)">
+        <g id="Mask_Group_1" data-name="Mask Group 1" transform="translate(-488 -304)" clip-path="url(#clip-path-2)">
+          <g id="Rectangle_2" data-name="Rectangle 2" transform="translate(488 304)" fill="#16b89d" stroke="#16b89d" stroke-width="1">
+            <rect width="152" height="40" stroke="none"/>
+            <rect x="0.5" y="0.5" width="151" height="39" fill="none"/>
+          </g>
+          <rect id="Rectangle_3" data-name="Rectangle 3" width="86.857" height="40" transform="translate(401.143 304)" fill="#10a189"/>
+          <rect id="Rectangle_4" data-name="Rectangle 4" width="76" height="40" transform="translate(640 304)" fill="#10a189"/>
+        </g>
+        <text id="Choose_plan" data-name="Choose plan" transform="translate(76 26)" fill="#fff" font-size="15" font-family="SegoeUI, Segoe UI" letter-spacing="0em"><tspan x="-41.098" y="0">Choose plan</tspan></text>
+      </g>
+      <path id="Rectangle_282" data-name="Rectangle 282" d="M8,0H364a8,8,0,0,1,8,8V230a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V8A8,8,0,0,1,8,0Z" transform="translate(4162 5347)" fill="url(#linear-gradient)"/>
+      <g id="Group_312" data-name="Group 312" transform="translate(1257 1931)">
+        <text id="Studio" transform="translate(3091 3534)" fill="#fff" font-size="33" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="-50.233" y="0">Studio</tspan></text>
+        <text id="up_to_16_team_members" data-name="up to 16 team members" transform="translate(3091 3558.5)" fill="#bc97f2" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-90.209" y="0">up to 16 team members</tspan></text>
+      </g>
+      <g id="Group_315" data-name="Group 315" transform="translate(1285.888 2086)">
+        <path id="Icon_ionic-ios-star" data-name="Icon ionic-ios-star" d="M45.807,17.928H30.941L26.424,4.446a1.637,1.637,0,0,0-3.072,0L18.834,17.928H3.867A1.622,1.622,0,0,0,2.25,19.545a1.188,1.188,0,0,0,.03.273,1.554,1.554,0,0,0,.677,1.142l12.218,8.61L10.486,43.2a1.622,1.622,0,0,0,.556,1.819,1.564,1.564,0,0,0,.91.394,1.981,1.981,0,0,0,1.011-.364l11.925-8.5,11.925,8.5a1.894,1.894,0,0,0,1.011.364,1.452,1.452,0,0,0,.9-.394,1.6,1.6,0,0,0,.556-1.819L34.589,29.57l12.117-8.691L47,20.626a1.7,1.7,0,0,0,.526-1.081A1.711,1.711,0,0,0,45.807,17.928Z" transform="translate(3065.863 3465.229)" fill="#ffb300"/>
+        <path id="Icon_ionic-ios-star-2" data-name="Icon ionic-ios-star" d="M45.807,17.928H30.941L26.424,4.446a1.637,1.637,0,0,0-3.072,0L18.834,17.928H3.867A1.622,1.622,0,0,0,2.25,19.545a1.188,1.188,0,0,0,.03.273,1.554,1.554,0,0,0,.677,1.142l12.218,8.61L10.486,43.2a1.622,1.622,0,0,0,.556,1.819,1.564,1.564,0,0,0,.91.394,1.981,1.981,0,0,0,1.011-.364l11.925-8.5,11.925,8.5a1.894,1.894,0,0,0,1.011.364,1.452,1.452,0,0,0,.9-.394,1.6,1.6,0,0,0,.556-1.819L34.589,29.57l12.117-8.691L47,20.626a1.7,1.7,0,0,0,.526-1.081A1.711,1.711,0,0,0,45.807,17.928Z" transform="translate(3008.863 3465.229)" fill="#ffb300"/>
+      </g>
+      <line id="Line_20" data-name="Line 20" x2="320" transform="translate(4188.5 5842.5)" fill="none" stroke="#eee5fc" stroke-width="2"/>
+      <line id="Line_21" data-name="Line 21" x2="320" transform="translate(4188.5 5909.5)" fill="none" stroke="#eee5fc" stroke-width="2"/>
+      <g transform="matrix(1, 0, 0, 1, 3708, 5318)" filter="url(#Rectangle_134-2)">
+        <g id="Rectangle_134-4" data-name="Rectangle 134" transform="translate(885 29)" fill="#fff" stroke="#eee5fc" stroke-width="1">
+          <rect width="372" height="681" rx="8" stroke="none"/>
+          <rect x="0.5" y="0.5" width="371" height="680" rx="7.5" fill="none"/>
+        </g>
+      </g>
+      <text id="unlimited_Guests-2" data-name="unlimited Guests" transform="translate(4779 5662)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-62.957" y="0">unlimited Guests</tspan></text>
+      <text id="Screenshots_via_browser_extension_only_2" data-name="Screenshots
+(via browser extension only)" transform="translate(4779 5714)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-44.982" y="0">Screenshots</tspan><tspan x="-104.552" y="19">(via browser extension only)</tspan></text>
+      <text id="_15_GB_storege" data-name="15 GB storege" transform="translate(4779 5785)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-52.843" y="0">15 GB storege</tspan></text>
+      <text id="_85_month" data-name="85 € / month" transform="translate(4779 5887)" fill="#1f0237" font-size="33" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="-73.392" y="0">85 € </tspan><tspan y="0" font-size="20" font-family="SegoeUI, Segoe UI" font-weight="400">/ month</tspan></text>
+      <g id="Component_3_3" data-name="Component 3 – 3" transform="translate(4687 5944)">
+        <g id="Mask_Group_1-2" data-name="Mask Group 1" transform="translate(-488 -304)" clip-path="url(#clip-path-2)">
+          <g id="Rectangle_2-2" data-name="Rectangle 2" transform="translate(488 304)" fill="#16b89d" stroke="#16b89d" stroke-width="1">
+            <rect width="152" height="40" stroke="none"/>
+            <rect x="0.5" y="0.5" width="151" height="39" fill="none"/>
+          </g>
+          <rect id="Rectangle_3-2" data-name="Rectangle 3" width="86.857" height="40" transform="translate(401.143 304)" fill="#10a189"/>
+          <rect id="Rectangle_4-2" data-name="Rectangle 4" width="76" height="40" transform="translate(640 304)" fill="#10a189"/>
+        </g>
+        <text id="Choose_plan-2" data-name="Choose plan" transform="translate(76 26)" fill="#fff" font-size="15" font-family="SegoeUI, Segoe UI" letter-spacing="0em"><tspan x="-41.098" y="0">Choose plan</tspan></text>
+      </g>
+      <path id="Rectangle_254" data-name="Rectangle 254" d="M8,0H364a8,8,0,0,1,8,8V230a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V8A8,8,0,0,1,8,0Z" transform="translate(4593 5347)" fill="url(#linear-gradient-2)"/>
+      <path id="Rectangle_277" data-name="Rectangle 277" d="M8,0H364a8,8,0,0,1,8,8V230a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V8A8,8,0,0,1,8,0Z" transform="translate(4593 5346)" fill="url(#linear-gradient)"/>
+      <g id="Group_314" data-name="Group 314" transform="translate(1260 1931)">
+        <text id="_25_team_members_or_more" data-name="25 team members or more" transform="translate(3519 3558.5)" fill="#bc97f2" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-100.178" y="0">25 team members or more</tspan></text>
+        <text id="Premium" transform="translate(3518 3535)" fill="#fff" font-size="33" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="-70.463" y="0">Premium</tspan></text>
+      </g>
+      <g id="Group_316" data-name="Group 316" transform="translate(1688.719 2086)">
+        <path id="Icon_ionic-ios-star-3" data-name="Icon ionic-ios-star" d="M45.807,17.928H30.941L26.424,4.446a1.637,1.637,0,0,0-3.072,0L18.834,17.928H3.867A1.622,1.622,0,0,0,2.25,19.545a1.188,1.188,0,0,0,.03.273,1.554,1.554,0,0,0,.677,1.142l12.218,8.61L10.486,43.2a1.622,1.622,0,0,0,.556,1.819,1.564,1.564,0,0,0,.91.394,1.981,1.981,0,0,0,1.011-.364l11.925-8.5,11.925,8.5a1.894,1.894,0,0,0,1.011.364,1.452,1.452,0,0,0,.9-.394,1.6,1.6,0,0,0,.556-1.819L34.589,29.57l12.117-8.691L47,20.626a1.7,1.7,0,0,0,.526-1.081A1.711,1.711,0,0,0,45.807,17.928Z" transform="translate(3065.863 3465.229)" fill="#ffb300"/>
+        <path id="Icon_ionic-ios-star-4" data-name="Icon ionic-ios-star" d="M35.862,14.6H24.39L20.9,4.2a1.263,1.263,0,0,0-2.371,0L15.047,14.6H3.5A1.251,1.251,0,0,0,2.25,15.853a.917.917,0,0,0,.023.211,1.2,1.2,0,0,0,.523.881l9.428,6.644L8.606,34.109a1.251,1.251,0,0,0,.429,1.4,1.207,1.207,0,0,0,.7.3,1.529,1.529,0,0,0,.78-.281l9.2-6.559,9.2,6.559a1.461,1.461,0,0,0,.78.281,1.12,1.12,0,0,0,.694-.3,1.236,1.236,0,0,0,.429-1.4l-3.619-10.52,9.35-6.707.226-.195a1.308,1.308,0,0,0,.406-.834A1.321,1.321,0,0,0,35.862,14.6Z" transform="translate(3128.031 3470.029)" fill="#ffb300"/>
+        <path id="Icon_ionic-ios-star-5" data-name="Icon ionic-ios-star" d="M35.862,14.6H24.39L20.9,4.2a1.263,1.263,0,0,0-2.371,0L15.047,14.6H3.5A1.251,1.251,0,0,0,2.25,15.853a.917.917,0,0,0,.023.211,1.2,1.2,0,0,0,.523.881l9.428,6.644L8.606,34.109a1.251,1.251,0,0,0,.429,1.4,1.207,1.207,0,0,0,.7.3,1.529,1.529,0,0,0,.78-.281l9.2-6.559,9.2,6.559a1.461,1.461,0,0,0,.78.281,1.12,1.12,0,0,0,.694-.3,1.236,1.236,0,0,0,.429-1.4l-3.619-10.52,9.35-6.707.226-.195a1.308,1.308,0,0,0,.406-.834A1.321,1.321,0,0,0,35.862,14.6Z" transform="translate(3014.031 3470.029)" fill="#ffb300"/>
+      </g>
+      <line id="Line_25" data-name="Line 25" x2="320" transform="translate(4619.5 5842.5)" fill="none" stroke="#eee5fc" stroke-width="2"/>
+      <line id="Line_24" data-name="Line 24" x2="320" transform="translate(4619.5 5909.5)" fill="none" stroke="#eee5fc" stroke-width="2"/>
+      <g transform="matrix(1, 0, 0, 1, 3708, 5318)" filter="url(#Rectangle_132-2)">
+        <g id="Rectangle_132-4" data-name="Rectangle 132" transform="translate(25 29)" fill="#fff" stroke="#eee5fc" stroke-width="1">
+          <rect width="372" height="681" rx="8" stroke="none"/>
+          <rect x="0.5" y="0.5" width="371" height="680" rx="7.5" fill="none"/>
+        </g>
+      </g>
+      <text id="unlimited_Guests-3" data-name="unlimited Guests" transform="translate(3917 5662)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-62.957" y="0">unlimited Guests</tspan></text>
+      <text id="Screenshots_via_browser_extension_only_3" data-name="Screenshots
+(via browser extension only)" transform="translate(3917 5714)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-44.982" y="0">Screenshots</tspan><tspan x="-104.552" y="19">(via browser extension only)</tspan></text>
+      <text id="_2_GB_storege" data-name="2 GB storege" transform="translate(3917 5785)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-48.261" y="0">2 GB storege</tspan></text>
+      <text id="_25_month" data-name="25 € / month" transform="translate(3917 5887)" fill="#1f0237" font-size="33" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="-73.392" y="0">25 € </tspan><tspan y="0" font-size="20" font-family="SegoeUI, Segoe UI" font-weight="400">/ month</tspan></text>
+      <g id="Component_3_1" data-name="Component 3 – 1" transform="translate(3825 5944)">
+        <g id="Mask_Group_1-3" data-name="Mask Group 1" transform="translate(-488 -304)" clip-path="url(#clip-path-2)">
+          <g id="Rectangle_2-3" data-name="Rectangle 2" transform="translate(488 304)" fill="#16b89d" stroke="#16b89d" stroke-width="1">
+            <rect width="152" height="40" stroke="none"/>
+            <rect x="0.5" y="0.5" width="151" height="39" fill="none"/>
+          </g>
+          <rect id="Rectangle_3-3" data-name="Rectangle 3" width="86.857" height="40" transform="translate(401.143 304)" fill="#10a189"/>
+          <rect id="Rectangle_4-3" data-name="Rectangle 4" width="76" height="40" transform="translate(640 304)" fill="#10a189"/>
+        </g>
+        <text id="Choose_plan-3" data-name="Choose plan" transform="translate(76 26)" fill="#fff" font-size="15" font-family="SegoeUI, Segoe UI" letter-spacing="0em"><tspan x="-41.098" y="0">Choose plan</tspan></text>
+      </g>
+      <path id="Rectangle_253" data-name="Rectangle 253" d="M8,0H364a8,8,0,0,1,8,8V230a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V8A8,8,0,0,1,8,0Z" transform="translate(3731 5347)" fill="url(#linear-gradient)"/>
+      <g id="Group_313" data-name="Group 313" transform="translate(1253 1931)">
+        <text id="Standard" transform="translate(2588 3534)" fill="#fff" font-size="33" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="0" y="0">Standard</tspan></text>
+        <text id="up_to_8_team_members" data-name="up to 8 team members" transform="translate(2664 3558.5)" fill="#bc97f2" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-85.627" y="0">up to 8 team members</tspan></text>
+      </g>
+      <path id="Icon_ionic-ios-star-6" data-name="Icon ionic-ios-star" d="M45.807,17.928H30.941L26.424,4.446a1.637,1.637,0,0,0-3.072,0L18.834,17.928H3.867A1.622,1.622,0,0,0,2.25,19.545a1.188,1.188,0,0,0,.03.273,1.554,1.554,0,0,0,.677,1.142l12.218,8.61L10.486,43.2a1.622,1.622,0,0,0,.556,1.819,1.564,1.564,0,0,0,.91.394,1.981,1.981,0,0,0,1.011-.364l11.925-8.5,11.925,8.5a1.894,1.894,0,0,0,1.011.364,1.452,1.452,0,0,0,.9-.394,1.6,1.6,0,0,0,.556-1.819L34.589,29.57l12.117-8.691L47,20.626a1.7,1.7,0,0,0,.526-1.081A1.711,1.711,0,0,0,45.807,17.928Z" transform="translate(3891.75 5551.229)" fill="#ffb300"/>
+      <line id="Line_22" data-name="Line 22" x2="320" transform="translate(3757.5 5842.5)" fill="none" stroke="#eee5fc" stroke-width="2"/>
+      <line id="Line_23" data-name="Line 23" x2="320" transform="translate(3757.5 5909.5)" fill="none" stroke="#eee5fc" stroke-width="2"/>
+      <g transform="matrix(1, 0, 0, 1, 3708, 5318)" filter="url(#Rectangle_133-2)">
+        <g id="Rectangle_133-4" data-name="Rectangle 133" transform="translate(1744 29)" fill="#fff" stroke="#eee5fc" stroke-width="1">
+          <rect width="372" height="681" rx="8" stroke="none"/>
+          <rect x="0.5" y="0.5" width="371" height="680" rx="7.5" fill="none"/>
+        </g>
+      </g>
+      <path id="Rectangle_279" data-name="Rectangle 279" d="M8,0H364a8,8,0,0,1,8,8V230a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V8A8,8,0,0,1,8,0Z" transform="translate(5452 5346)" fill="url(#linear-gradient-5)"/>
+      <path id="Rectangle_284" data-name="Rectangle 284" d="M8,0H364a8,8,0,0,1,8,8V230a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V8A8,8,0,0,1,8,0Z" transform="translate(5883 5346)" fill="url(#linear-gradient-5)"/>
+      <path id="Rectangle_283" data-name="Rectangle 283" d="M8,0H364a8,8,0,0,1,8,8V230a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V8A8,8,0,0,1,8,0Z" transform="translate(5022 5346)" fill="url(#linear-gradient-5)"/>
+      <text id="unlimited_Guests-4" data-name="unlimited Guests" transform="translate(5638 5662)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-62.957" y="0">unlimited Guests</tspan></text>
+      <text id="Screenshots_via_browser_extension_only_4" data-name="Screenshots
+(via browser extension only)" transform="translate(5638 5714)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-44.982" y="0">Screenshots</tspan><tspan x="-104.552" y="19">(via browser extension only)</tspan></text>
+      <text id="_5_GB_storege-2" data-name="5 GB storege" transform="translate(5638 5785)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-48.261" y="0">5 GB storege</tspan></text>
+      <text id="_515_yearly" data-name="515 € / yearly" transform="translate(5638 5887)" fill="#1f0237" font-size="33" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="-77.783" y="0">515 €</tspan><tspan y="0" xml:space="preserve" font-size="20" font-family="SegoeUI, Segoe UI" font-weight="400"> / yearly</tspan></text>
+      <g id="Component_3_4" data-name="Component 3 – 4" transform="translate(5566 5944)">
+        <g id="Mask_Group_1-4" data-name="Mask Group 1" transform="translate(-488 -304)" clip-path="url(#clip-path-5)">
+          <g id="Rectangle_2-4" data-name="Rectangle 2" transform="translate(488 304)" fill="#16b89d" stroke="#16b89d" stroke-width="1">
+            <rect width="112" height="40" stroke="none"/>
+            <rect x="0.5" y="0.5" width="111" height="39" fill="none"/>
+          </g>
+          <rect id="Rectangle_3-4" data-name="Rectangle 3" width="64" height="40" transform="translate(424 304)" fill="#10a189"/>
+          <rect id="Rectangle_4-4" data-name="Rectangle 4" width="56" height="40" transform="translate(600 304)" fill="#10a189"/>
+        </g>
+        <text id="Button" transform="translate(56 26)" fill="#fff" font-size="15" font-family="SegoeUI, Segoe UI" letter-spacing="0em"><tspan x="-22.254" y="0">Button</tspan></text>
+      </g>
+      <g id="Group_312-2" data-name="Group 312" transform="translate(2547 1931)">
+        <text id="Studio-2" data-name="Studio" transform="translate(3091 3534)" fill="#fff" font-size="33" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="-50.233" y="0">Studio</tspan></text>
+        <text id="up_to_16_team_members-2" data-name="up to 16 team members" transform="translate(3091 3558.5)" fill="#dbfbf5" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-90.209" y="0">up to 16 team members</tspan></text>
+      </g>
+      <g id="Group_315-2" data-name="Group 315" transform="translate(2575.888 2086)">
+        <path id="Icon_ionic-ios-star-7" data-name="Icon ionic-ios-star" d="M45.807,17.928H30.941L26.424,4.446a1.637,1.637,0,0,0-3.072,0L18.834,17.928H3.867A1.622,1.622,0,0,0,2.25,19.545a1.188,1.188,0,0,0,.03.273,1.554,1.554,0,0,0,.677,1.142l12.218,8.61L10.486,43.2a1.622,1.622,0,0,0,.556,1.819,1.564,1.564,0,0,0,.91.394,1.981,1.981,0,0,0,1.011-.364l11.925-8.5,11.925,8.5a1.894,1.894,0,0,0,1.011.364,1.452,1.452,0,0,0,.9-.394,1.6,1.6,0,0,0,.556-1.819L34.589,29.57l12.117-8.691L47,20.626a1.7,1.7,0,0,0,.526-1.081A1.711,1.711,0,0,0,45.807,17.928Z" transform="translate(3065.863 3465.229)" fill="#ffb300"/>
+        <path id="Icon_ionic-ios-star-8" data-name="Icon ionic-ios-star" d="M45.807,17.928H30.941L26.424,4.446a1.637,1.637,0,0,0-3.072,0L18.834,17.928H3.867A1.622,1.622,0,0,0,2.25,19.545a1.188,1.188,0,0,0,.03.273,1.554,1.554,0,0,0,.677,1.142l12.218,8.61L10.486,43.2a1.622,1.622,0,0,0,.556,1.819,1.564,1.564,0,0,0,.91.394,1.981,1.981,0,0,0,1.011-.364l11.925-8.5,11.925,8.5a1.894,1.894,0,0,0,1.011.364,1.452,1.452,0,0,0,.9-.394,1.6,1.6,0,0,0,.556-1.819L34.589,29.57l12.117-8.691L47,20.626a1.7,1.7,0,0,0,.526-1.081A1.711,1.711,0,0,0,45.807,17.928Z" transform="translate(3008.863 3465.229)" fill="#ffb300"/>
+      </g>
+      <line id="Line_20-2" data-name="Line 20" x2="320" transform="translate(5478.5 5842.5)" fill="none" stroke="#eee5fc" stroke-width="2"/>
+      <line id="Line_21-2" data-name="Line 21" x2="320" transform="translate(5478.5 5909.5)" fill="none" stroke="#eee5fc" stroke-width="2"/>
+      <text id="unlimited_Guests-5" data-name="unlimited Guests" transform="translate(6069 5662)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-62.957" y="0">unlimited Guests</tspan></text>
+      <text id="Screenshots_via_browser_extension_only_5" data-name="Screenshots
+(via browser extension only)" transform="translate(6069 5714)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-44.982" y="0">Screenshots</tspan><tspan x="-104.552" y="19">(via browser extension only)</tspan></text>
+      <text id="_15_GB_storege-2" data-name="15 GB storege" transform="translate(6069 5785)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-52.843" y="0">15 GB storege</tspan></text>
+      <text id="_950_yearly" data-name="950 € / yearly" transform="translate(6069 5887)" fill="#1f0237" font-size="33" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="-77.783" y="0">950 €</tspan><tspan y="0" xml:space="preserve" font-size="20" font-family="SegoeUI, Segoe UI" font-weight="400"> / yearly</tspan></text>
+      <g id="Component_3_5" data-name="Component 3 – 5" transform="translate(5997 5944)">
+        <g id="Mask_Group_1-5" data-name="Mask Group 1" transform="translate(-488 -304)" clip-path="url(#clip-path-5)">
+          <g id="Rectangle_2-5" data-name="Rectangle 2" transform="translate(488 304)" fill="#16b89d" stroke="#16b89d" stroke-width="1">
+            <rect width="112" height="40" stroke="none"/>
+            <rect x="0.5" y="0.5" width="111" height="39" fill="none"/>
+          </g>
+          <rect id="Rectangle_3-5" data-name="Rectangle 3" width="64" height="40" transform="translate(424 304)" fill="#10a189"/>
+          <rect id="Rectangle_4-5" data-name="Rectangle 4" width="56" height="40" transform="translate(600 304)" fill="#10a189"/>
+        </g>
+        <text id="Button-2" data-name="Button" transform="translate(56 26)" fill="#fff" font-size="15" font-family="SegoeUI, Segoe UI" letter-spacing="0em"><tspan x="-22.254" y="0">Button</tspan></text>
+      </g>
+      <g id="Group_314-2" data-name="Group 314" transform="translate(2550 1931)">
+        <text id="_25_team_members_or_more-2" data-name="25 team members or more" transform="translate(3519 3558.5)" fill="#dbfbf5" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-100.178" y="0">25 team members or more</tspan></text>
+        <text id="Premium-2" data-name="Premium" transform="translate(3518 3535)" fill="#fff" font-size="33" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="-70.463" y="0">Premium</tspan></text>
+      </g>
+      <g id="Group_316-2" data-name="Group 316" transform="translate(2978.719 2086)">
+        <path id="Icon_ionic-ios-star-9" data-name="Icon ionic-ios-star" d="M45.807,17.928H30.941L26.424,4.446a1.637,1.637,0,0,0-3.072,0L18.834,17.928H3.867A1.622,1.622,0,0,0,2.25,19.545a1.188,1.188,0,0,0,.03.273,1.554,1.554,0,0,0,.677,1.142l12.218,8.61L10.486,43.2a1.622,1.622,0,0,0,.556,1.819,1.564,1.564,0,0,0,.91.394,1.981,1.981,0,0,0,1.011-.364l11.925-8.5,11.925,8.5a1.894,1.894,0,0,0,1.011.364,1.452,1.452,0,0,0,.9-.394,1.6,1.6,0,0,0,.556-1.819L34.589,29.57l12.117-8.691L47,20.626a1.7,1.7,0,0,0,.526-1.081A1.711,1.711,0,0,0,45.807,17.928Z" transform="translate(3065.863 3465.229)" fill="#ffb300"/>
+        <path id="Icon_ionic-ios-star-10" data-name="Icon ionic-ios-star" d="M35.862,14.6H24.39L20.9,4.2a1.263,1.263,0,0,0-2.371,0L15.047,14.6H3.5A1.251,1.251,0,0,0,2.25,15.853a.917.917,0,0,0,.023.211,1.2,1.2,0,0,0,.523.881l9.428,6.644L8.606,34.109a1.251,1.251,0,0,0,.429,1.4,1.207,1.207,0,0,0,.7.3,1.529,1.529,0,0,0,.78-.281l9.2-6.559,9.2,6.559a1.461,1.461,0,0,0,.78.281,1.12,1.12,0,0,0,.694-.3,1.236,1.236,0,0,0,.429-1.4l-3.619-10.52,9.35-6.707.226-.195a1.308,1.308,0,0,0,.406-.834A1.321,1.321,0,0,0,35.862,14.6Z" transform="translate(3128.031 3470.029)" fill="#ffb300"/>
+        <path id="Icon_ionic-ios-star-11" data-name="Icon ionic-ios-star" d="M35.862,14.6H24.39L20.9,4.2a1.263,1.263,0,0,0-2.371,0L15.047,14.6H3.5A1.251,1.251,0,0,0,2.25,15.853a.917.917,0,0,0,.023.211,1.2,1.2,0,0,0,.523.881l9.428,6.644L8.606,34.109a1.251,1.251,0,0,0,.429,1.4,1.207,1.207,0,0,0,.7.3,1.529,1.529,0,0,0,.78-.281l9.2-6.559,9.2,6.559a1.461,1.461,0,0,0,.78.281,1.12,1.12,0,0,0,.694-.3,1.236,1.236,0,0,0,.429-1.4l-3.619-10.52,9.35-6.707.226-.195a1.308,1.308,0,0,0,.406-.834A1.321,1.321,0,0,0,35.862,14.6Z" transform="translate(3014.031 3470.029)" fill="#ffb300"/>
+      </g>
+      <line id="Line_25-2" data-name="Line 25" x2="320" transform="translate(5909.5 5842.5)" fill="none" stroke="#eee5fc" stroke-width="2"/>
+      <line id="Line_24-2" data-name="Line 24" x2="320" transform="translate(5909.5 5909.5)" fill="none" stroke="#eee5fc" stroke-width="2"/>
+      <text id="unlimited_Guests-6" data-name="unlimited Guests" transform="translate(5207 5662)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-62.957" y="0">unlimited Guests</tspan></text>
+      <text id="Screenshots_via_browser_extension_only_6" data-name="Screenshots
+(via browser extension only)" transform="translate(5207 5714)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-44.982" y="0">Screenshots</tspan><tspan x="-104.552" y="19">(via browser extension only)</tspan></text>
+      <text id="_2_GB_storege-2" data-name="2 GB storege" transform="translate(5207 5785)" fill="#1a2040" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-48.261" y="0">2 GB storege</tspan></text>
+      <text id="_295_yearly" data-name="295 € / yearly" transform="translate(5207 5887)" fill="#1f0237" font-size="33" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="-79.596" y="0">295 € </tspan><tspan y="0" font-size="20" font-family="SegoeUI, Segoe UI" font-weight="400">/ yearly</tspan></text>
+      <g id="Component_3_6" data-name="Component 3 – 6" transform="translate(5135 5944)">
+        <g id="Mask_Group_1-6" data-name="Mask Group 1" transform="translate(-488 -304)" clip-path="url(#clip-path-5)">
+          <g id="Rectangle_2-6" data-name="Rectangle 2" transform="translate(488 304)" fill="#16b89d" stroke="#16b89d" stroke-width="1">
+            <rect width="112" height="40" stroke="none"/>
+            <rect x="0.5" y="0.5" width="111" height="39" fill="none"/>
+          </g>
+          <rect id="Rectangle_3-6" data-name="Rectangle 3" width="64" height="40" transform="translate(424 304)" fill="#10a189"/>
+          <rect id="Rectangle_4-6" data-name="Rectangle 4" width="56" height="40" transform="translate(600 304)" fill="#10a189"/>
+        </g>
+        <text id="Button-3" data-name="Button" transform="translate(56 26)" fill="#fff" font-size="15" font-family="SegoeUI, Segoe UI" letter-spacing="0em"><tspan x="-22.254" y="0">Button</tspan></text>
+      </g>
+      <text id="Standard-2" data-name="Standard" transform="translate(5131 5465)" fill="#fff" font-size="33" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="0" y="0">Standard</tspan></text>
+      <text id="up_to_8_team_members-2" data-name="up to 8 team members" transform="translate(5207 5489.5)" fill="#dbfbf5" font-size="17" font-family="SegoeUI, Segoe UI"><tspan x="-85.627" y="0">up to 8 team members</tspan></text>
+      <path id="Icon_ionic-ios-star-12" data-name="Icon ionic-ios-star" d="M45.807,17.928H30.941L26.424,4.446a1.637,1.637,0,0,0-3.072,0L18.834,17.928H3.867A1.622,1.622,0,0,0,2.25,19.545a1.188,1.188,0,0,0,.03.273,1.554,1.554,0,0,0,.677,1.142l12.218,8.61L10.486,43.2a1.622,1.622,0,0,0,.556,1.819,1.564,1.564,0,0,0,.91.394,1.981,1.981,0,0,0,1.011-.364l11.925-8.5,11.925,8.5a1.894,1.894,0,0,0,1.011.364,1.452,1.452,0,0,0,.9-.394,1.6,1.6,0,0,0,.556-1.819L34.589,29.57l12.117-8.691L47,20.626a1.7,1.7,0,0,0,.526-1.081A1.711,1.711,0,0,0,45.807,17.928Z" transform="translate(5181.75 5551.229)" fill="#ffb300"/>
+      <line id="Line_22-2" data-name="Line 22" x2="320" transform="translate(5047.5 5842.5)" fill="none" stroke="#eee5fc" stroke-width="2"/>
+      <line id="Line_23-2" data-name="Line 23" x2="320" transform="translate(5047.5 5909.5)" fill="none" stroke="#eee5fc" stroke-width="2"/>
+    </g>
+  </g>
+</svg>
