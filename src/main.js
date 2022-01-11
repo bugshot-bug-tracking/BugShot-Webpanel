@@ -11,6 +11,8 @@ axios.defaults.baseURL = "https://dev.bugshot.de/api/v1/";
 axios.defaults.headers = {
 	Accept: "application/json",
 	"Content-Type": "application/json",
+	clientId: "1",
+	version: "1.0.0",
 };
 
 store.dispatch("attempt", localStorage.getItem("authToken"));
