@@ -350,6 +350,7 @@ export default {
 					`statuses/${bug.attributes.status_id}/bugs/${bug.id}`,
 					{
 						project_id: bug.attributes.project_id,
+						ai_id: bug.attributes.ai_id,
 						designation: bug.attributes.designation,
 						description: bug.attributes.desciption,
 						url: bug.attributes.url,

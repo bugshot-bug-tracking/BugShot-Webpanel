@@ -42,7 +42,7 @@
 			</div>
 
 			<div class="btn-sets">
-				<li v-if="false">
+				<li>
 					<router-link :to="{ name: 'UserSettings' }">
 						<img src="../assets/extern/m-3.svg" alt="" />
 					</router-link>
