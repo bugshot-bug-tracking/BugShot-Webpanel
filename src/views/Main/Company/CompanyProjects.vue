@@ -19,6 +19,7 @@
 			/>
 
 			<router-link
+				v-if="false"
 				:to="{ name: 'CompanySettings', params: { id: id } }"
 				class="btn bs be-green"
 			>

@@ -101,6 +101,9 @@ export default {
 			&:hover {
 				background: hsl(158, 80%, 41%);
 			}
+
+			&.disabled {
+			}
 		}
 
 		&.be-green {
@@ -112,6 +115,9 @@ export default {
 			&:hover {
 				background: hsl(158, 79%, 87%);
 			}
+
+			&.disabled {
+			}
 		}
 
 		&.bf-purple {
@@ -120,6 +126,9 @@ export default {
 
 			&:hover {
 				background: hsl(265, 80%, 41%);
+			}
+
+			&.disabled {
 			}
 		}
 
@@ -131,6 +140,9 @@ export default {
 
 			&:hover {
 				background: hsl(265, 79%, 92%);
+			}
+
+			&.disabled {
 			}
 		}
 	}

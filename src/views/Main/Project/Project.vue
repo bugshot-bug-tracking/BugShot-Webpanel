@@ -10,6 +10,7 @@
 			<InviteModal :dataType="'Project'" :id="id" />
 
 			<router-link
+				v-if="false"
 				:to="{ name: 'ProjectSettings', params: { id: id } }"
 				class="btn bs be-green"
 			>
@@ -18,7 +19,11 @@
 		</template>
 
 		<BugsTable v-if="project?.statuses">
-			<Column v-for="status of project.statuses" :key="status">
+			<Column
+				v-for="status of project.statuses"
+				:key="status"
+				class="column"
+			>
 				<template v-slot:header>
 					{{ statusData(status).attributes.designation }}
 				</template>
@@ -220,5 +225,9 @@ export default {
 .drag-zone {
 	min-height: 100%;
 	overflow: hidden;
+}
+
+.column {
+	min-width: 250px;
 }
 </style>

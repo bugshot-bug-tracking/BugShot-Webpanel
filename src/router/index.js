@@ -63,11 +63,19 @@ const routes = [
 
 			{
 				path: "settings",
-				name: "UserSettings",
+				name: "Settings",
 				components: {
-					default: UserSettings,
+					default: EmptyView,
 					sidebar: UserSettingsSidebar,
 				},
+				redirect: { name: "UserSettings" },
+				children: [
+					{
+						path: "",
+						name: "UserSettings",
+						component: UserSettings,
+					},
+				],
 			},
 
 			{
