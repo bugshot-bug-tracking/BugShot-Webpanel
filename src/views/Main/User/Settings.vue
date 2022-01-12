@@ -1,5 +1,5 @@
 <template>
-	<div class="user-settings-layout" v-if="user">
+	<div class="user-settings-layout c-scroll s-purple" v-if="user">
 		<Column class="column personal">
 			<template v-slot:header> Personal Settings </template>
 
@@ -293,6 +293,7 @@ export default {
 	display: flex;
 	position: relative;
 	// padding: 30px;
+	overflow: auto;
 
 	.column.personal {
 		width: 500px;
