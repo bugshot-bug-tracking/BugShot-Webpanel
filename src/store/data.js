@@ -75,6 +75,11 @@ export default {
 		REMOVE_INVITATION: (state, payload) => {
 			state.invitations.delete(payload);
 		},
+
+		SET_COMPANY_USERS: (state, payload) => {
+			const company = state.companies.get(payload.id);
+			company.attributes.users = payload.users;
+		},
 	},
 
 	// api calls
@@ -336,6 +341,25 @@ export default {
 				for (const role of roles) {
 					state.commit("SET_INVITATION", role);
 				}
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
+		fetchCompanyUsers: async (state, company_id) => {
+			try {
+				let newCompany = (
+					await axios.get(`companies/${company_id}`, {
+						headers: {
+							"include-company-users": "true",
+						},
+					})
+				).data.data;
+
+				state.commit("SET_COMPANY_USERS", {
+					id: company_id,
+					users: newCompany.attributes.users,
+				});
 			} catch (error) {
 				console.log(error);
 			}
