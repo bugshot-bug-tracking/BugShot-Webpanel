@@ -11,10 +11,10 @@
 			v-show="showMark"
 			class="marker"
 			:class="priority"
-			:style="` 
-			left: calc(${shownImage.mark.x}% - 16px);
-			top: calc(${shownImage.mark.y}% - 56px);			
-			`"
+			:style="{
+				left: shownImage.mark.x + '%',
+				top: shownImage.mark.y + '%',
+			}"
 		/>
 
 		<template v-slot:extra>
@@ -94,13 +94,23 @@ export default {
 			let i = new Image();
 			i.src = img.attributes.base64;
 
+			let x =
+				img.attributes.position_x <= 0
+					? 0
+					: (img.attributes.position_x / i.width) * 100;
+
+			let y =
+				img.attributes.position_y <= 0
+					? 0
+					: (img.attributes.position_y / i.height) * 100;
+
 			return {
 				image: img.attributes.base64,
 				number: counter.value + 1,
 				// needed the position relative to the original image resolution so it can account for different image distorsions while shown via modal
 				mark: {
-					x: (img.attributes.position_x / i.width) * 100,
-					y: (img.attributes.position_y / i.height) * 100,
+					x: x,
+					y: y,
 				},
 			};
 		});
@@ -267,6 +277,8 @@ export default {
 	display: block;
 	width: 32px;
 	height: 56px;
+	margin-left: -16px;
+	margin-top: -56px;
 	background-position: center center;
 	background-repeat: no-repeat;
 
