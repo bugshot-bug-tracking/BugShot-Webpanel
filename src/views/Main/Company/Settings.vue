@@ -7,8 +7,10 @@
 		</template>
 
 		<div class="settings-table" v-if="record">
-			<Column>
-				<template v-slot:header> Company Settings </template>
+			<Column class="general">
+				<template v-slot:header>
+					<div class="bold">Company Settings</div>
+				</template>
 
 				<div class="body">
 					<Container>
@@ -20,6 +22,7 @@
 								"
 								:placeholder="record.attributes.designation"
 								:type="'text'"
+								class="my-3"
 							/>
 							<!-- change color Picked to the record color -->
 							<Picker
@@ -41,21 +44,28 @@
 					</Container>
 				</div>
 
-				<span>
-					Delete company and associated projects \n(can't be reverted)
-				</span>
-			</Column>
-
-			<Column>
-				<template v-slot:header> Team Members </template>
-
-				<div class="body">
-					<TeamTable />
+				<div class="d-flex flex-column">
+					<a class="text-danger">
+						Delete company and associated projects
+					</a>
+					(can't be reverted)
 				</div>
 			</Column>
 
 			<Column>
-				<template v-slot:header> Plan Details </template>
+				<template v-slot:header>
+					<div class="bold">Team Members</div>
+				</template>
+
+				<div class="body">
+					<TeamTable :company_id="id" />
+				</div>
+			</Column>
+
+			<Column class="plan">
+				<template v-slot:header>
+					<div class="bold">Plan Details</div>
+				</template>
 
 				<div class="body">
 					<Plan />
@@ -155,7 +165,8 @@ export default {
 
 		const setImage = async (value) => {
 			console.log("setImage", value);
-			companyParams.image = await toBase64(value);
+			if (value != null) companyParams.image = await toBase64(value);
+			else companyParams.image = null;
 		};
 
 		const setColor = (value) => {
@@ -187,6 +198,15 @@ export default {
 	position: relative;
 	padding: 30px;
 
+	.general {
+		width: 500px;
+		min-width: 500px;
+	}
+	.plan {
+		width: 500px;
+		min-width: 500px;
+	}
+
 	.column {
 		display: flex;
 		position: relative;
@@ -206,5 +226,9 @@ export default {
 			margin: 10px;
 		}
 	}
+}
+
+.bold {
+	font-weight: bold;
 }
 </style>

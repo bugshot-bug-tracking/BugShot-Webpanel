@@ -8,24 +8,24 @@
 			<div class="ammenities">
 				<span>included in the plan you have:</span>
 
-				<span>Ammen 1</span>
-				<span>Ammen 2</span>
-				<span>Ammen 3</span>
-				<span>Ammen 4</span>
-				<span>Ammen 5</span>
+				<span>[PH] 1</span>
+				<span>[PH] 2</span>
+				<span>[PH] 3</span>
+				<span>[PH] 4</span>
+				<span>[PH] 5</span>
 			</div>
 
 			<div class="plan-date-info">
-				<div class="purchase">Purchas Date:</div>
-				<div class="plan-type">Plan Type:</div>
-				<div class="end-date">End Date:</div>
+				<div class="purchase bold">Purchas Date:</div>
+				<div class="plan-type bold">Plan Type:</div>
+				<div class="end-date bold">End Date:</div>
 
 				<div class="p-date">dd.mmmm.yyyy</div>
 				<div class="type">yearly payment</div>
 				<div class="e-date">dd.mmmm.yyyy</div>
 			</div>
 
-			<a class="btn btn-primary"> Upgrade Plan</a>
+			<a class="btn bs bf-green"> Upgrade Plan</a>
 		</div>
 	</Container>
 </template>
@@ -101,5 +101,9 @@ export default {
 
 .e-date {
 	grid-area: e-date;
+}
+
+.bold {
+	font-weight: bold;
 }
 </style>

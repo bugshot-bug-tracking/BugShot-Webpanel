@@ -1,7 +1,9 @@
 <template>
 	<div class="user-settings-layout c-scroll s-purple" v-if="user">
 		<Column class="column personal">
-			<template v-slot:header> Personal Settings </template>
+			<template v-slot:header>
+				<div class="bold">Personal Settings</div>
+			</template>
 
 			<div class="body">
 				<Container>
@@ -135,7 +137,9 @@
 		</Column>
 
 		<Column class="column">
-			<template v-slot:header> Extension </template>
+			<template v-slot:header>
+				<div class="bold">Extension</div>
+			</template>
 
 			<div class="body">
 				<Container>
@@ -390,6 +394,10 @@ export default {
 		align-items: center;
 		justify-content: space-between;
 		width: 60%;
+	}
+
+	.bold {
+		font-weight: bold;
 	}
 }
 </style>

@@ -15,6 +15,7 @@
 				:placeholder="`E-Mail`"
 				:type="'email'"
 				:image="require('@/assets/icons/at@.svg')"
+				class="my-3"
 			/>
 
 			<div class="roles">
@@ -132,7 +133,7 @@ export default {
 			display: flex;
 			gap: 8px;
 			flex-wrap: wrap;
-			width: 75%;
+			width: 80%;
 			justify-content: center;
 			align-items: center;
 		}
