@@ -9,9 +9,19 @@
 			maxlength="255"
 			:autocomplete="autocomplete"
 			v-model="value"
+			:disabled="disabled"
 		/>
 
-		<img v-if="image" class="image" :src="image" />
+		<img
+			v-if="image"
+			class="image"
+			:src="image"
+			@click="
+				{
+					$emit('imageClick');
+				}
+			"
+		/>
 	</div>
 </template>
 
@@ -40,7 +50,13 @@ export default {
 			required: false,
 			type: String,
 		},
+		disabled: {
+			required: false,
+			type: Boolean,
+			default: false,
+		},
 	},
+	emits: ["imageClick"],
 };
 </script>
 
@@ -50,11 +66,11 @@ export default {
 	display: flex;
 	position: relative;
 	align-items: center;
+	margin: auto;
 
 	.field {
 		border: 1px solid hsl(264, 78%, 77%);
 		border-radius: 8px;
-		margin: 16px 0;
 		width: 100%;
 		padding: 10px;
 		// padding-right: 40px;

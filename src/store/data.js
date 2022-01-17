@@ -75,6 +75,11 @@ export default {
 		REMOVE_INVITATION: (state, payload) => {
 			state.invitations.delete(payload);
 		},
+
+		SET_COMPANY_USERS: (state, payload) => {
+			const company = state.companies.get(payload.id);
+			company.attributes.users = payload.users;
+		},
 	},
 
 	// api calls
@@ -341,6 +346,25 @@ export default {
 			}
 		},
 
+		fetchCompanyUsers: async (state, company_id) => {
+			try {
+				let newCompany = (
+					await axios.get(`companies/${company_id}`, {
+						headers: {
+							"include-company-users": "true",
+						},
+					})
+				).data.data;
+
+				state.commit("SET_COMPANY_USERS", {
+					id: company_id,
+					users: newCompany.attributes.users,
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
 		syncBug: async (state, bug_id) => {
 			try {
 				//get a refference to the bug
@@ -350,6 +374,7 @@ export default {
 					`statuses/${bug.attributes.status_id}/bugs/${bug.id}`,
 					{
 						project_id: bug.attributes.project_id,
+						ai_id: bug.attributes.ai_id,
 						designation: bug.attributes.designation,
 						description: bug.attributes.desciption,
 						url: bug.attributes.url,

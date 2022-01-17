@@ -19,6 +19,7 @@
 			</div>
 
 			<FormInput
+				class="my-3"
 				:value="name"
 				@input="(i) => (name = i.target.value)"
 				:placeholder="`Enter ${dataType} Name`"
@@ -26,6 +27,7 @@
 			/>
 
 			<FormInput
+				class="my-3"
 				v-if="dataType === 'Project'"
 				:value="url"
 				@input="(i) => (url = i.target.value)"
