@@ -29,31 +29,26 @@
 			:class="{ active: active }"
 		>
 			<div class="image" v-show="pickOption === 1" @change="change">
-				<div class="empty" v-if="imgg === null">
-					<img src="../assets/icons/image_placeholder.svg" />
+				<img
+					v-if="imgg === null"
+					src="../assets/icons/image_placeholder.svg"
+				/>
+				<img v-else :src="imgg" />
 
-					<div class="text">Drag and drop your logo here or</div>
+				<div class="text">Drag and drop your logo here or</div>
 
-					<label for="pick-upload" class="btn bs be-green">
-						Upload Logo
-					</label>
+				<label for="pick-upload" class="btn bs be-green">
+					Upload Logo
+				</label>
 
-					<input type="file" name="upload" id="pick-upload" />
-				</div>
+				<input type="file" name="upload" id="pick-upload" />
 
-				<div class="preview" v-else>
-					<div class="image-container">
-						<img :src="imgg" />
-					</div>
-
-					<div class="btn bs be-green">Remove</div>
-					<!-- <img
-						v-if="imgg !== null"
-						class="reset-img"
-						src="../assets/icons/classic_X.svg"
-						@click="resetImage"
-					/> -->
-				</div>
+				<img
+					v-if="imgg !== null"
+					class="reset-img"
+					src="../assets/icons/classic_X.svg"
+					@click="resetImage"
+				/>
 			</div>
 
 			<div class="color" v-show="pickOption === 2">
@@ -221,7 +216,7 @@ export default {
 		border: 1px solid #bc97f2;
 		border-radius: 9px;
 		width: 95%;
-		height: 250px;
+		height: 200px;
 		padding: 20px;
 		position: relative;
 
@@ -233,29 +228,6 @@ export default {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			width: 100%;
-			height: 100%;
-
-			.preview {
-				width: 100%;
-				height: 100%;
-				margin: 0;
-
-				.image-container {
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					overflow: hidden;
-					position: relative;
-					width: 100%;
-					height: 80%;
-
-					img {
-						min-width: 100%;
-						min-height: 100%;
-					}
-				}
-			}
 
 			> * {
 				margin: 10px 0;
