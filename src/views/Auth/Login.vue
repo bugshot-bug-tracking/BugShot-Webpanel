@@ -68,6 +68,10 @@
 		<router-link to="/recover" class="btn bs be-green">
 			Recover
 		</router-link>
+
+		<router-link :to="{ name: 'Register' }" class="btn bs be-purple">
+			Register
+		</router-link>
 	</div>
 </template>
 
