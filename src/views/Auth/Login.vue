@@ -68,6 +68,10 @@
 		<router-link to="/recover" class="btn bs be-green">
 			Recover
 		</router-link>
+
+		<router-link :to="{ name: 'Register' }" class="btn bs be-purple">
+			Register
+		</router-link>
 	</div>
 </template>
 
@@ -101,7 +105,7 @@ export default {
 				})
 				.then((response) => {
 					if (response === false)
-						errMessage.value = "Incorect E-Mail or Password.";
+						errMessage.value = "Incorrect E-Mail or Password.";
 					else router.push({ name: "Home" });
 				});
 		};
