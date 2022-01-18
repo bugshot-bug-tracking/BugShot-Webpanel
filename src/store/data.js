@@ -336,7 +336,11 @@ export default {
 		// fetch all invitations
 		fetchInvitations: async (state) => {
 			try {
-				let roles = (await axios.get("user/invitations")).data.data;
+				let roles = (
+					await axios.get(
+						`users/${state.getters.getUser.id}/invitations`
+					)
+				).data.data;
 
 				for (const role of roles) {
 					state.commit("SET_INVITATION", role);
