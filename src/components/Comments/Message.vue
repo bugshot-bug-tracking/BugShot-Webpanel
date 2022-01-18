@@ -59,6 +59,7 @@ export default {
 		display: flex;
 		flex-direction: column;
 		width: 100%;
+		text-align: start;
 
 		.message {
 			font-size: 14px;

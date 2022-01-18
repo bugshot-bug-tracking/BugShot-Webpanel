@@ -228,7 +228,7 @@ export default {
 	label {
 		font-weight: bold;
 		color: hsl(230, 40%, 20%);
-		font-size: 15px;
+		font-size: 14px;
 		text-transform: capitalize;
 		margin-right: 5px;
 		align-self: start;
@@ -252,15 +252,14 @@ export default {
 		font-weight: 500;
 		align-self: center;
 		text-overflow: ellipsis;
-		margin-left: 5px;
 	}
 
 	.id {
-		font-size: 12px;
+		font-size: 14px;
 		line-height: 2em;
 
 		> label {
-			font-size: 12px;
+			font-size: 14px;
 		}
 	}
 
@@ -332,6 +331,7 @@ export default {
 		display: inline-flex;
 		flex-wrap: nowrap;
 		align-items: center;
+		font-size: 14px;
 	}
 
 	.screenshot {
@@ -367,7 +367,7 @@ export default {
 			color: hsl(0, 0%, 100%);
 			background-color: hsl(0, 0%, 50%);
 			border-radius: 30px;
-			font-size: 14px;
+			font-size: 12px;
 		}
 	}
 

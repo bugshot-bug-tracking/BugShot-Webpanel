@@ -64,7 +64,15 @@ export default {
 		background: hsl(0, 0%, 100%) 0% 0% no-repeat padding-box;
 		box-shadow: hsla(0, 0%, 0%, 0.35) 10px 10px 10px -11px;
 		border-radius: 12px;
-		padding: 0px 10px 0px 10px;
+		padding: 8px;
+
+		.card-header {
+			padding: 0.5rem;
+		}
+
+		.card-body {
+			padding: 1rem 0.5rem;
+		}
 	}
 
 	.bug-title {
@@ -84,6 +92,8 @@ export default {
 	.bug-deadline {
 		align-items: center;
 		color: hsl(230, 45%, 75%);
+		font-size: 14px;
+		text-align: left;
 
 		&::before {
 			content: "Deadline: ";
@@ -113,7 +123,7 @@ export default {
 	}
 
 	&.p3 {
-		padding: 4px;
+		padding: 3px 10px;
 		background-color: hsl(32, 100%, 67%);
 
 		&::after {
