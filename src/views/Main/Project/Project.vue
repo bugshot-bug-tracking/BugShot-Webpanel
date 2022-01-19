@@ -34,9 +34,8 @@
 					ghost-class="ghost-card"
 					group="tasks"
 					:item-key="(item) => item"
-					@change="bugMove"
+					@change="bugMove(status, $event)"
 					class="drag-zone"
-					@move="setStatusKey"
 				>
 					<template #item="{ element }">
 						<BugCard
@@ -134,15 +133,7 @@ export default {
 			flag.value = false;
 		};
 
-		const statusKey = ref("");
-
-		const setStatusKey = (event) => {
-			// take the status id from the vue node key attribute
-			statusKey.value =
-				event.to.parentNode.parentNode.__vueParentComponent.vnode.key;
-		};
-
-		const bugMove = async (event) => {
+		const bugMove = async (id, event) => {
 			// sync only on the add and move events
 			if (!(event.added || event.moved)) return;
 
@@ -153,7 +144,7 @@ export default {
 
 			let bug = store.getters.getBugById(data.element);
 
-			bug.attributes.status_id = statusKey.value;
+			bug.attributes.status_id = id;
 			bug.attributes.order_number = data.newIndex;
 
 			store.dispatch("syncBug", bug.id);
@@ -197,7 +188,6 @@ export default {
 			bugInfo,
 			info,
 			close,
-			setStatusKey,
 			bugMove,
 			statusData,
 			bugData,
