@@ -7,12 +7,12 @@ import axios from "axios";
 
 require("./store/subscriber");
 
-axios.defaults.baseURL = "https://dev-api.bugshot.de/api/v1";
+axios.defaults.baseURL = process.env.VUE_APP_API_ENDPOINT;
 axios.defaults.headers = {
 	Accept: "application/json",
 	"Content-Type": "application/json",
-	clientId: "1",
-	version: "1.0.0",
+	clientId: process.env.VUE_APP_CLIENT_ID,
+	version: process.env.VUE_APP_VERSION,
 };
 
 store.dispatch("attempt", localStorage.getItem("authToken"));
