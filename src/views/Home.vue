@@ -71,6 +71,15 @@ export default {
 			filter: invert(26%) sepia(92%) saturate(4327%) hue-rotate(258deg)
 				brightness(88%) contrast(104%);
 		}
+
+		&:hover {
+			cursor: pointer;
+
+			> img {
+				filter: invert(59%) sepia(93%) saturate(1686%)
+					hue-rotate(112deg) brightness(92%) contrast(84%);
+			}
+		}
 	}
 	&.close {
 		> .hide > img {
