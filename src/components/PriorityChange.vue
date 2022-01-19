@@ -78,7 +78,7 @@ export default {
 	}
 
 	&.p3 {
-		padding: 4px;
+		padding: 3px 10px;
 		background-color: hsl(32, 100%, 67%);
 
 		&::after {

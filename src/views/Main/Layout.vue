@@ -16,7 +16,7 @@
 			</div>
 		</div>
 
-		<div class="main">
+		<div class="main c-scroll s-purple">
 			<slot />
 		</div>
 	</div>
@@ -53,7 +53,7 @@ export default {
 		overflow: hidden;
 
 		.left {
-			width: 25%;
+			width: 40%;
 			display: flex;
 			flex-direction: column;
 			align-items: flex-start;

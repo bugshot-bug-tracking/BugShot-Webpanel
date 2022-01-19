@@ -60,7 +60,10 @@ export default {
 
 		const accept = async () => {
 			try {
-				await axios.get(`user/invitations/${props.id}/accept`);
+				let user = store.getters.getUser;
+				await axios.get(
+					`users/${user.id}/invitations/${props.id}/accept`
+				);
 
 				store.commit("REMOVE_INVITATION", props.id);
 				store.dispatch("init", props.id);
@@ -71,7 +74,11 @@ export default {
 
 		const decline = async () => {
 			try {
-				await axios.get(`user/invitations/${props.id}/accept`);
+				let user = store.getters.getUser;
+
+				await axios.get(
+					`user/${user.id}/invitations/${props.id}/accept`
+				);
 
 				store.commit("REMOVE_INVITATION", props.id);
 				store.dispatch("init", props.id);

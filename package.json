@@ -1,6 +1,6 @@
 {
-  "name": "Bugshot-Web",
-  "version": "0.1.0",
+  "name": "BugShot",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
