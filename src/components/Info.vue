@@ -247,11 +247,12 @@ export default {
 		width: 24px;
 		height: 24px;
 	}
+
 	.title > .content {
 		font-size: 20px;
 		font-weight: 500;
 		align-self: center;
-		text-overflow: ellipsis;
+		word-break: break-all;
 	}
 
 	.id {
@@ -266,6 +267,7 @@ export default {
 	.description {
 		display: block;
 		text-align: left;
+		word-break: break-all;
 	}
 
 	#technical {
