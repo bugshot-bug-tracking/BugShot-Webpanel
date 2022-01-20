@@ -168,6 +168,7 @@ export default {
 			if (
 				flag.value &&
 				e.path.find((e) => e == tab.value) == null &&
+				e.path.find((e) => e.className?.includes("bug-card")) == null &&
 				e.target.id != "downloadAttachmentA"
 			)
 				close();
