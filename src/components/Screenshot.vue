@@ -5,15 +5,20 @@
 	</div>
 
 	<Modal :show="modal" @close="modal = !modal">
-		<img :src="shownImage.image" alt="Screenshots" class="screen" />
+		<img
+			:src="showImage"
+			alt="Screenshots"
+			class="screen"
+			ref="bigScreen"
+		/>
 
 		<div
-			v-show="showMark"
+			v-show="mark.show"
 			class="marker"
 			:class="priority"
 			:style="{
-				left: shownImage.mark.x + '%',
-				top: shownImage.mark.y + '%',
+				left: mark.x + '%',
+				top: mark.y + '%',
 			}"
 		/>
 
@@ -22,28 +27,39 @@
 				<div class="controls">
 					<div
 						class="btn btn-hide-mark"
-						@click="showMark = !showMark"
+						@click="mark.show = !mark.show"
 					>
-						{{ showMark ? "Hide" : "Show" }} mark
+						{{ mark.show ? "Hide" : "Show" }} mark
 					</div>
 
 					<div class="images-counter" v-if="screenshots.length > 1">
-						{{ shownImage.number }} of {{ screenshots.length }}
+						{{ counter + 1 }} of {{ screenshots.length }}
 					</div>
 				</div>
 			</div>
 
 			<div class="controls-side" v-if="screenshots.length > 1">
-				<div class="btn btn-side-arrow arrow-left" @click="previous" />
-				<div class="btn btn-side-arrow arrow-right" @click="next" />
+				<div
+					class="btn btn-side-arrow arrow-left"
+					v-if="counter > 0"
+					@click="previous"
+				/>
+				<div v-else />
+
+				<div
+					class="btn btn-side-arrow arrow-right"
+					v-if="counter < screenshots.length - 1"
+					@click="next"
+				/>
 			</div>
 		</template>
 	</Modal>
 </template>
 
 <script>
-import { computed, ref } from "@vue/reactivity";
+import { computed, reactive, ref } from "@vue/reactivity";
 import Modal from "./Modal.vue";
+import { nextTick } from "@vue/runtime-core";
 
 export default {
 	components: { Modal },
@@ -61,8 +77,13 @@ export default {
 	emits: ["loading"],
 	setup(props, context) {
 		const modal = ref(false);
-		const showMark = ref(true);
 		const counter = ref(0);
+		const bigScreen = ref(null);
+		const mark = reactive({
+			show: true,
+			x: 0,
+			y: 0,
+		});
 
 		// fixes the problem of renedering a null object
 		const toggleModal = () => {
@@ -87,32 +108,33 @@ export default {
 			return "/";
 		});
 
-		const shownImage = computed(() => {
+		const showImage = computed(() => {
+			if (counter.value >= props.screenshots.length) counter.value = 0;
+
 			let img = props.screenshots[counter.value];
 
-			// used for getting the image dimensions from base64 data
-			let i = new Image();
-			i.src = img.attributes.base64;
+			// wait untill rendered to get image sizes
+			nextTick(() => {
+				// get points relative to the original image to put the marker
 
-			let x =
-				img.attributes.position_x <= 0
-					? 0
-					: (img.attributes.position_x / i.width) * 100;
+				mark.x =
+					img.attributes.position_x <= 0 &&
+					bigScreen.value.naturalWidth <= 0
+						? 0
+						: (img.attributes.position_x /
+								bigScreen.value.naturalWidth) *
+						  100;
 
-			let y =
-				img.attributes.position_y <= 0
-					? 0
-					: (img.attributes.position_y / i.height) * 100;
+				mark.y =
+					img.attributes.position_y <= 0 &&
+					bigScreen.value.naturalHeight <= 0
+						? 0
+						: (img.attributes.position_y /
+								bigScreen.value.naturalHeight) *
+						  100;
+			});
 
-			return {
-				image: img.attributes.base64,
-				number: counter.value + 1,
-				// needed the position relative to the original image resolution so it can account for different image distorsions while shown via modal
-				mark: {
-					x: x,
-					y: y,
-				},
-			};
+			return img.attributes.base64;
 		});
 
 		const priority = computed(() => {
@@ -134,9 +156,11 @@ export default {
 		return {
 			modal,
 			thumbnail,
-			shownImage,
+			counter,
+			bigScreen,
+			mark,
+			showImage,
 			priority,
-			showMark,
 			previous,
 			next,
 			toggleModal,
