@@ -322,8 +322,4 @@ export default {
 		background-image: url("../assets/marks/mark_min.svg");
 	}
 }
-
-.screen {
-	overflow: auto;
-}
 </style>
