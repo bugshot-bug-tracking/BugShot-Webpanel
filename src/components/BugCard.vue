@@ -84,6 +84,11 @@ export default {
 		border-bottom: 2px solid hsl(240, 100%, 95%);
 		text-align: left;
 
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		word-break: break-word;
+
 		&:hover {
 			cursor: pointer;
 		}
