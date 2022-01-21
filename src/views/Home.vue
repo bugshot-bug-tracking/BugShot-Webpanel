@@ -209,4 +209,13 @@ export default {
 		}
 	}
 }
+
+.disabled {
+	opacity: 0.5 !important;
+
+	&:hover {
+		opacity: 0.5 !important;
+		filter: none !important;
+	}
+}
 </style>

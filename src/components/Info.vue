@@ -1,7 +1,7 @@
 <template>
 	<Container>
 		<div id="info" class="d-flex flex-column no-wrap">
-			<div class="justify-content-between mb-2">
+			<div class="justify-content-between mb-2 align-items-start">
 				<div class="title">
 					<div class="content">{{ bug.attributes.designation }}</div>
 				</div>
