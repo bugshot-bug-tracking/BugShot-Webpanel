@@ -33,6 +33,7 @@
 						</router-link>
 
 						<router-link
+							v-if="false"
 							class="entry"
 							:to="{
 								name: 'CompanyInvoices',
