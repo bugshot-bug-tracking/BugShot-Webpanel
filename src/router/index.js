@@ -7,6 +7,7 @@ import Register from "../views/Auth/Register.vue";
 import Recover from "../views/Auth/Recover.vue";
 import NotFound from "../views/NotFound.vue";
 import Auth from "../views/Auth/Auth.vue";
+import VerifyEmail from "../views/Auth/VerifyEmail.vue";
 import EmptyView from "../views/Main/EmptyView.vue";
 
 import CompanyNavSidebar from "../views/Main/Company/NavSidebar.vue";
@@ -144,9 +145,32 @@ const routes = [
 	},
 
 	{
-		path: "/:catchAll(.*)",
-		name: "NotFound",
+		path: "/auth/verify/:user_id/:token",
+		name: "verify",
+		component: VerifyEmail,
+		props: true,
+		beforeEnter: (to, from, next) => {
+			if (
+				!to.params.user_id ||
+				isNaN(to.params.user_id) ||
+				!to.params.token ||
+				to.params.token.length < 40
+			) {
+				next({ name: "NotFound" });
+			} else next();
+		},
+	},
+
+	{
+		path: "/404",
+		name: "404",
 		component: NotFound,
+	},
+
+	{
+		path: "/:catchAll(.*)*",
+		name: "NotFound",
+		redirect: { name: "404" },
 	},
 ];
 
