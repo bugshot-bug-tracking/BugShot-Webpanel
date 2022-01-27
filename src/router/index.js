@@ -4,11 +4,12 @@ import store from "../store";
 import Home from "../views/Home.vue";
 import Login from "../views/Auth/Login.vue";
 import Register from "../views/Auth/Register.vue";
-import Recover from "../views/Auth/Recover.vue";
+import Reset from "../views/Auth/Reset.vue";
 import NotFound from "../views/NotFound.vue";
 import Auth from "../views/Auth/Auth.vue";
 import VerifyEmail from "../views/Auth/VerifyEmail.vue";
 import EmptyView from "../views/Main/EmptyView.vue";
+import Forgot from "../views/Auth/Forgot.vue";
 
 import CompanyNavSidebar from "../views/Main/Company/NavSidebar.vue";
 import CompanyProjects from "../views/Main/Company/CompanyProjects.vue";
@@ -137,9 +138,16 @@ const routes = [
 			},
 
 			{
-				path: "recover",
-				name: "Recover",
-				component: Recover,
+				path: "forgot",
+				name: "Forgot",
+				component: Forgot,
+			},
+
+			{
+				path: "reset-password/:email/:token",
+				name: "Reset",
+				component: Reset,
+				props: true,
 			},
 		],
 	},

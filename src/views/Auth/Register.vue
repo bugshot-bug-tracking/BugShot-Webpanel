@@ -126,8 +126,8 @@
 				Terms of Service
 			</label>
 
-			<button id="form-submit" type="submit" class="btn btn-primary">
-				<span>Register</span>
+			<button id="form-submit" type="submit" class="btn bs bf-green">
+				Register
 			</button>
 		</div>
 	</form>
@@ -256,14 +256,6 @@ export default {
 		align-content: center;
 		padding: 4% 1%;
 
-		#form-submit {
-			background: hsl(158, 80%, 47%) 0% 0% no-repeat padding-box;
-			border-radius: 20px;
-			border-color: hsl(158, 80%, 47%);
-			padding: 8px 20px;
-			font-weight: 500;
-		}
-
 		#remember {
 			filter: hue-rotate(40deg);
 		}
@@ -314,17 +306,6 @@ export default {
 		right: 12px;
 	}
 
-	.register {
-		border-top: 2px solid #bc97f2;
-		padding: 15px 0;
-
-		p {
-			font-size: 14px;
-			color: #1f0237;
-			line-height: 22px;
-		}
-	}
-
 	.error {
 		color: red;
 		border: 1px solid red;
@@ -341,5 +322,10 @@ export default {
 .errors {
 	color: red;
 	font-weight: 500;
+}
+
+#tos:checked {
+	color: #7a2de6;
+	accent-color: currentcolor;
 }
 </style>
