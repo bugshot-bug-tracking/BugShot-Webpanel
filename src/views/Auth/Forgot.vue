@@ -1,7 +1,7 @@
 <template>
-	<div class="title">Login</div>
+	<div class="title">Password reset</div>
 
-	<form id="login-form" @submit.prevent="submit">
+	<form v-if="!message" id="login-form" @submit.prevent="submit">
 		<div class="form-group">
 			<input
 				id="email"
@@ -20,102 +20,60 @@
 			<img class="email-img" src="../../assets/icons/at@.svg" />
 		</div>
 
-		<div class="form-group">
-			<input
-				id="password"
-				:type="passwordType"
-				name="password"
-				class="field"
-				placeholder="Password"
-				minlength="8"
-				required
-				maxlength="255"
-				v-model="password"
-				autocomplete="current-password"
-				@focus="errMessage = null"
-				:class="{ error: errMessage }"
-			/>
-
-			<img
-				class="password-img"
-				v-if="showPassword"
-				@click="togglePassword"
-				src="../../assets/icons/hide_password.svg"
-			/>
-
-			<img
-				class="password-img"
-				v-if="!showPassword"
-				@click="togglePassword"
-				src="../../assets/icons/show_password.svg"
-			/>
-		</div>
-
 		<div class="errors" v-if="errMessage != null">
 			{{ errMessage }}
 		</div>
 
 		<div class="from-buttons">
 			<button id="form-submit" type="submit" class="btn bs bf-green">
-				Log In
+				Reset Password
 			</button>
 		</div>
 	</form>
 
-	<div class="recover">
-		<router-link :to="{ name: 'Forgot' }" style="color: #7a2de6">
-			Forgot Password?
-		</router-link>
-
-		<router-link :to="{ name: 'Register' }" class="btn bs be-purple">
-			Register
-		</router-link>
+	<div v-if="message" class="d-flex flex-column gap-4 align-items-center">
+		<div class="message">{{ message }}</div>
 	</div>
 </template>
 
 <script>
 import { ref } from "@vue/reactivity";
-import store from "../../store";
+
+import axios from "axios";
 import router from "../../router";
 
 export default {
 	name: "Login",
 	setup() {
 		const email = ref("");
-		const password = ref("");
-
-		const showPassword = ref(false);
-		const passwordType = ref("password");
-
+		const message = ref(null);
 		const errMessage = ref(null);
 
-		const togglePassword = () => {
-			showPassword.value = !showPassword.value;
-			if (showPassword.value) passwordType.value = "text";
-			else passwordType.value = "password";
-		};
-
 		const submit = () => {
-			store
-				.dispatch("login", {
-					email: email.value,
-					password: password.value,
-				})
-				.then((response) => {
-					if (response === false)
-						errMessage.value = "Incorrect E-Mail or Password.";
-					else router.push({ name: "Home" });
-				});
+			if (email.value && email.value.length > 4)
+				try {
+					axios
+						.post(`auth/forgot-password`, {
+							email: email.value,
+						})
+						.then((response) => {
+							message.value = response.data;
+						})
+						.then(() => {
+							setTimeout(() => {
+								router.push({ name: "Home" });
+							}, 4000);
+						});
+				} catch (error) {
+					console.log(error);
+				}
 		};
 
 		return {
 			email,
-			password,
-			showPassword,
-			passwordType,
 			errMessage,
+			message,
 			submit,
-			togglePassword,
 		};
 	},
 };
@@ -143,9 +101,8 @@ export default {
 		align-items: center;
 		width: 100%;
 		justify-content: flex-end;
-		border-bottom: 2px solid hsl(264, 78%, 77%);
 		align-content: center;
-		padding: 1% 0 10% 0%;
+		padding: 2% 0 10% 0%;
 
 		#remember {
 			filter: hue-rotate(40deg);
@@ -192,17 +149,6 @@ export default {
 		right: 12px;
 	}
 
-	.register {
-		border-top: 2px solid #bc97f2;
-		padding: 15px 0;
-
-		p {
-			font-size: 14px;
-			color: #1f0237;
-			line-height: 22px;
-		}
-	}
-
 	.error {
 		color: red;
 		border: 1px solid red;
@@ -224,16 +170,14 @@ export default {
 	padding-bottom: 10px;
 }
 
-.recover {
+.message {
+	background: #7a2ee6 0% 0% no-repeat padding-box;
+	border-radius: 8px;
+	color: white;
+	width: 400px;
+	height: 88px;
 	display: flex;
 	align-items: center;
-	align-content: center;
-	justify-content: space-between;
-	width: 400px;
-	padding: 2% 0 5% 0;
-
-	> p {
-		margin: 0;
-	}
+	justify-content: center;
 }
 </style>

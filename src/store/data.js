@@ -78,7 +78,12 @@ export default {
 
 		SET_COMPANY_USERS: (state, payload) => {
 			const company = state.companies.get(payload.id);
-			company.attributes.users = payload.users;
+			company.users = payload.users;
+		},
+
+		UPDATE_COMPANY: (state, payload) => {
+			const company = state.companies.get(payload.id);
+			company.attributes = payload.company.attributes;
 		},
 	},
 
@@ -239,7 +244,7 @@ export default {
 
 				for (const screenshot of screenshots) {
 					// fetch each status bugs
-					console.log(screenshot);
+
 					screenshot.attributes.base64 = atob(
 						screenshot.attributes.base64
 					);
@@ -398,6 +403,27 @@ export default {
 							: {}),
 					}
 				);
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
+		// data is an object with the company id and new/old image
+		updateCompany: async (state, data) => {
+			try {
+				//get a refference to the bug
+				const company = state.state.companies.get(data.company_id);
+
+				let response = await axios.put(`companies/${company.id}`, {
+					designation: data.designation,
+					color_hex: data.color_hex,
+					base64: data.base64,
+				});
+
+				state.commit("UPDATE_COMPANY", {
+					id: company.id,
+					users: response.data.data,
+				});
 			} catch (error) {
 				console.log(error);
 			}

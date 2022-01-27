@@ -1,18 +1,16 @@
 <template>
 	<Container>
 		<div class="team-table">
-			<div class="container" v-if="company?.attributes.users">
+			<div class="container" v-if="company?.users">
 				<div class="header bold">
 					<div class="members">Members</div>
-					<div class="count">
-						{{ company.attributes.users.length }} out of 8
-					</div>
+					<div class="count">{{ company.users.length }} out of 8</div>
 				</div>
 
 				<div class="items">
 					<div
 						class="person"
-						v-for="user of company.attributes.users"
+						v-for="user of company.users"
 						:key="user.id"
 					>
 						<div class="info">
@@ -50,8 +48,8 @@
 							</div>
 						</div>
 
-						<div class="actions">
-							<a>
+						<div class="actions disabled">
+							<a @click.prevent="removeUser(user)">
 								<img
 									src="../assets/icons/trash.svg"
 									alt="Trash Can"
@@ -70,6 +68,7 @@
 import { computed } from "@vue/reactivity";
 import store from "../store";
 import Container from "./Container.vue";
+import { watch } from "@vue/runtime-core";
 export default {
 	components: { Container },
 	props: {
@@ -96,9 +95,22 @@ export default {
 			"#89A3EB", // gray
 		];
 
+		watch(
+			props,
+			() => {
+				store.dispatch("fetchCompanyUsers", props.company_id);
+			},
+			{ deep: true }
+		);
+
+		const removeUser = (user) => {
+			// console.log(user);
+		};
+
 		return {
 			company,
 			colors,
+			removeUser,
 		};
 	},
 };

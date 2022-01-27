@@ -1,16 +1,33 @@
 <template>
-	<div class="viewport-height-wrap">
-		<div class="not-found-page">
-			<div class="not-found-page-content">
-				<img src="../assets/extern/404.png" />
-				<p>Wir konnten leider nicht finden, was Du gesucht hast</p>
-				<a href="" class="round-btn">Zurück zur Übersicht</a>
-			</div>
-		</div>
+	<div class="wrapper">
+		<img src="../assets/gif/bugshot_404_error.gif" alt="404" />
+		<div class="text">We've encountered a problem</div>
+		<a></a>
+		<router-link
+			class="btn bs bf-green"
+			:to="{
+				name: 'Home',
+			}"
+		>
+			Go back home
+		</router-link>
 	</div>
-	<!-- ./viewport-height-wrap -->
 </template>
 
-<script setup></script>
+<style lang="scss" scoped>
+.wrapper {
+	display: flex;
+	width: 100vw;
+	height: 100vh;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 40px;
 
-<style lang="scss" scoped></style>
+	.text {
+		color: #5916b9;
+		font-size: 1.7rem;
+		font-weight: bold;
+	}
+}
+</style>

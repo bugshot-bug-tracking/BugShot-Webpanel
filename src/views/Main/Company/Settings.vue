@@ -36,7 +36,6 @@
 							<a
 								class="save-button btn bs bf-green"
 								@click="saveChanges"
-								aria-disabled="true"
 							>
 								Save changes
 							</a>
@@ -44,15 +43,15 @@
 					</Container>
 				</div>
 
-				<div class="d-flex flex-column">
-					<a class="text-danger">
+				<div class="d-flex flex-column disabled">
+					<a class="text-danger" @click.prevent="deleteCompany">
 						Delete company and associated projects
 					</a>
 					(can't be reverted)
 				</div>
 			</Column>
 
-			<Column>
+			<Column class="members">
 				<template v-slot:header>
 					<div class="bold">Team Members</div>
 				</template>
@@ -62,7 +61,7 @@
 				</div>
 			</Column>
 
-			<Column class="plan">
+			<Column class="plan" v-if="false">
 				<template v-slot:header>
 					<div class="bold">Plan Details</div>
 				</template>
@@ -164,18 +163,29 @@ export default {
 			});
 
 		const setImage = async (value) => {
-			console.log("setImage", value);
+			// console.log("setImage", value);
 			if (value != null) companyParams.image = await toBase64(value);
 			else companyParams.image = null;
 		};
 
 		const setColor = (value) => {
-			console.log("setImage", value);
+			// console.log("setImage", value);
 			companyParams.color = value;
 		};
 
 		const saveChanges = () => {
-			console.log(companyParams);
+			let data = {
+				company_id: props.id,
+				designation: companyParams.name,
+				color_hex: colors[companyParams.color],
+				base64: companyParams.image ? btoa(companyParams.image) : null,
+			};
+
+			store.dispatch("updateCompany", data);
+		};
+
+		const deleteCompany = () => {
+			// console.log(props.id);
 		};
 
 		return {
@@ -185,6 +195,7 @@ export default {
 			setColor,
 			imageFlag,
 			saveChanges,
+			deleteCompany,
 		};
 	},
 };
@@ -202,6 +213,11 @@ export default {
 		width: 500px;
 		min-width: 500px;
 	}
+
+	.members {
+		max-width: 40%;
+	}
+
 	.plan {
 		width: 500px;
 		min-width: 500px;
