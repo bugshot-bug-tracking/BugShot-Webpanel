@@ -191,7 +191,7 @@ export default {
 		display: flex;
 		align-items: center;
 		width: 100%;
-		justify-content: space-between;
+		justify-content: flex-end;
 		align-content: center;
 		padding: 4% 1%;
 
