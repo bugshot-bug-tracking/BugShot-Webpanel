@@ -8,29 +8,11 @@
 		<div class="container success" v-if="status === 1">
 			<img src="../../assets/gif/bug_confirmation.gif" alt="loading" />
 			<div class="text">Success!</div>
-
-			<router-link
-				class="btn bs bf-green"
-				:to="{
-					name: 'Home',
-				}"
-			>
-				Go to homepage
-			</router-link>
 		</div>
 
 		<div class="container error" v-if="status === 2">
 			<img src="../../assets/gif/error_bug.gif" alt="loading" />
 			<div class="text">Error!</div>
-
-			<router-link
-				class="btn bs bf-green"
-				:to="{
-					name: 'Home',
-				}"
-			>
-				Go to homepage
-			</router-link>
 		</div>
 	</div>
 
@@ -44,8 +26,8 @@
 <script>
 import { reactive, ref } from "@vue/reactivity";
 import axios from "axios";
-import { nextTick } from "@vue/runtime-core";
 import { useRoute } from "vue-router";
+import router from "../../router";
 export default {
 	props: {
 		user_id: {
@@ -63,33 +45,30 @@ export default {
 		const status = ref(0);
 
 		const route = useRoute();
-		console.log(route.query);
-		const data = reactive({
-			user_id: route.params.user_id,
-			token: route.params.token,
-			expires: route.query.expires,
-			signature: route.query.signature,
-		});
-		console.log(data);
 
-		const verify = async () => {
+		const verify = () => {
 			status.value = 0;
 
-			try {
-				console.log(
+			axios
+				.get(
 					`/auth/email/verify/${props.user_id}/${props.token}?expires=${route.query.expires}&signature=${route.query.signature}`
-				);
-				let response = await axios
-					.get(
-						`/auth/email/verify/${props.user_id}/${props.token}?expires=${route.query.expires}&signature=${route.query.signature}`
-					)
-					.catch((error) => {
-						console.log(error);
-					});
-				if (response.response.status > 299) throw new Error();
-			} catch (error) {
-				status.value = 2;
-			}
+				)
+				.then((response) => {
+					status.value = 1;
+
+					setTimeout(() => {
+						router.push({ name: "Login" });
+					}, 3000);
+				})
+				.catch((error) => {
+					console.log(error);
+
+					status.value = 2;
+
+					setTimeout(() => {
+						router.push({ name: "Login" });
+					}, 5000);
+				});
 		};
 
 		verify();

@@ -163,13 +163,13 @@ export default {
 			});
 
 		const setImage = async (value) => {
-			console.log("setImage", value);
+			// console.log("setImage", value);
 			if (value != null) companyParams.image = await toBase64(value);
 			else companyParams.image = null;
 		};
 
 		const setColor = (value) => {
-			console.log("setImage", value);
+			// console.log("setImage", value);
 			companyParams.color = value;
 		};
 

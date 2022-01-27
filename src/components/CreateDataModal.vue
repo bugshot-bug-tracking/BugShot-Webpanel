@@ -87,12 +87,12 @@ export default {
 		const url = ref("");
 
 		const setImage = (value) => {
-			console.log("setImage", value);
+			// console.log("setImage", value);
 			file.value = value;
 		};
 
 		const setColor = (value) => {
-			console.log("setImage", value);
+			// console.log("setImage", value);
 			color.value = value;
 		};
 
@@ -131,7 +131,7 @@ export default {
 					url.value != null &&
 					url.value != ""
 				) {
-					console.log(url.value);
+					// console.log(url.value);
 					let u = new URL(url.value);
 					aditionalBody["url"] = u.origin;
 				}

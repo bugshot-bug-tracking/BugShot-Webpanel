@@ -244,7 +244,7 @@ export default {
 
 				for (const screenshot of screenshots) {
 					// fetch each status bugs
-					console.log(screenshot);
+
 					screenshot.attributes.base64 = atob(
 						screenshot.attributes.base64
 					);
