@@ -63,11 +63,11 @@ export default {
 	setup(props) {
 		const imageURL = computed(() => {
 			if (props.image == null) return;
-			console.log(props.image);
+			// console.log(props.image);
 			let l = URL.createObjectURL(
 				new Blob([props.image.attributes.base64])
 			);
-			console.log(l);
+			// console.log(l);
 			return props.image.attributes.base64;
 		});
 

@@ -45,14 +45,6 @@ export default {
 		const status = ref(0);
 
 		const route = useRoute();
-		console.log(route.query);
-		const data = reactive({
-			user_id: route.params.user_id,
-			token: route.params.token,
-			expires: route.query.expires,
-			signature: route.query.signature,
-		});
-		console.log(data);
 
 		const verify = () => {
 			status.value = 0;
@@ -63,14 +55,16 @@ export default {
 				)
 				.then((response) => {
 					status.value = 1;
-					console.log(response);
+
 					setTimeout(() => {
 						router.push({ name: "Login" });
 					}, 3000);
 				})
 				.catch((error) => {
 					console.log(error);
+
 					status.value = 2;
+
 					setTimeout(() => {
 						router.push({ name: "Login" });
 					}, 5000);
