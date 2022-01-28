@@ -48,8 +48,8 @@
 					</router-link>
 				</li>
 
-				<li class="btn logout">
-					<img src="../assets/extern/logout.svg" @click="logout" />
+				<li class="logout" @click="logout">
+					<img src="../assets/extern/logout.svg" />
 				</li>
 			</div>
 		</ul>
@@ -295,7 +295,36 @@ export default {
 	position: relative;
 }
 
-.logout > img {
-	transform: rotateZ(90deg);
+.logout {
+	position: relative;
+	cursor: pointer;
+	z-index: 1;
+
+	&::before {
+		background: red;
+		width: 38px;
+		height: 38px;
+		content: "";
+		position: absolute;
+		border-radius: 50%;
+		z-index: -1;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		transition: 0.3s;
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	&:hover::before {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	> img {
+		width: 24px;
+		height: 24px;
+		transform: rotateZ(90deg);
+	}
 }
 </style>
