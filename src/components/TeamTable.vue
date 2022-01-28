@@ -34,7 +34,7 @@
 									user.attributes.last_name[0]
 								}}
 							</div>
-							<div class="wraper">
+							<div class="wrapper">
 								<div class="name">
 									{{
 										user.attributes.first_name +
@@ -48,7 +48,7 @@
 							</div>
 						</div>
 
-						<div class="actions disabled">
+						<div v-if="canRemove(user.id)" class="actions">
 							<a @click.prevent="removeUser(user)">
 								<img
 									src="../assets/icons/trash.svg"
@@ -69,6 +69,7 @@ import { computed } from "@vue/reactivity";
 import store from "../store";
 import Container from "./Container.vue";
 import { watch } from "@vue/runtime-core";
+import axios from "axios";
 export default {
 	components: { Container },
 	props: {
@@ -95,6 +96,27 @@ export default {
 			"#89A3EB", // gray
 		];
 
+		const removeUser = (user) => {
+			axios
+				.delete(`companies/${company.value.id}/users/${user.id}`)
+				.then((response) => {
+					company.value.users.splice(
+						company.value.users.findIndex((x) => x.id === user.id),
+						1
+					);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		};
+
+		const canRemove = (id) => {
+			if (!id || !company.value || !company.value.attributes.creator)
+				return false;
+
+			return !(id === company.value.attributes.creator.id);
+		};
+
 		watch(
 			props,
 			() => {
@@ -103,14 +125,11 @@ export default {
 			{ deep: true }
 		);
 
-		const removeUser = (user) => {
-			// console.log(user);
-		};
-
 		return {
 			company,
 			colors,
 			removeUser,
+			canRemove,
 		};
 	},
 };
@@ -171,13 +190,16 @@ export default {
 					text-transform: uppercase;
 				}
 
-				.wraper {
+				.wrapper {
 					display: flex;
 					flex-direction: column;
 					text-align: left;
 
 					.name {
 						font-weight: bold;
+					}
+					.email {
+						word-break: break-all;
 					}
 				}
 			}

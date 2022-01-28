@@ -43,7 +43,7 @@
 					</Container>
 				</div>
 
-				<div class="d-flex flex-column disabled">
+				<div class="d-flex flex-column" v-if="canDelete">
 					<a class="text-danger" @click.prevent="deleteCompany">
 						Delete company and associated projects
 					</a>
@@ -111,6 +111,17 @@ export default {
 			image: null,
 		});
 		const imageFlag = ref(false);
+
+		const canDelete = computed(() => {
+			if (
+				!user.value ||
+				!record.value ||
+				!record.value.attributes.creator
+			)
+				return false;
+
+			return user.value.id === record.value.attributes.creator.id;
+		});
 
 		const record = computed(() => {
 			let company = store.getters.getCompanyById(props.id);
@@ -185,7 +196,9 @@ export default {
 		};
 
 		const deleteCompany = () => {
-			// console.log(props.id);
+			if (!canDelete.value) return;
+
+			store.dispatch("deleteCompany", record.value.id);
 		};
 
 		return {
@@ -196,6 +209,7 @@ export default {
 			imageFlag,
 			saveChanges,
 			deleteCompany,
+			canDelete,
 		};
 	},
 };
@@ -246,5 +260,13 @@ export default {
 
 .bold {
 	font-weight: bold;
+}
+
+.text-danger {
+	cursor: pointer;
+
+	&:hover {
+		font-weight: bold;
+	}
 }
 </style>
