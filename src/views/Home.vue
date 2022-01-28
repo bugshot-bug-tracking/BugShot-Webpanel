@@ -218,4 +218,14 @@ export default {
 		filter: none !important;
 	}
 }
+
+.disabled-overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	opacity: 0.5;
+	top: 0;
+	left: 0;
+	background-color: white;
+}
 </style>
