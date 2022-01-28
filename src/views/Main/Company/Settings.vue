@@ -41,6 +41,8 @@
 							</a>
 						</div>
 					</Container>
+
+					<div v-if="!canEdit" class="disabled-overlay" />
 				</div>
 
 				<div class="d-flex flex-column" v-if="canDelete">
@@ -58,6 +60,8 @@
 
 				<div class="body">
 					<TeamTable :company_id="id" />
+
+					<div v-if="!canEdit" class="disabled-overlay" />
 				</div>
 			</Column>
 
@@ -111,6 +115,21 @@ export default {
 			image: null,
 		});
 		const imageFlag = ref(false);
+
+		const user = computed(() => {
+			return store.getters.getUser;
+		});
+
+		const canEdit = computed(() => {
+			if (
+				!user.value ||
+				!record.value ||
+				!record.value.attributes.creator
+			)
+				return false;
+
+			return user.value.id === record.value.attributes.creator.id;
+		});
 
 		const canDelete = computed(() => {
 			if (
@@ -209,6 +228,7 @@ export default {
 			imageFlag,
 			saveChanges,
 			deleteCompany,
+			canEdit,
 			canDelete,
 		};
 	},
@@ -226,10 +246,18 @@ export default {
 	.general {
 		width: 500px;
 		min-width: 500px;
+
+		.body {
+			position: relative;
+		}
 	}
 
 	.members {
 		max-width: 40%;
+
+		.body {
+			position: relative;
+		}
 	}
 
 	.plan {
