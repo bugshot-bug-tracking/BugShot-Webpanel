@@ -184,7 +184,7 @@ export default {
 					console.log(response.data);
 				})
 				.then(() => {
-					router.push({ name: "Login" });
+					router.push({ name: "Login", params: { message: "X" } });
 				})
 				.catch((error) => {
 					console.dir(error);
