@@ -161,8 +161,7 @@ const routes = [
 			if (
 				!to.params.user_id ||
 				isNaN(to.params.user_id) ||
-				!to.params.token ||
-				to.params.token.length < 40
+				!to.params.token
 			) {
 				next({ name: "NotFound" });
 			} else next();

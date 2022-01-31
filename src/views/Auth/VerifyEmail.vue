@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { reactive, ref } from "@vue/reactivity";
+import { ref } from "@vue/reactivity";
 import axios from "axios";
 import { useRoute } from "vue-router";
 import router from "../../router";

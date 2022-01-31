@@ -41,9 +41,11 @@
 							</a>
 						</div>
 					</Container>
+
+					<div v-if="!canEdit" class="disabled-overlay" />
 				</div>
 
-				<div class="d-flex flex-column disabled">
+				<div class="d-flex flex-column" v-if="canDelete">
 					<a class="text-danger" @click.prevent="deleteCompany">
 						Delete company and associated projects
 					</a>
@@ -58,6 +60,8 @@
 
 				<div class="body">
 					<TeamTable :company_id="id" />
+
+					<div v-if="!canEdit" class="disabled-overlay" />
 				</div>
 			</Column>
 
@@ -111,6 +115,32 @@ export default {
 			image: null,
 		});
 		const imageFlag = ref(false);
+
+		const user = computed(() => {
+			return store.getters.getUser;
+		});
+
+		const canEdit = computed(() => {
+			if (
+				!user.value ||
+				!record.value ||
+				!record.value.attributes.creator
+			)
+				return false;
+
+			return user.value.id === record.value.attributes.creator.id;
+		});
+
+		const canDelete = computed(() => {
+			if (
+				!user.value ||
+				!record.value ||
+				!record.value.attributes.creator
+			)
+				return false;
+
+			return user.value.id === record.value.attributes.creator.id;
+		});
 
 		const record = computed(() => {
 			let company = store.getters.getCompanyById(props.id);
@@ -185,7 +215,9 @@ export default {
 		};
 
 		const deleteCompany = () => {
-			// console.log(props.id);
+			if (!canDelete.value) return;
+
+			store.dispatch("deleteCompany", record.value.id);
 		};
 
 		return {
@@ -196,6 +228,8 @@ export default {
 			imageFlag,
 			saveChanges,
 			deleteCompany,
+			canEdit,
+			canDelete,
 		};
 	},
 };
@@ -212,10 +246,18 @@ export default {
 	.general {
 		width: 500px;
 		min-width: 500px;
+
+		.body {
+			position: relative;
+		}
 	}
 
 	.members {
 		max-width: 40%;
+
+		.body {
+			position: relative;
+		}
 	}
 
 	.plan {
@@ -246,5 +288,13 @@ export default {
 
 .bold {
 	font-weight: bold;
+}
+
+.text-danger {
+	cursor: pointer;
+
+	&:hover {
+		font-weight: bold;
+	}
 }
 </style>

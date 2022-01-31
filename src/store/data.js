@@ -85,6 +85,10 @@ export default {
 			const company = state.companies.get(payload.id);
 			company.attributes = payload.company.attributes;
 		},
+
+		DELETE_COMPANY: (state, id) => {
+			state.companies.delete(id);
+		},
 	},
 
 	// api calls
@@ -426,6 +430,21 @@ export default {
 				});
 			} catch (error) {
 				console.log(error);
+			}
+		},
+
+		deleteCompany: async (state, company_id) => {
+			try {
+				const company = state.state.companies.get(company_id);
+
+				let response = await axios.delete(`/companies/${company.id}`);
+
+				state.commit("DELETE_COMPANY", company_id);
+
+				return true;
+			} catch (error) {
+				console.log(error);
+				return false;
 			}
 		},
 	},
