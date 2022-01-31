@@ -1,6 +1,7 @@
 <template>
 	<div class="message" v-if="message">
-		You need to verify your email before login!
+		<p>You need to verify your email before login!</p>
+		<p>A verification link was send via email.</p>
 	</div>
 
 	<div class="title">Login</div>
@@ -250,8 +251,12 @@ export default {
 .message {
 	background-color: hsl(158, 80%, 46%);
 	color: white;
-	size: 20px;
+	font-size: 18px;
 	padding: 10px 20px;
 	border-radius: 6px;
+
+	p {
+		margin: unset;
+	}
 }
 </style>
