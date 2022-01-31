@@ -1,4 +1,9 @@
 <template>
+	<div class="message" v-if="message">
+		<p>You need to verify your email before login!</p>
+		<p>A verification link was send via email.</p>
+	</div>
+
 	<div class="title">Login</div>
 
 	<form id="login-form" @submit.prevent="submit">
@@ -80,6 +85,12 @@ import router from "../../router";
 
 export default {
 	name: "Login",
+	props: {
+		message: {
+			type: String,
+			default: null,
+		},
+	},
 	setup() {
 		const email = ref("");
 		const password = ref("");
@@ -234,6 +245,18 @@ export default {
 
 	> p {
 		margin: 0;
+	}
+}
+
+.message {
+	background-color: hsl(158, 80%, 46%);
+	color: white;
+	font-size: 18px;
+	padding: 10px 20px;
+	border-radius: 6px;
+
+	p {
+		margin: unset;
 	}
 }
 </style>
