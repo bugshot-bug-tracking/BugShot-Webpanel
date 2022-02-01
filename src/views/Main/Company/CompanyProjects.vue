@@ -31,6 +31,7 @@
 				<Card
 					v-for="project of companyProjects(record.id)"
 					:key="project.id"
+					:id="project.id"
 					:title="project.attributes.designation"
 					:mainText="'Task Overview'"
 					:secondText="

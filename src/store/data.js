@@ -89,6 +89,18 @@ export default {
 		DELETE_COMPANY: (state, id) => {
 			state.companies.delete(id);
 		},
+
+		DELETE_PROJECT: (state, id) => {
+			const project = state.projects.get(id);
+			const company = state.companies.get(project.attributes.company.id);
+
+			company.projects.splice(
+				company.projects.findIndex((x) => x === project.id),
+				1
+			);
+
+			state.projects.delete(id);
+		},
 	},
 
 	// api calls
@@ -136,6 +148,29 @@ export default {
 				}
 
 				state.commit("SET_COMPANIES", coMap);
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
+		fetchCompany: async (state, copany_id) => {
+			try {
+				let company = (
+					await axios.get(`companies/${copany_id}`, {
+						headers: {
+							"include-image": "true",
+						},
+					})
+				).data.data;
+
+				company["projects"] = null;
+
+				if (company.attributes.image != null)
+					company.attributes.image.attributes.base64 = atob(
+						company.attributes.image.attributes.base64
+					);
+
+				state.commit("SET_COMPANY", company);
 			} catch (error) {
 				console.log(error);
 			}
@@ -444,6 +479,24 @@ export default {
 				return true;
 			} catch (error) {
 				console.log(error);
+				return false;
+			}
+		},
+
+		deleteProject: async (state, project_id) => {
+			try {
+				const project = state.state.projects.get(project_id);
+
+				await axios.delete(
+					`/companies/${project.attributes.company.id}/projects/${project.id}`
+				);
+
+				state.commit("DELETE_PROJECT", project_id);
+
+				return true;
+			} catch (error) {
+				console.log(error);
+
 				return false;
 			}
 		},

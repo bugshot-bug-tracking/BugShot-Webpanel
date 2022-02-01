@@ -43,7 +43,7 @@ import axios from "axios";
 import router from "../../router";
 
 export default {
-	name: "Login",
+	name: "ForgotPassword",
 	setup() {
 		const email = ref("");
 		const message = ref(null);
