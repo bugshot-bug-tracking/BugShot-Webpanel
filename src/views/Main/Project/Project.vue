@@ -8,14 +8,6 @@
 
 		<template v-slot:top>
 			<InviteModal :dataType="'Project'" :id="id" />
-
-			<router-link
-				v-if="false"
-				:to="{ name: 'ProjectSettings', params: { id: id } }"
-				class="btn bs be-green"
-			>
-				Project Settings
-			</router-link>
 		</template>
 
 		<BugsTable v-if="project?.statuses">
