@@ -83,11 +83,28 @@ export default {
 
 		UPDATE_COMPANY: (state, payload) => {
 			const company = state.companies.get(payload.id);
-			company.attributes = payload.company.attributes;
+			company.attributes = payload.attributes;
+		},
+
+		UPDATE_PROJECT: (state, payload) => {
+			const project = state.projects.get(payload.id);
+			project.attributes = payload.attributes;
 		},
 
 		DELETE_COMPANY: (state, id) => {
 			state.companies.delete(id);
+		},
+
+		DELETE_PROJECT: (state, id) => {
+			const project = state.projects.get(id);
+			const company = state.companies.get(project.attributes.company.id);
+
+			company.projects.splice(
+				company.projects.findIndex((x) => x === project.id),
+				1
+			);
+
+			state.projects.delete(id);
 		},
 	},
 
@@ -141,6 +158,29 @@ export default {
 			}
 		},
 
+		fetchCompany: async (state, copany_id) => {
+			try {
+				let company = (
+					await axios.get(`companies/${copany_id}`, {
+						headers: {
+							"include-image": "true",
+						},
+					})
+				).data.data;
+
+				company["projects"] = null;
+
+				if (company.attributes.image != null)
+					company.attributes.image.attributes.base64 = atob(
+						company.attributes.image.attributes.base64
+					);
+
+				state.commit("SET_COMPANY", company);
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
 		// fetch all the projects that are a part of the companies already in memory and set the project property on each company record to a list of projects id's relative to the project Map
 		fetchProjects: async (state) => {
 			try {
@@ -149,6 +189,7 @@ export default {
 						await axios.get(`companies/${company.id}/projects`, {
 							headers: {
 								"include-image": "true",
+								"include-project-image": "true",
 							},
 						})
 					).data.data;
@@ -162,21 +203,14 @@ export default {
 						// used to determine if bugs were fetched or not
 						project["statuses"] = null;
 
-						try {
-							let image = (
-								await axios.get(`projects/${project.id}/image`)
-							).data.data;
-
-							if (image != null && image.attributes)
-								image.attributes.base64 = atob(
-									image.attributes.base64
-								);
-							else image = null;
-
-							project.attributes.image = image;
-						} catch (error) {
-							console.log(error);
-						}
+						if (
+							project.attributes.image != null &&
+							project.attributes.image.attributes
+						)
+							project.attributes.image.attributes.base64 = atob(
+								project.attributes.image.attributes.base64
+							);
+						else project.attributes.image = null;
 
 						state.commit("SET_PROJECT", project);
 
@@ -412,22 +446,21 @@ export default {
 			}
 		},
 
-		// data is an object with the company id and new/old image
+		// data is an object with the company id and new/old data
 		updateCompany: async (state, data) => {
 			try {
 				//get a refference to the bug
 				const company = state.state.companies.get(data.company_id);
 
-				let response = await axios.put(`companies/${company.id}`, {
-					designation: data.designation,
-					color_hex: data.color_hex,
-					base64: data.base64,
-				});
+				let response = (
+					await axios.put(`companies/${company.id}`, {
+						designation: data.designation,
+						color_hex: data.color_hex,
+						base64: data.base64,
+					})
+				).data.data;
 
-				state.commit("UPDATE_COMPANY", {
-					id: company.id,
-					users: response.data.data,
-				});
+				state.commit("UPDATE_COMPANY", response);
 			} catch (error) {
 				console.log(error);
 			}
@@ -444,6 +477,62 @@ export default {
 				return true;
 			} catch (error) {
 				console.log(error);
+				return false;
+			}
+		},
+
+		// data is an object with the project id and new/old data
+		updateProject: async (state, data) => {
+			try {
+				//get a refference to the bug
+				const project = state.state.projects.get(data.id);
+
+				let response = (
+					await axios.put(
+						`companies/${project.attributes.company.id}/projects/${project.id}`,
+						{
+							designation: data.designation,
+							url: data.url,
+							color_hex: data.color_hex,
+							base64: data.base64,
+						}
+						// {
+						// 	headers: {
+						// 		"include-project-image": "true",
+						// 	},
+						// }
+					)
+				).data.data;
+
+				let image = (await axios.get(`projects/${project.id}/image`))
+					.data.data;
+
+				if (image != null && image.attributes)
+					image.attributes.base64 = atob(image.attributes.base64);
+				else image = null;
+
+				response.attributes.image = image;
+
+				state.commit("UPDATE_PROJECT", response);
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
+		deleteProject: async (state, project_id) => {
+			try {
+				const project = state.state.projects.get(project_id);
+
+				await axios.delete(
+					`/companies/${project.attributes.company.id}/projects/${project.id}`
+				);
+
+				state.commit("DELETE_PROJECT", project_id);
+
+				return true;
+			} catch (error) {
+				console.log(error);
+
 				return false;
 			}
 		},

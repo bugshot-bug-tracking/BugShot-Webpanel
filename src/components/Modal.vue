@@ -24,7 +24,10 @@ export default {
 	name: "Modal",
 	emits: ["close"],
 	props: {
-		show: Boolean,
+		show: {
+			type: Boolean,
+			default: true,
+		},
 	},
 };
 </script>

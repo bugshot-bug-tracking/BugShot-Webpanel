@@ -21,9 +21,6 @@ import CompanySettings from "../views/Main/Company/Settings.vue";
 import CompanySettingsSidebar from "../views/Main/Company/SettingsSidebar.vue";
 import CompanyInvoices from "../views/Main/Company/Invoices.vue";
 
-import ProjectSettings from "../views/Main/Project/Settings.vue";
-import ProjectSettingsSidebar from "../views/Main/Project/SettingsSidebar.vue";
-
 import AllProjects from "../views/Main/Project/All.vue";
 
 const routes = [
@@ -102,16 +99,6 @@ const routes = [
 						props: true,
 					},
 				],
-			},
-
-			{
-				path: "settings/project/:id",
-				name: "ProjectSettings",
-				components: {
-					default: ProjectSettings,
-					sidebar: ProjectSettingsSidebar,
-				},
-				props: true,
 			},
 		],
 		meta: {

@@ -110,9 +110,6 @@ export default {
 			&:hover {
 				background: hsl(158, 80%, 41%);
 			}
-
-			&.disabled {
-			}
 		}
 
 		&.be-green {
@@ -124,9 +121,6 @@ export default {
 			&:hover {
 				background: hsl(158, 79%, 87%);
 			}
-
-			&.disabled {
-			}
 		}
 
 		&.bf-purple {
@@ -135,9 +129,6 @@ export default {
 
 			&:hover {
 				background: hsl(265, 80%, 41%);
-			}
-
-			&.disabled {
 			}
 		}
 
@@ -150,8 +141,25 @@ export default {
 			&:hover {
 				background: hsl(265, 79%, 92%);
 			}
+		}
 
-			&.disabled {
+		&.bf-red {
+			background: hsl(0, 88%, 58%);
+			color: hsl(0, 0%, 100%);
+
+			&:hover {
+				background: hsl(0, 88%, 45%);
+			}
+		}
+
+		&.be-red {
+			background: transparent;
+			border: 2px solid hsl(0, 88%, 58%);
+			color: hsl(0, 88%, 58%);
+			font-weight: bold;
+
+			&:hover {
+				background: hsl(265, 79%, 92%);
 			}
 		}
 	}

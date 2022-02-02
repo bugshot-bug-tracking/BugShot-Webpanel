@@ -7,7 +7,12 @@
 				'background-color': color,
 			}"
 		>
-			<img v-if="image" :src="image.attributes.base64" alt="IMG" />
+			<img
+				v-if="image"
+				:src="image.attributes.base64"
+				class="dark-overlay"
+				alt="IMG"
+			/>
 			<div class="text">{{ title }}</div>
 		</router-link>
 
@@ -18,17 +23,47 @@
 			</div>
 
 			<div class="right">
-				<img class="btn" src="@/assets/icons/settings_dots.svg" />
+				<img
+					class="btn"
+					src="@/assets/icons/settings_dots.svg"
+					ref="actions"
+					@click="toggleShowActions"
+				/>
+
+				<div class="pop-actions" v-if="showActions">
+					<div class="actions">
+						<a class="edit" @click="editProject">
+							<img src="../assets/icons/edit.svg" alt="edit" />
+							<div>Edit</div>
+						</a>
+						<a class="delete" @click="deleteProject">
+							<img src="../assets/icons/trash.svg" alt="delete" />
+							<div>Delete</div>
+						</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
+
+	<EditModal v-if="showModal === 1" :id="id" @close="showModal = 0" />
+	<DeleteModal v-if="showModal === 2" :id="id" @close="showModal = 0" />
 </template>
 
 <script>
-import { computed } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
+import { onUnmounted } from "@vue/runtime-core";
+import EditModal from "../views/Main/Project/EditModal.vue";
+import DeleteModal from "../views/Main/Project/DeleteModal.vue";
 export default {
+	components: { EditModal, DeleteModal },
 	name: "Card",
 	props: {
+		id: {
+			required: true,
+			type: String,
+		},
+
 		title: {
 			required: true,
 			type: String,
@@ -71,8 +106,41 @@ export default {
 			return props.image.attributes.base64;
 		});
 
+		const actions = ref(null);
+		const showActions = ref(false);
+
+		const toggleShowActions = () => {
+			showActions.value = !showActions.value;
+		};
+		const close = (e) => {
+			if (e.target != actions.value) showActions.value = false;
+		};
+
+		document.addEventListener("click", close);
+
+		onUnmounted(() => {
+			document.addEventListener("click", close);
+		});
+
+		// 0=no modal, 1=edit modal, 2=delete modal
+		const showModal = ref(0);
+
+		const editProject = () => {
+			showModal.value = 1;
+		};
+
+		const deleteProject = () => {
+			showModal.value = 2;
+		};
+
 		return {
 			imageURL,
+			showActions,
+			actions,
+			toggleShowActions,
+			editProject,
+			deleteProject,
+			showModal,
 		};
 	},
 };
@@ -116,24 +184,94 @@ export default {
 		height: 55px;
 		align-items: center;
 
-		> .left {
+		.left {
 			display: flex;
 			justify-content: space-between;
 			width: 99%;
-			// width: 89%;
-			// border-right: 1px solid hsl(263, 79%, 94%); no settings on card for now
+			width: 89%;
+			border-right: 1px solid hsl(263, 79%, 94%);
 			padding: 10px 10px;
 			font-weight: bold;
 		}
 
-		> .right {
-			display: none;
-			// display: flex; no settings on card for now
+		.right {
+			display: flex;
 			height: 100%;
+			position: relative;
+
 			img {
 				width: 50px;
 			}
+
+			.pop-actions {
+				position: absolute;
+				display: flex;
+				flex-direction: column;
+				background-color: #f8f8fc;
+				border: 1px solid #e6e6ff;
+				top: auto;
+				right: -120px;
+				z-index: 1;
+				font-size: 16px;
+				align-items: flex-start;
+				justify-content: center;
+				border-radius: 6px;
+				box-shadow: 0px 3px 6px #00000029;
+
+				&::before {
+					content: "";
+					position: absolute;
+					top: 5px;
+					left: -7px;
+					z-index: -1;
+					width: 20px;
+					height: 20px;
+					transform: rotate(45deg);
+					background-color: #f8f8fc;
+					border: 1px solid #e6e6ff;
+					box-shadow: 5px 1px 6px #00000029;
+				}
+
+				.actions {
+					padding: 4px 0;
+					background-color: #f8f8fc;
+					border-radius: 6px;
+				}
+
+				a {
+					text-decoration: none;
+					display: flex;
+					align-items: center;
+					background-color: #f8f8fc;
+					width: 100%;
+					gap: 4px;
+					padding: 4px 16px;
+					color: black;
+					user-select: none;
+					cursor: pointer;
+
+					> img {
+						height: 24px;
+						width: 24px;
+					}
+
+					&:hover {
+						background-color: hsl(158, 79%, 87%);
+					}
+
+					&.delete {
+						margin-top: 8px;
+						> img {
+							height: 20px;
+						}
+					}
+				}
+			}
 		}
+	}
+
+	.dark-overlay {
+		filter: brightness(0.8);
 	}
 }
 </style>

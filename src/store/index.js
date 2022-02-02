@@ -1,6 +1,5 @@
 import { createStore } from "vuex";
 
-import axios from "axios";
 import auth from "./auth";
 import data from "./data";
 

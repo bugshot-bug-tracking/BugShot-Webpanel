@@ -29,8 +29,9 @@
 		<div v-if="arePojects">
 			<GroupContainer :mainText="record.attributes.designation">
 				<Card
-					v-for="project of companyProjects(record.id)"
+					v-for="project of companyProjects"
 					:key="project.id"
+					:id="project.id"
 					:title="project.attributes.designation"
 					:mainText="'Task Overview'"
 					:secondText="
@@ -88,9 +89,9 @@ export default {
 			return store.getters.getCompanyById(props.id);
 		});
 
-		const companyProjects = (company_id) => {
-			return store.getters.getCompanyProjects(company_id);
-		};
+		const companyProjects = computed(() => {
+			return store.getters.getCompanyProjects(props.id);
+		});
 
 		const arePojects = computed(() => {
 			if (!record.value) return false;
