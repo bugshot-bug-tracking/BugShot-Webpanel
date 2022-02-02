@@ -7,7 +7,12 @@
 				'background-color': color,
 			}"
 		>
-			<img v-if="image" :src="image.attributes.base64" alt="IMG" />
+			<img
+				v-if="image"
+				:src="image.attributes.base64"
+				class="dark-overlay"
+				alt="IMG"
+			/>
 			<div class="text">{{ title }}</div>
 		</router-link>
 
@@ -26,15 +31,16 @@
 				/>
 
 				<div class="pop-actions" v-if="showActions">
-					<a class="edit" @click="editProject">
-						<img src="../assets/icons/edit.svg" alt="edit" />
-						<div>Edit</div>
-					</a>
-
-					<a class="delete" @click="deleteProject">
-						<img src="../assets/icons/trash.svg" alt="delete" />
-						<div>Delete</div>
-					</a>
+					<div class="actions">
+						<a class="edit" @click="editProject">
+							<img src="../assets/icons/edit.svg" alt="edit" />
+							<div>Edit</div>
+						</a>
+						<a class="delete" @click="deleteProject">
+							<img src="../assets/icons/trash.svg" alt="delete" />
+							<div>Delete</div>
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -204,8 +210,7 @@ export default {
 				background-color: #f8f8fc;
 				border: 1px solid #e6e6ff;
 				top: auto;
-				right: -115px;
-				width: 100px;
+				right: -120px;
 				z-index: 1;
 				font-size: 16px;
 				align-items: flex-start;
@@ -227,6 +232,12 @@ export default {
 					box-shadow: 5px 1px 6px #00000029;
 				}
 
+				.actions {
+					padding: 4px 0;
+					background-color: #f8f8fc;
+					border-radius: 6px;
+				}
+
 				a {
 					text-decoration: none;
 					display: flex;
@@ -234,18 +245,10 @@ export default {
 					background-color: #f8f8fc;
 					width: 100%;
 					gap: 4px;
-					padding: 4px 10px;
+					padding: 4px 16px;
 					color: black;
 					user-select: none;
 					cursor: pointer;
-
-					&:first-child {
-						border-radius: 5px 5px 0 0;
-					}
-
-					&:last-child {
-						border-radius: 0 0 5px 5px;
-					}
 
 					> img {
 						height: 24px;
@@ -257,6 +260,7 @@ export default {
 					}
 
 					&.delete {
+						margin-top: 8px;
 						> img {
 							height: 20px;
 						}
@@ -264,6 +268,10 @@ export default {
 				}
 			}
 		}
+	}
+
+	.dark-overlay {
+		filter: brightness(0.8);
 	}
 }
 </style>
