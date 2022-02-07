@@ -295,6 +295,13 @@ export default {
 	}
 }
 
+.screen {
+	width: auto;
+	height: auto;
+	max-height: 95vh;
+	max-width: 95vw;
+}
+
 .marker {
 	z-index: 9101;
 	position: absolute;
