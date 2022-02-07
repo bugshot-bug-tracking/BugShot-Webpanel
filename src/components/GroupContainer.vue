@@ -23,6 +23,7 @@ export default {
 
 		secondText: {
 			type: String,
+			default: "",
 		},
 	},
 };
@@ -41,15 +42,18 @@ export default {
 		width: 350px;
 		border-bottom: 1px solid hsl(264, 78%, 77%);
 		padding: 0 10px 10px 10px;
+		align-items: center;
 
 		> .text-left {
 			color: black;
 			font-size: 20px;
 			font-weight: 600;
+			text-align: left;
 		}
 
 		> .text-right {
 			color: hsl(265, 79%, 54%);
+			min-width: 120px;
 		}
 	}
 
