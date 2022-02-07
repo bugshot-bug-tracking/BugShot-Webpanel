@@ -90,7 +90,7 @@ export default {
 		scroll-behavior: auto;
 		min-width: 300px;
 		min-height: 200px;
-		max-height: 96vh;
+		max-height: 95vh;
 
 		&::-webkit-scrollbar {
 			display: none;
