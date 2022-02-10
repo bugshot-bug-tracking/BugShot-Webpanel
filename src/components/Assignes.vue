@@ -20,7 +20,7 @@
 				</div>
 			</div>
 
-			<a class="add" @click="$emit('add')">
+			<a class="add" @click="$emit('add')" v-if="false">
 				<img src="../assets/extern/add.svg" alt="Add button" />
 			</a>
 		</div>
@@ -84,6 +84,10 @@ export default {
 
 		text-align: center;
 		text-transform: uppercase;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.wrapper {
