@@ -52,6 +52,7 @@
 			<img class="email-img" src="../../assets/icons/at@.svg" />
 		</div>
 
+		<div class="requed">
 		<div class="form-group">
 			<input
 				id="password"
@@ -65,7 +66,14 @@
 				v-model="password"
 				autocomplete="new-password"
 				:class="{ error: errField.password }"
-				@focus="resetError"
+					@focus.prevent="
+						() => {
+							showValidate.pass = true;
+							resetError();
+						}
+					"
+					@click="showValidate.pass = true"
+					@blur.prevent="showValidate.pass = false"
 			/>
 
 			<img
@@ -83,6 +91,37 @@
 			/>
 		</div>
 
+			<ul v-show="showValidate.pass">
+				<li
+					:class="{
+						good: validate.minChars >= 8,
+						bad: validate.minChars < 8,
+					}"
+				>
+					Minimum 8 characters
+				</li>
+
+				<li
+					:class="{
+						good: validate.letters,
+						bad: !validate.letters,
+					}"
+				>
+					Contain letters
+				</li>
+
+				<li
+					:class="{
+						good: validate.numbers,
+						bad: !validate.numbers,
+					}"
+				>
+					Contain numbers
+				</li>
+			</ul>
+		</div>
+
+		<div class="requed mb-3">
 		<div class="form-group">
 			<input
 				id="confirm_password"
@@ -96,7 +135,13 @@
 				v-model="confirm_password"
 				autocomplete="new-password"
 				:class="{ error: errField.password }"
-				@focus="resetError"
+					@focus.prevent="
+						() => {
+							showValidate.confirm = true;
+							resetError();
+						}
+					"
+					@blur.prevent="showValidate.confirm = false"
 			/>
 
 			<img
@@ -114,17 +159,33 @@
 			/>
 		</div>
 
+			<ul v-show="showValidate.confirm">
+				<li
+					:class="{
+						good: validate.same,
+						bad: !validate.same,
+					}"
+				>
+					Passwords match
+				</li>
+			</ul>
+		</div>
+
+		<div class="tos mb-4">
+			<input type="checkbox" name="tos" id="tos" v-model="tos" required />
+			<span>
+				<p>I accept BugShot's</p>
+				<p class="linked">Terms of Service</p>
+				<p>and</p>
+				<p class="linked">Privacy Policy</p>
+			</span>
+		</div>
+
 		<div class="from-buttons">
-			<label>
-				<input
-					type="checkbox"
-					name="tos"
-					id="tos"
-					v-model="tos"
-					required
-				/>
-				Terms of Service
-			</label>
+			<div class="aLogin">
+				<div>Already registered?</div>
+				<router-link :to="{ name: 'Login' }">Login</router-link>
+			</div>
 
 			<button id="form-submit" type="submit" class="btn bs bf-green">
 				Register
@@ -137,6 +198,7 @@
 import { ref, reactive } from "@vue/reactivity";
 import router from "../../router";
 import axios from "axios";
+import { computed } from "@vue/runtime-core";
 
 export default {
 	name: "Register",
@@ -212,6 +274,21 @@ export default {
 				});
 		};
 
+		const showValidate = reactive({
+			pass: false,
+			confirm: false,
+		});
+
+		// password validations
+		const validate = computed(() => {
+			return {
+				minChars: password.value.length,
+				letters: password.value.match(/[a-zA-Z]/g),
+				numbers: password.value.match(/[0-9]/g),
+				same: password.value === confirm_password.value,
+			};
+		});
+
 		return {
 			first_name,
 			last_name,
@@ -226,6 +303,8 @@ export default {
 			submit,
 			togglePassword,
 			resetError,
+			validate,
+			showValidate,
 		};
 	},
 };
@@ -246,11 +325,12 @@ export default {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
+	justify-content: flex-start;
+	height: 650px;
 
 	.from-buttons {
 		display: flex;
-		align-items: center;
+		align-items: flex-end;
 		width: 100%;
 		justify-content: space-between;
 		align-content: center;
@@ -319,6 +399,20 @@ export default {
 	}
 }
 
+.requed {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+
+	ul {
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+}
+
 .errors {
 	color: red;
 	font-weight: 500;
@@ -327,5 +421,96 @@ export default {
 #tos:checked {
 	color: #7a2de6;
 	accent-color: currentcolor;
+}
+
+.tos {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 14px;
+	width: 100%;
+	justify-content: center;
+
+	> span {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+	}
+
+	p {
+		margin: 0;
+	}
+
+	.linked {
+		color: hsl(265, 79%, 54%);
+		cursor: pointer;
+
+		&:hover {
+			color: hsl(265, 79%, 44%);
+		}
+	}
+}
+
+.aLogin {
+	display: flex;
+	gap: 4px;
+	align-items: center;
+	font-size: 14px;
+
+	a {
+		text-decoration: underline;
+		color: hsl(158, 80%, 47%);
+		font-weight: bold;
+		text-transform: uppercase;
+		cursor: pointer;
+
+		&:hover {
+			color: hsl(158, 80%, 42%);
+		}
+	}
+}
+
+
+.good {
+	color: black;
+	// color: #18d891;
+	filter: invert(55%) sepia(54%) saturate(630%) hue-rotate(106deg)
+		brightness(112%) contrast(90%);
+	position: relative;
+	display: flex;
+	align-items: center;
+
+	&::before {
+		content: "";
+		background-image: url("../../assets/icons/check.svg");
+		background-position: 0 0;
+		background-size: auto;
+		background-repeat: no-repeat;
+		width: 1rem;
+		height: 1rem;
+		position: absolute;
+		left: -1.5rem;
+	}
+}
+.bad {
+	color: black;
+	// color: #f23636;
+	filter: invert(46%) sepia(72%) saturate(6900%) hue-rotate(343deg)
+		brightness(110%) contrast(93%);
+	position: relative;
+	display: flex;
+	align-items: center;
+
+	&::before {
+		content: "";
+		background-image: url("../../assets/icons/classic_X.svg");
+		background-position: 0 0;
+		background-size: auto;
+		background-repeat: no-repeat;
+		width: 1rem;
+		height: 1rem;
+		position: absolute;
+		left: -1.5rem;
+	}
 }
 </style>
