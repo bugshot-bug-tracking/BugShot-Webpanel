@@ -1,11 +1,11 @@
 <template>
-	<div class="title">Register</div>
+	<div class="title" v-if="!process">Register</div>
 
 	<div class="errors" v-if="errMessage != null">
 		{{ errMessage }}
 	</div>
 
-	<form id="login-form" @submit.prevent="submit">
+	<form id="login-form" @submit.prevent="submit" v-if="!process">
 		<div class="form-group">
 			<input
 				id="first_name"
@@ -53,19 +53,19 @@
 		</div>
 
 		<div class="requed">
-		<div class="form-group">
-			<input
-				id="password"
-				:type="passwordType"
-				name="password"
-				class="field"
-				placeholder="Password"
-				minlength="8"
-				required
-				maxlength="255"
-				v-model="password"
-				autocomplete="new-password"
-				:class="{ error: errField.password }"
+			<div class="form-group">
+				<input
+					id="password"
+					:type="passwordType"
+					name="password"
+					class="field"
+					placeholder="Password"
+					minlength="8"
+					required
+					maxlength="255"
+					v-model="password"
+					autocomplete="new-password"
+					:class="{ error: errField.password }"
 					@focus.prevent="
 						() => {
 							showValidate.pass = true;
@@ -74,22 +74,22 @@
 					"
 					@click="showValidate.pass = true"
 					@blur.prevent="showValidate.pass = false"
-			/>
+				/>
 
-			<img
-				class="password-img"
-				v-if="showPassword"
-				@click="togglePassword"
-				src="../../assets/icons/hide_password.svg"
-			/>
+				<img
+					class="password-img"
+					v-if="showPassword"
+					@click="togglePassword"
+					src="../../assets/icons/hide_password.svg"
+				/>
 
-			<img
-				class="password-img"
-				v-if="!showPassword"
-				@click="togglePassword"
-				src="../../assets/icons/show_password.svg"
-			/>
-		</div>
+				<img
+					class="password-img"
+					v-if="!showPassword"
+					@click="togglePassword"
+					src="../../assets/icons/show_password.svg"
+				/>
+			</div>
 
 			<ul v-show="showValidate.pass">
 				<li
@@ -122,19 +122,19 @@
 		</div>
 
 		<div class="requed mb-3">
-		<div class="form-group">
-			<input
-				id="confirm_password"
-				:type="passwordType"
-				name="confirm_password"
-				class="field"
-				placeholder="Confirm Password"
-				minlength="8"
-				required
-				maxlength="255"
-				v-model="confirm_password"
-				autocomplete="new-password"
-				:class="{ error: errField.password }"
+			<div class="form-group">
+				<input
+					id="confirm_password"
+					:type="passwordType"
+					name="confirm_password"
+					class="field"
+					placeholder="Confirm Password"
+					minlength="8"
+					required
+					maxlength="255"
+					v-model="confirm_password"
+					autocomplete="new-password"
+					:class="{ error: errField.password }"
 					@focus.prevent="
 						() => {
 							showValidate.confirm = true;
@@ -142,22 +142,22 @@
 						}
 					"
 					@blur.prevent="showValidate.confirm = false"
-			/>
+				/>
 
-			<img
-				class="password-img"
-				v-if="showPassword"
-				@click="togglePassword"
-				src="../../assets/icons/hide_password.svg"
-			/>
+				<img
+					class="password-img"
+					v-if="showPassword"
+					@click="togglePassword"
+					src="../../assets/icons/hide_password.svg"
+				/>
 
-			<img
-				class="password-img"
-				v-if="!showPassword"
-				@click="togglePassword"
-				src="../../assets/icons/show_password.svg"
-			/>
-		</div>
+				<img
+					class="password-img"
+					v-if="!showPassword"
+					@click="togglePassword"
+					src="../../assets/icons/show_password.svg"
+				/>
+			</div>
 
 			<ul v-show="showValidate.confirm">
 				<li
@@ -192,6 +192,20 @@
 			</button>
 		</div>
 	</form>
+
+	<div class="process" v-if="process">
+		<div class="loading" v-if="stage === 0">
+			<img src="../../assets/global/loading.svg" alt="loading" />
+		</div>
+
+		<div class="success" v-if="stage === 1">
+			<img src="../../assets/gif/bug_confirmation.gif" alt="Success" />
+
+			<div>Success!</div>
+
+			<span> Please confirm your email before login! </span>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -234,6 +248,12 @@ export default {
 		};
 
 		const submit = () => {
+			stage.value = 0;
+			process.value = true;
+			errMessage.value = null;
+			errField.email = null;
+			errField.password = null;
+
 			axios
 				.post("auth/register", {
 					first_name: first_name.value,
@@ -243,12 +263,21 @@ export default {
 					password_confirmation: confirm_password.value,
 				})
 				.then((response) => {
+					stage.value = 1;
+
 					console.log(response.data);
 				})
 				.then(() => {
-					router.push({ name: "Login", params: { message: "X" } });
+					setTimeout(() => {
+						router.push({
+							name: "Login",
+							params: { message: "X" },
+						});
+					}, 5000);
 				})
 				.catch((error) => {
+					process.value = false;
+
 					console.dir(error);
 
 					errMessage.value = null;
@@ -273,6 +302,9 @@ export default {
 					}
 				});
 		};
+
+		const process = ref(false);
+		const stage = ref(0);
 
 		const showValidate = reactive({
 			pass: false,
@@ -303,6 +335,8 @@ export default {
 			submit,
 			togglePassword,
 			resetError,
+			process,
+			stage,
 			validate,
 			showValidate,
 		};
@@ -470,6 +504,31 @@ export default {
 	}
 }
 
+.process {
+	width: 400px;
+
+	img {
+		width: 300px;
+		height: 300px;
+	}
+
+	.success {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 20px;
+
+		> div {
+			color: #5916b9;
+			font-weight: bold;
+			font-size: 32px;
+		}
+
+		> span {
+			font-size: 18px;
+		}
+	}
+}
 
 .good {
 	color: black;
