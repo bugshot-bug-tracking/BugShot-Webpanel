@@ -113,9 +113,10 @@ export default {
 					password: password.value,
 				})
 				.then((response) => {
-					if (response === false)
-						errMessage.value = "Incorrect E-Mail or Password.";
-					else router.push({ name: "Home" });
+					router.push({ name: "Home" });
+				})
+				.catch((error) => {
+					errMessage.value = error.response.data.message;
 				});
 		};
 
