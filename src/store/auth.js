@@ -40,7 +40,8 @@ export default {
 					})
 					// 4xx, 5xx
 					.catch((error) => {
-						return state.dispatch("attempt", null);
+						state.commit("SET_TOKEN", null);
+						throw error;
 					})
 			);
 		},

@@ -113,10 +113,9 @@ const routes = [
 		redirect: { name: "Login" },
 		children: [
 			{
-				path: "login/:message?",
+				path: "login",
 				name: "Login",
 				component: Login,
-				props: true,
 			},
 
 			{

@@ -119,8 +119,20 @@
 					/>
 				</div>
 			</div>
+
+			<div class="assignes my-3">
+				<label>Assigned to:</label>
+
+				<div class="content">
+					<Assignes
+						:list="bug.attributes.users"
+						@add="assignShow = true"
+					/>
+				</div>
+			</div>
 		</div>
 	</Container>
+	<AssignModal v-if="assignShow" :id="bug_id" @close="assignShow = false" />
 </template>
 
 <script>
@@ -132,9 +144,18 @@ import PriorityChange from "./PriorityChange.vue";
 
 import Datepicker from "vue3-date-time-picker";
 import "vue3-date-time-picker/dist/main.css";
+import Assignes from "./Assignes.vue";
+import AssignModal from "./AssignModal.vue";
 
 export default {
-	components: { Container, Screenshot, PriorityChange, Datepicker },
+	components: {
+		Container,
+		Screenshot,
+		PriorityChange,
+		Datepicker,
+		Assignes,
+		AssignModal,
+	},
 	name: "Info",
 	props: {
 		bug_id: {
@@ -207,6 +228,8 @@ export default {
 			store.dispatch("syncBug", bug.value.id);
 		};
 
+		const assignShow = ref(false);
+
 		return {
 			open,
 			date,
@@ -216,6 +239,7 @@ export default {
 			changePriority,
 			clearDeadline,
 			changeDeadline,
+			assignShow,
 		};
 	},
 };
@@ -388,6 +412,13 @@ export default {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		grid-template-rows: 1fr;
+	}
+
+	.assignes {
+		label {
+			min-width: 90px;
+			margin-top: 6px;
+		}
 	}
 }
 </style>

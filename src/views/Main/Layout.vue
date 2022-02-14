@@ -51,20 +51,24 @@ export default {
 		padding: 0 50px;
 		align-items: center;
 		overflow: hidden;
+		min-height: 80px;
 
 		.left {
-			width: 40%;
+			width: 100%;
 			display: flex;
 			flex-direction: column;
 			align-items: flex-start;
+			min-width: 300px;
+			min-height: 80px;
+			justify-content: center;
 
 			.title {
-				font-size: 1.7vw;
+				font-size: 2rem;
 				font-weight: 600;
 			}
 
 			.sub-title {
-				font-size: 1vw;
+				font-size: 1rem;
 				color: hsl(265, 79%, 54%);
 			}
 		}
@@ -82,6 +86,22 @@ export default {
 	.main {
 		grid-area: main;
 		overflow: auto;
+	}
+}
+@media only screen and (min-width: 50px) {
+	.layout > .top .left .title {
+		font-size: 1rem;
+	}
+	.layout > .top .left .sub-title {
+		font-size: 0.7rem;
+	}
+}
+@media only screen and (min-width: 1400px) {
+	.layout > .top .left .title {
+		font-size: 1.5rem;
+	}
+	.layout > .top .left .sub-title {
+		font-size: 1rem;
 	}
 }
 </style>

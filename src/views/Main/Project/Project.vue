@@ -28,6 +28,8 @@
 					:item-key="(item) => item"
 					@change="bugMove(status, $event)"
 					class="drag-zone"
+					:scroll-sensitivity="100"
+					:force-fallback="true"
 				>
 					<template #item="{ element }">
 						<BugCard
