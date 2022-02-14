@@ -271,7 +271,6 @@ export default {
 					setTimeout(() => {
 						router.push({
 							name: "Login",
-							params: { message: "X" },
 						});
 					}, 5000);
 				})
