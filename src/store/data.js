@@ -81,6 +81,11 @@ export default {
 			company.users = payload.users;
 		},
 
+		SET_PROJECT_USERS: (state, payload) => {
+			const project = state.projects.get(payload.id);
+			project.users = payload.users;
+		},
+
 		UPDATE_COMPANY: (state, payload) => {
 			const company = state.companies.get(payload.id);
 			company.attributes = payload.attributes;
@@ -160,13 +165,8 @@ export default {
 
 		fetchCompany: async (state, copany_id) => {
 			try {
-				let company = (
-					await axios.get(`companies/${copany_id}`, {
-						headers: {
-							"include-image": "true",
-						},
-					})
-				).data.data;
+				let company = (await axios.get(`companies/${copany_id}`)).data
+					.data;
 
 				company["projects"] = null;
 
@@ -188,7 +188,6 @@ export default {
 					let projects = (
 						await axios.get(`companies/${company.id}/projects`, {
 							headers: {
-								"include-image": "true",
 								"include-project-image": "true",
 							},
 						})
@@ -406,6 +405,30 @@ export default {
 				state.commit("SET_COMPANY_USERS", {
 					id: company_id,
 					users: newCompany.attributes.users,
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
+		fetchProjectUsers: async (state, id) => {
+			try {
+				const project = state.state.projects.get(id);
+
+				let newProject = (
+					await axios.get(
+						`companies/${project.attributes.company.id}/projects/${id}`,
+						{
+							headers: {
+								"include-project-users": "true",
+							},
+						}
+					)
+				).data.data;
+
+				state.commit("SET_PROJECT_USERS", {
+					id: id,
+					users: newProject.attributes.users,
 				});
 			} catch (error) {
 				console.log(error);

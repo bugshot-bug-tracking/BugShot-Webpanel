@@ -59,7 +59,9 @@ export default {
 	name: "AllProjects",
 	setup() {
 		const companies = computed(() => {
-			return store.getters.getCompanyWithProjects;
+			return store.getters.getCompanyWithProjects.sort((a, b) =>
+				a.attributes.updated_at < b.attributes.updated_at ? 1 : -1
+			);
 		});
 
 		const companyProjects = (company_id) => {
