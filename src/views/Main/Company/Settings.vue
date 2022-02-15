@@ -46,7 +46,7 @@
 				</div>
 
 				<div class="d-flex flex-column" v-if="canDelete">
-					<a class="text-danger" @click.prevent="deleteCompany">
+					<a class="text-danger" @click.prevent="showDelete = true">
 						Delete company and associated projects
 					</a>
 					(can't be reverted)
@@ -76,6 +76,19 @@
 			</Column>
 		</div>
 	</Layout>
+
+	<DeleteModal
+		v-if="showDelete"
+		:text="record.attributes.designation"
+		@delete="deleteCompany"
+		@close="showDelete = false"
+	/>
+
+	<StatusModal
+		v-if="process.show"
+		:status="process.status"
+		:message="process.message"
+	/>
 </template>
 
 <script>
@@ -89,6 +102,8 @@ import Column from "../Project/BugsTable/Column.vue";
 import TeamTable from "../../../components/TeamTable.vue";
 import Plan from "../../../components/Plan.vue";
 import axios from "axios";
+import DeleteModal from "../../../components/Modals/DeleteModal.vue";
+import StatusModal from "../../../components/Modals/StatusModal.vue";
 
 export default {
 	components: {
@@ -99,6 +114,8 @@ export default {
 		Column,
 		TeamTable,
 		Plan,
+		DeleteModal,
+		StatusModal,
 	},
 	name: "CompanySettings",
 	props: {
@@ -214,11 +231,41 @@ export default {
 			store.dispatch("updateCompany", data);
 		};
 
-		const deleteCompany = () => {
+		const deleteCompany = async () => {
 			if (!canDelete.value) return;
 
-			store.dispatch("deleteCompany", record.value.id);
+			try {
+				showDelete.value = false;
+				process.show = true;
+				process.status = 0;
+				process.message = null;
+
+				await store.dispatch("deleteCompany", record.value.id);
+
+				process.status = 1;
+				process.message = `Company deleted successfully.`;
+
+				setTimeout(() => {
+					process.show = false;
+					process.status = 0;
+					process.message = null;
+				}, 4000);
+			} catch (error) {
+				process.status = 2;
+
+				setTimeout(() => {
+					process.show = false;
+					process.status = 0;
+				}, 4000);
+			}
 		};
+
+		const showDelete = ref(false);
+		const process = reactive({
+			show: false,
+			status: 0,
+			message: null,
+		});
 
 		return {
 			record,
@@ -230,6 +277,8 @@ export default {
 			deleteCompany,
 			canEdit,
 			canDelete,
+			showDelete,
+			process,
 		};
 	},
 };
