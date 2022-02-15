@@ -29,26 +29,27 @@
 			:class="{ active: active }"
 		>
 			<div class="image" v-show="pickOption === 1" @change="change">
-				<img
-					v-if="imgg === null"
-					src="../assets/icons/image_placeholder.svg"
-				/>
-				<img v-else :src="imgg" />
+				<div class="empty" v-if="imgg === null">
+					<div>
+						<img src="../assets/icons/image_placeholder.svg" />
 
-				<div class="text">Drag and drop your logo here or</div>
+						<div class="text">Drag and drop your logo here or</div>
+					</div>
 
-				<label for="pick-upload" class="btn bs be-green">
-					Upload Logo
-				</label>
+					<label for="pick-upload" class="btn bs be-green">
+						Upload Logo
+					</label>
 
-				<input type="file" name="upload" id="pick-upload" />
+					<input type="file" name="upload" id="pick-upload" />
+				</div>
 
-				<img
-					v-if="imgg !== null"
-					class="reset-img"
-					src="../assets/icons/classic_X.svg"
-					@click="resetImage"
-				/>
+				<div class="preview" v-else>
+					<div class="image-container">
+						<img :src="imgg" />
+					</div>
+
+					<a class="btn bs be-green" @click="resetImage">Remove</a>
+				</div>
 			</div>
 
 			<div class="color" v-show="pickOption === 2">
@@ -216,7 +217,7 @@ export default {
 		border: 1px solid #bc97f2;
 		border-radius: 9px;
 		width: 95%;
-		height: 200px;
+		height: 250px;
 		padding: 20px;
 		position: relative;
 
@@ -224,26 +225,63 @@ export default {
 			background: #e4f8eb 0% 0% no-repeat padding-box;
 		}
 
-		> .image {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
+		.image {
+			width: 100%;
+			height: 100%;
+
+			.empty {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: space-evenly;
+
+				img {
+					width: 46px;
+					height: 46px;
+					margin: 0;
+				}
+			}
+
+			.preview {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: space-between;
+
+				.image-container {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					overflow: hidden;
+					position: relative;
+					width: 100%;
+					height: 70%;
+
+					img {
+						width: auto;
+						height: auto;
+						max-width: 100%;
+						max-height: 100%;
+						border-radius: 8px;
+					}
+				}
+			}
 
 			> * {
 				margin: 10px 0;
 			}
 
-			> img {
-				width: 46px;
-				height: 46px;
-				margin: 0;
-			}
-
 			.text {
 				color: hsl(230, 43%, 73%);
+				margin-top: 10px;
 			}
 
-			> input {
+			input {
 				display: none;
 			}
 
