@@ -6,6 +6,7 @@
 					<button
 						class="btn btn-modal-close"
 						@click="$emit('close')"
+						v-if="!no_close_button"
 					/>
 
 					<div class="modal-content">
@@ -27,6 +28,11 @@ export default {
 		show: {
 			type: Boolean,
 			default: true,
+		},
+		no_close_button: {
+			required: false,
+			type: Boolean,
+			default: false,
 		},
 	},
 };

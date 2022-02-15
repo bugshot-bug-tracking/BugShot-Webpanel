@@ -47,6 +47,13 @@
 			</a>
 		</div>
 	</Modal>
+
+	<StatusModal
+		:status="stage"
+		v-if="process"
+		@close="process = false"
+		:message="message"
+	/>
 </template>
 
 <script>
@@ -56,6 +63,7 @@ import Picker from "./Picker.vue";
 import axios from "axios";
 import Modal from "./Modal.vue";
 import store from "../store";
+import StatusModal from "./Modals/StatusModal.vue";
 
 export default {
 	name: "CreateData",
@@ -77,7 +85,7 @@ export default {
 			type: Object,
 		},
 	},
-	components: { FormInput, Picker, Modal },
+	components: { FormInput, Picker, Modal, StatusModal },
 	setup(props) {
 		const modalActive = ref(false);
 
@@ -126,14 +134,25 @@ export default {
 			let aditionalBody = {};
 
 			try {
+				process.value = true;
+				stage.value = 0;
+				message.value = null;
+
 				if (
 					props.dataType === "Project" &&
 					url.value != null &&
 					url.value != ""
 				) {
 					// console.log(url.value);
+
+					//! TODO WIP needs a better URL validation strategy
+					try {
 					let u = new URL(url.value);
 					aditionalBody["url"] = u.origin;
+					} catch (error) {
+						console.log(error);
+						aditionalBody["url"] = url.value;
+					}
 				}
 
 				if (resource.image != null && resource.image instanceof File) {
@@ -148,13 +167,37 @@ export default {
 					...props.aditionalBody, // in case aditional body props are necessary from outside
 				});
 
-				modalActive.value = false;
+				stage.value = 1;
+
+				message.value = `${props.dataType} created!`;
 
 				store.dispatch("init");
+
+				setTimeout(() => {
+					modalActive.value = false;
+					process.value = false;
+					name.value = "";
+					color.value = 3;
+					file.value = null;
+					url.value = "";
+				}, 4000);
 			} catch (error) {
+				stage.value = 2;
+				message.value = null;
+
 				console.log(error);
+
+				setTimeout(() => {
+					process.value = false;
+					stage.value = 0;
+					message.value = null;
+				}, 4000);
 			}
 		};
+
+		const process = ref(false);
+		const stage = ref(0);
+		const message = ref(null);
 
 		return {
 			modalActive,
@@ -165,6 +208,9 @@ export default {
 			setImage,
 			setColor,
 			createResource,
+			process,
+			stage,
+			message,
 		};
 	},
 };
