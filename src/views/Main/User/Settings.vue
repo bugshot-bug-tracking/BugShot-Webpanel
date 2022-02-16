@@ -7,131 +7,152 @@
 
 			<div class="body">
 				<Container>
-					<div class="wrapper">
-						<div class="group my-3">
+					<form
+						class="wrapper my-3"
+						@submit.prevent=""
+						@reset.prevent="cancelClick"
+					>
+						<div class="group">
 							<div class="label">First Name</div>
 
-							<FormInput
-								:value="data.first_name"
-								@input="
-									(i) => (data.first_name = i.target.value)
-								"
-								:placeholder="`First Name`"
-								:type="'text'"
-								:autocomplete="`given-name`"
-								:disabled="disableForm"
-							/>
+							<div class="bs-input my-3">
+								<input
+									v-model="data.first_name"
+									placeholder="First Name"
+									type="text"
+									autocomplete="given-name"
+									:disabled="disableForm"
+								/>
+							</div>
 						</div>
 
-						<div class="group my-3">
+						<div class="group">
 							<div class="label">Last Name</div>
 
-							<FormInput
-								:value="data.last_name"
-								@input="
-									(i) => (data.last_name = i.target.value)
-								"
-								:placeholder="`First Name`"
-								:type="'text'"
-								:autocomplete="`family-name`"
-								:disabled="disableForm"
-							/>
+							<div class="bs-input my-3">
+								<input
+									v-model="data.last_name"
+									placeholder="First Name"
+									type="text"
+									autocomplete="family-name"
+									:disabled="disableForm"
+								/>
+							</div>
 						</div>
 
 						<div class="text-header">Contact informations</div>
 
-						<div class="group my-3">
+						<div class="group">
 							<div class="label">Email</div>
 
-							<FormInput
-								:value="data.email"
-								@input="(i) => (data.email = i.target.value)"
-								:placeholder="`E-Mail`"
-								:type="'email'"
-								:image="require('@/assets/icons/at@.svg')"
-								:autocomplete="`email`"
-								:disabled="disableForm"
-							/>
+							<div class="bs-input w-icon my-3">
+								<input
+									:v-model="data.email"
+									placeholder="E-Mail"
+									type="email"
+									autocomplete="email"
+									:disabled="disableForm"
+								/>
+
+								<img
+									src="../../../assets/icons/at@.svg"
+									alt="at"
+								/>
+							</div>
 						</div>
 
 						<div class="text-header">Change Password</div>
 
-						<div class="group my-3">
-							<FormInput
-								:value="data.password.current"
-								@input="
-									(i) =>
-										(data.password.current = i.target.value)
-								"
-								:placeholder="`Current Password`"
+						<div class="bs-input w-icon my-3">
+							<input
+								v-model="data.password.current"
+								placeholder="Current Password"
 								:type="show.current ? 'text' : 'password'"
-								:image="
-									show.current
-										? require('@/assets/icons/hide_password.svg')
-										: require('@/assets/icons/show_password.svg')
-								"
-								@imageClick="show.current = !show.current"
 								autocomplete="password"
 								:disabled="disableForm"
+								required
+							/>
+
+							<img
+								v-if="show.current"
+								src="../../../assets/icons/hide_password.svg"
+								alt="hide"
+								@click="show.current = !show.current"
+							/>
+
+							<img
+								v-else
+								src="../../../assets/icons/show_password.svg"
+								alt="show"
+								@click="show.current = !show.current"
 							/>
 						</div>
 
-						<div class="group my-3">
-							<FormInput
-								:value="data.password.new"
-								@input="
-									(i) => (data.password.new = i.target.value)
-								"
-								:placeholder="`New Password`"
+						<div class="bs-input w-icon my-3">
+							<input
+								v-model="data.password.new"
+								placeholder="New Password"
 								:type="show.new ? 'text' : 'password'"
-								:image="
-									show.new
-										? require('@/assets/icons/hide_password.svg')
-										: require('@/assets/icons/show_password.svg')
-								"
-								@imageClick="show.new = !show.new"
-								:autocomplete="`new-password`"
+								autocomplete="new-password"
 								:disabled="disableForm"
+							/>
+
+							<img
+								v-if="show.new"
+								src="../../../assets/icons/hide_password.svg"
+								alt="hide"
+								@click="show.new = !show.new"
+							/>
+
+							<img
+								v-else
+								src="../../../assets/icons/show_password.svg"
+								alt="show"
+								@click="show.new = !show.new"
 							/>
 						</div>
 
-						<div class="group my-3">
-							<FormInput
-								:value="data.password.confirm"
-								@input="
-									(i) =>
-										(data.password.confirm = i.target.value)
-								"
-								:placeholder="`Confirm Password`"
+						<div class="bs-input w-icon my-3">
+							<input
+								v-model="data.password.confirm"
+								placeholder="Confirm Password"
 								:type="show.new ? 'text' : 'password'"
-								:image="
-									show.new
-										? require('@/assets/icons/hide_password.svg')
-										: require('@/assets/icons/show_password.svg')
-								"
-								@imageClick="show.new = !show.new"
-								:autocomplete="`new-password`"
+								autocomplete="new-password"
 								:disabled="disableForm"
+							/>
+
+							<img
+								v-if="show.new"
+								src="../../../assets/icons/hide_password.svg"
+								alt="hide"
+								@click="show.new = !show.new"
+							/>
+
+							<img
+								v-else
+								src="../../../assets/icons/show_password.svg"
+								alt="show"
+								@click="show.new = !show.new"
 							/>
 						</div>
 
 						<div class="buttons">
-							<a
+							<button
 								class="btn bs bf-green"
 								:class="{ disabled: disableForm }"
 							>
 								Save
-							</a>
+							</button>
 
-							<a
+							<button
 								class="btn bs be-green"
 								:class="{ disabled: disableForm }"
-								@click.prevent="cancelClick"
+								type="reset"
 							>
 								Cancel
-							</a>
+							</button>
 						</div>
-					</div>
+					</form>
 				</Container>
 			</div>
 		</Column>
@@ -211,12 +232,15 @@
 import Layout from "../Layout.vue";
 import Column from "../Project/BugsTable/Column.vue";
 import Container from "../../../components/Container.vue";
-import FormInput from "../../../components/FormInput.vue";
 import { computed, reactive, ref } from "@vue/reactivity";
 import store from "../../../store";
 
 export default {
-	components: { Layout, Column, Container, FormInput },
+	components: {
+		Layout,
+		Column,
+		Container,
+	},
 
 	setup(props) {
 		const user = computed(() => {
@@ -386,6 +410,7 @@ export default {
 
 		> .label {
 			padding: 0 5%;
+			margin-bottom: -1rem;
 		}
 	}
 
