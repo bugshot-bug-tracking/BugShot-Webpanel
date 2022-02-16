@@ -2,12 +2,9 @@
 	<div class="title">Login</div>
 
 	<form id="login-form" @submit.prevent="submit">
-		<div class="form-group">
+		<div class="bs-input w-icon">
 			<input
-				id="email"
 				type="email"
-				name="email"
-				class="field"
 				placeholder="E-mail address"
 				required
 				maxlength="255"
@@ -17,15 +14,12 @@
 				:class="{ error: errMessage }"
 			/>
 
-			<img class="email-img" src="../../assets/icons/at@.svg" />
+			<img src="../../assets/icons/at@.svg" alt="at" />
 		</div>
 
-		<div class="form-group">
+		<div class="bs-input w-icon">
 			<input
-				id="password"
 				:type="passwordType"
-				name="password"
-				class="field"
 				placeholder="Password"
 				minlength="8"
 				required
@@ -37,15 +31,13 @@
 			/>
 
 			<img
-				class="password-img"
-				v-if="showPassword"
+				v-show="showPassword"
 				@click="togglePassword"
 				src="../../assets/icons/hide_password.svg"
 			/>
 
 			<img
-				class="password-img"
-				v-if="!showPassword"
+				v-show="!showPassword"
 				@click="togglePassword"
 				src="../../assets/icons/show_password.svg"
 			/>
@@ -56,9 +48,7 @@
 		</div>
 
 		<div class="from-buttons">
-			<button id="form-submit" type="submit" class="btn bs bf-green">
-				Log In
-			</button>
+			<button type="submit" class="btn bs bf-green">Log In</button>
 		</div>
 	</form>
 
@@ -79,8 +69,6 @@ import store from "../../store";
 import router from "../../router";
 
 export default {
-	name: "Login",
-
 	setup() {
 		const email = ref("");
 		const password = ref("");
@@ -125,7 +113,7 @@ export default {
 
 <style scoped lang="scss">
 .title {
-	margin: 2% 0 4% 0 !important;
+	margin: 0 0 2rem 0 !important;
 	color: hsl(265, 79%, 41%);
 	font-weight: 700;
 	font-size: 32px;
@@ -139,70 +127,20 @@ export default {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	gap: 2rem;
+	margin-bottom: 3rem;
+
+	> * {
+		margin: 0 auto;
+		width: 100%;
+	}
 
 	.from-buttons {
 		display: flex;
 		align-items: center;
 		width: 100%;
 		justify-content: flex-end;
-		border-bottom: 2px solid hsl(264, 78%, 77%);
 		align-content: center;
-		padding: 1% 0 10% 0%;
-
-		#remember {
-			filter: hue-rotate(40deg);
-		}
-	}
-
-	.form-group {
-		width: 100%;
-		display: flex;
-		position: relative;
-		align-items: center;
-	}
-
-	.field {
-		border: 1px solid hsl(264, 78%, 77%);
-		border-radius: 8px;
-		margin: 16px 0;
-		width: 100%;
-		padding: 10px;
-		padding-right: 40px;
-
-		&:focus,
-		&:focus-visible,
-		&:hover {
-			border-color: hsl(265, 79%, 41%);
-			outline-color: hsl(265, 79%, 41%);
-		}
-	}
-	.email-img {
-		width: 20px;
-	}
-
-	#password {
-		&::-ms-reveal,
-		&::-ms-clear {
-			display: none;
-		}
-	}
-
-	.email-img,
-	.password-img {
-		position: absolute;
-		width: 22px;
-		right: 12px;
-	}
-
-	.register {
-		border-top: 2px solid #bc97f2;
-		padding: 15px 0;
-
-		p {
-			font-size: 14px;
-			color: #1f0237;
-			line-height: 22px;
-		}
 	}
 
 	.error {
@@ -223,7 +161,7 @@ export default {
 	font-weight: 500;
 	width: 85%;
 	text-align: right;
-	padding-bottom: 10px;
+	margin: -1.5rem 0 -1rem 0 !important;
 }
 
 .recover {
@@ -233,6 +171,7 @@ export default {
 	justify-content: space-between;
 	width: 400px;
 	padding: 2% 0 5% 0;
+	border-top: 2px solid hsl(264, 78%, 77%);
 
 	> p {
 		margin: 0;

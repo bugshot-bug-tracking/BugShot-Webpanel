@@ -4,12 +4,14 @@
 			<span class="text">
 				<p>Are you sure you want to delete</p>
 				<p>
-					<b> {{ project?.attributes.designation }}</b> ?
+					<b> {{ text }}</b> ?
 				</p>
 			</span>
 
 			<div class="actions">
-				<a class="btn bs bf-red" @click.prevent="deleteProject">Yes</a>
+				<a class="btn bs bf-red" @click.prevent="$emit('delete')"
+					>Yes</a
+				>
 				<a class="btn bs be-green" @click="close">No</a>
 			</div>
 		</div>
@@ -18,18 +20,16 @@
 
 <script>
 import { ref } from "@vue/reactivity";
-import Modal from "../../../components/Modal.vue";
-import { computed, nextTick, onMounted } from "@vue/runtime-core";
-import store from "../../../store";
+import { nextTick, onMounted } from "@vue/runtime-core";
+import Modal from "../Modal.vue";
 export default {
-	name: "DeleteProjectModal",
 	props: {
-		id: {
+		text: {
 			required: true,
 			type: String,
 		},
 	},
-	emits: ["close"],
+	emits: ["close", "delete"],
 	components: { Modal },
 	setup(props, context) {
 		const show = ref(false);
@@ -46,19 +46,9 @@ export default {
 			});
 		};
 
-		const project = computed(() => {
-			return store.getters.getProjectById(props.id);
-		});
-
-		const deleteProject = () => {
-			store.dispatch("deleteProject", props.id);
-		};
-
 		return {
 			show,
 			close,
-			project,
-			deleteProject,
 		};
 	},
 };

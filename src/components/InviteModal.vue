@@ -9,43 +9,62 @@
 				<span>Add New Team Member</span>
 			</div>
 
-			<FormInput
-				:value="email"
-				@input="(i) => (email = i.target.value)"
-				:placeholder="`E-Mail`"
-				:type="'email'"
-				:image="require('@/assets/icons/at@.svg')"
-				class="my-3"
-			/>
+			<form
+				@submit.prevent="sendInvite"
+				class="d-flex flex-column align-items-center"
+			>
+				<div class="bs-input w-icon my-3">
+					<input
+						:placeholder="`E-Mail`"
+						:type="'email'"
+						v-model="email"
+						required
+						maxlength="255"
+						autocomplete="email"
+					/>
 
-			<div class="roles">
-				<span>Role</span>
-				<div class="items">
-					<label class="role" v-for="role in roles" :key="role.id">
-						<input
-							type="radio"
-							name="roleOptions"
-							:value="role.id"
-							v-model="rolePicked"
-						/>
-						<span>{{ role.attributes.designation }}</span>
-					</label>
+					<img src="../assets/icons/at@.svg" alt="at" />
 				</div>
-			</div>
 
-			<a class="create-button btn bs bf-green" @click="sendInvite">
-				Add member
-			</a>
+				<div class="roles">
+					<span>Role</span>
+
+					<div class="items">
+						<label
+							class="role"
+							v-for="role in roles"
+							:key="role.id"
+						>
+							<input
+								type="radio"
+								name="roleOptions"
+								:value="role.id"
+								v-model="rolePicked"
+							/>
+
+							<span>{{ role.attributes.designation }}</span>
+						</label>
+					</div>
+				</div>
+
+				<button class="btn bs bf-green mt-4">Add member</button>
+			</form>
 		</div>
 	</Modal>
+
+	<StatusModal
+		v-if="process.show"
+		:status="process.status"
+		:message="process.message"
+	/>
 </template>
 
 <script>
-import { computed, ref } from "@vue/reactivity";
-import FormInput from "./FormInput.vue";
+import { computed, reactive, ref } from "@vue/reactivity";
 import axios from "axios";
 import Modal from "./Modal.vue";
 import store from "../store";
+import StatusModal from "./Modals/StatusModal.vue";
 
 export default {
 	name: "CreateData",
@@ -59,7 +78,10 @@ export default {
 			type: String,
 		},
 	},
-	components: { FormInput, Modal },
+	components: {
+		Modal,
+		StatusModal,
+	},
 	setup(props) {
 		const modalActive = ref(false);
 
@@ -78,6 +100,10 @@ export default {
 
 		const sendInvite = async () => {
 			try {
+				process.show = true;
+				process.status = 0;
+				process.message = null;
+
 				let base = "";
 				if (props.dataType === "Company") base = "companies";
 				else if (props.dataType === "Project") base = "projects";
@@ -87,17 +113,44 @@ export default {
 					role_id: rolePicked.value,
 				});
 
-				modalActive.value = false;
+				process.status = 1;
+				process.message = `Invitation sent.`;
+
+				setTimeout(() => {
+					modalActive.value = false;
+					process.show = false;
+					process.status = 0;
+					process.message = null;
+					close();
+				}, 4000);
 			} catch (error) {
-				console.log(error);
+				console.dir(error);
+				process.status = 2;
+				process.message = error.response.data.data.message.replace(
+					":",
+					""
+				);
+
+				setTimeout(() => {
+					process.show = false;
+					process.status = 0;
+				}, 4000);
 			}
 		};
+
+		const process = reactive({
+			show: false,
+			status: 0,
+			message: null,
+		});
+
 		return {
 			modalActive,
 			email,
 			sendInvite,
 			roles,
 			rolePicked,
+			process,
 		};
 	},
 };
@@ -156,10 +209,5 @@ export default {
 			}
 		}
 	}
-}
-
-.create-button {
-	margin: 28px;
-	place-self: center;
 }
 </style>

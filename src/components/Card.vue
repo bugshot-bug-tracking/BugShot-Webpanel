@@ -33,11 +33,11 @@
 
 				<div class="pop-actions" v-if="showActions">
 					<div class="actions">
-						<a class="edit" @click="editProject">
+						<a class="edit" @click="showModal = 1">
 							<img src="../assets/icons/edit.svg" alt="edit" />
 							<div>Edit</div>
 						</a>
-						<a class="delete" @click="deleteProject">
+						<a class="delete" @click="showModal = 2">
 							<img src="../assets/icons/trash.svg" alt="delete" />
 							<div>Delete</div>
 						</a>
@@ -48,16 +48,31 @@
 	</div>
 
 	<EditModal v-if="showModal === 1" :id="id" @close="showModal = 0" />
-	<DeleteModal v-if="showModal === 2" :id="id" @close="showModal = 0" />
+
+	<DeleteModal
+		v-if="showModal === 2"
+		:text="title"
+		@delete="deleteProject"
+		@close="showModal = 0"
+	/>
+
+	<StatusModal
+		v-if="process.show"
+		:status="process.status"
+		:message="process.message"
+	/>
 </template>
 
 <script>
-import { computed, ref } from "@vue/reactivity";
+import { computed, reactive, ref } from "@vue/reactivity";
 import { onUnmounted } from "@vue/runtime-core";
 import EditModal from "../views/Main/Project/EditModal.vue";
-import DeleteModal from "../views/Main/Project/DeleteModal.vue";
+import DeleteModal from "./Modals/DeleteModal.vue";
+import StatusModal from "./Modals/StatusModal.vue";
+import store from "../store";
+
 export default {
-	components: { EditModal, DeleteModal },
+	components: { EditModal, DeleteModal, StatusModal },
 	name: "Card",
 	props: {
 		id: {
@@ -131,12 +146,31 @@ export default {
 		// 0=no modal, 1=edit modal, 2=delete modal
 		const showModal = ref(0);
 
-		const editProject = () => {
-			showModal.value = 1;
-		};
+		const deleteProject = async () => {
+			try {
+				process.show = true;
+				process.status = 0;
+				process.message = null;
 
-		const deleteProject = () => {
-			showModal.value = 2;
+				await store.dispatch("deleteProject", props.id);
+
+				process.status = 1;
+				process.message = `Project deleted successfully.`;
+
+				setTimeout(() => {
+					process.show = false;
+					process.status = 0;
+					process.message = null;
+				}, 4000);
+			} catch (error) {
+				console.log(error);
+				process.status = 2;
+
+				setTimeout(() => {
+					process.show = false;
+					process.status = 0;
+				}, 4000);
+			}
 		};
 
 		const passedTime = computed(() => {
@@ -171,15 +205,21 @@ export default {
 			return `some time`;
 		});
 
+		const process = reactive({
+			show: false,
+			status: 0,
+			message: null,
+		});
+
 		return {
 			imageURL,
 			showActions,
 			actions,
 			toggleShowActions,
-			editProject,
 			deleteProject,
 			showModal,
 			passedTime,
+			process,
 		};
 	},
 };

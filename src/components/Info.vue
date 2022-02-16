@@ -132,6 +132,7 @@
 			</div>
 		</div>
 	</Container>
+
 	<AssignModal v-if="assignShow" :id="bug_id" @close="assignShow = false" />
 </template>
 

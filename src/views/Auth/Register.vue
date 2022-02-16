@@ -6,12 +6,9 @@
 	</div>
 
 	<form id="login-form" @submit.prevent="submit" v-if="!process">
-		<div class="form-group">
+		<div class="bs-input">
 			<input
-				id="first_name"
-				type="first_name"
-				name="first_name"
-				class="field"
+				type="text"
 				placeholder="First Name"
 				required
 				maxlength="255"
@@ -20,12 +17,9 @@
 			/>
 		</div>
 
-		<div class="form-group">
+		<div class="bs-input">
 			<input
-				id="last_name"
-				type="last_name"
-				name="last_name"
-				class="field"
+				type="text"
 				placeholder="Last Name"
 				required
 				maxlength="255"
@@ -34,12 +28,9 @@
 			/>
 		</div>
 
-		<div class="form-group">
+		<div class="bs-input w-icon">
 			<input
-				id="email"
 				type="email"
-				name="email"
-				class="field"
 				placeholder="E-mail address"
 				required
 				maxlength="255"
@@ -49,16 +40,13 @@
 				@focus="resetError"
 			/>
 
-			<img class="email-img" src="../../assets/icons/at@.svg" />
+			<img src="../../assets/icons/at@.svg" alt="at" />
 		</div>
 
 		<div class="requed">
-			<div class="form-group">
+			<div class="bs-input w-icon">
 				<input
-					id="password"
 					:type="passwordType"
-					name="password"
-					class="field"
 					placeholder="Password"
 					minlength="8"
 					required
@@ -77,14 +65,12 @@
 				/>
 
 				<img
-					class="password-img"
 					v-if="showPassword"
 					@click="togglePassword"
 					src="../../assets/icons/hide_password.svg"
 				/>
 
 				<img
-					class="password-img"
 					v-if="!showPassword"
 					@click="togglePassword"
 					src="../../assets/icons/show_password.svg"
@@ -121,13 +107,10 @@
 			</ul>
 		</div>
 
-		<div class="requed mb-3">
-			<div class="form-group">
+		<div class="requed">
+			<div class="bs-input w-icon">
 				<input
-					id="confirm_password"
 					:type="passwordType"
-					name="confirm_password"
-					class="field"
 					placeholder="Confirm Password"
 					minlength="8"
 					required
@@ -145,14 +128,12 @@
 				/>
 
 				<img
-					class="password-img"
 					v-if="showPassword"
 					@click="togglePassword"
 					src="../../assets/icons/hide_password.svg"
 				/>
 
 				<img
-					class="password-img"
 					v-if="!showPassword"
 					@click="togglePassword"
 					src="../../assets/icons/show_password.svg"
@@ -171,8 +152,9 @@
 			</ul>
 		</div>
 
-		<div class="tos mb-4">
-			<input type="checkbox" name="tos" id="tos" v-model="tos" required />
+		<div class="tos">
+			<input type="checkbox" v-model="tos" required />
+
 			<span>
 				<p>I accept BugShot's</p>
 				<p class="linked">Terms of Service</p>
@@ -345,7 +327,7 @@ export default {
 
 <style scoped lang="scss">
 .title {
-	margin: 2% 0 4% 0 !important;
+	margin: 0 0 2rem 0 !important;
 	color: hsl(265, 79%, 41%);
 	font-weight: 700;
 	font-size: 32px;
@@ -359,7 +341,13 @@ export default {
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
-	height: 650px;
+	height: 600px;
+	gap: 30px;
+
+	> * {
+		margin: 0 auto;
+		width: 100%;
+	}
 
 	.from-buttons {
 		display: flex;
@@ -376,47 +364,6 @@ export default {
 		> label {
 			user-select: none;
 		}
-	}
-
-	.form-group {
-		width: 100%;
-		display: flex;
-		position: relative;
-		align-items: center;
-	}
-
-	.field {
-		border: 1px solid hsl(264, 78%, 77%);
-		border-radius: 8px;
-		margin: 16px 0;
-		width: 100%;
-		padding: 10px;
-		padding-right: 40px;
-
-		&:focus,
-		&:focus-visible,
-		&:hover {
-			border-color: hsl(265, 79%, 41%);
-			outline-color: hsl(265, 79%, 41%);
-		}
-	}
-
-	.email-img {
-		width: 20px;
-	}
-
-	#password {
-		&::-ms-reveal,
-		&::-ms-clear {
-			display: none;
-		}
-	}
-
-	.email-img,
-	.password-img {
-		position: absolute;
-		width: 22px;
-		right: 12px;
 	}
 
 	.error {
@@ -438,8 +385,13 @@ export default {
 	flex-direction: column;
 	align-items: flex-start;
 
+	> * {
+		margin: 0 auto;
+		width: 100%;
+	}
+
 	ul {
-		margin: 0;
+		margin: 1rem 0 0 0;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
@@ -451,11 +403,6 @@ export default {
 	font-weight: 500;
 }
 
-#tos:checked {
-	color: #7a2de6;
-	accent-color: currentcolor;
-}
-
 .tos {
 	display: flex;
 	align-items: center;
@@ -463,6 +410,11 @@ export default {
 	font-size: 14px;
 	width: 100%;
 	justify-content: center;
+
+	input:checked {
+		color: #7a2de6;
+		accent-color: currentcolor;
+	}
 
 	> span {
 		display: flex;

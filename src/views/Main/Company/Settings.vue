@@ -14,16 +14,15 @@
 
 				<div class="body">
 					<Container>
-						<div class="wrapper">
-							<FormInput
-								:value="companyParams.name"
-								@input="
-									(i) => (companyParams.name = i.target.value)
-								"
-								:placeholder="record.attributes.designation"
-								:type="'text'"
-								class="my-3"
-							/>
+						<form class="wrapper" @submit.prevent="saveChanges">
+							<div class="bs-input my-3">
+								<input
+									v-model="companyParams.name"
+									:placeholder="record.attributes.designation"
+									:type="'text'"
+								/>
+							</div>
+
 							<!-- change color Picked to the record color -->
 							<Picker
 								:colorPicked="companyParams.color"
@@ -33,20 +32,17 @@
 								v-if="imageFlag"
 							/>
 
-							<a
-								class="save-button btn bs bf-green"
-								@click="saveChanges"
-							>
+							<button class="btn bs bf-green mt-3">
 								Save changes
-							</a>
-						</div>
+							</button>
+						</form>
 					</Container>
 
 					<div v-if="!canEdit" class="disabled-overlay" />
 				</div>
 
 				<div class="d-flex flex-column" v-if="canDelete">
-					<a class="text-danger" @click.prevent="deleteCompany">
+					<a class="text-danger" @click.prevent="showDelete = true">
 						Delete company and associated projects
 					</a>
 					(can't be reverted)
@@ -76,29 +72,44 @@
 			</Column>
 		</div>
 	</Layout>
+
+	<DeleteModal
+		v-if="showDelete"
+		:text="record.attributes.designation"
+		@delete="deleteCompany"
+		@close="showDelete = false"
+	/>
+
+	<StatusModal
+		v-if="process.show"
+		:status="process.status"
+		:message="process.message"
+	/>
 </template>
 
 <script>
 import { computed, reactive, ref } from "@vue/reactivity";
 import Layout from "../Layout.vue";
 import store from "../../../store";
-import FormInput from "../../../components/FormInput.vue";
 import Container from "../../../components/Container.vue";
 import Picker from "../../../components/Picker.vue";
 import Column from "../Project/BugsTable/Column.vue";
 import TeamTable from "../../../components/TeamTable.vue";
 import Plan from "../../../components/Plan.vue";
 import axios from "axios";
+import DeleteModal from "../../../components/Modals/DeleteModal.vue";
+import StatusModal from "../../../components/Modals/StatusModal.vue";
 
 export default {
 	components: {
 		Layout,
-		FormInput,
 		Container,
 		Picker,
 		Column,
 		TeamTable,
 		Plan,
+		DeleteModal,
+		StatusModal,
 	},
 	name: "CompanySettings",
 	props: {
@@ -203,7 +214,7 @@ export default {
 			companyParams.color = value;
 		};
 
-		const saveChanges = () => {
+		const saveChanges = async () => {
 			let data = {
 				company_id: props.id,
 				designation: companyParams.name,
@@ -211,14 +222,67 @@ export default {
 				base64: companyParams.image ? btoa(companyParams.image) : null,
 			};
 
-			store.dispatch("updateCompany", data);
+			try {
+				process.show = true;
+				process.status = 0;
+				process.message = null;
+
+				await store.dispatch("updateCompany", data);
+
+				process.status = 1;
+				process.message = `Company edited successfully.`;
+
+				setTimeout(() => {
+					process.show = false;
+					process.status = 0;
+					process.message = null;
+				}, 4000);
+			} catch (error) {
+				console.log(error);
+				process.status = 2;
+
+				setTimeout(() => {
+					process.show = false;
+					process.status = 0;
+				}, 4000);
+			}
 		};
 
-		const deleteCompany = () => {
+		const deleteCompany = async () => {
 			if (!canDelete.value) return;
 
-			store.dispatch("deleteCompany", record.value.id);
+			try {
+				showDelete.value = false;
+				process.show = true;
+				process.status = 0;
+				process.message = null;
+
+				await store.dispatch("deleteCompany", record.value.id);
+
+				process.status = 1;
+				process.message = `Company deleted successfully.`;
+
+				setTimeout(() => {
+					process.show = false;
+					process.status = 0;
+					process.message = null;
+				}, 4000);
+			} catch (error) {
+				process.status = 2;
+
+				setTimeout(() => {
+					process.show = false;
+					process.status = 0;
+				}, 4000);
+			}
 		};
+
+		const showDelete = ref(false);
+		const process = reactive({
+			show: false,
+			status: 0,
+			message: null,
+		});
 
 		return {
 			record,
@@ -230,6 +294,8 @@ export default {
 			deleteCompany,
 			canEdit,
 			canDelete,
+			showDelete,
+			process,
 		};
 	},
 };
@@ -279,10 +345,6 @@ export default {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-
-		.save-button {
-			margin: 10px;
-		}
 	}
 }
 
