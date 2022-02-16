@@ -51,13 +51,20 @@
 			</form>
 		</div>
 	</Modal>
+
+	<StatusModal
+		v-if="process.show"
+		:status="process.status"
+		:message="process.message"
+	/>
 </template>
 
 <script>
-import { computed, ref } from "@vue/reactivity";
+import { computed, reactive, ref } from "@vue/reactivity";
 import axios from "axios";
 import Modal from "./Modal.vue";
 import store from "../store";
+import StatusModal from "./Modals/StatusModal.vue";
 
 export default {
 	name: "CreateData",
@@ -73,6 +80,7 @@ export default {
 	},
 	components: {
 		Modal,
+		StatusModal,
 	},
 	setup(props) {
 		const modalActive = ref(false);
@@ -92,6 +100,10 @@ export default {
 
 		const sendInvite = async () => {
 			try {
+				process.show = true;
+				process.status = 0;
+				process.message = null;
+
 				let base = "";
 				if (props.dataType === "Company") base = "companies";
 				else if (props.dataType === "Project") base = "projects";
@@ -101,17 +113,44 @@ export default {
 					role_id: rolePicked.value,
 				});
 
-				modalActive.value = false;
+				process.status = 1;
+				process.message = `Invitation sent.`;
+
+				setTimeout(() => {
+					modalActive.value = false;
+					process.show = false;
+					process.status = 0;
+					process.message = null;
+					close();
+				}, 4000);
 			} catch (error) {
-				console.log(error);
+				console.dir(error);
+				process.status = 2;
+				process.message = error.response.data.data.message.replace(
+					":",
+					""
+				);
+
+				setTimeout(() => {
+					process.show = false;
+					process.status = 0;
+				}, 4000);
 			}
 		};
+
+		const process = reactive({
+			show: false,
+			status: 0,
+			message: null,
+		});
+
 		return {
 			modalActive,
 			email,
 			sendInvite,
 			roles,
 			rolePicked,
+			process,
 		};
 	},
 };

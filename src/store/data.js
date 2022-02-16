@@ -486,6 +486,7 @@ export default {
 				state.commit("UPDATE_COMPANY", response);
 			} catch (error) {
 				console.log(error);
+				throw error.response;
 			}
 		},
 
@@ -539,6 +540,7 @@ export default {
 				state.commit("UPDATE_PROJECT", response);
 			} catch (error) {
 				console.log(error);
+				throw error.response;
 			}
 		},
 
@@ -555,8 +557,7 @@ export default {
 				return true;
 			} catch (error) {
 				console.log(error);
-
-				return false;
+				throw error.response;
 			}
 		},
 	},

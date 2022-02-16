@@ -214,7 +214,7 @@ export default {
 			companyParams.color = value;
 		};
 
-		const saveChanges = () => {
+		const saveChanges = async () => {
 			let data = {
 				company_id: props.id,
 				designation: companyParams.name,
@@ -222,7 +222,30 @@ export default {
 				base64: companyParams.image ? btoa(companyParams.image) : null,
 			};
 
-			store.dispatch("updateCompany", data);
+			try {
+				process.show = true;
+				process.status = 0;
+				process.message = null;
+
+				await store.dispatch("updateCompany", data);
+
+				process.status = 1;
+				process.message = `Company edited successfully.`;
+
+				setTimeout(() => {
+					process.show = false;
+					process.status = 0;
+					process.message = null;
+				}, 4000);
+			} catch (error) {
+				console.log(error);
+				process.status = 2;
+
+				setTimeout(() => {
+					process.show = false;
+					process.status = 0;
+				}, 4000);
+			}
 		};
 
 		const deleteCompany = async () => {
