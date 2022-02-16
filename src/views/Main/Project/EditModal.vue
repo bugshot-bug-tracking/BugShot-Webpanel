@@ -5,49 +5,55 @@
 				<span>Edit Project</span>
 			</div>
 
-			<div class="label">Project Name</div>
-			<FormInput
-				class="my-3"
-				:value="projectParams.name"
-				@input="(i) => (projectParams.name = i.target.value)"
-				:placeholder="`Enter Project Name`"
-				:type="'text'"
-			/>
+			<form @submit.prevent="saveChanges">
+				<div class="label">Project Name</div>
 
-			<div class="label">URL</div>
-			<FormInput
-				class="my-3"
-				:value="projectParams.url"
-				@input="(i) => (projectParams.url = i.target.value)"
-				:placeholder="`Enter Project URL (Optional)`"
-				:type="'url'"
-			/>
+				<div class="bs-input my-3">
+					<input
+						v-model="projectParams.name"
+						:placeholder="`Enter Project Name`"
+						:type="'text'"
+						required
+					/>
+				</div>
 
-			<Picker
-				class="my-2"
-				:colorPicked="projectParams.color"
-				@setImage="setImage"
-				@setColor="setColor"
-				:image="projectParams.image"
-			/>
+				<div class="label">URL</div>
 
-			<a
-				class="create-button btn bs bf-green"
-				@click.prevent="saveChanges"
-			>
-				Save Changes
-			</a>
+				<div class="bs-input my-3">
+					<input
+						v-model="projectParams.url"
+						:placeholder="`Enter Project URL (Optional)`"
+						:type="'url'"
+					/>
+				</div>
+
+				<Picker
+					class="my-2"
+					:colorPicked="projectParams.color"
+					@setImage="setImage"
+					@setColor="setColor"
+					:image="projectParams.image"
+				/>
+
+				<button class="btn bs bf-green mt-3">Save Changes</button>
+			</form>
 		</div>
 	</Modal>
+
+	<StatusModal
+		v-if="process.show"
+		:status="process.status"
+		:message="process.message"
+	/>
 </template>
 
 <script>
 import { reactive, ref } from "@vue/reactivity";
 import Modal from "../../../components/Modal.vue";
 import { computed, nextTick, onMounted } from "@vue/runtime-core";
-import FormInput from "../../../components/FormInput.vue";
 import Picker from "../../../components/Picker.vue";
 import store from "../../../store";
+import StatusModal from "../../../components/Modals/StatusModal.vue";
 
 export default {
 	name: "EditProjectModal",
@@ -58,7 +64,11 @@ export default {
 		},
 	},
 	emits: ["close"],
-	components: { Modal, FormInput, Picker },
+	components: {
+		Modal,
+		Picker,
+		StatusModal,
+	},
 	setup(props, context) {
 		const show = ref(false);
 
@@ -127,7 +137,7 @@ export default {
 				reader.onerror = (error) => reject(error);
 			});
 
-		const saveChanges = () => {
+		const saveChanges = async () => {
 			let data = {
 				id: props.id,
 				designation: projectParams.name,
@@ -136,8 +146,38 @@ export default {
 				base64: projectParams.image ? btoa(projectParams.image) : null,
 			};
 
-			store.dispatch("updateProject", data).then(close);
+			try {
+				process.show = true;
+				process.status = 0;
+				process.message = null;
+
+				await store.dispatch("updateProject", data);
+
+				process.status = 1;
+				process.message = `Project edited successfully.`;
+
+				setTimeout(() => {
+					process.show = false;
+					process.status = 0;
+					process.message = null;
+					close();
+				}, 4000);
+			} catch (error) {
+				console.log(error);
+				process.status = 2;
+
+				setTimeout(() => {
+					process.show = false;
+					process.status = 0;
+				}, 4000);
+			}
 		};
+
+		const process = reactive({
+			show: false,
+			status: 0,
+			message: null,
+		});
 
 		return {
 			show,
@@ -147,6 +187,7 @@ export default {
 			setImage,
 			setColor,
 			saveChanges,
+			process,
 		};
 	},
 };
@@ -176,8 +217,8 @@ export default {
 		font-size: 16px;
 		font-weight: bold;
 		padding: 0px 3%;
-		margin-right: auto;
-		margin-bottom: -20px;
+		margin-bottom: -10px;
+		text-align: left;
 	}
 }
 </style>

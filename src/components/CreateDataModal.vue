@@ -18,33 +18,39 @@
 				<h4 v-if="subTitle">{{ subTitle }}</h4>
 			</div>
 
-			<FormInput
-				class="my-3"
-				:value="name"
-				@input="(i) => (name = i.target.value)"
-				:placeholder="`Enter ${dataType} Name`"
-				:type="'text'"
-			/>
+			<form @submit.prevent="createResource">
+				<div class="bs-input my-3">
+					<input
+						:type="'text'"
+						:placeholder="`Enter ${dataType} Name`"
+						required
+						minlength="1"
+						maxlength="255"
+						v-model="name"
+					/>
+				</div>
 
-			<FormInput
-				class="my-3"
-				v-if="dataType === 'Project'"
-				:value="url"
-				@input="(i) => (url = i.target.value)"
-				:placeholder="`Enter ${dataType} URL (Optional)`"
-				:type="'url'"
-			/>
+				<div class="bs-input my-3">
+					<input
+						v-if="dataType === 'Project'"
+						:type="'text'"
+						:placeholder="`Enter ${dataType} URL (Optional)`"
+						maxlength="65000"
+						v-model="url"
+					/>
+				</div>
 
-			<Picker
-				class="my-2"
-				:colorPicked="color"
-				@setImage="setImage"
-				@setColor="setColor"
-			/>
+				<Picker
+					class="my-2"
+					:colorPicked="color"
+					@setImage="setImage"
+					@setColor="setColor"
+				/>
 
-			<a class="create-button btn bs bf-green" @click="createResource">
-				Create {{ dataType }}
-			</a>
+				<button class="btn bs bf-green mt-2">
+					Create {{ dataType }}
+				</button>
+			</form>
 		</div>
 	</Modal>
 
@@ -58,7 +64,6 @@
 
 <script>
 import { ref } from "@vue/reactivity";
-import FormInput from "./FormInput.vue";
 import Picker from "./Picker.vue";
 import axios from "axios";
 import Modal from "./Modal.vue";
@@ -85,7 +90,11 @@ export default {
 			type: Object,
 		},
 	},
-	components: { FormInput, Picker, Modal, StatusModal },
+	components: {
+		Picker,
+		Modal,
+		StatusModal,
+	},
 	setup(props) {
 		const modalActive = ref(false);
 
@@ -147,8 +156,8 @@ export default {
 
 					//! TODO WIP needs a better URL validation strategy
 					try {
-					let u = new URL(url.value);
-					aditionalBody["url"] = u.origin;
+						let u = new URL(url.value);
+						aditionalBody["url"] = u.origin;
 					} catch (error) {
 						console.log(error);
 						aditionalBody["url"] = url.value;
@@ -235,10 +244,5 @@ export default {
 			font-size: 16px;
 		}
 	}
-}
-
-.create-button {
-	margin-top: 10px;
-	place-self: center;
 }
 </style>

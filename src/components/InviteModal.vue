@@ -9,40 +9,52 @@
 				<span>Add New Team Member</span>
 			</div>
 
-			<FormInput
-				:value="email"
-				@input="(i) => (email = i.target.value)"
-				:placeholder="`E-Mail`"
-				:type="'email'"
-				:image="require('@/assets/icons/at@.svg')"
-				class="my-3"
-			/>
+			<form
+				@submit.prevent="sendInvite"
+				class="d-flex flex-column align-items-center"
+			>
+				<div class="bs-input w-icon my-3">
+					<input
+						:placeholder="`E-Mail`"
+						:type="'email'"
+						v-model="email"
+						required
+						maxlength="255"
+						autocomplete="email"
+					/>
 
-			<div class="roles">
-				<span>Role</span>
-				<div class="items">
-					<label class="role" v-for="role in roles" :key="role.id">
-						<input
-							type="radio"
-							name="roleOptions"
-							:value="role.id"
-							v-model="rolePicked"
-						/>
-						<span>{{ role.attributes.designation }}</span>
-					</label>
+					<img src="../assets/icons/at@.svg" alt="at" />
 				</div>
-			</div>
 
-			<a class="create-button btn bs bf-green" @click="sendInvite">
-				Add member
-			</a>
+				<div class="roles">
+					<span>Role</span>
+
+					<div class="items">
+						<label
+							class="role"
+							v-for="role in roles"
+							:key="role.id"
+						>
+							<input
+								type="radio"
+								name="roleOptions"
+								:value="role.id"
+								v-model="rolePicked"
+							/>
+
+							<span>{{ role.attributes.designation }}</span>
+						</label>
+					</div>
+				</div>
+
+				<button class="btn bs bf-green mt-4">Add member</button>
+			</form>
 		</div>
 	</Modal>
 </template>
 
 <script>
 import { computed, ref } from "@vue/reactivity";
-import FormInput from "./FormInput.vue";
 import axios from "axios";
 import Modal from "./Modal.vue";
 import store from "../store";
@@ -59,7 +71,9 @@ export default {
 			type: String,
 		},
 	},
-	components: { FormInput, Modal },
+	components: {
+		Modal,
+	},
 	setup(props) {
 		const modalActive = ref(false);
 
@@ -156,10 +170,5 @@ export default {
 			}
 		}
 	}
-}
-
-.create-button {
-	margin: 28px;
-	place-self: center;
 }
 </style>

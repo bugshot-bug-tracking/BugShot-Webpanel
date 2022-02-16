@@ -14,16 +14,15 @@
 
 				<div class="body">
 					<Container>
-						<div class="wrapper">
-							<FormInput
-								:value="companyParams.name"
-								@input="
-									(i) => (companyParams.name = i.target.value)
-								"
-								:placeholder="record.attributes.designation"
-								:type="'text'"
-								class="my-3"
-							/>
+						<form class="wrapper" @submit.prevent="saveChanges">
+							<div class="bs-input my-3">
+								<input
+									v-model="companyParams.name"
+									:placeholder="record.attributes.designation"
+									:type="'text'"
+								/>
+							</div>
+
 							<!-- change color Picked to the record color -->
 							<Picker
 								:colorPicked="companyParams.color"
@@ -33,13 +32,10 @@
 								v-if="imageFlag"
 							/>
 
-							<a
-								class="save-button btn bs bf-green"
-								@click="saveChanges"
-							>
+							<button class="btn bs bf-green mt-3">
 								Save changes
-							</a>
-						</div>
+							</button>
+						</form>
 					</Container>
 
 					<div v-if="!canEdit" class="disabled-overlay" />
@@ -95,7 +91,6 @@
 import { computed, reactive, ref } from "@vue/reactivity";
 import Layout from "../Layout.vue";
 import store from "../../../store";
-import FormInput from "../../../components/FormInput.vue";
 import Container from "../../../components/Container.vue";
 import Picker from "../../../components/Picker.vue";
 import Column from "../Project/BugsTable/Column.vue";
@@ -108,7 +103,6 @@ import StatusModal from "../../../components/Modals/StatusModal.vue";
 export default {
 	components: {
 		Layout,
-		FormInput,
 		Container,
 		Picker,
 		Column,
@@ -328,10 +322,6 @@ export default {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-
-		.save-button {
-			margin: 10px;
-		}
 	}
 }
 

@@ -236,4 +236,38 @@ export default {
 	left: 0;
 	background-color: white;
 }
+
+.bs-input {
+	width: 95%;
+	display: flex;
+	position: relative;
+	align-items: center;
+	margin: auto;
+
+	input {
+		border: 1px solid hsl(264, 78%, 77%);
+		border-radius: 8px;
+		width: 100%;
+		padding: 10px;
+
+		&:focus,
+		&:focus-visible,
+		&:hover {
+			border-color: hsl(265, 79%, 41%);
+			outline-color: hsl(265, 79%, 41%);
+		}
+	}
+
+	&.w-icon {
+		input {
+			padding-right: 40px;
+		}
+
+		img {
+			width: 20px;
+			position: absolute;
+			right: 12px;
+		}
+	}
+}
 </style>
