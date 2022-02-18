@@ -181,7 +181,10 @@
 		</div>
 
 		<div class="success" v-if="stage === 1">
-			<img src="../../assets/gif/bug_confirmation.gif" alt="Success" />
+			<img
+				src="../../assets/gif/bug_confirmation_not_white.gif"
+				alt="Success"
+			/>
 
 			<div>Success!</div>
 
