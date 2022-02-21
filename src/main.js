@@ -4,6 +4,7 @@ import router from "./router";
 import store from "./store";
 
 import axios from "axios";
+import i18n from './i18n'
 
 require("./store/subscriber");
 
@@ -17,4 +18,4 @@ axios.defaults.headers = {
 
 store.dispatch("attempt", localStorage.getItem("authToken"));
 
-createApp(App).use(store).use(router).mount("#app");
+createApp(App).use(i18n).use(store).use(router).mount("#app");
