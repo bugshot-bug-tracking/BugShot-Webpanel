@@ -1,12 +1,10 @@
 <template>
 	<nav class="nav-bar">
 		<ul class="verticle-menu">
-			<div class="btn-sets">
-				<li class="home-logo">
-					<router-link :to="{ name: 'Home' }">
-						<img src="../assets/extern/m-1.svg" alt="" />
-					</router-link>
-				</li>
+			<div class="top-buttons">
+				<router-link :to="{ name: 'Home' }" class="home-logo">
+					<img src="../assets/extern/m-1.svg" alt="" />
+				</router-link>
 
 				<li class="notification">
 					<a>
@@ -41,16 +39,18 @@
 				</li>
 			</div>
 
-			<div class="btn-sets">
-				<li>
+			<div>
+				<div class="bottom-buttons">
 					<router-link :to="{ name: 'UserSettings' }">
 						<img src="../assets/extern/m-3.svg" alt="" />
 					</router-link>
-				</li>
 
-				<li class="logout" @click="logout">
-					<img src="../assets/extern/logout.svg" />
-				</li>
+					<div class="logout" @click="logout">
+						<img src="../assets/extern/logout.svg" />
+					</div>
+				</div>
+
+				<I18nSwitcher />
 			</div>
 		</ul>
 	</nav>
@@ -61,9 +61,11 @@ import router from "../router";
 import store from "../store";
 import { computed } from "@vue/reactivity";
 import Notification from "../components/Notification.vue";
+import I18nSwitcher from "../components/i18nSwitcher.vue";
 
 export default {
 	name: "Navbar",
+	components: { Notification, I18nSwitcher },
 	setup() {
 		const logout = () => {
 			store.dispatch("logout");
@@ -79,7 +81,6 @@ export default {
 			invitations,
 		};
 	},
-	components: { Notification },
 };
 </script>
 
@@ -98,19 +99,24 @@ export default {
 	align-items: center;
 	justify-content: space-between;
 	height: 100%;
-	padding: 32px 16px;
+	padding: 16px;
 
-	.btn-sets {
-		> * {
-			margin: 40px 0;
-		}
+	.top-buttons {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 32px;
 
-		> *:first-child {
-			margin: 0 0 40px 0;
+		.home-logo {
+			margin-top: 16px;
 		}
-		> *:last-child {
-			margin: 40px 0 0 0;
-		}
+	}
+
+	.bottom-buttons {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 32px;
 	}
 
 	.notification {
@@ -170,36 +176,13 @@ export default {
 			visibility: visible;
 		}
 
-		.notification-title-wrap {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			margin-bottom: 10px;
-
-			a {
-				&::before,
-				&::after {
-					content: none;
-				}
-
-				font-size: 15px;
-				color: #1a2040;
-				display: inline-block;
-			}
-
-			p {
-				font-size: 15px;
-				color: #1a2040;
-			}
-		}
-
 		.notification-submenu {
 			position: absolute;
-			left: calc(100% + 10px);
-			background: #fff;
+			left: calc(100% + 16px);
+			background: #ffffff;
 			width: 400px;
 			border-radius: 12px;
-			box-shadow: 0 2px 10px #0000001c;
+			box-shadow: 0 2px 10px hsla(0, 0%, 0%, 0.11);
 			padding: 15px;
 			top: 0;
 			opacity: 0;
@@ -237,55 +220,6 @@ export default {
 					}
 				}
 			}
-		}
-
-		.notification-rw {
-			border-top: 1px solid #a3acda;
-			padding: 12px 0;
-			position: relative;
-			padding-right: 45px;
-		}
-
-		.notification-crud-btn {
-			position: absolute;
-			right: 0;
-			top: 50%;
-			transform: translateY(-50%);
-
-			span.check-ok i {
-				color: #15be80;
-			}
-		}
-
-		.notification-rw-content p {
-			font-size: 12px;
-			text-align: left;
-			margin-bottom: 5px;
-
-			a {
-				font-size: 12px;
-				text-align: left;
-				display: inline-block;
-				color: #1a2040;
-			}
-		}
-
-		.notification-date {
-			display: block;
-			text-align: left;
-			font-size: 10px;
-			color: #a3acda;
-		}
-
-		.notification-crud-btn span {
-			i {
-				color: #f23838;
-				font-size: 18px;
-			}
-
-			display: inline-block;
-			margin-left: 10px;
-			cursor: pointer;
 		}
 	}
 }
