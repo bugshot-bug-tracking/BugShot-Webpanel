@@ -7,11 +7,11 @@
 		<div class="selection" v-if="showLangs">
 			<ul>
 				<li
-					v-for="lang in languages"
-					:key="lang"
-					@click="changeLang(lang)"
+					v-for="locale in supportedLocales"
+					:key="locale.code"
+					@click="changeLocale(locale.code)"
 				>
-					{{ lang }}
+					{{ locale.code }}
 				</li>
 			</ul>
 		</div>
@@ -32,14 +32,14 @@ const toggle = () => {
 	showLangs.value = !showLangs.value;
 };
 
-const changeLang = (value) => {
+const changeLocale = (value) => {
 	showLangs.value = false;
 
-	store.dispatch("changeLocale", value);
+	store.dispatch("setLocale", value);
 };
 
-const languages = computed(() => {
-	return store.getters.getLocales;
+const supportedLocales = computed(() => {
+	return store.getters.getSupportedLocales;
 });
 </script>
 

@@ -1,6 +1,6 @@
 <template>
 	<div class="sidebar">
-		<h3>Companies</h3>
+		<h3>{{ $t("comps") }}</h3>
 
 		<!-- <div class="search">
 			<Search />
