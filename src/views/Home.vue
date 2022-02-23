@@ -164,8 +164,10 @@ export default {
 		}
 	}
 }
+</style>
 
-.c-scroll {
+<style lang="scss">
+.bs-scroll {
 	overflow: auto;
 	overflow-y: auto;
 	scrollbar-gutter: stable;
@@ -217,7 +219,9 @@ export default {
 		}
 	}
 }
+</style>
 
+<style lang="scss">
 .disabled {
 	opacity: 0.5 !important;
 
@@ -236,7 +240,9 @@ export default {
 	left: 0;
 	background-color: white;
 }
+</style>
 
+<style lang="scss">
 .bs-input {
 	width: 100%;
 	display: flex;
@@ -268,6 +274,37 @@ export default {
 			position: absolute;
 			right: 12px;
 		}
+	}
+}
+</style>
+
+<style lang="scss">
+.bs-priority {
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 16px;
+	color: hsl(0, 0%, 100%);
+	border-radius: 30px;
+	width: fit-content;
+	height: fit-content;
+	position: relative;
+	padding: 3px 10px;
+	user-select: none;
+
+	&.p1 {
+		background-color: hsl(188, 80%, 47%);
+	}
+
+	&.p2 {
+		background-color: hsl(218, 80%, 47%);
+	}
+
+	&.p3 {
+		background-color: hsl(32, 100%, 67%);
+	}
+
+	&.p4 {
+		background-color: hsl(0, 90%, 60%);
 	}
 }
 </style>

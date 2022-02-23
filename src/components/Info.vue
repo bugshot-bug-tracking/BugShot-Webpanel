@@ -97,6 +97,7 @@
 					<PriorityChange
 						:priority="bug.attributes.priority.id"
 						class="content"
+						:lock="false"
 						@change="changePriority"
 					/>
 				</div>

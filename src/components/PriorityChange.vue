@@ -1,11 +1,13 @@
 <template>
 	<div
-		class="pill priority"
+		class="bs-priority"
 		:class="'p' + priority"
 		@click="toggleShow"
 		ref="popup"
 	>
-		<div class="container" v-if="show">
+		{{ priorityText(priority) }}
+
+		<div class="container" v-if="show && !lock">
 			<div class="i i1" @click="$emit('change', 1)">
 				{{ $t("minor") }}
 			</div>
@@ -28,12 +30,20 @@
 <script>
 import { ref } from "@vue/reactivity";
 import { onUnmounted } from "@vue/runtime-core";
+import { useI18n } from "vue-i18n";
+
 export default {
 	name: "PriorityChange",
 	props: {
 		priority: {
 			type: Number,
 			required: true,
+		},
+		lock: {
+			type: Boolean,
+			required: false,
+			default: true,
+			description: "Lock the change event emission",
 		},
 	},
 	emits: ["change"],
@@ -42,6 +52,7 @@ export default {
 
 		const show = ref(false);
 		const toggleShow = () => {
+			if (props.lock) return;
 			show.value = !show.value;
 		};
 
@@ -49,73 +60,40 @@ export default {
 			if (e.target != popup.value) show.value = false;
 		};
 
-		document.addEventListener("click", close);
-
-		onUnmounted(() => {
+		if (!props.lock) {
 			document.addEventListener("click", close);
-		});
+
+			onUnmounted(() => {
+				document.addEventListener("click", close);
+			});
+		}
+
+		const { t } = useI18n({ useScope: "global" });
+
+		const priorityText = (value) => {
+			switch (value) {
+				case 1:
+					return t("minor");
+				case 2:
+					return t("normal");
+				case 3:
+					return t("important");
+				case 4:
+					return t("critical");
+			}
+		};
 
 		return {
 			popup,
 			show,
 			toggleShow,
+			priorityText,
 		};
 	},
 };
 </script>
 
 <style lang="scss" scoped>
-.priority {
-	font-weight: normal;
-	font-size: 12px;
-	line-height: 16px;
-	color: hsl(0, 0%, 100%);
-	border-radius: 30px;
-	width: fit-content;
-	height: fit-content;
-	position: relative;
-
-	&:hover {
-		cursor: pointer;
-	}
-
-	&.p4 {
-		padding: 3px 10px;
-		background-color: hsl(0, 90%, 60%);
-
-		&::after {
-			content: "Critical";
-		}
-	}
-
-	&.p3 {
-		padding: 3px 10px;
-		background-color: hsl(32, 100%, 67%);
-
-		&::after {
-			content: "Important";
-		}
-	}
-
-	&.p2 {
-		padding: 3px 10px;
-		background-color: hsl(218, 80%, 47%);
-
-		&::after {
-			content: "Normal";
-		}
-	}
-
-	&.p1 {
-		padding: 3px 10px;
-		background-color: hsl(188, 80%, 47%);
-
-		&::after {
-			content: "Minor";
-		}
-	}
-}
-
 .container {
 	display: flex;
 	flex-direction: column;

@@ -11,7 +11,7 @@
 						{{ deadline ? date(deadline) : $t("no_deadline") }}
 					</div>
 
-					<div class="bug priority" :class="'p' + priority" />
+					<PriorityChange :priority="priority" />
 				</div>
 			</div>
 		</div>
@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import PriorityChange from "./PriorityChange.vue";
+
 export default {
 	name: "BugCard",
 	props: {
@@ -39,6 +41,9 @@ export default {
 			type: Number,
 		},
 	},
+	components: {
+		PriorityChange,
+	},
 	emits: ["info"],
 	setup() {
 		const date = (dateString) => {
@@ -47,7 +52,6 @@ export default {
 
 			return new Date(dateString).toLocaleString();
 		};
-
 		return {
 			date,
 		};
@@ -105,52 +109,6 @@ export default {
 			font-size: 14px;
 			color: hsl(230, 40%, 20%);
 			font-weight: bold;
-		}
-	}
-}
-
-.priority {
-	font-weight: normal;
-	font-size: 12px;
-	line-height: 16px;
-	color: hsl(0, 0%, 100%);
-	border-radius: 30px;
-	width: fit-content;
-	height: fit-content;
-
-	&.p4 {
-		padding: 3px 10px;
-		background-color: hsl(0, 90%, 60%);
-
-		&::after {
-			content: "Critical";
-		}
-	}
-
-	&.p3 {
-		padding: 3px 10px;
-		background-color: hsl(32, 100%, 67%);
-
-		&::after {
-			content: "Important";
-		}
-	}
-
-	&.p2 {
-		padding: 3px 10px;
-		background-color: hsl(218, 80%, 47%);
-
-		&::after {
-			content: "Normal";
-		}
-	}
-
-	&.p1 {
-		padding: 3px 10px;
-		background-color: hsl(188, 80%, 47%);
-
-		&::after {
-			content: "Minor";
 		}
 	}
 }
