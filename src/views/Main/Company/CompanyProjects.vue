@@ -80,6 +80,7 @@ import store from "../../../store";
 import Search from "../../../components/Search.vue";
 import CreateDataModal from "../../../components/CreateDataModal.vue";
 import InviteModal from "../../../components/InviteModal.vue";
+import timeToText from "../../../util/timeToText";
 
 export default {
 	components: {
@@ -122,38 +123,9 @@ export default {
 			return str;
 		};
 
-		//! TODO translate time marks
-		const passedTime = (lastEdit) => {
-			if (!(lastEdit && lastEdit != "")) return `some time`;
-
-			let now = new Date();
-			let then = new Date(lastEdit);
-
-			// get total seconds between the times
-			var delta = Math.abs(then - now) / 1000;
-
-			// calculate (and subtract) whole days
-			var days = Math.floor(delta / 86400);
-			delta -= days * 86400;
-			if (days > 0) return `${days} days`;
-
-			// calculate (and subtract) whole hours
-			var hours = Math.floor(delta / 3600) % 24;
-			delta -= hours * 3600;
-			if (hours > 0) return `${hours} hours`;
-
-			// calculate (and subtract) whole minutes
-			var minutes = Math.floor(delta / 60) % 60;
-			delta -= minutes * 60;
-			if (minutes > 0) return `${minutes} minutes`;
-
-			// what's left is seconds
-			var seconds = Math.floor(delta % 60); // in theory the modulus is not required
-			if (seconds > 0) return `${seconds} seconds`;
-
-			// just to have something in case no prior return was triggered
-			return `some time`;
-		};
+		const passedTime = computed(() => {
+			return timeToText(props.lastEdit);
+		});
 
 		return {
 			record,

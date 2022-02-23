@@ -2,7 +2,7 @@
 	<Modal :show="show" @close="close">
 		<div class="wrapper" v-if="project">
 			<div class="header">
-				<span>{{ $t("edit_project") }}</span>
+				<span>{{ $t("edit.project") }}</span>
 			</div>
 
 			<form @submit.prevent="saveChanges">
