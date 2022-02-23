@@ -1,66 +1,66 @@
 {
-	"hello": "Hello",
+	"hello": "Hallo",
 
 	"search": "Suchen",
 	"cancel": "Abbrechen",
 	"skip": "Überspringen",
 
-	"remove": "Remove",
+	"remove": "Entfernen",
 	"log_in": "Anmelden",
 	"log_out": "Abmelden",
 	"by": "Von",
-	"save": "Save",
+	"save": "Speichern",
 	"register": "Registrieren",
 	"email": "Email",
-	"email_address": "Email Address",
-	"yes": "Yes",
-	"no": "No",
-	"general": "General",
+	"email_address": "Email Adresse",
+	"yes": "Ja",
+	"no": "Nein",
+	"general": "Generell",
 
-	"priority": "Priorität | Priorities",
+	"priority": "Priorität | Prioritäten",
 	"minor": "Gering",
 	"normal": "Normal",
 	"important": "Wichtig",
 	"critical": "Kritisch",
 
-	"company": "Company | Firmen",
-	"project": "Project | Projects",
+	"company": "Firma | Firmen",
+	"project": "Projekt | Projekte",
 	"bug": "Bug | Bugs",
 
-	"attachment": "Attachment | Anhänge",
-	"comment": "Comment | Kommentare",
+	"attachment": "Anhang | Anhänge",
+	"comment": "Kommentar | Kommentare",
 
 	"member": "Member | Members",
-	"invoice": "Invoice | Invoices",
-	"role": "Role | Roles",
+	"invoice": "Rechnung | Rechnungen",
+	"role": "Rolle | Rollen",
 	"user": "User | Users",
 
-	"image": "Image | Images",
-	"color": "Farbe | Colors",
+	"image": "Bild | Bilder",
+	"color": "Farbe | Farben",
 
-	"setting": "Setting | Settings",
-	"personal_settings": "Personal settings",
-	"general_settings": "General settings",
-	"company_settings": "Company settings",
+	"setting": "Einstellung | Einstellungen",
+	"personal_settings": "Persönlliche Einstellungen",
+	"general_settings": "Allgemeine Einstellungen",
+	"company_settings": "Firmen-Einstellungen",
 
 	"first_name": "Vorname",
-	"middle_name": "Middle name",
+	"middle_name": "Zweiter Vorname",
 	"last_name": "Nachname",
-	"contact_info": "Contact informations",
-	"password": "Passwort",
+	"contact_info": "Kontakt Informationen",
 
-	"current_password": "Current password",
+	"password": "Passwort",
+	"current_password": "Derzeitiges Password",
 	"confirm_password": "Passwort bestätigen",
-	"new_password": "New password",
-	"old_password": "Old password",
-	"change_password": "Change password",
-	"reset_password": "Reset password",
-	"password_reset": "Password reset",
-	"save_password": "Save password",
-	"forgot_password": "Forgot Password",
+	"new_password": "Neues Passwort",
+	"old_password": "Altes Passwort",
+	"change_password": "Passwort ändern",
+	"reset_password": "Passwort zurücksetzen",
+	"password_reset": "Passwortreset",
+	"save_password": "Passwort speichern",
+	"forgot_password": "Passwort vergessen",
 
 	"id": "ID",
-	"creator": "Creator",
+	"creator": "Ersteller",
 	"url": "URL",
 	"description": "Beschreibung",
 	"technical_info": "Technische Informationen",
@@ -72,138 +72,144 @@
 	"deadline": "Deadline",
 	"assigned_to": "Zugewiesen an",
 
-	"terms_of_service": "Terms of service",
-	"privacy_policy": "Privacy policy",
+	"terms_of_service": "Nutzungsbedingungen",
+	"privacy_policy": "Datenschutzbestimmungen",
 
-	"loading": "Loading",
-	"processing": "Processing",
+	"loading": "Lädt",
+	"processing": "Berechnet",
 
-	"hide_mark": "Hide mark",
-	"show_mark": "Show mark",
+	"hide_mark": "Marker verstecken",
+	"show_mark": "Marker zeigen",
 
-	"all_projects": "All projects",
+	"all_projects": "Alle Projekte",
 	"task_overview": "Task Übersicht",
 
-	"success": "Success",
-	"error": "Error",
+	"success": "Erfolg",
+	"error": "Fehler",
 
-	"already_registred": "Already registered",
-	"project_name": "Project name",
+	"already_registred": "Bereits registriert",
+	"project_name": "Projektname",
 
-	"notification": "Notification | Notifications",
+	"notification": "Benachrichtigung | Benachrichtigungen",
 
-	"clear_all": "Clear all",
+	"clear_all": "Alles entfernen",
 
-	"no_deadline": "No deadline",
-	"go_to_home": "Go to home",
-	"team_members": "Team members",
-	"assign_team_member": "Assign team members",
-	"save_changes": "Save Changes",
+	"no_deadline": "Keine deadline",
+	"go_to_home": "zurück zur Startseite",
+	"team_members": "Teammitlieder",
+	"assign_team_member": "Teammitglieder hinzufügen",
+	"save_changes": "Änderungen speichern",
 
-	"tos_and_pp": "I accept BugShot's {tos} and {pp}",
-	"want_to_delete": "Are you sure you want to delete",
-	"pleace_confirm_email": "Please confirm your email before login",
+	"tos_and_pp": "Ich akzeptiere BugShot's {tos} und {pp}",
+	"want_to_delete": "Wollen Sie das wirklich löschen",
+	"pleace_confirm_email": "Bitte bestätigen Sie ihre Email bevor Sie sich einloggen",
 
-	"company_edit_success": "Company edited successfully",
-	"company_delete_success": "Company deleted successfully",
+	"company_edit_success": "Firma erfolgreich bearbeitet",
+	"company_delete_success": "Firma erfolgreich gelöscht",
 
-	"project_edit_success": "Project edited successfully",
-	"project_delete_success": "Project deleted successfully",
+	"project_edit_success": "Projekt erfolgreich bearbeitet",
+	"project_delete_success": "Projekt erfolgreich gelöscht",
 
-	"enter_company_name": "Enter company name",
+	"enter_company_name": "Geben Sie einen Firmennamen ein",
 
-	"enter_project_name": "Enter project name",
-	"enter_project_url": "Enter project URL (Optional)",
+	"enter_project_name": "Geben Sie einen Projektnamen ein",
+	"enter_project_url": "Geben Sie eine Projekt-URL ein (optional)",
 
-	"problem_encountered": "We've encountered a problem",
-	"no_new_notifications": "No new notifications",
-	"invited_to_join": "You are invited to join ",
+	"problem_encountered": "Wir sind auf ein Problem gestoßen",
+	"no_new_notifications": "Keinen neuen Benachrichtigungen",
+	"invited_to_join": "Sie wurden zum Betritt eingeladen ",
 
-	"delete_company_and_projects": "Delete company and associated projects",
-	"cant_be_reverted": "can't be reverted",
+	"delete_company_and_projects": "Löschen von Firma und zugehörigen Projekten",
+	"cant_be_reverted": "kann nicht rückgängig gemacht werden",
 
-	"member_out_of": "{x} out of {n}",
+	"member_out_of": "{x} von {n}",
 
-	"last_edit_ago": "last edit @:last_update",
-	"last_update": "{time} ago",
+	"last_edit_ago": "letztes bearbeitungsdatum @:last_update",
+	"last_update": "vor {time}",
+
+	"some_time": "einiger zeit",
+	"x_day": "{x} tag | {x} tagen",
+	"x_hour": "{x} stunde | {x} stunden",
+	"x_minute": "{x} minute | {x} minuten",
+	"x_second": "{x} sekunde | {x} sekunden",
 
 	"add": {
-		"company": "Add company | Add companies",
-		"project": "Add project | Add projects",
-		"bug": "Add bug | Add bugs",
-		"comment": "Kommentar hinzufügen | Add comments",
-		"atachment": "Add atachment | Add atachments",
-		"member": "Add member | Add members",
-		"team_member": "Add team member | Add team members"
+		"company": "Firma hinzufügen | Firmen hinzufügen",
+		"project": "Projekt hinzufügen | Projekte hinzufügen",
+		"bug": "Bug hinzufügen | Bugs hinzufügen",
+		"comment": "Kommentar hinzufügen | Kommentare hinzufügen",
+		"atachment": "Anhang hinzufügen | Anhänge hinzufügen",
+		"member": "Member hinzufügen | Members hinzufügen",
+		"team_member": "Teammitglied hinzufügen | Teammitglieder hinzufügen"
 	},
 
 	"create": {
-		"create": "Create",
+		"create": "Erstellen",
 
-		"company": "Create company | Create companies",
-		"project": "Create project | Create projects",
-		"bug": "Create bug | Create bugs",
-		"comment": "Create comment | Create comments",
-		"atachment": "Create atachment | Create atachments"
+		"company": "Firma erstellen | Firmen erstellen",
+		"project": "Projekt erstellen | Projekte erstellen",
+		"bug": "Bug erstellen | Bugs erstellen",
+		"comment": "Kommentar verfassen | Kommentare verfassen",
+		"atachment": "Anhang erstellen | Anhänge erstellen"
 	},
 
 	"edit": {
-		"edit": "Edit",
+		"edit": "Bearbeiten",
 
-		"company": "Edit company | Edit companies",
-		"project": "Edit project | Edit projects",
-		"bug": "Edit bug | Edit bugs",
-		"comment": "Edit comment | Edit comments",
-		"atachment": "Edit atachment | Edit atachments",
-		"member": "Edit member | Edit members",
-		"team_member": "Edit team member | Edit team members"
+		"company": "Firma bearbeiten | Firmen bearbeiten",
+		"project": "Projekt bearbeiten | Projekte bearbeiten",
+		"bug": "Bug bearbeiten | Bugs bearbeiten",
+		"comment": "Kommentar bearbeiten | Kommentare bearbeiten",
+		"atachment": "Anhang bearbeiten | Anhänge bearbeiten",
+		"member": "Member bearbeiten | Members bearbeiten",
+		"team_member": "Teammitglied bearbeiten | Teammitglieder bearbeiten"
 	},
 
 	"delete": {
-		"delete": "Delete",
+		"delete": "Löschen",
 
-		"company": "Delete company | Delete companies",
-		"project": "Delete project | Delete projects",
-		"bug": "Delete bug | Delete bugs",
-		"comment": "Delete comment | Delete comments",
-		"atachment": "Delete atachment | Delete atachments",
-		"member": "Delete member | Delete members",
-		"team_member": "Delete team member | Delete team members"
+		"company": "Firma löschen | Firmen löschen",
+		"project": "Projekt Löschen | Projekte löschen",
+		"bug": "Bug löschen | Bugs löschen",
+		"comment": "Kommentar löschen | Kommentare löschen",
+		"atachment": "Anhang löschen | Anhänge löschen",
+		"member": "Member löschen | Members löschen",
+		"team_member": "Teammitglied löschen | Teammitglied löschen"
 	},
 
 	"select": {
-		"select": "Select",
+		"select": "Auswählen",
 
-		"company": "Select company | Select companies",
-		"project": "Delete project | Select projects",
-		"bug": "Select bug | Select bugs",
-		"comment": "Select comment | Select comments",
-		"atachment": "Select atachment | Select atachments",
-		"member": "Select member | Select members",
-		"team_member": "Select team member | Select team members"
+		"company": "Firma auswählen | Firmen auswählen",
+		"project": "Projekt auswählen | Projekte auswählen",
+		"bug": "Bug auswählen | Bugs auswählen",
+		"comment": "Kommentar auswählen | Kommentare auswählen",
+		"atachment": "Anhang auswählen | Anhänge auswählen",
+		"member": "Member auswählen | Members auswählen",
+		"team_member": "Teammitlied auswählen | Teammitlieder auswählen"
 	},
 
 	"picker": {
-		"drag_and_drop": "Drag and drop your logo here or",
-		"upload_logo": "Upload logo",
-		"select_color": "Select a color"
+		"drag_and_drop": "Fügen Sie hier ihr Logo per 'Drag and drop' ein oder",
+		"upload_logo": "Laden Sie ein Bild hoch",
+		"select_color": "Wählen Sie eine Farbe"
 	},
 
 	"extension": {
-		"extension": "Extension | Extensions",
-		"the_plugin": "The plugin",
-		"install_browser_extension": "Install the browser extension so you can give and receive feedback.",
-		"install_plugin": "Install plugin",
-		"the_apps": "The applications",
-		"download_client_app": "Download client applications"
+		"extension": "Erweiterung | Erweiterungen",
+		"the_plugin": "Das Plugin",
+		"install_browser_extension": "Installieren Sie die Browsererweiterung um Feed geben und bekommen zu können.",
+		"install_plugin": "Plugin installieren",
+		"the_apps": "Die Anwendungen",
+		"download_client_app": "Anwendungen herunterladen"
 	},
 
 	"limits": {
-		"min_chars": "Minimum {x} characters",
-		"letters": "Contain letters",
-		"numbers": "Contain numbers",
-		"passwords_match": "Passwords match",
-		"max_files_limit": "You are limited to a maximum of {x} files",
-		"max_file_size_limit": "Following files are bigger than {x} MB:\n"
+		"min_chars": "Minimum  von {x} Zeichen",
+		"letters": "Buchstaben enthalten",
+		"numbers": "Zahlen enthalten",
+		"passwords_match": "Passwörter sind gleich",
+		"max_files_limit": "Sie sind auf ein maximum von {x} Dateien limitiert",
+		"max_file_size_limit": "Folgende Dateien überschreiten ein Maximum von {x} MB:\n"
 	}
 }

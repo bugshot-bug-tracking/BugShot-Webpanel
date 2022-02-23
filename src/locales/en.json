@@ -126,6 +126,12 @@
 	"last_edit_ago": "last edit @:last_update",
 	"last_update": "{time} ago",
 
+	"some_time": "some time",
+	"x_day": "{x} day | {x} days",
+	"x_hour": "{x} hour | {x} hours",
+	"x_minute": "{x} minute | {x} minutes",
+	"x_second": "{x} second | {x} seconds",
+
 	"add": {
 		"company": "Add company | Add companies",
 		"project": "Add project | Add projects",
