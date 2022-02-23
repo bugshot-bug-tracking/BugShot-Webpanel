@@ -1,5 +1,5 @@
 <template>
-	<div class="bugs-table c-scroll s-purple">
+	<div class="bugs-table bs-scroll s-purple">
 		<slot />
 	</div>
 </template>

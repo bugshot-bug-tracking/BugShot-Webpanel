@@ -123,9 +123,9 @@ export default {
 			return str;
 		};
 
-		const passedTime = computed(() => {
-			return timeToText(props.lastEdit);
-		});
+		const passedTime = (lastEdit) => {
+			return timeToText(lastEdit);
+		};
 
 		return {
 			record,

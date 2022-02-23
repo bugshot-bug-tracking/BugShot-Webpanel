@@ -100,6 +100,7 @@ import Plan from "../../../components/Plan.vue";
 import axios from "axios";
 import DeleteModal from "../../../components/Modals/DeleteModal.vue";
 import StatusModal from "../../../components/Modals/StatusModal.vue";
+import { useI18n } from "vue-i18n";
 
 export default {
 	components: {
@@ -215,7 +216,8 @@ export default {
 			companyParams.color = value;
 		};
 
-		//! TODO translate message string
+		const { t } = useI18n({ useScope: "global" });
+
 		const saveChanges = async () => {
 			let data = {
 				company_id: props.id,
@@ -232,7 +234,7 @@ export default {
 				await store.dispatch("updateCompany", data);
 
 				process.status = 1;
-				process.message = `Company edited successfully.`;
+				process.message = t("company_edit_success");
 
 				setTimeout(() => {
 					process.show = false;
@@ -262,7 +264,7 @@ export default {
 				await store.dispatch("deleteCompany", record.value.id);
 
 				process.status = 1;
-				process.message = `Company deleted successfully.`;
+				process.message = t("company_delete_success");
 
 				setTimeout(() => {
 					process.show = false;

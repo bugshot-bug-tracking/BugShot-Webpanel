@@ -9,7 +9,7 @@
 				</div>
 			</div>
 
-			<div class="comments-center c-scroll s-green">
+			<div class="comments-center bs-scroll s-green">
 				<div class="content" ref="msgs" v-if="comments.length > 0">
 					<Message
 						v-for="comment of comments"

@@ -1,5 +1,5 @@
 <template>
-	<div class="tab c-scroll s-purple">
+	<div class="tab bs-scroll s-purple">
 		<slot />
 	</div>
 </template>

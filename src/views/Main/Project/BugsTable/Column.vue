@@ -4,7 +4,7 @@
 			<slot name="header" />
 		</div>
 
-		<div class="items c-scroll s-purple">
+		<div class="items bs-scroll s-purple">
 			<slot />
 		</div>
 	</div>

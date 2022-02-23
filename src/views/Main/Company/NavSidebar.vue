@@ -6,7 +6,7 @@
 			<Search />
 		</div> -->
 
-		<div class="companies c-scroll s-purple">
+		<div class="companies bs-scroll s-purple">
 			<ul>
 				<li v-for="[, company] of companies" :key="company.id">
 					<div class="company">

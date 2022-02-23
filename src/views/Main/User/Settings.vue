@@ -1,5 +1,5 @@
 <template>
-	<div class="user-settings-layout c-scroll s-purple" v-if="user">
+	<div class="user-settings-layout bs-scroll s-purple" v-if="user">
 		<Column class="column personal">
 			<template v-slot:header>
 				<div class="bold">{{ $t("personal_settings") }}</div>

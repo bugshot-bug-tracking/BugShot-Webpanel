@@ -42,6 +42,7 @@ import Container from "../Container.vue";
 import Item from "./Item.vue";
 import axios from "axios";
 import store from "../../store";
+import { useI18n } from "vue-i18n";
 
 export default {
 	components: { Container, Item },
@@ -60,7 +61,8 @@ export default {
 		const err = ref("");
 		const files = ref({});
 
-		//! TODO translate message strings
+		const { t } = useI18n({ useScope: "global" });
+
 		const upload = (event) => {
 			files.value = event.target.files;
 			err.value = "";
@@ -72,7 +74,7 @@ export default {
 				files.value.length > 10 ||
 				props.attachments.length + files.value.length > 10
 			) {
-				err.value = "You are limited to a maximum of 10 files";
+				err.value = t("limit.max_files_limit", { x: 10 });
 				return;
 			}
 
@@ -81,7 +83,7 @@ export default {
 				if (file.size > 5 * (1 << 20)) {
 					if (errFlag === false) {
 						errFlag = true;
-						err.value = "Following files are bigger than 5 MiB:\n";
+						err.value = t("limit.max_file_size_limit", { x: 5 });
 					}
 
 					err.value += ` - ${file.name}\n`;

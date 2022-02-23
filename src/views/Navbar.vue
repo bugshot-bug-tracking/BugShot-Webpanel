@@ -26,7 +26,7 @@
 
 						<div class="notification-body">
 							<div
-								class="list c-scroll s-purple"
+								class="list bs-scroll s-purple"
 								v-if="invitations.size > 0"
 							>
 								<Notification
