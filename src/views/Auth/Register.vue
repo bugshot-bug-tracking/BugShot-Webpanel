@@ -1,5 +1,5 @@
 <template>
-	<div class="title" v-if="!process">Register</div>
+	<div class="title" v-if="!process">{{ $t("register") }}</div>
 
 	<div class="errors" v-if="errMessage != null">
 		{{ errMessage }}
@@ -9,7 +9,7 @@
 		<div class="bs-input">
 			<input
 				type="text"
-				placeholder="First Name"
+				:placeholder="$t('first_name')"
 				required
 				maxlength="255"
 				autocomplete="given-name"
@@ -20,7 +20,7 @@
 		<div class="bs-input">
 			<input
 				type="text"
-				placeholder="Last Name"
+				:placeholder="$t('last_name')"
 				required
 				maxlength="255"
 				autocomplete="family-name"
@@ -31,7 +31,7 @@
 		<div class="bs-input w-icon">
 			<input
 				type="email"
-				placeholder="E-mail address"
+				:placeholder="$t('email_address')"
 				required
 				maxlength="255"
 				autocomplete="email"
@@ -47,7 +47,7 @@
 			<div class="bs-input w-icon">
 				<input
 					:type="passwordType"
-					placeholder="Password"
+					:placeholder="$t('password')"
 					minlength="8"
 					required
 					maxlength="255"
@@ -84,7 +84,7 @@
 						bad: validate.minChars < 8,
 					}"
 				>
-					Minimum 8 characters
+					{{ $t("limits.min_chars", { x: 8 }) }}
 				</li>
 
 				<li
@@ -93,7 +93,7 @@
 						bad: !validate.letters,
 					}"
 				>
-					Contain letters
+					{{ $t("limits.letters") }}
 				</li>
 
 				<li
@@ -102,7 +102,7 @@
 						bad: !validate.numbers,
 					}"
 				>
-					Contain numbers
+					{{ $t("limits.numbers") }}
 				</li>
 			</ul>
 		</div>
@@ -111,7 +111,7 @@
 			<div class="bs-input w-icon">
 				<input
 					:type="passwordType"
-					placeholder="Confirm Password"
+					:placeholder="$t('confirm_password')"
 					minlength="8"
 					required
 					maxlength="255"
@@ -147,7 +147,7 @@
 						bad: !validate.same,
 					}"
 				>
-					Passwords match
+					{{ $t("limits.passwords_match") }}
 				</li>
 			</ul>
 		</div>
@@ -155,22 +155,28 @@
 		<div class="tos">
 			<input type="checkbox" v-model="tos" required />
 
-			<span>
-				<p>I accept BugShot's</p>
-				<p class="linked">Terms of Service</p>
-				<p>and</p>
-				<p class="linked">Privacy Policy</p>
-			</span>
+			<i18n-t keypath="tos_and_pp" tag="span" scope="global">
+				<template v-slot:tos>
+					<a class="linked"> {{ $t("terms_of_service") }} </a>
+				</template>
+
+				<template v-slot:pp>
+					<a class="linked">{{ $t("privacy_policy") }}</a>
+				</template>
+			</i18n-t>
 		</div>
 
 		<div class="from-buttons">
 			<div class="aLogin">
-				<div>Already registered?</div>
-				<router-link :to="{ name: 'Login' }">Login</router-link>
+				<div>{{ $t("already_registred") + "?" }}</div>
+
+				<router-link :to="{ name: 'Login' }">
+					{{ $t("log_in") }}
+				</router-link>
 			</div>
 
 			<button id="form-submit" type="submit" class="btn bs bf-green">
-				Register
+				{{ $t("register") }}
 			</button>
 		</div>
 	</form>
@@ -186,9 +192,9 @@
 				alt="Success"
 			/>
 
-			<div>Success!</div>
+			<div>{{ $t("success") + "!" }}</div>
 
-			<span> Please confirm your email before login! </span>
+			<span> {{ $t("please_confirm_email") + "!" }} </span>
 		</div>
 	</div>
 </template>
@@ -432,6 +438,7 @@ export default {
 	.linked {
 		color: hsl(265, 79%, 54%);
 		cursor: pointer;
+		text-decoration: none;
 
 		&:hover {
 			color: hsl(265, 79%, 44%);

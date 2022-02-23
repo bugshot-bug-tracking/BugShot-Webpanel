@@ -17,8 +17,11 @@
 
 					<div class="notification-submenu">
 						<div class="notification-header">
-							<span>Notifications</span>
-							<div><a hidden> Clear all</a></div>
+							<span>{{ $t("notification", 2) }}</span>
+
+							<div>
+								<a hidden>{{ $t("clear_all") }}</a>
+							</div>
 						</div>
 
 						<div class="notification-body">
@@ -33,7 +36,7 @@
 								/>
 							</div>
 
-							<div v-else>No new notifications</div>
+							<div v-else>{{ $t("no_new_notifications") }}</div>
 						</div>
 					</div>
 				</li>
@@ -148,6 +151,7 @@ export default {
 		a {
 			position: relative;
 			z-index: 1;
+			padding: 8px;
 		}
 
 		> a::before {
@@ -178,18 +182,19 @@ export default {
 
 		.notification-submenu {
 			position: absolute;
-			left: calc(100% + 16px);
+			left: 0;
 			background: #ffffff;
 			width: 400px;
 			border-radius: 12px;
 			box-shadow: 0 2px 10px hsla(0, 0%, 0%, 0.11);
 			padding: 15px;
-			top: 0;
+			top: -16px;
 			opacity: 0;
 			visibility: hidden;
-			transition: 0.3s;
+			transition: 0.4s;
 			user-select: auto;
 			z-index: 100;
+			margin: 16px 0 0 48px;
 
 			.notification-header {
 				display: flex;

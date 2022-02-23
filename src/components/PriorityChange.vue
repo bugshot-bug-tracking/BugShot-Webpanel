@@ -6,10 +6,21 @@
 		ref="popup"
 	>
 		<div class="container" v-if="show">
-			<div class="i i1" @click="$emit('change', 1)">Minor</div>
-			<div class="i i2" @click="$emit('change', 2)">Normal</div>
-			<div class="i i3" @click="$emit('change', 3)">Important</div>
-			<div class="i i4" @click="$emit('change', 4)">Critical</div>
+			<div class="i i1" @click="$emit('change', 1)">
+				{{ $t("minor") }}
+			</div>
+
+			<div class="i i2" @click="$emit('change', 2)">
+				{{ $t("normal") }}
+			</div>
+
+			<div class="i i3" @click="$emit('change', 3)">
+				{{ $t("important") }}
+			</div>
+
+			<div class="i i4" @click="$emit('change', 4)">
+				{{ $t("critical") }}
+			</div>
 		</div>
 	</div>
 </template>

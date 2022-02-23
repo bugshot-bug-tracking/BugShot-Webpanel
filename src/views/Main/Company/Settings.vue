@@ -1,6 +1,6 @@
 <template>
 	<Layout>
-		<template v-slot:title>General Settings</template>
+		<template v-slot:title>{{ $t("general_settings") }}</template>
 
 		<template v-slot:sub-title>
 			{{ record?.attributes.designation }}
@@ -9,7 +9,7 @@
 		<div class="settings-table" v-if="record">
 			<Column class="general">
 				<template v-slot:header>
-					<div class="bold">Company Settings</div>
+					<div class="bold">{{ $t("company_settings") }}</div>
 				</template>
 
 				<div class="body">
@@ -33,7 +33,7 @@
 							/>
 
 							<button class="btn bs bf-green mt-3">
-								Save changes
+								{{ $t("save_changes") }}
 							</button>
 						</form>
 					</Container>
@@ -43,15 +43,16 @@
 
 				<div class="d-flex flex-column" v-if="canDelete">
 					<a class="text-danger" @click.prevent="showDelete = true">
-						Delete company and associated projects
+						{{ $t("delete_company_and_projects") }}
 					</a>
-					(can't be reverted)
+
+					{{ "(" + $t("cant_be_reverted") + ")" }}
 				</div>
 			</Column>
 
 			<Column class="members">
 				<template v-slot:header>
-					<div class="bold">Team Members</div>
+					<div class="bold">{{ $t("team_members") }}</div>
 				</template>
 
 				<div class="body">
@@ -214,6 +215,7 @@ export default {
 			companyParams.color = value;
 		};
 
+		//! TODO translate message string
 		const saveChanges = async () => {
 			let data = {
 				company_id: props.id,

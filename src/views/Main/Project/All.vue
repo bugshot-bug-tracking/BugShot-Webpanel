@@ -1,6 +1,6 @@
 <template>
 	<Layout>
-		<template v-slot:title>All Projects</template>
+		<template v-slot:title>{{ $t("all_projects") }}</template>
 
 		<!-- <template v-slot:top>
 			<Search />
@@ -10,14 +10,18 @@
 			v-for="item of companies"
 			:key="item.id"
 			:mainText="item.attributes.designation"
-			:secondText="passedTime(item.attributes.updated_at) + ' ago'"
+			:secondText="
+				$t('last_update', {
+					time: passedTime(item.attributes.updated_at),
+				})
+			"
 		>
 			<Card
 				v-for="project of companyProjects(item.id)"
 				:key="project.id"
 				:id="project.id"
 				:title="project.attributes.designation"
-				:mainText="'Task Overview'"
+				:mainText="$t('task_overview')"
 				:secondText="
 					bugsStats(
 						project.attributes.bugsDone,
@@ -76,6 +80,7 @@ export default {
 			return str;
 		};
 
+		//! TODO translate time marks
 		const passedTime = (lastEdit) => {
 			if (!(lastEdit && lastEdit != "")) return `some time`;
 

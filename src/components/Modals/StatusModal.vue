@@ -11,7 +11,7 @@
 					alt="Success"
 				/>
 
-				<div>Success!</div>
+				<div>{{ $t("success") + "!" }}</div>
 
 				<span v-if="message">{{ message }} </span>
 			</div>
@@ -19,7 +19,7 @@
 			<div class="error" v-if="status === 2">
 				<img src="../../assets/gif/error_bug.gif" alt="error" />
 
-				<div>Error!</div>
+				<div>{{ $t("error") + "!" }}</div>
 
 				<span v-if="message">{{ message }} </span>
 			</div>
@@ -29,6 +29,7 @@
 
 <script>
 import Modal from "../Modal.vue";
+
 export default {
 	props: {
 		status: {

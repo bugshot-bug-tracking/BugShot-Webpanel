@@ -11,10 +11,12 @@
 				v-if="image"
 				:src="image.attributes.base64"
 				class="dark-overlay"
-				alt="IMG"
+				alt="image"
 			/>
 			<div class="text">{{ title }}</div>
-			<div class="edit-time">last edit {{ passedTime }} ago</div>
+			<div class="edit-time">
+				{{ $t("last_edit_ago", { time: passedTime }) }}
+			</div>
 		</router-link>
 
 		<div class="bottom">
@@ -35,11 +37,12 @@
 					<div class="actions">
 						<a class="edit" @click="showModal = 1">
 							<img src="../assets/icons/edit.svg" alt="edit" />
-							<div>Edit</div>
+							<div>{{ $t("edit.edit") }}</div>
 						</a>
+
 						<a class="delete" @click="showModal = 2">
 							<img src="../assets/icons/trash.svg" alt="delete" />
-							<div>Delete</div>
+							<div>{{ $t("delete.delete") }}</div>
 						</a>
 					</div>
 				</div>
@@ -173,6 +176,7 @@ export default {
 			}
 		};
 
+		//! TODO translate time marks
 		const passedTime = computed(() => {
 			if (!(props.lastEdit && props.lastEdit != "")) return `some time`;
 
@@ -283,6 +287,7 @@ export default {
 			border-right: 1px solid hsl(263, 79%, 94%);
 			padding: 10px 10px;
 			font-weight: bold;
+			text-transform: capitalize;
 		}
 
 		.right {
@@ -327,6 +332,7 @@ export default {
 					padding: 4px 0;
 					background-color: #f8f8fc;
 					border-radius: 6px;
+					text-transform: capitalize;
 				}
 
 				a {

@@ -29,11 +29,16 @@
 						class="btn btn-hide-mark"
 						@click="mark.show = !mark.show"
 					>
-						{{ mark.show ? "Hide" : "Show" }} mark
+						{{ mark.show ? $t("hide_mark") : $t("show_mark") }}
 					</div>
 
 					<div class="images-counter" v-if="screenshots.length > 1">
-						{{ counter + 1 }} of {{ screenshots.length }}
+						{{
+							$t("screenshot_of", {
+								x: counter + 1,
+								n: screenshots.length,
+							})
+						}}
 					</div>
 				</div>
 			</div>

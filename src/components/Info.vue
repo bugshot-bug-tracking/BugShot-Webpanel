@@ -10,12 +10,12 @@
 			</div>
 
 			<div class="id">
-				<label> ID: </label>
+				<label> {{ $t("id") + ":" }} </label>
 				<div class="content">{{ bug.id }}</div>
 			</div>
 
 			<div class="creator">
-				<label>Creator:</label>
+				<label>{{ $t("creator") + ":" }}</label>
 
 				<div class="content">
 					<div class="name">
@@ -38,7 +38,7 @@
 			</div>
 
 			<div class="url">
-				<label>URL:</label>
+				<label>{{ $t("url") + ":" }}</label>
 				<div class="content">
 					<a :href="bug.attributes.url" target="_blank">
 						{{ bug.attributes.url }}
@@ -47,7 +47,7 @@
 			</div>
 
 			<div class="description">
-				<label>Description:</label>
+				<label>{{ $t("description") + ":" }}</label>
 				<div class="content">{{ bug.attributes.description }}</div>
 			</div>
 
@@ -56,29 +56,33 @@
 					class="technical-label d-inline-flex justify-content-between"
 					@click="open = !open"
 				>
-					<span>Technical information:</span>
+					<span>{{ $t("technical_info") + ":" }}</span>
 					<img src="../assets/icons/caret-down-fill.svg" />
 				</div>
 				<div class="technical-info">
 					<div class="os">
-						<label>Operating System:</label>
+						<label>{{ $t("os") + ":" }}</label>
+
 						<div class="content">
 							{{ bug.attributes.operating_system }}
 						</div>
 					</div>
 
 					<div class="browser">
-						<label>Browser:</label>
+						<label>{{ $t("browser") + ":" }}</label>
+
 						<div class="content">{{ bug.attributes.browser }}</div>
 					</div>
 
 					<div class="selector">
-						<label>Selector:</label>
+						<label>{{ $t("selector") + ":" }}</label>
+
 						<div class="content">{{ bug.attributes.selector }}</div>
 					</div>
 
 					<div class="resolution">
-						<label>Resolution:</label>
+						<label>{{ $t("resolution") + ":" }}</label>
+
 						<div class="content">
 							{{ bug.attributes.resolution }}
 						</div>
@@ -88,7 +92,8 @@
 
 			<div class="grid1x2 my-3">
 				<div class="grid1x2">
-					<label>Priority:</label>
+					<label>{{ $t("priority") + ":" }}</label>
+
 					<PriorityChange
 						:priority="bug.attributes.priority.id"
 						class="content"
@@ -97,7 +102,8 @@
 				</div>
 
 				<div class="grid1x2 status">
-					<label>Status:</label>
+					<label>{{ $t("status") + ":" }}</label>
+
 					<div class="content status">
 						{{
 							statusInfo(bug.attributes.status_id).attributes
@@ -108,12 +114,12 @@
 			</div>
 
 			<div class="deadline">
-				<label>Deadline:</label>
+				<label>{{ $t("deadline") + ":" }}</label>
 
 				<div class="content">
 					<Datepicker
 						v-model="datePicker"
-						placeholder="No Deadline"
+						:placeholder="$t('no_deadline')"
 						@cleared="clearDeadline"
 						@closed="changeDeadline"
 					/>
@@ -121,7 +127,7 @@
 			</div>
 
 			<div class="assignes my-3">
-				<label>Assigned to:</label>
+				<label>{{ $t("assigned_to") + ":" }}</label>
 
 				<div class="content">
 					<Assignes

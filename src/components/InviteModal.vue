@@ -1,12 +1,12 @@
 <template>
 	<a class="btn bs bf-purple" @click="modalActive = !modalActive">
-		Add Member
+		{{ $t("add.member") }}
 	</a>
 
 	<Modal :show="modalActive" @close="modalActive = false">
 		<div class="wrapper">
 			<div class="header">
-				<span>Add New Team Member</span>
+				<span>{{ $t("add.team_member") }}</span>
 			</div>
 
 			<form
@@ -15,7 +15,7 @@
 			>
 				<div class="bs-input w-icon my-3">
 					<input
-						:placeholder="`E-Mail`"
+						:placeholder="$t('email')"
 						:type="'email'"
 						v-model="email"
 						required
@@ -27,7 +27,7 @@
 				</div>
 
 				<div class="roles">
-					<span>Role</span>
+					<span>{{ $t("role") }}</span>
 
 					<div class="items">
 						<label
@@ -47,7 +47,9 @@
 					</div>
 				</div>
 
-				<button class="btn bs bf-green mt-4">Add member</button>
+				<button class="btn bs bf-green mt-4">
+					{{ $t("add.member") }}
+				</button>
 			</form>
 		</div>
 	</Modal>

@@ -1,9 +1,9 @@
 <template>
 	<Layout>
-		<template v-slot:title>Projects</template>
+		<template v-slot:title>{{ $t("project", 2) }}</template>
 
 		<template v-slot:sub-title>
-			{{ record ? record.attributes.designation : "loading" }}
+			{{ record ? record.attributes.designation : $t("loading") }}
 		</template>
 
 		<template v-slot:top>
@@ -15,28 +15,34 @@
 				:aditionalBody="{
 					company_id: id,
 				}"
-				:subTitle="`Company: ${record?.attributes.designation}`"
+				:subTitle="`${$t('company')}: ${
+					record?.attributes.designation
+				}`"
 			/>
 
 			<router-link
 				:to="{ name: 'CompanySettings', params: { id: id } }"
-				class="btn bs be-green"
+				class="btn bs be-green text-capitalize"
 			>
-				Company Settings
+				{{ $t("company_settings") }}
 			</router-link>
 		</template>
 
 		<div v-if="arePojects">
 			<GroupContainer
 				:mainText="record.attributes.designation"
-				:secondText="passedTime(record.attributes.updated_at) + ' ago'"
+				:secondText="
+					$t('last_update', {
+						time: passedTime(record.attributes.updated_at),
+					})
+				"
 			>
 				<Card
 					v-for="project of companyProjects"
 					:key="project.id"
 					:id="project.id"
 					:title="project.attributes.designation"
-					:mainText="'Task Overview'"
+					:mainText="$t('task_overview')"
 					:secondText="
 						bugsStats(
 							project.attributes.bugsDone,
@@ -116,6 +122,7 @@ export default {
 			return str;
 		};
 
+		//! TODO translate time marks
 		const passedTime = (lastEdit) => {
 			if (!(lastEdit && lastEdit != "")) return `some time`;
 

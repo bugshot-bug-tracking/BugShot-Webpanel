@@ -10,7 +10,7 @@
 			<div class="btn delete-bug-btn" @click="deleteBug">
 				<div class="delete-icon" />
 
-				<span> Delete Bug </span>
+				<span class="text-capitalize"> {{ $t("delete.bug") }} </span>
 			</div>
 		</div>
 	</SideTab>

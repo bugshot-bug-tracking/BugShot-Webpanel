@@ -3,8 +3,15 @@
 		<div class="team-table">
 			<div class="container" v-if="company?.users">
 				<div class="header bold">
-					<div class="members">Members</div>
-					<div class="count">{{ company.users.length }} out of 8</div>
+					<div class="members">{{ $t("member", 2) }}</div>
+					<div class="count">
+						{{
+							$t("member_out_of", {
+								x: company.users.length,
+								n: 8,
+							})
+						}}
+					</div>
 				</div>
 
 				<div class="items">
@@ -54,7 +61,7 @@
 									src="../assets/icons/trash.svg"
 									alt="Trash Can"
 								/>
-								<div class="">Remove</div>
+								<div class="">{{ $t("remove") }}</div>
 							</a>
 						</div>
 					</div>

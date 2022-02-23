@@ -2,16 +2,16 @@
 	<Modal :show="show" @close="close">
 		<div class="wrapper" v-if="project">
 			<div class="header">
-				<span>Edit Project</span>
+				<span>{{ $t("edit_project") }}</span>
 			</div>
 
 			<form @submit.prevent="saveChanges">
-				<div class="label">Project Name</div>
+				<div class="label">{{ $t("project_name") }}</div>
 
 				<div class="bs-input my-3">
 					<input
 						v-model="projectParams.name"
-						:placeholder="`Enter Project Name`"
+						:placeholder="$t('enter_project_name')"
 						:type="'text'"
 						required
 					/>
@@ -22,7 +22,7 @@
 				<div class="bs-input my-3">
 					<input
 						v-model="projectParams.url"
-						:placeholder="`Enter Project URL (Optional)`"
+						:placeholder="$t('enter_project_url')"
 						:type="'url'"
 					/>
 				</div>
@@ -35,7 +35,9 @@
 					:image="projectParams.image"
 				/>
 
-				<button class="btn bs bf-green mt-3">Save Changes</button>
+				<button class="btn bs bf-green mt-3">
+					{{ $t("save_changes") }}
+				</button>
 			</form>
 		</div>
 	</Modal>

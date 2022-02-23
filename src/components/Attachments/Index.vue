@@ -3,7 +3,7 @@
 		<!-- <State :state="'mini-loading'" :show="isLoading.attachments" /> -->
 		<div id="attachments">
 			<div class="header">
-				<div class="title">Attachments</div>
+				<div class="title">{{ $t("attachment", 2) }}</div>
 
 				<div>
 					<div class="btn refresh-button" @click="update" />
@@ -60,6 +60,7 @@ export default {
 		const err = ref("");
 		const files = ref({});
 
+		//! TODO translate message strings
 		const upload = (event) => {
 			files.value = event.target.files;
 			err.value = "";

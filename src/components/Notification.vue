@@ -2,13 +2,18 @@
 	<div class="entry">
 		<div class="main">
 			<div class="top">
-				You are invited to join
+				{{ $t("invited_to_join") }}
+
 				<span>
 					{{ record.attributes.invitable.attributes.designation }}
 				</span>
 			</div>
+
 			<div class="bottom">
-				{{ date(record.attributes.created_at) }} by
+				{{ date(record.attributes.created_at) }}
+
+				{{ $t("by") }}
+
 				{{ record.attributes.sender.attributes.first_name }}
 			</div>
 		</div>
@@ -37,6 +42,7 @@
 import { computed } from "@vue/reactivity";
 import store from "../store";
 import axios from "axios";
+
 export default {
 	name: "Notification",
 	props: {

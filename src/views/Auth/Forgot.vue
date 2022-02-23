@@ -1,23 +1,20 @@
 <template>
-	<div class="title">Password reset</div>
+	<div class="title">{{ $t("password_reset") }}</div>
 
 	<form v-if="!message" id="login-form" @submit.prevent="submit">
-		<div class="form-group">
+		<div class="bs-input w-icon">
 			<input
-				id="email"
 				type="email"
-				name="email"
-				class="field"
-				placeholder="E-mail address"
+				:placeholder="$t('email_address')"
 				required
 				maxlength="255"
 				autocomplete="email"
 				v-model="email"
-				@focus="errMessage = null"
 				:class="{ error: errMessage }"
+				@focus="errMessage = null"
 			/>
 
-			<img class="email-img" src="../../assets/icons/at@.svg" />
+			<img src="../../assets/icons/at@.svg" alt="at" />
 		</div>
 
 		<div class="errors" v-if="errMessage != null">
@@ -26,7 +23,7 @@
 
 		<div class="from-buttons">
 			<button id="form-submit" type="submit" class="btn bs bf-green">
-				Reset Password
+				{{ $t("reset_password") }}
 			</button>
 		</div>
 	</form>
@@ -81,7 +78,7 @@ export default {
 
 <style scoped lang="scss">
 .title {
-	margin: 2% 0 4% 0 !important;
+	margin: 0 0 2rem 0 !important;
 	color: hsl(265, 79%, 41%);
 	font-weight: 700;
 	font-size: 32px;
@@ -95,6 +92,7 @@ export default {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	gap: 1rem;
 
 	.from-buttons {
 		display: flex;
@@ -103,50 +101,6 @@ export default {
 		justify-content: flex-end;
 		align-content: center;
 		padding: 2% 0 10% 0%;
-
-		#remember {
-			filter: hue-rotate(40deg);
-		}
-	}
-
-	.form-group {
-		width: 100%;
-		display: flex;
-		position: relative;
-		align-items: center;
-	}
-
-	.field {
-		border: 1px solid hsl(264, 78%, 77%);
-		border-radius: 8px;
-		margin: 16px 0;
-		width: 100%;
-		padding: 10px;
-		padding-right: 40px;
-
-		&:focus,
-		&:focus-visible,
-		&:hover {
-			border-color: hsl(265, 79%, 41%);
-			outline-color: hsl(265, 79%, 41%);
-		}
-	}
-	.email-img {
-		width: 20px;
-	}
-
-	#password {
-		&::-ms-reveal,
-		&::-ms-clear {
-			display: none;
-		}
-	}
-
-	.email-img,
-	.password-img {
-		position: absolute;
-		width: 22px;
-		right: 12px;
 	}
 
 	.error {

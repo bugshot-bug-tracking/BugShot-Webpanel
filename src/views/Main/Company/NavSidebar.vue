@@ -1,6 +1,6 @@
 <template>
 	<div class="sidebar">
-		<h3>{{ $t("comps") }}</h3>
+		<h3>{{ $t("company", 2) }}</h3>
 
 		<!-- <div class="search">
 			<Search />
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { computed, nextTick, ref } from "@vue/runtime-core";
+import { computed } from "@vue/runtime-core";
 import Search from "../../../components/Search.vue";
 import store from "../../../store";
 import CreateDataModal from "../../../components/CreateDataModal.vue";

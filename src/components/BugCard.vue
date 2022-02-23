@@ -8,7 +8,7 @@
 			<div class="card-body">
 				<div class="card-text d-flex justify-content-between">
 					<div class="bug-deadline">
-						{{ deadline ? date(deadline) : "No deadline" }}
+						{{ deadline ? date(deadline) : $t("no_deadline") }}
 					</div>
 
 					<div class="bug priority" :class="'p' + priority" />

@@ -3,7 +3,8 @@
 		<div class="comments-component">
 			<div class="comments-top">
 				<div class="header">
-					<span>Comments</span>
+					<span>{{ $t("comment", 2) }}</span>
+
 					<div class="btn refresh-button" @click="update" />
 				</div>
 			</div>
@@ -21,13 +22,15 @@
 						}"
 						:sender="user.id === comment.attributes.user.id ? 0 : 1"
 					/>
+
 					<div />
 				</div>
 			</div>
 
 			<div class="comments-bottom">
 				<div class="comments-bottom-header">
-					<span>Add comment</span>
+					<span>{{ $t("add.comment") }}</span>
+
 					<div>{{ chars.length }} / 250</div>
 				</div>
 
@@ -38,8 +41,11 @@
 					placeholder="Write comment..."
 					v-model="chars"
 				/>
-				<div class="btn comment-send-button" @click="postComment">
-					Add Comment
+				<div
+					class="btn comment-send-button text-capitalize"
+					@click="postComment"
+				>
+					{{ $t("add.comment") }}
 				</div>
 			</div>
 		</div>

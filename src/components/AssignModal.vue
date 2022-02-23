@@ -2,7 +2,7 @@
 	<div class="align-items-center d-flex justify-content-center modal">
 		<div class="wrapper" v-if="bug">
 			<div class="header">
-				<span>Assign team members</span>
+				<span>{{ $t("assign_team_member") }}</span>
 			</div>
 
 			<div class="options" v-if="options">
@@ -55,7 +55,7 @@
 
 			<a class="close" @click="$emit('close')" />
 
-			<a class="btn bs bf-green add">Add members</a>
+			<a class="btn bs bf-green add">{{ $t("add.member", 2) }}</a>
 		</div>
 	</div>
 </template>

@@ -1,9 +1,9 @@
 <template>
 	<div class="sidebar">
-		<h3>Settings</h3>
+		<h3>{{ $t("setting", 2) }}</h3>
 
 		<span class="name">
-			<div>Hello,</div>
+			<div>{{ $t("hello") + "," }},</div>
 			<div class="username">{{ user?.attributes?.first_name }}</div></span
 		>
 		<div class="links">
@@ -13,7 +13,7 @@
 				}"
 				class="item"
 			>
-				Settings
+				{{ $t("setting", 2) }}
 			</router-link>
 		</div>
 	</div>

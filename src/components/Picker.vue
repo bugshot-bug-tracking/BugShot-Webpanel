@@ -7,7 +7,7 @@
 					:class="{ active: pickOption === 1 }"
 					@click="pickOption = 1"
 				>
-					Image
+					{{ $t("image") }}
 				</a>
 
 				<a
@@ -15,7 +15,7 @@
 					:class="{ active: pickOption === 2 }"
 					@click="pickOption = 2"
 				>
-					Color
+					{{ $t("color") }}
 				</a>
 			</div>
 		</div>
@@ -33,11 +33,16 @@
 					<div>
 						<img src="../assets/icons/image_placeholder.svg" />
 
-						<div class="text">Drag and drop your logo here or</div>
+						<div class="text">
+							{{ $t("picker.drag_and_drop") }}
+						</div>
 					</div>
 
-					<label for="pick-upload" class="btn bs be-green">
-						Upload Logo
+					<label
+						for="pick-upload"
+						class="btn bs be-green text-capitalize"
+					>
+						{{ $t("picker.upload_logo") }}
 					</label>
 
 					<input type="file" name="upload" id="pick-upload" />
@@ -48,12 +53,16 @@
 						<img :src="imgg" />
 					</div>
 
-					<a class="btn bs be-green" @click="resetImage">Remove</a>
+					<a class="btn bs be-green" @click="resetImage">
+						{{ $t("remove") }}
+					</a>
 				</div>
 			</div>
 
 			<div class="color" v-show="pickOption === 2">
-				<span>Select a color:</span>
+				<span>
+					{{ $t("picker.select_color") + ":" }}
+				</span>
 
 				<div class="colors-grid">
 					<input

@@ -1,28 +1,38 @@
 <template>
 	<a
-		class="btn bs"
+		class="btn bs text-capitalize"
 		:class="{
 			'be-green': dataType === 'Company',
 			'bf-green': dataType === 'Project',
 		}"
 		@click="modalActive = !modalActive"
 	>
-		Add {{ dataType }}
+		{{ dataType === "Company" ? $t("add.company") : $t("add.project") }}
 	</a>
 
 	<Modal :show="modalActive" @close="modalActive = false">
 		<div class="wrapper">
-			<div class="header">
-				<span>Add {{ dataType }}</span>
+			<div class="header text-capitalize">
+				<span>
+					{{
+						dataType === "Company"
+							? $t("add.company")
+							: $t("add.project")
+					}}
+				</span>
 
 				<h4 v-if="subTitle">{{ subTitle }}</h4>
 			</div>
 
 			<form @submit.prevent="createResource">
-				<div class="bs-input my-3">
+				<div class="bs-input my-3 text-capitalize">
 					<input
 						:type="'text'"
-						:placeholder="`Enter ${dataType} Name`"
+						:placeholder="
+							dataType === 'Company'
+								? $t('enter_company_name')
+								: $t('enter_project_name')
+						"
 						required
 						minlength="1"
 						maxlength="255"
@@ -34,7 +44,7 @@
 					<input
 						v-if="dataType === 'Project'"
 						:type="'text'"
-						:placeholder="`Enter ${dataType} URL (Optional)`"
+						:placeholder="$t('enter_project_url')"
 						maxlength="65000"
 						v-model="url"
 					/>
@@ -47,8 +57,12 @@
 					@setColor="setColor"
 				/>
 
-				<button class="btn bs bf-green mt-2">
-					Create {{ dataType }}
+				<button class="btn bs bf-green mt-2 text-capitalize">
+					{{
+						dataType === "Company"
+							? $t("create.company")
+							: $t("create.project")
+					}}
 				</button>
 			</form>
 		</div>
