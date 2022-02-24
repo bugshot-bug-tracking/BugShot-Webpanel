@@ -5,6 +5,7 @@ export default {
 	state: {
 		locale: process.env.VUE_APP_I18N_LOCALE,
 		supportedLocales: [],
+		auto_locale: null,
 	},
 
 	mutations: {
@@ -14,11 +15,44 @@ export default {
 		SET_SUPPORTED_LOCALES: (state, payload) => {
 			state.supportedLocales = payload;
 		},
+		SET_AUTO_LOCALE: (state, payload) => {
+			state.auto_locale = payload;
+		},
 	},
 
 	actions: {
-		// TODO create auto detect locale code
 		initLocale: (state) => {
+			state.dispatch("setSupportedLocales");
+
+			let localStorageLocale = localStorage.getItem("locale");
+
+			if (!localStorageLocale) localStorageLocale = "auto";
+
+			state.dispatch("setLocale", localStorageLocale);
+		},
+
+		setLocale: async (state, payload) => {
+			let locale = payload;
+
+			if (payload.toLowerCase() === "auto") {
+				let autoLoc = await state.dispatch("determineLocale");
+				console.log("aaa: ", autoLoc);
+				state.commit("SET_AUTO_LOCALE", autoLoc);
+
+				// if locale is null use the default
+				locale = autoLoc ? autoLoc : process.env.VUE_APP_I18N_LOCALE;
+			}
+
+			document.querySelector("html").setAttribute("lang", locale);
+
+			console.log(payload);
+			console.log(locale);
+
+			i18n.global.locale.value = locale;
+			state.commit("SET_LOCALE", payload);
+		},
+
+		setSupportedLocales: (state) => {
 			let list = [];
 
 			for (const locale of Object.keys(supportedLocales)) {
@@ -29,37 +63,44 @@ export default {
 			}
 
 			state.commit("SET_SUPPORTED_LOCALES", list);
-
-			let localStorageLocale = localStorage.getItem("locale");
-
-			if (
-				!localStorageLocale ||
-				!supportedLocales.hasOwnProperty(localStorageLocale)
-			) {
-				localStorageLocale = process.env.VUE_APP_I18N_LOCALE;
-			}
-
-			state.commit("SET_LOCALE", localStorageLocale);
-
-			i18n.global.locale.value = localStorageLocale;
-
-			document
-				.querySelector("html")
-				.setAttribute("lang", localStorageLocale);
 		},
 
-		setLocale: async (state, payload) => {
-			document.querySelector("html").setAttribute("lang", payload);
+		determineLocale: (state) => {
+			// if no language list could be found
+			if (navigator.languages === undefined) {
+				// if no language could be found return null to indicate use of default
+				if (navigator.language === undefined) return null;
 
-			console.log(payload);
+				// if the langauge detected does not have a translation file return null to indicate use of default
+				if (
+					!supportedLocales.hasOwnProperty(
+						navigator.language.trim().split(/-|_/)[0]
+					)
+				)
+					return null;
 
-			i18n.global.locale.value = payload;
-			state.commit("SET_LOCALE", payload);
+				// else return the language code
+				return navigator.language.trim().split(/-|_/)[0];
+			}
+
+			// if a language list could be found iterate until finding a language that has a translation file
+			for (const language of navigator.languages) {
+				if (
+					supportedLocales.hasOwnProperty(
+						language.trim().split(/-|_/)[0]
+					)
+				)
+					return language.trim().split(/-|_/)[0];
+			}
+
+			// return null to indicate defaul use
+			return null;
 		},
 	},
 
 	getters: {
 		getLocale: (state) => state.locale,
+		getAutoLocale: (state) => state.auto_locale,
 		getSupportedLocales: (state) => state.supportedLocales,
 	},
 };

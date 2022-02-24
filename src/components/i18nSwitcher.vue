@@ -1,7 +1,17 @@
 <template>
 	<div class="language-switch">
 		<div class="locale mt-4" @click="toggle" :class="{ active: showLangs }">
-			{{ locale }}
+			<img
+				src="../assets/icons/lang.svg"
+				alt="language"
+				class="bs-to-green"
+			/>
+
+			<span v-if="!auto">{{ locale }}</span>
+			<div v-else class="auto-locale">
+				<span>{{ locale }}</span>
+				<span>(Auto)</span>
+			</div>
 		</div>
 
 		<div class="selection" v-if="showLangs">
@@ -22,8 +32,15 @@
 import { computed, ref } from "@vue/runtime-core";
 import store from "../store";
 
+const auto = ref(false);
 const locale = computed(() => {
-	return store.getters.getLocale;
+	let locale = store.getters.getLocale;
+	auto.value = false;
+	if (locale.toLowerCase() === "auto") {
+		auto.value = true;
+		return store.getters.getAutoLocale;
+	}
+	return locale;
 });
 
 const showLangs = ref(false);
@@ -54,10 +71,15 @@ const supportedLocales = computed(() => {
 	cursor: pointer;
 	text-transform: uppercase;
 	border-radius: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 2px;
 	padding: 2px;
+	font-size: 14px;
 
 	&.active {
-		background-color: white;
+		background-color: #c4f8e5;
 	}
 }
 
@@ -70,6 +92,7 @@ const supportedLocales = computed(() => {
 	font-weight: bold;
 	text-transform: uppercase;
 	z-index: 10;
+	font-size: 14px;
 
 	ul {
 		list-style: none;
@@ -87,5 +110,11 @@ const supportedLocales = computed(() => {
 			color: #18b984;
 		}
 	}
+}
+
+.auto-locale > span:last-of-type {
+	font-size: 8px;
+	vertical-align: super;
+	margin-left: 2px;
 }
 </style>
