@@ -154,8 +154,9 @@ export default {
 				height: 24px;
 
 				&:hover {
-					filter: invert(55%) sepia(54%) saturate(630%)
-						hue-rotate(106deg) brightness(112%) contrast(90%);
+					filter: brightness(0) saturate(1) invert(63%) sepia(74%)
+						saturate(493%) hue-rotate(104deg) brightness(96%)
+						contrast(88%);
 				}
 			}
 		}

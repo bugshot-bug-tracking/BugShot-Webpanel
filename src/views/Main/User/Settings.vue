@@ -8,7 +8,7 @@
 			<div class="body">
 				<Container>
 					<form
-						class="wrapper my-3"
+						class="wrapper my-3 default-form"
 						@submit.prevent=""
 						@reset.prevent="cancelClick"
 					>
@@ -65,7 +65,7 @@
 							{{ $t("change_password") }}
 						</div>
 
-						<div class="bs-input w-icon my-3">
+						<div class="bs-input w-icon my-3 w-95">
 							<input
 								v-model="data.password.current"
 								:placeholder="$t('current_password')"
@@ -90,7 +90,7 @@
 							/>
 						</div>
 
-						<div class="bs-input w-icon my-3">
+						<div class="bs-input w-icon my-3 w-95">
 							<input
 								v-model="data.password.new"
 								:placeholder="$t('new_password')"
@@ -114,7 +114,7 @@
 							/>
 						</div>
 
-						<div class="bs-input w-icon my-3">
+						<div class="bs-input w-icon my-3 w-95">
 							<input
 								v-model="data.password.confirm"
 								:placeholder="$t('confirm_password')"
@@ -208,7 +208,7 @@
 
 							<div class="body">
 								<div class="text">
-									{{ $t("extension.download_client_apps") }}
+									{{ $t("extension.download_client_app") }}
 								</div>
 
 								<div class="stores">
@@ -414,13 +414,13 @@ export default {
 	}
 
 	.group {
-		width: 100%;
+		width: 95%;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
 
 		> .label {
-			padding: 0 5%;
+			padding: 0 0.5rem;
 			margin-bottom: -1rem;
 		}
 	}
@@ -435,5 +435,9 @@ export default {
 	.bold {
 		font-weight: bold;
 	}
+}
+
+.w-95 {
+	width: 95%;
 }
 </style>

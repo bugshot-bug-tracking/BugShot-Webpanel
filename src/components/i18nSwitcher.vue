@@ -66,7 +66,7 @@ const supportedLocales = computed(() => {
 }
 
 .locale {
-	color: #18b984;
+	color: #18d891;
 	font-weight: bold;
 	cursor: pointer;
 	text-transform: uppercase;
@@ -107,7 +107,7 @@ const supportedLocales = computed(() => {
 		cursor: pointer;
 
 		&:hover {
-			color: #18b984;
+			color: #18d891;
 		}
 	}
 }

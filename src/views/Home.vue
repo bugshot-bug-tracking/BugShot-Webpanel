@@ -68,16 +68,17 @@ export default {
 			user-select: none;
 			transform: rotateZ(90deg);
 			width: 18px;
-			filter: invert(26%) sepia(92%) saturate(4327%) hue-rotate(258deg)
-				brightness(88%) contrast(104%);
+			filter: brightness(0) saturate(1) invert(18%) sepia(72%)
+				saturate(5384%) hue-rotate(263deg) brightness(94%) contrast(92%);
 		}
 
 		&:hover {
 			cursor: pointer;
 
 			> img {
-				filter: invert(59%) sepia(93%) saturate(1686%)
-					hue-rotate(112deg) brightness(92%) contrast(84%);
+				filter: brightness(0) saturate(1) invert(63%) sepia(74%)
+					saturate(493%) hue-rotate(104deg) brightness(96%)
+					contrast(88%);
 			}
 		}
 	}
@@ -240,6 +241,11 @@ export default {
 	left: 0;
 	background-color: white;
 }
+
+.default-form {
+	width: 100%;
+	padding: 0 5%;
+}
 </style>
 
 <style lang="scss">
@@ -306,5 +312,21 @@ export default {
 	&.p4 {
 		background-color: hsl(0, 90%, 60%);
 	}
+}
+</style>
+
+<style lang="scss">
+.bs-to-green {
+	// color:#18D992;
+	filter: brightness(0) saturate(1) brightness(0) saturate(1) invert(63%)
+		sepia(74%) saturate(493%) hue-rotate(104deg) brightness(96%)
+		contrast(88%);
+}
+
+.bs-to-purple {
+	// color:#7A2EE6;
+	filter: brightness(0) saturate(1) brightness(0) saturate(1) invert(18%)
+		sepia(72%) saturate(5384%) hue-rotate(263deg) brightness(94%)
+		contrast(92%);
 }
 </style>

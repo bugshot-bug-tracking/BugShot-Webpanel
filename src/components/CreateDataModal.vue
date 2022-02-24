@@ -24,7 +24,7 @@
 				<h4 v-if="subTitle">{{ subTitle }}</h4>
 			</div>
 
-			<form @submit.prevent="createResource">
+			<form class="default-form" @submit.prevent="createResource">
 				<div class="bs-input my-3 text-capitalize">
 					<input
 						:type="'text'"

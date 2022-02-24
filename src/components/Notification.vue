@@ -150,13 +150,16 @@ export default {
 
 		.accept {
 			width: 16px;
-			filter: invert(73%) sepia(66%) saturate(3341%) hue-rotate(109deg)
-				brightness(104%) contrast(81%);
+			// color: #18D992;
+			filter: brightness(0) saturate(1) invert(63%) sepia(74%)
+				saturate(493%) hue-rotate(104deg) brightness(96%) contrast(88%);
 		}
 		.decline {
 			width: 16px;
-			filter: invert(46%) sepia(28%) saturate(5216%) hue-rotate(331deg)
-				brightness(87%) contrast(121%);
+			// color: #F23838; red
+			filter: brightness(0) saturate(1) invert(46%) sepia(28%)
+				saturate(5216%) hue-rotate(331deg) brightness(87%)
+				contrast(121%);
 		}
 	}
 }

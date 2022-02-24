@@ -181,7 +181,7 @@ export default {
 	flex-direction: column;
 	width: 100%;
 	align-items: center;
-	min-width: 400px;
+	min-width: 350px;
 
 	.header {
 		margin-bottom: 20px;
@@ -225,7 +225,7 @@ export default {
 		background: #f8f8fc 0% 0% no-repeat padding-box;
 		border: 1px solid #bc97f2;
 		border-radius: 9px;
-		width: 95%;
+		width: 100%;
 		height: 250px;
 		padding: 20px;
 		position: relative;

@@ -194,13 +194,14 @@ export default {
 			background-repeat: no-repeat;
 			width: 32px;
 			height: 32px;
-			filter: invert(76%) sepia(44%) saturate(4195%) hue-rotate(107deg)
-				brightness(101%) contrast(81%);
+			filter: brightness(0) saturate(1) invert(63%) sepia(74%)
+				saturate(493%) hue-rotate(104deg) brightness(96%) contrast(88%);
 			//   color: #18d891;
 
 			&:hover {
-				filter: invert(18%) sepia(63%) saturate(5695%)
-					hue-rotate(265deg) brightness(82%) contrast(109%);
+				filter: brightness(0) saturate(1) invert(18%) sepia(72%)
+					saturate(5384%) hue-rotate(263deg) brightness(94%)
+					contrast(92%);
 				// color: #7118d8;
 			}
 		}
@@ -214,8 +215,9 @@ export default {
 			margin-right: 10px;
 
 			&:hover {
-				filter: invert(55%) sepia(54%) saturate(630%) hue-rotate(106deg)
-					brightness(112%) contrast(90%);
+				filter: brightness(0) saturate(1) invert(55%) sepia(54%)
+					saturate(630%) hue-rotate(106deg) brightness(112%)
+					contrast(90%);
 			}
 		}
 	}

@@ -91,9 +91,10 @@ export default {
 			background-repeat: no-repeat;
 			background-position: center;
 
-			filter: invert(46%) sepia(72%) saturate(6900%) hue-rotate(343deg)
-				brightness(110%) contrast(93%);
-			// color: #f53d3d;
+			// color: #F23838; red
+			filter: brightness(0) saturate(1) invert(46%) sepia(28%)
+				saturate(5216%) hue-rotate(331deg) brightness(87%)
+				contrast(121%);
 		}
 
 		> span {

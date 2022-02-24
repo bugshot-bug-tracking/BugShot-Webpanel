@@ -26,7 +26,7 @@ export default {
 	display: flex;
 
 	.left-port {
-		background-image: url(../../assets/images/login-bg.jpg);
+		background-image: url(../../assets/images/bugshot_login_background.jpg);
 		flex: 0 0 50%;
 		width: 50vw;
 		background-size: cover;

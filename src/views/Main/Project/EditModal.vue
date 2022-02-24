@@ -5,7 +5,7 @@
 				<span>{{ $t("edit.project") }}</span>
 			</div>
 
-			<form @submit.prevent="saveChanges">
+			<form class="default-form" @submit.prevent="saveChanges">
 				<div class="label">{{ $t("project_name") }}</div>
 
 				<div class="bs-input my-3">

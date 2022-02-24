@@ -396,8 +396,8 @@ export default {
 .good {
 	color: black;
 	// color: #18d891;
-	filter: invert(55%) sepia(54%) saturate(630%) hue-rotate(106deg)
-		brightness(112%) contrast(90%);
+	filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
+		hue-rotate(104deg) brightness(96%) contrast(88%);
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -417,8 +417,8 @@ export default {
 .bad {
 	color: black;
 	// color: #f23636;
-	filter: invert(46%) sepia(72%) saturate(6900%) hue-rotate(343deg)
-		brightness(110%) contrast(93%);
+	filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+		hue-rotate(263deg) brightness(94%) contrast(92%);
 	position: relative;
 	display: flex;
 	align-items: center;

@@ -123,6 +123,8 @@
 						:placeholder="$t('no_deadline')"
 						@cleared="clearDeadline"
 						@closed="changeDeadline"
+						:selectText="$t('select.select')"
+						:cancelText="$t('cancel')"
 					/>
 				</div>
 			</div>
@@ -151,7 +153,6 @@ import store from "../store";
 import PriorityChange from "./PriorityChange.vue";
 
 import Datepicker from "vue3-date-time-picker";
-import "vue3-date-time-picker/dist/main.css";
 import Assignes from "./Assignes.vue";
 import AssignModal from "./AssignModal.vue";
 
@@ -428,5 +429,13 @@ export default {
 			margin-top: 6px;
 		}
 	}
+}
+</style>
+
+<style lang="scss">
+@import "vue3-date-time-picker/dist/main.css";
+
+.dp__select {
+	color: #18b984;
 }
 </style>

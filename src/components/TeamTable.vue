@@ -226,8 +226,10 @@ export default {
 		}
 
 		&:hover {
-			filter: invert(19%) sepia(48%) saturate(5366%) hue-rotate(351deg)
-				brightness(99%) contrast(135%);
+			// color: #F23838; red
+			filter: brightness(0) saturate(1) invert(46%) sepia(28%)
+				saturate(5216%) hue-rotate(331deg) brightness(87%)
+				contrast(121%);
 		}
 	}
 }

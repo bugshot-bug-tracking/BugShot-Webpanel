@@ -14,7 +14,10 @@
 
 				<div class="body">
 					<Container>
-						<form class="wrapper" @submit.prevent="saveChanges">
+						<form
+							class="wrapper default-form"
+							@submit.prevent="saveChanges"
+						>
 							<div class="bs-input my-3">
 								<input
 									v-model="companyParams.name"

@@ -109,14 +109,16 @@ export default {
 	transition: 0.2s;
 
 	img {
-		filter: invert(64%) sepia(35%) saturate(5578%) hue-rotate(118deg)
-			brightness(97%) contrast(84%);
+		// color: #18d992;
+		filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
+			hue-rotate(104deg) brightness(96%) contrast(88%);
 	}
 
 	&:hover {
 		img {
-			filter: invert(22%) sepia(58%) saturate(4259%) hue-rotate(258deg)
-				brightness(89%) contrast(102%);
+			// color: #7a2ee6;
+			filter: brightness(0) saturate(1) invert(18%) sepia(72%)
+				saturate(5384%) hue-rotate(263deg) brightness(94%) contrast(92%);
 		}
 	}
 }

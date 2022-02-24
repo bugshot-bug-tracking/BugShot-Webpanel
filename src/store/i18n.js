@@ -36,7 +36,7 @@ export default {
 
 			if (payload.toLowerCase() === "auto") {
 				let autoLoc = await state.dispatch("determineLocale");
-				console.log("aaa: ", autoLoc);
+
 				state.commit("SET_AUTO_LOCALE", autoLoc);
 
 				// if locale is null use the default
@@ -44,9 +44,6 @@ export default {
 			}
 
 			document.querySelector("html").setAttribute("lang", locale);
-
-			console.log(payload);
-			console.log(locale);
 
 			i18n.global.locale.value = locale;
 			state.commit("SET_LOCALE", payload);
