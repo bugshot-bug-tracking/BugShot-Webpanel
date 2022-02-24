@@ -21,7 +21,7 @@
 			</div>
 
 			<a class="add" @click="$emit('add')" v-if="false">
-				<img src="../assets/extern/add.svg" alt="Add button" />
+				<img src="../assets/icons/add.svg" alt="Add button" />
 			</a>
 		</div>
 	</div>
