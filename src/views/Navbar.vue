@@ -53,7 +53,7 @@
 					</div>
 				</div>
 
-				<I18nSwitcher />
+				<I18nSwitcher class="mt-4" />
 			</div>
 		</ul>
 	</nav>

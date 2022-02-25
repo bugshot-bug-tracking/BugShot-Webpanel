@@ -1,7 +1,7 @@
 <template>
-	<div class="title">{{ $t("password_reset") }}</div>
+	<div class="title" v-if="!process">{{ $t("password_reset") }}</div>
 
-	<form v-if="!message" id="login-form" @submit.prevent="submit">
+	<form v-if="!message && !process" id="login-form" @submit.prevent="submit">
 		<div class="bs-input w-icon">
 			<input
 				type="email"
@@ -31,6 +31,12 @@
 	<div v-if="message" class="d-flex flex-column gap-4 align-items-center">
 		<div class="message">{{ message }}</div>
 	</div>
+
+	<div class="process" v-if="process">
+		<div class="loading">
+			<img src="../../assets/global/loading.svg" alt="loading" />
+		</div>
+	</div>
 </template>
 
 <script>
@@ -49,12 +55,15 @@ export default {
 		const submit = () => {
 			if (email.value && email.value.length > 4)
 				try {
+					process.value = true;
+
 					axios
 						.post(`auth/forgot-password`, {
 							email: email.value,
 						})
 						.then((response) => {
 							message.value = response.data;
+							process.value = false;
 						})
 						.then(() => {
 							setTimeout(() => {
@@ -63,14 +72,18 @@ export default {
 						});
 				} catch (error) {
 					console.log(error);
+					process.value = false;
 				}
 		};
+
+		const process = ref(false);
 
 		return {
 			email,
 			errMessage,
 			message,
 			submit,
+			process,
 		};
 	},
 };
@@ -133,5 +146,14 @@ export default {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+}
+
+.process {
+	width: 400px;
+
+	img {
+		width: 300px;
+		height: 300px;
+	}
 }
 </style>

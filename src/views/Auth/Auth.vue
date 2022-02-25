@@ -7,15 +7,21 @@
 
 		<!-- ./right-port -->
 		<div class="right-port">
-			<router-view />
+			<div />
+
+			<div>
+				<router-view />
+			</div>
+
+			<div class="footer">
+				<I18nSwitcher />
+			</div>
 		</div>
 	</div>
 </template>
 
-<script>
-export default {
-	name: "AuthLayout",
-};
+<script setup>
+import I18nSwitcher from "../../components/i18nSwitcher.vue";
 </script>
 
 <style lang="scss" scoped>
@@ -66,6 +72,14 @@ export default {
 	margin-right: auto;
 	position: relative;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
+}
+
+.footer {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 1rem;
+	width: 100%;
 }
 </style>

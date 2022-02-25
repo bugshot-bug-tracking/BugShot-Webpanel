@@ -1,6 +1,6 @@
 <template>
 	<div class="language-switch">
-		<div class="locale mt-4" @click="toggle" :class="{ active: showLangs }">
+		<div class="locale" @click="toggle" :class="{ active: showLangs }">
 			<img
 				src="../assets/icons/lang.svg"
 				alt="language"
@@ -63,6 +63,7 @@ const supportedLocales = computed(() => {
 <style lang="scss" scoped>
 .language-switch {
 	position: relative;
+	min-width: 4rem;
 }
 
 .locale {
@@ -93,6 +94,7 @@ const supportedLocales = computed(() => {
 	text-transform: uppercase;
 	z-index: 10;
 	font-size: 14px;
+	box-shadow: 0px 3px 6px hsla(0, 0%, 0%, 0.4);
 
 	ul {
 		list-style: none;
@@ -101,6 +103,7 @@ const supportedLocales = computed(() => {
 		flex-direction: column;
 		align-items: center;
 		gap: 8px;
+		margin: 0;
 	}
 
 	li {

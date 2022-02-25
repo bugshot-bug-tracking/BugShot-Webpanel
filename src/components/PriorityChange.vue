@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="bs-priority"
-		:class="'p' + priority"
+		:class="['p' + priority, { unlock: !lock }]"
 		@click="toggleShow"
 		ref="popup"
 	>
@@ -94,6 +94,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.unlock {
+	cursor: pointer;
+}
+
 .container {
 	display: flex;
 	flex-direction: column;
