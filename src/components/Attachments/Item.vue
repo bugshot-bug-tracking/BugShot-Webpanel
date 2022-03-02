@@ -1,7 +1,11 @@
 <template>
 	<div class="file-name">{{ name }}</div>
 	<div class="controls">
-		<div class="btn download" @click="$emit('download', id)" />
+		<div
+			v-if="download"
+			class="btn download"
+			@click="$emit('download', id)"
+		/>
 		<div class="btn delete" @click="$emit('delete', id)" />
 	</div>
 </template>
@@ -17,6 +21,11 @@ export default {
 		id: {
 			required: true,
 			type: Number,
+		},
+		download: {
+			required: false,
+			type: Boolean,
+			default: true,
 		},
 	},
 	emits: ["download", "delete"],

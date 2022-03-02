@@ -270,6 +270,20 @@ export default {
 		}
 	}
 
+	textarea {
+		border: 1px solid hsl(264, 78%, 77%);
+		border-radius: 8px;
+		width: 100%;
+		padding: 10px;
+
+		&:focus,
+		&:focus-visible,
+		&:hover {
+			border-color: hsl(265, 79%, 41%);
+			outline-color: hsl(265, 79%, 41%);
+		}
+	}
+
 	&.w-icon {
 		input {
 			padding-right: 40px;
@@ -318,15 +332,19 @@ export default {
 <style lang="scss">
 .bs-to-green {
 	// color:#18D992;
-	filter: brightness(0) saturate(1) brightness(0) saturate(1) invert(63%)
-		sepia(74%) saturate(493%) hue-rotate(104deg) brightness(96%)
-		contrast(88%);
+	filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
+		hue-rotate(104deg) brightness(96%) contrast(88%);
 }
 
 .bs-to-purple {
 	// color:#7A2EE6;
-	filter: brightness(0) saturate(1) brightness(0) saturate(1) invert(18%)
-		sepia(72%) saturate(5384%) hue-rotate(263deg) brightness(94%)
-		contrast(92%);
+	filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+		hue-rotate(263deg) brightness(94%) contrast(92%);
+}
+
+.bs-to-red {
+	// color: #F23838;
+	filter: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%)
+		hue-rotate(331deg) brightness(87%) contrast(121%);
 }
 </style>

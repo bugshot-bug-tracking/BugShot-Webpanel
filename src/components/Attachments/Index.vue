@@ -75,7 +75,7 @@ export default {
 				files.value.length > 10 ||
 				props.attachments.length + files.value.length > 10
 			) {
-				err.value = t("limit.max_files_limit", { x: 10 });
+				err.value = t("limits.max_files_limit", { x: 10 });
 				return;
 			}
 
@@ -84,7 +84,7 @@ export default {
 				if (file.size > 5 * (1 << 20)) {
 					if (errFlag === false) {
 						errFlag = true;
-						err.value = t("limit.max_file_size_limit", { x: 5 });
+						err.value = t("limits.max_file_size_limit", { x: 5 });
 					}
 
 					err.value += ` - ${file.name}\n`;

@@ -34,7 +34,7 @@
 
 					<div class="images-counter" v-if="screenshots.length > 1">
 						{{
-							$t("screenshot_of", {
+							$t("member_out_of", {
 								x: counter + 1,
 								n: screenshots.length,
 							})
