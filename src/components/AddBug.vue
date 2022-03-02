@@ -1,13 +1,13 @@
 <template>
 	<a class="btn bs bf-purple add-button" @click="tabOpen = true">
 		<img src="../assets/icons/add.svg" alt="add" />
-		Add new bug
+		{{ $t("add.bug") }}
 	</a>
 
 	<SideTab v-if="tabOpen">
 		<form @submit.prevent="submit">
 			<div class="top">
-				<h4>New Bug Report</h4>
+				<h4>{{ $t("new_bug_report") }}</h4>
 
 				<img
 					src="../assets/icons/classic_X.svg"
@@ -25,7 +25,7 @@
 					<span>{{ `${data.designation.length}/50` }}</span>
 					<input
 						type="text"
-						placeholder="Bug Name"
+						:placeholder="$t('bug_name')"
 						v-model="data.designation"
 						required
 						minlength="5"
@@ -36,7 +36,7 @@
 				<div class="bs-input counted">
 					<span>{{ `${data.description.length}/1500` }}</span>
 					<textarea
-						placeholder="Describe your problem"
+						:placeholder="$t('describe_problem')"
 						v-model="data.description"
 						rows="3"
 						maxlength="1500"
@@ -44,7 +44,7 @@
 				</div>
 
 				<div class="datepicker">
-					<div>Pick a date</div>
+					<div>{{ $t("pick_date") }}</div>
 
 					<Datepicker
 						v-model="data.deadline"
@@ -56,7 +56,7 @@
 				</div>
 
 				<div class="priority">
-					<div>Set Priority</div>
+					<div>{{ $t("set_priority") }}</div>
 
 					<div class="options">
 						<div>
@@ -68,7 +68,7 @@
 								v-model="data.priority"
 							/>
 							<label for="i1" class="i i1">
-								<span>minor</span>
+								<span> {{ $t("minor") }} </span>
 							</label>
 						</div>
 						<div>
@@ -80,7 +80,7 @@
 								v-model="data.priority"
 							/>
 							<label for="i2" class="i i2">
-								<span>normal</span>
+								<span> {{ $t("normal") }} </span>
 							</label>
 						</div>
 						<div>
@@ -92,7 +92,7 @@
 								v-model="data.priority"
 							/>
 							<label for="i3" class="i i3">
-								<span>important</span>
+								<span> {{ $t("important") }} </span>
 							</label>
 						</div>
 						<div>
@@ -104,7 +104,7 @@
 								v-model="data.priority"
 							/>
 							<label for="i4" class="i i4">
-								<span>critical</span>
+								<span> {{ $t("critical") }} </span>
 							</label>
 						</div>
 					</div>
@@ -118,7 +118,9 @@
 
 			<LocalAttachments @update="attachmentsUpdate" />
 
-			<button class="btn bs bf-green" type="submit">Report bug!</button>
+			<button class="btn bs bf-green" type="submit">
+				{{ $t("report_bug") + "!" }}
+			</button>
 		</form>
 	</SideTab>
 
@@ -268,6 +270,7 @@ const message = ref(null);
 	img {
 		width: 20px;
 		height: 20px;
+		cursor: pointer;
 	}
 }
 

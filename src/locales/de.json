@@ -191,8 +191,12 @@
 
 	"picker": {
 		"drag_and_drop": "Fügen Sie hier ihr Logo per 'Drag and drop' ein oder",
-		"upload_logo": "Laden Sie ein Bild hoch",
+		"upload_image": "Laden Sie ein Bild hoch",
 		"select_color": "Wählen Sie eine Farbe"
+	},
+
+	"screenshot": {
+		"drag_and_drop": "Fügen Sie Ihr Bild hier per 'Drag and Drop' ein oder"
 	},
 
 	"extension": {
@@ -211,5 +215,14 @@
 		"passwords_match": "Passwörter sind gleich",
 		"max_files_limit": "Sie sind auf ein maximum von {x} Dateien limitiert",
 		"max_file_size_limit": "Folgende Dateien überschreiten ein Maximum von {x} MB:\n"
-	}
+	},
+
+	"new_bug_report": "Neuer Fehlerbericht",
+
+	"bug_name": "Fehlername",
+	"bug_desc": "Fehlerbeschreibung",
+	"describe_problem": "Beschreiben Sie Ihr Problem",
+	"report_bug": "Fehler melden",
+	"set_priority": "Priorität setzen",
+	"pick_date": "Suche dir einen Termin aus"
 }

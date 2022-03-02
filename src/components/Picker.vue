@@ -42,7 +42,7 @@
 						for="pick-upload"
 						class="btn bs be-green text-capitalize"
 					>
-						{{ $t("picker.upload_logo") }}
+						{{ $t("picker.upload_image") }}
 					</label>
 
 					<input type="file" name="upload" id="pick-upload" />

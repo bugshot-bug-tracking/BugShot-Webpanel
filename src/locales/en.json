@@ -190,8 +190,12 @@
 
 	"picker": {
 		"drag_and_drop": "Drag and drop your logo here or",
-		"upload_logo": "Upload logo",
+		"upload_image": "Upload image",
 		"select_color": "Select a color"
+	},
+
+	"screenshot": {
+		"drag_and_drop": "Drag and drop screenshots here or"
 	},
 
 	"extension": {
@@ -210,5 +214,14 @@
 		"passwords_match": "Passwords match",
 		"max_files_limit": "You are limited to a maximum of {x} files",
 		"max_file_size_limit": "Following files are bigger than {x} MB:\n"
-	}
+	},
+
+	"new_bug_report": "New Bug Report",
+
+	"bug_name": "Bug name",
+	"bug_desc": "Bug description",
+	"describe_problem": "Bug description",
+	"report_bug": "Report bug",
+	"set_priority": "Set priority",
+	"pick_date": "Pick a date"
 }

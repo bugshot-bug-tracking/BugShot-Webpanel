@@ -11,11 +11,11 @@
 		>
 			<div>
 				<img src="../assets/icons/image_placeholder.svg" />
-				<div class="text">Drag and drop screenshots here or</div>
+				<div class="text">{{ $t("screenshot.drag_and_drop") }}</div>
 			</div>
 
 			<label for="image-upload" class="btn bs be-green text-capitalize">
-				Upload
+				{{ $t("picker.upload_image") }}
 			</label>
 
 			<input type="file" id="image-upload" multiple />
