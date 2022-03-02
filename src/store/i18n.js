@@ -1,5 +1,6 @@
 import i18n from "../i18n";
 import supportedLocales from "../config/supported-locales";
+import axios from "axios";
 
 export default {
 	state: {
@@ -47,6 +48,8 @@ export default {
 
 			i18n.global.locale.value = locale;
 			state.commit("SET_LOCALE", payload);
+
+			axios.defaults.headers[locale] = locale;
 		},
 
 		setSupportedLocales: (state) => {
