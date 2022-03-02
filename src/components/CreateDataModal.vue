@@ -83,6 +83,7 @@ import axios from "axios";
 import Modal from "./Modal.vue";
 import store from "../store";
 import StatusModal from "./Modals/StatusModal.vue";
+import toBase64 from "@/util/toBase64";
 
 export default {
 	name: "CreateData",
@@ -126,14 +127,6 @@ export default {
 			// console.log("setImage", value);
 			color.value = value;
 		};
-
-		const toBase64 = (file) =>
-			new Promise((resolve, reject) => {
-				const reader = new FileReader();
-				reader.readAsDataURL(file);
-				reader.onload = () => resolve(reader.result);
-				reader.onerror = (error) => reject(error);
-			});
 
 		const createResource = async () => {
 			let resource = {

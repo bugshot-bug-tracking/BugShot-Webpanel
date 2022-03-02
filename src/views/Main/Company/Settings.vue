@@ -104,6 +104,7 @@ import axios from "axios";
 import DeleteModal from "../../../components/Modals/DeleteModal.vue";
 import StatusModal from "../../../components/Modals/StatusModal.vue";
 import { useI18n } from "vue-i18n";
+import toBase64 from "@/util/toBase64";
 
 export default {
 	components: {
@@ -199,14 +200,6 @@ export default {
 			"#1849CF", // blue
 			"#89A3EB", // gray
 		];
-
-		const toBase64 = (file) =>
-			new Promise((resolve, reject) => {
-				const reader = new FileReader();
-				reader.readAsDataURL(file);
-				reader.onload = () => resolve(reader.result);
-				reader.onerror = (error) => reject(error);
-			});
 
 		const setImage = async (value) => {
 			// console.log("setImage", value);

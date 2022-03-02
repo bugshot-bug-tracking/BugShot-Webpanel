@@ -56,6 +56,7 @@ import { computed, nextTick, onMounted } from "@vue/runtime-core";
 import Picker from "../../../components/Picker.vue";
 import store from "../../../store";
 import StatusModal from "../../../components/Modals/StatusModal.vue";
+import toBase64 from "@/util/toBase64";
 
 export default {
 	name: "EditProjectModal",
@@ -130,14 +131,6 @@ export default {
 			// console.log("setImage", value);
 			projectParams.color = value;
 		};
-
-		const toBase64 = (file) =>
-			new Promise((resolve, reject) => {
-				const reader = new FileReader();
-				reader.readAsDataURL(file);
-				reader.onload = () => resolve(reader.result);
-				reader.onerror = (error) => reject(error);
-			});
 
 		const saveChanges = async () => {
 			let data = {
