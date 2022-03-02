@@ -7,6 +7,7 @@
 		</template>
 
 		<template v-slot:top>
+			<AddBug :id="id" />
 			<InviteModal :dataType="'Project'" :id="id" />
 		</template>
 
@@ -65,8 +66,8 @@ import BugInfo from "../../../components/BugInfo.vue";
 import InviteModal from "../../../components/InviteModal.vue";
 
 import draggable from "vuedraggable";
-import axios from "axios";
 import { onUnmounted } from "@vue/runtime-core";
+import AddBug from "../../../components/AddBug.vue";
 
 export default {
 	components: {
@@ -77,6 +78,7 @@ export default {
 		BugInfo,
 		InviteModal,
 		draggable,
+		AddBug,
 	},
 	props: {
 		id: {
