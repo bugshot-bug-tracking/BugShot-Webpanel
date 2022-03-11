@@ -8,7 +8,7 @@
 			<div class="card-body">
 				<div class="card-text d-flex justify-content-between">
 					<div class="bug-deadline">
-						{{ deadline ? date(deadline) : $t("no_deadline") }}
+						{{ deadline ? dateFix(deadline) : $t("no_deadline") }}
 					</div>
 
 					<PriorityChange :priority="priority" />
@@ -20,6 +20,7 @@
 
 <script>
 import PriorityChange from "./PriorityChange.vue";
+import dateFix from "../util/dateFixISO";
 
 export default {
 	name: "BugCard",
@@ -45,17 +46,7 @@ export default {
 		PriorityChange,
 	},
 	emits: ["info"],
-	setup() {
-		const date = (dateString) => {
-			if (dateString === "" || dateString === null) return "";
-			if (dateString.slice(-1).toUpperCase() !== "Z") dateString += "Z";
-
-			return new Date(dateString).toLocaleString();
-		};
-		return {
-			date,
-		};
-	},
+	setup() {},
 };
 </script>
 

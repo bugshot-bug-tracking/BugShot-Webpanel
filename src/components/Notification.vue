@@ -10,7 +10,7 @@
 			</div>
 
 			<div class="bottom">
-				{{ date(record.attributes.created_at) }}
+				{{ dateFix(record.attributes.created_at) }}
 
 				{{ $t("by") }}
 
@@ -42,6 +42,7 @@
 import { computed } from "@vue/reactivity";
 import store from "../store";
 import axios from "axios";
+import dateFix from "@/util/dateFixISO";
 
 export default {
 	name: "Notification",
@@ -56,13 +57,6 @@ export default {
 		const record = computed(() => {
 			return store.getters.getInvitationById(props.id);
 		});
-
-		const date = (dateString) => {
-			if (dateString === "" || dateString === null) return "";
-			if (dateString.slice(-1).toUpperCase() !== "Z") dateString += "Z";
-
-			return new Date(dateString).toLocaleString();
-		};
 
 		const accept = async () => {
 			try {

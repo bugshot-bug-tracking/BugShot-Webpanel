@@ -2,7 +2,7 @@
 	<div class="message-wrapper" :class="sender === 0 ? `self` : `other`">
 		<div class="content">
 			<div class="message">{{ content }}</div>
-			<div class="timestamp">{{ date(timestamp) }}</div>
+			<div class="timestamp">{{ dateFix(timestamp) }}</div>
 		</div>
 
 		<div class="creator">
@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import dateFix from "@/util/dateFixISO";
+
 export default {
 	name: "Message",
 	props: {
@@ -33,18 +35,6 @@ export default {
 			required: true,
 			type: String,
 		},
-	},
-	setup() {
-		const date = (dateString) => {
-			if (dateString === "" || dateString === null) return "";
-			if (dateString.slice(-1).toUpperCase() !== "Z") dateString += "Z";
-
-			return new Date(dateString).toLocaleString();
-		};
-
-		return {
-			date,
-		};
 	},
 };
 </script>
