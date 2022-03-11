@@ -49,7 +49,7 @@ export default {
 			i18n.global.locale.value = locale;
 			state.commit("SET_LOCALE", payload);
 
-			axios.defaults.headers[locale] = locale;
+			axios.defaults.headers["locale"] = locale;
 		},
 
 		setSupportedLocales: (state) => {
