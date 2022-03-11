@@ -13,30 +13,27 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 import dateFix from "@/util/dateFixISO";
 
-export default {
-	name: "Message",
-	props: {
-		content: {
-			required: true,
-			type: String,
-		},
-		creator: {
-			required: true,
-			type: Object,
-		},
-		sender: {
-			required: true,
-			type: Number,
-		},
-		timestamp: {
-			required: true,
-			type: String,
-		},
+const props = defineProps({
+	content: {
+		required: true,
+		type: String,
 	},
-};
+	creator: {
+		required: true,
+		type: Object,
+	},
+	sender: {
+		required: true,
+		type: Number,
+	},
+	timestamp: {
+		required: true,
+		type: String,
+	},
+});
 </script>
 
 <style lang="scss" scoped>

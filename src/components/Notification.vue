@@ -38,62 +38,47 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 import { computed } from "@vue/reactivity";
 import store from "../store";
 import axios from "axios";
 import dateFix from "@/util/dateFixISO";
 
-export default {
-	name: "Notification",
-	props: {
-		id: {
-			required: true,
-			type: String,
-			desc: "Invitation id",
-		},
+const props = defineProps({
+	id: {
+		required: true,
+		type: String,
+		desc: "Invitation id",
 	},
-	setup(props) {
-		const record = computed(() => {
-			return store.getters.getInvitationById(props.id);
-		});
+});
 
-		const accept = async () => {
-			try {
-				let user = store.getters.getUser;
-				await axios.get(
-					`users/${user.id}/invitations/${props.id}/accept`
-				);
+const record = computed(() => {
+	return store.getters.getInvitationById(props.id);
+});
 
-				store.commit("REMOVE_INVITATION", props.id);
-				store.dispatch("init", props.id);
-			} catch (error) {
-				console.error(error);
-			}
-		};
+const accept = async () => {
+	try {
+		let user = store.getters.getUser;
+		await axios.get(`users/${user.id}/invitations/${props.id}/accept`);
 
-		const decline = async () => {
-			try {
-				let user = store.getters.getUser;
+		store.commit("REMOVE_INVITATION", props.id);
+		store.dispatch("init", props.id);
+	} catch (error) {
+		console.error(error);
+	}
+};
 
-				await axios.get(
-					`user/${user.id}/invitations/${props.id}/accept`
-				);
+const decline = async () => {
+	try {
+		let user = store.getters.getUser;
 
-				store.commit("REMOVE_INVITATION", props.id);
-				store.dispatch("init", props.id);
-			} catch (error) {
-				console.error(error);
-			}
-		};
+		await axios.get(`user/${user.id}/invitations/${props.id}/accept`);
 
-		return {
-			record,
-			date,
-			accept,
-			decline,
-		};
-	},
+		store.commit("REMOVE_INVITATION", props.id);
+		store.dispatch("init", props.id);
+	} catch (error) {
+		console.error(error);
+	}
 };
 </script>
 
