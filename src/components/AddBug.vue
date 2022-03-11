@@ -169,11 +169,9 @@ const clearDeadline = () => {
 };
 
 const attachmentsUpdate = (files) => {
-	console.log("upload", files);
 	data.attachments = files;
 };
 const imagesUpdate = (files) => {
-	console.log("imagesUpdate", files);
 	data.images = files;
 };
 
@@ -229,6 +227,9 @@ const submit = async () => {
 
 		setTimeout(() => {
 			process.value = false;
+			tabOpen.value = false;
+
+			resetData();
 		}, 4000);
 	} catch (error) {
 		stage.value = 2;
@@ -242,6 +243,15 @@ const submit = async () => {
 			message.value = null;
 		}, 4000);
 	}
+};
+
+const resetData = () => {
+	data.designation = "";
+	data.description = "";
+	data.deadline = null;
+	data.priority = 2;
+	data.images = [];
+	data.attachments = [];
 };
 
 const process = ref(false);
