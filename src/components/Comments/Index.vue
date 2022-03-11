@@ -52,78 +52,71 @@
 	</Container>
 </template>
 
-<script>
-import { computed, ref } from "@vue/reactivity";
-import { nextTick, onMounted, watch } from "@vue/runtime-core";
+<script setup>
+import { ref } from "@vue/reactivity";
+import { computed, nextTick, watch } from "@vue/runtime-core";
 import Message from "./Message.vue";
 import Container from "../Container.vue";
 import store from "../../store";
 import axios from "axios";
 
-export default {
-	components: { Message, Container },
-	name: "Comments",
-	props: {
-		comments: {
-			required: true,
-			type: Array,
-		},
-		bug_id: {
-			required: true,
-			type: String,
-		},
+const props = defineProps({
+	bug_id: {
+		required: true,
+		type: String,
 	},
-	emits: ["loading"],
-	setup(props, context) {
-		const chars = ref("");
-		const msgs = ref(null);
-
-		const user = computed(() => {
-			return store.getters.getUser;
-		});
-
-		const postComment = () => {
-			try {
-				axios
-					.post(`bugs/${props.bug_id}/comments`, {
-						bug_id: props.bug_id,
-						content: chars.value,
-					})
-					.then(() => {
-						update();
-						chars.value = "";
-					});
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		const update = () => {
-			store.dispatch("fetchComments", props.bug_id);
-		};
-
-		watch(
-			props,
-			() => {
-				nextTick(() => {
-					msgs.value?.parentNode.scrollBy({
-						top: msgs.value?.scrollHeight,
-						behavior: "smooth",
-					});
-				});
-			},
-			{ deep: true }
-		);
-
-		return {
-			user,
-			chars,
-			msgs,
-			postComment,
-			update,
-		};
+	comments: {
+		required: true,
+		type: Array,
 	},
+});
+
+const chars = ref("");
+const msgs = ref(null);
+const lock = ref(false); // prevent send button spam
+
+const user = computed(() => {
+	return store.getters.getUser;
+});
+
+const postComment = () => {
+	if (chars.value.length < 1 || lock.value) return;
+	lock.value = true;
+
+	try {
+		axios
+			.post(`bugs/${props.bug_id}/comments`, {
+				bug_id: props.bug_id,
+				content: chars.value,
+			})
+			.then(() => {
+				update();
+				chars.value = "";
+				lock.value = false;
+			});
+	} catch (error) {
+		lock.value = false;
+
+		console.error(error);
+	}
 };
+
+const update = () => {
+	store.dispatch("kanban/fetchComments", props.bug_id);
+};
+
+const scrollToBottom = () => {
+	nextTick(() => {
+		msgs.value?.parentNode.scrollBy({
+			top: msgs.value?.scrollHeight,
+			behavior: "smooth",
+		});
+	});
+};
+
+scrollToBottom();
+
+watch(props, () => scrollToBottom(), { deep: true });
 </script>
 
 <style lang="scss" scoped>

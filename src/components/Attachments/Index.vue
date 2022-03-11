@@ -144,9 +144,11 @@ export default {
 
 		const deleteFile = (id) => {
 			try {
-				axios.delete(`attachments/${id}`).then(() => {
-					update();
-				});
+				axios
+					.delete(`bugs/${props.bug_id}/attachments/${id}`)
+					.then(() => {
+						update();
+					});
 			} catch (error) {
 				err.value = error;
 				console.error(error);
@@ -154,7 +156,7 @@ export default {
 		};
 
 		const update = () => {
-			store.dispatch("fetchAttachments", props.bug_id);
+			store.dispatch("kanban/fetchAttachments", props.bug_id);
 		};
 
 		return {

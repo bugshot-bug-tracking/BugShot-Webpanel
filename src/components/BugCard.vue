@@ -1,7 +1,7 @@
 <template>
 	<div class="bug-card">
 		<div class="card">
-			<div class="card-header bug-title" @click="$emit('info', id)">
+			<div class="card-header bug-title" @click="$emit('info')">
 				{{ title }}
 			</div>
 
@@ -18,36 +18,25 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 import PriorityChange from "./PriorityChange.vue";
 import dateFix from "../util/dateFixISO";
 
-export default {
-	name: "BugCard",
-	props: {
-		id: {
-			required: true,
-			type: String,
-		},
-		title: {
-			required: true,
-			type: String,
-		},
-		deadline: {
-			required: true,
-			type: String,
-		},
-		priority: {
-			required: true,
-			type: Number,
-		},
+const emit = defineEmits(["info"]);
+const props = defineProps({
+	title: {
+		required: true,
+		type: String,
 	},
-	components: {
-		PriorityChange,
+	deadline: {
+		required: true,
+		type: String,
 	},
-	emits: ["info"],
-	setup() {},
-};
+	priority: {
+		required: true,
+		type: Number,
+	},
+});
 </script>
 
 <style lang="scss" scoped>

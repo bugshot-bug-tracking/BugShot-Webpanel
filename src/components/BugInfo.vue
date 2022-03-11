@@ -1,23 +1,33 @@
 <template>
-	<SideTab>
-		<Info v-if="bug" :bug_id="bug_id" @close="$emit('close')" />
+	<div ref="tab">
+		<SideTab v-if="bug">
+			<Info :bug="bug" :status="status" @close="$emit('close')" />
 
-		<Attachments :attachments="bug.attachments" :bug_id="bug.id" />
+			<Attachments
+				:attachments="bug.attachments ? bug.attachments : []"
+				:bug_id="id"
+			/>
 
-		<Comments :comments="bug.comments" :bug_id="bug.id" />
+			<Comments
+				:comments="bug.comments ? bug.comments : []"
+				:bug_id="id"
+			/>
 
-		<div class="delete-btn-wrapper">
-			<div class="btn delete-bug-btn" @click="deleteBug">
-				<div class="delete-icon" />
+			<div class="delete-btn-wrapper">
+				<div class="btn delete-bug-btn" @click="deleteBug">
+					<div class="delete-icon" />
 
-				<span class="text-capitalize"> {{ $t("delete.bug") }} </span>
+					<span class="text-capitalize">
+						{{ $t("delete.bug") }}
+					</span>
+				</div>
 			</div>
-		</div>
-	</SideTab>
+		</SideTab>
+	</div>
 </template>
 
-<script>
-import { computed } from "@vue/reactivity";
+<script setup>
+import { computed, onUnmounted, ref, watch } from "@vue/runtime-core";
 import store from "../store";
 import SideTab from "./SideTab.vue";
 import Info from "./Info.vue";
@@ -25,51 +35,74 @@ import Attachments from "./Attachments/Index.vue";
 import Comments from "./Comments/Index.vue";
 import axios from "axios";
 
-export default {
-	components: {
-		SideTab,
-		Info,
-		Attachments,
-		Comments,
+const emit = defineEmits(["close", "deleted"]);
+const props = defineProps({
+	id: {
+		required: true,
+		type: String,
 	},
-	name: "InfoTab",
-	props: {
-		bug_id: {
-			required: true,
-			type: String,
-		},
-	},
-	emits: ["close", "deleted"],
-	setup(props, context) {
-		const bug = computed(() => {
-			return store.getters.getBugById(props.bug_id);
+});
+
+const bug = computed(() => store.getters["kanban/getBugById"](props.id));
+const status = computed(() =>
+	store.getters["kanban/getStatusById"](bug.value.attributes.status_id)
+);
+
+// called on mount
+store.dispatch("kanban/fetchScreenshots", props.id);
+store.dispatch("kanban/fetchAttachments", props.id);
+store.dispatch("kanban/fetchComments", props.id);
+
+// called on update
+watch(bug, () => {
+	if (!bug.value) return;
+	store.dispatch("kanban/fetchScreenshots", props.id);
+	store.dispatch("kanban/fetchAttachments", props.id);
+	store.dispatch("kanban/fetchComments", props.id);
+});
+
+const deleteBug = async () => {
+	try {
+		await axios.delete(`statuses/${status.value.id}/bugs/${bug.value.id}`);
+
+		store.commit("kanban/REMOVE_LINK", {
+			status_id: status.value.id,
+			bug_id: bug.value.id,
 		});
+		store.commit("kanban/DELETE_BUG", bug.value.id);
 
-		const deleteBug = async () => {
-			try {
-				let status = store.getters.getStatusById(
-					bug.value.attributes.status_id
-				);
-
-				let r = await axios.delete(
-					`statuses/${status.id}/bugs/${props.bug_id}`
-				);
-
-				let index = status.bugs.indexOf(bug.value.id);
-				status.bugs.splice(index, 1);
-				store.state.data.bugs.delete(bug.value.id);
-				context.emit("close");
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		return {
-			bug,
-			deleteBug,
-		};
-	},
+		emit("close");
+	} catch (error) {
+		console.error(error);
+	}
 };
+
+//#region  close on lick outside logic
+
+const tab = ref(null);
+
+const closeTab = (event) => {
+	if (!tab.value) return;
+
+	// event.path for chromium, composedPath for when .path does not exist (ex. firefox)
+	let path = event.path || (event.composedPath && event.composedPath());
+
+	// exclude clicking elements inside, bug-cards and download attachment that happens outside the tab
+	if (
+		path.find((e) => e == tab.value) == null &&
+		path.find((e) => e.className?.includes("bug-card")) == null &&
+		event.target.id != "downloadAttachmentA"
+	)
+		emit("close");
+};
+
+document.addEventListener("click", closeTab);
+
+onUnmounted(() => {
+	document.addEventListener("click", closeTab);
+});
+
+//#endregion
 </script>
 
 <style lang="scss" scoped>

@@ -185,10 +185,10 @@ const submit = async () => {
 		stage.value = 0;
 		message.value = null;
 
-		let project = store.getters.getProjectById(props.id);
+		let status = store.getters["kanban/getFirstStatus"];
 
 		// send bug data and get bug object
-		let bug = await axios.post(`statuses/${project.statuses[0]}/bugs`, {
+		let bug = await axios.post(`statuses/${status.id}/bugs`, {
 			designation: data.designation,
 			description: data.description,
 			url: "WebPanel",
@@ -224,6 +224,8 @@ const submit = async () => {
 
 		stage.value = 1;
 		message.value = `Bug report created!`;
+
+		store.dispatch("kanban/loadBugs");
 
 		setTimeout(() => {
 			process.value = false;
