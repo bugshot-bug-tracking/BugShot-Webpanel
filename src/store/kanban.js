@@ -122,6 +122,7 @@ export default {
 				for (const status of statuses) {
 					state.commit("SET_STATUS", status);
 
+					//! this can be a problem for when updating statuses
 					state.commit("SET_LINK", {
 						status_id: status.id,
 						bug_ids: [],
@@ -264,6 +265,21 @@ export default {
 			} catch (error) {
 				console.log(error);
 			}
+		},
+
+		createStatus: async (state, payload) => {
+			console.log(payload);
+			let r = await axios.post(
+				`projects/${state.state.project_id}/statuses`,
+				{
+					designation: payload.designation,
+					order_number: payload.order_number,
+				}
+			);
+
+			// TODO update to not need to dispatch loadBugs
+			await state.dispatch("loadStatuses");
+			await state.dispatch("loadBugs");
 		},
 	},
 

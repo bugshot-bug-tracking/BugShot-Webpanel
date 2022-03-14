@@ -347,4 +347,10 @@ export default {
 	filter: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%)
 		hue-rotate(331deg) brightness(87%) contrast(121%);
 }
+
+.bs-to-gray {
+	// color: #9BA5D7;
+	filter: brightness(0) saturate(1) invert(73%) sepia(14%) saturate(897%)
+		hue-rotate(194deg) brightness(90%) contrast(86%);
+}
 </style>

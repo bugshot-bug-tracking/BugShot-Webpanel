@@ -2,7 +2,7 @@
 	<div class="bugs-table bs-scroll s-purple" v-if="ready">
 		<Column v-for="status of statuses" :key="status" class="column">
 			<template v-slot:header>
-				{{ status.attributes.designation }}
+						{{ status.attributes.designation }}
 			</template>
 
 			<draggable
@@ -31,6 +31,38 @@
 				</template>
 			</draggable>
 		</Column>
+
+		<div class="extras" v-if="!newStatus.form">
+			<a @click="toggleForm">
+				Add New Column
+				<img
+					src="../../../../assets/icons/add.svg"
+					alt="add"
+					class="bs-to-gray"
+				/>
+			</a>
+		</div>
+
+		<Column class="column p-0" v-if="newStatus.form">
+			<div class="bs-input">
+				<input
+					type="text"
+					placeholder="Enter Column Name"
+					v-model="newStatus.name"
+				/>
+			</div>
+
+			<div class="actions my-4">
+				<a class="btn bs bf-green" @click="addStatus">Add column</a>
+				<a @click="toggleForm" class="bs-to-gray btn">
+					<img
+						src="../../../../assets/icons/round_x.svg"
+						alt="collapse"
+					/>
+				</a>
+			</div>
+			<div ref="end" />
+		</Column>
 	</div>
 
 	<BugInfo v-if="infoTab.show" :id="infoTab.id" @close="close" />
@@ -38,7 +70,7 @@
 
 <script setup>
 import { reactive, ref } from "@vue/reactivity";
-import { computed, onUnmounted } from "@vue/runtime-core";
+import { computed, nextTick } from "@vue/runtime-core";
 import store from "../../../../store";
 import Column from "./Column.vue";
 import draggable from "vuedraggable";
@@ -95,6 +127,31 @@ const close = () => {
 	infoTab.show = false;
 	infoTab.id = -1;
 };
+
+const newStatus = reactive({
+	form: false,
+	name: "",
+});
+
+const end = ref(null);
+const toggleForm = () => {
+	newStatus.form = !newStatus.form;
+	console.log(end);
+
+	nextTick(() => {
+		end.value.scrollIntoView();
+	});
+};
+
+const addStatus = async () => {
+	await store.dispatch("kanban/createStatus", {
+		designation: newStatus.name,
+		order_number: 0,
+	});
+
+	newStatus.form = false;
+	newStatus.name = "";
+};
 </script>
 
 <style lang="scss" scoped>
@@ -127,5 +184,41 @@ const close = () => {
 .column {
 	min-width: 250px;
 	max-width: 400px;
+}
+
+.extras {
+	padding: 4px;
+
+	a {
+		writing-mode: vertical-lr;
+		transform: rotate(180deg);
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		background-color: #edeef7;
+		padding: 8px;
+		border-radius: 8px;
+		font-weight: bold;
+		user-select: none;
+		cursor: pointer;
+		text-decoration: none;
+		color: rgb(155, 165, 215);
+
+		&:hover {
+			color: rgb(155, 165, 215);
+			filter: saturate(2.5);
+		}
+
+		img {
+			height: 1.5rem;
+		}
+	}
+}
+
+.actions {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	justify-content: space-between;
 }
 </style>
