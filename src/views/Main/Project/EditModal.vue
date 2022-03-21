@@ -42,10 +42,11 @@
 		</div>
 	</Modal>
 
-	<StatusModal
-		v-if="process.show"
-		:status="process.status"
-		:message="process.message"
+	<LoadingModal
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="loadingModal.show = false"
 	/>
 </template>
 
@@ -55,7 +56,7 @@ import Modal from "../../../components/Modal.vue";
 import { computed, nextTick, onMounted } from "@vue/runtime-core";
 import Picker from "../../../components/Picker.vue";
 import store from "../../../store";
-import StatusModal from "../../../components/Modals/StatusModal.vue";
+import LoadingModal from "@/components/Modals/LoadingModal.vue";
 import toBase64 from "@/util/toBase64";
 
 export default {
@@ -70,7 +71,7 @@ export default {
 	components: {
 		Modal,
 		Picker,
-		StatusModal,
+		LoadingModal,
 	},
 	setup(props, context) {
 		const show = ref(false);
@@ -142,35 +143,35 @@ export default {
 			};
 
 			try {
-				process.show = true;
-				process.status = 0;
-				process.message = null;
+				loadingModal.show = true;
+				loadingModal.state = 0;
+				loadingModal.message = null;
 
 				await store.dispatch("updateProject", data);
 
-				process.status = 1;
-				process.message = `Project edited successfully.`;
+				loadingModal.state = 1;
+				loadingModal.message = `Project edited successfully.`;
 
 				setTimeout(() => {
-					process.show = false;
-					process.status = 0;
-					process.message = null;
+					loadingModal.show = false;
+					loadingModal.state = 0;
+					loadingModal.message = null;
 					close();
 				}, 4000);
 			} catch (error) {
 				console.log(error);
-				process.status = 2;
+				loadingModal.state = 2;
 
 				setTimeout(() => {
-					process.show = false;
-					process.status = 0;
+					loadingModal.show = false;
+					loadingModal.state = 0;
 				}, 4000);
 			}
 		};
 
-		const process = reactive({
+		const loadingModal = reactive({
 			show: false,
-			status: 0,
+			state: 0,
 			message: null,
 		});
 
@@ -182,7 +183,7 @@ export default {
 			setImage,
 			setColor,
 			saveChanges,
-			process,
+			loadingModal,
 		};
 	},
 };

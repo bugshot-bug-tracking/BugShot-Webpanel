@@ -59,10 +59,11 @@
 		@close="showModal = 0"
 	/>
 
-	<StatusModal
-		v-if="process.show"
-		:status="process.status"
-		:message="process.message"
+	<LoadingModal
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="loadingModal.show = false"
 	/>
 </template>
 
@@ -71,12 +72,12 @@ import { computed, reactive, ref } from "@vue/reactivity";
 import { onUnmounted } from "@vue/runtime-core";
 import EditModal from "../views/Main/Project/EditModal.vue";
 import DeleteModal from "./Modals/DeleteModal.vue";
-import StatusModal from "./Modals/StatusModal.vue";
+import LoadingModal from "@/components/Modals/LoadingModal.vue";
 import store from "../store";
 import timeToText from "../util/timeToText";
 
 export default {
-	components: { EditModal, DeleteModal, StatusModal },
+	components: { EditModal, DeleteModal, LoadingModal },
 	name: "Card",
 	props: {
 		id: {
@@ -152,27 +153,27 @@ export default {
 
 		const deleteProject = async () => {
 			try {
-				process.show = true;
-				process.status = 0;
-				process.message = null;
+				loadingModal.show = true;
+				loadingModal.state = 0;
+				loadingModal.message = null;
 
 				await store.dispatch("deleteProject", props.id);
 
-				process.status = 1;
-				process.message = `Project deleted successfully.`;
+				loadingModal.state = 1;
+				loadingModal.message = `Project deleted successfully.`;
 
 				setTimeout(() => {
-					process.show = false;
-					process.status = 0;
-					process.message = null;
+					loadingModal.show = false;
+					loadingModal.state = 0;
+					loadingModal.message = null;
 				}, 4000);
 			} catch (error) {
 				console.log(error);
-				process.status = 2;
+				loadingModal.state = 2;
 
 				setTimeout(() => {
-					process.show = false;
-					process.status = 0;
+					loadingModal.show = false;
+					loadingModal.state = 0;
 				}, 4000);
 			}
 		};
@@ -181,9 +182,9 @@ export default {
 			return timeToText(props.lastEdit);
 		});
 
-		const process = reactive({
+		const loadingModal = reactive({
 			show: false,
-			status: 0,
+			state: 0,
 			message: null,
 		});
 
@@ -195,7 +196,7 @@ export default {
 			deleteProject,
 			showModal,
 			passedTime,
-			process,
+			loadingModal,
 		};
 	},
 };

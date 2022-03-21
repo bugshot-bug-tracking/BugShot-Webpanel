@@ -68,21 +68,21 @@
 		</div>
 	</Modal>
 
-	<StatusModal
-		:status="stage"
-		v-if="process"
-		@close="process = false"
-		:message="message"
+	<LoadingModal
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="loadingModal.show = false"
 	/>
 </template>
 
 <script>
-import { ref } from "@vue/reactivity";
+import { reactive, ref } from "@vue/reactivity";
 import Picker from "./Picker.vue";
 import axios from "axios";
 import Modal from "./Modal.vue";
 import store from "../store";
-import StatusModal from "./Modals/StatusModal.vue";
+import LoadingModal from "@/components/Modals/LoadingModal.vue";
 import toBase64 from "@/util/toBase64";
 
 export default {
@@ -108,7 +108,7 @@ export default {
 	components: {
 		Picker,
 		Modal,
-		StatusModal,
+		LoadingModal,
 	},
 	setup(props) {
 		const modalActive = ref(false);
@@ -150,9 +150,9 @@ export default {
 			let aditionalBody = {};
 
 			try {
-				process.value = true;
-				stage.value = 0;
-				message.value = null;
+				loadingModal.show = true;
+				loadingModal.state = 0;
+				loadingModal.message = null;
 
 				if (
 					props.dataType === "Project" &&
@@ -183,37 +183,39 @@ export default {
 					...props.aditionalBody, // in case aditional body props are necessary from outside
 				});
 
-				stage.value = 1;
+				loadingModal.state = 1;
 
-				message.value = `${props.dataType} created!`;
+				loadingModal.message = `${props.dataType} created!`;
 
 				store.dispatch("init");
 
 				setTimeout(() => {
 					modalActive.value = false;
-					process.value = false;
+					loadingModal.show = false;
 					name.value = "";
 					color.value = 3;
 					file.value = null;
 					url.value = "";
 				}, 4000);
 			} catch (error) {
-				stage.value = 2;
-				message.value = null;
+				loadingModal.state = 2;
+				loadingModal.message = null;
 
 				console.log(error);
 
 				setTimeout(() => {
-					process.value = false;
-					stage.value = 0;
-					message.value = null;
+					loadingModal.show = false;
+					loadingModal.state = 0;
+					loadingModal.message = null;
 				}, 4000);
 			}
 		};
 
-		const process = ref(false);
-		const stage = ref(0);
-		const message = ref(null);
+		const loadingModal = reactive({
+			show: false,
+			state: 0,
+			message: null,
+		});
 
 		return {
 			modalActive,
@@ -224,9 +226,7 @@ export default {
 			setImage,
 			setColor,
 			createResource,
-			process,
-			stage,
-			message,
+			loadingModal,
 		};
 	},
 };

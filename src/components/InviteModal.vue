@@ -54,10 +54,11 @@
 		</div>
 	</Modal>
 
-	<StatusModal
-		v-if="process.show"
-		:status="process.status"
-		:message="process.message"
+	<LoadingModal
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="loadingModal.show = false"
 	/>
 </template>
 
@@ -66,7 +67,7 @@ import { computed, reactive, ref } from "@vue/reactivity";
 import axios from "axios";
 import Modal from "./Modal.vue";
 import store from "../store";
-import StatusModal from "./Modals/StatusModal.vue";
+import LoadingModal from "@/components/Modals/LoadingModal.vue";
 
 export default {
 	name: "CreateData",
@@ -82,7 +83,7 @@ export default {
 	},
 	components: {
 		Modal,
-		StatusModal,
+		LoadingModal,
 	},
 	setup(props) {
 		const modalActive = ref(false);
@@ -102,9 +103,9 @@ export default {
 
 		const sendInvite = async () => {
 			try {
-				process.show = true;
-				process.status = 0;
-				process.message = null;
+				loadingModal.show = true;
+				loadingModal.state = 0;
+				loadingModal.message = null;
 
 				let base = "";
 				if (props.dataType === "Company") base = "companies";
@@ -115,34 +116,34 @@ export default {
 					role_id: rolePicked.value,
 				});
 
-				process.status = 1;
-				process.message = `Invitation sent.`;
+				loadingModal.state = 1;
+				loadingModal.message = `Invitation sent.`;
 
 				setTimeout(() => {
 					modalActive.value = false;
-					process.show = false;
-					process.status = 0;
-					process.message = null;
+					loadingModal.show = false;
+					loadingModal.state = 0;
+					loadingModal.message = null;
 					close();
 				}, 4000);
 			} catch (error) {
 				console.dir(error);
-				process.status = 2;
-				process.message = error.response.data.data.message.replace(
+				loadingModal.state = 2;
+				loadingModal.message = error.response.data.data.message.replace(
 					":",
 					""
 				);
 
 				setTimeout(() => {
-					process.show = false;
-					process.status = 0;
+					loadingModal.show = false;
+					loadingModal.state = 0;
 				}, 4000);
 			}
 		};
 
-		const process = reactive({
+		const loadingModal = reactive({
 			show: false,
-			status: 0,
+			state: 0,
 			message: null,
 		});
 
@@ -152,7 +153,7 @@ export default {
 			sendInvite,
 			roles,
 			rolePicked,
-			process,
+			loadingModal,
 		};
 	},
 };

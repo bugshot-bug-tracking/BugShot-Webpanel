@@ -124,11 +124,11 @@
 		</form>
 	</SideTab>
 
-	<StatusModal
-		:status="stage"
-		v-if="process"
-		@close="process = false"
-		:message="message"
+	<LoadingModal
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="loadingModal.show = false"
 	/>
 </template>
 
@@ -141,7 +141,7 @@ import Assignes from "./Assignes.vue";
 import LocalAttachments from "./Attachments/LocalAttachments.vue";
 import ImageManager from "./ImageManager.vue";
 import toBase64 from "@/util/toBase64";
-import StatusModal from "./Modals/StatusModal.vue";
+import LoadingModal from "@/components/Modals/LoadingModal.vue";
 import axios from "axios";
 import store from "../store";
 
@@ -179,9 +179,9 @@ const submit = async () => {
 	console.log(data);
 
 	try {
-		process.value = true;
-		stage.value = 0;
-		message.value = null;
+		loadingModal.show = false;
+		loadingModal.state = 0;
+		loadingModal.message = null;
 
 		let status = store.getters["kanban/getFirstStatus"];
 
@@ -220,27 +220,27 @@ const submit = async () => {
 			});
 		}
 
-		stage.value = 1;
-		message.value = `Bug report created!`;
+		loadingModal.state = 1;
+		loadingModal.message = `Bug report created!`;
 
 		store.dispatch("kanban/loadBugs");
 
 		setTimeout(() => {
-			process.value = false;
+			loadingModal.show = false;
 			tabOpen.value = false;
 
 			resetData();
 		}, 4000);
 	} catch (error) {
-		stage.value = 2;
-		message.value = null;
+		loadingModal.state = 2;
+		loadingModal.message = null;
 
 		console.log(error);
 
 		setTimeout(() => {
-			process.value = false;
-			stage.value = 0;
-			message.value = null;
+			loadingModal.show = false;
+			loadingModal.state = 0;
+			loadingModal.message = null;
 		}, 4000);
 	}
 };
@@ -254,9 +254,11 @@ const resetData = () => {
 	data.attachments = [];
 };
 
-const process = ref(false);
-const stage = ref(0);
-const message = ref(null);
+const loadingModal = reactive({
+	show: false,
+	state: 0,
+	message: null,
+});
 </script>
 
 <style lang="scss" scoped>

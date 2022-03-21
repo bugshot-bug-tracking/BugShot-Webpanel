@@ -1,11 +1,11 @@
 <template>
-	<Modal @close="$emit('close')" :no_close_button="true">
+	<Modal :show="show" @close="$emit('close')" :no_close_button="true">
 		<div class="process">
-			<div class="loading" v-if="status === 0">
+			<div class="loading" v-if="state === 0">
 				<img src="../../assets/global/loading.svg" alt="loading" />
 			</div>
 
-			<div class="success" v-if="status === 1">
+			<div class="success" v-if="state === 1">
 				<img
 					src="../../assets/gif/bug_confirmation.gif"
 					alt="Success"
@@ -16,7 +16,7 @@
 				<span v-if="message">{{ message }} </span>
 			</div>
 
-			<div class="error" v-if="status === 2">
+			<div class="error" v-if="state === 2">
 				<img src="../../assets/gif/error_bug.gif" alt="error" />
 
 				<div>{{ $t("error") + "!" }}</div>
@@ -27,25 +27,29 @@
 	</Modal>
 </template>
 
-<script>
+<script setup>
 import Modal from "../Modal.vue";
 
-export default {
-	props: {
-		status: {
-			required: true,
-			type: Number,
-		},
-
-		message: {
-			required: false,
-			type: String,
-			default: null,
-		},
+const props = defineProps({
+	show: {
+		required: true,
+		type: Boolean,
+		description: "Determine if the modal is visible or not",
 	},
-	components: { Modal },
-	emits: ["close"],
-};
+
+	state: {
+		required: true,
+		type: Number,
+		description: "Determine if the state is loading, success or error",
+	},
+
+	message: {
+		required: false,
+		type: String,
+		default: null,
+		description: "Mesage shown in the success/error state",
+	},
+});
 </script>
 
 <style lang="scss" scoped>
