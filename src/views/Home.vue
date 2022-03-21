@@ -220,6 +220,20 @@ export default {
 		}
 	}
 }
+
+.v-select {
+	--vs-controls-color: #7a2de6;
+	--vs-border-color: #7a2de6;
+
+	--vs-dropdown-option--active-bg: #eee5fc;
+	--vs-dropdown-option--active-color: black;
+	--vs-dropdown-max-height: 125px;
+
+	.vs__dropdown-menu {
+		@extend .bs-scroll;
+		@extend .s-purple;
+	}
+}
 </style>
 
 <style lang="scss">

@@ -6,6 +6,8 @@ import store from "./store";
 import axios from "axios";
 import i18n from "./i18n";
 
+import vSelect from "vue-select";
+
 require("./store/subscriber");
 
 axios.defaults.baseURL = process.env.VUE_APP_API_ENDPOINT;
@@ -19,4 +21,10 @@ axios.defaults.headers = {
 store.dispatch("attempt", localStorage.getItem("authToken"));
 store.dispatch("initLocale");
 
-createApp(App).use(i18n).use(store).use(router).mount("#app");
+const app = createApp(App);
+
+app.use(i18n).use(store).use(router);
+
+app.component("v-select", vSelect);
+
+app.mount("#app");
