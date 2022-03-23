@@ -43,16 +43,12 @@ export default {
 			state.bugs.set(payload.id, payload);
 		},
 
+		DELETE_BUG: (state, id) => {
+			state.bugs.delete(id);
+		},
+
 		SET_LINK: (state, payload) => {
 			state.links.set(payload.status_id, payload);
-		},
-
-		SET_STATUSES_INITDT: (state, payload) => {
-			state.statusesInitDT = payload;
-		},
-
-		SET_BUGS_INITDT: (state, payload) => {
-			state.bugsInitDT = payload;
 		},
 
 		ADD_LINK: (state, payload) => {
@@ -76,6 +72,14 @@ export default {
 			state.links.delete(id);
 		},
 
+		SET_STATUSES_INITDT: (state, payload) => {
+			state.statusesInitDT = payload;
+		},
+
+		SET_BUGS_INITDT: (state, payload) => {
+			state.bugsInitDT = payload;
+		},
+
 		SET_BUG_SCREENSHOTS: (state, payload) => {
 			state.bugs.get(payload.id).screenshots = payload.list;
 		},
@@ -86,10 +90,6 @@ export default {
 
 		SET_BUG_COMMENTS: (state, payload) => {
 			state.bugs.get(payload.id).comments = payload.list;
-		},
-
-		DELETE_BUG: (state, id) => {
-			state.bugs.delete(id);
 		},
 	},
 
@@ -198,7 +198,7 @@ export default {
 							? { priority_id: payload.changes.priority_id }
 							: { priority_id: bug.attributes.priority.id }),
 
-						...(payload.changes.order_number
+						...(payload.changes.order_number != null
 							? { order_number: payload.changes.order_number }
 							: { order_number: bug.attributes.order_number }),
 
@@ -372,9 +372,12 @@ export default {
 			return max;
 		},
 
-		getFirstStatus: (state) =>
-			[...state.statuses].find(
+		getFirstStatus: (state) => {
+			if (state.statuses.size < 1) return null;
+
+			return [...state.statuses].find(
 				(x) => x[1].attributes.order_number === 0
-			)[1],
+			)[1];
+		},
 	},
 };
