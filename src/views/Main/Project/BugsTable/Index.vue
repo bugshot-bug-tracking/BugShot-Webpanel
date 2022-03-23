@@ -18,6 +18,7 @@
 							:id="status.element.id"
 							:text="status.element.attributes.designation"
 							@edit="editStatus"
+							@delete="openDeleteModal"
 						/>
 			</template>
 
@@ -86,6 +87,14 @@
 	</div>
 
 	<BugInfo v-if="infoTab.show" :id="infoTab.id" @close="close" />
+
+	<StatusDeleteModal
+		:show="deleteModal.show"
+		:id="deleteModal.id"
+		:text="deleteModal.text"
+		@delete="deleteStatus"
+		@close="deleteModal.show = false"
+	/>
 </template>
 
 <script setup>
@@ -97,6 +106,7 @@ import draggable from "vuedraggable";
 import BugCard from "../../../../components/BugCard.vue";
 import BugInfo from "../../../../components/BugInfo.vue";
 import StatusTableHeader from "../../../../components/StatusTableHeader.vue";
+import StatusDeleteModal from "../../../../components/Modals/StatusDeleteModal.vue";
 
 const props = defineProps({
 	id: {
@@ -119,6 +129,8 @@ watch(props, () => {
 });
 
 const statuses = computed(() => store.getters["kanban/getStatuses"]);
+
+const statusData = (id) => store.getters["kanban/getStatusById"](id);
 
 // const getStatus = (value) => store.getters["kanban/getStatusById"](value);
 const bugs = (value) => store.getters["kanban/getBugsByStatusId"](value);
@@ -203,6 +215,33 @@ const editStatus = (payload) => {
 		},
 	});
 };
+
+const openDeleteModal = (id) => {
+	deleteModal.show = true;
+	deleteModal.id = id;
+	deleteModal.text = statusData(id).attributes.designation;
+};
+
+const deleteStatus = async (payload) => {
+	try {
+		await store.dispatch("kanban/deleteStatus", {
+			id: payload.id,
+			move: payload.move,
+		});
+
+		setTimeout(() => {
+			deleteModal.show = false;
+		}, 4000);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const deleteModal = reactive({
+	show: false,
+	id: "",
+	text: "",
+});
 </script>
 
 <style lang="scss" scoped>

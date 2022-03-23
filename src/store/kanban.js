@@ -35,6 +35,10 @@ export default {
 			state.statuses.set(payload.id, payload);
 		},
 
+		DELETE_STATUS: (state, payload) => {
+			state.statuses.delete(payload);
+		},
+
 		SET_BUG: (state, payload) => {
 			state.bugs.set(payload.id, payload);
 		},
@@ -66,6 +70,10 @@ export default {
 			let link = state.links.get(payload.status_id);
 			let index = link.bug_ids.indexOf(payload.bug_id);
 			link.bug_ids.splice(index, 1);
+		},
+
+		DELETE_LINK: (state, id) => {
+			state.links.delete(id);
 		},
 
 		SET_BUG_SCREENSHOTS: (state, payload) => {
@@ -308,6 +316,22 @@ export default {
 			}
 		},
 
+		deleteStatus: async (state, payload) => {
+			await axios.delete(
+				`projects/${state.state.project_id}/statuses/${payload.id}`,
+				{
+					headers: {
+						move: payload.move,
+					},
+				}
+			);
+
+			//! TODO remove when live update works
+			await state.dispatch("loadStatuses");
+			await state.dispatch("loadBugs");
+			await state.commit("DELETE_STATUS", payload.id);
+			await state.commit("DELETE_LINK", payload.id);
+		},
 	},
 
 	getters: {
