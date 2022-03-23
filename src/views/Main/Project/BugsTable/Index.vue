@@ -13,43 +13,43 @@
 		>
 			<template #item="status">
 				<Column class="column">
-			<template v-slot:header>
+					<template v-slot:header>
 						<StatusTableHeader
 							:id="status.element.id"
 							:text="status.element.attributes.designation"
 							@edit="editStatus"
 							@delete="openDeleteModal"
 						/>
-			</template>
+					</template>
 
-			<draggable
+					<draggable
 						:list="bugs(status.element.id)"
-				:item-key="(item) => item"
+						:item-key="(item) => item"
 						@change="bugMove(status.element.id, $event)"
-				:animation="200"
-				ghost-class="ghost-card"
-				group="tasks"
-				class="drag-zone"
-				:scroll-sensitivity="100"
-				:force-fallback="true"
-			>
-				<template #item="{ element }">
-					<BugCard
-						:id="element"
-						:title="getBug(element).attributes.designation"
-						:deadline="
-							getBug(element).attributes.deadline
-								? getBug(element).attributes.deadline
-								: ''
-						"
+						:animation="200"
+						ghost-class="ghost-card"
+						group="tasks"
+						class="drag-zone"
+						:scroll-sensitivity="100"
+						:force-fallback="true"
+					>
+						<template #item="{ element }">
+							<BugCard
+								:id="element"
+								:title="getBug(element).attributes.designation"
+								:deadline="
+									getBug(element).attributes.deadline
+										? getBug(element).attributes.deadline
+										: ''
+								"
 								:priority="
 									getBug(element).attributes.priority.id
 								"
-						@info="info(element)"
-					/>
-				</template>
-			</draggable>
-		</Column>
+								@info="info(element)"
+							/>
+						</template>
+					</draggable>
+				</Column>
 			</template>
 		</draggable>
 
@@ -95,6 +95,21 @@
 		@delete="deleteStatus"
 		@close="deleteModal.show = false"
 	/>
+
+	<LoadingModal
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="loadingModal.show = false"
+	>
+		<template #success-img>
+			<img
+				src="@/assets/gif/delete.gif"
+				alt="success"
+				class="h-50 w-auto"
+			/>
+		</template>
+	</LoadingModal>
 </template>
 
 <script setup>
@@ -107,6 +122,7 @@ import BugCard from "../../../../components/BugCard.vue";
 import BugInfo from "../../../../components/BugInfo.vue";
 import StatusTableHeader from "../../../../components/StatusTableHeader.vue";
 import StatusDeleteModal from "../../../../components/Modals/StatusDeleteModal.vue";
+import LoadingModal from "@/components/Modals/LoadingModal.vue";
 
 const props = defineProps({
 	id: {
@@ -224,16 +240,35 @@ const openDeleteModal = (id) => {
 
 const deleteStatus = async (payload) => {
 	try {
+		loadingModal.show = true;
+		loadingModal.state = 0;
+		loadingModal.message = null;
+
 		await store.dispatch("kanban/deleteStatus", {
 			id: payload.id,
 			move: payload.move,
 		});
 
+		loadingModal.state = 1;
+		loadingModal.message = "Status deleted successfully.";
+
 		setTimeout(() => {
 			deleteModal.show = false;
+			loadingModal.show = false;
+			loadingModal.state = 0;
+			loadingModal.message = null;
 		}, 4000);
 	} catch (error) {
+		loadingModal.state = 2;
+		loadingModal.message = null;
+
 		console.log(error);
+
+		setTimeout(() => {
+			loadingModal.show = false;
+			loadingModal.state = 0;
+			loadingModal.message = null;
+		}, 4000);
 	}
 };
 
@@ -241,6 +276,12 @@ const deleteModal = reactive({
 	show: false,
 	id: "",
 	text: "",
+});
+
+const loadingModal = reactive({
+	show: false,
+	state: 0,
+	message: null,
 });
 </script>
 

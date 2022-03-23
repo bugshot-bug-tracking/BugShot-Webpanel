@@ -2,26 +2,43 @@
 	<Modal :show="show" @close="$emit('close')" :no_close_button="true">
 		<div class="process">
 			<div class="loading" v-if="state === 0">
-				<img src="../../assets/global/loading.svg" alt="loading" />
+				<slot name="loading">
+					<img src="../../assets/global/loading.svg" alt="loading" />
+				</slot>
 			</div>
 
 			<div class="success" v-if="state === 1">
-				<img
-					src="../../assets/gif/bug_confirmation.gif"
-					alt="Success"
-				/>
+				<slot name="success">
+					<slot name="success-img">
+						<img
+							src="../../assets/gif/bug_confirmation.gif"
+							alt="Success"
+						/>
+					</slot>
+					<slot name="success-header">
+						<div>{{ $t("success") + "!" }}</div>
+					</slot>
 
-				<div>{{ $t("success") + "!" }}</div>
-
-				<span v-if="message">{{ message }} </span>
+					<slot name="success-message">
+						<span v-if="message">{{ message }} </span>
+					</slot>
+				</slot>
 			</div>
 
 			<div class="error" v-if="state === 2">
-				<img src="../../assets/gif/error_bug.gif" alt="error" />
+				<slot name="error">
+					<slot name="error-img">
+						<img src="../../assets/gif/error_bug.gif" alt="error" />
+					</slot>
 
-				<div>{{ $t("error") + "!" }}</div>
+					<slot name="error-header">
+						<div>{{ $t("error") + "!" }}</div>
+					</slot>
 
-				<span v-if="message">{{ message }} </span>
+					<slot name="error-message">
+						<span v-if="message">{{ message }} </span>
+					</slot>
+				</slot>
 			</div>
 		</div>
 	</Modal>
