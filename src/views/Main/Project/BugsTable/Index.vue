@@ -14,7 +14,11 @@
 			<template #item="status">
 				<Column class="column">
 			<template v-slot:header>
-						{{ status.attributes.designation }}
+						<StatusTableHeader
+							:id="status.element.id"
+							:text="status.element.attributes.designation"
+							@edit="editStatus"
+						/>
 			</template>
 
 			<draggable
@@ -92,6 +96,7 @@ import Column from "./Column.vue";
 import draggable from "vuedraggable";
 import BugCard from "../../../../components/BugCard.vue";
 import BugInfo from "../../../../components/BugInfo.vue";
+import StatusTableHeader from "../../../../components/StatusTableHeader.vue";
 
 const props = defineProps({
 	id: {
@@ -190,6 +195,14 @@ const statusMove = (event) => {
 	});
 };
 
+const editStatus = (payload) => {
+	store.dispatch("kanban/syncStatus", {
+		id: payload.id,
+		changes: {
+			designation: payload.text,
+		},
+	});
+};
 </script>
 
 <style lang="scss" scoped>
