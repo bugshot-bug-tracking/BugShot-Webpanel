@@ -28,7 +28,7 @@
 	</div>
 
 	<div v-else class="wrapper">
-		<div class="d-flex">
+		<div class="d-flex h-100">
 			<input type="text" v-model="newText" class="w-100" />
 		</div>
 
@@ -93,7 +93,7 @@ const cancel = () => {
 	align-items: center;
 	justify-content: space-between;
 	width: 100%;
-	height: 32px;
+	height: 40px;
 }
 
 .actions {

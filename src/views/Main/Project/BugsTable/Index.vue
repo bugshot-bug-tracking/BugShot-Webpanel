@@ -10,6 +10,7 @@
 			:scroll-sensitivity="100"
 			:force-fallback="true"
 			handle=".handle"
+			ref="end"
 		>
 			<template #item="status">
 				<Column class="column">
@@ -64,7 +65,7 @@
 			</a>
 		</div>
 
-		<Column class="column p-0" v-if="newStatus.form">
+		<Column class="column p-0 w-auto" v-if="newStatus.form">
 			<div class="bs-input">
 				<input
 					type="text"
@@ -82,7 +83,6 @@
 					/>
 				</a>
 			</div>
-			<div ref="end" />
 		</Column>
 	</div>
 
@@ -193,11 +193,6 @@ const newStatus = reactive({
 const end = ref(null);
 const toggleForm = () => {
 	newStatus.form = !newStatus.form;
-	console.log(end);
-
-	nextTick(() => {
-		end.value.scrollIntoView();
-	});
 };
 
 const addStatus = async () => {
@@ -208,6 +203,12 @@ const addStatus = async () => {
 
 	newStatus.form = false;
 	newStatus.name = "";
+
+	nextTick(() => {
+		end.value.targetDomElement.children[
+			end.value.targetDomElement.children.length - 1
+		].scrollIntoView();
+	});
 };
 
 const statusMove = (event) => {
