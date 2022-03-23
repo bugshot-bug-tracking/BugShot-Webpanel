@@ -25,21 +25,7 @@
 				<div class="options">
 					<p><b>I want them moved to:</b></p>
 
-					<div v-if="statuses.length <= 5" class="radios mb-4">
-						<label v-for="status of statuses" :key="status.id">
-							<input
-								type="radio"
-								name="status-option"
-								class="form-check-input"
-								:value="status.id"
-								v-model="statusOption"
-								:disabled="deleteAll"
-							/>
-							<div>{{ status.attributes.designation }}</div>
-						</label>
-					</div>
-
-					<div v-else class="select mb-4">
+					<div class="select mb-4">
 						<v-select
 							:options="statuses"
 							:placeholder="'Please choose....'"
@@ -93,7 +79,7 @@
 					</button>
 
 					<button
-						class="btn bs be-green"
+						class="btn bs be-red"
 						type="submit"
 						:disabled="
 							deleteAll || statusOption != null ? false : true
@@ -110,7 +96,7 @@
 						{{ $t("cancel") }}
 					</button>
 
-					<button class="btn bs be-green" type="submit">
+					<button class="btn bs be-red" type="submit">
 						Continue with deletion
 					</button>
 				</div>
@@ -247,26 +233,6 @@ h3 {
 			border-color: #7a2ee6;
 
 			box-shadow: none;
-		}
-	}
-}
-
-.radios {
-	display: flex;
-	width: 100%;
-	align-items: center;
-	justify-content: space-between;
-	align-content: center;
-
-	font-weight: bold;
-
-	label {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-
-		div {
-			font-size: 0.9rem;
 		}
 	}
 }

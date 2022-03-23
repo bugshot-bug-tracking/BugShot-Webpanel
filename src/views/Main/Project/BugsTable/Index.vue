@@ -305,7 +305,7 @@ const loadingModal = reactive({
 }
 
 .column {
-	min-width: 250px;
+	min-width: 365px;
 	max-width: 400px;
 }
 
