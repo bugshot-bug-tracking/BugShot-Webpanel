@@ -1,14 +1,26 @@
 <template>
 	<div class="bugs-table bs-scroll s-purple" v-if="ready">
-		<Column v-for="status of statuses" :key="status" class="column">
+		<draggable
+			:list="statuses"
+			:item-key="(item) => item.id"
+			@change="statusMove($event)"
+			:animation="200"
+			group="statuses"
+			class="d-flex w-100 h-100 bs-scroll s-purple"
+			:scroll-sensitivity="100"
+			:force-fallback="true"
+			handle=".handle"
+		>
+			<template #item="status">
+				<Column class="column">
 			<template v-slot:header>
 						{{ status.attributes.designation }}
 			</template>
 
 			<draggable
-				:list="bugs(status.id)"
+						:list="bugs(status.element.id)"
 				:item-key="(item) => item"
-				@change="bugMove(status.id, $event)"
+						@change="bugMove(status.element.id, $event)"
 				:animation="200"
 				ghost-class="ghost-card"
 				group="tasks"
@@ -25,12 +37,16 @@
 								? getBug(element).attributes.deadline
 								: ''
 						"
-						:priority="getBug(element).attributes.priority.id"
+								:priority="
+									getBug(element).attributes.priority.id
+								"
 						@info="info(element)"
 					/>
 				</template>
 			</draggable>
 		</Column>
+			</template>
+		</draggable>
 
 		<div class="extras" v-if="!newStatus.form">
 			<a @click="toggleForm">
@@ -70,7 +86,7 @@
 
 <script setup>
 import { reactive, ref } from "@vue/reactivity";
-import { computed, nextTick } from "@vue/runtime-core";
+import { computed, nextTick, watch } from "@vue/runtime-core";
 import store from "../../../../store";
 import Column from "./Column.vue";
 import draggable from "vuedraggable";
@@ -88,6 +104,14 @@ const ready = ref(false);
 store
 	.dispatch("kanban/setProjectId", props.id)
 	.then(() => (ready.value = true));
+
+watch(props, () => {
+	ready.value = false;
+
+	store
+		.dispatch("kanban/setProjectId", props.id)
+		.then(() => (ready.value = true));
+});
 
 const statuses = computed(() => store.getters["kanban/getStatuses"]);
 
@@ -152,6 +176,20 @@ const addStatus = async () => {
 	newStatus.form = false;
 	newStatus.name = "";
 };
+
+const statusMove = (event) => {
+	console.log("event: ", event);
+	const element = event.moved.element;
+	console.log("element: ", element);
+
+	store.dispatch("kanban/syncStatus", {
+		id: element.id,
+		changes: {
+			order_number: event.moved.newIndex,
+		},
+	});
+};
+
 </script>
 
 <style lang="scss" scoped>

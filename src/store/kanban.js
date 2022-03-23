@@ -281,17 +281,48 @@ export default {
 			await state.dispatch("loadStatuses");
 			await state.dispatch("loadBugs");
 		},
+
+		syncStatus: async (state, payload) => {
+			try {
+				//get a refference to the status
+				const status = state.getters.getStatusById(payload.id);
+
+				let response = await axios.put(
+					`projects/${state.state.project_id}/statuses/${status.id}`,
+					{
+						...(payload.changes.designation
+							? { designation: payload.changes.designation }
+							: { designation: status.attributes.designation }),
+
+						...(payload.changes.order_number != null
+							? { order_number: payload.changes.order_number }
+							: { order_number: status.attributes.order_number }),
+					}
+				);
+
+				//! TODO remove when live update works
+				await state.dispatch("loadStatuses");
+				await state.dispatch("loadBugs");
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
 	},
 
 	getters: {
-		getStatuses: (state) => Array.from(state.statuses, (x) => x[1]),
+		getStatuses: (state) =>
+			Array.from(state.statuses, (x) => x[1]).sort((a, b) =>
+				a.attributes.order_number < b.attributes.order_number ? -1 : 1
+			),
 		getStatusById: (state) => (id) => state.statuses.get(id),
 
 		getBugs: (state) => state.bugs,
 		getBugById: (state) => (id) => state.bugs.get(id),
-		getBugsByStatusId: (state) => (id) => state.links.get(id).bug_ids,
+		getBugsByStatusId: (state) => (id) =>
+			state.links.get(id) ? state.links.get(id).bug_ids : [],
 
-		getLinks: (state) => state.links,
+		getLinks: (state) => Array.from(state.links, (x) => x[1]),
 
 		getStatusesDT: (state) => {
 			let max = 0;
