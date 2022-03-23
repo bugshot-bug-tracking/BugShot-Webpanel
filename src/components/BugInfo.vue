@@ -1,6 +1,6 @@
 <template>
 	<div ref="tab">
-		<SideTab v-if="bug">
+		<SideTab v-if="bug" class="tab-shaddow">
 			<Info :bug="bug" :status="status" @close="$emit('close')" />
 
 			<Attachments
@@ -137,5 +137,9 @@ onUnmounted(() => {
 			font-size: 20px;
 		}
 	}
+}
+
+.tab-shaddow {
+	box-shadow: -10px 0px 24px hsla(231, 42%, 18%, 0.11);
 }
 </style>

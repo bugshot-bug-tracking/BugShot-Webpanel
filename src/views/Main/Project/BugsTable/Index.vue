@@ -163,14 +163,6 @@ const addStatus = async () => {
 	display: flex;
 }
 
-.bug-info {
-	position: absolute;
-	z-index: 1;
-	top: 0;
-	right: 0;
-	box-shadow: -10px 0px 24px hsla(231, 42%, 18%, 0.11);
-}
-
 .ghost-card {
 	opacity: 0.5;
 	background: #f7fafc;

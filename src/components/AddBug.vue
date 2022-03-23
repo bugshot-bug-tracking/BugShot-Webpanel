@@ -4,7 +4,7 @@
 		{{ $t("add.bug") }}
 	</a>
 
-	<SideTab v-if="tabOpen">
+	<SideTab v-if="tabOpen" class="tab-shaddow">
 		<form @submit.prevent="submit">
 			<div class="top">
 				<h4>{{ $t("new_bug_report") }}</h4>
@@ -361,5 +361,9 @@ const loadingModal = reactive({
 		right: 0.5rem;
 		font-size: 12px;
 	}
+}
+
+.tab-shaddow {
+	box-shadow: -10px 0px 24px hsla(231, 42%, 18%, 0.11);
 }
 </style>
