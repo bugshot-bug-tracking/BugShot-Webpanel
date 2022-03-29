@@ -1,7 +1,10 @@
 <template>
 	<transition :duration="100" name="modal">
 		<div class="modal-mask" v-if="show">
-			<div class="modal-wrapper" @click.self="$emit('close')">
+			<div
+				class="modal-wrapper"
+				@click.self="no_close_button ? {} : $emit('close')"
+			>
 				<div class="modal-container">
 					<button
 						class="btn btn-modal-close"
@@ -20,22 +23,21 @@
 	</transition>
 </template>
 
-<script>
-export default {
-	name: "Modal",
-	emits: ["close"],
-	props: {
-		show: {
-			type: Boolean,
-			default: true,
-		},
-		no_close_button: {
-			required: false,
-			type: Boolean,
-			default: false,
-		},
+<script setup>
+const emit = defineEmits(["close"]);
+
+const props = defineProps({
+	show: {
+		type: Boolean,
+		default: true,
 	},
-};
+
+	no_close_button: {
+		required: false,
+		type: Boolean,
+		default: false,
+	},
+});
 </script>
 
 <style lang="scss" scoped>

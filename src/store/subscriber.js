@@ -19,6 +19,15 @@ store.subscribe((mutations) => {
 
 			break;
 
+		case "SET_LOCALE":
+			// set the locale for use after reload
+			localStorage.setItem("locale", mutations.payload);
+
+			// set the locale for api calls
+			axios.defaults.headers["locale"] = mutations.payload;
+
+			break;
+
 		default:
 			break;
 	}

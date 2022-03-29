@@ -1,7 +1,8 @@
 <template>
 	<div class="sidebar">
-		<h3>Companies</h3>
-		<div class="companies c-scroll s-purple">
+		<h3>{{ $t("company", 2) }}</h3>
+
+		<div class="companies bs-scroll s-purple">
 			<ul>
 				<li v-for="[, company] of companies" :key="company.id">
 					<div class="company">
@@ -29,7 +30,7 @@
 								params: { id: company.id },
 							}"
 						>
-							General
+							{{ $t("general") }}
 						</router-link>
 
 						<router-link
@@ -40,7 +41,7 @@
 								params: { id: company.id },
 							}"
 						>
-							Invoices
+							{{ $t("invoice", 2) }}
 						</router-link>
 					</ul>
 				</li>

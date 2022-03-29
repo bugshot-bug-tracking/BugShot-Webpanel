@@ -3,8 +3,15 @@
 		<div class="team-table">
 			<div class="container" v-if="company?.users">
 				<div class="header bold">
-					<div class="members">Members</div>
-					<div class="count">{{ company.users.length }} out of 8</div>
+					<div class="members">{{ $t("member", 2) }}</div>
+					<div class="count">
+						{{
+							$t("member_out_of", {
+								x: company.users.length,
+								n: 8,
+							})
+						}}
+					</div>
 				</div>
 
 				<div class="items">
@@ -54,7 +61,7 @@
 									src="../assets/icons/trash.svg"
 									alt="Trash Can"
 								/>
-								<div class="">Remove</div>
+								<div class="">{{ $t("remove") }}</div>
 							</a>
 						</div>
 					</div>
@@ -219,8 +226,10 @@ export default {
 		}
 
 		&:hover {
-			filter: invert(19%) sepia(48%) saturate(5366%) hue-rotate(351deg)
-				brightness(99%) contrast(135%);
+			// color: #F23838; red
+			filter: brightness(0) saturate(1) invert(46%) sepia(28%)
+				saturate(5216%) hue-rotate(331deg) brightness(87%)
+				contrast(121%);
 		}
 	}
 }

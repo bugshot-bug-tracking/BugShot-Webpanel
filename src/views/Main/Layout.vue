@@ -16,7 +16,7 @@
 			</div>
 		</div>
 
-		<div class="main c-scroll s-purple">
+		<div class="main bs-scroll s-purple">
 			<slot />
 		</div>
 	</div>

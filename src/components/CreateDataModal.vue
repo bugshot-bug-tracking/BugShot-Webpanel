@@ -1,28 +1,38 @@
 <template>
 	<a
-		class="btn bs"
+		class="btn bs text-capitalize"
 		:class="{
 			'be-green': dataType === 'Company',
 			'bf-green': dataType === 'Project',
 		}"
 		@click="modalActive = !modalActive"
 	>
-		Add {{ dataType }}
+		{{ dataType === "Company" ? $t("add.company") : $t("add.project") }}
 	</a>
 
 	<Modal :show="modalActive" @close="modalActive = false">
 		<div class="wrapper">
-			<div class="header">
-				<span>Add {{ dataType }}</span>
+			<div class="header text-capitalize">
+				<span>
+					{{
+						dataType === "Company"
+							? $t("add.company")
+							: $t("add.project")
+					}}
+				</span>
 
 				<h4 v-if="subTitle">{{ subTitle }}</h4>
 			</div>
 
-			<form @submit.prevent="createResource">
-				<div class="bs-input my-3">
+			<form class="default-form" @submit.prevent="createResource">
+				<div class="bs-input my-3 text-capitalize">
 					<input
 						:type="'text'"
-						:placeholder="`Enter ${dataType} Name`"
+						:placeholder="
+							dataType === 'Company'
+								? $t('enter_company_name')
+								: $t('enter_project_name')
+						"
 						required
 						minlength="1"
 						maxlength="255"
@@ -34,7 +44,7 @@
 					<input
 						v-if="dataType === 'Project'"
 						:type="'text'"
-						:placeholder="`Enter ${dataType} URL (Optional)`"
+						:placeholder="$t('enter_project_url')"
 						maxlength="65000"
 						v-model="url"
 					/>
@@ -47,28 +57,33 @@
 					@setColor="setColor"
 				/>
 
-				<button class="btn bs bf-green mt-2">
-					Create {{ dataType }}
+				<button class="btn bs bf-green mt-2 text-capitalize">
+					{{
+						dataType === "Company"
+							? $t("create.company")
+							: $t("create.project")
+					}}
 				</button>
 			</form>
 		</div>
 	</Modal>
 
-	<StatusModal
-		:status="stage"
-		v-if="process"
-		@close="process = false"
-		:message="message"
+	<LoadingModal
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="loadingModal.show = false"
 	/>
 </template>
 
 <script>
-import { ref } from "@vue/reactivity";
+import { reactive, ref } from "@vue/reactivity";
 import Picker from "./Picker.vue";
 import axios from "axios";
 import Modal from "./Modal.vue";
 import store from "../store";
-import StatusModal from "./Modals/StatusModal.vue";
+import LoadingModal from "@/components/Modals/LoadingModal.vue";
+import toBase64 from "@/util/toBase64";
 
 export default {
 	name: "CreateData",
@@ -93,7 +108,7 @@ export default {
 	components: {
 		Picker,
 		Modal,
-		StatusModal,
+		LoadingModal,
 	},
 	setup(props) {
 		const modalActive = ref(false);
@@ -112,14 +127,6 @@ export default {
 			// console.log("setImage", value);
 			color.value = value;
 		};
-
-		const toBase64 = (file) =>
-			new Promise((resolve, reject) => {
-				const reader = new FileReader();
-				reader.readAsDataURL(file);
-				reader.onload = () => resolve(reader.result);
-				reader.onerror = (error) => reject(error);
-			});
 
 		const createResource = async () => {
 			let resource = {
@@ -143,9 +150,9 @@ export default {
 			let aditionalBody = {};
 
 			try {
-				process.value = true;
-				stage.value = 0;
-				message.value = null;
+				loadingModal.show = true;
+				loadingModal.state = 0;
+				loadingModal.message = null;
 
 				if (
 					props.dataType === "Project" &&
@@ -176,37 +183,39 @@ export default {
 					...props.aditionalBody, // in case aditional body props are necessary from outside
 				});
 
-				stage.value = 1;
+				loadingModal.state = 1;
 
-				message.value = `${props.dataType} created!`;
+				loadingModal.message = `${props.dataType} created!`;
 
 				store.dispatch("init");
 
 				setTimeout(() => {
 					modalActive.value = false;
-					process.value = false;
+					loadingModal.show = false;
 					name.value = "";
 					color.value = 3;
 					file.value = null;
 					url.value = "";
 				}, 4000);
 			} catch (error) {
-				stage.value = 2;
-				message.value = null;
+				loadingModal.state = 2;
+				loadingModal.message = null;
 
 				console.log(error);
 
 				setTimeout(() => {
-					process.value = false;
-					stage.value = 0;
-					message.value = null;
+					loadingModal.show = false;
+					loadingModal.state = 0;
+					loadingModal.message = null;
 				}, 4000);
 			}
 		};
 
-		const process = ref(false);
-		const stage = ref(0);
-		const message = ref(null);
+		const loadingModal = reactive({
+			show: false,
+			state: 0,
+			message: null,
+		});
 
 		return {
 			modalActive,
@@ -217,9 +226,7 @@ export default {
 			setImage,
 			setColor,
 			createResource,
-			process,
-			stage,
-			message,
+			loadingModal,
 		};
 	},
 };

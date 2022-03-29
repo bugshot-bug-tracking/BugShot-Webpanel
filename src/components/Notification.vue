@@ -2,13 +2,18 @@
 	<div class="entry">
 		<div class="main">
 			<div class="top">
-				You are invited to join
+				{{ $t("invited_to_join") }}
+
 				<span>
 					{{ record.attributes.invitable.attributes.designation }}
 				</span>
 			</div>
+
 			<div class="bottom">
-				{{ date(record.attributes.created_at) }} by
+				{{ dateFix(record.attributes.created_at) }}
+
+				{{ $t("by") }}
+
 				{{ record.attributes.sender.attributes.first_name }}
 			</div>
 		</div>
@@ -33,67 +38,47 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 import { computed } from "@vue/reactivity";
 import store from "../store";
 import axios from "axios";
-export default {
-	name: "Notification",
-	props: {
-		id: {
-			required: true,
-			type: String,
-			desc: "Invitation id",
-		},
+import dateFix from "@/util/dateFixISO";
+
+const props = defineProps({
+	id: {
+		required: true,
+		type: String,
+		desc: "Invitation id",
 	},
-	setup(props) {
-		const record = computed(() => {
-			return store.getters.getInvitationById(props.id);
-		});
+});
 
-		const date = (dateString) => {
-			if (dateString === "" || dateString === null) return "";
-			if (dateString.slice(-1).toUpperCase() !== "Z") dateString += "Z";
+const record = computed(() => {
+	return store.getters.getInvitationById(props.id);
+});
 
-			return new Date(dateString).toLocaleString();
-		};
+const accept = async () => {
+	try {
+		let user = store.getters.getUser;
+		await axios.get(`users/${user.id}/invitations/${props.id}/accept`);
 
-		const accept = async () => {
-			try {
-				let user = store.getters.getUser;
-				await axios.get(
-					`users/${user.id}/invitations/${props.id}/accept`
-				);
+		store.commit("REMOVE_INVITATION", props.id);
+		store.dispatch("init", props.id);
+	} catch (error) {
+		console.error(error);
+	}
+};
 
-				store.commit("REMOVE_INVITATION", props.id);
-				store.dispatch("init", props.id);
-			} catch (error) {
-				console.error(error);
-			}
-		};
+const decline = async () => {
+	try {
+		let user = store.getters.getUser;
 
-		const decline = async () => {
-			try {
-				let user = store.getters.getUser;
+		await axios.get(`user/${user.id}/invitations/${props.id}/accept`);
 
-				await axios.get(
-					`user/${user.id}/invitations/${props.id}/accept`
-				);
-
-				store.commit("REMOVE_INVITATION", props.id);
-				store.dispatch("init", props.id);
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		return {
-			record,
-			date,
-			accept,
-			decline,
-		};
-	},
+		store.commit("REMOVE_INVITATION", props.id);
+		store.dispatch("init", props.id);
+	} catch (error) {
+		console.error(error);
+	}
 };
 </script>
 
@@ -144,13 +129,16 @@ export default {
 
 		.accept {
 			width: 16px;
-			filter: invert(73%) sepia(66%) saturate(3341%) hue-rotate(109deg)
-				brightness(104%) contrast(81%);
+			// color: #18D992;
+			filter: brightness(0) saturate(1) invert(63%) sepia(74%)
+				saturate(493%) hue-rotate(104deg) brightness(96%) contrast(88%);
 		}
 		.decline {
 			width: 16px;
-			filter: invert(46%) sepia(28%) saturate(5216%) hue-rotate(331deg)
-				brightness(87%) contrast(121%);
+			// color: #F23838; red
+			filter: brightness(0) saturate(1) invert(46%) sepia(28%)
+				saturate(5216%) hue-rotate(331deg) brightness(87%)
+				contrast(121%);
 		}
 	}
 }

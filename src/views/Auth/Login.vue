@@ -1,11 +1,11 @@
 <template>
-	<div class="title">Login</div>
+	<div class="title">{{ $t("log_in") }}</div>
 
 	<form id="login-form" @submit.prevent="submit">
 		<div class="bs-input w-icon">
 			<input
 				type="email"
-				placeholder="E-mail address"
+				:placeholder="$t('email_address')"
 				required
 				maxlength="255"
 				autocomplete="email"
@@ -20,7 +20,7 @@
 		<div class="bs-input w-icon">
 			<input
 				:type="passwordType"
-				placeholder="Password"
+				:placeholder="$t('password')"
 				minlength="8"
 				required
 				maxlength="255"
@@ -48,17 +48,19 @@
 		</div>
 
 		<div class="from-buttons">
-			<button type="submit" class="btn bs bf-green">Log In</button>
+			<button type="submit" class="btn bs bf-green">
+				{{ $t("log_in") }}
+			</button>
 		</div>
 	</form>
 
 	<div class="recover">
 		<router-link :to="{ name: 'Forgot' }" style="color: #7a2de6">
-			Forgot Password?
+			{{ $t("forgot_password") + "?" }}
 		</router-link>
 
 		<router-link :to="{ name: 'Register' }" class="btn bs be-purple">
-			Register
+			{{ $t("register") }}
 		</router-link>
 	</div>
 </template>

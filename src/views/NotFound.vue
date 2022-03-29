@@ -1,15 +1,15 @@
 <template>
 	<div class="wrapper">
 		<img src="../assets/gif/bugshot_404_error.gif" alt="404" />
-		<div class="text">We've encountered a problem</div>
-		<a></a>
+		<div class="text">{{ $t("problem_encountered") }}</div>
+
 		<router-link
 			class="btn bs bf-green"
 			:to="{
 				name: 'Home',
 			}"
 		>
-			Go back home
+			{{ $t("go_to_home") }}
 		</router-link>
 	</div>
 </template>

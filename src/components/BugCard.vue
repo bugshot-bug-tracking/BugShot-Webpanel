@@ -1,58 +1,42 @@
 <template>
 	<div class="bug-card">
 		<div class="card">
-			<div class="card-header bug-title" @click="$emit('info', id)">
+			<div class="card-header bug-title" @click="$emit('info')">
 				{{ title }}
 			</div>
 
 			<div class="card-body">
 				<div class="card-text d-flex justify-content-between">
 					<div class="bug-deadline">
-						{{ deadline ? date(deadline) : "No deadline" }}
+						{{ deadline ? dateFix(deadline) : $t("no_deadline") }}
 					</div>
 
-					<div class="bug priority" :class="'p' + priority" />
+					<PriorityChange :priority="priority" />
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
 
-<script>
-export default {
-	name: "BugCard",
-	props: {
-		id: {
-			required: true,
-			type: String,
-		},
-		title: {
-			required: true,
-			type: String,
-		},
-		deadline: {
-			required: true,
-			type: String,
-		},
-		priority: {
-			required: true,
-			type: Number,
-		},
-	},
-	emits: ["info"],
-	setup() {
-		const date = (dateString) => {
-			if (dateString === "" || dateString === null) return "";
-			if (dateString.slice(-1).toUpperCase() !== "Z") dateString += "Z";
+<script setup>
+import PriorityChange from "./PriorityChange.vue";
+import dateFix from "../util/dateFixISO";
 
-			return new Date(dateString).toLocaleString();
-		};
-
-		return {
-			date,
-		};
+const emit = defineEmits(["info"]);
+const props = defineProps({
+	title: {
+		required: true,
+		type: String,
 	},
-};
+	deadline: {
+		required: true,
+		type: String,
+	},
+	priority: {
+		required: true,
+		type: Number,
+	},
+});
 </script>
 
 <style lang="scss" scoped>
@@ -105,52 +89,6 @@ export default {
 			font-size: 14px;
 			color: hsl(230, 40%, 20%);
 			font-weight: bold;
-		}
-	}
-}
-
-.priority {
-	font-weight: normal;
-	font-size: 12px;
-	line-height: 16px;
-	color: hsl(0, 0%, 100%);
-	border-radius: 30px;
-	width: fit-content;
-	height: fit-content;
-
-	&.p4 {
-		padding: 3px 10px;
-		background-color: hsl(0, 90%, 60%);
-
-		&::after {
-			content: "Critical";
-		}
-	}
-
-	&.p3 {
-		padding: 3px 10px;
-		background-color: hsl(32, 100%, 67%);
-
-		&::after {
-			content: "Important";
-		}
-	}
-
-	&.p2 {
-		padding: 3px 10px;
-		background-color: hsl(218, 80%, 47%);
-
-		&::after {
-			content: "Normal";
-		}
-	}
-
-	&.p1 {
-		padding: 3px 10px;
-		background-color: hsl(188, 80%, 47%);
-
-		&::after {
-			content: "Minor";
 		}
 	}
 }

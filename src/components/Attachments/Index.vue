@@ -3,7 +3,7 @@
 		<!-- <State :state="'mini-loading'" :show="isLoading.attachments" /> -->
 		<div id="attachments">
 			<div class="header">
-				<div class="title">Attachments</div>
+				<div class="title">{{ $t("attachment", 2) }}</div>
 
 				<div>
 					<div class="btn refresh-button" @click="update" />
@@ -42,6 +42,8 @@ import Container from "../Container.vue";
 import Item from "./Item.vue";
 import axios from "axios";
 import store from "../../store";
+import { useI18n } from "vue-i18n";
+import toBase64 from "@/util/toBase64";
 
 export default {
 	components: { Container, Item },
@@ -60,6 +62,8 @@ export default {
 		const err = ref("");
 		const files = ref({});
 
+		const { t } = useI18n({ useScope: "global" });
+
 		const upload = (event) => {
 			files.value = event.target.files;
 			err.value = "";
@@ -71,7 +75,7 @@ export default {
 				files.value.length > 10 ||
 				props.attachments.length + files.value.length > 10
 			) {
-				err.value = "You are limited to a maximum of 10 files";
+				err.value = t("limits.max_files_limit", { x: 10 });
 				return;
 			}
 
@@ -80,7 +84,7 @@ export default {
 				if (file.size > 5 * (1 << 20)) {
 					if (errFlag === false) {
 						errFlag = true;
-						err.value = "Following files are bigger than 5 MiB:\n";
+						err.value = t("limits.max_file_size_limit", { x: 5 });
 					}
 
 					err.value += ` - ${file.name}\n`;
@@ -94,14 +98,6 @@ export default {
 
 			uploadRemote(fileInfos);
 		};
-
-		const toBase64 = (file) =>
-			new Promise((resolve, reject) => {
-				const reader = new FileReader();
-				reader.readAsDataURL(file);
-				reader.onload = () => resolve(reader.result);
-				reader.onerror = (error) => reject(error);
-			});
 
 		const uploadRemote = (filesInfo) => {
 			if (filesInfo.length > 0) {
@@ -148,9 +144,11 @@ export default {
 
 		const deleteFile = (id) => {
 			try {
-				axios.delete(`attachments/${id}`).then(() => {
-					update();
-				});
+				axios
+					.delete(`bugs/${props.bug_id}/attachments/${id}`)
+					.then(() => {
+						update();
+					});
 			} catch (error) {
 				err.value = error;
 				console.error(error);
@@ -158,7 +156,7 @@ export default {
 		};
 
 		const update = () => {
-			store.dispatch("fetchAttachments", props.bug_id);
+			store.dispatch("kanban/fetchAttachments", props.bug_id);
 		};
 
 		return {
@@ -191,13 +189,14 @@ export default {
 			background-repeat: no-repeat;
 			width: 32px;
 			height: 32px;
-			filter: invert(76%) sepia(44%) saturate(4195%) hue-rotate(107deg)
-				brightness(101%) contrast(81%);
+			filter: brightness(0) saturate(1) invert(63%) sepia(74%)
+				saturate(493%) hue-rotate(104deg) brightness(96%) contrast(88%);
 			//   color: #18d891;
 
 			&:hover {
-				filter: invert(18%) sepia(63%) saturate(5695%)
-					hue-rotate(265deg) brightness(82%) contrast(109%);
+				filter: brightness(0) saturate(1) invert(18%) sepia(72%)
+					saturate(5384%) hue-rotate(263deg) brightness(94%)
+					contrast(92%);
 				// color: #7118d8;
 			}
 		}
@@ -211,8 +210,9 @@ export default {
 			margin-right: 10px;
 
 			&:hover {
-				filter: invert(55%) sepia(54%) saturate(630%) hue-rotate(106deg)
-					brightness(112%) contrast(90%);
+				filter: brightness(0) saturate(1) invert(55%) sepia(54%)
+					saturate(630%) hue-rotate(106deg) brightness(112%)
+					contrast(90%);
 			}
 		}
 	}
