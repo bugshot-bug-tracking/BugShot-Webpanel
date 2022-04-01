@@ -208,6 +208,12 @@ export default {
 										.toISOString()
 										.slice(0, -1),
 							  }
+							: bug.attributes.deadline
+							? {
+									deadline: new Date(bug.attributes.deadline)
+										.toISOString()
+										.slice(0, -1),
+							  }
 							: {}),
 					}
 				);
