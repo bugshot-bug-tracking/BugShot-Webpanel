@@ -11,7 +11,7 @@
 
 			<div class="id">
 				<label> {{ $t("id") + ":" }} </label>
-				<div class="content">{{ bug.id }}</div>
+				<div class="content">{{ bug.attributes.ai_id }}</div>
 			</div>
 
 			<div class="creator">
