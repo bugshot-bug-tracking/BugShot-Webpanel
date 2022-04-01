@@ -191,18 +191,18 @@ export default {
 
 		.buttons {
 			display: flex;
-			width: 80%;
+			width: 100%;
 			justify-content: space-around;
 			border: 1px solid #5916b9;
 			border-radius: 8px;
 			font-size: 14px;
 
 			& > :first-child {
-				border-radius: 8px 0 0 8px;
+				border-radius: 6px 0 0 6px;
 			}
 
 			& > :last-child {
-				border-radius: 0 8px 8px 0;
+				border-radius: 0 6px 6px 0;
 			}
 
 			> .active {
