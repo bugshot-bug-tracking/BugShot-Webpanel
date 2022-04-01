@@ -78,7 +78,6 @@ const edit = () => {
 	});
 
 	flag.value = true;
-	newText.value = props.text;
 };
 
 const cancel = () => {
