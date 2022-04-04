@@ -1,6 +1,6 @@
 <template>
 	<Layout>
-		<template v-slot:title>General Settings</template>
+		<template v-slot:title>{{ $t("general_settings") }}</template>
 
 		<template v-slot:sub-title>
 			{{ record?.attributes.designation }}
@@ -9,12 +9,15 @@
 		<div class="settings-table" v-if="record">
 			<Column class="general">
 				<template v-slot:header>
-					<div class="bold">Company Settings</div>
+					<div class="bold">{{ $t("company_settings") }}</div>
 				</template>
 
 				<div class="body">
 					<Container>
-						<form class="wrapper" @submit.prevent="saveChanges">
+						<form
+							class="wrapper default-form"
+							@submit.prevent="saveChanges"
+						>
 							<div class="bs-input my-3">
 								<input
 									v-model="companyParams.name"
@@ -33,7 +36,7 @@
 							/>
 
 							<button class="btn bs bf-green mt-3">
-								Save changes
+								{{ $t("save_changes") }}
 							</button>
 						</form>
 					</Container>
@@ -43,15 +46,16 @@
 
 				<div class="d-flex flex-column" v-if="canDelete">
 					<a class="text-danger" @click.prevent="showDelete = true">
-						Delete company and associated projects
+						{{ $t("delete_company_and_projects") }}
 					</a>
-					(can't be reverted)
+
+					{{ "(" + $t("cant_be_reverted") + ")" }}
 				</div>
 			</Column>
 
 			<Column class="members">
 				<template v-slot:header>
-					<div class="bold">Team Members</div>
+					<div class="bold">{{ $t("team_members") }}</div>
 				</template>
 
 				<div class="body">
@@ -80,10 +84,11 @@
 		@close="showDelete = false"
 	/>
 
-	<StatusModal
-		v-if="process.show"
-		:status="process.status"
-		:message="process.message"
+	<LoadingModal
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="loadingModal.show = false"
 	/>
 </template>
 
@@ -98,7 +103,9 @@ import TeamTable from "../../../components/TeamTable.vue";
 import Plan from "../../../components/Plan.vue";
 import axios from "axios";
 import DeleteModal from "../../../components/Modals/DeleteModal.vue";
-import StatusModal from "../../../components/Modals/StatusModal.vue";
+import LoadingModal from "@/components/Modals/LoadingModal.vue";
+import { useI18n } from "vue-i18n";
+import toBase64 from "@/util/toBase64";
 
 export default {
 	components: {
@@ -109,7 +116,7 @@ export default {
 		TeamTable,
 		Plan,
 		DeleteModal,
-		StatusModal,
+		LoadingModal,
 	},
 	name: "CompanySettings",
 	props: {
@@ -195,14 +202,6 @@ export default {
 			"#89A3EB", // gray
 		];
 
-		const toBase64 = (file) =>
-			new Promise((resolve, reject) => {
-				const reader = new FileReader();
-				reader.readAsDataURL(file);
-				reader.onload = () => resolve(reader.result);
-				reader.onerror = (error) => reject(error);
-			});
-
 		const setImage = async (value) => {
 			// console.log("setImage", value);
 			if (value != null) companyParams.image = await toBase64(value);
@@ -214,6 +213,8 @@ export default {
 			companyParams.color = value;
 		};
 
+		const { t } = useI18n({ useScope: "global" });
+
 		const saveChanges = async () => {
 			let data = {
 				company_id: props.id,
@@ -223,27 +224,27 @@ export default {
 			};
 
 			try {
-				process.show = true;
-				process.status = 0;
-				process.message = null;
+				loadingModal.show = true;
+				loadingModal.state = 0;
+				loadingModal.message = null;
 
 				await store.dispatch("updateCompany", data);
 
-				process.status = 1;
-				process.message = `Company edited successfully.`;
+				loadingModal.state = 1;
+				loadingModal.message = t("company_edit_success");
 
 				setTimeout(() => {
-					process.show = false;
-					process.status = 0;
-					process.message = null;
+					loadingModal.show = false;
+					loadingModal.state = 0;
+					loadingModal.message = null;
 				}, 4000);
 			} catch (error) {
 				console.log(error);
-				process.status = 2;
+				loadingModal.state = 2;
 
 				setTimeout(() => {
-					process.show = false;
-					process.status = 0;
+					loadingModal.show = false;
+					loadingModal.state = 0;
 				}, 4000);
 			}
 		};
@@ -253,34 +254,34 @@ export default {
 
 			try {
 				showDelete.value = false;
-				process.show = true;
-				process.status = 0;
-				process.message = null;
+				loadingModal.show = true;
+				loadingModal.state = 0;
+				loadingModal.message = null;
 
 				await store.dispatch("deleteCompany", record.value.id);
 
-				process.status = 1;
-				process.message = `Company deleted successfully.`;
+				loadingModal.state = 1;
+				loadingModal.message = t("company_delete_success");
 
 				setTimeout(() => {
-					process.show = false;
-					process.status = 0;
-					process.message = null;
+					loadingModal.show = false;
+					loadingModal.state = 0;
+					loadingModal.message = null;
 				}, 4000);
 			} catch (error) {
-				process.status = 2;
+				loadingModal.state = 2;
 
 				setTimeout(() => {
-					process.show = false;
-					process.status = 0;
+					loadingModal.show = false;
+					loadingModal.state = 0;
 				}, 4000);
 			}
 		};
 
 		const showDelete = ref(false);
-		const process = reactive({
+		const loadingModal = reactive({
 			show: false,
-			status: 0,
+			state: 0,
 			message: null,
 		});
 
@@ -295,7 +296,7 @@ export default {
 			canEdit,
 			canDelete,
 			showDelete,
-			process,
+			loadingModal,
 		};
 	},
 };

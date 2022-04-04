@@ -68,16 +68,17 @@ export default {
 			user-select: none;
 			transform: rotateZ(90deg);
 			width: 18px;
-			filter: invert(26%) sepia(92%) saturate(4327%) hue-rotate(258deg)
-				brightness(88%) contrast(104%);
+			filter: brightness(0) saturate(1) invert(18%) sepia(72%)
+				saturate(5384%) hue-rotate(263deg) brightness(94%) contrast(92%);
 		}
 
 		&:hover {
 			cursor: pointer;
 
 			> img {
-				filter: invert(59%) sepia(93%) saturate(1686%)
-					hue-rotate(112deg) brightness(92%) contrast(84%);
+				filter: brightness(0) saturate(1) invert(63%) sepia(74%)
+					saturate(493%) hue-rotate(104deg) brightness(96%)
+					contrast(88%);
 			}
 		}
 	}
@@ -159,13 +160,15 @@ export default {
 			font-weight: bold;
 
 			&:hover {
-				background: hsl(265, 79%, 92%);
+				background: hsla(0, 88%, 58%, 10%);
 			}
 		}
 	}
 }
+</style>
 
-.c-scroll {
+<style lang="scss">
+.bs-scroll {
 	overflow: auto;
 	overflow-y: auto;
 	scrollbar-gutter: stable;
@@ -218,6 +221,22 @@ export default {
 	}
 }
 
+.v-select {
+	--vs-controls-color: #7a2de6;
+	--vs-border-color: #7a2de6;
+
+	--vs-dropdown-option--active-bg: #eee5fc;
+	--vs-dropdown-option--active-color: black;
+	--vs-dropdown-max-height: 125px;
+
+	.vs__dropdown-menu {
+		@extend .bs-scroll;
+		@extend .s-purple;
+	}
+}
+</style>
+
+<style lang="scss">
 .disabled {
 	opacity: 0.5 !important;
 
@@ -237,14 +256,35 @@ export default {
 	background-color: white;
 }
 
+.default-form {
+	width: 100%;
+	padding: 0 5%;
+}
+</style>
+
+<style lang="scss">
 .bs-input {
-	width: 95%;
+	width: 100%;
 	display: flex;
 	position: relative;
 	align-items: center;
 	margin: auto;
 
 	input {
+		border: 1px solid hsl(264, 78%, 77%);
+		border-radius: 8px;
+		width: 100%;
+		padding: 10px;
+
+		&:focus,
+		&:focus-visible,
+		&:hover {
+			border-color: hsl(265, 79%, 41%);
+			outline-color: hsl(265, 79%, 41%);
+		}
+	}
+
+	textarea {
 		border: 1px solid hsl(264, 78%, 77%);
 		border-radius: 8px;
 		width: 100%;
@@ -269,5 +309,62 @@ export default {
 			right: 12px;
 		}
 	}
+}
+</style>
+
+<style lang="scss">
+.bs-priority {
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 16px;
+	color: hsl(0, 0%, 100%);
+	border-radius: 30px;
+	width: fit-content;
+	height: fit-content;
+	position: relative;
+	padding: 3px 10px;
+	user-select: none;
+
+	&.p1 {
+		background-color: hsl(188, 80%, 47%);
+	}
+
+	&.p2 {
+		background-color: hsl(218, 80%, 47%);
+	}
+
+	&.p3 {
+		background-color: hsl(32, 100%, 67%);
+	}
+
+	&.p4 {
+		background-color: hsl(0, 90%, 60%);
+	}
+}
+</style>
+
+<style lang="scss">
+.bs-to-green {
+	// color:#18D992;
+	filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
+		hue-rotate(104deg) brightness(96%) contrast(88%);
+}
+
+.bs-to-purple {
+	// color:#7A2EE6;
+	filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+		hue-rotate(263deg) brightness(94%) contrast(92%);
+}
+
+.bs-to-red {
+	// color: #F23838;
+	filter: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%)
+		hue-rotate(331deg) brightness(87%) contrast(121%);
+}
+
+.bs-to-gray {
+	// color: #9BA5D7;
+	filter: brightness(0) saturate(1) invert(73%) sepia(14%) saturate(897%)
+		hue-rotate(194deg) brightness(90%) contrast(86%);
 }
 </style>

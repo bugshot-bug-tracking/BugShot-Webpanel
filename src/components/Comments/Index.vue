@@ -3,12 +3,13 @@
 		<div class="comments-component">
 			<div class="comments-top">
 				<div class="header">
-					<span>Comments</span>
+					<span>{{ $t("comment", 2) }}</span>
+
 					<div class="btn refresh-button" @click="update" />
 				</div>
 			</div>
 
-			<div class="comments-center c-scroll s-green">
+			<div class="comments-center bs-scroll s-green">
 				<div class="content" ref="msgs" v-if="comments.length > 0">
 					<Message
 						v-for="comment of comments"
@@ -21,13 +22,15 @@
 						}"
 						:sender="user.id === comment.attributes.user.id ? 0 : 1"
 					/>
+
 					<div />
 				</div>
 			</div>
 
 			<div class="comments-bottom">
 				<div class="comments-bottom-header">
-					<span>Add comment</span>
+					<span>{{ $t("add.comment") }}</span>
+
 					<div>{{ chars.length }} / 250</div>
 				</div>
 
@@ -38,86 +41,82 @@
 					placeholder="Write comment..."
 					v-model="chars"
 				/>
-				<div class="btn comment-send-button" @click="postComment">
-					Add Comment
+				<div
+					class="btn comment-send-button text-capitalize"
+					@click="postComment"
+				>
+					{{ $t("add.comment") }}
 				</div>
 			</div>
 		</div>
 	</Container>
 </template>
 
-<script>
-import { computed, ref } from "@vue/reactivity";
-import { nextTick, onMounted, watch } from "@vue/runtime-core";
+<script setup>
+import { ref } from "@vue/reactivity";
+import { computed, nextTick, watch } from "@vue/runtime-core";
 import Message from "./Message.vue";
 import Container from "../Container.vue";
 import store from "../../store";
 import axios from "axios";
 
-export default {
-	components: { Message, Container },
-	name: "Comments",
-	props: {
-		comments: {
-			required: true,
-			type: Array,
-		},
-		bug_id: {
-			required: true,
-			type: String,
-		},
+const props = defineProps({
+	bug_id: {
+		required: true,
+		type: String,
 	},
-	emits: ["loading"],
-	setup(props, context) {
-		const chars = ref("");
-		const msgs = ref(null);
-
-		const user = computed(() => {
-			return store.getters.getUser;
-		});
-
-		const postComment = () => {
-			try {
-				axios
-					.post(`bugs/${props.bug_id}/comments`, {
-						bug_id: props.bug_id,
-						content: chars.value,
-					})
-					.then(() => {
-						update();
-						chars.value = "";
-					});
-			} catch (error) {
-				console.error(error);
-			}
-		};
-
-		const update = () => {
-			store.dispatch("fetchComments", props.bug_id);
-		};
-
-		watch(
-			props,
-			() => {
-				nextTick(() => {
-					msgs.value?.parentNode.scrollBy({
-						top: msgs.value?.scrollHeight,
-						behavior: "smooth",
-					});
-				});
-			},
-			{ deep: true }
-		);
-
-		return {
-			user,
-			chars,
-			msgs,
-			postComment,
-			update,
-		};
+	comments: {
+		required: true,
+		type: Array,
 	},
+});
+
+const chars = ref("");
+const msgs = ref(null);
+const lock = ref(false); // prevent send button spam
+
+const user = computed(() => {
+	return store.getters.getUser;
+});
+
+const postComment = () => {
+	if (chars.value.length < 1 || lock.value) return;
+	lock.value = true;
+
+	try {
+		axios
+			.post(`bugs/${props.bug_id}/comments`, {
+				bug_id: props.bug_id,
+				content: chars.value,
+			})
+			.then(() => {
+				update();
+				chars.value = "";
+				lock.value = false;
+			});
+	} catch (error) {
+		lock.value = false;
+
+		console.error(error);
+	}
 };
+
+const update = () => {
+	store.dispatch("kanban/fetchComments", props.bug_id);
+};
+
+const scrollToBottom = () => {
+	nextTick(() => {
+		msgs.value?.parentNode.scrollBy({
+			top: msgs.value?.scrollHeight,
+			behavior: "smooth",
+		});
+	});
+};
+
+scrollToBottom();
+
+watch(props, () => scrollToBottom(), { deep: true });
 </script>
 
 <style lang="scss" scoped>
@@ -148,8 +147,9 @@ export default {
 				height: 24px;
 
 				&:hover {
-					filter: invert(55%) sepia(54%) saturate(630%)
-						hue-rotate(106deg) brightness(112%) contrast(90%);
+					filter: brightness(0) saturate(1) invert(63%) sepia(74%)
+						saturate(493%) hue-rotate(104deg) brightness(96%)
+						contrast(88%);
 				}
 			}
 		}

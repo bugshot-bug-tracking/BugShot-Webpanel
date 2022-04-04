@@ -11,10 +11,12 @@
 				v-if="image"
 				:src="image.attributes.base64"
 				class="dark-overlay"
-				alt="IMG"
+				alt="image"
 			/>
 			<div class="text">{{ title }}</div>
-			<div class="edit-time">last edit {{ passedTime }} ago</div>
+			<div class="edit-time">
+				{{ $t("last_edit_ago", { time: passedTime }) }}
+			</div>
 		</router-link>
 
 		<div class="bottom">
@@ -35,11 +37,12 @@
 					<div class="actions">
 						<a class="edit" @click="showModal = 1">
 							<img src="../assets/icons/edit.svg" alt="edit" />
-							<div>Edit</div>
+							<div>{{ $t("edit.edit") }}</div>
 						</a>
+
 						<a class="delete" @click="showModal = 2">
 							<img src="../assets/icons/trash.svg" alt="delete" />
-							<div>Delete</div>
+							<div>{{ $t("delete.delete") }}</div>
 						</a>
 					</div>
 				</div>
@@ -56,10 +59,11 @@
 		@close="showModal = 0"
 	/>
 
-	<StatusModal
-		v-if="process.show"
-		:status="process.status"
-		:message="process.message"
+	<LoadingModal
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="loadingModal.show = false"
 	/>
 </template>
 
@@ -68,11 +72,12 @@ import { computed, reactive, ref } from "@vue/reactivity";
 import { onUnmounted } from "@vue/runtime-core";
 import EditModal from "../views/Main/Project/EditModal.vue";
 import DeleteModal from "./Modals/DeleteModal.vue";
-import StatusModal from "./Modals/StatusModal.vue";
+import LoadingModal from "@/components/Modals/LoadingModal.vue";
 import store from "../store";
+import timeToText from "../util/timeToText";
 
 export default {
-	components: { EditModal, DeleteModal, StatusModal },
+	components: { EditModal, DeleteModal, LoadingModal },
 	name: "Card",
 	props: {
 		id: {
@@ -148,66 +153,38 @@ export default {
 
 		const deleteProject = async () => {
 			try {
-				process.show = true;
-				process.status = 0;
-				process.message = null;
+				loadingModal.show = true;
+				loadingModal.state = 0;
+				loadingModal.message = null;
 
 				await store.dispatch("deleteProject", props.id);
 
-				process.status = 1;
-				process.message = `Project deleted successfully.`;
+				loadingModal.state = 1;
+				loadingModal.message = `Project deleted successfully.`;
 
 				setTimeout(() => {
-					process.show = false;
-					process.status = 0;
-					process.message = null;
+					loadingModal.show = false;
+					loadingModal.state = 0;
+					loadingModal.message = null;
 				}, 4000);
 			} catch (error) {
 				console.log(error);
-				process.status = 2;
+				loadingModal.state = 2;
 
 				setTimeout(() => {
-					process.show = false;
-					process.status = 0;
+					loadingModal.show = false;
+					loadingModal.state = 0;
 				}, 4000);
 			}
 		};
 
 		const passedTime = computed(() => {
-			if (!(props.lastEdit && props.lastEdit != "")) return `some time`;
-
-			let now = new Date();
-			let then = new Date(props.lastEdit);
-
-			// get total seconds between the times
-			var delta = Math.abs(then - now) / 1000;
-
-			// calculate (and subtract) whole days
-			var days = Math.floor(delta / 86400);
-			delta -= days * 86400;
-			if (days > 0) return `${days} days`;
-
-			// calculate (and subtract) whole hours
-			var hours = Math.floor(delta / 3600) % 24;
-			delta -= hours * 3600;
-			if (hours > 0) return `${hours} hours`;
-
-			// calculate (and subtract) whole minutes
-			var minutes = Math.floor(delta / 60) % 60;
-			delta -= minutes * 60;
-			if (minutes > 0) return `${minutes} minutes`;
-
-			// what's left is seconds
-			var seconds = Math.floor(delta % 60); // in theory the modulus is not required
-			if (seconds > 0) return `${seconds} seconds`;
-
-			// just to have something in case no prior return was triggered
-			return `some time`;
+			return timeToText(props.lastEdit);
 		});
 
-		const process = reactive({
+		const loadingModal = reactive({
 			show: false,
-			status: 0,
+			state: 0,
 			message: null,
 		});
 
@@ -219,7 +196,7 @@ export default {
 			deleteProject,
 			showModal,
 			passedTime,
-			process,
+			loadingModal,
 		};
 	},
 };
@@ -283,6 +260,7 @@ export default {
 			border-right: 1px solid hsl(263, 79%, 94%);
 			padding: 10px 10px;
 			font-weight: bold;
+			text-transform: capitalize;
 		}
 
 		.right {
@@ -327,6 +305,7 @@ export default {
 					padding: 4px 0;
 					background-color: #f8f8fc;
 					border-radius: 6px;
+					text-transform: capitalize;
 				}
 
 				a {

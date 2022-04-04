@@ -1,9 +1,9 @@
 <template>
 	<Layout>
-		<template v-slot:title>Projects</template>
+		<template v-slot:title>{{ $t("project", 2) }}</template>
 
 		<template v-slot:sub-title>
-			{{ record ? record.attributes.designation : "loading" }}
+			{{ record ? record.attributes.designation : $t("loading") }}
 		</template>
 
 		<template v-slot:top>
@@ -15,28 +15,34 @@
 				:aditionalBody="{
 					company_id: id,
 				}"
-				:subTitle="`Company: ${record?.attributes.designation}`"
+				:subTitle="`${$t('company')}: ${
+					record?.attributes.designation
+				}`"
 			/>
 
 			<router-link
 				:to="{ name: 'CompanySettings', params: { id: id } }"
-				class="btn bs be-green"
+				class="btn bs be-green text-capitalize"
 			>
-				Company Settings
+				{{ $t("company_settings") }}
 			</router-link>
 		</template>
 
 		<div v-if="arePojects">
 			<GroupContainer
 				:mainText="record.attributes.designation"
-				:secondText="passedTime(record.attributes.updated_at) + ' ago'"
+				:secondText="
+					$t('last_update', {
+						time: passedTime(record.attributes.updated_at),
+					})
+				"
 			>
 				<Card
 					v-for="project of companyProjects"
 					:key="project.id"
 					:id="project.id"
 					:title="project.attributes.designation"
-					:mainText="'Task Overview'"
+					:mainText="$t('task_overview')"
 					:secondText="
 						bugsStats(
 							project.attributes.bugsDone,
@@ -74,6 +80,7 @@ import store from "../../../store";
 import Search from "../../../components/Search.vue";
 import CreateDataModal from "../../../components/CreateDataModal.vue";
 import InviteModal from "../../../components/InviteModal.vue";
+import timeToText from "../../../util/timeToText";
 
 export default {
 	components: {
@@ -117,35 +124,7 @@ export default {
 		};
 
 		const passedTime = (lastEdit) => {
-			if (!(lastEdit && lastEdit != "")) return `some time`;
-
-			let now = new Date();
-			let then = new Date(lastEdit);
-
-			// get total seconds between the times
-			var delta = Math.abs(then - now) / 1000;
-
-			// calculate (and subtract) whole days
-			var days = Math.floor(delta / 86400);
-			delta -= days * 86400;
-			if (days > 0) return `${days} days`;
-
-			// calculate (and subtract) whole hours
-			var hours = Math.floor(delta / 3600) % 24;
-			delta -= hours * 3600;
-			if (hours > 0) return `${hours} hours`;
-
-			// calculate (and subtract) whole minutes
-			var minutes = Math.floor(delta / 60) % 60;
-			delta -= minutes * 60;
-			if (minutes > 0) return `${minutes} minutes`;
-
-			// what's left is seconds
-			var seconds = Math.floor(delta % 60); // in theory the modulus is not required
-			if (seconds > 0) return `${seconds} seconds`;
-
-			// just to have something in case no prior return was triggered
-			return `some time`;
+			return timeToText(lastEdit);
 		};
 
 		return {

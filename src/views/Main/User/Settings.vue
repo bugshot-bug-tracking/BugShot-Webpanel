@@ -1,24 +1,24 @@
 <template>
-	<div class="user-settings-layout c-scroll s-purple" v-if="user">
+	<div class="user-settings-layout bs-scroll s-purple" v-if="user">
 		<Column class="column personal">
 			<template v-slot:header>
-				<div class="bold">Personal Settings</div>
+				<div class="bold">{{ $t("personal_settings") }}</div>
 			</template>
 
 			<div class="body">
 				<Container>
 					<form
-						class="wrapper my-3"
+						class="wrapper my-3 default-form"
 						@submit.prevent=""
 						@reset.prevent="cancelClick"
 					>
 						<div class="group">
-							<div class="label">First Name</div>
+							<div class="label">{{ $t("first_name") }}</div>
 
 							<div class="bs-input my-3">
 								<input
 									v-model="data.first_name"
-									placeholder="First Name"
+									:placeholder="$t('first_name')"
 									type="text"
 									autocomplete="given-name"
 									:disabled="disableForm"
@@ -27,12 +27,12 @@
 						</div>
 
 						<div class="group">
-							<div class="label">Last Name</div>
+							<div class="label">{{ $t("last_name") }}</div>
 
 							<div class="bs-input my-3">
 								<input
 									v-model="data.last_name"
-									placeholder="First Name"
+									:placeholder="$t('last_name')"
 									type="text"
 									autocomplete="family-name"
 									:disabled="disableForm"
@@ -40,15 +40,15 @@
 							</div>
 						</div>
 
-						<div class="text-header">Contact informations</div>
+						<div class="text-header">{{ $t("contact_info") }}</div>
 
 						<div class="group">
-							<div class="label">Email</div>
+							<div class="label">{{ $t("email") }}</div>
 
 							<div class="bs-input w-icon my-3">
 								<input
 									:v-model="data.email"
-									placeholder="E-Mail"
+									:placeholder="$t('email')"
 									type="email"
 									autocomplete="email"
 									:disabled="disableForm"
@@ -61,12 +61,14 @@
 							</div>
 						</div>
 
-						<div class="text-header">Change Password</div>
+						<div class="text-header">
+							{{ $t("change_password") }}
+						</div>
 
-						<div class="bs-input w-icon my-3">
+						<div class="bs-input w-icon my-3 w-95">
 							<input
 								v-model="data.password.current"
-								placeholder="Current Password"
+								:placeholder="$t('current_password')"
 								:type="show.current ? 'text' : 'password'"
 								autocomplete="password"
 								:disabled="disableForm"
@@ -88,10 +90,10 @@
 							/>
 						</div>
 
-						<div class="bs-input w-icon my-3">
+						<div class="bs-input w-icon my-3 w-95">
 							<input
 								v-model="data.password.new"
-								placeholder="New Password"
+								:placeholder="$t('new_password')"
 								:type="show.new ? 'text' : 'password'"
 								autocomplete="new-password"
 								:disabled="disableForm"
@@ -112,10 +114,10 @@
 							/>
 						</div>
 
-						<div class="bs-input w-icon my-3">
+						<div class="bs-input w-icon my-3 w-95">
 							<input
 								v-model="data.password.confirm"
-								placeholder="Confirm Password"
+								:placeholder="$t('confirm_password')"
 								:type="show.new ? 'text' : 'password'"
 								autocomplete="new-password"
 								:disabled="disableForm"
@@ -141,7 +143,7 @@
 								class="btn bs bf-green"
 								:class="{ disabled: disableForm }"
 							>
-								Save
+								{{ $t("save") }}
 							</button>
 
 							<button
@@ -149,7 +151,7 @@
 								:class="{ disabled: disableForm }"
 								type="reset"
 							>
-								Cancel
+								{{ $t("cancel") }}
 							</button>
 						</div>
 					</form>
@@ -157,9 +159,9 @@
 			</div>
 		</Column>
 
-		<Column class="column">
+		<Column class="column" v-if="false">
 			<template v-slot:header>
-				<div class="bold">Extension</div>
+				<div class="bold">{{ $t("extension.extension") }}</div>
 			</template>
 
 			<div class="body">
@@ -172,12 +174,17 @@
 						/>
 
 						<div class="block plugin">
-							<div class="header">The Plugin</div>
+							<div class="header">
+								{{ $t("extension.the_plugin") }}
+							</div>
 
 							<div class="body">
 								<div class="text">
-									Install the browser extension so you can
-									give and receive feedback.
+									{{
+										$t(
+											"extension.install_browser_extension"
+										) + "."
+									}}
 								</div>
 
 								<img
@@ -189,16 +196,20 @@
 									class="btn bs bf-green"
 									@click.prevent="chromeStore"
 								>
-									Install Plugin
+									{{ $t("extension.install_plugin") }}
 								</a>
 							</div>
 						</div>
 
 						<div class="block apps">
-							<div class="header">The Apps</div>
+							<div class="header">
+								{{ $t("extension.the_apps") }}
+							</div>
 
 							<div class="body">
-								<div class="text">Download client apps</div>
+								<div class="text">
+									{{ $t("extension.download_client_app") }}
+								</div>
 
 								<div class="stores">
 									<img
@@ -403,13 +414,13 @@ export default {
 	}
 
 	.group {
-		width: 100%;
+		width: 95%;
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
 
 		> .label {
-			padding: 0 5%;
+			padding: 0 0.5rem;
 			margin-bottom: -1rem;
 		}
 	}
@@ -424,5 +435,9 @@ export default {
 	.bold {
 		font-weight: bold;
 	}
+}
+
+.w-95 {
+	width: 95%;
 }
 </style>

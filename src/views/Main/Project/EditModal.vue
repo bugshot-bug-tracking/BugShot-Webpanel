@@ -2,16 +2,16 @@
 	<Modal :show="show" @close="close">
 		<div class="wrapper" v-if="project">
 			<div class="header">
-				<span>Edit Project</span>
+				<span>{{ $t("edit.project") }}</span>
 			</div>
 
-			<form @submit.prevent="saveChanges">
-				<div class="label">Project Name</div>
+			<form class="default-form" @submit.prevent="saveChanges">
+				<div class="label">{{ $t("project_name") }}</div>
 
 				<div class="bs-input my-3">
 					<input
 						v-model="projectParams.name"
-						:placeholder="`Enter Project Name`"
+						:placeholder="$t('enter_project_name')"
 						:type="'text'"
 						required
 					/>
@@ -22,7 +22,7 @@
 				<div class="bs-input my-3">
 					<input
 						v-model="projectParams.url"
-						:placeholder="`Enter Project URL (Optional)`"
+						:placeholder="$t('enter_project_url')"
 						:type="'url'"
 					/>
 				</div>
@@ -35,15 +35,18 @@
 					:image="projectParams.image"
 				/>
 
-				<button class="btn bs bf-green mt-3">Save Changes</button>
+				<button class="btn bs bf-green mt-3">
+					{{ $t("save_changes") }}
+				</button>
 			</form>
 		</div>
 	</Modal>
 
-	<StatusModal
-		v-if="process.show"
-		:status="process.status"
-		:message="process.message"
+	<LoadingModal
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="loadingModal.show = false"
 	/>
 </template>
 
@@ -53,7 +56,8 @@ import Modal from "../../../components/Modal.vue";
 import { computed, nextTick, onMounted } from "@vue/runtime-core";
 import Picker from "../../../components/Picker.vue";
 import store from "../../../store";
-import StatusModal from "../../../components/Modals/StatusModal.vue";
+import LoadingModal from "@/components/Modals/LoadingModal.vue";
+import toBase64 from "@/util/toBase64";
 
 export default {
 	name: "EditProjectModal",
@@ -67,7 +71,7 @@ export default {
 	components: {
 		Modal,
 		Picker,
-		StatusModal,
+		LoadingModal,
 	},
 	setup(props, context) {
 		const show = ref(false);
@@ -129,14 +133,6 @@ export default {
 			projectParams.color = value;
 		};
 
-		const toBase64 = (file) =>
-			new Promise((resolve, reject) => {
-				const reader = new FileReader();
-				reader.readAsDataURL(file);
-				reader.onload = () => resolve(reader.result);
-				reader.onerror = (error) => reject(error);
-			});
-
 		const saveChanges = async () => {
 			let data = {
 				id: props.id,
@@ -147,35 +143,35 @@ export default {
 			};
 
 			try {
-				process.show = true;
-				process.status = 0;
-				process.message = null;
+				loadingModal.show = true;
+				loadingModal.state = 0;
+				loadingModal.message = null;
 
 				await store.dispatch("updateProject", data);
 
-				process.status = 1;
-				process.message = `Project edited successfully.`;
+				loadingModal.state = 1;
+				loadingModal.message = `Project edited successfully.`;
 
 				setTimeout(() => {
-					process.show = false;
-					process.status = 0;
-					process.message = null;
+					loadingModal.show = false;
+					loadingModal.state = 0;
+					loadingModal.message = null;
 					close();
 				}, 4000);
 			} catch (error) {
 				console.log(error);
-				process.status = 2;
+				loadingModal.state = 2;
 
 				setTimeout(() => {
-					process.show = false;
-					process.status = 0;
+					loadingModal.show = false;
+					loadingModal.state = 0;
 				}, 4000);
 			}
 		};
 
-		const process = reactive({
+		const loadingModal = reactive({
 			show: false,
-			status: 0,
+			state: 0,
 			message: null,
 		});
 
@@ -187,7 +183,7 @@ export default {
 			setImage,
 			setColor,
 			saveChanges,
-			process,
+			loadingModal,
 		};
 	},
 };

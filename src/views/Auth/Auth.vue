@@ -7,15 +7,21 @@
 
 		<!-- ./right-port -->
 		<div class="right-port">
-			<router-view />
+			<div />
+
+			<div>
+				<router-view />
+			</div>
+
+			<div class="footer">
+				<I18nSwitcher />
+			</div>
 		</div>
 	</div>
 </template>
 
-<script>
-export default {
-	name: "AuthLayout",
-};
+<script setup>
+import I18nSwitcher from "../../components/i18nSwitcher.vue";
 </script>
 
 <style lang="scss" scoped>
@@ -26,7 +32,7 @@ export default {
 	display: flex;
 
 	.left-port {
-		background-image: url(../../assets/images/login-bg.jpg);
+		background-image: url(../../assets/images/bugshot_login_background.jpg);
 		flex: 0 0 50%;
 		width: 50vw;
 		background-size: cover;
@@ -66,6 +72,14 @@ export default {
 	margin-right: auto;
 	position: relative;
 	align-items: center;
-	justify-content: center;
+	justify-content: space-between;
+}
+
+.footer {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 1rem;
+	width: 100%;
 }
 </style>

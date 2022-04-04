@@ -1,12 +1,12 @@
 <template>
 	<div class="sidebar">
-		<h3>Companies</h3>
+		<h3>{{ $t("company", 2) }}</h3>
 
 		<!-- <div class="search">
 			<Search />
 		</div> -->
 
-		<div class="companies c-scroll s-purple">
+		<div class="companies bs-scroll s-purple">
 			<ul>
 				<li v-for="[, company] of companies" :key="company.id">
 					<div class="company">
@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import { computed, nextTick, ref } from "@vue/runtime-core";
+import { computed } from "@vue/runtime-core";
 import Search from "../../../components/Search.vue";
 import store from "../../../store";
 import CreateDataModal from "../../../components/CreateDataModal.vue";

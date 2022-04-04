@@ -10,12 +10,12 @@
 			</div>
 
 			<div class="id">
-				<label> ID: </label>
-				<div class="content">{{ bug.id }}</div>
+				<label> {{ $t("id") + ":" }} </label>
+				<div class="content">{{ bug.attributes.ai_id }}</div>
 			</div>
 
 			<div class="creator">
-				<label>Creator:</label>
+				<label>{{ $t("creator") + ":" }}</label>
 
 				<div class="content">
 					<div class="name">
@@ -25,20 +25,20 @@
 					</div>
 
 					<div class="date">
-						{{ date(bug.attributes.created_at) }}
+						{{ dateFix(bug.attributes.created_at) }}
 					</div>
 				</div>
 			</div>
 
 			<div class="screenshot">
 				<Screenshot
-					:screenshots="bug.screenshots"
+					:screenshots="bug.screenshots ? bug.screenshots : []"
 					:priority="bug.attributes.priority.id"
 				/>
 			</div>
 
 			<div class="url">
-				<label>URL:</label>
+				<label>{{ $t("url") + ":" }}</label>
 				<div class="content">
 					<a :href="bug.attributes.url" target="_blank">
 						{{ bug.attributes.url }}
@@ -47,7 +47,7 @@
 			</div>
 
 			<div class="description">
-				<label>Description:</label>
+				<label>{{ $t("description") + ":" }}</label>
 				<div class="content">{{ bug.attributes.description }}</div>
 			</div>
 
@@ -56,29 +56,33 @@
 					class="technical-label d-inline-flex justify-content-between"
 					@click="open = !open"
 				>
-					<span>Technical information:</span>
+					<span>{{ $t("technical_info") + ":" }}</span>
 					<img src="../assets/icons/caret-down-fill.svg" />
 				</div>
 				<div class="technical-info">
 					<div class="os">
-						<label>Operating System:</label>
+						<label>{{ $t("os") + ":" }}</label>
+
 						<div class="content">
 							{{ bug.attributes.operating_system }}
 						</div>
 					</div>
 
 					<div class="browser">
-						<label>Browser:</label>
+						<label>{{ $t("browser") + ":" }}</label>
+
 						<div class="content">{{ bug.attributes.browser }}</div>
 					</div>
 
 					<div class="selector">
-						<label>Selector:</label>
+						<label>{{ $t("selector") + ":" }}</label>
+
 						<div class="content">{{ bug.attributes.selector }}</div>
 					</div>
 
 					<div class="resolution">
-						<label>Resolution:</label>
+						<label>{{ $t("resolution") + ":" }}</label>
+
 						<div class="content">
 							{{ bug.attributes.resolution }}
 						</div>
@@ -88,40 +92,42 @@
 
 			<div class="grid1x2 my-3">
 				<div class="grid1x2">
-					<label>Priority:</label>
+					<label>{{ $t("priority") + ":" }}</label>
+
 					<PriorityChange
 						:priority="bug.attributes.priority.id"
 						class="content"
+						:lock="false"
 						@change="changePriority"
 					/>
 				</div>
 
 				<div class="grid1x2 status">
-					<label>Status:</label>
+					<label>{{ $t("status") + ":" }}</label>
+
 					<div class="content status">
-						{{
-							statusInfo(bug.attributes.status_id).attributes
-								.designation
-						}}
+						{{ status.attributes.designation }}
 					</div>
 				</div>
 			</div>
 
 			<div class="deadline">
-				<label>Deadline:</label>
+				<label>{{ $t("deadline") + ":" }}</label>
 
 				<div class="content">
 					<Datepicker
 						v-model="datePicker"
-						placeholder="No Deadline"
+						:placeholder="$t('no_deadline')"
 						@cleared="clearDeadline"
 						@closed="changeDeadline"
+						:selectText="$t('select.select')"
+						:cancelText="$t('cancel')"
 					/>
 				</div>
 			</div>
 
 			<div class="assignes my-3">
-				<label>Assigned to:</label>
+				<label>{{ $t("assigned_to") + ":" }}</label>
 
 				<div class="content">
 					<Assignes
@@ -136,114 +142,75 @@
 	<AssignModal v-if="assignShow" :id="bug_id" @close="assignShow = false" />
 </template>
 
-<script>
-import { computed, ref } from "@vue/reactivity";
+<script setup>
 import Container from "./Container.vue";
 import Screenshot from "./Screenshot.vue";
-import store from "../store";
 import PriorityChange from "./PriorityChange.vue";
-
 import Datepicker from "vue3-date-time-picker";
-import "vue3-date-time-picker/dist/main.css";
 import Assignes from "./Assignes.vue";
 import AssignModal from "./AssignModal.vue";
+import dateFix from "@/util/dateFixISO";
+import { ref } from "@vue/reactivity";
+import store from "../store";
 
-export default {
-	components: {
-		Container,
-		Screenshot,
-		PriorityChange,
-		Datepicker,
-		Assignes,
-		AssignModal,
+const emit = defineEmits(["close"]);
+const props = defineProps({
+	bug: {
+		required: true,
+		type: Object,
 	},
-	name: "Info",
-	props: {
-		bug_id: {
-			required: true,
-			type: String,
+	status: {
+		required: true,
+		type: Object,
+	},
+});
+
+const open = ref(false);
+
+const datePicker = ref(dateFix(props.bug.attributes.deadline));
+
+const changePriority = (value) => {
+	store.dispatch("kanban/syncBug", {
+		id: props.bug.id,
+		changes: {
+			priority_id: value,
 		},
-	},
-	emits: ["close"],
-	setup(props, context) {
-		const open = ref(false);
-
-		const datePicker = ref(null);
-
-		const bug = computed(() => {
-			let bug = store.getters.getBugById(props.bug_id);
-
-			datePicker.value = bug?.attributes.deadline;
-
-			if (
-				datePicker.value &&
-				datePicker.value.slice(-1).toUpperCase() !== "Z"
-			)
-				datePicker.value += "Z";
-
-			return bug;
-		});
-
-		const date = (dateString) => {
-			if (dateString === "" || dateString === null) return "";
-			if (dateString.slice(-1).toUpperCase() !== "Z") dateString += "Z";
-
-			return new Date(dateString).toLocaleString();
-		};
-
-		const statusInfo = (status_id) => {
-			return store.getters.getStatusById(status_id);
-		};
-
-		const changePriority = (value) => {
-			// make the changes in store then sync with DB
-			bug.value.attributes.priority.id = value;
-
-			store.dispatch("syncBug", bug.value.id);
-		};
-
-		const clearDeadline = () => {
-			bug.value.attributes.deadline = null;
-
-			store.dispatch("syncBug", bug.value.id);
-		};
-
-		const changeDeadline = () => {
-			let newDate = datePicker.value
-				? new Date(datePicker.value).toISOString()
-				: null;
-
-			if (bug.value.attributes.deadline != null) {
-				let bug_deadline = bug.value.attributes.deadline;
-
-				if (bug_deadline.slice(-1).toUpperCase() !== "Z")
-					bug_deadline += "Z";
-
-				let deadline = new Date(bug_deadline).toISOString();
-
-				if (newDate && newDate === deadline) return;
-			}
-
-			bug.value.attributes.deadline = newDate;
-
-			store.dispatch("syncBug", bug.value.id);
-		};
-
-		const assignShow = ref(false);
-
-		return {
-			open,
-			date,
-			datePicker,
-			statusInfo,
-			bug,
-			changePriority,
-			clearDeadline,
-			changeDeadline,
-			assignShow,
-		};
-	},
+	});
 };
+
+const clearDeadline = () => {
+	store.dispatch("kanban/syncBug", {
+		id: props.bug.id,
+		changes: {
+			deadline: null,
+		},
+	});
+};
+
+const changeDeadline = () => {
+	let newDate = datePicker.value
+		? new Date(datePicker.value).toISOString()
+		: null;
+
+	if (props.bug.attributes.deadline != null) {
+		let bug_deadline = props.bug.attributes.deadline;
+
+		if (bug_deadline.match(/[z]$/i) == null) bug_deadline += "Z";
+
+		let deadline = new Date(bug_deadline).toISOString();
+
+		if (newDate && newDate === deadline) return;
+	}
+
+	store.dispatch("kanban/syncBug", {
+		id: props.bug.id,
+		changes: {
+			deadline: newDate,
+		},
+	});
+};
+
+const assignShow = ref(false);
 </script>
 
 <style lang="scss" scoped>
@@ -421,5 +388,13 @@ export default {
 			margin-top: 6px;
 		}
 	}
+}
+</style>
+
+<style lang="scss">
+@import "vue3-date-time-picker/dist/main.css";
+
+.dp__select {
+	color: #18b984;
 }
 </style>

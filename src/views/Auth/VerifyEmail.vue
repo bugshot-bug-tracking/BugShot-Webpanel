@@ -2,17 +2,17 @@
 	<div class="wrapper">
 		<div class="container loading" v-if="status === 0">
 			<img src="../../assets/global/loading.svg" alt="loading" />
-			<div class="text">Processing...</div>
+			<div class="text">{{ $t("processing") + "..." }}</div>
 		</div>
 
 		<div class="container success" v-if="status === 1">
 			<img src="../../assets/gif/bug_confirmation.gif" alt="loading" />
-			<div class="text">Success!</div>
+			<div class="text">{{ $t("success") + "..." }}</div>
 		</div>
 
 		<div class="container error" v-if="status === 2">
 			<img src="../../assets/gif/error_bug.gif" alt="loading" />
-			<div class="text">Error!</div>
+			<div class="text">{{ $t("error") + "..." }}</div>
 		</div>
 	</div>
 
