@@ -349,8 +349,22 @@ export default {
 
 		getBugs: (state) => state.bugs,
 		getBugById: (state) => (id) => state.bugs.get(id),
-		getBugsByStatusId: (state) => (id) =>
-			state.links.get(id) ? state.links.get(id).bug_ids : [],
+		getBugsByStatusId: (state) => (id) => {
+			if (state.links.get(id)) {
+				let list = state.links.get(id).bug_ids;
+
+				list = list.sort((a, b) => {
+					return state.bugs.get(a).attributes.order_number <
+						state.bugs.get(b).attributes.order_number
+						? -1
+						: 1;
+				});
+
+				return list;
+			} else {
+				return [];
+			}
+		},
 
 		getLinks: (state) => Array.from(state.links, (x) => x[1]),
 
