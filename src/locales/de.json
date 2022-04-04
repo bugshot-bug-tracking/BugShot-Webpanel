@@ -140,7 +140,8 @@
 		"comment": "Kommentar hinzufügen | Kommentare hinzufügen",
 		"atachment": "Anhang hinzufügen | Anhänge hinzufügen",
 		"member": "Member hinzufügen | Members hinzufügen",
-		"team_member": "Teammitglied hinzufügen | Teammitglieder hinzufügen"
+		"team_member": "Teammitglied hinzufügen | Teammitglieder hinzufügen",
+		"column": "Spalte hinzufügen"
 	},
 
 	"create": {
@@ -224,5 +225,8 @@
 	"describe_problem": "Beschreiben Sie Ihr Problem",
 	"report_bug": "Fehler melden",
 	"set_priority": "Priorität setzen",
-	"pick_date": "Suche dir einen Termin aus"
+	"pick_date": "Suche dir einen Termin aus",
+
+	"add_new_column": "Neue Spalte hinzufügen",
+	"enter_column_name": "Spaltennamen eingeben"
 }

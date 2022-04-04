@@ -139,7 +139,8 @@
 		"comment": "Add comment | Add comments",
 		"atachment": "Add atachment | Add atachments",
 		"member": "Add member | Add members",
-		"team_member": "Add team member | Add team members"
+		"team_member": "Add team member | Add team members",
+		"column": "Add column"
 	},
 
 	"create": {
@@ -223,5 +224,8 @@
 	"describe_problem": "Bug description",
 	"report_bug": "Report bug",
 	"set_priority": "Set priority",
-	"pick_date": "Pick a date"
+	"pick_date": "Pick a date",
+
+	"add_new_column": "Add new column",
+	"enter_column_name": "Enter column name"
 }
