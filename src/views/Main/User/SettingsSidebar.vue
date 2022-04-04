@@ -1,38 +1,48 @@
 <template>
-	<div class="sidebar">
-		<h3>{{ $t("setting", 2) }}</h3>
-
-		<span class="name">
-			<div>{{ $t("hello") + "," }},</div>
-			<div class="username">{{ user?.attributes?.first_name }}</div></span
-		>
-		<div class="links">
-			<router-link
-				:to="{
-					name: 'UserSettings',
-				}"
-				class="item"
+	<div class="wraper">
+		<div class="sidebar">
+			<h3>{{ $t("setting", 2) }}</h3>
+			<span class="name">
+				<div>{{ $t("hello") + "," }}</div>
+				<div class="username">
+					{{ user?.attributes?.first_name }}
+				</div></span
 			>
-				{{ $t("setting", 2) }}
-			</router-link>
+			<div class="links">
+				<router-link
+					:to="{
+						name: 'UserSettings',
+					}"
+					class="item"
+				>
+					{{ $t("setting", 2) }}
+				</router-link>
+			</div>
+		</div>
+
+		<div class="log-out">
+			<a class="btn bs be-red" @click="logout">
+				<img
+					src="../../../assets/extern/logout.svg"
+					class="bs-to-red"
+				/>
+				{{ $t("log_out") }}
+			</a>
 		</div>
 	</div>
 </template>
 
-<script>
+<script setup>
 import { computed } from "@vue/reactivity";
 import store from "../../../store";
-export default {
-	name: "UserSettingsSidebar",
-	setup(props) {
-		const user = computed(() => {
-			return store.getters.getUser;
-		});
+import router from "../../../router";
 
-		return {
-			user,
-		};
-	},
+const user = computed(() => {
+	return store.getters.getUser;
+});
+const logout = () => {
+	store.dispatch("logout");
+	router.push({ name: "Login" });
 };
 </script>
 
@@ -92,5 +102,36 @@ export default {
 		text-decoration: none;
 		color: black;
 	}
+}
+
+.log-out {
+	height: 8vh;
+	min-height: 60px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	border-top: 1px solid #ede4fc;
+	padding: 10px 0;
+
+	a {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	img {
+		width: 24px;
+		height: 24px;
+		transform: rotateZ(90deg);
+	}
+}
+
+.wraper {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+	justify-content: space-between;
 }
 </style>

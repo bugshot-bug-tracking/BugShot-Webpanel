@@ -160,7 +160,7 @@ export default {
 			font-weight: bold;
 
 			&:hover {
-				background: hsl(265, 79%, 92%);
+				background: hsla(0, 88%, 58%, 10%);
 			}
 		}
 	}

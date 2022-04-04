@@ -93,8 +93,8 @@ export default {
 		text-align: left;
 	}
 	.companies {
-		padding: 10px;
-		font-size: 20px;
+		padding: 10px 0px 10px 10px;
+		font-size: 16px;
 		border-top: 1px solid #ede4fc;
 		overflow: auto;
 		height: 100%;
@@ -107,7 +107,7 @@ export default {
 			flex-direction: column;
 
 			> li {
-				padding: 10px;
+				padding: 4px 4px 8px 4px;
 			}
 		}
 
@@ -120,8 +120,8 @@ export default {
 			display: flex;
 			justify-content: space-between;
 			font-weight: 600;
-			margin-bottom: 10px;
-			padding: 6px 12px;
+			margin-bottom: 4px;
+			padding: 6px;
 
 			&:hover {
 				background-color: hsl(263, 79%, 94%);
@@ -163,7 +163,7 @@ export default {
 		.entry {
 			display: inline-flex;
 			align-items: center;
-			padding: 10px 10px 10px 30px;
+			padding: 10px 10px 10px 10px;
 
 			&:hover {
 				background-color: hsl(263, 79%, 94%);

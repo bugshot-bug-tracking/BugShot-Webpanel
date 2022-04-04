@@ -47,10 +47,6 @@
 					<router-link :to="{ name: 'UserSettings' }">
 						<img src="../assets/extern/m-3.svg" alt="" />
 					</router-link>
-
-					<div class="logout" @click="logout">
-						<img src="../assets/extern/logout.svg" />
-					</div>
 				</div>
 
 				<I18nSwitcher class="mt-4" />
@@ -59,32 +55,15 @@
 	</nav>
 </template>
 
-<script>
-import router from "../router";
+<script setup>
 import store from "../store";
 import { computed } from "@vue/reactivity";
 import Notification from "../components/Notification.vue";
 import I18nSwitcher from "../components/i18nSwitcher.vue";
 
-export default {
-	name: "Navbar",
-	components: { Notification, I18nSwitcher },
-	setup() {
-		const logout = () => {
-			store.dispatch("logout");
-			router.push({ name: "Login" });
-		};
-
-		const invitations = computed(() => {
-			return store.getters.getInvitations;
-		});
-
-		return {
-			logout,
-			invitations,
-		};
-	},
-};
+const invitations = computed(() => {
+	return store.getters.getInvitations;
+});
 </script>
 
 <style lang="scss" scoped>
