@@ -3,7 +3,7 @@
 		<h3>{{ $t("setting", 2) }}</h3>
 
 		<span class="name">
-			<div>{{ $t("hello") + "," }},</div>
+			<div>{{ $t("hello") + "," }}</div>
 			<div class="username">{{ user?.attributes?.first_name }}</div></span
 		>
 		<div class="links">

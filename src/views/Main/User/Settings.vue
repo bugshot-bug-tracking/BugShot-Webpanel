@@ -159,7 +159,7 @@
 			</div>
 		</Column>
 
-		<Column class="column">
+		<Column class="column" v-if="false">
 			<template v-slot:header>
 				<div class="bold">{{ $t("extension.extension") }}</div>
 			</template>
