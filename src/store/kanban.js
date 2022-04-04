@@ -219,7 +219,8 @@ export default {
 				);
 
 				//! TODO remove when live update works
-				state.commit("SET_BUG", response.data.data);
+				await state.dispatch("loadStatuses");
+				await state.dispatch("loadBugs");
 			} catch (error) {
 				console.log(error);
 			}
