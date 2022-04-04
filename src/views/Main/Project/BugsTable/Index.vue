@@ -56,7 +56,7 @@
 
 		<div class="extras" v-if="!newStatus.form">
 			<a @click="toggleForm">
-				Add New Column
+				{{ $t("add_new_column") }}
 				<img
 					src="../../../../assets/icons/add.svg"
 					alt="add"
@@ -69,13 +69,15 @@
 			<div class="bs-input">
 				<input
 					type="text"
-					placeholder="Enter Column Name"
+					:placeholder="$t('enter_column_name')"
 					v-model="newStatus.name"
 				/>
 			</div>
 
 			<div class="actions my-4">
-				<a class="btn bs bf-green" @click="addStatus">Add column</a>
+				<a class="btn bs bf-green" @click="addStatus">
+					{{ $t("add.column") }}
+				</a>
 				<a @click="toggleForm" class="bs-to-gray btn">
 					<img
 						src="../../../../assets/icons/round_x.svg"
