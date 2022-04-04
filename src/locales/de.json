@@ -11,8 +11,8 @@
 	"by": "Von",
 	"save": "Speichern",
 	"register": "Registrieren",
-	"email": "Email",
-	"email_address": "Email Adresse",
+	"email": "E-Mail",
+	"email_address": "E-Mail Adresse",
 	"yes": "Ja",
 	"no": "Nein",
 	"general": "Generell",
@@ -39,23 +39,23 @@
 	"color": "Farbe | Farben",
 
 	"setting": "Einstellung | Einstellungen",
-	"personal_settings": "Persönlliche Einstellungen",
+	"personal_settings": "Persönliche Einstellungen",
 	"general_settings": "Allgemeine Einstellungen",
 	"company_settings": "Firmen-Einstellungen",
 
 	"first_name": "Vorname",
 	"middle_name": "Zweiter Vorname",
 	"last_name": "Nachname",
-	"contact_info": "Kontakt Informationen",
+	"contact_info": "Kontaktinformationen",
 
 	"password": "Passwort",
-	"current_password": "Derzeitiges Password",
+	"current_password": "Derzeitiges Passwort",
 	"confirm_password": "Passwort bestätigen",
 	"new_password": "Neues Passwort",
 	"old_password": "Altes Passwort",
 	"change_password": "Passwort ändern",
 	"reset_password": "Passwort zurücksetzen",
-	"password_reset": "Passwortreset",
+	"password_reset": "Passwortzurücksetzung",
 	"save_password": "Passwort speichern",
 	"forgot_password": "Passwort vergessen",
 
@@ -76,10 +76,10 @@
 	"privacy_policy": "Datenschutzbestimmungen",
 
 	"loading": "Lädt",
-	"processing": "Berechnet",
+	"processing": "Verarbeitet",
 
 	"hide_mark": "Marker verstecken",
-	"show_mark": "Marker zeigen",
+	"show_mark": "Marker anzeigen",
 
 	"all_projects": "Alle Projekte",
 	"task_overview": "Task Übersicht",
@@ -94,15 +94,15 @@
 
 	"clear_all": "Alles entfernen",
 
-	"no_deadline": "Keine deadline",
-	"go_to_home": "zurück zur Startseite",
-	"team_members": "Teammitlieder",
+	"no_deadline": "Keine Deadline",
+	"go_to_home": "Zurück zur Startseite",
+	"team_members": "Teammitglieder",
 	"assign_team_member": "Teammitglieder hinzufügen",
 	"save_changes": "Änderungen speichern",
 
 	"tos_and_pp": "Ich akzeptiere BugShot's {tos} und {pp}",
-	"want_to_delete": "Wollen Sie das wirklich löschen",
-	"pleace_confirm_email": "Bitte bestätigen Sie ihre Email bevor Sie sich einloggen",
+	"want_to_delete": "Willst du das wirklich löschen",
+	"pleace_confirm_email": "Bitte bestätige Deine Email bevor du dich anmeldest",
 
 	"company_edit_success": "Firma erfolgreich bearbeitet",
 	"company_delete_success": "Firma erfolgreich gelöscht",
@@ -110,28 +110,28 @@
 	"project_edit_success": "Projekt erfolgreich bearbeitet",
 	"project_delete_success": "Projekt erfolgreich gelöscht",
 
-	"enter_company_name": "Geben Sie einen Firmennamen ein",
+	"enter_company_name": "Gib einen Firmennamen ein",
 
-	"enter_project_name": "Geben Sie einen Projektnamen ein",
-	"enter_project_url": "Geben Sie eine Projekt-URL ein (optional)",
+	"enter_project_name": "Gib einen Projektnamen ein",
+	"enter_project_url": "Gib eine Projekt-URL ein (optional)",
 
 	"problem_encountered": "Wir sind auf ein Problem gestoßen",
-	"no_new_notifications": "Keinen neuen Benachrichtigungen",
-	"invited_to_join": "Sie wurden zum Betritt eingeladen ",
+	"no_new_notifications": "Keine neuen Benachrichtigungen",
+	"invited_to_join": "Du wurdest zum Betritt eingeladen ",
 
 	"delete_company_and_projects": "Löschen von Firma und zugehörigen Projekten",
 	"cant_be_reverted": "kann nicht rückgängig gemacht werden",
 
 	"member_out_of": "{x} von {n}",
 
-	"last_edit_ago": "letztes bearbeitungsdatum @:last_update",
+	"last_edit_ago": "letztes Bearbeitungsdatum @:last_update",
 	"last_update": "vor {time}",
 
 	"some_time": "einiger zeit",
-	"x_day": "{x} tag | {x} tagen",
-	"x_hour": "{x} stunde | {x} stunden",
-	"x_minute": "{x} minute | {x} minuten",
-	"x_second": "{x} sekunde | {x} sekunden",
+	"x_day": "{x} Tag | {x} Tagen",
+	"x_hour": "{x} Stunde | {x} Stunden",
+	"x_minute": "{x} Minute | {x} Minuten",
+	"x_second": "{x} Sekunde | {x} Sekunden",
 
 	"add": {
 		"company": "Firma hinzufügen | Firmen hinzufügen",
@@ -139,9 +139,8 @@
 		"bug": "Bug hinzufügen | Bugs hinzufügen",
 		"comment": "Kommentar hinzufügen | Kommentare hinzufügen",
 		"atachment": "Anhang hinzufügen | Anhänge hinzufügen",
-		"member": "Member hinzufügen | Members hinzufügen",
-		"team_member": "Teammitglied hinzufügen | Teammitglieder hinzufügen",
-		"column": "Spalte hinzufügen"
+		"member": "Mitglied hinzufügen | Mitglieder hinzufügen",
+		"team_member": "Teammitglied hinzufügen | Teammitglieder hinzufügen"
 	},
 
 	"create": {
@@ -162,7 +161,7 @@
 		"bug": "Bug bearbeiten | Bugs bearbeiten",
 		"comment": "Kommentar bearbeiten | Kommentare bearbeiten",
 		"atachment": "Anhang bearbeiten | Anhänge bearbeiten",
-		"member": "Member bearbeiten | Members bearbeiten",
+		"member": "Mitglied bearbeiten | Mitglieder bearbeiten",
 		"team_member": "Teammitglied bearbeiten | Teammitglieder bearbeiten"
 	},
 
@@ -174,7 +173,7 @@
 		"bug": "Bug löschen | Bugs löschen",
 		"comment": "Kommentar löschen | Kommentare löschen",
 		"atachment": "Anhang löschen | Anhänge löschen",
-		"member": "Member löschen | Members löschen",
+		"member": "Mitglied löschen | Mitglieder löschen",
 		"team_member": "Teammitglied löschen | Teammitglied löschen"
 	},
 
@@ -186,35 +185,35 @@
 		"bug": "Bug auswählen | Bugs auswählen",
 		"comment": "Kommentar auswählen | Kommentare auswählen",
 		"atachment": "Anhang auswählen | Anhänge auswählen",
-		"member": "Member auswählen | Members auswählen",
+		"member": "Mitglied auswählen | Mitglieder auswählen",
 		"team_member": "Teammitlied auswählen | Teammitlieder auswählen"
 	},
 
 	"picker": {
-		"drag_and_drop": "Fügen Sie hier ihr Logo per 'Drag and drop' ein oder",
-		"upload_image": "Laden Sie ein Bild hoch",
-		"select_color": "Wählen Sie eine Farbe"
+		"drag_and_drop": "Füge hier Dein Logo per 'Drag and drop' ein oder",
+		"upload_image": "Lade ein Bild hoch",
+		"select_color": "Wähle eine Farbe"
 	},
 
 	"screenshot": {
-		"drag_and_drop": "Fügen Sie Ihr Bild hier per 'Drag and Drop' ein oder"
+		"drag_and_drop": "Füge hier Dein Bild per 'Drag and Drop' ein oder"
 	},
 
 	"extension": {
 		"extension": "Erweiterung | Erweiterungen",
 		"the_plugin": "Das Plugin",
-		"install_browser_extension": "Installieren Sie die Browsererweiterung um Feed geben und bekommen zu können.",
+		"install_browser_extension": "Installiere die Browsererweiterung um Feedback geben und erhalten zu können.",
 		"install_plugin": "Plugin installieren",
 		"the_apps": "Die Anwendungen",
 		"download_client_app": "Anwendungen herunterladen"
 	},
 
 	"limits": {
-		"min_chars": "Minimum  von {x} Zeichen",
+		"min_chars": "Minimum von {x} Zeichen",
 		"letters": "Buchstaben enthalten",
 		"numbers": "Zahlen enthalten",
 		"passwords_match": "Passwörter sind gleich",
-		"max_files_limit": "Sie sind auf ein maximum von {x} Dateien limitiert",
+		"max_files_limit": "Der Upload ist auf ein Maximum von {x} Dateien limitiert",
 		"max_file_size_limit": "Folgende Dateien überschreiten ein Maximum von {x} MB:\n"
 	},
 
@@ -222,11 +221,8 @@
 
 	"bug_name": "Fehlername",
 	"bug_desc": "Fehlerbeschreibung",
-	"describe_problem": "Beschreiben Sie Ihr Problem",
+	"describe_problem": "Beschreibe Dein Problem",
 	"report_bug": "Fehler melden",
 	"set_priority": "Priorität setzen",
-	"pick_date": "Suche dir einen Termin aus",
-
-	"add_new_column": "Neue Spalte hinzufügen",
-	"enter_column_name": "Spaltennamen eingeben"
+	"pick_date": "Suche Dir einen Termin aus"
 }
