@@ -102,7 +102,7 @@
 
 	"tos_and_pp": "Ich akzeptiere BugShot's {tos} und {pp}",
 	"want_to_delete": "Willst du das wirklich löschen",
-	"pleace_confirm_email": "Bitte bestätige Deine Email bevor du dich anmeldest",
+	"please_confirm_email": "Bitte bestätige Deine Email bevor du dich anmeldest",
 
 	"company_edit_success": "Firma erfolgreich bearbeitet",
 	"company_delete_success": "Firma erfolgreich gelöscht",
@@ -227,5 +227,8 @@
 	"set_priority": "Priorität setzen",
 	"pick_date": "Suche Dir einen Termin aus",
 	"add_new_column": "Neue Spalte hinzufügen",
-	"enter_column_name": "Spaltennamen eingeben"
+	"enter_column_name": "Spaltennamen eingeben",
+
+	"team": "Mannschaft",
+	"review": "Beurteilung"
 }
