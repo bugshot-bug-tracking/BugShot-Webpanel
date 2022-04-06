@@ -24,7 +24,10 @@
 				<h4 v-if="subTitle">{{ subTitle }}</h4>
 			</div>
 
-			<form class="default-form" @submit.prevent="createResource">
+			<form
+				class="default-form bs-scroll s-purple"
+				@submit.prevent="createResource"
+			>
 				<div class="bs-input my-3 text-capitalize">
 					<input
 						:type="'text'"
@@ -57,6 +60,8 @@
 					@setColor="setColor"
 				/>
 
+				<AddMemebers @change="setInviteMembers" />
+
 				<button class="btn bs bf-green mt-2 text-capitalize">
 					{{
 						dataType === "Company"
@@ -84,6 +89,7 @@ import Modal from "./Modal.vue";
 import store from "../store";
 import LoadingModal from "@/components/Modals/LoadingModal.vue";
 import toBase64 from "@/util/toBase64";
+import AddMemebers from "./AddMemebers.vue";
 
 export default {
 	name: "CreateData",
@@ -109,6 +115,7 @@ export default {
 		Picker,
 		Modal,
 		LoadingModal,
+		AddMemebers,
 	},
 	setup(props) {
 		const modalActive = ref(false);
@@ -117,6 +124,8 @@ export default {
 		const color = ref(3);
 		const file = ref(null);
 		const url = ref("");
+
+		const inviteMembers = ref(null);
 
 		const setImage = (value) => {
 			// console.log("setImage", value);
@@ -133,6 +142,7 @@ export default {
 				name: name.value,
 				image: file.value,
 				color: color.value,
+				members: inviteMembers.value,
 			};
 
 			const colors = [
@@ -176,12 +186,30 @@ export default {
 					aditionalBody["base64"] = base64;
 				}
 
-				await axios.post(props.postPath, {
+				let response = await axios.post(props.postPath, {
 					designation: resource.name,
 					color_hex: colors[resource.color],
 					...aditionalBody, // local body extra params
 					...props.aditionalBody, // in case aditional body props are necessary from outside
 				});
+
+				response = response.data.data;
+
+				let base = "";
+				if (response.type === "Company") base = "companies";
+				else if (response.type === "Project") base = "projects";
+
+				for (const member of resource.members) {
+					try {
+						await axios.post(`${base}/${response.id}/invite`, {
+							target_email: member.email,
+							role_id: member.role,
+						});
+					} catch (error) {
+						console.log(error);
+						continue;
+					}
+				}
 
 				loadingModal.state = 1;
 
@@ -217,6 +245,10 @@ export default {
 			message: null,
 		});
 
+		const setInviteMembers = (value) => {
+			inviteMembers.value = value;
+		};
+
 		return {
 			modalActive,
 			name,
@@ -227,6 +259,7 @@ export default {
 			setColor,
 			createResource,
 			loadingModal,
+			setInviteMembers,
 		};
 	},
 };
@@ -235,21 +268,27 @@ export default {
 <style lang="scss" scoped>
 .wrapper {
 	width: 20vw;
-	min-width: 500px;
+	min-width: 600px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 50px;
+	padding: 25px 50px;
 
 	.header {
 		span {
 			font-weight: bold;
-			font-size: 30px;
+			font-size: 24px;
 		}
 
 		h4 {
 			font-size: 16px;
 		}
 	}
+}
+.default-form {
+	overflow: auto;
+	max-height: 85vh;
+	margin-right: -32px;
+	padding-right: 48px;
 }
 </style>
