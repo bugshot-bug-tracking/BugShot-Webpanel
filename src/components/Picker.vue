@@ -334,6 +334,7 @@ export default {
 				height: 24px;
 				background-color: currentColor;
 				border-radius: 100%;
+				cursor: pointer;
 
 				&:checked {
 					background-image: url("../assets/icons/check-white.svg");
