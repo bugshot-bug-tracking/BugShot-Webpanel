@@ -107,68 +107,7 @@ import { reactive, ref } from "vue";
 import Modal from "./Modal.vue";
 const emit = defineEmits(["change"]);
 
-const invites = ref([
-	{
-		email: "r@r.r",
-		role: 4,
-	},
-	{
-		email: "r@r.r",
-		role: 4,
-	},
-	{
-		email: "r@r.r",
-		role: 4,
-	},
-	{
-		email: "r@r.r",
-		role: 4,
-	},
-	{
-		email: "r@r.r",
-		role: 4,
-	},
-	{
-		email: "r@r.r",
-		role: 4,
-	},
-	{
-		email: "r@r.r",
-		role: 4,
-	},
-	{
-		email: "r@r.r",
-		role: 4,
-	},
-	{
-		email: "r@r.r",
-		role: 4,
-	},
-	{
-		email: "r@r.r",
-		role: 4,
-	},
-	{
-		email: "r@r.r",
-		role: 4,
-	},
-	{
-		email: "r@r.r",
-		role: 4,
-	},
-	{
-		email: "r@r.r",
-		role: 4,
-	},
-	{
-		email: "r@r.r",
-		role: 4,
-	},
-	{
-		email: "r@r.r",
-		role: 4,
-	},
-]);
+const invites = ref([]);
 
 const modalActive = ref(false);
 
