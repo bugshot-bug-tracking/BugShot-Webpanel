@@ -227,5 +227,8 @@
 	"set_priority": "Priorität setzen",
 	"pick_date": "Suche Dir einen Termin aus",
 	"add_new_column": "Neue Spalte hinzufügen",
-	"enter_column_name": "Spaltennamen eingeben"
+	"enter_column_name": "Spaltennamen eingeben",
+
+	"team": "Mannschaft",
+	"review": "Beurteilung"
 }

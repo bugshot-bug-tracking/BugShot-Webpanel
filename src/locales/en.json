@@ -227,5 +227,9 @@
 	"pick_date": "Pick a date",
 
 	"add_new_column": "Add new column",
-	"enter_column_name": "Enter column name"
+	"enter_column_name": "Enter column name",
+
+	"team": "Team",
+	"review": "Review"
+	
 }
