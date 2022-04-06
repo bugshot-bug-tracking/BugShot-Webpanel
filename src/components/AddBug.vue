@@ -189,7 +189,6 @@ const submit = async () => {
 		let bug = await axios.post(`statuses/${status.id}/bugs`, {
 			designation: data.designation,
 			description: data.description,
-			url: "WebPanel",
 			priority_id: data.priority,
 			...(data.deadline
 				? {

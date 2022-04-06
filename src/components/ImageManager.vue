@@ -78,14 +78,17 @@
 </template>
 
 <script setup>
-import { ref } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
 import toBase64 from "../util/toBase64";
 
 const emit = defineEmits(["update"]);
 
-const uploadMode = ref(true);
-const files = ref(null); // raw files
-const images = ref(null); // images from files
+const uploadMode = computed(() => {
+	return images.value.length === 0;
+});
+
+const files = ref([]); // raw files
+const images = ref([]); // images from files
 
 const active = ref(false);
 const counter = ref(0);
@@ -108,8 +111,6 @@ const drop = async (event) => {
 	}
 
 	emit("update", files.value);
-
-	uploadMode.value = false;
 };
 
 const change = async (event) => {
@@ -124,8 +125,6 @@ const change = async (event) => {
 	}
 
 	emit("update", files.value);
-
-	uploadMode.value = false;
 };
 
 const addImage = async (event) => {
@@ -151,12 +150,9 @@ const removeImage = () => {
 	images.value.splice(counter.value, 1);
 	files.value.splice(counter.value, 1);
 
-	if (images.value.length === 0) {
-		counter.value = 0;
-		uploadMode.value = true;
-	}
+	counter.value--;
 
-	if (counter.value >= images.value.length) counter.value--;
+	if (counter.value < 0) counter.value = 0;
 
 	emit("update", files.value);
 };
@@ -178,6 +174,7 @@ const removeImage = () => {
 	.upload-mode {
 		width: 100%;
 		height: 100%;
+		min-height: 200px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
