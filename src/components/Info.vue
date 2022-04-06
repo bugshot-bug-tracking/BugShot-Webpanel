@@ -30,14 +30,17 @@
 				</div>
 			</div>
 
-			<div class="screenshot">
+			<div
+				class="screenshot"
+				v-if="bug.screenshots ? bug.screenshots.length > 0 : false"
+			>
 				<Screenshot
 					:screenshots="bug.screenshots ? bug.screenshots : []"
 					:priority="bug.attributes.priority.id"
 				/>
 			</div>
 
-			<div class="url">
+			<div class="url" v-if="bug.attributes.url">
 				<label>{{ $t("url") + ":" }}</label>
 				<div class="content">
 					<a :href="bug.attributes.url" target="_blank">
@@ -46,12 +49,21 @@
 				</div>
 			</div>
 
-			<div class="description">
+			<div class="description" v-if="bug.attributes.description">
 				<label>{{ $t("description") + ":" }}</label>
 				<div class="content">{{ bug.attributes.description }}</div>
 			</div>
 
-			<div id="technical" :class="{ open: open }">
+			<div
+				id="technical"
+				:class="{ open: open }"
+				v-if="
+					bug.attributes.resolution ||
+					bug.attributes.selector ||
+					bug.attributes.browser ||
+					bug.attributes.operating_system
+				"
+			>
 				<div
 					class="technical-label d-inline-flex justify-content-between"
 					@click="open = !open"
@@ -59,8 +71,9 @@
 					<span>{{ $t("technical_info") + ":" }}</span>
 					<img src="../assets/icons/caret-down-fill.svg" />
 				</div>
+
 				<div class="technical-info">
-					<div class="os">
+					<div class="os" v-if="bug.attributes.operating_system">
 						<label>{{ $t("os") + ":" }}</label>
 
 						<div class="content">
@@ -68,19 +81,19 @@
 						</div>
 					</div>
 
-					<div class="browser">
+					<div class="browser" v-if="bug.attributes.browser">
 						<label>{{ $t("browser") + ":" }}</label>
 
 						<div class="content">{{ bug.attributes.browser }}</div>
 					</div>
 
-					<div class="selector">
+					<div class="selector" v-if="bug.attributes.selector">
 						<label>{{ $t("selector") + ":" }}</label>
 
 						<div class="content">{{ bug.attributes.selector }}</div>
 					</div>
 
-					<div class="resolution">
+					<div class="resolution" v-if="bug.attributes.resolution">
 						<label>{{ $t("resolution") + ":" }}</label>
 
 						<div class="content">
