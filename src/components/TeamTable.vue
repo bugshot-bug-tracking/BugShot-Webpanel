@@ -77,6 +77,8 @@ import store from "../store";
 import Container from "./Container.vue";
 import { watch } from "@vue/runtime-core";
 import axios from "axios";
+import colors from "@/util/colors";
+
 export default {
 	components: { Container },
 	props: {
@@ -92,16 +94,6 @@ export default {
 		const company = computed(() => {
 			return store.getters.getCompanyById(props.company_id);
 		});
-
-		const colors = [
-			"#F23838", // red
-			"#F66808", // orange
-			"#FFB157", // yellow
-			"#7A2EE6", // purple <- default [3]
-			"#15BE80", // green
-			"#1849CF", // blue
-			"#89A3EB", // gray
-		];
 
 		const removeUser = (user) => {
 			axios

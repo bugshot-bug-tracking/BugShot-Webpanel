@@ -90,6 +90,7 @@ import store from "../store";
 import LoadingModal from "@/components/Modals/LoadingModal.vue";
 import toBase64 from "@/util/toBase64";
 import AddMemebers from "./AddMemebers.vue";
+import colors from "@/util/colors";
 
 export default {
 	name: "CreateData",
@@ -144,16 +145,6 @@ export default {
 				color: color.value,
 				members: inviteMembers.value,
 			};
-
-			const colors = [
-				"#F23838", // red
-				"#F66808", // orange
-				"#FFB157", // yellow
-				"#7A2EE6", // purple <- default [3]
-				"#15BE80", // green
-				"#1849CF", // blue
-				"#89A3EB", // gray
-			];
 
 			// console.log("resource", { ...resource, ...props.aditionalBody });
 

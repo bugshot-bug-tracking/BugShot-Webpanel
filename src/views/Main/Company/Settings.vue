@@ -106,6 +106,7 @@ import DeleteModal from "../../../components/Modals/DeleteModal.vue";
 import LoadingModal from "@/components/Modals/LoadingModal.vue";
 import { useI18n } from "vue-i18n";
 import toBase64 from "@/util/toBase64";
+import colors from "@/util/colors";
 
 export default {
 	components: {
@@ -191,16 +192,6 @@ export default {
 
 			return company;
 		});
-
-		const colors = [
-			"#F23838", // red
-			"#F66808", // orange
-			"#FFB157", // yellow
-			"#7A2EE6", // purple <- default [3]
-			"#15BE80", // green
-			"#1849CF", // blue
-			"#89A3EB", // gray
-		];
 
 		const setImage = async (value) => {
 			// console.log("setImage", value);
