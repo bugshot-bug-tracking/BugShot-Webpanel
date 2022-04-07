@@ -202,19 +202,17 @@ export default {
 							? { order_number: payload.changes.order_number }
 							: { order_number: bug.attributes.order_number }),
 
-						...(payload.changes.deadline
-							? {
-									deadline: new Date(payload.changes.deadline)
-										.toISOString()
-										.slice(0, -1),
-							  }
-							: bug.attributes.deadline
-							? {
-									deadline: new Date(bug.attributes.deadline)
-										.toISOString()
-										.slice(0, -1),
-							  }
-							: {}),
+						// if undefined it means that no change was made; if null it means reseting the deadline;
+						...(payload.changes.deadline === undefined
+							? { deadline: bug.attributes.deadline }
+							: payload.changes.deadline === null
+							? { deadline: null }
+							: {
+									deadline: payload.changes.deadline.slice(
+										0,
+										-1
+									),
+							  }),
 					}
 				);
 
