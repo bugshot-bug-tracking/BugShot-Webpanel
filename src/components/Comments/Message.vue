@@ -2,7 +2,7 @@
 	<div class="message-wrapper" :class="sender === 0 ? `self` : `other`">
 		<div class="content">
 			<div class="message">{{ content }}</div>
-			<div class="timestamp">{{ dateFix(timestamp) }}</div>
+			<div class="timestamp">{{ $d(dateFix(timestamp), "short") }}</div>
 		</div>
 
 		<div class="creator">

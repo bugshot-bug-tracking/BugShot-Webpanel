@@ -8,7 +8,11 @@
 			<div class="card-body">
 				<div class="card-text d-flex justify-content-between">
 					<div class="bug-deadline">
-						{{ deadline ? dateFix(deadline) : $t("no_deadline") }}
+						{{
+							deadline
+								? $d(dateFix(deadline), "short")
+								: $t("no_deadline")
+						}}
 					</div>
 
 					<PriorityChange :priority="priority" />

@@ -10,7 +10,7 @@
 			</div>
 
 			<div class="bottom">
-				{{ dateFix(record.attributes.created_at) }}
+				{{ $d(dateFix(record.attributes.created_at), "short") }}
 
 				{{ $t("by") }}
 

@@ -25,7 +25,7 @@
 					</div>
 
 					<div class="date">
-						{{ dateFix(bug.attributes.created_at) }}
+						{{ $d(dateFix(bug.attributes.created_at), "short") }}
 					</div>
 				</div>
 			</div>
@@ -131,6 +131,9 @@
 					<Datepicker
 						v-model="datePicker"
 						:placeholder="$t('no_deadline')"
+						:locale="locale"
+						:format="format"
+						:previewFormat="format"
 						@cleared="clearDeadline"
 						@closed="changeDeadline"
 						:selectText="$t('select.select')"
@@ -163,8 +166,9 @@ import Datepicker from "vue3-date-time-picker";
 import Assignes from "./Assignes.vue";
 import AssignModal from "./AssignModal.vue";
 import dateFix from "@/util/dateFixISO";
-import { ref } from "@vue/reactivity";
+import { computed, ref } from "@vue/reactivity";
 import store from "../store";
+import { useI18n } from "vue-i18n";
 
 const emit = defineEmits(["close"]);
 const props = defineProps({
@@ -224,6 +228,10 @@ const changeDeadline = () => {
 };
 
 const assignShow = ref(false);
+
+const { d } = useI18n({ useScope: "global" });
+const locale = computed(() => store.getters.getCurrentLocale);
+const format = (date) => d(new Date(date).toISOString(), "short");
 </script>
 
 <style lang="scss" scoped>

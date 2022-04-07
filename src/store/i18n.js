@@ -102,5 +102,9 @@ export default {
 		getLocale: (state) => state.locale,
 		getAutoLocale: (state) => state.auto_locale,
 		getSupportedLocales: (state) => state.supportedLocales,
+		getCurrentLocale: (state) =>
+			state.locale.toLowerCase() === "auto"
+				? state.auto_locale
+				: state.locale,
 	},
 };
