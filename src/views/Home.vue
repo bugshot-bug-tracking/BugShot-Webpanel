@@ -100,8 +100,8 @@ export default {
 	&.bs {
 		border-radius: 22px;
 		letter-spacing: 0.14px;
-		font-size: 18px;
-		padding: 8px 22px;
+		font-size: 16px;
+		padding: 8px 16px;
 		box-shadow: none;
 
 		&.bf-green {

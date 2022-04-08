@@ -100,8 +100,8 @@ const cancel = () => {
 	gap: 8px;
 
 	img {
-		max-height: 24px;
-		max-width: 24px;
+		max-height: 22px;
+		max-width: 22px;
 	}
 }
 

@@ -65,6 +65,8 @@ import { ref } from "@vue/reactivity";
 import Modal from "./Modal.vue";
 import { computed, nextTick, onMounted } from "@vue/runtime-core";
 import store from "../store";
+import colors from "@/util/colors";
+
 export default {
 	props: {
 		id: {
@@ -116,16 +118,6 @@ export default {
 			// 	event.target.parentElement.classList.add("checked");
 			// else event.target.parentElement.classList.remove("checked");
 		};
-
-		const colors = [
-			"#F23838", // red
-			"#F66808", // orange
-			"#FFB157", // yellow
-			"#7A2EE6", // purple <- default [3]
-			"#15BE80", // green
-			"#1849CF", // blue
-			"#89A3EB", // gray
-		];
 
 		return {
 			show,

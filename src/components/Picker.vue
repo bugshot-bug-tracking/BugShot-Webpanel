@@ -84,6 +84,8 @@
 
 <script>
 import { ref } from "@vue/reactivity";
+import colors from "@/util/colors";
+
 export default {
 	name: "Picker",
 	props: {
@@ -99,16 +101,6 @@ export default {
 	emits: ["setImage", "setColor"],
 	setup(props, context) {
 		const pickOption = ref(1);
-
-		const colors = [
-			"#F23838", // red
-			"#F66808", // orange
-			"#FFB157", // yellow
-			"#7A2EE6", // purple <- default [3]
-			"#15BE80", // green
-			"#1849CF", // blue
-			"#89A3EB", // gray
-		];
 
 		const enambleColoorChange = ref(false);
 
@@ -334,6 +326,7 @@ export default {
 				height: 24px;
 				background-color: currentColor;
 				border-radius: 100%;
+				cursor: pointer;
 
 				&:checked {
 					background-image: url("../assets/icons/check-white.svg");

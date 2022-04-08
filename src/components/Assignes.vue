@@ -27,32 +27,18 @@
 	</div>
 </template>
 
-<script>
-export default {
-	props: {
+<script setup>
+import colors from "@/util/colors";
+
+const props = defineProps({
 		list: {
 			type: Array,
 			required: true,
 			default: [],
 		},
-	},
-	emits: ["add"],
-	setup(props) {
-		const colors = [
-			"#F23838", // red
-			"#F66808", // orange
-			"#FFB157", // yellow
-			"#7A2EE6", // purple <- default [3]
-			"#15BE80", // green
-			"#1849CF", // blue
-			"#89A3EB", // gray
-		];
+});
 
-		return {
-			colors,
-		};
-	},
-};
+const emit = defineEmits(["add"]);
 </script>
 
 <style lang="scss" scoped>

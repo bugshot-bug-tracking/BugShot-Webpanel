@@ -101,7 +101,7 @@
 
 	"tos_and_pp": "I accept BugShot's {tos} and {pp}",
 	"want_to_delete": "Are you sure you want to delete",
-	"pleace_confirm_email": "Please confirm your email before login",
+	"please_confirm_email": "Please confirm your email before login",
 
 	"company_edit_success": "Company edited successfully",
 	"company_delete_success": "Company deleted successfully",
@@ -227,5 +227,9 @@
 	"pick_date": "Pick a date",
 
 	"add_new_column": "Add new column",
-	"enter_column_name": "Enter column name"
+	"enter_column_name": "Enter column name",
+
+	"team": "Team",
+	"review": "Review"
+	
 }
