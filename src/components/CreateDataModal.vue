@@ -190,17 +190,18 @@ export default {
 				if (response.type === "Company") base = "companies";
 				else if (response.type === "Project") base = "projects";
 
-				for (const member of resource.members) {
-					try {
-						await axios.post(`${base}/${response.id}/invite`, {
-							target_email: member.email,
-							role_id: member.role,
-						});
-					} catch (error) {
-						console.log(error);
-						continue;
+				if (resource.members)
+					for (const member of resource.members) {
+						try {
+							await axios.post(`${base}/${response.id}/invite`, {
+								target_email: member.email,
+								role_id: member.role,
+							});
+						} catch (error) {
+							console.log(error);
+							continue;
+						}
 					}
-				}
 
 				loadingModal.state = 1;
 
