@@ -7,11 +7,11 @@ export default {
 	5: "#1849CF", // blue
 	6: "#89A3EB", // gray
 
-	red: "#F23838",
-	orange: "#F66808",
-	yellow: "#FFB157",
-	purple: "#7A2EE6",
-	green: "#15BE80",
-	blue: "#1849CF",
-	gray: "#89A3EB",
+	// red: "#F23838",
+	// orange: "#F66808",
+	// yellow: "#FFB157",
+	// purple: "#7A2EE6",
+	// green: "#15BE80",
+	// blue: "#1849CF",
+	// gray: "#89A3EB",
 };
