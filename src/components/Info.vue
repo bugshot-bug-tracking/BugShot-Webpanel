@@ -146,16 +146,11 @@
 				<label>{{ $t("assigned_to") + ":" }}</label>
 
 				<div class="content">
-					<Assignes
-						:list="bug.attributes.users"
-						@add="assignShow = true"
-					/>
+					<Assignes :list="bug.users" @add="emit('open_assign')" />
 				</div>
 			</div>
 		</div>
 	</Container>
-
-	<AssignModal v-if="assignShow" :id="bug_id" @close="assignShow = false" />
 </template>
 
 <script setup>
@@ -164,13 +159,13 @@ import Screenshot from "./Screenshot.vue";
 import PriorityChange from "./PriorityChange.vue";
 import Datepicker from "vue3-date-time-picker";
 import Assignes from "./Assignes.vue";
-import AssignModal from "./AssignModal.vue";
 import dateFix from "@/util/dateFixISO";
 import { computed, ref } from "@vue/reactivity";
 import store from "../store";
 import { useI18n } from "vue-i18n";
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close", "open_assign"]);
+
 const props = defineProps({
 	bug: {
 		required: true,
@@ -226,8 +221,6 @@ const changeDeadline = () => {
 		},
 	});
 };
-
-const assignShow = ref(false);
 
 const { d } = useI18n({ useScope: "global" });
 const locale = computed(() => store.getters.getCurrentLocale);

@@ -95,7 +95,9 @@ export default {
 			projectParams.name = project.attributes.designation;
 
 			projectParams.color = project.attributes.color_hex
-				? colors.indexOf(project.attributes.color_hex)
+				? Object.keys(colors).findIndex(
+						(x) => colors[x] === project.attributes.color_hex
+				  )
 				: 3;
 
 			projectParams.url = project.attributes.url

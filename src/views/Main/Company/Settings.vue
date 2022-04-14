@@ -169,7 +169,9 @@ export default {
 				companyParams.name = company.attributes.designation;
 
 				companyParams.color = company.attributes.color_hex
-					? colors.indexOf(company.attributes.color_hex)
+					? Object.keys(colors).findIndex(
+							(x) => colors[x] === company.attributes.color_hex
+					  )
 					: 3;
 
 				try {

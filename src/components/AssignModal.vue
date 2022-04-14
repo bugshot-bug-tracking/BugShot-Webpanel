@@ -5,136 +5,181 @@
 				<span>{{ $t("assign_team_member") }}</span>
 			</div>
 
-			<div class="options" v-if="options">
+			<div class="options" v-if="list.length > 0">
 				<div
 					class="item"
-					v-for="item of options"
-					:key="item.id"
-					@change="check"
+					v-for="[index, { user, checked }] of list.entries()"
+					:key="user.id"
 				>
-					<input
-						type="checkbox"
-						v-model="users"
-						:id="'cp' + item.id"
-						:value="item.id"
-					/>
-
-					<div class="check-state" />
-
-					<label :for="'cp' + item.id" class="lab">
-						<div
-							class="avatar"
-							:style="{
-								'background-color':
-									colors[
-										(item.attributes.first_name.charCodeAt(
-											0
-										) +
-											item.attributes.last_name.charCodeAt(
+					<div class="d-flex align-items-center">
+						<input
+							type="checkbox"
+							:id="'cp' + user.id"
+							:value="user.id"
+							:checked="checked"
+							@change="changeUser(user, checked, index)"
+						/>
+						<div class="check-state" />
+						<label :for="'cp' + user.id" class="lab">
+							<div
+								class="avatar"
+								:style="{
+									'background-color':
+										colors[
+											(user.attributes.first_name.charCodeAt(
 												0
-											)) %
-											7
-									],
-							}"
-						>
-							{{
-								item.attributes.first_name[0] +
-								item.attributes.last_name[0]
-							}}
-						</div>
-						<div class="name">
-							{{
-								item.attributes.first_name +
-								" " +
-								item.attributes.last_name
-							}}
-						</div>
-					</label>
+											) +
+												user.attributes.last_name.charCodeAt(
+													0
+												)) %
+												7
+										],
+								}"
+							>
+								{{
+									user.attributes.first_name[0] +
+									user.attributes.last_name[0]
+								}}
+							</div>
+							<div class="name">
+								{{
+									user.attributes.first_name +
+									" " +
+									user.attributes.last_name
+								}}
+							</div>
+						</label>
+					</div>
+
+					<img
+						src="../assets/icons/close_x.svg"
+						class="remove-user bs-to-gray"
+						alt=""
+						v-if="checked"
+						@click="changeUser(user, true, index)"
+					/>
 				</div>
 			</div>
 
 			<a class="close" @click="$emit('close')" />
 
-			<a class="btn bs bf-green add">{{ $t("add.member", 2) }}</a>
+			<a class="btn bs bf-green add" @click="submit">{{
+				$t("add.member", 2)
+			}}</a>
 		</div>
 	</div>
+
+	<LoadingModal
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="loadingModal.show = false"
+	/>
 </template>
 
-<script>
-import { ref } from "@vue/reactivity";
-import Modal from "./Modal.vue";
-import { computed, nextTick, onMounted } from "@vue/runtime-core";
-import store from "../store";
+<script setup>
+import { ref, computed, reactive } from "@vue/runtime-core";
+import store from "@/store";
 import colors from "@/util/colors";
+import axios from "axios";
+import LoadingModal from "./Modals/LoadingModal.vue";
 
-export default {
-	props: {
-		id: {
-			required: true,
-			type: String,
-			desc: "The bug ID",
-		},
+const emit = defineEmits(["close"]);
+
+const props = defineProps({
+	id: {
+		required: true,
+		type: String,
+		desc: "The bug ID",
 	},
-	emits: ["close"],
-	components: { Modal },
-	setup(props, context) {
-		const show = ref(false);
+});
 
-		onMounted(() => {
-			show.value = true;
+const list = ref([]);
 
-			store.dispatch(
-				"fetchProjectUsers",
-				bug.value.attributes.project_id
-			);
-		});
+const bug = computed(() => {
+	let bug = store.getters["kanban/getBugById"](props.id);
 
-		const close = () => {
-			show.value = false;
+	if (!bug.id) list.value = [];
+	else {
+		let project_users = store.getters["kanban/getProjectUsers"];
 
-			nextTick(() => {
-				context.emit("close");
+		list.value = [];
+
+		project_users.forEach((user) => {
+			let checked = false;
+			if (bug.users?.find((x) => x.user.id === user.id)) checked = true;
+
+			list.value.push({
+				user: user,
+				oroginal: checked, // compare checked with this to know what operation to execute (add/remove)
+				checked: checked,
 			});
-		};
-
-		const bug = computed(() => {
-			return store.getters.getBugById(props.id);
 		});
+	}
 
-		const options = computed(() => {
-			if (!bug.value) return [];
+	return bug;
+});
 
-			const project = store.getters.getProjectById(
-				bug.value.attributes.project_id
-			);
-
-			console.log(project.users);
-			if (!project.users) return [];
-			return project.users;
-		});
-
-		const check = (event) => {
-			// if (event.target.checked)
-			// 	event.target.parentElement.classList.add("checked");
-			// else event.target.parentElement.classList.remove("checked");
-		};
-
-		return {
-			show,
-			close,
-			colors,
-			bug,
-			options,
-			check,
-		};
-	},
+const changeUser = (user, checked, index) => {
+	list.value[index].checked = !checked;
 };
+
+const submit = async () => {
+	console.log(list.value);
+	try {
+		loadingModal.show = true;
+		loadingModal.state = 0;
+		loadingModal.message = null;
+
+		for (const item of list.value) {
+			// if no change was made skip over the item
+			if (item.oroginal === item.checked) continue;
+
+			if (item.checked === true)
+				await axios.post(`bugs/${bug.value.id}/assign-user`, {
+					user_id: item.user.id,
+				});
+			else
+				await axios.delete(
+					`bugs/${bug.value.id}/users/${item.user.id}`
+				);
+		}
+		loadingModal.state = 1;
+		loadingModal.message = "Members updated!";
+
+		setTimeout(() => {
+			emit("close");
+
+			loadingModal.show = false;
+			loadingModal.state = 0;
+			loadingModal.message = null;
+		}, 4000);
+	} catch (error) {
+		loadingModal.state = 2;
+		loadingModal.message = null;
+
+		console.log(error);
+
+		setTimeout(() => {
+			loadingModal.show = false;
+			loadingModal.state = 0;
+			loadingModal.message = null;
+		}, 4000);
+	}
+	store.dispatch("kanban/fetchBugUsers", props.id);
+};
+
+const loadingModal = reactive({
+	show: false,
+	state: 0,
+	message: null,
+});
 </script>
 
 <style lang="scss" scoped>
 .modal {
 	background-color: hsla(0, 0%, 0%, 0.5);
-	z-index: -1;
+	z-index: 1;
 }
 .close {
 	position: absolute;
@@ -187,7 +232,7 @@ export default {
 
 .item {
 	display: flex;
-	cursor: pointer;
+	justify-content: space-between;
 	position: relative;
 	align-items: center;
 	width: 100%;
@@ -218,6 +263,7 @@ export default {
 		gap: 8px;
 		padding: 5px 10px 5px 0;
 		transition: 0.25s;
+		cursor: pointer;
 	}
 
 	.check-state {
@@ -254,6 +300,16 @@ export default {
 			padding-left: 10px;
 			padding-right: 0px;
 		}
+	}
+}
+
+.remove-user {
+	height: 14px;
+	margin-right: 16px;
+	cursor: pointer;
+
+	&:hover {
+		filter: none;
 	}
 }
 </style>

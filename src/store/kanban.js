@@ -5,6 +5,7 @@ export default {
 
 	state: {
 		project_id: null,
+		project: null,
 
 		statuses: new Map(),
 		bugs: new Map(),
@@ -29,6 +30,10 @@ export default {
 
 		SET_PROJECT_ID: (state, payload) => {
 			state.project_id = payload;
+		},
+
+		SET_PROJECT: (state, payload) => {
+			state.project = payload;
 		},
 
 		SET_STATUS: (state, payload) => {
@@ -91,6 +96,10 @@ export default {
 		SET_BUG_COMMENTS: (state, payload) => {
 			state.bugs.get(payload.id).comments = payload.list;
 		},
+
+		SET_BUG_USERS: (state, payload) => {
+			state.bugs.get(payload.id).users = payload.list;
+		},
 	},
 
 	actions: {
@@ -102,8 +111,33 @@ export default {
 			state.commit("CLEAR");
 			state.commit("SET_PROJECT_ID", payload);
 
+			await state.dispatch("loadProject");
 			await state.dispatch("loadStatuses");
 			await state.dispatch("loadBugs");
+		},
+
+		loadProject: async (state) => {
+			try {
+				let main_project = state.rootGetters.getProjectById(
+					state.state.project_id
+				);
+				if (!main_project) return;
+
+				let project = (
+					await axios.get(
+						`companies/${main_project.attributes.company.id}/projects/${state.state.project_id}`,
+						{
+							headers: {
+								"include-project-users": true,
+							},
+						}
+					)
+				).data.data;
+
+				state.commit("SET_PROJECT", project);
+			} catch (error) {
+				console.log(error);
+			}
 		},
 
 		loadStatuses: async (state, payload) => {
@@ -280,6 +314,21 @@ export default {
 			}
 		},
 
+		fetchBugUsers: async (state, id) => {
+			try {
+				// fetch bug screenshots
+				let users = (await axios.get(`bugs/${id}/users`)).data.data;
+
+				// store the status in memory
+				state.commit("SET_BUG_USERS", {
+					id: id,
+					list: users,
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
 		createStatus: async (state, payload) => {
 			console.log(payload);
 			let r = await axios.post(
@@ -340,6 +389,8 @@ export default {
 	},
 
 	getters: {
+		getProject: (state) => state.project,
+
 		getStatuses: (state) =>
 			Array.from(state.statuses, (x) => x[1]).sort((a, b) =>
 				a.attributes.order_number < b.attributes.order_number ? -1 : 1
@@ -398,5 +449,7 @@ export default {
 				(x) => x[1].attributes.order_number === 0
 			)[1];
 		},
+
+		getProjectUsers: (state) => state.project.attributes.users,
 	},
 };
