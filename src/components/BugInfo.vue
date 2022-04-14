@@ -1,7 +1,12 @@
 <template>
 	<div ref="tab">
 		<SideTab v-if="bug" class="tab-shaddow">
-			<Info :bug="bug" :status="status" @close="$emit('close')" />
+			<Info
+				:bug="bug"
+				:status="status"
+				@close="$emit('close')"
+				@open_assign="assignShow = true"
+			/>
 
 			<Attachments
 				:attachments="bug.attachments ? bug.attachments : []"
@@ -23,6 +28,12 @@
 				</div>
 			</div>
 		</SideTab>
+
+		<AssignModal
+			v-if="assignShow"
+			:id="bug.id"
+			@close="assignShow = false"
+		/>
 	</div>
 </template>
 
@@ -34,6 +45,7 @@ import Info from "./Info.vue";
 import Attachments from "./Attachments/Index.vue";
 import Comments from "./Comments/Index.vue";
 import axios from "axios";
+import AssignModal from "./AssignModal.vue";
 
 const emit = defineEmits(["close", "deleted"]);
 const props = defineProps({
@@ -52,6 +64,7 @@ const status = computed(() =>
 store.dispatch("kanban/fetchScreenshots", props.id);
 store.dispatch("kanban/fetchAttachments", props.id);
 store.dispatch("kanban/fetchComments", props.id);
+store.dispatch("kanban/fetchBugUsers", props.id);
 
 // called on update
 watch(bug, () => {
@@ -59,6 +72,7 @@ watch(bug, () => {
 	store.dispatch("kanban/fetchScreenshots", props.id);
 	store.dispatch("kanban/fetchAttachments", props.id);
 	store.dispatch("kanban/fetchComments", props.id);
+	store.dispatch("kanban/fetchBugUsers", props.id);
 });
 
 const deleteBug = async () => {
@@ -77,7 +91,7 @@ const deleteBug = async () => {
 	}
 };
 
-//#region  close on lick outside logic
+//#region close on click outside logic
 
 const tab = ref(null);
 
@@ -99,10 +113,12 @@ const closeTab = (event) => {
 document.addEventListener("click", closeTab);
 
 onUnmounted(() => {
-	document.addEventListener("click", closeTab);
+	document.removeEventListener("click", closeTab);
 });
 
 //#endregion
+
+const assignShow = ref(false);
 </script>
 
 <style lang="scss" scoped>

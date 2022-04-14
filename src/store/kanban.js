@@ -91,6 +91,10 @@ export default {
 		SET_BUG_COMMENTS: (state, payload) => {
 			state.bugs.get(payload.id).comments = payload.list;
 		},
+
+		SET_BUG_USERS: (state, payload) => {
+			state.bugs.get(payload.id).users = payload.list;
+		},
 	},
 
 	actions: {
@@ -274,6 +278,21 @@ export default {
 				state.commit("SET_BUG_COMMENTS", {
 					id: id,
 					list: comments,
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		},
+
+		fetchBugUsers: async (state, id) => {
+			try {
+				// fetch bug screenshots
+				let users = (await axios.get(`bugs/${id}/users`)).data.data;
+
+				// store the status in memory
+				state.commit("SET_BUG_USERS", {
+					id: id,
+					list: users,
 				});
 			} catch (error) {
 				console.log(error);
