@@ -70,26 +70,15 @@
 					<span>{{ $t("role") }}</span>
 
 					<div class="items">
-						<label class="role">
+						<label class="role" v-for="role of roles.values()">
 							<input
 								type="radio"
 								name="roleOptions"
-								:value="3"
+								:value="role.id"
 								v-model="rolePicked"
 							/>
 
-							<span> {{ $t("team") }} </span>
-						</label>
-
-						<label class="role">
-							<input
-								type="radio"
-								name="roleOptions"
-								:value="4"
-								v-model="rolePicked"
-							/>
-
-							<span> {{ $t("review") }} </span>
+							<span>{{ role.attributes.designation }}</span>
 						</label>
 					</div>
 				</div>
@@ -103,8 +92,10 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
+import store from "../store";
 import Modal from "./Modal.vue";
+
 const emit = defineEmits(["change"]);
 
 const invites = ref([]);
@@ -163,6 +154,8 @@ const closeModal = () => {
 	editMode.on = false;
 	editMode.index = -1;
 };
+
+const roles = computed(() => store.getters.getRoles);
 </script>
 
 <style lang="scss" scoped>
@@ -204,8 +197,8 @@ const closeModal = () => {
 	}
 
 	.roles {
-		width: 90%;
 		display: flex;
+		gap: 8px;
 		justify-content: space-between;
 		user-select: none;
 
@@ -214,12 +207,11 @@ const closeModal = () => {
 			font-size: 18px;
 		}
 		.items {
-			display: flex;
-			gap: 8px;
-			flex-wrap: wrap;
-			width: 80%;
-			justify-content: center;
+			display: grid;
+			justify-items: center;
+			grid-template-columns: 1fr 1fr 1fr;
 			align-items: center;
+			gap: 8px;
 		}
 		.role {
 			span {

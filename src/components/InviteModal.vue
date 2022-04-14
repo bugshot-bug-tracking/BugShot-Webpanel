@@ -32,7 +32,7 @@
 					<div class="items">
 						<label
 							class="role"
-							v-for="role in roles"
+							v-for="role of roles.values()"
 							:key="role.id"
 						>
 							<input
@@ -91,15 +91,7 @@ export default {
 		const email = ref("");
 		const rolePicked = ref(4);
 
-		const roles = computed(() => {
-			let roles = [];
-
-			store.getters.getRoles.forEach((element) => {
-				roles.push(element);
-			});
-
-			return roles.splice(1, 5);
-		});
+		const roles = computed(() => store.getters.getRoles);
 
 		const sendInvite = async () => {
 			try {
@@ -176,8 +168,8 @@ export default {
 	}
 
 	.roles {
-		width: 90%;
 		display: flex;
+		gap: 8px;
 		justify-content: space-between;
 		user-select: none;
 
@@ -186,12 +178,11 @@ export default {
 			font-size: 18px;
 		}
 		.items {
-			display: flex;
-			gap: 8px;
-			flex-wrap: wrap;
-			width: 80%;
-			justify-content: center;
+			display: grid;
+			justify-items: center;
+			grid-template-columns: 1fr 1fr 1fr;
 			align-items: center;
+			gap: 8px;
 		}
 		.role {
 			span {

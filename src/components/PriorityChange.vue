@@ -64,7 +64,7 @@ export default {
 			document.addEventListener("click", close);
 
 			onUnmounted(() => {
-				document.addEventListener("click", close);
+				document.removeEventListener("click", close);
 			});
 		}
 

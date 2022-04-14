@@ -7,20 +7,22 @@
 					:style="{
 						'background-color':
 							colors[
-								(item.attributes.first_name.charCodeAt(0) +
-									item.attributes.last_name.charCodeAt(0)) %
+								(item.user.attributes.first_name.charCodeAt(0) +
+									item.user.attributes.last_name.charCodeAt(
+										0
+									)) %
 									7
 							],
 					}"
 				>
 					{{
-						item.attributes.first_name[0] +
-						item.attributes.last_name[0]
+						item.user.attributes.first_name[0] +
+						item.user.attributes.last_name[0]
 					}}
 				</div>
 			</div>
 
-			<a class="add" @click="$emit('add')" v-if="false">
+			<a class="add" @click="$emit('add')">
 				<img src="../assets/icons/add.svg" alt="Add button" />
 			</a>
 		</div>
@@ -31,11 +33,11 @@
 import colors from "@/util/colors";
 
 const props = defineProps({
-		list: {
-			type: Array,
-			required: true,
-			default: [],
-		},
+	list: {
+		type: Array,
+		required: true,
+		default: [],
+	},
 });
 
 const emit = defineEmits(["add"]);
