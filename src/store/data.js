@@ -197,6 +197,30 @@ export default {
 			try {
 				let roles = (await axios.get("administration/roles")).data.data;
 
+				roles = [
+					{
+						id: 3,
+						type: "Role",
+						attributes: {
+							designation: "Manager",
+						},
+					},
+					{
+						id: 4,
+						type: "Role",
+						attributes: {
+							designation: "Developer",
+						},
+					},
+					{
+						id: 5,
+						type: "Role",
+						attributes: {
+							designation: "Client",
+						},
+					},
+				];
+
 				for (const role of roles) {
 					state.commit("SET_ROLE", role);
 				}
