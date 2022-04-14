@@ -159,7 +159,7 @@
 			</div>
 		</Column>
 
-		<Column class="column" v-if="false">
+		<Column class="column">
 			<template v-slot:header>
 				<div class="bold">{{ $t("extension.extension") }}</div>
 			</template>
@@ -201,7 +201,7 @@
 							</div>
 						</div>
 
-						<div class="block apps">
+						<div class="block apps" v-if="false">
 							<div class="header">
 								{{ $t("extension.the_apps") }}
 							</div>
@@ -304,7 +304,11 @@ export default {
 
 		const disableForm = ref(true);
 
-		const chromeStore = () => {};
+		const chromeStore = () => {
+			window.open(
+				"https://chrome.google.com/webstore/detail/bugshot/dioobkjdnepaibmmhlniiolocpmdbblh?hl=en&authuser=0"
+			);
+		};
 		const playStore = () => {};
 		const appleStore = () => {};
 		const windowsStore = () => {};
