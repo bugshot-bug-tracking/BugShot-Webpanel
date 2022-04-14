@@ -145,7 +145,7 @@ export default {
 		document.addEventListener("click", close);
 
 		onUnmounted(() => {
-			document.addEventListener("click", close);
+			document.removeEventListener("click", close);
 		});
 
 		// 0=no modal, 1=edit modal, 2=delete modal
