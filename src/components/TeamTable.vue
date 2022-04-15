@@ -68,70 +68,166 @@
 				</div>
 			</div>
 		</div>
+
+		<AddMemebers
+			:displayList="false"
+			:externalSubmit="true"
+			@submit="addMember"
+		>
+			<template v-slot:extra>
+				<div class="w-100 project-select">
+					<span>Assign to project?</span>
+
+					<v-select
+						:options="companyProjects"
+						:placeholder="'Select Project'"
+						:get-option-label="
+							(option) => option.attributes.designation
+						"
+						:reduce="(option) => option.id"
+						v-model="selectOption"
+					>
+						<template #open-indicator="{ attributes }">
+							<img
+								class="bs-to-purple"
+								style="background-color: unset"
+								v-bind="attributes"
+								src="@/assets/icons/caret-down-fill.svg"
+							/>
+						</template>
+
+						<template v-slot:option="option">
+							{{ option.attributes.designation }}
+						</template>
+
+						<template v-slot:selected-option="option">
+							{{ option.attributes.designation }}
+						</template>
+					</v-select>
+				</div>
+			</template>
+		</AddMemebers>
 	</Container>
+
+	<LoadingModal
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="loadingModal.show = false"
+	/>
 </template>
 
-<script>
-import { computed } from "@vue/reactivity";
+<script setup>
+import { computed, ref, reactive } from "@vue/reactivity";
 import store from "../store";
 import Container from "./Container.vue";
 import { watch } from "@vue/runtime-core";
 import axios from "axios";
 import colors from "@/util/colors";
+import AddMemebers from "./AddMemebers.vue";
+import LoadingModal from "./Modals/LoadingModal.vue";
 
-export default {
-	components: { Container },
-	props: {
-		company_id: {
-			required: true,
-			type: String,
-		},
+const props = defineProps({
+	company_id: {
+		required: true,
+		type: String,
 	},
-	setup(props) {
-		// request team data to be fetched
-		store.dispatch("fetchCompanyUsers", props.company_id);
+});
 
-		const company = computed(() => {
-			return store.getters.getCompanyById(props.company_id);
+// request team data to be fetched
+store.dispatch("fetchCompanyUsers", props.company_id);
+
+const company = computed(() => {
+	return store.getters.getCompanyById(props.company_id);
+});
+
+const removeUser = (user) => {
+	axios
+		.delete(`companies/${company.value.id}/users/${user.id}`)
+		.then((response) => {
+			company.value.users.splice(
+				company.value.users.findIndex((x) => x.id === user.id),
+				1
+			);
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+};
+
+const canRemove = (id) => {
+	if (!id || !company.value || !company.value.attributes.creator)
+		return false;
+
+	return !(id === company.value.attributes.creator.id);
+};
+
+const companyProjects = computed(() => {
+	return store.getters.getCompanyProjects(props.company_id);
+});
+
+const selectOption = ref(null);
+
+const addMember = async (user, close) => {
+	console.log("user: ", user);
+	console.log("selectOption: ", selectOption);
+
+	try {
+		loadingModal.show = true;
+		loadingModal.state = 0;
+		loadingModal.message = null;
+
+		let base = "";
+		let endID = props.company_id;
+		if (selectOption.value === null) base = "companies";
+		else {
+			base = "projects";
+			endID = selectOption.value;
+		}
+
+		await axios.post(`${base}/${endID}/invite`, {
+			target_email: user.email,
+			role_id: user.role,
 		});
 
-		const removeUser = (user) => {
-			axios
-				.delete(`companies/${company.value.id}/users/${user.id}`)
-				.then((response) => {
-					company.value.users.splice(
-						company.value.users.findIndex((x) => x.id === user.id),
-						1
-					);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		};
+		loadingModal.state = 1;
+		loadingModal.message = `Invitation sent.`;
 
-		const canRemove = (id) => {
-			if (!id || !company.value || !company.value.attributes.creator)
-				return false;
+		setTimeout(() => {
+			loadingModal.show = false;
+			loadingModal.state = 0;
+			loadingModal.message = null;
+			close();
+		}, 4000);
+	} catch (error) {
+		console.log(error);
 
-			return !(id === company.value.attributes.creator.id);
-		};
-
-		watch(
-			props,
-			() => {
-				store.dispatch("fetchCompanyUsers", props.company_id);
-			},
-			{ deep: true }
+		loadingModal.state = 2;
+		loadingModal.message = error.response.data.data.message.replace(
+			":",
+			""
 		);
 
-		return {
-			company,
-			colors,
-			removeUser,
-			canRemove,
-		};
-	},
+		setTimeout(() => {
+			loadingModal.show = false;
+			loadingModal.state = 0;
+		}, 4000);
+	}
 };
+
+const loadingModal = reactive({
+	show: false,
+	state: 0,
+	message: null,
+});
+
+watch(
+	props,
+	() => {
+		store.dispatch("fetchCompanyUsers", props.company_id);
+	},
+	{ deep: true }
+);
 </script>
 
 <style lang="scss" scoped>
@@ -227,5 +323,20 @@ export default {
 }
 .bold {
 	font-weight: bold;
+}
+
+.project-select {
+	padding-bottom: 16px;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 8px;
+
+	span {
+		font-weight: bold;
+		font-size: 18px;
+		border-bottom: 1px solid #eee5fc;
+		text-align: left;
+	}
 }
 </style>
