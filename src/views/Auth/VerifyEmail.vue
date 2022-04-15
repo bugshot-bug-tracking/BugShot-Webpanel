@@ -2,7 +2,7 @@
 	<div class="wrapper">
 		<div class="container loading" v-if="status === 0">
 			<img src="../../assets/global/loading.svg" alt="loading" />
-			<div class="text">{{ $t("processing") + "..." }}</div>
+			<div class="text">{{ $t("verifying") + "..." }}</div>
 		</div>
 
 		<div class="container success" v-if="status === 1">
