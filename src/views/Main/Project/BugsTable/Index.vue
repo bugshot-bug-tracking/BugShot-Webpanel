@@ -20,6 +20,8 @@
 							:text="status.element.attributes.designation"
 							@edit="editStatus"
 							@delete="openDeleteModal"
+							:movable="!status.element.attributes.permanent"
+							:deletable="!status.element.attributes.permanent"
 						/>
 					</template>
 

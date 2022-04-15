@@ -2,7 +2,7 @@
 	<div class="invite-members">
 		<span>{{ $t("add.team_member") }}</span>
 
-		<div class="user-list w-100 d-flex flex-column">
+		<div class="user-list w-100 d-flex flex-column" v-if="displayList">
 			<div
 				class="user-item w-100"
 				v-for="(item, index) in invites"
@@ -10,11 +10,8 @@
 			>
 				<div class="user-email">{{ item.email }}</div>
 
-				<div class="user-role" v-if="item.role === 3">
-					{{ $t("team") }}
-				</div>
-				<div class="user-role" v-if="item.role === 4">
-					{{ $t("review") }}
+				<div class="user-role">
+					{{ roles.get(item.role).attributes.designation }}
 				</div>
 
 				<div class="actions">
@@ -45,15 +42,15 @@
 
 	<Modal :show="modalActive" @close="closeModal">
 		<div class="wrapper">
-			<div class="header">
+			<div class="header mb-3">
 				<span>{{ $t("add.team_member") }}</span>
 			</div>
 
 			<form
 				@submit.prevent="modalSubmit"
-				class="d-flex flex-column align-items-center w-100"
+				class="d-flex flex-column align-items-center w-100 gap-4"
 			>
-				<div class="bs-input w-icon my-3">
+				<div class="bs-input w-icon">
 					<input
 						:placeholder="$t('email')"
 						:type="'email'"
@@ -83,6 +80,8 @@
 					</div>
 				</div>
 
+				<slot name="extra"> </slot>
+
 				<button class="btn bs bf-green mt-4">
 					{{ $t("add.member") }}
 				</button>
@@ -96,7 +95,19 @@ import { computed, reactive, ref } from "vue";
 import store from "../store";
 import Modal from "./Modal.vue";
 
-const emit = defineEmits(["change"]);
+const emit = defineEmits(["change", "submit"]);
+const props = defineProps({
+	displayList: {
+		type: Boolean,
+		required: false,
+		default: true,
+	},
+	externalSubmit: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+});
 
 const invites = ref([]);
 
@@ -111,6 +122,19 @@ const editMode = reactive({
 });
 
 const modalSubmit = () => {
+	if (props.externalSubmit) {
+		emit(
+			"submit",
+			{
+				email: email.value,
+				role: rolePicked.value,
+			},
+			closeModal
+		);
+
+		return;
+	}
+
 	if (!editMode.on)
 		invites.value.push({
 			email: email.value,

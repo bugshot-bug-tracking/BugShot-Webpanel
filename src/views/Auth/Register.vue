@@ -68,12 +68,14 @@
 					v-if="showPassword"
 					@click="togglePassword"
 					src="../../assets/icons/hide_password.svg"
+					style="cursor: pointer"
 				/>
 
 				<img
 					v-if="!showPassword"
 					@click="togglePassword"
 					src="../../assets/icons/show_password.svg"
+					style="cursor: pointer"
 				/>
 			</div>
 
@@ -110,7 +112,7 @@
 		<div class="requed">
 			<div class="bs-input w-icon">
 				<input
-					:type="passwordType"
+					:type="passwordTypeConfirm"
 					:placeholder="$t('confirm_password')"
 					minlength="8"
 					required
@@ -128,15 +130,17 @@
 				/>
 
 				<img
-					v-if="showPassword"
-					@click="togglePassword"
+					v-if="showPasswordConfirm"
+					@click="togglePasswordConfirm"
 					src="../../assets/icons/hide_password.svg"
+					style="cursor: pointer"
 				/>
 
 				<img
-					v-if="!showPassword"
-					@click="togglePassword"
+					v-if="!showPasswordConfirm"
+					@click="togglePasswordConfirm"
 					src="../../assets/icons/show_password.svg"
+					style="cursor: pointer"
 				/>
 			</div>
 
@@ -157,11 +161,15 @@
 
 			<i18n-t keypath="tos_and_pp" tag="span" scope="global">
 				<template v-slot:tos>
-					<a class="linked"> {{ $t("terms_of_service") }} </a>
+					<a class="linked" @click="openTOS">
+						{{ $t("terms_of_service") }}
+					</a>
 				</template>
 
 				<template v-slot:pp>
-					<a class="linked">{{ $t("privacy_policy") }}</a>
+					<a class="linked" @click="openPP">{{
+						$t("privacy_policy")
+					}}</a>
 				</template>
 			</i18n-t>
 		</div>
@@ -217,6 +225,9 @@ export default {
 		const showPassword = ref(false);
 		const passwordType = ref("password");
 
+		const showPasswordConfirm = ref(false);
+		const passwordTypeConfirm = ref("password");
+
 		const tos = ref(false);
 
 		const errMessage = ref(null);
@@ -236,6 +247,12 @@ export default {
 			showPassword.value = !showPassword.value;
 			if (showPassword.value) passwordType.value = "text";
 			else passwordType.value = "password";
+		};
+
+		const togglePasswordConfirm = () => {
+			showPasswordConfirm.value = !showPasswordConfirm.value;
+			if (showPasswordConfirm.value) passwordTypeConfirm.value = "text";
+			else passwordTypeConfirm.value = "password";
 		};
 
 		const submit = () => {
@@ -311,6 +328,14 @@ export default {
 			};
 		});
 
+		const openTOS = () => {
+			window.open("https://www.bugshot.de/nutzungsbedingungen");
+		};
+
+		const openPP = () => {
+			window.open("https://www.bugshot.de/datenschutz");
+		};
+
 		return {
 			first_name,
 			last_name,
@@ -324,11 +349,16 @@ export default {
 			errField,
 			submit,
 			togglePassword,
+			togglePasswordConfirm,
 			resetError,
 			process,
 			stage,
 			validate,
 			showValidate,
+			showPasswordConfirm,
+			passwordTypeConfirm,
+			openTOS,
+			openPP,
 		};
 	},
 };
