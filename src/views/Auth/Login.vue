@@ -34,12 +34,14 @@
 				v-show="showPassword"
 				@click="togglePassword"
 				src="../../assets/icons/hide_password.svg"
+				style="cursor: pointer"
 			/>
 
 			<img
 				v-show="!showPassword"
 				@click="togglePassword"
 				src="../../assets/icons/show_password.svg"
+				style="cursor: pointer"
 			/>
 		</div>
 
