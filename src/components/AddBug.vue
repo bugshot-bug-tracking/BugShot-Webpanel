@@ -179,7 +179,7 @@ const submit = async () => {
 	console.log(data);
 
 	try {
-		loadingModal.show = false;
+		loadingModal.show = true;
 		loadingModal.state = 0;
 		loadingModal.message = null;
 
