@@ -68,12 +68,14 @@
 					v-if="showPassword"
 					@click="togglePassword"
 					src="../../assets/icons/hide_password.svg"
+					style="cursor: pointer"
 				/>
 
 				<img
 					v-if="!showPassword"
 					@click="togglePassword"
 					src="../../assets/icons/show_password.svg"
+					style="cursor: pointer"
 				/>
 			</div>
 
@@ -131,12 +133,14 @@
 					v-if="showPasswordConfirm"
 					@click="togglePasswordConfirm"
 					src="../../assets/icons/hide_password.svg"
+					style="cursor: pointer"
 				/>
 
 				<img
 					v-if="!showPasswordConfirm"
 					@click="togglePasswordConfirm"
 					src="../../assets/icons/show_password.svg"
+					style="cursor: pointer"
 				/>
 			</div>
 
