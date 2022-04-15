@@ -10,11 +10,8 @@
 			>
 				<div class="user-email">{{ item.email }}</div>
 
-				<div class="user-role" v-if="item.role === 3">
-					{{ $t("team") }}
-				</div>
-				<div class="user-role" v-if="item.role === 4">
-					{{ $t("review") }}
+				<div class="user-role">
+					{{ roles.get(item.role).attributes.designation }}
 				</div>
 
 				<div class="actions">
