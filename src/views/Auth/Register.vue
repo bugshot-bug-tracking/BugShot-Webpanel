@@ -161,11 +161,15 @@
 
 			<i18n-t keypath="tos_and_pp" tag="span" scope="global">
 				<template v-slot:tos>
-					<a class="linked"> {{ $t("terms_of_service") }} </a>
+					<a class="linked" @click="openTOS">
+						{{ $t("terms_of_service") }}
+					</a>
 				</template>
 
 				<template v-slot:pp>
-					<a class="linked">{{ $t("privacy_policy") }}</a>
+					<a class="linked" @click="openPP">{{
+						$t("privacy_policy")
+					}}</a>
 				</template>
 			</i18n-t>
 		</div>
@@ -324,6 +328,14 @@ export default {
 			};
 		});
 
+		const openTOS = () => {
+			window.open("https://www.bugshot.de/nutzungsbedingungen");
+		};
+
+		const openPP = () => {
+			window.open("https://www.bugshot.de/datenschutz");
+		};
+
 		return {
 			first_name,
 			last_name,
@@ -345,6 +357,8 @@ export default {
 			showValidate,
 			showPasswordConfirm,
 			passwordTypeConfirm,
+			openTOS,
+			openPP,
 		};
 	},
 };
