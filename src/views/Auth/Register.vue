@@ -110,7 +110,7 @@
 		<div class="requed">
 			<div class="bs-input w-icon">
 				<input
-					:type="passwordType"
+					:type="passwordTypeConfirm"
 					:placeholder="$t('confirm_password')"
 					minlength="8"
 					required
@@ -128,14 +128,14 @@
 				/>
 
 				<img
-					v-if="showPassword"
-					@click="togglePassword"
+					v-if="showPasswordConfirm"
+					@click="togglePasswordConfirm"
 					src="../../assets/icons/hide_password.svg"
 				/>
 
 				<img
-					v-if="!showPassword"
-					@click="togglePassword"
+					v-if="!showPasswordConfirm"
+					@click="togglePasswordConfirm"
 					src="../../assets/icons/show_password.svg"
 				/>
 			</div>
@@ -217,6 +217,9 @@ export default {
 		const showPassword = ref(false);
 		const passwordType = ref("password");
 
+		const showPasswordConfirm = ref(false);
+		const passwordTypeConfirm = ref("password");
+
 		const tos = ref(false);
 
 		const errMessage = ref(null);
@@ -236,6 +239,12 @@ export default {
 			showPassword.value = !showPassword.value;
 			if (showPassword.value) passwordType.value = "text";
 			else passwordType.value = "password";
+		};
+
+		const togglePasswordConfirm = () => {
+			showPasswordConfirm.value = !showPasswordConfirm.value;
+			if (showPasswordConfirm.value) passwordTypeConfirm.value = "text";
+			else passwordTypeConfirm.value = "password";
 		};
 
 		const submit = () => {
@@ -324,11 +333,14 @@ export default {
 			errField,
 			submit,
 			togglePassword,
+			togglePasswordConfirm,
 			resetError,
 			process,
 			stage,
 			validate,
 			showValidate,
+			showPasswordConfirm,
+			passwordTypeConfirm,
 		};
 	},
 };
