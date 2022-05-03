@@ -2,7 +2,7 @@
 	<Navbar />
 
 	<div class="sidebar-container" :class="{ close: sidebarVisibility }">
-		<div class="sidebar-wraper">
+		<div class="sidebar-wrapper">
 			<router-view name="sidebar" />
 		</div>
 
@@ -41,7 +41,7 @@ export default {
 	border-right: 1px solid hsl(263, 79%, 94%);
 	height: 100vh;
 
-	.sidebar-wraper {
+	.sidebar-wrapper {
 		width: 12vw;
 		min-width: 200px;
 		max-width: 300px;

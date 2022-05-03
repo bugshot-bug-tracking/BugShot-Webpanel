@@ -279,7 +279,7 @@ export default {
 				background-color: #f8f8fc;
 				border: 1px solid #e6e6ff;
 				top: auto;
-				right: -120px;
+				left: 42px;
 				z-index: 1;
 				font-size: 16px;
 				align-items: flex-start;

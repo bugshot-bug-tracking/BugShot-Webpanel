@@ -71,7 +71,7 @@ export default {
 				// if no language could be found return null to indicate use of default
 				if (navigator.language === undefined) return null;
 
-				// if the langauge detected does not have a translation file return null to indicate use of default
+				// if the language detected does not have a translation file return null to indicate use of default
 				if (
 					!supportedLocales.hasOwnProperty(
 						navigator.language.trim().split(/-|_/)[0]
@@ -93,7 +93,7 @@ export default {
 					return language.trim().split(/-|_/)[0];
 			}
 
-			// return null to indicate defaul use
+			// return null to indicate default use
 			return null;
 		},
 	},
