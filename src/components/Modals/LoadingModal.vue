@@ -64,7 +64,7 @@ const props = defineProps({
 		required: false,
 		type: String,
 		default: null,
-		description: "Mesage shown in the success/error state",
+		description: "Message shown in the success/error state",
 	},
 });
 </script>
