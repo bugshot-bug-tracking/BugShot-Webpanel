@@ -218,10 +218,14 @@ export default {
 					url.value = "";
 				}, 4000);
 			} catch (error) {
+				console.log(error);
+
 				loadingModal.state = 2;
 				loadingModal.message = null;
 
-				console.log(error);
+				if (error.response.status === 403)
+					loadingModal.message =
+						"You are not authorized to complete this action!";
 
 				setTimeout(() => {
 					loadingModal.show = false;

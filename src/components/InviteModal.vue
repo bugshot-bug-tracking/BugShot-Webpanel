@@ -121,10 +121,12 @@ export default {
 			} catch (error) {
 				console.dir(error);
 				loadingModal.state = 2;
-				loadingModal.message = error.response.data.data.message.replace(
-					":",
-					""
-				);
+				loadingModal.message =
+					error.response.data.data?.message.replace(":", "");
+
+				if (error.response.status === 403)
+					loadingModal.message =
+						"You are not authorized to complete this action!";
 
 				setTimeout(() => {
 					loadingModal.show = false;
