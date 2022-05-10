@@ -135,7 +135,6 @@
 <script setup>
 import SideTab from "./SideTab.vue";
 import Container from "./Container.vue";
-import Datepicker from "vue3-date-time-picker";
 import { onUnmounted, reactive, ref } from "vue";
 import Assignes from "./Assignes.vue";
 import LocalAttachments from "./Attachments/LocalAttachments.vue";

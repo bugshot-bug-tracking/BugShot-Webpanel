@@ -157,7 +157,6 @@
 import Container from "./Container.vue";
 import Screenshot from "./Screenshot.vue";
 import PriorityChange from "./PriorityChange.vue";
-import Datepicker from "vue3-date-time-picker";
 import Assignes from "./Assignes.vue";
 import dateFix from "@/util/dateFixISO";
 import { computed, ref } from "@vue/reactivity";
@@ -402,13 +401,5 @@ const format = (date) => d(new Date(date).toISOString(), "short");
 			margin-top: 6px;
 		}
 	}
-}
-</style>
-
-<style lang="scss">
-@import "vue3-date-time-picker/dist/main.css";
-
-.dp__select {
-	color: #18b984;
 }
 </style>
