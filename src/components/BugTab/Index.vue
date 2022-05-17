@@ -41,13 +41,13 @@
 
 <script setup>
 import { computed, ref, watch } from "@vue/runtime-core";
-import store from "../store";
-import SideTab from "./SideTab.vue";
+import store from "../../store";
+import SideTab from "../SideTab.vue";
 import Info from "./Info.vue";
-import Attachments from "./Attachments/Index.vue";
+import Attachments from "../Attachments/Index.vue";
 import Comments from "./Comments/Index.vue";
 import axios from "axios";
-import AssignModal from "./AssignModal.vue";
+import AssignModal from "../AssignModal.vue";
 
 const emit = defineEmits(["close", "deleted"]);
 const props = defineProps({
@@ -111,7 +111,7 @@ const assignShow = ref(false);
 			width: 24px;
 			height: 24px;
 			margin-right: 6px;
-			background-image: url("../assets/icons/trash.svg");
+			background-image: url("@/assets/icons/trash.svg");
 			background-repeat: no-repeat;
 			background-position: center;
 

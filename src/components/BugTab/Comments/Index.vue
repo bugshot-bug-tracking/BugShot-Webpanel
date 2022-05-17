@@ -54,10 +54,10 @@
 
 <script setup>
 import { ref } from "@vue/reactivity";
-import { computed, nextTick, watch } from "@vue/runtime-core";
+import { reactive, computed, nextTick, watch } from "@vue/runtime-core";
 import Message from "./Message.vue";
-import Container from "../Container.vue";
-import store from "../../store";
+import Container from "../../Container.vue";
+import store from "@/store";
 import axios from "axios";
 
 const props = defineProps({
@@ -140,7 +140,7 @@ watch(props, () => scrollToBottom(), { deep: true });
 			}
 
 			> .refresh-button {
-				background-image: url("../../assets/icons/refresh.svg");
+				background-image: url("@/assets/icons/refresh.svg");
 				background-repeat: no-repeat;
 				background-position: center;
 				width: 24px;
@@ -187,7 +187,7 @@ watch(props, () => scrollToBottom(), { deep: true });
 			}
 		}
 
-		> #comment-input {
+		#comment-input {
 			width: 100%;
 			border: 1px solid hsl(265, 80%, 80%);
 			border-radius: 12px;
