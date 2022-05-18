@@ -1,10 +1,10 @@
 <template>
-	<div ref="tab">
+	<div>
 		<SideTab v-if="bug" class="tab-shaddow">
 			<Info
 				:bug="bug"
 				:status="status"
-				@close="$emit('close')"
+				@close="emit('close')"
 				@open_assign="assignShow = true"
 			/>
 
@@ -34,18 +34,20 @@
 			:id="bug.id"
 			@close="assignShow = false"
 		/>
+
+		<div class="outside-overlay" @click="emit('close')" />
 	</div>
 </template>
 
 <script setup>
-import { computed, onUnmounted, ref, watch } from "@vue/runtime-core";
-import store from "../store";
-import SideTab from "./SideTab.vue";
+import { computed, ref, watch } from "@vue/runtime-core";
+import store from "../../store";
+import SideTab from "../SideTab.vue";
 import Info from "./Info.vue";
-import Attachments from "./Attachments/Index.vue";
+import Attachments from "../Attachments/Index.vue";
 import Comments from "./Comments/Index.vue";
 import axios from "axios";
-import AssignModal from "./AssignModal.vue";
+import AssignModal from "../AssignModal.vue";
 
 const emit = defineEmits(["close", "deleted"]);
 const props = defineProps({
@@ -91,33 +93,6 @@ const deleteBug = async () => {
 	}
 };
 
-//#region close on click outside logic
-
-const tab = ref(null);
-
-const closeTab = (event) => {
-	if (!tab.value) return;
-
-	// event.path for chromium, composedPath for when .path does not exist (ex. firefox)
-	let path = event.path || (event.composedPath && event.composedPath());
-
-	// exclude clicking elements inside, bug-cards and download attachment that happens outside the tab
-	if (
-		path.find((e) => e == tab.value) == null &&
-		path.find((e) => e.className?.includes("bug-card")) == null &&
-		event.target.id != "downloadAttachmentA"
-	)
-		emit("close");
-};
-
-document.addEventListener("click", closeTab);
-
-onUnmounted(() => {
-	document.removeEventListener("click", closeTab);
-});
-
-//#endregion
-
 const assignShow = ref(false);
 </script>
 
@@ -136,7 +111,7 @@ const assignShow = ref(false);
 			width: 24px;
 			height: 24px;
 			margin-right: 6px;
-			background-image: url("../assets/icons/trash.svg");
+			background-image: url("@/assets/icons/trash.svg");
 			background-repeat: no-repeat;
 			background-position: center;
 
@@ -157,5 +132,15 @@ const assignShow = ref(false);
 
 .tab-shaddow {
 	box-shadow: -10px 0px 24px hsla(231, 42%, 18%, 0.11);
+}
+
+.outside-overlay {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	background: #00000073;
+	top: 0;
+	left: 0;
+	z-index: 1;
 }
 </style>

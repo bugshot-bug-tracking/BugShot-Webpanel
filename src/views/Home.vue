@@ -368,3 +368,11 @@ export default {
 		hue-rotate(194deg) brightness(90%) contrast(86%);
 }
 </style>
+
+<style lang="scss">
+@import "@vuepic/vue-datepicker/src/VueDatePicker/style/main.scss";
+
+.dp__select {
+	color: #18b984;
+}
+</style>

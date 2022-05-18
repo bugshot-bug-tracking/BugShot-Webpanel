@@ -90,7 +90,7 @@
 		</Column>
 	</div>
 
-	<BugInfo v-if="infoTab.show" :id="infoTab.id" @close="close" />
+	<BugTab v-if="infoTab.show" :id="infoTab.id" @close="close" />
 
 	<StatusDeleteModal
 		:show="deleteModal.show"
@@ -123,7 +123,7 @@ import store from "../../../../store";
 import Column from "./Column.vue";
 import draggable from "vuedraggable";
 import BugCard from "../../../../components/BugCard.vue";
-import BugInfo from "../../../../components/BugInfo.vue";
+import BugTab from "../../../../components/BugTab/Index.vue";
 import StatusTableHeader from "../../../../components/StatusTableHeader.vue";
 import StatusDeleteModal from "../../../../components/Modals/StatusDeleteModal.vue";
 import LoadingModal from "@/components/Modals/LoadingModal.vue";

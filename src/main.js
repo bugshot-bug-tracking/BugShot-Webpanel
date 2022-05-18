@@ -7,6 +7,7 @@ import axios from "axios";
 import i18n from "./i18n";
 
 import vSelect from "vue-select";
+import Datepicker from "@vuepic/vue-datepicker";
 
 require("./store/subscriber");
 
@@ -26,5 +27,6 @@ const app = createApp(App);
 app.use(i18n).use(store).use(router);
 
 app.component("v-select", vSelect);
+app.component("Datepicker", Datepicker);
 
 app.mount("#app");

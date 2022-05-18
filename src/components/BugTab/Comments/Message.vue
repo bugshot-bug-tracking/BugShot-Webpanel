@@ -1,7 +1,7 @@
 <template>
 	<div class="message-wrapper" :class="sender === 0 ? `self` : `other`">
 		<div class="content">
-			<div class="message">{{ content }}</div>
+			<div class="message" ref="node">{{ content }}</div>
 			<div class="timestamp">{{ $d(dateFix(timestamp), "short") }}</div>
 		</div>
 
@@ -15,6 +15,8 @@
 
 <script setup>
 import dateFix from "@/util/dateFixISO";
+import { ref } from "@vue/reactivity";
+import { onMounted } from "vue";
 
 const props = defineProps({
 	content: {
@@ -33,6 +35,32 @@ const props = defineProps({
 		required: true,
 		type: String,
 	},
+});
+
+const node = ref(null);
+
+onMounted(() => {
+	// single instance as 1 group
+	let regex1 = /(\<[0-9]+\$\@[a-z ]+\>)/i;
+	// grouped by data type (id,tag)
+	let regex2 = /\<([0-9]+)\$\@([a-z ]+)\>/i;
+
+	let parts = props.content.split(regex1);
+	node.value.innerText = "";
+
+	for (const part of parts) {
+		let match = part.match(regex2);
+
+		if (!match) node.value.append(part);
+		else {
+			let tag = document.createElement("span");
+			tag.className = "tagged";
+			tag.textContent = "@" + match[2];
+			tag.style.color = "#7A2EE6";
+
+			node.value.append(tag);
+		}
+	}
 });
 </script>
 
