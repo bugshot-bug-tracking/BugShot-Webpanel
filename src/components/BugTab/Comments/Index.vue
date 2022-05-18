@@ -353,10 +353,6 @@ onMounted(() => {
 		}
 	}
 }
-
-.comment-tag {
-	user-select: none;
-}
 </style>
 
 <style lang="scss">
@@ -366,6 +362,7 @@ onMounted(() => {
 	padding: 1px 2px;
 	color: white;
 	white-space: nowrap;
+	font-size: 13px;
 }
 
 .tag-container {
