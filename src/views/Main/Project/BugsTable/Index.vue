@@ -108,7 +108,7 @@
 	>
 		<template #success-img>
 			<img
-				src="@/assets/gif/delete.gif"
+				src="/src/assets/gif/delete.gif"
 				alt="success"
 				class="h-50 w-auto"
 			/>
@@ -126,7 +126,7 @@ import BugCard from "../../../../components/BugCard.vue";
 import BugTab from "../../../../components/BugTab/Index.vue";
 import StatusTableHeader from "../../../../components/StatusTableHeader.vue";
 import StatusDeleteModal from "../../../../components/Modals/StatusDeleteModal.vue";
-import LoadingModal from "@/components/Modals/LoadingModal.vue";
+import LoadingModal from "/src/components/Modals/LoadingModal.vue";
 
 const props = defineProps({
 	id: {

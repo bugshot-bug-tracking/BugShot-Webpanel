@@ -103,10 +103,10 @@ import TeamTable from "../../../components/TeamTable.vue";
 import Plan from "../../../components/Plan.vue";
 import axios from "axios";
 import DeleteModal from "../../../components/Modals/DeleteModal.vue";
-import LoadingModal from "@/components/Modals/LoadingModal.vue";
+import LoadingModal from "/src/components/Modals/LoadingModal.vue";
 import { useI18n } from "vue-i18n";
-import toBase64 from "@/util/toBase64";
-import colors from "@/util/colors";
+import toBase64 from "/src/util/toBase64";
+import colors from "/src/util/colors";
 
 export default {
 	components: {

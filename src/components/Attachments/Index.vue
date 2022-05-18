@@ -43,7 +43,7 @@ import Item from "./Item.vue";
 import axios from "axios";
 import store from "../../store";
 import { useI18n } from "vue-i18n";
-import toBase64 from "@/util/toBase64";
+import toBase64 from "/src/util/toBase64";
 
 export default {
 	components: { Container, Item },

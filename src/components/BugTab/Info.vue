@@ -69,7 +69,7 @@
 					@click="open = !open"
 				>
 					<span>{{ $t("technical_info") + ":" }}</span>
-					<img src="@/assets/icons/caret-down-fill.svg" />
+					<img src="/src/assets/icons/caret-down-fill.svg" />
 				</div>
 
 				<div class="technical-info">
@@ -158,9 +158,9 @@ import Container from "../Container.vue";
 import Screenshot from "./Screenshot.vue";
 import PriorityChange from "../PriorityChange.vue";
 import Assignes from "../Assignes.vue";
-import dateFix from "@/util/dateFixISO";
+import dateFix from "/src/util/dateFixISO";
 import { computed, ref } from "@vue/reactivity";
-import store from "@/store";
+import store from "/src/store";
 import { useI18n } from "vue-i18n";
 
 const emit = defineEmits(["close", "open_assign"]);
@@ -246,7 +246,7 @@ const format = (date) => d(new Date(date).toISOString(), "short");
 	}
 
 	.close-button {
-		background-image: url("@/assets/icons/classic_X.svg");
+		background-image: url("/src/assets/icons/classic_X.svg");
 		background-repeat: no-repeat;
 		background-position: center;
 		width: 24px;

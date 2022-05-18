@@ -56,9 +56,9 @@ import Modal from "../../../components/Modal.vue";
 import { computed, nextTick, onMounted } from "@vue/runtime-core";
 import Picker from "../../../components/Picker.vue";
 import store from "../../../store";
-import LoadingModal from "@/components/Modals/LoadingModal.vue";
-import toBase64 from "@/util/toBase64";
-import colors from "@/util/colors";
+import LoadingModal from "/src/components/Modals/LoadingModal.vue";
+import toBase64 from "/src/util/toBase64";
+import colors from "/src/util/colors";
 
 export default {
 	name: "EditProjectModal",

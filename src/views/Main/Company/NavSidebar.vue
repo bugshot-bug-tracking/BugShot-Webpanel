@@ -21,7 +21,7 @@
 						</router-link>
 
 						<img
-							src="@/assets/icons/icn_left_arrow.svg"
+							src="/src/assets/icons/icn_left_arrow.svg"
 							v-if="company.projects?.length > 0"
 							@click="collapse"
 						/>

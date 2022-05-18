@@ -84,7 +84,7 @@
 
 <script>
 import { ref } from "@vue/reactivity";
-import colors from "@/util/colors";
+import colors from "/src/util/colors";
 
 export default {
 	name: "Picker",

@@ -30,7 +30,7 @@
 </template>
 
 <script setup>
-import colors from "@/util/colors";
+import colors from "/src/util/colors";
 
 const props = defineProps({
 	list: {

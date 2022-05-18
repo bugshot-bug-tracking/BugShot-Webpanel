@@ -4,7 +4,7 @@
 			{{ text }}
 
 			<img
-				src="@/assets/icons/edit.svg"
+				src="/src/assets/icons/edit.svg"
 				alt="edit"
 				class="bs-to-gray"
 				style="width: 18px"
@@ -14,14 +14,14 @@
 
 		<div class="actions bs-to-gray ms-2" v-if="movable || deletable">
 			<img
-				src="@/assets/icons/arrow-left-right.svg"
+				src="/src/assets/icons/arrow-left-right.svg"
 				alt="order"
 				class="handle"
 				v-if="movable"
 			/>
 
 			<img
-				src="@/assets/icons/round_minus.svg"
+				src="/src/assets/icons/round_minus.svg"
 				alt="edit"
 				@click="emit('delete', id)"
 				v-if="deletable"
@@ -36,14 +36,14 @@
 
 		<div class="actions bs-to-gray ms-2">
 			<img
-				src="@/assets/icons/check.svg"
+				src="/src/assets/icons/check.svg"
 				alt="save"
 				style="width: 18px"
 				@click="edit"
 			/>
 
 			<img
-				src="@/assets/icons/classic_X.svg"
+				src="/src/assets/icons/classic_X.svg"
 				alt="cancel"
 				@click="cancel"
 				style="width: 18px"

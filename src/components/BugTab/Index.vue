@@ -111,7 +111,7 @@ const assignShow = ref(false);
 			width: 24px;
 			height: 24px;
 			margin-right: 6px;
-			background-image: url("@/assets/icons/trash.svg");
+			background-image: url("/src/assets/icons/trash.svg");
 			background-repeat: no-repeat;
 			background-position: center;
 

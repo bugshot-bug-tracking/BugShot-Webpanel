@@ -92,7 +92,7 @@
 								class="bs-to-purple"
 								style="background-color: unset"
 								v-bind="attributes"
-								src="@/assets/icons/caret-down-fill.svg"
+								src="/src/assets/icons/caret-down-fill.svg"
 							/>
 						</template>
 
@@ -123,7 +123,7 @@ import store from "../store";
 import Container from "./Container.vue";
 import { watch } from "@vue/runtime-core";
 import axios from "axios";
-import colors from "@/util/colors";
+import colors from "/src/util/colors";
 import AddMemebers from "./AddMemebers.vue";
 import LoadingModal from "./Modals/LoadingModal.vue";
 
