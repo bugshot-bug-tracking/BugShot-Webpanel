@@ -48,6 +48,7 @@
 								:priority="
 									getBug(element).attributes.priority.id
 								"
+								:active="infoTab.id === element"
 								@info="info(element)"
 							/>
 						</template>
