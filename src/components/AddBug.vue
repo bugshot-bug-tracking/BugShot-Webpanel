@@ -4,7 +4,7 @@
 		{{ $t("add.bug") }}
 	</a>
 
-	<SideTab v-if="tabOpen" class="tab-shaddow" ref="tab">
+	<SideTab v-if="tabOpen" class="tab-shaddow">
 		<form @submit.prevent="submit">
 			<div class="top">
 				<h4>{{ $t("new_bug_report") }}</h4>
@@ -130,13 +130,14 @@
 		:message="loadingModal.message"
 		@close="loadingModal.show = false"
 	/>
+
+	<div class="outside-overlay" v-if="tabOpen" @click="tabOpen = false" />
 </template>
 
 <script setup>
 import SideTab from "./SideTab.vue";
 import Container from "./Container.vue";
-import Datepicker from "vue3-date-time-picker";
-import { onUnmounted, reactive, ref } from "vue";
+import { reactive, ref } from "vue";
 import Assignes from "./Assignes.vue";
 import LocalAttachments from "./Attachments/LocalAttachments.vue";
 import ImageManager from "./ImageManager.vue";
@@ -258,32 +259,6 @@ const loadingModal = reactive({
 	state: 0,
 	message: null,
 });
-
-//#region close on click outside logic
-
-const tab = ref(null);
-
-const closeTab = (event) => {
-	if (!tab.value) return;
-
-	// event.path for chromium, composedPath for when .path does not exist (ex. firefox)
-	let path = event.path || (event.composedPath && event.composedPath());
-
-	// exclude clicking elements inside
-	if (
-		path.find((e) => e == tab.value.$el) == null &&
-		path.find((e) => e.className?.includes("add-button")) == null
-	)
-		tabOpen.value = false;
-};
-
-document.addEventListener("click", closeTab);
-
-onUnmounted(() => {
-	document.removeEventListener("click", closeTab);
-});
-
-//#endregion
 </script>
 
 <style lang="scss" scoped>
@@ -390,5 +365,15 @@ onUnmounted(() => {
 
 .tab-shaddow {
 	box-shadow: -10px 0px 24px hsla(231, 42%, 18%, 0.11);
+}
+
+.outside-overlay {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	background: #00000073;
+	top: 0;
+	left: 0;
+	z-index: 1;
 }
 </style>

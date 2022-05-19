@@ -1,6 +1,6 @@
 <template>
 	<div class="bug-card">
-		<div class="card">
+		<div class="card" :class="{ active: active }">
 			<div class="card-header bug-title" @click="$emit('info')">
 				{{ title }}
 			</div>
@@ -40,6 +40,11 @@ const props = defineProps({
 		required: true,
 		type: Number,
 	},
+	active: {
+		required: false,
+		type: Boolean,
+		default: false,
+	},
 });
 </script>
 
@@ -60,6 +65,10 @@ const props = defineProps({
 
 		.card-body {
 			padding: 1rem 0.5rem;
+		}
+
+		&.active {
+			border: 2px solid #7a2ee6;
 		}
 	}
 

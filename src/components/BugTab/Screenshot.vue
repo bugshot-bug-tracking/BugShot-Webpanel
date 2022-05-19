@@ -63,7 +63,7 @@
 
 <script>
 import { computed, reactive, ref } from "@vue/reactivity";
-import Modal from "./Modal.vue";
+import Modal from "../Modal.vue";
 import { nextTick } from "@vue/runtime-core";
 
 export default {
@@ -189,7 +189,7 @@ export default {
 		z-index: 1;
 		top: 0;
 		left: 0;
-		background-image: url("../assets/icons/expand.svg");
+		background-image: url("@/assets/icons/expand.svg");
 		background-repeat: no-repeat;
 		background-position: center;
 		background-color: hsla(0, 0%, 0%, 0.15);
@@ -281,19 +281,19 @@ export default {
 		}
 
 		&.arrow-left {
-			background-image: url("../assets/icons/icn_left_arrow.svg");
+			background-image: url("@/assets/icons/icn_left_arrow.svg");
 
 			&:hover {
-				background-image: url("../assets/icons/icn_left_arrow_hover.svg");
+				background-image: url("@/assets/icons/icn_left_arrow_hover.svg");
 			}
 		}
 
 		&.arrow-right {
-			background-image: url("../assets/icons/icn_left_arrow.svg");
+			background-image: url("@/assets/icons/icn_left_arrow.svg");
 			transform: rotate(180deg);
 
 			&:hover {
-				background-image: url("../assets/icons/icn_left_arrow_hover.svg");
+				background-image: url("@/assets/icons/icn_left_arrow_hover.svg");
 				transform: rotate(180deg);
 			}
 		}
@@ -319,19 +319,19 @@ export default {
 	background-repeat: no-repeat;
 
 	&.critical {
-		background-image: url("../assets/marks/mark_crit.svg");
+		background-image: url("@/assets/marks/mark_crit.svg");
 	}
 
 	&.important {
-		background-image: url("../assets/marks/mark_imp.svg");
+		background-image: url("@/assets/marks/mark_imp.svg");
 	}
 
 	&.normal {
-		background-image: url("../assets/marks/mark_normal.svg");
+		background-image: url("@/assets/marks/mark_normal.svg");
 	}
 
 	&.minor {
-		background-image: url("../assets/marks/mark_min.svg");
+		background-image: url("@/assets/marks/mark_min.svg");
 	}
 }
 </style>
