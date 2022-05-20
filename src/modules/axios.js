@@ -18,6 +18,9 @@ export const install = (app, router) => {
 		},
 		(error) => {
 			if (error.response?.status === 401) {
+				// ignore 401 on login route calls
+				if (error.config.url === "auth/login") throw error;
+
 				// clear the local storage then redirect
 				useAuthStore().destroy();
 
