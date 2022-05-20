@@ -41,7 +41,7 @@
 									class="bs-to-purple"
 									style="background-color: unset"
 									v-bind="attributes"
-									src="@/assets/icons/caret-down-fill.svg"
+									src="/src/assets/icons/caret-down-fill.svg"
 								/>
 							</template>
 

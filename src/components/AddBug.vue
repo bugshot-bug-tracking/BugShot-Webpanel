@@ -141,8 +141,8 @@ import { reactive, ref } from "vue";
 import Assignes from "./Assignes.vue";
 import LocalAttachments from "./Attachments/LocalAttachments.vue";
 import ImageManager from "./ImageManager.vue";
-import toBase64 from "@/util/toBase64";
-import LoadingModal from "@/components/Modals/LoadingModal.vue";
+import toBase64 from "/src/util/toBase64";
+import LoadingModal from "/src/components/Modals/LoadingModal.vue";
 import axios from "axios";
 import store from "../store";
 

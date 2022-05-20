@@ -87,10 +87,10 @@ import Picker from "./Picker.vue";
 import axios from "axios";
 import Modal from "./Modal.vue";
 import store from "../store";
-import LoadingModal from "@/components/Modals/LoadingModal.vue";
-import toBase64 from "@/util/toBase64";
+import LoadingModal from "/src/components/Modals/LoadingModal.vue";
+import toBase64 from "/src/util/toBase64";
 import AddMemebers from "./AddMemebers.vue";
-import colors from "@/util/colors";
+import colors from "/src/util/colors";
 
 export default {
 	name: "CreateData",

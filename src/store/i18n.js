@@ -4,7 +4,7 @@ import axios from "axios";
 
 export default {
 	state: {
-		locale: process.env.VUE_APP_I18N_LOCALE,
+		locale: import.meta.env.VITE_I18N_LOCALE,
 		supportedLocales: [],
 		auto_locale: null,
 	},
@@ -41,7 +41,7 @@ export default {
 				state.commit("SET_AUTO_LOCALE", autoLoc);
 
 				// if locale is null use the default
-				locale = autoLoc ? autoLoc : process.env.VUE_APP_I18N_LOCALE;
+				locale = autoLoc ? autoLoc : import.meta.env.VITE_I18N_LOCALE;
 			}
 
 			document.querySelector("html").setAttribute("lang", locale);

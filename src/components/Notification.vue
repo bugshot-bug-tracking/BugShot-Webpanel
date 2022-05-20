@@ -42,7 +42,7 @@
 import { computed } from "@vue/reactivity";
 import store from "../store";
 import axios from "axios";
-import dateFix from "@/util/dateFixISO";
+import dateFix from "/src/util/dateFixISO";
 
 const props = defineProps({
 	id: {

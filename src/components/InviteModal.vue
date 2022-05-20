@@ -67,7 +67,7 @@ import { computed, reactive, ref } from "@vue/reactivity";
 import axios from "axios";
 import Modal from "./Modal.vue";
 import store from "../store";
-import LoadingModal from "@/components/Modals/LoadingModal.vue";
+import LoadingModal from "/src/components/Modals/LoadingModal.vue";
 
 export default {
 	name: "CreateData",

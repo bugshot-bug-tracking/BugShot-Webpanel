@@ -79,8 +79,8 @@
 
 <script setup>
 import { ref, computed, reactive } from "@vue/runtime-core";
-import store from "@/store";
-import colors from "@/util/colors";
+import store from "/src/store";
+import colors from "/src/util/colors";
 import axios from "axios";
 import LoadingModal from "./Modals/LoadingModal.vue";
 

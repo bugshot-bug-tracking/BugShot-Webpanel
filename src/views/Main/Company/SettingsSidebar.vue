@@ -17,7 +17,7 @@
 						</router-link>
 
 						<img
-							src="@/assets/icons/icn_left_arrow.svg"
+							src="/src/assets/icons/icn_left_arrow.svg"
 							@click="collapse"
 						/>
 					</div>

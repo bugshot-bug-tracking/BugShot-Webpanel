@@ -83,11 +83,11 @@ import {
 } from "@vue/runtime-core";
 import Message from "./Message.vue";
 import Container from "../../Container.vue";
-import store from "@/store";
+import store from "/src/store";
 import axios from "axios";
 import { VueTribute } from "vue-tribute";
 import colors from "../../../util/colors";
-import { maxlengthContentEditable } from "@/util/maxlength-contenteditable.js";
+import { maxlengthContentEditable } from "/src/util/maxlength-contenteditable.js";
 
 const props = defineProps({
 	bug_id: {
@@ -261,7 +261,7 @@ onMounted(() => {
 			}
 
 			> .refresh-button {
-				background-image: url("@/assets/icons/refresh.svg");
+				background-image: url("/src/assets/icons/refresh.svg");
 				background-repeat: no-repeat;
 				background-position: center;
 				width: 24px;

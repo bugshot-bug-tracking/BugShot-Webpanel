@@ -28,7 +28,7 @@
 			<div class="right">
 				<img
 					class="btn"
-					src="@/assets/icons/settings_dots.svg"
+					src="/src/assets/icons/settings_dots.svg"
 					ref="actions"
 					@click="toggleShowActions"
 				/>
@@ -72,7 +72,7 @@ import { computed, reactive, ref } from "@vue/reactivity";
 import { onUnmounted } from "@vue/runtime-core";
 import EditModal from "../views/Main/Project/EditModal.vue";
 import DeleteModal from "./Modals/DeleteModal.vue";
-import LoadingModal from "@/components/Modals/LoadingModal.vue";
+import LoadingModal from "/src/components/Modals/LoadingModal.vue";
 import store from "../store";
 import timeToText from "../util/timeToText";
 

@@ -7,7 +7,7 @@
 		</div>
 
 		<div class="hide" @click="sidebarVisibility = !sidebarVisibility">
-			<img src="@/assets/icons/caret-down-fill.svg" />
+			<img src="/src/assets/icons/caret-down-fill.svg" />
 		</div>
 	</div>
 
