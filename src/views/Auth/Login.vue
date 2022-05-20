@@ -71,6 +71,7 @@
 import { ref } from "@vue/reactivity";
 import store from "../../store";
 import router from "../../router";
+import { useAuthStore } from "/src/stores/auth";
 
 export default {
 	setup() {
@@ -89,8 +90,8 @@ export default {
 		};
 
 		const submit = () => {
-			store
-				.dispatch("login", {
+			useAuthStore()
+				.login({
 					email: email.value,
 					password: password.value,
 				})

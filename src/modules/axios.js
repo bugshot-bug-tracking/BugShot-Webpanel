@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import { useAuthStore } from "/src/stores/auth";
+
 export const install = (app, router) => {
 	axios.defaults.baseURL = import.meta.env.VITE_API_ENDPOINT;
 	axios.defaults.headers = {
@@ -17,6 +19,7 @@ export const install = (app, router) => {
 		(error) => {
 			if (error.response?.status === 401) {
 				// clear the local storage then redirect
+				useAuthStore().destroy();
 
 				router.push({ name: "Login" });
 			}

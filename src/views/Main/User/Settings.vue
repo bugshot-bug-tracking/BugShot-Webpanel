@@ -303,6 +303,7 @@ import Container from "../../../components/Container.vue";
 import { computed, reactive, ref } from "@vue/reactivity";
 import store from "../../../store";
 import axios from "axios";
+import { useAuthStore } from "/src/stores/auth";
 
 const data = reactive({
 	first_name: "",
@@ -316,7 +317,7 @@ const data = reactive({
 });
 
 const user = computed(() => {
-	let user = store.getters.getUser;
+	let user = useAuthStore().getUser;
 
 	if (user && user.attributes) {
 		data.first_name = user.attributes.first_name;

@@ -43,6 +43,7 @@ import { computed } from "@vue/reactivity";
 import store from "../store";
 import axios from "axios";
 import dateFix from "/src/util/dateFixISO";
+import { useAuthStore } from "/src/stores/auth";
 
 const props = defineProps({
 	id: {
@@ -58,7 +59,7 @@ const record = computed(() => {
 
 const accept = async () => {
 	try {
-		let user = store.getters.getUser;
+		let user = useAuthStore().getUser;
 		await axios.get(`users/${user.id}/invitations/${props.id}/accept`);
 
 		store.commit("REMOVE_INVITATION", props.id);
@@ -70,7 +71,7 @@ const accept = async () => {
 
 const decline = async () => {
 	try {
-		let user = store.getters.getUser;
+		let user = useAuthStore().getUser;
 
 		await axios.get(`user/${user.id}/invitations/${props.id}/accept`);
 

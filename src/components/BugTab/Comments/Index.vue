@@ -88,6 +88,7 @@ import axios from "axios";
 import { VueTribute } from "vue-tribute";
 import colors from "../../../util/colors";
 import { maxlengthContentEditable } from "/src/util/maxlength-contenteditable.js";
+import { useAuthStore } from "/src/stores/auth";
 
 const props = defineProps({
 	bug_id: {
@@ -106,7 +107,7 @@ const lock = ref(false); // prevent send button spam
 const messageLength = ref(0);
 
 const user = computed(() => {
-	return store.getters.getUser;
+	return useAuthStore().getUser;
 });
 
 const projectTeam = computed(() => {
