@@ -107,6 +107,7 @@ import LoadingModal from "/src/components/Modals/LoadingModal.vue";
 import { useI18n } from "vue-i18n";
 import toBase64 from "/src/util/toBase64";
 import colors from "/src/util/colors";
+import { useAuthStore } from "/src/stores/auth";
 
 export default {
 	components: {
@@ -136,7 +137,7 @@ export default {
 		const imageFlag = ref(false);
 
 		const user = computed(() => {
-			return store.getters.getUser;
+			return useAuthStore().getUser;
 		});
 
 		const canEdit = computed(() => {

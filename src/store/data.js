@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useAuthStore } from "/src/stores/auth";
 
 export default {
 	state: {
@@ -108,13 +109,13 @@ export default {
 		// fetch all companies that the logged user is associated with
 		fetchCompanies: async (state) => {
 			try {
-				let companies = (
-					await axios.get("companies", {
-						headers: {
-							"include-image": "true",
-						},
-					})
-				).data.data;
+				let companies = await axios.get("companies", {
+					headers: {
+						"include-image": "true",
+					},
+				});
+
+				companies = companies.data.data;
 
 				// because i want to make a single mutation
 				let coMap = new Map();
@@ -132,6 +133,7 @@ export default {
 				state.commit("SET_COMPANIES", coMap);
 			} catch (error) {
 				console.log(error);
+				throw error;
 			}
 		},
 
@@ -234,7 +236,7 @@ export default {
 			try {
 				let roles = (
 					await axios.get(
-						`users/${state.getters.getUser.id}/invitations`
+						`users/${useAuthStore().getUser.id}/invitations`
 					)
 				).data.data;
 
