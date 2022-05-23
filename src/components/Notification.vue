@@ -40,10 +40,9 @@
 
 <script setup>
 import { computed } from "@vue/reactivity";
-import store from "../store";
-import axios from "axios";
 import dateFix from "/src/util/dateFixISO";
-import { useAuthStore } from "/src/stores/auth";
+import { useNotificationStore } from "/src/stores/notifications";
+import { useMainStore } from "/src/stores/main";
 
 const props = defineProps({
 	id: {
@@ -53,32 +52,26 @@ const props = defineProps({
 	},
 });
 
+const notifications = useNotificationStore();
+
 const record = computed(() => {
-	return store.getters.getInvitationById(props.id);
+	return notifications.getInvitationById(props.id);
 });
 
 const accept = async () => {
 	try {
-		let user = useAuthStore().getUser;
-		await axios.get(`users/${user.id}/invitations/${props.id}/accept`);
-
-		store.commit("REMOVE_INVITATION", props.id);
-		store.dispatch("init", props.id);
+		await notifications.accept(props.id);
+		useMainStore().init();
 	} catch (error) {
-		console.error(error);
+		console.log(error);
 	}
 };
 
 const decline = async () => {
 	try {
-		let user = useAuthStore().getUser;
-
-		await axios.get(`user/${user.id}/invitations/${props.id}/accept`);
-
-		store.commit("REMOVE_INVITATION", props.id);
-		store.dispatch("init", props.id);
+		await notifications.accept(props.id);
 	} catch (error) {
-		console.error(error);
+		console.log(error);
 	}
 };
 </script>

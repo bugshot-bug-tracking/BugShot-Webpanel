@@ -14,25 +14,17 @@
 	<router-view />
 </template>
 
-<script>
-// @ is an alias to /src
-import Navbar from "./Navbar.vue";
-import store from "../store";
+<script setup>
 import { ref } from "@vue/reactivity";
+import { useMainStore } from "/src/stores/main";
+import Navbar from "./Navbar.vue";
 
-export default {
-	name: "Home",
-	components: { Navbar },
-	setup() {
-		store.dispatch("start");
+import store from "../store";
+store.dispatch("start");
 
-		const sidebarVisibility = ref(false);
+useMainStore().init();
 
-		return {
-			sidebarVisibility,
-		};
-	},
-};
+const sidebarVisibility = ref(false);
 </script>
 
 <style lang="scss" scoped>

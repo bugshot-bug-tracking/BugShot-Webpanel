@@ -27,7 +27,7 @@ const props = defineProps({
 	id: {
 		required: true,
 		type: String,
-		desciption: "Project ID",
+		description: "Project ID",
 	},
 });
 

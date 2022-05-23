@@ -13,7 +13,9 @@ Object.values(import.meta.globEager("./modules/*.js")).forEach((i) =>
 	i.install?.(app, router)
 );
 
-useAuthStore().attempt(localStorage.getItem("authToken"));
+useAuthStore()
+	.attempt(localStorage.getItem("authToken"))
+	.then(() => {
+		app.mount("#app");
+	});
 store.dispatch("initLocale");
-
-app.mount("#app");
