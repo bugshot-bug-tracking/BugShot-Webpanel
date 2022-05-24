@@ -175,8 +175,6 @@ watch(props, () => {
 </script>
 
 <style lang="scss" scoped>
-@import "vue-select/dist/vue-select.css";
-
 .wrapper {
 	display: flex;
 	flex-direction: column;
