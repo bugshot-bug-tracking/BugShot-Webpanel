@@ -15,7 +15,7 @@ export const useProjectStore = defineStore("project", {
 		async destroy() {
 			this.project_id = null;
 			this.project = null;
-			this.statuses = new Map();
+			this.statuses = [];
 
 			return true;
 		},
@@ -93,9 +93,9 @@ export const useProjectStore = defineStore("project", {
 							? { order_number: payload.changes.order_number }
 							: { order_number: bug.attributes.order_number }),
 
-						// if undefined it means that no change was made; if null it means reseting the deadline;
+						// if undefined it means that no change was made; if null it means resetting the deadline;
 						...(payload.changes.deadline === undefined
-							? { deadline: bug.attributes.deadline }
+							? { deadline: bug.attributes.deadline.slice(0, -1) }
 							: payload.changes.deadline === null
 							? { deadline: null }
 							: {
@@ -227,7 +227,7 @@ export const useProjectStore = defineStore("project", {
 					`projects/${this.project_id}/statuses/${payload.id}`,
 					{
 						headers: {
-							move: payload.move,
+							...(payload.move ? { move: payload.move } : {}),
 						},
 					}
 				);
