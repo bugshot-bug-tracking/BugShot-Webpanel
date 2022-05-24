@@ -57,7 +57,7 @@
 						margin-top: -6px;
 					"
 				>
-					{{ $t("limits.characters_exceded") }}
+					{{ $t("limits.characters_exceeded") }}
 				</div>
 
 				<div

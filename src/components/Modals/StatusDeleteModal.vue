@@ -39,7 +39,10 @@
 							<template #open-indicator="{ attributes }">
 								<img
 									class="bs-to-purple"
-									style="background-color: unset"
+									style="
+										background-color: unset;
+										cursor: pointer;
+									"
 									v-bind="attributes"
 									src="/src/assets/icons/caret-down-fill.svg"
 								/>
