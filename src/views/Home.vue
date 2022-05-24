@@ -18,11 +18,10 @@
 import { ref } from "@vue/reactivity";
 import { useMainStore } from "/src/stores/main";
 import Navbar from "./Navbar.vue";
-
-import store from "../store";
-store.dispatch("start");
+import { useI18nStore } from "src/stores/i18n";
 
 useMainStore().init();
+useI18nStore().init();
 
 const sidebarVisibility = ref(false);
 </script>

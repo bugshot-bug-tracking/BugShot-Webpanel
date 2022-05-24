@@ -26,7 +26,6 @@ export const install = (app, router) => {
 
 				router.push({ name: "Login" });
 			}
-			console.log("Not Authenticated!");
 		}
 	);
 };

@@ -79,7 +79,7 @@
 
 <script setup>
 import { ref, computed, reactive } from "@vue/runtime-core";
-import store from "/src/store";
+import { useProjectStore } from "src/stores/project";
 import colors from "/src/util/colors";
 import axios from "axios";
 import LoadingModal from "./Modals/LoadingModal.vue";
@@ -94,14 +94,16 @@ const props = defineProps({
 	},
 });
 
+const store = useProjectStore();
+
 const list = ref([]);
 
 const bug = computed(() => {
-	let bug = store.getters["kanban/getBugById"](props.id);
+	let bug = store.getBugById(props.id);
 
 	if (!bug.id) list.value = [];
 	else {
-		let project_users = store.getters["kanban/getProjectUsers"];
+		let project_users = store.getProjectUsers;
 
 		list.value = [];
 
@@ -133,7 +135,7 @@ const submit = async () => {
 
 		for (const item of list.value) {
 			// if no change was made skip over the item
-			if (item.oroginal === item.checked) continue;
+			if (item.original === item.checked) continue;
 
 			if (item.checked === true)
 				await axios.post(`bugs/${bug.value.id}/assign-user`, {
@@ -166,7 +168,7 @@ const submit = async () => {
 			loadingModal.message = null;
 		}, 4000);
 	}
-	store.dispatch("kanban/fetchBugUsers", props.id);
+	store.fetchBugUsers(props.id);
 };
 
 const loadingModal = reactive({

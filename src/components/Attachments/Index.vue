@@ -36,137 +36,124 @@
 	</Container>
 </template>
 
-<script>
+<script setup>
 import { ref } from "@vue/reactivity";
 import Container from "../Container.vue";
 import Item from "./Item.vue";
 import axios from "axios";
-import store from "../../store";
+import { useProjectStore } from "src/stores/project";
 import { useI18n } from "vue-i18n";
-import toBase64 from "/src/util/toBase64";
+import toBase64 from "src/util/toBase64";
 
-export default {
-	components: { Container, Item },
-	name: "Attachments",
-	props: {
-		attachments: {
-			required: true,
-			type: Array,
-		},
-		bug_id: {
-			required: true,
-			type: String,
-		},
+const props = defineProps({
+	attachments: {
+		required: true,
+		type: Array,
 	},
-	setup(props, context) {
-		const err = ref("");
-		const files = ref({});
+	bug_id: {
+		required: true,
+		type: String,
+	},
+});
 
-		const { t } = useI18n({ useScope: "global" });
+const store = useProjectStore();
 
-		const upload = (event) => {
-			files.value = event.target.files;
-			err.value = "";
+const err = ref("");
+const files = ref({});
 
-			let fileInfos = [];
-			let errFlag = false;
+const { t } = useI18n({ useScope: "global" });
 
-			if (
-				files.value.length > 10 ||
-				props.attachments.length + files.value.length > 10
-			) {
-				err.value = t("limits.max_files_limit", { x: 10 });
-				return;
+const upload = (event) => {
+	files.value = event.target.files;
+	err.value = "";
+
+	let fileInfos = [];
+	let errFlag = false;
+
+	if (
+		files.value.length > 10 ||
+		props.attachments.length + files.value.length > 10
+	) {
+		err.value = t("limits.max_files_limit", { x: 10 });
+		return;
+	}
+
+	Array.prototype.forEach.call(files.value, (file) => {
+		// if the file is bigger than 5 MiB
+		if (file.size > 5 * (1 << 20)) {
+			if (errFlag === false) {
+				errFlag = true;
+				err.value = t("limits.max_file_size_limit", { x: 5 });
 			}
 
-			Array.prototype.forEach.call(files.value, (file) => {
-				// if the file is bigger than 5 MiB
-				if (file.size > 5 * (1 << 20)) {
-					if (errFlag === false) {
-						errFlag = true;
-						err.value = t("limits.max_file_size_limit", { x: 5 });
-					}
+			err.value += ` - ${file.name}\n`;
+			return;
+		}
 
-					err.value += ` - ${file.name}\n`;
-					return;
-				}
+		fileInfos.push(file);
+	});
 
-				fileInfos.push(file);
-			});
+	if (errFlag == true) return;
 
-			if (errFlag == true) return;
+	uploadRemote(fileInfos);
+};
 
-			uploadRemote(fileInfos);
-		};
-
-		const uploadRemote = (filesInfo) => {
-			if (filesInfo.length > 0) {
-				filesInfo.forEach(async (file) => {
-					try {
-						let base64 = btoa(await toBase64(file));
-
-						axios
-							.post(`bugs/${props.bug_id}/attachments`, {
-								designation: file.name,
-								base64: base64,
-							})
-							.then(() => {
-								update();
-							});
-					} catch (error) {
-						err.value = error;
-						console.error(error);
-					}
-				});
-			}
-		};
-
-		const downloadFile = (id) => {
-			axios
-				.get(`bugs/${props.bug_id}/attachments/${id}`, {
-					headers: {
-						"include-attachment-base64": "true",
-					},
-				})
-				.then((response) => {
-					const link = document.createElement("a");
-					link.href = atob(response.data.data.attributes.base64);
-					link.setAttribute(
-						"download",
-						response.data.data.attributes.designation
-					); //or any other extension
-					link.id = "downloadAttachmentA";
-					document.body.appendChild(link);
-					link.click();
-					link.remove();
-				});
-		};
-
-		const deleteFile = (id) => {
+const uploadRemote = (filesInfo) => {
+	if (filesInfo.length > 0) {
+		filesInfo.forEach(async (file) => {
 			try {
+				let base64 = btoa(await toBase64(file));
+
 				axios
-					.delete(`bugs/${props.bug_id}/attachments/${id}`)
+					.post(`bugs/${props.bug_id}/attachments`, {
+						designation: file.name,
+						base64: base64,
+					})
 					.then(() => {
 						update();
 					});
 			} catch (error) {
 				err.value = error;
-				console.error(error);
+				console.log(error);
 			}
-		};
+		});
+	}
+};
 
-		const update = () => {
-			store.dispatch("kanban/fetchAttachments", props.bug_id);
-		};
+const downloadFile = (id) => {
+	axios
+		.get(`bugs/${props.bug_id}/attachments/${id}`, {
+			headers: {
+				"include-attachment-base64": "true",
+			},
+		})
+		.then((response) => {
+			const link = document.createElement("a");
+			link.href = atob(response.data.data.attributes.base64);
+			link.setAttribute(
+				"download",
+				response.data.data.attributes.designation
+			); //or any other extension
+			link.id = "downloadAttachmentA";
+			document.body.appendChild(link);
+			link.click();
+			link.remove();
+		});
+};
 
-		return {
-			err,
-			upload,
-			downloadFile,
-			deleteFile,
-			update,
-		};
-	},
+const deleteFile = (id) => {
+	try {
+		axios.delete(`bugs/${props.bug_id}/attachments/${id}`).then(() => {
+			update();
+		});
+	} catch (error) {
+		err.value = error;
+		console.error(error);
+	}
+};
+
+const update = () => {
+	store.fetchAttachments(props.bug_id);
 };
 </script>
 

@@ -87,7 +87,7 @@ const emit = defineEmits(["add"]);
 			font-weight: bold;
 		}
 		.email {
-			word-break: break-all;
+			word-break: normal;
 		}
 	}
 }

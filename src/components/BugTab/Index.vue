@@ -41,7 +41,7 @@
 
 <script setup>
 import { computed, ref, watch } from "@vue/runtime-core";
-import store from "../../store";
+import { useProjectStore } from "src/stores/project";
 import SideTab from "../SideTab.vue";
 import Info from "./Info.vue";
 import Attachments from "../Attachments/Index.vue";
@@ -57,35 +57,38 @@ const props = defineProps({
 	},
 });
 
-const bug = computed(() => store.getters["kanban/getBugById"](props.id));
+const store = useProjectStore();
+
+const bug = computed(() => store.getBugById(props.id));
 const status = computed(() =>
-	store.getters["kanban/getStatusById"](bug.value.attributes.status_id)
+	store.getStatusById(bug.value.attributes.status_id)
 );
 
 // called on mount
-store.dispatch("kanban/fetchScreenshots", props.id);
-store.dispatch("kanban/fetchAttachments", props.id);
-store.dispatch("kanban/fetchComments", props.id);
-store.dispatch("kanban/fetchBugUsers", props.id);
+store.fetchScreenshots(props.id);
+store.fetchAttachments(props.id);
+store.fetchComments(props.id);
+store.fetchBugUsers(props.id);
 
 // called on update
 watch(bug, () => {
 	if (!bug.value) return;
-	store.dispatch("kanban/fetchScreenshots", props.id);
-	store.dispatch("kanban/fetchAttachments", props.id);
-	store.dispatch("kanban/fetchComments", props.id);
-	store.dispatch("kanban/fetchBugUsers", props.id);
+	store.fetchScreenshots(props.id);
+	store.fetchAttachments(props.id);
+	store.fetchComments(props.id);
+	store.fetchBugUsers(props.id);
 });
 
 const deleteBug = async () => {
 	try {
 		await axios.delete(`statuses/${status.value.id}/bugs/${bug.value.id}`);
 
-		store.commit("kanban/REMOVE_LINK", {
-			status_id: status.value.id,
-			bug_id: bug.value.id,
-		});
-		store.commit("kanban/DELETE_BUG", bug.value.id);
+		status.value.attributes.bugs.splice(
+			status.value.attributes.bugs.findIndex(
+				(x) => x.id === bug.value.id
+			),
+			1
+		);
 
 		emit("close");
 	} catch (error) {

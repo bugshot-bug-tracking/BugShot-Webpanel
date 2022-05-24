@@ -32,7 +32,7 @@
 					<div class="items">
 						<label
 							class="role"
-							v-for="role of roles.values()"
+							v-for="role of roles"
 							:key="role.id"
 						>
 							<input
@@ -62,95 +62,79 @@
 	/>
 </template>
 
-<script>
+<script setup>
 import { computed, reactive, ref } from "@vue/reactivity";
 import axios from "axios";
 import Modal from "./Modal.vue";
-import store from "../store";
+import { useMainStore } from "src/stores/main";
 import LoadingModal from "/src/components/Modals/LoadingModal.vue";
 
-export default {
-	name: "CreateData",
-	props: {
-		dataType: {
-			required: true,
-			type: String,
-		},
-		id: {
-			required: true,
-			type: String,
-		},
+const props = defineProps({
+	dataType: {
+		required: true,
+		type: String,
 	},
-	components: {
-		Modal,
-		LoadingModal,
+	id: {
+		required: true,
+		type: String,
 	},
-	setup(props) {
-		const modalActive = ref(false);
+});
+const modalActive = ref(false);
 
-		const email = ref("");
-		const rolePicked = ref(4);
+const email = ref("");
+const rolePicked = ref(2);
 
-		const roles = computed(() => store.getters.getRoles);
+const roles = computed(() => useMainStore().getRoles);
 
-		const sendInvite = async () => {
-			try {
-				loadingModal.show = true;
-				loadingModal.state = 0;
-				loadingModal.message = null;
+const sendInvite = async () => {
+	try {
+		loadingModal.show = true;
+		loadingModal.state = 0;
+		loadingModal.message = null;
 
-				let base = "";
-				if (props.dataType === "Company") base = "companies";
-				else if (props.dataType === "Project") base = "projects";
+		let base = "";
+		if (props.dataType === "Company") base = "companies";
+		else if (props.dataType === "Project") base = "projects";
 
-				await axios.post(`${base}/${props.id}/invite`, {
-					target_email: email.value,
-					role_id: rolePicked.value,
-				});
-
-				loadingModal.state = 1;
-				loadingModal.message = `Invitation sent.`;
-
-				setTimeout(() => {
-					modalActive.value = false;
-					loadingModal.show = false;
-					loadingModal.state = 0;
-					loadingModal.message = null;
-					close();
-				}, 4000);
-			} catch (error) {
-				console.dir(error);
-				loadingModal.state = 2;
-				loadingModal.message =
-					error.response.data.data?.message.replace(":", "");
-
-				if (error.response.status === 403)
-					loadingModal.message =
-						"You are not authorized to complete this action!";
-
-				setTimeout(() => {
-					loadingModal.show = false;
-					loadingModal.state = 0;
-				}, 4000);
-			}
-		};
-
-		const loadingModal = reactive({
-			show: false,
-			state: 0,
-			message: null,
+		await axios.post(`${base}/${props.id}/invite`, {
+			target_email: email.value,
+			role_id: rolePicked.value,
 		});
 
-		return {
-			modalActive,
-			email,
-			sendInvite,
-			roles,
-			rolePicked,
-			loadingModal,
-		};
-	},
+		loadingModal.state = 1;
+		loadingModal.message = `Invitation sent.`;
+
+		setTimeout(() => {
+			modalActive.value = false;
+			loadingModal.show = false;
+			loadingModal.state = 0;
+			loadingModal.message = null;
+			close();
+		}, 4000);
+	} catch (error) {
+		console.dir(error);
+		loadingModal.state = 2;
+		loadingModal.message = error.response.data.data?.message.replace(
+			":",
+			""
+		);
+
+		if (error.response.status === 403)
+			loadingModal.message =
+				"You are not authorized to complete this action!";
+
+		setTimeout(() => {
+			loadingModal.show = false;
+			loadingModal.state = 0;
+		}, 4000);
+	}
 };
+
+const loadingModal = reactive({
+	show: false,
+	state: 0,
+	message: null,
+});
 </script>
 
 <style lang="scss" scoped>

@@ -83,7 +83,7 @@ import {
 } from "@vue/runtime-core";
 import Message from "./Message.vue";
 import Container from "../../Container.vue";
-import store from "/src/store";
+import { useProjectStore } from "src/stores/project";
 import axios from "axios";
 import { VueTribute } from "vue-tribute";
 import colors from "../../../util/colors";
@@ -101,6 +101,8 @@ const props = defineProps({
 	},
 });
 
+const store = useProjectStore();
+
 const message = ref("");
 const msgs = ref(null);
 const lock = ref(false); // prevent send button spam
@@ -111,7 +113,7 @@ const user = computed(() => {
 });
 
 const projectTeam = computed(() => {
-	return store.getters["kanban/getProjectUsers"];
+	return store.getProjectUsers;
 });
 
 // tributejs options
@@ -220,7 +222,7 @@ const setLength = (event) => {
 };
 
 const update = () => {
-	store.dispatch("kanban/fetchComments", props.bug_id);
+	store.fetchComments(props.bug_id);
 };
 
 const scrollToBottom = () => {

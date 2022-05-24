@@ -17,11 +17,12 @@
 
 <script setup>
 import { computed } from "@vue/runtime-core";
-import store from "../../../store";
+import { useMainStore } from "src/stores/main";
 import Layout from "../Layout.vue";
 import AddBug from "../../../components/AddBug.vue";
 import InviteModal from "../../../components/InviteModal.vue";
 import BugsTable from "./BugsTable/Index.vue";
+import { useProjectStore } from "src/stores/project";
 
 const props = defineProps({
 	id: {
@@ -31,5 +32,11 @@ const props = defineProps({
 	},
 });
 
-const project = computed(() => store.getters.getProjectById(props.id));
+const project = computed(() => {
+	let project = useMainStore().getProjectById(props.id);
+
+	if (project) useProjectStore().init(props.id);
+
+	return project;
+});
 </script>

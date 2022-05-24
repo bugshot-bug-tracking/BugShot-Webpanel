@@ -65,8 +65,6 @@ import { onMounted } from "vue";
 const notifications = useNotificationStore();
 
 const invitations = computed(() => {
-	console.log(notifications.getInvitations);
-
 	return notifications.getInvitations;
 });
 

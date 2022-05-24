@@ -50,136 +50,116 @@
 	/>
 </template>
 
-<script>
+<script setup>
 import { reactive, ref } from "@vue/reactivity";
 import Modal from "../../../components/Modal.vue";
 import { computed, nextTick, onMounted } from "@vue/runtime-core";
 import Picker from "../../../components/Picker.vue";
-import store from "../../../store";
+import { useMainStore } from "src/stores/main";
 import LoadingModal from "/src/components/Modals/LoadingModal.vue";
 import toBase64 from "/src/util/toBase64";
 import colors from "/src/util/colors";
 
-export default {
-	name: "EditProjectModal",
-	props: {
-		id: {
-			required: true,
-			type: String,
-		},
+const props = defineProps({
+	id: {
+		required: true,
+		type: String,
 	},
-	emits: ["close"],
-	components: {
-		Modal,
-		Picker,
-		LoadingModal,
-	},
-	setup(props, context) {
-		const show = ref(false);
+});
+const emit = defineEmits(["close"]);
 
-		onMounted(() => {
-			show.value = true;
-		});
+const store = useMainStore();
 
-		const close = () => {
-			show.value = false;
+const show = ref(false);
 
-			nextTick(() => {
-				context.emit("close");
-			});
-		};
+onMounted(() => {
+	show.value = true;
+});
 
-		const project = computed(() => {
-			const project = store.getters.getProjectById(props.id);
+const close = () => {
+	show.value = false;
 
-			projectParams.name = project.attributes.designation;
-
-			projectParams.color = project.attributes.color_hex
-				? Object.keys(colors).findIndex(
-						(x) => colors[x] === project.attributes.color_hex
-				  )
-				: 3;
-
-			projectParams.url = project.attributes.url
-				? project.attributes.url
-				: "";
-			projectParams.image = project.attributes.image?.attributes.base64;
-
-			return project;
-		});
-
-		const projectParams = reactive({
-			name: "",
-			color: 3,
-			image: null,
-			url: "",
-		});
-
-		const setImage = async (value) => {
-			// console.log("setImage", value);
-			if (value != null) projectParams.image = await toBase64(value);
-			else projectParams.image = null;
-		};
-
-		const setColor = (value) => {
-			// console.log("setImage", value);
-			projectParams.color = value;
-		};
-
-		const saveChanges = async () => {
-			let data = {
-				id: props.id,
-				designation: projectParams.name,
-				url: projectParams.url,
-				color_hex: colors[projectParams.color],
-				base64: projectParams.image ? btoa(projectParams.image) : null,
-			};
-
-			try {
-				loadingModal.show = true;
-				loadingModal.state = 0;
-				loadingModal.message = null;
-
-				await store.dispatch("updateProject", data);
-
-				loadingModal.state = 1;
-				loadingModal.message = `Project edited successfully.`;
-
-				setTimeout(() => {
-					loadingModal.show = false;
-					loadingModal.state = 0;
-					loadingModal.message = null;
-					close();
-				}, 4000);
-			} catch (error) {
-				console.log(error);
-				loadingModal.state = 2;
-
-				setTimeout(() => {
-					loadingModal.show = false;
-					loadingModal.state = 0;
-				}, 4000);
-			}
-		};
-
-		const loadingModal = reactive({
-			show: false,
-			state: 0,
-			message: null,
-		});
-
-		return {
-			show,
-			close,
-			project,
-			projectParams,
-			setImage,
-			setColor,
-			saveChanges,
-			loadingModal,
-		};
-	},
+	nextTick(() => {
+		emit("close");
+	});
 };
+
+const project = computed(() => {
+	const project = store.getProjectById(props.id);
+
+	projectParams.name = project.attributes.designation;
+
+	projectParams.color = project.attributes.color_hex
+		? Object.keys(colors).findIndex(
+				(x) => colors[x] === project.attributes.color_hex
+		  )
+		: 3;
+
+	projectParams.url = project.attributes.url ? project.attributes.url : "";
+	projectParams.image = project.attributes.image?.attributes.base64;
+
+	return project;
+});
+
+const projectParams = reactive({
+	name: "",
+	color: 3,
+	image: null,
+	url: "",
+});
+
+const setImage = async (value) => {
+	// console.log("setImage", value);
+	if (value != null) projectParams.image = await toBase64(value);
+	else projectParams.image = null;
+};
+
+const setColor = (value) => {
+	// console.log("setImage", value);
+	projectParams.color = value;
+};
+
+const saveChanges = async () => {
+	let data = {
+		id: props.id,
+		designation: projectParams.name,
+		url: projectParams.url,
+		color_hex: colors[projectParams.color],
+		base64: projectParams.image ? btoa(projectParams.image) : null,
+	};
+
+	try {
+		loadingModal.show = true;
+		loadingModal.state = 0;
+		loadingModal.message = null;
+
+		await store.updateProject(data);
+
+		loadingModal.state = 1;
+		loadingModal.message = `Project edited successfully.`;
+
+		setTimeout(() => {
+			loadingModal.show = false;
+			loadingModal.state = 0;
+			loadingModal.message = null;
+			close();
+		}, 4000);
+	} catch (error) {
+		console.log(error);
+		loadingModal.state = 2;
+
+		setTimeout(() => {
+			loadingModal.show = false;
+			loadingModal.state = 0;
+		}, 4000);
+	}
+};
+
+const loadingModal = reactive({
+	show: false,
+	state: 0,
+	message: null,
+});
 </script>
 
 <style lang="scss" scoped>

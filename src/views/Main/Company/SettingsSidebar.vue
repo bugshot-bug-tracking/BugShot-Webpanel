@@ -50,34 +50,26 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 import { computed } from "@vue/reactivity";
-import store from "../../../store";
-export default {
-	name: "CompanySettings",
-	setup() {
-		const companies = computed(() => {
-			return store.getters.getCompanies;
-		});
+import { useMainStore } from "src/stores/main";
 
-		const collapse = (event) => {
-			if (event.target.parentNode.classList.contains("open")) {
-				event.target.parentNode.classList.remove("open");
-			} else {
-				event.target.parentNode.classList.add("open");
-			}
-		};
+const store = useMainStore();
 
-		const linkOpen = (event) => {
-			event.target.parentNode.classList.add("open");
-		};
+const companies = computed(() => {
+	return store.getCompanies;
+});
 
-		return {
-			companies,
-			collapse,
-			linkOpen,
-		};
-	},
+const collapse = (event) => {
+	if (event.target.parentNode.classList.contains("open")) {
+		event.target.parentNode.classList.remove("open");
+	} else {
+		event.target.parentNode.classList.add("open");
+	}
+};
+
+const linkOpen = (event) => {
+	event.target.parentNode.classList.add("open");
 };
 </script>
 

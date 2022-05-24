@@ -11,7 +11,10 @@
 				<div class="user-email">{{ item.email }}</div>
 
 				<div class="user-role">
-					{{ roles.get(item.role).attributes.designation }}
+					{{
+						roles.find((x) => x.id === item.role).attributes
+							.designation
+					}}
 				</div>
 
 				<div class="actions">
@@ -67,7 +70,7 @@
 					<span>{{ $t("role") }}</span>
 
 					<div class="items">
-						<label class="role" v-for="role of roles.values()">
+						<label class="role" v-for="role of roles">
 							<input
 								type="radio"
 								name="roleOptions"
@@ -92,7 +95,7 @@
 
 <script setup>
 import { computed, reactive, ref } from "vue";
-import store from "../store";
+import { useMainStore } from "src/stores/main";
 import Modal from "./Modal.vue";
 
 const emit = defineEmits(["change", "submit"]);
@@ -115,7 +118,7 @@ const modalActive = ref(false);
 
 const email = ref("");
 //! WIP treat the value taking the database roles into consideration
-const rolePicked = ref(4);
+const rolePicked = ref(2);
 const editMode = reactive({
 	on: false,
 	index: -1,
@@ -179,7 +182,7 @@ const closeModal = () => {
 	editMode.index = -1;
 };
 
-const roles = computed(() => store.getters.getRoles);
+const roles = computed(() => useMainStore().getRoles);
 </script>
 
 <style lang="scss" scoped>
@@ -304,7 +307,7 @@ const roles = computed(() => store.getters.getRoles);
 	}
 
 	.user-email {
-		word-break: break-all;
+		word-break: normal;
 		text-align: left;
 	}
 }

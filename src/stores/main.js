@@ -27,7 +27,7 @@ export const useMainStore = defineStore("main", {
 			try {
 				let response = await axios.get(`companies`, {
 					headers: {
-						"include-image": "true",
+						"include-company-image": "true",
 						"include-projects": "true",
 						"include-project-image": "true",
 					},
@@ -56,8 +56,6 @@ export const useMainStore = defineStore("main", {
 						this.projects.set(project.id, company.id);
 					}
 				}
-
-				console.log(response);
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -69,37 +67,172 @@ export const useMainStore = defineStore("main", {
 			try {
 				let roles = (await axios.get("administration/roles")).data.data;
 
-				//! remove when the API is fixed
-				roles = [
-					{
-						id: 3,
-						type: "Role",
-						attributes: {
-							designation: "Manager",
-						},
-					},
-					{
-						id: 4,
-						type: "Role",
-						attributes: {
-							designation: "Developer",
-						},
-					},
-					{
-						id: 5,
-						type: "Role",
-						attributes: {
-							designation: "Client",
-						},
-					},
-				];
-
 				this.roles = roles;
 			} catch (error) {
 				console.log(error);
 			}
 		},
+
+		async fetchCompanyUsers(company_id) {
+			try {
+				let response = (
+					await axios.get(`companies/${company_id}`, {
+						headers: {
+							"include-company-users": "true",
+						},
+					})
+				).data.data;
+
+				let company = this.getCompanyById(company_id);
+				company.attributes.users = response.attributes.users;
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		// data is an object with the company id and new/old data
+		async updateCompany(data) {
+			try {
+				//get a reference to the bug
+				const company = this.companies.get(data.company_id);
+
+				let response = (
+					await axios.put(
+						`companies/${company.id}`,
+						{
+							designation: data.designation,
+							color_hex: data.color_hex,
+							base64: data.base64,
+						},
+						{
+							headers: {
+								"include-company-image": "true",
+							},
+						}
+					)
+				).data.data;
+
+				if (response.attributes.image != null)
+					response.attributes.image.attributes.base64 = atob(
+						response.attributes.image.attributes.base64
+					);
+				response.attributes.projects = company.attributes.projects;
+
+				this.companies.set(data.company_id, response);
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		// data is an object with the project id and new/old data
+		async updateProject(data) {
+			try {
+				//get a reference to the bug
+				const project = this.getProjectById(data.id);
+
+				let response = (
+					await axios.put(
+						`companies/${project.attributes.company.id}/projects/${project.id}`,
+						{
+							designation: data.designation,
+							url: data.url,
+							color_hex: data.color_hex,
+							base64: data.base64,
+						}
+						// {
+						// 	headers: {
+						// 		"include-project-image": "true",
+						// 	},
+						// }
+					)
+				).data.data;
+
+				let image = (await axios.get(`projects/${project.id}/image`))
+					.data.data;
+
+				if (image != null && image.attributes)
+					image.attributes.base64 = atob(image.attributes.base64);
+				else image = null;
+
+				response.attributes.image = image;
+
+				let company = this.getProjectCompany(project.id);
+
+				console.log(company);
+
+				company.attributes.projects[
+					company.attributes.projects.findIndex(
+						(x) => x.id === project.id
+					)
+				] = response;
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async deleteCompany(company_id) {
+			try {
+				let response = await axios.delete(`/companies/${company_id}`);
+
+				this.companies.delete(company_id);
+
+				return true;
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async deleteProject(project_id) {
+			try {
+				const project = this.getProjectById(project_id);
+				await axios.delete(
+					`/companies/${project.attributes.company.id}/projects/${project.id}`
+				);
+
+				let projects =
+					this.getProjectCompany(project_id).attributes.projects;
+
+				projects.splice(
+					projects.findIndex((x) => x.id === project_id),
+					1
+				);
+
+				this.projects.delete(project_id);
+
+				return true;
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
 	},
 
-	getters: {},
+	getters: {
+		getCompanies: (state) => state.companies,
+
+		getCompanyById: (state) => (company_id) =>
+			state.companies.get(company_id),
+
+		getCompanyWithProjects: (state) =>
+			[...state.companies]
+				.filter((record) => record[1].attributes.projects?.length > 0)
+				.map((r) => r[1]),
+
+		getCompanyProjects: (state) => (company_id) =>
+			state.companies.get(company_id).attributes.projects,
+
+		getProjectById: (state) => (id) =>
+			state.companies
+				.get(state.projects.get(id))
+				?.attributes.projects?.find((x) => x.id === id),
+
+		getProjectCompany: (state) => (id) =>
+			state.companies.get(state.projects.get(id)),
+
+		getRoles: (state) => state.roles,
+	},
 });

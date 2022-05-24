@@ -1,13 +1,13 @@
 <template>
 	<Container>
 		<div class="team-table">
-			<div class="container" v-if="company?.users">
+			<div class="container" v-if="company?.attributes.users">
 				<div class="header bold">
 					<div class="members">{{ $t("member", 2) }}</div>
 					<div class="count">
 						{{
 							$t("member_out_of", {
-								x: company.users.length,
+								x: company.attributes.users.length,
 								n: 8,
 							})
 						}}
@@ -17,7 +17,7 @@
 				<div class="items">
 					<div
 						class="person"
-						v-for="user of company.users"
+						v-for="user of company.attributes.users"
 						:key="user.id"
 					>
 						<div class="info">
@@ -119,7 +119,7 @@
 
 <script setup>
 import { computed, ref, reactive } from "@vue/reactivity";
-import store from "../store";
+import { useMainStore } from "src/stores/main";
 import Container from "./Container.vue";
 import { watch } from "@vue/runtime-core";
 import axios from "axios";
@@ -134,11 +134,13 @@ const props = defineProps({
 	},
 });
 
+const store = useMainStore();
+
 // request team data to be fetched
-store.dispatch("fetchCompanyUsers", props.company_id);
+store.fetchCompanyUsers(props.company_id);
 
 const company = computed(() => {
-	return store.getters.getCompanyById(props.company_id);
+	return store.getCompanyById(props.company_id);
 });
 
 const removeUser = (user) => {
@@ -163,7 +165,7 @@ const canRemove = (id) => {
 };
 
 const companyProjects = computed(() => {
-	return store.getters.getCompanyProjects(props.company_id);
+	return store.getCompanyProjects(props.company_id);
 });
 
 const selectOption = ref(null);
@@ -224,7 +226,7 @@ const loadingModal = reactive({
 watch(
 	props,
 	() => {
-		store.dispatch("fetchCompanyUsers", props.company_id);
+		store.fetchCompanyUsers(props.company_id);
 	},
 	{ deep: true }
 );
@@ -294,7 +296,7 @@ watch(
 						font-weight: bold;
 					}
 					.email {
-						word-break: break-all;
+						word-break: normal;
 					}
 				}
 			}
