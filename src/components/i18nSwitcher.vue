@@ -18,10 +18,10 @@
 			<ul>
 				<li
 					v-for="locale in supportedLocales"
-					:key="locale.code"
-					@click="changeLocale(locale.code)"
+					:key="locale"
+					@click="changeLocale(locale)"
 				>
-					{{ locale.code }}
+					{{ locale }}
 				</li>
 			</ul>
 		</div>
@@ -30,15 +30,18 @@
 
 <script setup>
 import { computed, ref } from "@vue/runtime-core";
-import store from "../store";
+import { useI18nStore } from "src/stores/i18n";
+
+const store = useI18nStore();
 
 const auto = ref(false);
+
 const locale = computed(() => {
-	let locale = store.getters.getLocale;
+	let locale = store.getLocale;
 	auto.value = false;
 	if (locale.toLowerCase() === "auto") {
 		auto.value = true;
-		return store.getters.getAutoLocale;
+		return store.getAutoLocale;
 	}
 	return locale;
 });
@@ -52,11 +55,11 @@ const toggle = () => {
 const changeLocale = (value) => {
 	showLangs.value = false;
 
-	store.dispatch("setLocale", value);
+	store.setLocale(value);
 };
 
 const supportedLocales = computed(() => {
-	return store.getters.getSupportedLocales;
+	return ["auto", ...store.getSupportedLocales];
 });
 </script>
 

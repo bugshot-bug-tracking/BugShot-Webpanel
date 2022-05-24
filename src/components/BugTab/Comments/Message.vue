@@ -14,7 +14,7 @@
 </template>
 
 <script setup>
-import dateFix from "@/util/dateFixISO";
+import dateFix from "/src/util/dateFixISO";
 import { ref } from "@vue/reactivity";
 import { onMounted } from "vue";
 

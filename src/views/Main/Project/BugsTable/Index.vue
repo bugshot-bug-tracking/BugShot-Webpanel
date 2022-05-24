@@ -1,5 +1,5 @@
 <template>
-	<div class="bugs-table bs-scroll s-purple" v-if="ready">
+	<div class="bugs-table bs-scroll s-purple" v-if="statuses">
 		<draggable
 			:list="statuses"
 			:item-key="(item) => item.id"
@@ -39,17 +39,19 @@
 						<template #item="{ element }">
 							<BugCard
 								:id="element"
-								:title="getBug(element).attributes.designation"
+								:title="
+									getBug(element.id).attributes.designation
+								"
 								:deadline="
-									getBug(element).attributes.deadline
-										? getBug(element).attributes.deadline
+									getBug(element.id).attributes.deadline
+										? getBug(element.id).attributes.deadline
 										: ''
 								"
 								:priority="
-									getBug(element).attributes.priority.id
+									getBug(element.id).attributes.priority.id
 								"
 								:active="infoTab.id === element"
-								@info="info(element)"
+								@info="info(element.id)"
 							/>
 						</template>
 					</draggable>
@@ -109,7 +111,7 @@
 	>
 		<template #success-img>
 			<img
-				src="@/assets/gif/delete.gif"
+				src="/src/assets/gif/delete.gif"
 				alt="success"
 				class="h-50 w-auto"
 			/>
@@ -120,14 +122,14 @@
 <script setup>
 import { reactive, ref } from "@vue/reactivity";
 import { computed, nextTick, watch } from "@vue/runtime-core";
-import store from "../../../../store";
+import { useProjectStore } from "src/stores/project";
 import Column from "./Column.vue";
 import draggable from "vuedraggable";
 import BugCard from "../../../../components/BugCard.vue";
 import BugTab from "../../../../components/BugTab/Index.vue";
 import StatusTableHeader from "../../../../components/StatusTableHeader.vue";
 import StatusDeleteModal from "../../../../components/Modals/StatusDeleteModal.vue";
-import LoadingModal from "@/components/Modals/LoadingModal.vue";
+import LoadingModal from "/src/components/Modals/LoadingModal.vue";
 
 const props = defineProps({
 	id: {
@@ -136,26 +138,15 @@ const props = defineProps({
 	},
 });
 
-const ready = ref(false);
-store
-	.dispatch("kanban/setProjectId", props.id)
-	.then(() => (ready.value = true));
+const store = useProjectStore();
 
-watch(props, () => {
-	ready.value = false;
+const statuses = computed(() => store.getStatuses);
 
-	store
-		.dispatch("kanban/setProjectId", props.id)
-		.then(() => (ready.value = true));
-});
+const statusData = (id) => store.getStatusById(id);
 
-const statuses = computed(() => store.getters["kanban/getStatuses"]);
+const bugs = (value) => store.getBugsByStatusId(value);
 
-const statusData = (id) => store.getters["kanban/getStatusById"](id);
-
-// const getStatus = (value) => store.getters["kanban/getStatusById"](value);
-const bugs = (value) => store.getters["kanban/getBugsByStatusId"](value);
-const getBug = (value) => store.getters["kanban/getBugById"](value);
+const getBug = (value) => store.getBugById(value);
 
 const bugMove = async (id, event) => {
 	// sync only on the add and move events
@@ -166,8 +157,8 @@ const bugMove = async (id, event) => {
 	if (event.added) data = event.added;
 	if (event.moved) data = event.moved;
 
-	store.dispatch("kanban/syncBug", {
-		id: data.element,
+	store.syncBug({
+		id: data.element.id,
 		changes: {
 			status_id: id,
 			order_number: data.newIndex,
@@ -201,7 +192,7 @@ const toggleForm = () => {
 };
 
 const addStatus = async () => {
-	await store.dispatch("kanban/createStatus", {
+	await store.createStatus({
 		designation: newStatus.name,
 		order_number: 0,
 	});
@@ -221,7 +212,7 @@ const statusMove = (event) => {
 	const element = event.moved.element;
 	console.log("element: ", element);
 
-	store.dispatch("kanban/syncStatus", {
+	store.syncStatus({
 		id: element.id,
 		changes: {
 			order_number: event.moved.newIndex,
@@ -230,7 +221,7 @@ const statusMove = (event) => {
 };
 
 const editStatus = (payload) => {
-	store.dispatch("kanban/syncStatus", {
+	store.syncStatus({
 		id: payload.id,
 		changes: {
 			designation: payload.text,
@@ -250,7 +241,7 @@ const deleteStatus = async (payload) => {
 		loadingModal.state = 0;
 		loadingModal.message = null;
 
-		await store.dispatch("kanban/deleteStatus", {
+		await store.deleteStatus({
 			id: payload.id,
 			move: payload.move,
 		});

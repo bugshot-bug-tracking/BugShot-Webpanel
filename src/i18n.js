@@ -9,27 +9,23 @@ import datetimeFormats from "./config/datetimeFormats";
  * See: https://github.com/intlify/vue-i18n-loader#rocket-i18n-resource-pre-compilation
  */
 function loadLocaleMessages() {
-	const locales = require.context(
-		"./locales",
-		true,
-		/[A-Za-z0-9-_,\s]+\.json$/i
+	const messages = Object.fromEntries(
+		Object.entries(import.meta.globEager("./locales/*.json")).map(
+			([key, value]) => {
+				const json = key.endsWith(".json");
+				return [key.slice(10, json ? -5 : -4), value.default];
+			}
+		)
 	);
-	const messages = {};
-	locales.keys().forEach((key) => {
-		const matched = key.match(/([A-Za-z0-9-_]+)\./i);
-		if (matched && matched.length > 1) {
-			const locale = matched[1];
-			messages[locale] = locales(key).default;
-		}
-	});
+
 	return messages;
 }
 
 export default createI18n({
 	legacy: false,
 	globalInjection: true,
-	locale: process.env.VUE_APP_I18N_LOCALE || "en",
-	fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
+	locale: import.meta.env.VITE_I18N_LOCALE || "en",
+	fallbackLocale: import.meta.env.VITE_I18N_FALLBACK_LOCALE || "en",
 	messages: loadLocaleMessages(),
 	datetimeFormats: datetimeFormats,
 });

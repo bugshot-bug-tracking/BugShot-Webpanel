@@ -41,7 +41,7 @@
 									class="bs-to-purple"
 									style="background-color: unset"
 									v-bind="attributes"
-									src="@/assets/icons/caret-down-fill.svg"
+									src="/src/assets/icons/caret-down-fill.svg"
 								/>
 							</template>
 
@@ -108,10 +108,11 @@
 <script setup>
 import { ref } from "@vue/reactivity";
 import { computed, watch } from "@vue/runtime-core";
-import store from "../../store";
+import { useProjectStore } from "src/stores/project";
 import Modal from "../Modal.vue";
 
 const emit = defineEmits(["close", "delete"]);
+
 const props = defineProps({
 	show: {
 		type: Boolean,
@@ -129,13 +130,13 @@ const props = defineProps({
 	},
 });
 
+const store = useProjectStore();
+
 const statuses = computed(() =>
-	store.getters["kanban/getStatuses"].filter((x) => x.id !== props.id)
+	store.getStatuses.filter((x) => x.id !== props.id)
 );
 
-const bugs = computed(() =>
-	store.getters["kanban/getBugsByStatusId"](props.id)
-);
+const bugs = computed(() => store.getBugsByStatusId(props.id));
 
 const deleteAll = ref(false);
 const statusOption = ref(null);
@@ -174,8 +175,6 @@ watch(props, () => {
 </script>
 
 <style lang="scss" scoped>
-@import "vue-select/dist/vue-select.css";
-
 .wrapper {
 	display: flex;
 	flex-direction: column;

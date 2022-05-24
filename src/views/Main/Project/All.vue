@@ -45,52 +45,36 @@
 	</Layout>
 </template>
 
-<script>
+<script setup>
 import { computed } from "@vue/reactivity";
 import Card from "../../../components/Card.vue";
 import GroupContainer from "../../../components/GroupContainer.vue";
 import Layout from "../Layout.vue";
-import store from "../../../store";
+import { useMainStore } from "/src/stores/main";
 import Search from "../../../components/Search.vue";
-import timeToText from "../../../util/timeToText";
+import timeToText from "/src/util/timeToText";
 
-export default {
-	components: {
-		Layout,
-		GroupContainer,
-		Card,
-		Search,
-	},
-	name: "AllProjects",
-	setup() {
-		const companies = computed(() => {
-			return store.getters.getCompanyWithProjects.sort((a, b) =>
-				a.attributes.updated_at < b.attributes.updated_at ? 1 : -1
-			);
-		});
+let store = useMainStore();
 
-		const companyProjects = (company_id) => {
-			return store.getters.getCompanyProjects(company_id);
-		};
+const companies = computed(() => {
+	return store.getCompanyWithProjects.sort((a, b) =>
+		a.attributes.updated_at < b.attributes.updated_at ? 1 : -1
+	);
+});
 
-		const bugsStats = (done, total) => {
-			let str = "";
-			str += done ? done : "0";
-			str += " / ";
-			str += total ? total : "0";
-			return str;
-		};
+const companyProjects = (company_id) => {
+	return store.getCompanyProjects(company_id);
+};
 
-		const passedTime = (lastEdit) => {
-			return timeToText(lastEdit);
-		};
+const bugsStats = (done, total) => {
+	let str = "";
+	str += done ? done : "0";
+	str += " / ";
+	str += total ? total : "0";
+	return str;
+};
 
-		return {
-			companies,
-			companyProjects,
-			bugsStats,
-			passedTime,
-		};
-	},
+const passedTime = (lastEdit) => {
+	return timeToText(lastEdit);
 };
 </script>

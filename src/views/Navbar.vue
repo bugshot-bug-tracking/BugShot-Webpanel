@@ -11,8 +11,8 @@
 						<img src="../assets/extern/m-2.svg" alt="" />
 					</a>
 
-					<div class="badge" v-if="invitations.size > 0">
-						{{ invitations.size }}
+					<div class="badge" v-if="invitations.length > 0">
+						{{ invitations.length }}
 					</div>
 
 					<div class="notification-submenu">
@@ -27,10 +27,10 @@
 						<div class="notification-body">
 							<div
 								class="list bs-scroll s-purple"
-								v-if="invitations.size > 0"
+								v-if="invitations.length > 0"
 							>
 								<Notification
-									v-for="[, invite] of invitations"
+									v-for="invite of invitations"
 									:key="invite.id"
 									:id="invite.id"
 								/>
@@ -56,13 +56,20 @@
 </template>
 
 <script setup>
-import store from "../store";
 import { computed } from "@vue/reactivity";
 import Notification from "../components/Notification.vue";
 import I18nSwitcher from "../components/i18nSwitcher.vue";
+import { useNotificationStore } from "/src/stores/notifications";
+import { onMounted } from "vue";
+
+const notifications = useNotificationStore();
 
 const invitations = computed(() => {
-	return store.getters.getInvitations;
+	return notifications.getInvitations;
+});
+
+onMounted(() => {
+	notifications.fetchInvitations();
 });
 </script>
 

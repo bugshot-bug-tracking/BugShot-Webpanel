@@ -92,10 +92,10 @@
 	/>
 </template>
 
-<script>
+<script setup>
 import { computed, reactive, ref } from "@vue/reactivity";
 import Layout from "../Layout.vue";
-import store from "../../../store";
+import { useMainStore } from "src/stores/main";
 import Container from "../../../components/Container.vue";
 import Picker from "../../../components/Picker.vue";
 import Column from "../Project/BugsTable/Column.vue";
@@ -103,196 +103,161 @@ import TeamTable from "../../../components/TeamTable.vue";
 import Plan from "../../../components/Plan.vue";
 import axios from "axios";
 import DeleteModal from "../../../components/Modals/DeleteModal.vue";
-import LoadingModal from "@/components/Modals/LoadingModal.vue";
+import LoadingModal from "/src/components/Modals/LoadingModal.vue";
 import { useI18n } from "vue-i18n";
-import toBase64 from "@/util/toBase64";
-import colors from "@/util/colors";
+import toBase64 from "/src/util/toBase64";
+import colors from "/src/util/colors";
+import { useAuthStore } from "src/stores/auth";
 
-export default {
-	components: {
-		Layout,
-		Container,
-		Picker,
-		Column,
-		TeamTable,
-		Plan,
-		DeleteModal,
-		LoadingModal,
+const props = defineProps({
+	id: {
+		required: true,
+		type: String,
+		description: "Company ID",
 	},
-	name: "CompanySettings",
-	props: {
-		id: {
-			required: true,
-			type: String,
-			description: "Company ID",
-		},
-	},
-	setup(props) {
-		const companyParams = reactive({
-			name: "",
-			color: 0,
-			image: null,
-		});
-		const imageFlag = ref(false);
+});
 
-		const user = computed(() => {
-			return store.getters.getUser;
-		});
+const store = useMainStore();
 
-		const canEdit = computed(() => {
-			if (
-				!user.value ||
-				!record.value ||
-				!record.value.attributes.creator
-			)
-				return false;
+const companyParams = reactive({
+	name: "",
+	color: 0,
+	image: null,
+});
+const imageFlag = ref(false);
 
-			return user.value.id === record.value.attributes.creator.id;
-		});
+const user = computed(() => {
+	return useAuthStore().getUser;
+});
 
-		const canDelete = computed(() => {
-			if (
-				!user.value ||
-				!record.value ||
-				!record.value.attributes.creator
-			)
-				return false;
+const canEdit = computed(() => {
+	if (!user.value || !record.value || !record.value.attributes.creator)
+		return false;
 
-			return user.value.id === record.value.attributes.creator.id;
-		});
+	return user.value.id === record.value.attributes.creator.id;
+});
 
-		const record = computed(() => {
-			let company = store.getters.getCompanyById(props.id);
-			imageFlag.value = false;
+const canDelete = computed(() => {
+	if (!user.value || !record.value || !record.value.attributes.creator)
+		return false;
 
-			if (company) {
-				companyParams.name = company.attributes.designation;
+	return user.value.id === record.value.attributes.creator.id;
+});
 
-				companyParams.color = company.attributes.color_hex
-					? Object.keys(colors).findIndex(
-							(x) => colors[x] === company.attributes.color_hex
-					  )
-					: 3;
+const record = computed(() => {
+	let company = store.getCompanyById(props.id);
+	imageFlag.value = false;
 
-				try {
-					axios
-						.get(`companies/${company.id}/image`)
-						.then((response) => {
-							if (response.data.data.attributes)
-								companyParams.image = atob(
-									response.data.data.attributes.base64
-								);
-							else {
-								companyParams.image = null;
-							}
-							imageFlag.value = true;
-						});
-				} catch (error) {
-					console.log(error);
+	if (company) {
+		companyParams.name = company.attributes.designation;
+
+		companyParams.color = company.attributes.color_hex
+			? Object.keys(colors).findIndex(
+					(x) => colors[x] === company.attributes.color_hex
+			  )
+			: 3;
+
+		try {
+			axios.get(`companies/${company.id}/image`).then((response) => {
+				if (response.data.data.attributes)
+					companyParams.image = atob(
+						response.data.data.attributes.base64
+					);
+				else {
+					companyParams.image = null;
 				}
-			}
+				imageFlag.value = true;
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
-			return company;
-		});
+	return company;
+});
 
-		const setImage = async (value) => {
-			// console.log("setImage", value);
-			if (value != null) companyParams.image = await toBase64(value);
-			else companyParams.image = null;
-		};
-
-		const setColor = (value) => {
-			// console.log("setImage", value);
-			companyParams.color = value;
-		};
-
-		const { t } = useI18n({ useScope: "global" });
-
-		const saveChanges = async () => {
-			let data = {
-				company_id: props.id,
-				designation: companyParams.name,
-				color_hex: colors[companyParams.color],
-				base64: companyParams.image ? btoa(companyParams.image) : null,
-			};
-
-			try {
-				loadingModal.show = true;
-				loadingModal.state = 0;
-				loadingModal.message = null;
-
-				await store.dispatch("updateCompany", data);
-
-				loadingModal.state = 1;
-				loadingModal.message = t("company_edit_success");
-
-				setTimeout(() => {
-					loadingModal.show = false;
-					loadingModal.state = 0;
-					loadingModal.message = null;
-				}, 4000);
-			} catch (error) {
-				console.log(error);
-				loadingModal.state = 2;
-
-				setTimeout(() => {
-					loadingModal.show = false;
-					loadingModal.state = 0;
-				}, 4000);
-			}
-		};
-
-		const deleteCompany = async () => {
-			if (!canDelete.value) return;
-
-			try {
-				showDelete.value = false;
-				loadingModal.show = true;
-				loadingModal.state = 0;
-				loadingModal.message = null;
-
-				await store.dispatch("deleteCompany", record.value.id);
-
-				loadingModal.state = 1;
-				loadingModal.message = t("company_delete_success");
-
-				setTimeout(() => {
-					loadingModal.show = false;
-					loadingModal.state = 0;
-					loadingModal.message = null;
-				}, 4000);
-			} catch (error) {
-				loadingModal.state = 2;
-
-				setTimeout(() => {
-					loadingModal.show = false;
-					loadingModal.state = 0;
-				}, 4000);
-			}
-		};
-
-		const showDelete = ref(false);
-		const loadingModal = reactive({
-			show: false,
-			state: 0,
-			message: null,
-		});
-
-		return {
-			record,
-			companyParams,
-			setImage,
-			setColor,
-			imageFlag,
-			saveChanges,
-			deleteCompany,
-			canEdit,
-			canDelete,
-			showDelete,
-			loadingModal,
-		};
-	},
+const setImage = async (value) => {
+	// console.log("setImage", value);
+	if (value != null) companyParams.image = await toBase64(value);
+	else companyParams.image = null;
 };
+
+const setColor = (value) => {
+	// console.log("setImage", value);
+	companyParams.color = value;
+};
+
+const { t } = useI18n({ useScope: "global" });
+
+const saveChanges = async () => {
+	let data = {
+		company_id: props.id,
+		designation: companyParams.name,
+		color_hex: colors[companyParams.color],
+		base64: companyParams.image ? btoa(companyParams.image) : null,
+	};
+
+	try {
+		loadingModal.show = true;
+		loadingModal.state = 0;
+		loadingModal.message = null;
+
+		await store.updateCompany(data);
+
+		loadingModal.state = 1;
+		loadingModal.message = t("company_edit_success");
+
+		setTimeout(() => {
+			loadingModal.show = false;
+			loadingModal.state = 0;
+			loadingModal.message = null;
+		}, 4000);
+	} catch (error) {
+		console.log(error);
+		loadingModal.state = 2;
+
+		setTimeout(() => {
+			loadingModal.show = false;
+			loadingModal.state = 0;
+		}, 4000);
+	}
+};
+
+const deleteCompany = async () => {
+	if (!canDelete.value) return;
+
+	try {
+		showDelete.value = false;
+		loadingModal.show = true;
+		loadingModal.state = 0;
+		loadingModal.message = null;
+
+		await store.deleteCompany(record.value.id);
+
+		loadingModal.state = 1;
+		loadingModal.message = t("company_delete_success");
+
+		setTimeout(() => {
+			loadingModal.show = false;
+			loadingModal.state = 0;
+			loadingModal.message = null;
+		}, 4000);
+	} catch (error) {
+		loadingModal.state = 2;
+
+		setTimeout(() => {
+			loadingModal.show = false;
+			loadingModal.state = 0;
+		}, 4000);
+	}
+};
+
+const showDelete = ref(false);
+const loadingModal = reactive({
+	show: false,
+	state: 0,
+	message: null,
+});
 </script>
 
 <style lang="scss" scoped>

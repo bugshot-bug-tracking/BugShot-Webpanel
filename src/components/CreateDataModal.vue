@@ -81,183 +81,160 @@
 	/>
 </template>
 
-<script>
+<script setup>
 import { reactive, ref } from "@vue/reactivity";
 import Picker from "./Picker.vue";
 import axios from "axios";
 import Modal from "./Modal.vue";
-import store from "../store";
-import LoadingModal from "@/components/Modals/LoadingModal.vue";
-import toBase64 from "@/util/toBase64";
+import { useMainStore } from "src/stores/main";
+import LoadingModal from "/src/components/Modals/LoadingModal.vue";
+import toBase64 from "/src/util/toBase64";
 import AddMemebers from "./AddMemebers.vue";
-import colors from "@/util/colors";
+import colors from "/src/util/colors";
 
-export default {
-	name: "CreateData",
-	props: {
-		dataType: {
-			required: true,
-			type: String,
-		},
-		subTitle: {
-			required: false,
-			type: String,
-		},
-		postPath: {
-			required: true,
-			type: String,
-		},
-		aditionalBody: {
-			required: false,
-			type: Object,
-		},
+const props = defineProps({
+	dataType: {
+		required: true,
+		type: String,
 	},
-	components: {
-		Picker,
-		Modal,
-		LoadingModal,
-		AddMemebers,
+	subTitle: {
+		required: false,
+		type: String,
 	},
-	setup(props) {
-		const modalActive = ref(false);
+	postPath: {
+		required: true,
+		type: String,
+	},
+	aditionalBody: {
+		required: false,
+		type: Object,
+	},
+});
 
-		const name = ref("");
-		const color = ref(3);
-		const file = ref(null);
-		const url = ref("");
+const modalActive = ref(false);
 
-		const inviteMembers = ref(null);
+const name = ref("");
+const color = ref(3);
+const file = ref(null);
+const url = ref("");
 
-		const setImage = (value) => {
-			// console.log("setImage", value);
-			file.value = value;
-		};
+const inviteMembers = ref(null);
 
-		const setColor = (value) => {
-			// console.log("setImage", value);
-			color.value = value;
-		};
+const setImage = (value) => {
+	// console.log("setImage", value);
+	file.value = value;
+};
 
-		const createResource = async () => {
-			let resource = {
-				name: name.value,
-				image: file.value,
-				color: color.value,
-				members: inviteMembers.value,
-			};
+const setColor = (value) => {
+	// console.log("setImage", value);
+	color.value = value;
+};
 
-			// console.log("resource", { ...resource, ...props.aditionalBody });
+const createResource = async () => {
+	let resource = {
+		name: name.value,
+		image: file.value,
+		color: color.value,
+		members: inviteMembers.value,
+	};
 
-			let aditionalBody = {};
+	// console.log("resource", { ...resource, ...props.aditionalBody });
 
+	let aditionalBody = {};
+
+	try {
+		loadingModal.show = true;
+		loadingModal.state = 0;
+		loadingModal.message = null;
+
+		if (
+			props.dataType === "Project" &&
+			url.value != null &&
+			url.value != ""
+		) {
+			// console.log(url.value);
+
+			//! TODO WIP needs a better URL validation strategy
 			try {
-				loadingModal.show = true;
-				loadingModal.state = 0;
-				loadingModal.message = null;
-
-				if (
-					props.dataType === "Project" &&
-					url.value != null &&
-					url.value != ""
-				) {
-					// console.log(url.value);
-
-					//! TODO WIP needs a better URL validation strategy
-					try {
-						let u = new URL(url.value);
-						aditionalBody["url"] = u.origin;
-					} catch (error) {
-						console.log(error);
-						aditionalBody["url"] = url.value;
-					}
-				}
-
-				if (resource.image != null && resource.image instanceof File) {
-					let base64 = btoa(await toBase64(resource.image));
-					aditionalBody["base64"] = base64;
-				}
-
-				let response = await axios.post(props.postPath, {
-					designation: resource.name,
-					color_hex: colors[resource.color],
-					...aditionalBody, // local body extra params
-					...props.aditionalBody, // in case aditional body props are necessary from outside
-				});
-
-				response = response.data.data;
-
-				let base = "";
-				if (response.type === "Company") base = "companies";
-				else if (response.type === "Project") base = "projects";
-
-				if (resource.members)
-					for (const member of resource.members) {
-						try {
-							await axios.post(`${base}/${response.id}/invite`, {
-								target_email: member.email,
-								role_id: member.role,
-							});
-						} catch (error) {
-							console.log(error);
-							continue;
-						}
-					}
-
-				loadingModal.state = 1;
-
-				loadingModal.message = `${props.dataType} created!`;
-
-				store.dispatch("init");
-
-				setTimeout(() => {
-					modalActive.value = false;
-					loadingModal.show = false;
-					name.value = "";
-					color.value = 3;
-					file.value = null;
-					url.value = "";
-				}, 4000);
+				let u = new URL(url.value);
+				aditionalBody["url"] = u.origin;
 			} catch (error) {
 				console.log(error);
-
-				loadingModal.state = 2;
-				loadingModal.message = null;
-
-				if (error.response.status === 403)
-					loadingModal.message =
-						"You are not authorized to complete this action!";
-
-				setTimeout(() => {
-					loadingModal.show = false;
-					loadingModal.state = 0;
-					loadingModal.message = null;
-				}, 4000);
+				aditionalBody["url"] = url.value;
 			}
-		};
+		}
 
-		const loadingModal = reactive({
-			show: false,
-			state: 0,
-			message: null,
+		if (resource.image != null && resource.image instanceof File) {
+			let base64 = btoa(await toBase64(resource.image));
+			aditionalBody["base64"] = base64;
+		}
+
+		let response = await axios.post(props.postPath, {
+			designation: resource.name,
+			color_hex: colors[resource.color],
+			...aditionalBody, // local body extra params
+			...props.aditionalBody, // in case aditional body props are necessary from outside
 		});
 
-		const setInviteMembers = (value) => {
-			inviteMembers.value = value;
-		};
+		response = response.data.data;
 
-		return {
-			modalActive,
-			name,
-			color,
-			file,
-			url,
-			setImage,
-			setColor,
-			createResource,
-			loadingModal,
-			setInviteMembers,
-		};
-	},
+		let base = "";
+		if (response.type === "Company") base = "companies";
+		else if (response.type === "Project") base = "projects";
+
+		if (resource.members)
+			for (const member of resource.members) {
+				try {
+					await axios.post(`${base}/${response.id}/invite`, {
+						target_email: member.email,
+						role_id: member.role,
+					});
+				} catch (error) {
+					console.log(error);
+					continue;
+				}
+			}
+
+		loadingModal.state = 1;
+
+		loadingModal.message = `${props.dataType} created!`;
+
+		useMainStore().init();
+
+		setTimeout(() => {
+			modalActive.value = false;
+			loadingModal.show = false;
+			name.value = "";
+			color.value = 3;
+			file.value = null;
+			url.value = "";
+		}, 4000);
+	} catch (error) {
+		console.log(error);
+
+		loadingModal.state = 2;
+		loadingModal.message = null;
+
+		if (error.response.status === 403)
+			loadingModal.message =
+				"You are not authorized to complete this action!";
+
+		setTimeout(() => {
+			loadingModal.show = false;
+			loadingModal.state = 0;
+			loadingModal.message = null;
+		}, 4000);
+	}
+};
+
+const loadingModal = reactive({
+	show: false,
+	state: 0,
+	message: null,
+});
+
+const setInviteMembers = (value) => {
+	inviteMembers.value = value;
 };
 </script>
 

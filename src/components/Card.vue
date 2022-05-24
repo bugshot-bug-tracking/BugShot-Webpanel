@@ -28,7 +28,7 @@
 			<div class="right">
 				<img
 					class="btn"
-					src="@/assets/icons/settings_dots.svg"
+					src="/src/assets/icons/settings_dots.svg"
 					ref="actions"
 					@click="toggleShowActions"
 				/>
@@ -67,139 +67,123 @@
 	/>
 </template>
 
-<script>
+<script setup>
 import { computed, reactive, ref } from "@vue/reactivity";
 import { onUnmounted } from "@vue/runtime-core";
 import EditModal from "../views/Main/Project/EditModal.vue";
 import DeleteModal from "./Modals/DeleteModal.vue";
-import LoadingModal from "@/components/Modals/LoadingModal.vue";
-import store from "../store";
+import LoadingModal from "src/components/Modals/LoadingModal.vue";
+import { useMainStore } from "src/stores/main";
 import timeToText from "../util/timeToText";
 
-export default {
-	components: { EditModal, DeleteModal, LoadingModal },
-	name: "Card",
-	props: {
-		id: {
-			required: true,
-			type: String,
-		},
-
-		title: {
-			required: true,
-			type: String,
-			default: "Title",
-		},
-
-		image: {
-			type: Object,
-		},
-
-		color: {
-			type: String,
-			default: "#7A2EE6",
-		},
-
-		mainText: {
-			required: true,
-			type: String,
-			default: "Group",
-		},
-
-		secondText: {
-			type: String,
-			default: "Group",
-		},
-
-		lastEdit: {
-			type: String,
-			default: null,
-		},
-
-		routeTo: {
-			required: true,
-			type: Object,
-		},
+const props = defineProps({
+	id: {
+		required: true,
+		type: String,
 	},
-	setup(props) {
-		const imageURL = computed(() => {
-			if (props.image == null) return;
-			// console.log(props.image);
-			let l = URL.createObjectURL(
-				new Blob([props.image.attributes.base64])
-			);
-			// console.log(l);
-			return props.image.attributes.base64;
-		});
 
-		const actions = ref(null);
-		const showActions = ref(false);
-
-		const toggleShowActions = () => {
-			showActions.value = !showActions.value;
-		};
-		const close = (e) => {
-			if (e.target != actions.value) showActions.value = false;
-		};
-
-		document.addEventListener("click", close);
-
-		onUnmounted(() => {
-			document.removeEventListener("click", close);
-		});
-
-		// 0=no modal, 1=edit modal, 2=delete modal
-		const showModal = ref(0);
-
-		const deleteProject = async () => {
-			try {
-				loadingModal.show = true;
-				loadingModal.state = 0;
-				loadingModal.message = null;
-
-				await store.dispatch("deleteProject", props.id);
-
-				loadingModal.state = 1;
-				loadingModal.message = `Project deleted successfully.`;
-
-				setTimeout(() => {
-					loadingModal.show = false;
-					loadingModal.state = 0;
-					loadingModal.message = null;
-				}, 4000);
-			} catch (error) {
-				console.log(error);
-				loadingModal.state = 2;
-
-				setTimeout(() => {
-					loadingModal.show = false;
-					loadingModal.state = 0;
-				}, 4000);
-			}
-		};
-
-		const passedTime = computed(() => {
-			return timeToText(props.lastEdit);
-		});
-
-		const loadingModal = reactive({
-			show: false,
-			state: 0,
-			message: null,
-		});
-
-		return {
-			imageURL,
-			showActions,
-			actions,
-			toggleShowActions,
-			deleteProject,
-			showModal,
-			passedTime,
-			loadingModal,
-		};
+	title: {
+		required: true,
+		type: String,
+		default: "Title",
 	},
+
+	image: {
+		type: Object,
+	},
+
+	color: {
+		type: String,
+		default: "#7A2EE6",
+	},
+
+	mainText: {
+		required: true,
+		type: String,
+		default: "Group",
+	},
+
+	secondText: {
+		type: String,
+		default: "Group",
+	},
+
+	lastEdit: {
+		type: String,
+		default: null,
+	},
+
+	routeTo: {
+		required: true,
+		type: Object,
+	},
+});
+
+const store = useMainStore();
+
+const imageURL = computed(() => {
+	if (props.image == null) return;
+	// console.log(props.image);
+	let l = URL.createObjectURL(new Blob([props.image.attributes.base64]));
+	// console.log(l);
+	return props.image.attributes.base64;
+});
+
+const actions = ref(null);
+const showActions = ref(false);
+
+const toggleShowActions = () => {
+	showActions.value = !showActions.value;
 };
+const close = (e) => {
+	if (e.target != actions.value) showActions.value = false;
+};
+
+document.addEventListener("click", close);
+
+onUnmounted(() => {
+	document.removeEventListener("click", close);
+});
+
+// 0=no modal, 1=edit modal, 2=delete modal
+const showModal = ref(0);
+
+const deleteProject = async () => {
+	try {
+		loadingModal.show = true;
+		loadingModal.state = 0;
+		loadingModal.message = null;
+
+		await store.deleteProject(props.id);
+
+		loadingModal.state = 1;
+		loadingModal.message = `Project deleted successfully.`;
+
+		setTimeout(() => {
+			loadingModal.show = false;
+			loadingModal.state = 0;
+			loadingModal.message = null;
+		}, 4000);
+	} catch (error) {
+		console.log(error);
+		loadingModal.state = 2;
+
+		setTimeout(() => {
+			loadingModal.show = false;
+			loadingModal.state = 0;
+		}, 4000);
+	}
+};
+
+const passedTime = computed(() => {
+	return timeToText(props.lastEdit);
+});
+
+const loadingModal = reactive({
+	show: false,
+	state: 0,
+	message: null,
+});
 </script>
 
 <style lang="scss" scoped>

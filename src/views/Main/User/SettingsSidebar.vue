@@ -34,14 +34,15 @@
 
 <script setup>
 import { computed } from "@vue/reactivity";
-import store from "../../../store";
+import { useAuthStore } from "/src/stores/auth";
 import router from "../../../router";
 
 const user = computed(() => {
-	return store.getters.getUser;
+	return useAuthStore().getUser;
 });
 const logout = () => {
-	store.dispatch("logout");
+	useAuthStore().logout();
+
 	router.push({ name: "Login" });
 };
 </script>

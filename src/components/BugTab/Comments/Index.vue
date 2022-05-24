@@ -83,11 +83,12 @@ import {
 } from "@vue/runtime-core";
 import Message from "./Message.vue";
 import Container from "../../Container.vue";
-import store from "@/store";
+import { useProjectStore } from "src/stores/project";
 import axios from "axios";
 import { VueTribute } from "vue-tribute";
 import colors from "../../../util/colors";
-import { maxlengthContentEditable } from "@/util/maxlength-contenteditable.js";
+import { maxlengthContentEditable } from "/src/util/maxlength-contenteditable.js";
+import { useAuthStore } from "/src/stores/auth";
 
 const props = defineProps({
 	bug_id: {
@@ -100,17 +101,19 @@ const props = defineProps({
 	},
 });
 
+const store = useProjectStore();
+
 const message = ref("");
 const msgs = ref(null);
 const lock = ref(false); // prevent send button spam
 const messageLength = ref(0);
 
 const user = computed(() => {
-	return store.getters.getUser;
+	return useAuthStore().getUser;
 });
 
 const projectTeam = computed(() => {
-	return store.getters["kanban/getProjectUsers"];
+	return store.getProjectUsers;
 });
 
 // tributejs options
@@ -219,7 +222,7 @@ const setLength = (event) => {
 };
 
 const update = () => {
-	store.dispatch("kanban/fetchComments", props.bug_id);
+	store.fetchComments(props.bug_id);
 };
 
 const scrollToBottom = () => {
@@ -261,7 +264,7 @@ onMounted(() => {
 			}
 
 			> .refresh-button {
-				background-image: url("@/assets/icons/refresh.svg");
+				background-image: url("/src/assets/icons/refresh.svg");
 				background-repeat: no-repeat;
 				background-position: center;
 				width: 24px;
