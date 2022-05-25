@@ -148,7 +148,7 @@ export default {
 		};
 
 		const colorChange = (event) => {
-			context.emit("setColor", props.colorPicked);
+			context.emit("setColor", Number(props.colorPicked));
 		};
 
 		return {
