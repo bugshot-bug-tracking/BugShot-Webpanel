@@ -25,7 +25,10 @@ export const install = (app, router) => {
 				useAuthStore().destroy();
 
 				router.push({ name: "Login" });
+				return;
 			}
+
+			throw error;
 		}
 	);
 };

@@ -132,7 +132,7 @@ export const useProjectStore = defineStore("project", {
 					);
 				}
 
-				bug.screenshot = screenshots;
+				bug.screenshots = screenshots;
 			} catch (error) {
 				console.log(error);
 			}
