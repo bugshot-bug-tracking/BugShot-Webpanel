@@ -113,7 +113,7 @@ const user = computed(() => {
 });
 
 const projectTeam = computed(() => {
-	return store.getProjectUsers;
+	return [store.getProject.attributes.creator, ...store.getProjectUsers];
 });
 
 // tributejs options
