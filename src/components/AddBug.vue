@@ -28,7 +28,7 @@
 						:placeholder="$t('bug_name')"
 						v-model="data.designation"
 						required
-						minlength="5"
+						minlength="1"
 						maxlength="50"
 					/>
 				</div>

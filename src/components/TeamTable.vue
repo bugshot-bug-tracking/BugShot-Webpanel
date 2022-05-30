@@ -4,7 +4,7 @@
 			<div class="container" v-if="company?.attributes.users">
 				<div class="header bold">
 					<div class="members">{{ $t("member", 2) }}</div>
-					<div class="count">
+					<div class="count" v-if="false">
 						{{
 							$t("member_out_of", {
 								x: company.attributes.users.length,
