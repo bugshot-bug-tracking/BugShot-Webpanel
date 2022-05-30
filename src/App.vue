@@ -31,4 +31,19 @@ body {
 		}
 	}
 }
+
+#nprogress {
+	pointer-events: none;
+}
+
+#nprogress .bar {
+	background: hsl(158, 80%, 41%);
+	opacity: 0.75;
+	position: fixed;
+	z-index: 1031;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 4px;
+}
 </style>

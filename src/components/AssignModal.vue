@@ -103,7 +103,10 @@ const bug = computed(() => {
 
 	if (!bug.id) list.value = [];
 	else {
-		let project_users = store.getProjectUsers;
+		let project_users = [
+			store.getProject.attributes.creator,
+			...store.getProjectUsers,
+		];
 
 		list.value = [];
 
