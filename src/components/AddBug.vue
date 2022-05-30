@@ -141,10 +141,10 @@ import { reactive, ref } from "vue";
 import Assignes from "./Assignes.vue";
 import LocalAttachments from "./Attachments/LocalAttachments.vue";
 import ImageManager from "./ImageManager.vue";
-import toBase64 from "@/util/toBase64";
-import LoadingModal from "@/components/Modals/LoadingModal.vue";
+import toBase64 from "/src/util/toBase64";
+import LoadingModal from "/src/components/Modals/LoadingModal.vue";
 import axios from "axios";
-import store from "../store";
+import { useProjectStore } from "src/stores/project";
 
 const props = defineProps({
 	id: {
@@ -153,6 +153,8 @@ const props = defineProps({
 		description: "Project id",
 	},
 });
+
+const store = useProjectStore();
 
 const tabOpen = ref(false);
 
@@ -184,7 +186,7 @@ const submit = async () => {
 		loadingModal.state = 0;
 		loadingModal.message = null;
 
-		let status = store.getters["kanban/getFirstStatus"];
+		let status = store.getFirstStatus;
 
 		// send bug data and get bug object
 		let bug = await axios.post(`statuses/${status.id}/bugs`, {
@@ -223,7 +225,7 @@ const submit = async () => {
 		loadingModal.state = 1;
 		loadingModal.message = `Bug report created!`;
 
-		store.dispatch("kanban/loadBugs");
+		store.refresh();
 
 		setTimeout(() => {
 			loadingModal.show = false;

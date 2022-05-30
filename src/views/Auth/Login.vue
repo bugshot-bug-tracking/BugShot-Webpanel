@@ -67,51 +67,37 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 import { ref } from "@vue/reactivity";
-import store from "../../store";
-import router from "../../router";
+import router from "src/router";
+import { useAuthStore } from "/src/stores/auth";
 
-export default {
-	setup() {
-		const email = ref("");
-		const password = ref("");
+const email = ref("");
+const password = ref("");
 
-		const showPassword = ref(false);
-		const passwordType = ref("password");
+const showPassword = ref(false);
+const passwordType = ref("password");
 
-		const errMessage = ref(null);
+const errMessage = ref(null);
 
-		const togglePassword = () => {
-			showPassword.value = !showPassword.value;
-			if (showPassword.value) passwordType.value = "text";
-			else passwordType.value = "password";
-		};
+const togglePassword = () => {
+	showPassword.value = !showPassword.value;
+	if (showPassword.value) passwordType.value = "text";
+	else passwordType.value = "password";
+};
 
-		const submit = () => {
-			store
-				.dispatch("login", {
-					email: email.value,
-					password: password.value,
-				})
-				.then((response) => {
-					router.push({ name: "Home" });
-				})
-				.catch((error) => {
-					errMessage.value = error.response.data.message;
-				});
-		};
-
-		return {
-			email,
-			password,
-			showPassword,
-			passwordType,
-			errMessage,
-			submit,
-			togglePassword,
-		};
-	},
+const submit = () => {
+	useAuthStore()
+		.login({
+			email: email.value,
+			password: password.value,
+		})
+		.then((response) => {
+			router.push({ name: "Home" });
+		})
+		.catch((error) => {
+			errMessage.value = error.response.data.message;
+		});
 };
 </script>
 

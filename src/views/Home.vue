@@ -7,32 +7,23 @@
 		</div>
 
 		<div class="hide" @click="sidebarVisibility = !sidebarVisibility">
-			<img src="@/assets/icons/caret-down-fill.svg" />
+			<img src="/src/assets/icons/caret-down-fill.svg" />
 		</div>
 	</div>
 
 	<router-view />
 </template>
 
-<script>
-// @ is an alias to /src
-import Navbar from "./Navbar.vue";
-import store from "../store";
+<script setup>
 import { ref } from "@vue/reactivity";
+import { useMainStore } from "/src/stores/main";
+import Navbar from "./Navbar.vue";
+import { useI18nStore } from "src/stores/i18n";
 
-export default {
-	name: "Home",
-	components: { Navbar },
-	setup() {
-		store.dispatch("start");
+useMainStore().init();
+useI18nStore().init();
 
-		const sidebarVisibility = ref(false);
-
-		return {
-			sidebarVisibility,
-		};
-	},
-};
+const sidebarVisibility = ref(false);
 </script>
 
 <style lang="scss" scoped>

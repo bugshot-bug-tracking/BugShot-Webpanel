@@ -28,7 +28,7 @@
 			</router-link>
 		</template>
 
-		<div v-if="arePojects">
+		<div v-if="areProjects">
 			<GroupContainer
 				:mainText="record.attributes.designation"
 				:secondText="
@@ -71,69 +71,51 @@
 	</Layout>
 </template>
 
-<script>
+<script setup>
 import { computed } from "@vue/reactivity";
 import Card from "../../../components/Card.vue";
 import GroupContainer from "../../../components/GroupContainer.vue";
 import Layout from "../Layout.vue";
-import store from "../../../store";
+import { useMainStore } from "src/stores/main";
 import Search from "../../../components/Search.vue";
 import CreateDataModal from "../../../components/CreateDataModal.vue";
 import InviteModal from "../../../components/InviteModal.vue";
 import timeToText from "../../../util/timeToText";
 
-export default {
-	components: {
-		Layout,
-		GroupContainer,
-		Card,
-		Search,
-		CreateDataModal,
-		InviteModal,
+const props = defineProps({
+	id: {
+		required: true,
+		type: String,
+		description: "Company ID",
 	},
-	name: "CompanyProjects",
-	props: {
-		id: {
-			required: true,
-			type: String,
-			description: "Company ID",
-		},
-	},
-	setup(props) {
-		const record = computed(() => {
-			return store.getters.getCompanyById(props.id);
-		});
+});
 
-		const companyProjects = computed(() => {
-			return store.getters.getCompanyProjects(props.id);
-		});
+const store = useMainStore();
 
-		const arePojects = computed(() => {
-			if (!record.value) return false;
-			if (!record.value.projects) return false;
-			if (!record.value.projects.length > 0) return false;
-			return true;
-		});
+const record = computed(() => {
+	return store.getCompanyById(props.id);
+});
 
-		const bugsStats = (done, total) => {
-			let str = "";
-			str += done ? done : "0";
-			str += " / ";
-			str += total ? total : "0";
-			return str;
-		};
+const companyProjects = computed(() => {
+	return store.getCompanyProjects(props.id);
+});
 
-		const passedTime = (lastEdit) => {
-			return timeToText(lastEdit);
-		};
+const areProjects = computed(() => {
+	if (!record.value) return false;
+	if (!record.value.attributes.projects) return false;
+	if (!record.value.attributes.projects.length > 0) return false;
+	return true;
+});
 
-		return {
-			record,
-			arePojects,
-			companyProjects,
-			bugsStats,
-			passedTime,
-		};
-	},
+const bugsStats = (done, total) => {
+	let str = "";
+	str += done ? done : "0";
+	str += " / ";
+	str += total ? total : "0";
+	return str;
+};
+
+const passedTime = (lastEdit) => {
+	return timeToText(lastEdit);
 };
 </script>

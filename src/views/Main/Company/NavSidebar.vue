@@ -21,15 +21,17 @@
 						</router-link>
 
 						<img
-							src="@/assets/icons/icn_left_arrow.svg"
-							v-if="company.projects?.length > 0"
+							src="/src/assets/icons/icn_left_arrow.svg"
+							v-if="companyProjects(company.id)?.length > 0"
 							@click="collapse"
 						/>
 					</div>
 
-					<ul v-if="company.projects?.length > 0" class="proj-list">
+					<ul
+						v-if="companyProjects(company.id)?.length > 0"
+						class="proj-list"
+					>
 						<router-link
-							@change="clg"
 							v-for="project of companyProjects(company.id)"
 							:key="project.id"
 							class="project"
@@ -61,47 +63,32 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 import { computed } from "@vue/runtime-core";
 import Search from "../../../components/Search.vue";
-import store from "../../../store";
+import { useMainStore } from "src/stores/main";
 import CreateDataModal from "../../../components/CreateDataModal.vue";
 
-export default {
-	components: { Search, CreateDataModal },
-	name: "CompanySidebar",
-	setup() {
-		const companies = computed(() => {
-			return store.getters.getCompanies;
-		});
+let store = useMainStore();
 
-		const companyProjects = (company_id) => {
-			return store.getters.getCompanyProjects(company_id);
-		};
+const companies = computed(() => {
+	return store.getCompanies;
+});
 
-		const collapse = (event) => {
-			if (event.target.parentNode.classList.contains("open")) {
-				event.target.parentNode.classList.remove("open");
-			} else {
-				event.target.parentNode.classList.add("open");
-			}
-		};
+const companyProjects = (company_id) => {
+	return store.getCompanyProjects(company_id);
+};
 
-		const linkOpen = (event) => {
-			event.target.parentNode.classList.add("open");
-		};
+const collapse = (event) => {
+	if (event.target.parentNode.classList.contains("open")) {
+		event.target.parentNode.classList.remove("open");
+	} else {
+		event.target.parentNode.classList.add("open");
+	}
+};
 
-		const clg = (event) => {
-			console.log(event);
-		};
-		return {
-			companies,
-			companyProjects,
-			collapse,
-			linkOpen,
-			clg,
-		};
-	},
+const linkOpen = (event) => {
+	event.target.parentNode.classList.add("open");
 };
 </script>
 

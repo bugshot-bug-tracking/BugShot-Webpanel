@@ -69,7 +69,7 @@
 					@click="open = !open"
 				>
 					<span>{{ $t("technical_info") + ":" }}</span>
-					<img src="@/assets/icons/caret-down-fill.svg" />
+					<img src="/src/assets/icons/caret-down-fill.svg" />
 				</div>
 
 				<div class="technical-info">
@@ -158,9 +158,10 @@ import Container from "../Container.vue";
 import Screenshot from "./Screenshot.vue";
 import PriorityChange from "../PriorityChange.vue";
 import Assignes from "../Assignes.vue";
-import dateFix from "@/util/dateFixISO";
+import dateFix from "/src/util/dateFixISO";
 import { computed, ref } from "@vue/reactivity";
-import store from "@/store";
+import { useProjectStore } from "src/stores/project";
+import { useI18nStore } from "src/stores/i18n";
 import { useI18n } from "vue-i18n";
 
 const emit = defineEmits(["close", "open_assign"]);
@@ -176,12 +177,14 @@ const props = defineProps({
 	},
 });
 
+const store = useProjectStore();
+
 const open = ref(false);
 
 const datePicker = ref(dateFix(props.bug.attributes.deadline));
 
 const changePriority = (value) => {
-	store.dispatch("kanban/syncBug", {
+	store.syncBug({
 		id: props.bug.id,
 		changes: {
 			priority_id: value,
@@ -190,7 +193,7 @@ const changePriority = (value) => {
 };
 
 const clearDeadline = () => {
-	store.dispatch("kanban/syncBug", {
+	store.syncBug({
 		id: props.bug.id,
 		changes: {
 			deadline: null,
@@ -213,7 +216,7 @@ const changeDeadline = () => {
 		if (newDate && newDate === deadline) return;
 	}
 
-	store.dispatch("kanban/syncBug", {
+	store.syncBug({
 		id: props.bug.id,
 		changes: {
 			deadline: newDate,
@@ -222,7 +225,7 @@ const changeDeadline = () => {
 };
 
 const { d } = useI18n({ useScope: "global" });
-const locale = computed(() => store.getters.getCurrentLocale);
+const locale = computed(() => useI18nStore().getCurrentLocale);
 const format = (date) => d(new Date(date).toISOString(), "short");
 </script>
 
@@ -246,7 +249,7 @@ const format = (date) => d(new Date(date).toISOString(), "short");
 	}
 
 	.close-button {
-		background-image: url("@/assets/icons/classic_X.svg");
+		background-image: url("/src/assets/icons/classic_X.svg");
 		background-repeat: no-repeat;
 		background-position: center;
 		width: 24px;
@@ -257,7 +260,7 @@ const format = (date) => d(new Date(date).toISOString(), "short");
 		font-size: 20px;
 		font-weight: 500;
 		align-self: center;
-		word-break: break-all;
+		word-break: normal;
 	}
 
 	.id {
@@ -272,7 +275,7 @@ const format = (date) => d(new Date(date).toISOString(), "short");
 	.description {
 		display: block;
 		text-align: left;
-		word-break: break-all;
+		word-break: normal;
 	}
 
 	#technical {

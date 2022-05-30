@@ -1,32 +1,20 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
-
-import axios from "axios";
-import i18n from "./i18n";
-
-import vSelect from "vue-select";
-import Datepicker from "@vuepic/vue-datepicker";
-
-require("./store/subscriber");
-
-axios.defaults.baseURL = process.env.VUE_APP_API_ENDPOINT;
-axios.defaults.headers = {
-	Accept: "application/json",
-	"Content-Type": "application/json",
-	clientId: process.env.VUE_APP_CLIENT_ID,
-	version: process.env.VUE_APP_VERSION,
-};
-
-store.dispatch("attempt", localStorage.getItem("authToken"));
-store.dispatch("initLocale");
+import { useAuthStore } from "./stores/auth";
+import "vue-select/dist/vue-select.css";
 
 const app = createApp(App);
 
-app.use(i18n).use(store).use(router);
+app.use(router);
 
-app.component("v-select", vSelect);
-app.component("Datepicker", Datepicker);
+// install all modules under `modules/`
+Object.values(import.meta.globEager("./modules/*.js")).forEach((i) =>
+	i.install?.(app, router)
+);
 
-app.mount("#app");
+useAuthStore()
+	.attempt(localStorage.getItem("authToken"))
+	.then(() => {
+		app.mount("#app");
+	});

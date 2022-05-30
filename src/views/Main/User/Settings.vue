@@ -301,8 +301,8 @@
 import Column from "../Project/BugsTable/Column.vue";
 import Container from "../../../components/Container.vue";
 import { computed, reactive, ref } from "@vue/reactivity";
-import store from "../../../store";
 import axios from "axios";
+import { useAuthStore } from "/src/stores/auth";
 
 const data = reactive({
 	first_name: "",
@@ -315,8 +315,10 @@ const data = reactive({
 	},
 });
 
+const store = useAuthStore();
+
 const user = computed(() => {
-	let user = store.getters.getUser;
+	let user = store.getUser;
 
 	if (user && user.attributes) {
 		data.first_name = user.attributes.first_name;
@@ -361,7 +363,7 @@ const saveClick = async () => {
 
 		response = response.data.data;
 
-		store.commit("SET_USER", response);
+		store.user = response;
 	} catch (error) {
 		console.log(error);
 
