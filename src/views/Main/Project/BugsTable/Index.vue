@@ -38,7 +38,7 @@
 					>
 						<template #item="{ element }">
 							<BugCard
-								:id="element"
+								:id="element.id"
 								:title="
 									getBug(element.id).attributes.designation
 								"
@@ -50,7 +50,7 @@
 								:priority="
 									getBug(element.id).attributes.priority.id
 								"
-								:active="infoTab.id === element"
+								:active="infoTab.id === element.id"
 								@info="info(element.id)"
 							/>
 						</template>
