@@ -95,11 +95,16 @@ export const useProjectStore = defineStore("project", {
 
 						// if undefined it means that no change was made; if null it means resetting the deadline;
 						...(payload.changes.deadline === undefined
-							? { deadline: bug.attributes.deadline.slice(0, -1) }
+							? {
+									deadline: bug.attributes.deadline?.slice(
+										0,
+										-1
+									),
+							  }
 							: payload.changes.deadline === null
 							? { deadline: null }
 							: {
-									deadline: payload.changes.deadline.slice(
+									deadline: payload.changes.deadline?.slice(
 										0,
 										-1
 									),

@@ -27,7 +27,7 @@ export const useMainStore = defineStore("main", {
 			try {
 				let response = await axios.get(`companies`, {
 					headers: {
-						"include-company-image": "true",
+						// "include-company-image": "true",
 						"include-projects": "true",
 						"include-project-image": "true",
 					},
