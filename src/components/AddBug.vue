@@ -135,14 +135,7 @@
 </template>
 
 <script setup>
-import SideTab from "./SideTab.vue";
-import Container from "./Container.vue";
-import { reactive, ref } from "vue";
-import Assignes from "./Assignes.vue";
-import LocalAttachments from "./Attachments/LocalAttachments.vue";
-import ImageManager from "./ImageManager.vue";
 import toBase64 from "/src/util/toBase64";
-import LoadingModal from "/src/components/Modals/LoadingModal.vue";
 import axios from "axios";
 import { useProjectStore } from "src/stores/project";
 

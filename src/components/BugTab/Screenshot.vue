@@ -61,117 +61,91 @@
 	</Modal>
 </template>
 
-<script>
-import { computed, reactive, ref } from "@vue/reactivity";
-import Modal from "../Modal.vue";
-import { nextTick } from "@vue/runtime-core";
-
-export default {
-	components: { Modal },
-	name: "Screenshot",
-	props: {
-		screenshots: {
-			required: true,
-			type: Array,
-		},
-		priority: {
-			required: true,
-			type: Number,
-		},
+<script setup>
+const props = defineProps({
+	screenshots: {
+		required: true,
+		type: Array,
 	},
-	emits: ["loading"],
-	setup(props, context) {
-		const modal = ref(false);
-		const counter = ref(0);
-		const bigScreen = ref(null);
-		const mark = reactive({
-			show: true,
-			x: 0,
-			y: 0,
-		});
-
-		// fixes the problem of renedering a null object
-		const toggleModal = () => {
-			if (props.screenshots[0] == null) {
-				modal.value = false;
-				return;
-			}
-			modal.value = !modal.value;
-		};
-
-		const previous = () => {
-			if (counter.value > 0) counter.value--;
-		};
-
-		const next = () => {
-			if (counter.value < props.screenshots.length - 1) counter.value++;
-		};
-
-		let thumbnail = computed(() => {
-			if (props.screenshots.length > 0)
-				return props.screenshots[0].attributes.base64;
-			return "/";
-		});
-
-		const showImage = computed(() => {
-			if (counter.value >= props.screenshots.length) counter.value = 0;
-
-			let img = props.screenshots[counter.value];
-
-			// wait untill rendered to get image sizes
-			nextTick(() => {
-				// get points relative to the original image to put the marker
-
-				mark.x =
-					img.attributes.position_x <= 0 &&
-					bigScreen.value.naturalWidth <= 0
-						? 0
-						: (img.attributes.position_x /
-								bigScreen.value.naturalWidth) *
-						  100;
-
-				mark.y =
-					img.attributes.position_y <= 0 &&
-					bigScreen.value.naturalHeight <= 0
-						? 0
-						: (img.attributes.position_y /
-								bigScreen.value.naturalHeight) *
-						  100;
-			});
-
-			return img.attributes.base64;
-		});
-
-		const priority = computed(() => {
-			switch (props.priority) {
-				case 1:
-					return "minor";
-				case 2:
-					return "normal";
-				case 3:
-					return "important";
-				case 4:
-					return "critical";
-
-				default:
-					return "normal";
-			}
-		});
-
-		return {
-			modal,
-			thumbnail,
-			counter,
-			bigScreen,
-			mark,
-			showImage,
-			priority,
-			previous,
-			next,
-			toggleModal,
-		};
+	priority: {
+		required: true,
+		type: Number,
 	},
+});
+const emit = defineEmits(["loading"]);
+
+const modal = ref(false);
+const counter = ref(0);
+const bigScreen = ref(null);
+const mark = reactive({
+	show: true,
+	x: 0,
+	y: 0,
+});
+
+// fixes the problem of renedering a null object
+const toggleModal = () => {
+	if (props.screenshots[0] == null) {
+		modal.value = false;
+		return;
+	}
+	modal.value = !modal.value;
 };
+
+const previous = () => {
+	if (counter.value > 0) counter.value--;
+};
+
+const next = () => {
+	if (counter.value < props.screenshots.length - 1) counter.value++;
+};
+
+let thumbnail = computed(() => {
+	if (props.screenshots.length > 0)
+		return props.screenshots[0].attributes.base64;
+	return "/";
+});
+
+const showImage = computed(() => {
+	if (counter.value >= props.screenshots.length) counter.value = 0;
+
+	let img = props.screenshots[counter.value];
+
+	// wait untill rendered to get image sizes
+	nextTick(() => {
+		// get points relative to the original image to put the marker
+
+		mark.x =
+			img.attributes.position_x <= 0 && bigScreen.value.naturalWidth <= 0
+				? 0
+				: (img.attributes.position_x / bigScreen.value.naturalWidth) *
+				  100;
+
+		mark.y =
+			img.attributes.position_y <= 0 && bigScreen.value.naturalHeight <= 0
+				? 0
+				: (img.attributes.position_y / bigScreen.value.naturalHeight) *
+				  100;
+	});
+
+	return img.attributes.base64;
+});
+
+const priority = computed(() => {
+	switch (props.priority) {
+		case 1:
+			return "minor";
+		case 2:
+			return "normal";
+		case 3:
+			return "important";
+		case 4:
+			return "critical";
+
+		default:
+			return "normal";
+	}
+});
 </script>
 
 <style lang="scss" scoped>

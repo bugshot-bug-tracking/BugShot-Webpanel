@@ -19,39 +19,27 @@
 	</Modal>
 </template>
 
-<script>
-import { ref } from "@vue/reactivity";
-import { nextTick, onMounted } from "@vue/runtime-core";
-import Modal from "../Modal.vue";
-export default {
-	props: {
-		text: {
-			required: true,
-			type: String,
-		},
+<script setup>
+const props = defineProps({
+	text: {
+		required: true,
+		type: String,
 	},
-	emits: ["close", "delete"],
-	components: { Modal },
-	setup(props, context) {
-		const show = ref(false);
+});
 
-		onMounted(() => {
-			show.value = true;
-		});
+const emit = defineEmits(["close", "delete"]);
+const show = ref(false);
 
-		const close = () => {
-			show.value = false;
+onMounted(() => {
+	show.value = true;
+});
 
-			nextTick(() => {
-				context.emit("close");
-			});
-		};
+const close = () => {
+	show.value = false;
 
-		return {
-			show,
-			close,
-		};
-	},
+	nextTick(() => {
+		emit("close");
+	});
 };
 </script>
 

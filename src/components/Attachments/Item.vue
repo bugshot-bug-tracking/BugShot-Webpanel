@@ -10,26 +10,24 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: "AttachmentItem",
-	props: {
-		name: {
-			required: true,
-			type: String,
-		},
-		id: {
-			required: true,
-			type: Number,
-		},
-		download: {
-			required: false,
-			type: Boolean,
-			default: true,
-		},
+<script setup>
+const props = defineProps({
+	name: {
+		required: true,
+		type: String,
 	},
-	emits: ["download", "delete"],
-};
+	id: {
+		required: true,
+		type: Number,
+	},
+	download: {
+		required: false,
+		type: Boolean,
+		default: true,
+	},
+});
+
+const emit = defineEmits(["download", "delete"]);
 </script>
 
 <style lang="scss" scoped>

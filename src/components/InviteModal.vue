@@ -63,11 +63,8 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from "@vue/reactivity";
 import axios from "axios";
-import Modal from "./Modal.vue";
 import { useMainStore } from "src/stores/main";
-import LoadingModal from "/src/components/Modals/LoadingModal.vue";
 
 const props = defineProps({
 	dataType: {

@@ -11,22 +11,19 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: "GroupContainer",
-	props: {
-		mainText: {
-			required: true,
-			type: String,
-			default: "Group",
-		},
-
-		secondText: {
-			type: String,
-			default: "",
-		},
+<script setup>
+const props = defineProps({
+	mainText: {
+		required: true,
+		type: String,
+		default: "Group",
 	},
-};
+
+	secondText: {
+		type: String,
+		default: "",
+	},
+});
 </script>
 
 <style lang="scss" scoped>

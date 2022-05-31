@@ -94,9 +94,7 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from "vue";
 import { useMainStore } from "src/stores/main";
-import Modal from "./Modal.vue";
 
 const emit = defineEmits(["change", "submit"]);
 const props = defineProps({

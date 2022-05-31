@@ -68,13 +68,8 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from "@vue/reactivity";
-import { onUnmounted } from "@vue/runtime-core";
-import EditModal from "../views/Main/Project/EditModal.vue";
-import DeleteModal from "./Modals/DeleteModal.vue";
-import LoadingModal from "src/components/Modals/LoadingModal.vue";
 import { useMainStore } from "src/stores/main";
-import timeToText from "../util/timeToText";
+import timeToText from "src/util/timeToText";
 
 const props = defineProps({
 	id: {

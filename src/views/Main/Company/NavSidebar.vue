@@ -64,7 +64,6 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/runtime-core";
 import Search from "../../../components/Search.vue";
 import { useMainStore } from "src/stores/main";
 import CreateDataModal from "../../../components/CreateDataModal.vue";

@@ -72,7 +72,6 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
 import Card from "../../../components/Card.vue";
 import GroupContainer from "../../../components/GroupContainer.vue";
 import Layout from "../Layout.vue";

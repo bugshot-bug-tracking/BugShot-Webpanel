@@ -39,54 +39,39 @@
 	</div>
 </template>
 
-<script>
-import { ref } from "@vue/reactivity";
-
+<script setup>
 import axios from "axios";
-import router from "../../router";
+import router from "src/router";
 
-export default {
-	name: "ForgotPassword",
-	setup() {
-		const email = ref("");
-		const message = ref(null);
-		const errMessage = ref(null);
+const email = ref("");
+const message = ref(null);
+const errMessage = ref(null);
 
-		const submit = () => {
-			if (email.value && email.value.length > 4)
-				try {
-					process.value = true;
+const submit = () => {
+	if (email.value && email.value.length > 4)
+		try {
+			process.value = true;
 
-					axios
-						.post(`auth/forgot-password`, {
-							email: email.value,
-						})
-						.then((response) => {
-							message.value = response.data;
-							process.value = false;
-						})
-						.then(() => {
-							setTimeout(() => {
-								router.push({ name: "Home" });
-							}, 4000);
-						});
-				} catch (error) {
-					console.log(error);
+			axios
+				.post(`auth/forgot-password`, {
+					email: email.value,
+				})
+				.then((response) => {
+					message.value = response.data;
 					process.value = false;
-				}
-		};
-
-		const process = ref(false);
-
-		return {
-			email,
-			errMessage,
-			message,
-			submit,
-			process,
-		};
-	},
+				})
+				.then(() => {
+					setTimeout(() => {
+						router.push({ name: "Home" });
+					}, 4000);
+				});
+		} catch (error) {
+			console.log(error);
+			process.value = false;
+		}
 };
+
+const process = ref(false);
 </script>
 
 <style scoped lang="scss">

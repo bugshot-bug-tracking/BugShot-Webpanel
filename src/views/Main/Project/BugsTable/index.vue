@@ -120,16 +120,14 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "@vue/reactivity";
-import { computed, nextTick, watch } from "@vue/runtime-core";
 import { useProjectStore } from "src/stores/project";
 import Column from "./Column.vue";
 import draggable from "vuedraggable";
-import BugCard from "../../../../components/BugCard.vue";
-import BugTab from "../../../../components/BugTab/Index.vue";
-import StatusTableHeader from "../../../../components/StatusTableHeader.vue";
-import StatusDeleteModal from "../../../../components/Modals/StatusDeleteModal.vue";
-import LoadingModal from "/src/components/Modals/LoadingModal.vue";
+import BugCard from "src/components/BugCard.vue";
+import BugTab from "src/components/BugTab/index.vue";
+import StatusTableHeader from "src/components/StatusTableHeader.vue";
+import StatusDeleteModal from "src/components/Modals/StatusDeleteModal.vue";
+import LoadingModal from "src/components/Modals/LoadingModal.vue";
 
 const props = defineProps({
 	id: {

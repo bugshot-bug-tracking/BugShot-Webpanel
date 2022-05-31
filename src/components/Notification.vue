@@ -39,7 +39,6 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
 import dateFix from "/src/util/dateFixISO";
 import { useNotificationStore } from "/src/stores/notifications";
 import { useMainStore } from "/src/stores/main";

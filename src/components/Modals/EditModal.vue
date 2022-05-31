@@ -51,14 +51,9 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "@vue/reactivity";
-import Modal from "../../../components/Modal.vue";
-import { computed, nextTick, onMounted } from "@vue/runtime-core";
-import Picker from "../../../components/Picker.vue";
 import { useMainStore } from "src/stores/main";
-import LoadingModal from "/src/components/Modals/LoadingModal.vue";
-import toBase64 from "/src/util/toBase64";
-import colors from "/src/util/colors";
+import toBase64 from "src/util/toBase64";
+import colors from "src/util/colors";
 
 const props = defineProps({
 	id: {
@@ -66,6 +61,7 @@ const props = defineProps({
 		type: String,
 	},
 });
+
 const emit = defineEmits(["close"]);
 
 const store = useMainStore();

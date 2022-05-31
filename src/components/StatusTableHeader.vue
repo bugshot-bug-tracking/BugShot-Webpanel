@@ -53,8 +53,6 @@
 </template>
 
 <script setup>
-import { ref } from "@vue/reactivity";
-
 const emit = defineEmits(["edit", "delete"]);
 const props = defineProps({
 	id: {

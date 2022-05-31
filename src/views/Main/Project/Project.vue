@@ -15,14 +15,13 @@
 	</Layout>
 </template>
 
-<script setup>
-import { computed } from "@vue/runtime-core";
+<script setup lang="ts">
 import { useMainStore } from "src/stores/main";
 import Layout from "../Layout.vue";
 import AddBug from "../../../components/AddBug.vue";
 import InviteModal from "../../../components/InviteModal.vue";
-import BugsTable from "./BugsTable/Index.vue";
 import { useProjectStore } from "src/stores/project";
+import BugsTable from "./BugsTable/index.vue";
 
 const props = defineProps({
 	id: {

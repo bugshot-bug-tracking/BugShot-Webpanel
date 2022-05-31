@@ -68,7 +68,6 @@
 </template>
 
 <script setup>
-import { ref } from "@vue/reactivity";
 import router from "src/router";
 import { useAuthStore } from "/src/stores/auth";
 

@@ -40,14 +40,8 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from "@vue/runtime-core";
 import { useProjectStore } from "src/stores/project";
-import SideTab from "../SideTab.vue";
-import Info from "./Info.vue";
-import Attachments from "../Attachments/Index.vue";
-import Comments from "./Comments/Index.vue";
 import axios from "axios";
-import AssignModal from "../AssignModal.vue";
 
 const emit = defineEmits(["close", "deleted"]);
 const props = defineProps({

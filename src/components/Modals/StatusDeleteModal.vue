@@ -109,10 +109,7 @@
 </template>
 
 <script setup>
-import { ref } from "@vue/reactivity";
-import { computed, watch } from "@vue/runtime-core";
 import { useProjectStore } from "src/stores/project";
-import Modal from "../Modal.vue";
 
 const emit = defineEmits(["close", "delete"]);
 

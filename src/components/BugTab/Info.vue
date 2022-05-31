@@ -154,15 +154,9 @@
 </template>
 
 <script setup>
-import Container from "../Container.vue";
-import Screenshot from "./Screenshot.vue";
-import PriorityChange from "../PriorityChange.vue";
-import Assignes from "../Assignes.vue";
 import dateFix from "/src/util/dateFixISO";
-import { computed, ref } from "@vue/reactivity";
 import { useProjectStore } from "src/stores/project";
 import { useI18nStore } from "src/stores/i18n";
-import { useI18n } from "vue-i18n";
 
 const emit = defineEmits(["close", "open_assign"]);
 
