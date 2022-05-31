@@ -40,11 +40,6 @@
 </template>
 
 <script setup>
-import { ref } from "@vue/reactivity";
-import { useI18n } from "vue-i18n";
-import Container from "../Container.vue";
-import Item from "./Item.vue";
-
 const emit = defineEmits(["update"]);
 
 const err = ref("");

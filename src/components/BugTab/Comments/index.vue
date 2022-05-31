@@ -73,20 +73,10 @@
 </template>
 
 <script setup>
-import { ref } from "@vue/reactivity";
-import {
-	reactive,
-	computed,
-	nextTick,
-	watch,
-	onMounted,
-} from "@vue/runtime-core";
-import Message from "./Message.vue";
-import Container from "../../Container.vue";
 import { useProjectStore } from "src/stores/project";
 import axios from "axios";
 import { VueTribute } from "vue-tribute";
-import colors from "../../../util/colors";
+import colors from "src/util/colors";
 import { maxlengthContentEditable } from "/src/util/maxlength-contenteditable.js";
 import { useAuthStore } from "/src/stores/auth";
 

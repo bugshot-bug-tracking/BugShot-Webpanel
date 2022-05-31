@@ -5,17 +5,14 @@
 	</Layout>
 </template>
 
-<script>
+<script setup>
 import Layout from "../Layout.vue";
-export default {
-	components: { Layout },
-	name: "CompanyInvoices",
-	props: {
-		id: {
-			required: true,
-		},
+
+const props = defineProps({
+	id: {
+		required: true,
 	},
-};
+});
 </script>
 
 <style></style>

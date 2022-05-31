@@ -123,116 +123,95 @@
 	</form>
 </template>
 
-<script>
-import { ref, reactive } from "@vue/reactivity";
-import router from "../../router";
+<script setup lang="ts">
+import router from "src/router";
 import axios from "axios";
-import { computed } from "@vue/runtime-core";
 
-export default {
-	name: "Register",
-	props: {
-		email: {
-			required: true,
-			type: String,
-		},
-		token: {
-			required: true,
-			type: String,
-		},
+const props = defineProps({
+	email: {
+		required: true,
+		type: String,
 	},
-	setup(props) {
-		const password = ref("");
-		const confirm_password = ref("");
+	token: {
+		required: true,
+		type: String,
+	},
+});
+const password = ref("");
+const confirm_password = ref("");
 
-		const showPassword = ref(false);
-		const passwordType = ref("password");
+const showPassword = ref(false);
+const passwordType = ref("password");
 
-		const errMessage = ref(null);
+const errMessage = ref(null);
 
-		const errField = reactive({
-			password: false,
-		});
+const errField = reactive({
+	password: false,
+});
 
-		const resetError = () => {
+const resetError = () => {
+	errMessage.value = null;
+	errField.password = null;
+};
+
+const togglePassword = () => {
+	showPassword.value = !showPassword.value;
+	if (showPassword.value) passwordType.value = "text";
+	else passwordType.value = "password";
+};
+
+const submit = () => {
+	axios
+		.post("auth/reset-password", {
+			email: atob(props.email),
+			token: props.token,
+			password: password.value,
+			password_confirmation: confirm_password.value,
+		})
+		.then((response) => {
+			console.log(response.data);
+		})
+		.then(() => {
+			router.push({ name: "Login" });
+		})
+		.catch((error) => {
 			errMessage.value = null;
 			errField.password = null;
-		};
 
-		const togglePassword = () => {
-			showPassword.value = !showPassword.value;
-			if (showPassword.value) passwordType.value = "text";
-			else passwordType.value = "password";
-		};
+			if (error.response?.status !== 422) {
+				console.log(error);
+				errMessage.value = error.response
+					? error.response.data.errors.detail
+					: "Error!";
+				return;
+			}
 
-		const submit = () => {
-			axios
-				.post("auth/reset-password", {
-					email: atob(props.email),
-					token: props.token,
-					password: password.value,
-					password_confirmation: confirm_password.value,
-				})
-				.then((response) => {
-					console.log(response.data);
-				})
-				.then(() => {
-					router.push({ name: "Login" });
-				})
-				.catch((error) => {
-					errMessage.value = null;
-					errField.password = null;
+			const resError = error.response
+				? error.response.data.errors
+				: "Error!";
 
-					if (error.response?.status !== 422) {
-						console.log(error);
-						errMessage.value = error.response
-							? error.response.data.errors.detail
-							: "Error!";
-						return;
-					}
-
-					const resError = error.response
-						? error.response.data.errors
-						: "Error!";
-
-					if (resError?.password) {
-						errMessage.value = resError.password[0];
-						errField.password = true;
-						return;
-					}
-				});
-		};
-
-		const showValidate = reactive({
-			pass: false,
-			confirm: false,
+			if (resError?.password) {
+				errMessage.value = resError.password[0];
+				errField.password = true;
+				return;
+			}
 		});
-
-		// password validations
-		const validate = computed(() => {
-			return {
-				minChars: password.value.length,
-				letters: password.value.match(/[a-zA-Z]/g),
-				numbers: password.value.match(/[0-9]/g),
-				same: password.value === confirm_password.value,
-			};
-		});
-
-		return {
-			password,
-			confirm_password,
-			showPassword,
-			passwordType,
-			errMessage,
-			errField,
-			submit,
-			togglePassword,
-			resetError,
-			showValidate,
-			validate,
-		};
-	},
 };
+
+const showValidate = reactive({
+	pass: false,
+	confirm: false,
+});
+
+// password validations
+const validate = computed(() => {
+	return {
+		minChars: password.value.length,
+		letters: password.value.match(/[a-zA-Z]/g),
+		numbers: password.value.match(/[0-9]/g),
+		same: password.value === confirm_password.value,
+	};
+});
 </script>
 
 <style scoped lang="scss">

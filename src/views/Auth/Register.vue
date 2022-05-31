@@ -207,160 +207,128 @@
 	</div>
 </template>
 
-<script>
-import { ref, reactive } from "@vue/reactivity";
-import router from "../../router";
+<script setup lang="ts">
+import router from "src/router";
 import axios from "axios";
-import { computed } from "@vue/runtime-core";
 
-export default {
-	name: "Register",
-	setup() {
-		const first_name = ref("");
-		const last_name = ref("");
-		const email = ref("");
-		const password = ref("");
-		const confirm_password = ref("");
+const first_name = ref("");
+const last_name = ref("");
+const email = ref("");
+const password = ref("");
+const confirm_password = ref("");
 
-		const showPassword = ref(false);
-		const passwordType = ref("password");
+const showPassword = ref(false);
+const passwordType = ref("password");
 
-		const showPasswordConfirm = ref(false);
-		const passwordTypeConfirm = ref("password");
+const showPasswordConfirm = ref(false);
+const passwordTypeConfirm = ref("password");
 
-		const tos = ref(false);
+const tos = ref(false);
 
-		const errMessage = ref(null);
+const errMessage = ref(null);
 
-		const errField = reactive({
-			email: false,
-			password: false,
-		});
+const errField = reactive({
+	email: false,
+	password: false,
+});
 
-		const resetError = () => {
-			errMessage.value = null;
-			errField.email = null;
-			errField.password = null;
-		};
+const resetError = () => {
+	errMessage.value = null;
+	errField.email = null;
+	errField.password = null;
+};
 
-		const togglePassword = () => {
-			showPassword.value = !showPassword.value;
-			if (showPassword.value) passwordType.value = "text";
-			else passwordType.value = "password";
-		};
+const togglePassword = () => {
+	showPassword.value = !showPassword.value;
+	if (showPassword.value) passwordType.value = "text";
+	else passwordType.value = "password";
+};
 
-		const togglePasswordConfirm = () => {
-			showPasswordConfirm.value = !showPasswordConfirm.value;
-			if (showPasswordConfirm.value) passwordTypeConfirm.value = "text";
-			else passwordTypeConfirm.value = "password";
-		};
+const togglePasswordConfirm = () => {
+	showPasswordConfirm.value = !showPasswordConfirm.value;
+	if (showPasswordConfirm.value) passwordTypeConfirm.value = "text";
+	else passwordTypeConfirm.value = "password";
+};
 
-		const submit = () => {
-			stage.value = 0;
-			process.value = true;
-			errMessage.value = null;
-			errField.email = null;
-			errField.password = null;
+const submit = () => {
+	stage.value = 0;
+	process.value = true;
+	errMessage.value = null;
+	errField.email = null;
+	errField.password = null;
 
-			axios
-				.post("auth/register", {
-					first_name: first_name.value,
-					last_name: last_name.value,
-					email: email.value,
-					password: password.value,
-					password_confirmation: confirm_password.value,
-				})
-				.then((response) => {
-					stage.value = 1;
+	axios
+		.post("auth/register", {
+			first_name: first_name.value,
+			last_name: last_name.value,
+			email: email.value,
+			password: password.value,
+			password_confirmation: confirm_password.value,
+		})
+		.then((response) => {
+			stage.value = 1;
 
-					console.log(response.data);
-				})
-				.then(() => {
-					setTimeout(() => {
-						router.push({
-							name: "Login",
-						});
-					}, 5000);
-				})
-				.catch((error) => {
-					process.value = false;
-
-					console.dir(error);
-
-					errMessage.value = null;
-					errField.email = null;
-					errField.password = null;
-
-					if (error.response.status !== 422)
-						console.error(error.response.data.errors);
-
-					const resError = error.response.data.errors;
-
-					if (resError?.email) {
-						errMessage.value = resError.email[0];
-						errField.email = true;
-						return;
-					}
-
-					if (resError?.password) {
-						errMessage.value = resError.password[0];
-						errField.password = true;
-						return;
-					}
+			console.log(response.data);
+		})
+		.then(() => {
+			setTimeout(() => {
+				router.push({
+					name: "Login",
 				});
-		};
+			}, 5000);
+		})
+		.catch((error) => {
+			process.value = false;
 
-		const process = ref(false);
-		const stage = ref(0);
+			console.dir(error);
 
-		const showValidate = reactive({
-			pass: false,
-			confirm: false,
+			errMessage.value = null;
+			errField.email = null;
+			errField.password = null;
+
+			if (error.response.status !== 422)
+				console.error(error.response.data.errors);
+
+			const resError = error.response.data.errors;
+
+			if (resError?.email) {
+				errMessage.value = resError.email[0];
+				errField.email = true;
+				return;
+			}
+
+			if (resError?.password) {
+				errMessage.value = resError.password[0];
+				errField.password = true;
+				return;
+			}
 		});
+};
 
-		// password validations
-		const validate = computed(() => {
-			return {
-				minChars: password.value.length,
-				letters: password.value.match(/[a-zA-Z]/g),
-				numbers: password.value.match(/[0-9]/g),
-				same: password.value === confirm_password.value,
-			};
-		});
+const process = ref(false);
+const stage = ref(0);
 
-		const openTOS = () => {
-			window.open("https://www.bugshot.de/nutzungsbedingungen");
-		};
+const showValidate = reactive({
+	pass: false,
+	confirm: false,
+});
 
-		const openPP = () => {
-			window.open("https://www.bugshot.de/datenschutz");
-		};
+// password validations
+const validate = computed(() => {
+	return {
+		minChars: password.value.length,
+		letters: password.value.match(/[a-zA-Z]/g),
+		numbers: password.value.match(/[0-9]/g),
+		same: password.value === confirm_password.value,
+	};
+});
 
-		return {
-			first_name,
-			last_name,
-			email,
-			password,
-			confirm_password,
-			showPassword,
-			passwordType,
-			tos,
-			errMessage,
-			errField,
-			submit,
-			togglePassword,
-			togglePasswordConfirm,
-			resetError,
-			process,
-			stage,
-			validate,
-			showValidate,
-			showPasswordConfirm,
-			passwordTypeConfirm,
-			openTOS,
-			openPP,
-		};
-	},
+const openTOS = () => {
+	window.open("https://www.bugshot.de/nutzungsbedingungen");
+};
+
+const openPP = () => {
+	window.open("https://www.bugshot.de/datenschutz");
 };
 </script>
 

@@ -78,7 +78,6 @@
 </template>
 
 <script setup>
-import { computed, ref } from "@vue/reactivity";
 import toBase64 from "../util/toBase64";
 
 const emit = defineEmits(["update"]);

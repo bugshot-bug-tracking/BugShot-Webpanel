@@ -78,11 +78,9 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive } from "@vue/runtime-core";
 import { useProjectStore } from "src/stores/project";
-import colors from "/src/util/colors";
+import colors from "src/util/colors";
 import axios from "axios";
-import LoadingModal from "./Modals/LoadingModal.vue";
 
 const emit = defineEmits(["close"]);
 

@@ -4,11 +4,7 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: "SideTab",
-};
-</script>
+<script setup></script>
 
 <style lang="scss" scoped>
 .tab {

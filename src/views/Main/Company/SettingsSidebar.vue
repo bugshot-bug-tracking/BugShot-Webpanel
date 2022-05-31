@@ -51,7 +51,6 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
 import { useMainStore } from "src/stores/main";
 
 const store = useMainStore();

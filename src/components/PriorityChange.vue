@@ -27,69 +27,55 @@
 	</div>
 </template>
 
-<script>
-import { ref } from "@vue/reactivity";
-import { onUnmounted } from "@vue/runtime-core";
-import { useI18n } from "vue-i18n";
-
-export default {
-	name: "PriorityChange",
-	props: {
-		priority: {
-			type: Number,
-			required: true,
-		},
-		lock: {
-			type: Boolean,
-			required: false,
-			default: true,
-			description: "Lock the change event emission",
-		},
+<script setup>
+const props = defineProps({
+	priority: {
+		type: Number,
+		required: true,
 	},
-	emits: ["change"],
-	setup(props) {
-		const popup = ref(null);
-
-		const show = ref(false);
-		const toggleShow = () => {
-			if (props.lock) return;
-			show.value = !show.value;
-		};
-
-		const close = (e) => {
-			if (e.target != popup.value) show.value = false;
-		};
-
-		if (!props.lock) {
-			document.addEventListener("click", close);
-
-			onUnmounted(() => {
-				document.removeEventListener("click", close);
-			});
-		}
-
-		const { t } = useI18n({ useScope: "global" });
-
-		const priorityText = (value) => {
-			switch (value) {
-				case 1:
-					return t("minor");
-				case 2:
-					return t("normal");
-				case 3:
-					return t("important");
-				case 4:
-					return t("critical");
-			}
-		};
-
-		return {
-			popup,
-			show,
-			toggleShow,
-			priorityText,
-		};
+	lock: {
+		type: Boolean,
+		required: false,
+		default: true,
+		description: "Lock the change event emission",
 	},
+});
+
+const emit = defineEmits(["change"]);
+
+const popup = ref(null);
+
+const show = ref(false);
+const toggleShow = () => {
+	if (props.lock) return;
+	show.value = !show.value;
+};
+
+const close = (e) => {
+	if (e.target != popup.value) show.value = false;
+};
+
+if (!props.lock) {
+	document.addEventListener("click", close);
+
+	onUnmounted(() => {
+		document.removeEventListener("click", close);
+	});
+}
+
+const { t } = useI18n({ useScope: "global" });
+
+const priorityText = (value) => {
+	switch (value) {
+		case 1:
+			return t("minor");
+		case 2:
+			return t("normal");
+		case 3:
+			return t("important");
+		case 4:
+			return t("critical");
+	}
 };
 </script>
 

@@ -15,7 +15,6 @@
 </template>
 
 <script setup>
-import { ref } from "@vue/reactivity";
 import { useMainStore } from "/src/stores/main";
 import Navbar from "./Navbar.vue";
 import { useI18nStore } from "src/stores/i18n";

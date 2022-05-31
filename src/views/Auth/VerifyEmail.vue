@@ -23,62 +23,52 @@
 	/>
 </template>
 
-<script>
-import { ref } from "@vue/reactivity";
+<script setup>
 import axios from "axios";
 import { useRoute } from "vue-router";
-import router from "../../router";
-export default {
-	props: {
-		user_id: {
-			required: true,
-			type: String,
-		},
-		token: {
-			required: true,
-			type: String,
-		},
+import router from "src/router";
+
+const props = defineProps({
+	user_id: {
+		required: true,
+		type: String,
 	},
-
-	setup(props) {
-		// 0 means loading, 1 means success, 2 means error
-		const status = ref(0);
-
-		const route = useRoute();
-
-		const verify = () => {
-			status.value = 0;
-
-			axios
-				.get(
-					`/auth/email/verify/${props.user_id}/${props.token}?expires=${route.query.expires}&signature=${route.query.signature}`
-				)
-				.then((response) => {
-					status.value = 1;
-
-					setTimeout(() => {
-						router.push({ name: "Login" });
-					}, 3000);
-				})
-				.catch((error) => {
-					console.log(error);
-
-					status.value = 2;
-
-					setTimeout(() => {
-						router.push({ name: "Login" });
-					}, 5000);
-				});
-		};
-
-		verify();
-
-		return {
-			status,
-			verify,
-		};
+	token: {
+		required: true,
+		type: String,
 	},
+});
+// 0 means loading, 1 means success, 2 means error
+const status = ref(0);
+
+const route = useRoute();
+
+const verify = () => {
+	status.value = 0;
+
+	axios
+		.get(
+			`/auth/email/verify/${props.user_id}/${props.token}?expires=${route.query.expires}&signature=${route.query.signature}`
+		)
+		.then((response) => {
+			status.value = 1;
+
+			setTimeout(() => {
+				router.push({ name: "Login" });
+			}, 3000);
+		})
+		.catch((error) => {
+			console.log(error);
+
+			status.value = 2;
+
+			setTimeout(() => {
+				router.push({ name: "Login" });
+			}, 5000);
+		});
 };
+
+verify();
 </script>
 
 <style lang="scss" scoped>

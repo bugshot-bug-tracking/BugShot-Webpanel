@@ -82,14 +82,9 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "@vue/reactivity";
-import Picker from "./Picker.vue";
 import axios from "axios";
-import Modal from "./Modal.vue";
 import { useMainStore } from "src/stores/main";
-import LoadingModal from "/src/components/Modals/LoadingModal.vue";
 import toBase64 from "/src/util/toBase64";
-import AddMemebers from "./AddMemebers.vue";
 import colors from "/src/util/colors";
 
 const props = defineProps({

@@ -121,14 +121,9 @@
 </template>
 
 <script setup>
-import { computed, ref, reactive } from "@vue/reactivity";
 import { useMainStore } from "src/stores/main";
-import Container from "./Container.vue";
-import { watch } from "@vue/runtime-core";
 import axios from "axios";
 import colors from "/src/util/colors";
-import AddMemebers from "./AddMemebers.vue";
-import LoadingModal from "./Modals/LoadingModal.vue";
 
 const props = defineProps({
 	company_id: {

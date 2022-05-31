@@ -82,88 +82,71 @@
 	</div>
 </template>
 
-<script>
-import { ref } from "@vue/reactivity";
+<script setup>
 import colors from "/src/util/colors";
 
-export default {
-	name: "Picker",
-	props: {
-		colorPicked: {
-			required: true,
-			type: Number,
-			default: 3,
-		},
-		image: {
-			type: String,
-		},
+const props = defineProps({
+	colorPicked: {
+		required: true,
+		type: Number,
+		default: 3,
 	},
-	emits: ["setImage", "setColor"],
-	setup(props, context) {
-		const pickOption = ref(1);
-
-		const enambleColoorChange = ref(false);
-
-		const active = ref(false);
-
-		const togleDragActive = () => {
-			active.value = !active.value;
-		};
-		const drop = (event) => {
-			active.value = false;
-			pickOption.value = 1;
-
-			let file = event.dataTransfer.files[0];
-			if (!file) return;
-			if (!file.type.includes("image")) {
-				imgg.value = null;
-				return;
-			}
-
-			context.emit("setImage", file);
-
-			imgg.value = URL.createObjectURL(file);
-		};
-
-		const imgg = ref(null);
-		if (props.image && props.image.length > 20) imgg.value = props.image;
-
-		const resetImage = () => {
-			imgg.value = null;
-			context.emit("setImage", null);
-		};
-
-		const change = (event) => {
-			let file = event.target.files[0];
-
-			if (!file) return;
-			if (!file.type.includes("image")) {
-				imgg.value = null;
-				return;
-			}
-
-			context.emit("setImage", file);
-
-			imgg.value = URL.createObjectURL(file);
-		};
-
-		const colorChange = (event) => {
-			context.emit("setColor", Number(props.colorPicked));
-		};
-
-		return {
-			pickOption,
-			colors,
-			enambleColoorChange,
-			drop,
-			active,
-			togleDragActive,
-			imgg,
-			resetImage,
-			change,
-			colorChange,
-		};
+	image: {
+		type: String,
 	},
+});
+
+const emit = defineEmits(["setImage", "setColor"]);
+
+const pickOption = ref(1);
+
+const enambleColoorChange = ref(false);
+
+const active = ref(false);
+
+const togleDragActive = () => {
+	active.value = !active.value;
+};
+const drop = (event) => {
+	active.value = false;
+	pickOption.value = 1;
+
+	let file = event.dataTransfer.files[0];
+	if (!file) return;
+	if (!file.type.includes("image")) {
+		imgg.value = null;
+		return;
+	}
+
+	emit("setImage", file);
+
+	imgg.value = URL.createObjectURL(file);
+};
+
+const imgg = ref(null);
+if (props.image && props.image.length > 20) imgg.value = props.image;
+
+const resetImage = () => {
+	imgg.value = null;
+	emit("setImage", null);
+};
+
+const change = (event) => {
+	let file = event.target.files[0];
+
+	if (!file) return;
+	if (!file.type.includes("image")) {
+		imgg.value = null;
+		return;
+	}
+
+	emit("setImage", file);
+
+	imgg.value = URL.createObjectURL(file);
+};
+
+const colorChange = (event) => {
+	emit("setColor", Number(props.colorPicked));
 };
 </script>
 

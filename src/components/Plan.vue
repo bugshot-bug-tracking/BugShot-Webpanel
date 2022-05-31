@@ -30,12 +30,7 @@
 	</Container>
 </template>
 
-<script>
-import Container from "./Container.vue";
-export default {
-	components: { Container },
-};
-</script>
+<script setup></script>
 
 <style lang="scss" scoped>
 .content {

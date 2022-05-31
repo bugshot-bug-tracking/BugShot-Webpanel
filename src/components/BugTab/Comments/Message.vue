@@ -15,8 +15,6 @@
 
 <script setup>
 import dateFix from "/src/util/dateFixISO";
-import { ref } from "@vue/reactivity";
-import { onMounted } from "vue";
 
 const props = defineProps({
 	content: {

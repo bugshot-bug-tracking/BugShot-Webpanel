@@ -23,7 +23,10 @@
 	"devDependencies": {
 		"@intlify/vue-i18n-loader": "^4.0.0",
 		"@vitejs/plugin-vue": "^2.3.3",
+		"pnpm": "^7.1.7",
 		"sass": "^1.50.0",
+		"unplugin-auto-import": "^0.8.6",
+		"unplugin-vue-components": "^0.19.6",
 		"vite": "^2.9.9"
 	}
 }

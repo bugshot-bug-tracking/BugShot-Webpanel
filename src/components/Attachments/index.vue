@@ -37,12 +37,8 @@
 </template>
 
 <script setup>
-import { ref } from "@vue/reactivity";
-import Container from "../Container.vue";
-import Item from "./Item.vue";
 import axios from "axios";
 import { useProjectStore } from "src/stores/project";
-import { useI18n } from "vue-i18n";
 import toBase64 from "src/util/toBase64";
 
 const props = defineProps({

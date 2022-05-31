@@ -93,7 +93,6 @@
 </template>
 
 <script setup>
-import { computed, reactive, ref } from "@vue/reactivity";
 import Layout from "../Layout.vue";
 import { useMainStore } from "src/stores/main";
 import Container from "../../../components/Container.vue";

@@ -22,10 +22,7 @@
 
 		<div class="log-out">
 			<a class="btn bs be-red" @click="logout">
-				<img
-					src="../../../assets/extern/logout.svg"
-					class="bs-to-red"
-				/>
+				<img src="src/assets/extern/logout.svg" class="bs-to-red" />
 				{{ $t("log_out") }}
 			</a>
 		</div>
@@ -33,9 +30,8 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
-import { useAuthStore } from "/src/stores/auth";
-import router from "../../../router";
+import { useAuthStore } from "src/stores/auth";
+import router from "src/router";
 
 const user = computed(() => {
 	return useAuthStore().getUser;
