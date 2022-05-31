@@ -17,7 +17,10 @@
 				<div class="items">
 					<div
 						class="person"
-						v-for="user of company.attributes.users"
+						v-for="user of [
+							company.attributes.creator,
+							...company.attributes.users,
+						]"
 						:key="user.id"
 					>
 						<div class="info">
