@@ -51,11 +51,11 @@ const emit = defineEmits(["download", "delete"]);
 		height: 24px;
 
 		&.download {
-			background-image: url("../../assets/icons/download.svg");
+			background-image: url("/src/assets/icons/download.svg");
 		}
 
 		&.delete {
-			background-image: url("../../assets/icons/trash.svg");
+			background-image: url("/src/assets/icons/trash.svg");
 		}
 	}
 }

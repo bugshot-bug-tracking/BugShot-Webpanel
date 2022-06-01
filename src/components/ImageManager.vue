@@ -10,7 +10,7 @@
 			@change="change"
 		>
 			<div>
-				<img src="../assets/icons/image_placeholder.svg" />
+				<img src="/src/assets/icons/image_placeholder.svg" />
 				<div class="text">{{ $t("screenshot.drag_and_drop") }}</div>
 			</div>
 
@@ -37,7 +37,7 @@
 					<div class="left">
 						<a v-if="counter > 0" @click="counterDecrease">
 							<img
-								src="../assets/icons/icn_left_arrow.svg"
+								src="/src/assets/icons/icn_left_arrow.svg"
 								alt="previous"
 							/>
 						</a>
@@ -48,13 +48,19 @@
 					<div class="center d-flex gap-3">
 						<a @change="addImage">
 							<label for="image-upload2" class="add">
-								<img src="../assets/icons/add.svg" alt="add" />
+								<img
+									src="/src/assets/icons/add.svg"
+									alt="add"
+								/>
 							</label>
 							<input type="file" id="image-upload2" multiple />
 						</a>
 
 						<a class="delete" @click="removeImage">
-							<img src="../assets/icons/trash.svg" alt="delete" />
+							<img
+								src="/src/assets/icons/trash.svg"
+								alt="delete"
+							/>
 						</a>
 					</div>
 
@@ -64,7 +70,7 @@
 							@click="counterIncrease"
 						>
 							<img
-								src="../assets/icons/icn_left_arrow.svg"
+								src="/src/assets/icons/icn_left_arrow.svg"
 								alt="next"
 							/>
 						</a>

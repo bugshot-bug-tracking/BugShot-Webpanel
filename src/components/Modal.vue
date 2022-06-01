@@ -75,7 +75,7 @@ const props = defineProps({
 		position: absolute;
 		top: -13px;
 		right: -13px;
-		background-image: url("../assets/icons/classic_X.svg");
+		background-image: url("/src/assets/icons/classic_X.svg");
 		background-repeat: no-repeat;
 		width: 16px;
 		height: 16px;

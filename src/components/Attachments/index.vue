@@ -168,7 +168,7 @@ const update = () => {
 		label#file-label {
 			cursor: pointer;
 			transition: 0.3s;
-			background-image: url("../../assets/icons/attachment.svg");
+			background-image: url("/src/assets/icons/attachment.svg");
 			background-repeat: no-repeat;
 			width: 32px;
 			height: 32px;
@@ -185,7 +185,7 @@ const update = () => {
 		}
 
 		.refresh-button {
-			background-image: url("../../assets/icons/refresh.svg");
+			background-image: url("/src/assets/icons/refresh.svg");
 			background-repeat: no-repeat;
 			background-position: center;
 			width: 24px;

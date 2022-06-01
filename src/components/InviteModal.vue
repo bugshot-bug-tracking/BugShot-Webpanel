@@ -23,7 +23,7 @@
 						autocomplete="email"
 					/>
 
-					<img src="../assets/icons/at@.svg" alt="at" />
+					<img src="/src/assets/icons/at@.svg" alt="at" />
 				</div>
 
 				<div class="roles">

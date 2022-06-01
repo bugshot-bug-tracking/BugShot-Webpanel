@@ -23,7 +23,7 @@
 			</div>
 
 			<a class="add" @click="$emit('add')">
-				<img src="../assets/icons/add.svg" alt="Add button" />
+				<img src="/src/assets/icons/add.svg" alt="Add button" />
 			</a>
 		</div>
 	</div>

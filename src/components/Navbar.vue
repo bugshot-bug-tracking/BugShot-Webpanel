@@ -3,12 +3,12 @@
 		<ul class="verticle-menu">
 			<div class="top-buttons">
 				<router-link :to="{ name: 'Home' }" class="home-logo">
-					<img src="../assets/extern/m-1.svg" alt="" />
+					<img src="/src/assets/extern/m-1.svg" alt="" />
 				</router-link>
 
 				<li class="notification">
 					<a>
-						<img src="../assets/extern/m-2.svg" alt="" />
+						<img src="/src/assets/extern/m-2.svg" alt="" />
 					</a>
 
 					<div class="badge" v-if="invitations.length > 0">
@@ -45,7 +45,7 @@
 			<div>
 				<div class="bottom-buttons">
 					<router-link :to="{ name: 'UserSettings' }">
-						<img src="../assets/extern/m-3.svg" alt="" />
+						<img src="/src/assets/extern/m-3.svg" alt="" />
 					</router-link>
 				</div>
 

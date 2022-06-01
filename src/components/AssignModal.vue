@@ -52,7 +52,7 @@
 					</div>
 
 					<img
-						src="../assets/icons/close_x.svg"
+						src="/src/assets/icons/close_x.svg"
 						class="remove-user bs-to-gray"
 						alt=""
 						v-if="checked"
@@ -188,7 +188,7 @@ const loadingModal = reactive({
 	position: absolute;
 	top: -13px;
 	right: -13px;
-	background-image: url("../assets/icons/classic_X.svg");
+	background-image: url("/src/assets/icons/classic_X.svg");
 	background-repeat: no-repeat;
 	width: 16px;
 	height: 16px;

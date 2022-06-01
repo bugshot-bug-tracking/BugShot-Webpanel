@@ -21,7 +21,7 @@
 		<div class="buttons">
 			<a @click="accept">
 				<img
-					src="../assets/icons/check.svg"
+					src="/src/assets/icons/check.svg"
 					alt="Accept"
 					class="accept"
 				/>
@@ -29,7 +29,7 @@
 
 			<a @click="decline">
 				<img
-					src="../assets/icons/classic_X.svg"
+					src="/src/assets/icons/classic_X.svg"
 					alt="Decline"
 					class="decline"
 				/>

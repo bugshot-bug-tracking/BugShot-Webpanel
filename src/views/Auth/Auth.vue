@@ -2,7 +2,7 @@
 	<div class="viewport-height-wrap">
 		<!-- ./left-port -->
 		<div class="left-port">
-			<img src="../../assets/icons/bugshot.svg" class="logo" />
+			<img src="/src/assets/icons/bugshot.svg" class="logo" />
 		</div>
 
 		<!-- ./right-port -->

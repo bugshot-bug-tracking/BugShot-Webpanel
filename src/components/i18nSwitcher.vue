@@ -2,7 +2,7 @@
 	<div class="language-switch">
 		<div class="locale" @click="toggle" :class="{ active: showLangs }">
 			<img
-				src="../assets/icons/lang.svg"
+				src="/src/assets/icons/lang.svg"
 				alt="language"
 				class="bs-to-green"
 			/>

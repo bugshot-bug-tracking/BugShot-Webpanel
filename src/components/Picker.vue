@@ -31,7 +31,7 @@
 			<div class="image" v-show="pickOption === 1" @change="change">
 				<div class="empty" v-if="imgg === null">
 					<div>
-						<img src="../assets/icons/image_placeholder.svg" />
+						<img src="/src/assets/icons/image_placeholder.svg" />
 
 						<div class="text">
 							{{ $t("picker.drag_and_drop") }}
@@ -312,7 +312,7 @@ const colorChange = (event) => {
 				cursor: pointer;
 
 				&:checked {
-					background-image: url("../assets/icons/check-white.svg");
+					background-image: url("/src/assets/icons/check-white.svg");
 					background-repeat: no-repeat;
 					background-position: center;
 					background-size: 65%;
