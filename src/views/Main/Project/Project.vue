@@ -21,7 +21,7 @@ import Layout from "../Layout.vue";
 import AddBug from "../../../components/AddBug.vue";
 import InviteModal from "../../../components/InviteModal.vue";
 import { useProjectStore } from "src/stores/project";
-import BugsTable from "./BugsTable/index.vue";
+import BugsTable from "src/components/BugsTable/index.vue";
 
 const props = defineProps({
 	id: {

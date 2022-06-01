@@ -121,13 +121,7 @@
 
 <script setup>
 import { useProjectStore } from "src/stores/project";
-import Column from "./Column.vue";
 import draggable from "vuedraggable";
-import BugCard from "src/components/BugCard.vue";
-import BugTab from "src/components/BugTab/index.vue";
-import StatusTableHeader from "src/components/StatusTableHeader.vue";
-import StatusDeleteModal from "src/components/Modals/StatusDeleteModal.vue";
-import LoadingModal from "src/components/Modals/LoadingModal.vue";
 
 const props = defineProps({
 	id: {

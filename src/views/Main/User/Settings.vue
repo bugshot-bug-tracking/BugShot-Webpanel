@@ -295,7 +295,7 @@
 </template>
 
 <script setup>
-import Column from "../Project/BugsTable/Column.vue";
+import Column from "src/components/BugsTable/Column.vue";
 import Container from "src/components/Container.vue";
 
 import axios from "axios";

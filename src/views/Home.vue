@@ -16,7 +16,7 @@
 
 <script setup>
 import { useMainStore } from "/src/stores/main";
-import Navbar from "./Navbar.vue";
+import Navbar from "src/components/Navbar.vue";
 import { useI18nStore } from "src/stores/i18n";
 
 useMainStore().init();

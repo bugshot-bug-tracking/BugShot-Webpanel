@@ -97,7 +97,7 @@ import Layout from "../Layout.vue";
 import { useMainStore } from "src/stores/main";
 import Container from "../../../components/Container.vue";
 import Picker from "../../../components/Picker.vue";
-import Column from "../Project/BugsTable/Column.vue";
+import Column from "src/components/BugsTable/Column.vue";
 import TeamTable from "../../../components/TeamTable.vue";
 import Plan from "../../../components/Plan.vue";
 import axios from "axios";

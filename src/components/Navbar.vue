@@ -56,8 +56,6 @@
 </template>
 
 <script setup>
-import Notification from "../components/Notification.vue";
-import I18nSwitcher from "../components/i18nSwitcher.vue";
 import { useNotificationStore } from "/src/stores/notifications";
 
 const notifications = useNotificationStore();
