@@ -25,7 +25,7 @@
 				<div class="e-date">dd.mmmm.yyyy</div>
 			</div>
 
-			<a class="btn bs bf-green"> Upgrade Plan</a>
+			<a class="bs-btn green"> Upgrade Plan</a>
 		</div>
 	</Container>
 </template>

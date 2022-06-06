@@ -40,7 +40,7 @@
 
 					<label
 						for="pick-upload"
-						class="btn bs be-green text-capitalize"
+						class="bs-btn green empty text-capitalize"
 					>
 						{{ $t("picker.upload_image") }}
 					</label>
@@ -53,7 +53,7 @@
 						<img :src="imgg" />
 					</div>
 
-					<a class="btn bs be-green" @click="resetImage">
+					<a class="bs-btn green empty" @click="resetImage">
 						{{ $t("remove") }}
 					</a>
 				</div>

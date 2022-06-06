@@ -53,7 +53,7 @@
 
 					<img
 						src="/src/assets/icons/close_x.svg"
-						class="remove-user bs-to-gray"
+						class="remove-user black-to-gray"
 						alt=""
 						v-if="checked"
 						@click="changeUser(user, true, index)"
@@ -63,7 +63,7 @@
 
 			<a class="close" @click="$emit('close')" />
 
-			<a class="btn bs bf-green add" @click="submit">{{
+			<a class="bs-btn green add" @click="submit">{{
 				$t("add.member", 2)
 			}}</a>
 		</div>

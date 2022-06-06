@@ -1,5 +1,5 @@
 <template>
-	<a class="btn bs bf-purple" @click="modalActive = !modalActive">
+	<a class="bs-btn purple" @click="modalActive = !modalActive">
 		{{ $t("add.member") }}
 	</a>
 
@@ -47,7 +47,7 @@
 					</div>
 				</div>
 
-				<button class="btn bs bf-green mt-4">
+				<button class="bs-btn green mt-4">
 					{{ $t("add.member") }}
 				</button>
 			</form>

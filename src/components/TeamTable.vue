@@ -72,7 +72,7 @@
 			</div>
 		</div>
 
-		<AddMemebers
+		<AddMembers
 			:displayList="false"
 			:externalSubmit="true"
 			@submit="addMember"
@@ -92,7 +92,7 @@
 					>
 						<template #open-indicator="{ attributes }">
 							<img
-								class="bs-to-purple"
+								class="black-to-purple"
 								style="background-color: unset"
 								v-bind="attributes"
 								src="/src/assets/icons/caret-down-fill.svg"
@@ -109,7 +109,7 @@
 					</v-select>
 				</div>
 			</template>
-		</AddMemebers>
+		</AddMembers>
 	</Container>
 
 	<LoadingModal

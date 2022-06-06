@@ -1,9 +1,9 @@
 <template>
 	<a
-		class="btn bs text-capitalize"
+		class="bs-btn text-capitalize"
 		:class="{
-			'be-green': dataType === 'Company',
-			'bf-green': dataType === 'Project',
+			'green empty': dataType === 'Company',
+			green: dataType === 'Project',
 		}"
 		@click="modalActive = !modalActive"
 	>
@@ -60,9 +60,9 @@
 					@setColor="setColor"
 				/>
 
-				<AddMemebers @change="setInviteMembers" />
+				<AddMembers @change="setInviteMembers" />
 
-				<button class="btn bs bf-green mt-2 text-capitalize">
+				<button class="bs-btn green mt-2 text-capitalize">
 					{{
 						dataType === "Company"
 							? $t("create.company")

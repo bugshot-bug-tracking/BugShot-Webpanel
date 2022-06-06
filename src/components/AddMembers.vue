@@ -21,14 +21,14 @@
 					<img
 						src="/src/assets/icons/edit.svg"
 						alt="edit"
-						class="edit bs-to-gray"
+						class="edit black-to-gray"
 						@click="editInvite(index)"
 					/>
 
 					<img
 						src="/src/assets/icons/round_x.svg"
 						alt="delete"
-						class="delete bs-to-gray"
+						class="delete black-to-gray"
 						@click="deleteInvite(index)"
 					/>
 				</div>
@@ -38,7 +38,7 @@
 		<img
 			src="/src/assets/icons/add.svg"
 			alt="add"
-			class="bs-to-green"
+			class="black-to-green"
 			@click="modalActive = true"
 		/>
 	</div>
@@ -85,7 +85,7 @@
 
 				<slot name="extra"> </slot>
 
-				<button class="btn bs bf-green mt-4">
+				<button class="bs-btn green mt-4">
 					{{ $t("add.member") }}
 				</button>
 			</form>

@@ -65,7 +65,7 @@
 				<img
 					src="/src/assets/icons/add.svg"
 					alt="add"
-					class="bs-to-gray"
+					class="black-to-gray"
 				/>
 			</a>
 		</div>
@@ -80,10 +80,10 @@
 			</div>
 
 			<div class="actions my-4">
-				<a class="btn bs bf-green" @click="addStatus">
+				<a class="bs-btn green" @click="addStatus">
 					{{ $t("add.column") }}
 				</a>
-				<a @click="toggleForm" class="bs-to-gray btn">
+				<a @click="toggleForm" class="black-to-gray btn">
 					<img src="/src/assets/icons/round_x.svg" alt="collapse" />
 				</a>
 			</div>

@@ -1,17 +1,17 @@
 <template>
-	<div class="status-column" @dragenter.prevent @dragover.prevent>
+	<div class="column-wrapper" @dragenter.prevent @dragover.prevent>
 		<div class="header" v-if="$slots['header']">
 			<slot name="header" />
 		</div>
 
-		<div class="items bs-scroll s-purple">
+		<div class="main bs-scroll s-purple">
 			<slot />
 		</div>
 	</div>
 </template>
 
 <style lang="scss" scoped>
-.status-column {
+.column-wrapper {
 	display: flex;
 	position: relative;
 	flex-direction: column;
@@ -31,7 +31,7 @@
 		text-align: left;
 	}
 
-	.items {
+	.main {
 		height: 100%;
 		overflow: auto;
 		padding: 10px;
