@@ -1,17 +1,19 @@
 <template>
-	<Layout>
-		<template v-slot:title>{{ $t("general_settings") }}</template>
+	<T2Page>
+		<template #header>
+			<T2Header v-if="record">
+				<template #l-top>
+					{{ $t("general_settings") }}
+				</template>
 
-		<template v-slot:sub-title>
-			{{ record?.attributes.designation }}
+				<template #l-bottom>
+					{{ record?.attributes.designation }}
+				</template>
+			</T2Header>
 		</template>
 
 		<div class="settings-table" v-if="record">
 			<Column class="general">
-				<template v-slot:header>
-					<div class="bold">{{ $t("company_settings") }}</div>
-				</template>
-
 				<div class="body">
 					<Container>
 						<form
@@ -35,7 +37,7 @@
 								v-if="imageFlag"
 							/>
 
-							<button class="btn bs bf-green mt-3">
+							<button class="bs-btn green mt-3">
 								{{ $t("save_changes") }}
 							</button>
 						</form>
@@ -75,7 +77,7 @@
 				</div>
 			</Column>
 		</div>
-	</Layout>
+	</T2Page>
 
 	<DeleteModal
 		v-if="showDelete"
@@ -93,16 +95,10 @@
 </template>
 
 <script setup>
-import Layout from "../Layout.vue";
 import { useMainStore } from "src/stores/main";
-import Container from "../../../components/Container.vue";
-import Picker from "../../../components/Picker.vue";
-import Column from "src/components/BugsTable/Column.vue";
-import TeamTable from "../../../components/TeamTable.vue";
-import Plan from "../../../components/Plan.vue";
+
 import axios from "axios";
-import DeleteModal from "../../../components/Modals/DeleteModal.vue";
-import LoadingModal from "/src/components/Modals/LoadingModal.vue";
+
 import { useI18n } from "vue-i18n";
 import toBase64 from "/src/util/toBase64";
 import colors from "/src/util/colors";
@@ -318,3 +314,7 @@ const loadingModal = reactive({
 	}
 }
 </style>
+
+<route lang="yaml">
+name: company-settings
+</route>

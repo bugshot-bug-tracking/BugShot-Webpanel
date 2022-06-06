@@ -201,11 +201,11 @@
 						</div>
 
 						<div class="buttons">
-							<button class="btn bs bf-green">
+							<button class="bs-btn green">
 								{{ $t("save") }}
 							</button>
 
-							<button class="btn bs be-green" type="reset">
+							<button class="bs-btn green empty" type="reset">
 								{{ $t("cancel") }}
 							</button>
 						</div>
@@ -248,7 +248,7 @@
 								/>
 
 								<a
-									class="btn bs bf-green"
+									class="bs-btn green"
 									@click.prevent="chromeStore"
 								>
 									{{ $t("extension.install_plugin") }}
@@ -295,7 +295,6 @@
 </template>
 
 <script setup>
-import Column from "src/components/BugsTable/Column.vue";
 import Container from "src/components/Container.vue";
 
 import axios from "axios";
