@@ -22,7 +22,7 @@
 		</div>
 
 		<div class="from-buttons">
-			<button id="form-submit" type="submit" class="btn bs bf-green">
+			<button id="form-submit" type="submit" class="bs-btn green">
 				{{ $t("reset_password") }}
 			</button>
 		</div>
@@ -41,7 +41,8 @@
 
 <script setup>
 import axios from "axios";
-import router from "src/router";
+
+const router = useRouter();
 
 const email = ref("");
 const message = ref(null);
@@ -62,7 +63,7 @@ const submit = () => {
 				})
 				.then(() => {
 					setTimeout(() => {
-						router.push({ name: "Home" });
+						router.push({ name: "Login" });
 					}, 4000);
 				});
 		} catch (error) {
@@ -142,3 +143,10 @@ const process = ref(false);
 	}
 }
 </style>
+
+<route lang="yaml">
+name: Forgot
+
+meta:
+    layout: auth
+</route>

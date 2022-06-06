@@ -25,8 +25,8 @@
 
 <script setup>
 import axios from "axios";
-import { useRoute } from "vue-router";
-import router from "src/router";
+
+const router = useRouter();
 
 const props = defineProps({
 	user_id: {
@@ -129,3 +129,10 @@ verify();
 	z-index: -100;
 }
 </style>
+
+<route lang="yaml">
+name: Verify
+
+meta:
+    layout: empty
+</route>

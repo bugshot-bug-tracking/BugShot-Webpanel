@@ -1,11 +1,48 @@
 <template>
-	<div class="title">{{ $t("new_password") }}</div>
+	<div class="title" v-if="!process">{{ $t("register") }}</div>
 
 	<div class="errors" v-if="errMessage != null">
 		{{ errMessage }}
 	</div>
 
-	<form id="login-form" @submit.prevent="submit">
+	<form id="login-form" @submit.prevent="submit" v-if="!process">
+		<div class="bs-input">
+			<input
+				type="text"
+				:placeholder="$t('first_name')"
+				required
+				maxlength="255"
+				autocomplete="given-name"
+				v-model="first_name"
+			/>
+		</div>
+
+		<div class="bs-input">
+			<input
+				type="text"
+				:placeholder="$t('last_name')"
+				required
+				maxlength="255"
+				autocomplete="family-name"
+				v-model="last_name"
+			/>
+		</div>
+
+		<div class="bs-input w-icon">
+			<input
+				type="email"
+				:placeholder="$t('email_address')"
+				required
+				maxlength="255"
+				autocomplete="email"
+				v-model="email"
+				:class="{ error: errField.email }"
+				@focus="resetError"
+			/>
+
+			<img src="/src/assets/icons/at@.svg" alt="at" />
+		</div>
+
 		<div class="requed">
 			<div class="bs-input w-icon">
 				<input
@@ -31,12 +68,14 @@
 					v-if="showPassword"
 					@click="togglePassword"
 					src="/src/assets/icons/hide_password.svg"
+					style="cursor: pointer"
 				/>
 
 				<img
 					v-if="!showPassword"
 					@click="togglePassword"
 					src="/src/assets/icons/show_password.svg"
+					style="cursor: pointer"
 				/>
 			</div>
 
@@ -73,7 +112,7 @@
 		<div class="requed">
 			<div class="bs-input w-icon">
 				<input
-					:type="passwordType"
+					:type="passwordTypeConfirm"
 					:placeholder="$t('confirm_password')"
 					minlength="8"
 					required
@@ -91,15 +130,17 @@
 				/>
 
 				<img
-					v-if="showPassword"
-					@click="togglePassword"
+					v-if="showPasswordConfirm"
+					@click="togglePasswordConfirm"
 					src="/src/assets/icons/hide_password.svg"
+					style="cursor: pointer"
 				/>
 
 				<img
-					v-if="!showPassword"
-					@click="togglePassword"
+					v-if="!showPasswordConfirm"
+					@click="togglePasswordConfirm"
 					src="/src/assets/icons/show_password.svg"
+					style="cursor: pointer"
 				/>
 			</div>
 
@@ -115,42 +156,86 @@
 			</ul>
 		</div>
 
+		<div class="tos">
+			<input type="checkbox" v-model="tos" required />
+
+			<i18n-t keypath="tos_and_pp" tag="span" scope="global">
+				<template v-slot:tos>
+					<a class="linked" @click="openTOS">
+						{{ $t("terms_of_service") }}
+					</a>
+				</template>
+
+				<template v-slot:pp>
+					<a class="linked" @click="openPP">{{
+						$t("privacy_policy")
+					}}</a>
+				</template>
+			</i18n-t>
+		</div>
+
 		<div class="from-buttons">
-			<button id="form-submit" type="submit" class="btn bs bf-green">
-				{{ $t("save_password") }}
+			<div class="aLogin">
+				<div>{{ $t("already_registered") + "?" }}</div>
+
+				<router-link :to="{ name: 'Login' }">
+					{{ $t("log_in") }}
+				</router-link>
+			</div>
+
+			<button id="form-submit" type="submit" class="bs-btn green">
+				{{ $t("register") }}
 			</button>
 		</div>
 	</form>
+
+	<div class="process" v-if="process">
+		<div class="loading" v-if="stage === 0">
+			<img src="/src/assets/global/loading.svg" alt="loading" />
+		</div>
+
+		<div class="success" v-if="stage === 1">
+			<img
+				src="/src/assets/gif/bug_confirmation_not_white.gif"
+				alt="Success"
+			/>
+
+			<div>{{ $t("success") + "!" }}</div>
+
+			<span> {{ $t("please_confirm_email") + "!" }} </span>
+		</div>
+	</div>
 </template>
 
 <script setup lang="ts">
-import router from "src/router";
 import axios from "axios";
 
-const props = defineProps({
-	email: {
-		required: true,
-		type: String,
-	},
-	token: {
-		required: true,
-		type: String,
-	},
-});
+const router = useRouter();
+
+const first_name = ref("");
+const last_name = ref("");
+const email = ref("");
 const password = ref("");
 const confirm_password = ref("");
 
 const showPassword = ref(false);
 const passwordType = ref("password");
 
+const showPasswordConfirm = ref(false);
+const passwordTypeConfirm = ref("password");
+
+const tos = ref(false);
+
 const errMessage = ref(null);
 
 const errField = reactive({
+	email: false,
 	password: false,
 });
 
 const resetError = () => {
 	errMessage.value = null;
+	errField.email = null;
 	errField.password = null;
 };
 
@@ -160,35 +245,58 @@ const togglePassword = () => {
 	else passwordType.value = "password";
 };
 
+const togglePasswordConfirm = () => {
+	showPasswordConfirm.value = !showPasswordConfirm.value;
+	if (showPasswordConfirm.value) passwordTypeConfirm.value = "text";
+	else passwordTypeConfirm.value = "password";
+};
+
 const submit = () => {
+	stage.value = 0;
+	process.value = true;
+	errMessage.value = null;
+	errField.email = null;
+	errField.password = null;
+
 	axios
-		.post("auth/reset-password", {
-			email: atob(props.email),
-			token: props.token,
+		.post("auth/register", {
+			first_name: first_name.value,
+			last_name: last_name.value,
+			email: email.value,
 			password: password.value,
 			password_confirmation: confirm_password.value,
 		})
 		.then((response) => {
+			stage.value = 1;
+
 			console.log(response.data);
 		})
 		.then(() => {
-			router.push({ name: "Login" });
+			setTimeout(() => {
+				router.push({
+					name: "Login",
+				});
+			}, 5000);
 		})
 		.catch((error) => {
+			process.value = false;
+
+			console.dir(error);
+
 			errMessage.value = null;
+			errField.email = null;
 			errField.password = null;
 
-			if (error.response?.status !== 422) {
-				console.log(error);
-				errMessage.value = error.response
-					? error.response.data.errors.detail
-					: "Error!";
+			if (error.response.status !== 422)
+				console.error(error.response.data.errors);
+
+			const resError = error.response.data.errors;
+
+			if (resError?.email) {
+				errMessage.value = resError.email[0];
+				errField.email = true;
 				return;
 			}
-
-			const resError = error.response
-				? error.response.data.errors
-				: "Error!";
 
 			if (resError?.password) {
 				errMessage.value = resError.password[0];
@@ -197,6 +305,9 @@ const submit = () => {
 			}
 		});
 };
+
+const process = ref(false);
+const stage = ref(0);
 
 const showValidate = reactive({
 	pass: false,
@@ -212,6 +323,14 @@ const validate = computed(() => {
 		same: password.value === confirm_password.value,
 	};
 });
+
+const openTOS = () => {
+	window.open("https://www.bugshot.de/nutzungsbedingungen");
+};
+
+const openPP = () => {
+	window.open("https://www.bugshot.de/datenschutz");
+};
 </script>
 
 <style scoped lang="scss">
@@ -230,7 +349,7 @@ const validate = computed(() => {
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-start;
-	height: 300px;
+	height: 600px;
 	gap: 30px;
 
 	> * {
@@ -242,7 +361,7 @@ const validate = computed(() => {
 		display: flex;
 		align-items: flex-end;
 		width: 100%;
-		justify-content: flex-end;
+		justify-content: space-between;
 		align-content: center;
 		padding: 4% 1%;
 
@@ -290,7 +409,6 @@ const validate = computed(() => {
 .errors {
 	color: red;
 	font-weight: 500;
-	margin: 1rem 0;
 }
 
 .tos {
@@ -308,6 +426,7 @@ const validate = computed(() => {
 
 	> span {
 		display: flex;
+		flex-wrap: wrap;
 		align-items: center;
 		gap: 4px;
 	}
@@ -415,3 +534,10 @@ const validate = computed(() => {
 	}
 }
 </style>
+
+<route lang="yaml">
+name: Register
+
+meta:
+    layout: auth
+</route>

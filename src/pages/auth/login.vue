@@ -1,5 +1,5 @@
 <template>
-	<div class="title">{{ $t("log_in") }}</div>
+	<div class="title">{{ t("log_in") }}</div>
 
 	<form id="login-form" @submit.prevent="submit">
 		<div class="bs-input w-icon">
@@ -19,7 +19,7 @@
 
 		<div class="bs-input w-icon">
 			<input
-				:type="passwordType"
+				:type="passwordOpt.type"
 				:placeholder="$t('password')"
 				minlength="8"
 				required
@@ -31,15 +31,15 @@
 			/>
 
 			<img
-				v-show="showPassword"
-				@click="togglePassword"
+				v-show="passwordOpt.hidden"
+				@click="passwordOpt.toggle"
 				src="/src/assets/icons/hide_password.svg"
 				style="cursor: pointer"
 			/>
 
 			<img
-				v-show="!showPassword"
-				@click="togglePassword"
+				v-show="!passwordOpt.hidden"
+				@click="passwordOpt.toggle"
 				src="/src/assets/icons/show_password.svg"
 				style="cursor: pointer"
 			/>
@@ -50,40 +50,47 @@
 		</div>
 
 		<div class="from-buttons">
-			<button type="submit" class="btn bs bf-green">
+			<button type="submit" class="bs-btn green">
 				{{ $t("log_in") }}
 			</button>
 		</div>
 	</form>
 
-	<div class="recover">
-		<router-link :to="{ name: 'Forgot' }" style="color: #7a2de6">
-			{{ $t("forgot_password") + "?" }}
-		</router-link>
+	<div class="bottom">
+		<RouterLink :to="{ name: 'Forgot' }" style="color: #7a2de6">
+			{{ t("forgot_password") + "?" }}
+		</RouterLink>
 
-		<router-link :to="{ name: 'Register' }" class="btn bs be-purple">
-			{{ $t("register") }}
-		</router-link>
+		<RouterLink
+			:to="{ name: 'Register' }"
+			class="bs-btn purple empty"
+			style="text-decoration: none"
+		>
+			{{ t("register") }}
+		</RouterLink>
 	</div>
 </template>
 
 <script setup>
-import router from "src/router";
-import { useAuthStore } from "/src/stores/auth";
+import { useAuthStore } from "src/stores/auth";
+
+const router = useRouter();
+const auth = useAuthStore();
+const { t } = useI18n();
 
 const email = ref("");
 const password = ref("");
 
-const showPassword = ref(false);
-const passwordType = ref("password");
+const passwordOpt = reactive({
+	hidden: true,
+	type: "password",
+	toggle: () => {
+		passwordOpt.hidden = !passwordOpt.hidden;
+		passwordOpt.type = passwordOpt.hidden ? "password" : "text";
+	},
+});
 
 const errMessage = ref(null);
-
-const togglePassword = () => {
-	showPassword.value = !showPassword.value;
-	if (showPassword.value) passwordType.value = "text";
-	else passwordType.value = "password";
-};
 
 const submit = () => {
 	useAuthStore()
@@ -92,7 +99,7 @@ const submit = () => {
 			password: password.value,
 		})
 		.then((response) => {
-			router.push({ name: "Home" });
+			router.push({ name: "home" });
 		})
 		.catch((error) => {
 			errMessage.value = error.response.data.message;
@@ -102,15 +109,15 @@ const submit = () => {
 
 <style scoped lang="scss">
 .title {
-	margin: 0 0 2rem 0 !important;
+	margin: 0 0 2rem 0;
 	color: hsl(265, 79%, 41%);
 	font-weight: 700;
-	font-size: 32px;
+	font-size: 2rem;
 	text-align: left;
 	width: 400px;
 }
 
-#login-form {
+form {
 	width: 400px;
 	display: flex;
 	flex-direction: column;
@@ -118,11 +125,6 @@ const submit = () => {
 	justify-content: center;
 	gap: 2rem;
 	margin-bottom: 3rem;
-
-	> * {
-		margin: 0 auto;
-		width: 100%;
-	}
 
 	.from-buttons {
 		display: flex;
@@ -153,10 +155,9 @@ const submit = () => {
 	margin: -1.5rem 0 -1rem 0 !important;
 }
 
-.recover {
+.bottom {
 	display: flex;
 	align-items: center;
-	align-content: center;
 	justify-content: space-between;
 	width: 400px;
 	padding: 1.5rem 0;
@@ -167,3 +168,10 @@ const submit = () => {
 	}
 }
 </style>
+
+<route lang="yaml">
+name: Login
+
+meta:
+    layout: auth
+</route>
