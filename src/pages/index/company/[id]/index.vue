@@ -1,31 +1,34 @@
 <template>
-	<Layout>
-		<template v-slot:title>{{ $t("project", 2) }}</template>
+	<T2Page>
+		<template #header>
+			<T2Header>
+				<template #l-top>
+					{{ $t("project", 2) }}
+				</template>
 
-		<template v-slot:sub-title>
-			{{ record ? record.attributes.designation : $t("loading") }}
-		</template>
+				<template #l-bottom>
+					{{ record ? record.attributes.designation : $t("loading") }}
+				</template>
 
-		<template v-slot:top>
-			<InviteModal :dataType="'Company'" :id="id" />
+				<InviteModal :dataType="'Company'" :id="id" />
 
-			<CreateDataModal
-				:dataType="'Project'"
-				:postPath="`companies/${id}/projects`"
-				:aditionalBody="{
-					company_id: id,
-				}"
-				:subTitle="`${$t('company')}: ${
-					record?.attributes.designation
-				}`"
-			/>
-
-			<router-link
-				:to="{ name: 'CompanySettings', params: { id: id } }"
-				class="btn bs be-green text-capitalize"
-			>
-				{{ $t("company_settings") }}
-			</router-link>
+				<CreateDataModal
+					:dataType="'Project'"
+					:postPath="`companies/${id}/projects`"
+					:aditionalBody="{
+						company_id: id,
+					}"
+					:subTitle="`${$t('company')}: ${
+						record?.attributes.designation
+					}`"
+				/>
+				<router-link
+					:to="{ name: 'company-settings', params: { id: id } }"
+					class="bs-btn green empty text-capitalize"
+				>
+					{{ $t("company_settings") }}
+				</router-link>
+			</T2Header>
 		</template>
 
 		<div v-if="areProjects">
@@ -33,7 +36,7 @@
 				:mainText="record.attributes.designation"
 				:secondText="
 					$t('last_update', {
-						time: passedTime(record.attributes.updated_at),
+						time: timeToText(record.attributes.updated_at),
 					})
 				"
 			>
@@ -43,12 +46,7 @@
 					:id="project.id"
 					:title="project.attributes.designation"
 					:mainText="$t('task_overview')"
-					:secondText="
-						bugsStats(
-							project.attributes.bugsDone,
-							project.attributes.bugsTotal
-						)
-					"
+					:secondText="`${project.attributes.bugsDone} / ${project.attributes.bugsTotal}`"
 					:color="
 						project.attributes.color_hex
 							? project.attributes.color_hex
@@ -64,22 +62,16 @@
 							? project.attributes.updated_at
 							: null
 					"
-					:routeTo="{ name: 'Project', params: { id: project.id } }"
+					:routeTo="{ name: 'project', params: { id: project.id } }"
 				/>
 			</GroupContainer>
 		</div>
-	</Layout>
+	</T2Page>
 </template>
 
 <script setup>
-import Card from "../../../components/Card.vue";
-import GroupContainer from "../../../components/GroupContainer.vue";
-import Layout from "../Layout.vue";
 import { useMainStore } from "src/stores/main";
-import Search from "../../../components/Search.vue";
-import CreateDataModal from "../../../components/CreateDataModal.vue";
-import InviteModal from "../../../components/InviteModal.vue";
-import timeToText from "../../../util/timeToText";
+import timeToText from "src/util/timeToText";
 
 const props = defineProps({
 	id: {
@@ -105,16 +97,8 @@ const areProjects = computed(() => {
 	if (!record.value.attributes.projects.length > 0) return false;
 	return true;
 });
-
-const bugsStats = (done, total) => {
-	let str = "";
-	str += done ? done : "0";
-	str += " / ";
-	str += total ? total : "0";
-	return str;
-};
-
-const passedTime = (lastEdit) => {
-	return timeToText(lastEdit);
-};
 </script>
+
+<route lang="yaml">
+name: company
+</route>

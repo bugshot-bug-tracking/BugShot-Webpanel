@@ -1,117 +1,147 @@
 <template>
-	<div class="sidebar">
-		<h3>{{ $t("company", 2) }}</h3>
+	<div class="home-layout" :class="{ minimized: minimized }">
+		<section name="sidebar">
+			<TSidebar @minimize="toggle">
+				<template #header>
+					<h3>{{ $t("company", 2) }}</h3>
+				</template>
 
-		<!-- <div class="search">
-			<Search />
-		</div> -->
+				<template #main class="bs-scroll s-purple">
+					<div class="companies bs-scroll s-purple">
+						<ul>
+							<li
+								v-for="[, company] of companies"
+								:key="company.id"
+							>
+								<div class="company">
+									<router-link
+										@click="linkOpen"
+										:to="{
+											name: 'company',
+											params: { id: company.id },
+										}"
+									>
+										{{ company.attributes.designation }}
+									</router-link>
 
-		<div class="companies bs-scroll s-purple">
-			<ul>
-				<li v-for="[, company] of companies" :key="company.id">
-					<div class="company">
-						<router-link
-							@click="linkOpen"
-							:to="{
-								name: 'CompanyProjects',
-								params: { id: company.id },
-							}"
-						>
-							{{ company.attributes.designation }}
-						</router-link>
+									<img
+										src="/src/assets/icons/icn_left_arrow.svg"
+										v-if="
+											companyProjects(company.id)
+												?.length > 0
+										"
+										@click="collapse"
+									/>
+								</div>
 
-						<img
-							src="/src/assets/icons/icn_left_arrow.svg"
-							v-if="companyProjects(company.id)?.length > 0"
-							@click="collapse"
-						/>
+								<ul
+									v-if="
+										companyProjects(company.id)?.length > 0
+									"
+									class="proj-list"
+								>
+									<router-link
+										v-for="project of companyProjects(
+											company.id
+										)"
+										:key="project.id"
+										class="project"
+										:to="{
+											name: 'project',
+											params: { id: project.id },
+										}"
+									>
+										<div
+											class="dot"
+											:style="{
+												'background-color': project
+													.attributes.color_hex
+													? project.attributes
+															.color_hex
+													: '#7a2de6',
+											}"
+										/>
+
+										{{ project.attributes.designation }}
+									</router-link>
+								</ul>
+							</li>
+						</ul>
 					</div>
+				</template>
 
-					<ul
-						v-if="companyProjects(company.id)?.length > 0"
-						class="proj-list"
-					>
-						<router-link
-							v-for="project of companyProjects(company.id)"
-							:key="project.id"
-							class="project"
-							:to="{
-								name: 'Project',
-								params: { id: project.id },
-							}"
-						>
-							<div
-								class="dot"
-								:style="{
-									'background-color': project.attributes
-										.color_hex
-										? project.attributes.color_hex
-										: '#7a2de6',
-								}"
-							/>
+				<template #footer>
+					<CreateDataModal
+						:dataType="'Company'"
+						:postPath="'companies'"
+					/>
+				</template>
+			</TSidebar>
+		</section>
 
-							{{ project.attributes.designation }}
-						</router-link>
-					</ul>
-				</li>
-			</ul>
-		</div>
-
-		<div class="add-company">
-			<CreateDataModal :dataType="'Company'" :postPath="'companies'" />
-		</div>
+		<section name="page">
+			<RouterView />
+		</section>
 	</div>
 </template>
 
 <script setup>
-import Search from "../../../components/Search.vue";
 import { useMainStore } from "src/stores/main";
-import CreateDataModal from "../../../components/CreateDataModal.vue";
 
 let store = useMainStore();
 
-const companies = computed(() => {
-	return store.getCompanies;
-});
+const companies = computed(() => store.getCompanies);
 
-const companyProjects = (company_id) => {
-	return store.getCompanyProjects(company_id);
-};
+const companyProjects = (company_id) => store.getCompanyProjects(company_id);
 
 const collapse = (event) => {
-	if (event.target.parentNode.classList.contains("open")) {
+	if (event.target.parentNode.classList.contains("open"))
 		event.target.parentNode.classList.remove("open");
-	} else {
-		event.target.parentNode.classList.add("open");
-	}
+	else event.target.parentNode.classList.add("open");
 };
 
 const linkOpen = (event) => {
 	event.target.parentNode.classList.add("open");
 };
+
+const minimized = ref(false);
+const toggle = (value) => {
+	minimized.value = value;
+};
 </script>
 
 <style lang="scss" scoped>
-.sidebar {
+.home-layout {
+	display: grid;
+	grid-template-columns: 0.25fr 1.75fr;
+	grid-template-rows: 1fr;
+	gap: 0px 0px;
+	grid-auto-flow: row;
+	grid-template-areas: "sidebar page";
 	width: 100%;
-	height: 100%;
-	display: flex;
-	flex-direction: column;
+	height: 100vh;
+	max-height: 100vh;
+	overflow: hidden;
 
-	> h3:first-child {
+	&.minimized {
+		grid-template-columns: auto 1.75fr;
+	}
+}
+
+section[name="sidebar"] {
+	grid-area: sidebar;
+
+	h3 {
 		padding: 20px;
 		text-align: left;
-	}
-	> .search {
-		margin: 15px 5px;
 	}
 
 	.companies {
 		padding: 10px 0px 10px 10px;
 		font-size: 16px;
-		border-top: 1px solid #ede4fc;
 		overflow: auto;
 		height: 100%;
+		width: 100%;
 
 		ul {
 			list-style-type: none;
@@ -197,14 +227,12 @@ const linkOpen = (event) => {
 	}
 }
 
-.add-company {
-	height: 8vh;
-	min-height: 60px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	border-top: 1px solid #ede4fc;
-	padding: 10px 0;
+section[name="page"] {
+	grid-area: page;
 }
 </style>
+
+<route lang="yaml">
+meta:
+    layout: default
+</route>
