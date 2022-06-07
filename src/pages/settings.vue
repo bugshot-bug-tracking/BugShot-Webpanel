@@ -55,12 +55,14 @@
 <script setup lang="ts">
 import { useAuthStore } from "src/stores/auth";
 
+const router = useRouter();
+
 const user = computed(() => useAuthStore().getUser);
 
 const logout = () => {
 	useAuthStore().logout();
 
-	useRouter().push({ name: "login" });
+	router.push({ name: "Login" });
 };
 
 const minimized = ref(false);
