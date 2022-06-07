@@ -29,6 +29,10 @@
 	padding: 8px 16px;
 	box-shadow: none;
 	width: auto !important;
+	height: auto !important;
+
+	text-decoration: none;
+	cursor: pointer;
 
 	&.green {
 		background: hsl(158, 80%, 47%);

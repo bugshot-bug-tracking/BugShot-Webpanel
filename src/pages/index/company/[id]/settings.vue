@@ -72,9 +72,7 @@
 					<div class="bold">Plan Details</div>
 				</template>
 
-				<div class="body">
-					<Plan />
-				</div>
+				<div class="body"></div>
 			</Column>
 		</div>
 	</T2Page>

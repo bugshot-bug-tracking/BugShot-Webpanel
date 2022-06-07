@@ -152,7 +152,7 @@ const errField = reactive({
 
 const resetError = () => {
 	errMessage.value = null;
-	errField.password = null;
+	errField.password = false;
 };
 
 const togglePassword = () => {
@@ -177,7 +177,7 @@ const submit = () => {
 		})
 		.catch((error) => {
 			errMessage.value = null;
-			errField.password = null;
+			errField.password = false;
 
 			if (error.response?.status !== 422) {
 				console.log(error);

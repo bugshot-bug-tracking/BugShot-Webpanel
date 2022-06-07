@@ -605,3 +605,7 @@ const errField = reactive({
 	}
 }
 </style>
+
+<route lang="yaml">
+name: settings
+</route>

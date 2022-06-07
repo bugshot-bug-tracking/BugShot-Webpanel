@@ -1,6 +1,6 @@
 <template>
 	<div class="home-layout" :class="{ minimized: minimized }">
-		<section name="sidebar">
+		<section class="sidebar">
 			<TSidebar @minimize="toggle">
 				<template #header>
 					<h3>{{ $t("setting", 2) }}</h3>
@@ -46,15 +46,14 @@
 			</TSidebar>
 		</section>
 
-		<section name="page">
+		<section class="page">
 			<RouterView />
 		</section>
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useAuthStore } from "src/stores/auth";
-import TSidebar from "~/templates/TSidebar.vue";
 
 const user = computed(() => useAuthStore().getUser);
 
@@ -65,7 +64,7 @@ const logout = () => {
 };
 
 const minimized = ref(false);
-const toggle = (value) => {
+const toggle = (value: boolean) => {
 	minimized.value = value;
 };
 </script>
@@ -88,7 +87,7 @@ const toggle = (value) => {
 	}
 }
 
-section[name="sidebar"] {
+section.sidebar {
 	grid-area: sidebar;
 
 	h3 {
@@ -97,7 +96,7 @@ section[name="sidebar"] {
 	}
 }
 
-section[name="page"] {
+section.page {
 	grid-area: page;
 }
 
@@ -108,8 +107,6 @@ a {
 </style>
 
 <route lang="yaml">
-name: settings
-
 meta:
     layout: default
 </route>
