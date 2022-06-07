@@ -9,11 +9,11 @@
 			</span>
 
 			<div class="actions">
-				<a class="btn bs bf-red" @click.prevent="$emit('delete')">
+				<a class="bs-btn red" @click.prevent="$emit('delete')">
 					{{ $t("yes") }}
 				</a>
 
-				<a class="btn bs be-green" @click="close"> {{ $t("no") }}</a>
+				<a class="bs-btn green empty" @click="close"> {{ $t("no") }}</a>
 			</div>
 		</div>
 	</Modal>

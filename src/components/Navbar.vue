@@ -2,7 +2,7 @@
 	<nav class="nav-bar">
 		<ul class="verticle-menu">
 			<div class="top-buttons">
-				<router-link :to="{ name: 'Home' }" class="home-logo">
+				<router-link :to="{ name: 'home' }" class="home-logo">
 					<img src="/src/assets/extern/m-1.svg" alt="" />
 				</router-link>
 
@@ -44,7 +44,7 @@
 
 			<div>
 				<div class="bottom-buttons">
-					<router-link :to="{ name: 'UserSettings' }">
+					<router-link :to="{ name: 'settings' }">
 						<img src="/src/assets/extern/m-3.svg" alt="" />
 					</router-link>
 				</div>

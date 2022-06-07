@@ -4,13 +4,6 @@ import router from "./router";
 import { useAuthStore } from "./stores/auth";
 import "vue-select/dist/vue-select.css";
 
-import { setupLayouts } from "virtual:generated-layouts";
-import generatedRoutes from "virtual:generated-pages";
-
-const routes = setupLayouts(generatedRoutes);
-
-console.dir(routes);
-
 const app = createApp(App);
 
 app.use(router);

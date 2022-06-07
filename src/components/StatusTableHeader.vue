@@ -6,13 +6,13 @@
 			<img
 				src="/src/assets/icons/edit.svg"
 				alt="edit"
-				class="bs-to-gray"
+				class="black-to-gray"
 				style="width: 18px"
 				@click="flag = false"
 			/>
 		</div>
 
-		<div class="actions bs-to-gray ms-2" v-if="movable || deletable">
+		<div class="actions black-to-gray ms-2" v-if="movable || deletable">
 			<img
 				src="/src/assets/icons/arrow-left-right.svg"
 				alt="order"
@@ -34,7 +34,7 @@
 			<input type="text" v-model="newText" class="w-100" />
 		</div>
 
-		<div class="actions bs-to-gray ms-2">
+		<div class="actions black-to-gray ms-2">
 			<img
 				src="/src/assets/icons/check.svg"
 				alt="save"

@@ -146,7 +146,7 @@
 				<label>{{ $t("assigned_to") + ":" }}</label>
 
 				<div class="content">
-					<Assignes :list="bug.users" @add="emit('open_assign')" />
+					<Assignees :list="bug.users" @add="emit('open_assign')" />
 				</div>
 			</div>
 		</div>

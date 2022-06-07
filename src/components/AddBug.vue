@@ -1,5 +1,5 @@
 <template>
-	<a class="btn bs bf-purple add-button" @click="tabOpen = true">
+	<a class="bs-btn purple add-button" @click="tabOpen = true">
 		<img src="/src/assets/icons/add.svg" alt="add" />
 		{{ $t("add.bug") }}
 	</a>
@@ -112,13 +112,13 @@
 
 				<div class="assign-to" v-if="false">
 					<div>Assign to</div>
-					<Assignes :list="[]" />
+					<Assignees :list="[]" />
 				</div>
 			</Container>
 
 			<LocalAttachments @update="attachmentsUpdate" />
 
-			<button class="btn bs bf-green" type="submit">
+			<button class="bs-btn green" type="submit">
 				{{ $t("report_bug") + "!" }}
 			</button>
 		</form>

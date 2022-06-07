@@ -38,7 +38,7 @@
 						>
 							<template #open-indicator="{ attributes }">
 								<img
-									class="bs-to-purple"
+									class="black-to-purple"
 									style="
 										background-color: unset;
 										cursor: pointer;
@@ -77,12 +77,12 @@
 				</div>
 
 				<div class="actions">
-					<button class="btn bs bf-green" @click.prevent="close">
+					<button class="bs-btn green" @click.prevent="close">
 						{{ $t("cancel") }}
 					</button>
 
 					<button
-						class="btn bs be-red"
+						class="bs-btn red empty"
 						type="submit"
 						:disabled="
 							deleteAll || statusOption != null ? false : true
@@ -95,11 +95,11 @@
 
 			<form @submit.prevent="submit" v-else>
 				<div class="actions">
-					<button class="btn bs bf-green" @click.prevent="close">
+					<button class="bs-btn green" @click.prevent="close">
 						{{ $t("cancel") }}
 					</button>
 
-					<button class="btn bs be-red" type="submit">
+					<button class="bs-btn red empty" type="submit">
 						Continue with deletion
 					</button>
 				</div>

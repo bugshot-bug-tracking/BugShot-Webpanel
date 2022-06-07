@@ -35,7 +35,7 @@
 					:image="projectParams.image"
 				/>
 
-				<button class="btn bs bf-green mt-3">
+				<button class="bs-btn green mt-3">
 					{{ $t("save_changes") }}
 				</button>
 			</form>

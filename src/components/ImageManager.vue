@@ -14,7 +14,10 @@
 				<div class="text">{{ $t("screenshot.drag_and_drop") }}</div>
 			</div>
 
-			<label for="image-upload" class="btn bs be-green text-capitalize">
+			<label
+				for="image-upload"
+				class="bs-btn green empty text-capitalize"
+			>
 				{{ $t("picker.upload_image") }}
 			</label>
 
