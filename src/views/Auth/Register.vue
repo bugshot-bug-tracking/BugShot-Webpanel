@@ -176,7 +176,7 @@
 
 		<div class="from-buttons">
 			<div class="aLogin">
-				<div>{{ $t("already_registred") + "?" }}</div>
+				<div>{{ $t("already_registered") + "?" }}</div>
 
 				<router-link :to="{ name: 'Login' }">
 					{{ $t("log_in") }}
