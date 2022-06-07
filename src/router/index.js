@@ -1,188 +1,26 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useAuthStore } from "/src/stores/auth";
 
-import Home from "../views/Home.vue";
-import Login from "../views/Auth/Login.vue";
-import Register from "../views/Auth/Register.vue";
-import Reset from "../views/Auth/Reset.vue";
-import NotFound from "../views/NotFound.vue";
-import Auth from "../views/Auth/Auth.vue";
-import VerifyEmail from "../views/Auth/VerifyEmail.vue";
-import EmptyView from "../views/Main/EmptyView.vue";
-import Forgot from "../views/Auth/Forgot.vue";
+import { setupLayouts } from "virtual:generated-layouts";
+import generatedRoutes from "virtual:generated-pages";
 
-import CompanyNavSidebar from "../views/Main/Company/NavSidebar.vue";
-import CompanyProjects from "../views/Main/Company/CompanyProjects.vue";
-import Project from "../views/Main/Project/Project.vue";
-
-import UserSettings from "../views/Main/User/Settings.vue";
-import UserSettingsSidebar from "../views/Main/User/SettingsSidebar.vue";
-import CompanySettings from "../views/Main/Company/Settings.vue";
-import CompanySettingsSidebar from "../views/Main/Company/SettingsSidebar.vue";
-import CompanyInvoices from "../views/Main/Company/Invoices.vue";
-
-import AllProjects from "../views/Main/Project/All.vue";
-
-const routes = [
-	{
-		path: "/",
-		name: "Home",
-		component: Home,
-		redirect: { name: "ViewMode" },
-		children: [
-			{
-				path: "",
-				name: "ViewMode",
-				components: {
-					default: EmptyView,
-					sidebar: CompanyNavSidebar,
-				},
-				redirect: { name: "allProjects" },
-				children: [
-					{
-						path: "",
-						name: "allProjects",
-						component: AllProjects,
-					},
-					{
-						path: "company/:id",
-						name: "CompanyProjects",
-						component: CompanyProjects,
-						props: true,
-					},
-
-					{
-						path: "project/:id",
-						name: "Project",
-						component: Project,
-						props: true,
-					},
-				],
-			},
-
-			{
-				path: "settings",
-				name: "Settings",
-				components: {
-					default: EmptyView,
-					sidebar: UserSettingsSidebar,
-				},
-				redirect: { name: "UserSettings" },
-				children: [
-					{
-						path: "",
-						name: "UserSettings",
-						component: UserSettings,
-					},
-				],
-			},
-
-			{
-				path: "settings/company/:id",
-				name: "CompanySettings",
-				components: {
-					default: EmptyView,
-					sidebar: CompanySettingsSidebar,
-				},
-				redirect: { name: "CompanyGeneral" },
-				children: [
-					{
-						path: "",
-						name: "CompanyGeneral",
-						component: CompanySettings,
-						props: true,
-					},
-					{
-						path: "invoices",
-						name: "CompanyInvoices",
-						component: CompanyInvoices,
-						props: true,
-					},
-				],
-			},
-		],
-		meta: {
-			requiresAuth: true,
-		},
-	},
-
-	{
-		path: "/auth",
-		name: "auth",
-		component: Auth,
-		redirect: { name: "Login" },
-		children: [
-			{
-				path: "login",
-				name: "Login",
-				component: Login,
-			},
-
-			{
-				path: "register",
-				name: "Register",
-				component: Register,
-			},
-
-			{
-				path: "forgot",
-				name: "Forgot",
-				component: Forgot,
-			},
-
-			{
-				path: "reset-password/:email/:token",
-				name: "Reset",
-				component: Reset,
-				props: true,
-			},
-		],
-	},
-
-	{
-		path: "/auth/verify/:user_id/:token",
-		name: "verify",
-		component: VerifyEmail,
-		props: true,
-		beforeEnter: (to, from, next) => {
-			if (
-				!to.params.user_id ||
-				isNaN(to.params.user_id) ||
-				!to.params.token
-			) {
-				next({ name: "NotFound" });
-			} else next();
-		},
-	},
-
-	{
-		path: "/404",
-		name: "404",
-		component: NotFound,
-	},
-
-	{
-		path: "/:catchAll(.*)*",
-		name: "NotFound",
-		redirect: { name: "404" },
-	},
-];
+const routes = setupLayouts(generatedRoutes);
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes,
 });
 
+// console.log(routes);
+
 router.beforeEach((to, from, next) => {
+	//? does the route have auth requirement
 	if (to.matched.some((record) => record.meta.requiresAuth)) {
-		if (
-			useAuthStore().isAuthenticated ||
-			localStorage.getItem("authToken")
-		) {
+		// if the user is authenticated continue
+		if (useAuthStore().isAuthenticated || localStorage.getItem("authToken"))
 			next();
-			return;
-		}
-		next({ name: "Login" });
+		// else redirect to login
+		else next({ name: "Login" });
 	} else {
 		next();
 	}

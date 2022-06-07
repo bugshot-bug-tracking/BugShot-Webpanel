@@ -4,7 +4,7 @@
 			<img
 				src="/src/assets/icons/lang.svg"
 				alt="language"
-				class="bs-to-green"
+				class="black-to-green"
 			/>
 
 			<span v-if="!auto">{{ locale }}</span>

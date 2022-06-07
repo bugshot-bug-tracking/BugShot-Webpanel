@@ -1,3 +1,4 @@
+<!-- Transform thin into a proper template -->
 <template>
 	<div class="group-container">
 		<div class="top">

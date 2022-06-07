@@ -1,3 +1,4 @@
+<!-- Remove this component and replace it with a global class -->
 <template>
 	<div class="tab bs-scroll s-purple">
 		<slot />

@@ -1,0 +1,37 @@
+<template>
+	<main>
+		<div>
+			<img src="/src/assets/gif/bugshot_404_error.gif" alt="404" />
+
+			<span c="#5916b9" text-3xl font-bold>
+				{{ t("problem_encountered") }}
+			</span>
+
+			<RouterLink class="bs-btn green" to="/">
+				{{ t("go_to_home") }}
+			</RouterLink>
+		</div>
+	</main>
+</template>
+
+<script setup lang="ts">
+const { t } = useI18n();
+</script>
+
+<style scoped lang="scss">
+div {
+	display: flex;
+	width: 100vw;
+	height: 100vh;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 40px;
+
+	span {
+		color: #5916b9;
+		font-size: 1.875rem;
+		font-weight: bold;
+	}
+}
+</style>
