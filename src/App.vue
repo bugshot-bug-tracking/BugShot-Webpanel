@@ -2,11 +2,9 @@
 	<router-view />
 </template>
 
-<script setup>
-import { useMainStore } from "src/stores/main";
+<script setup lang="ts">
 import { useI18nStore } from "src/stores/i18n";
 
-useMainStore().init();
 useI18nStore().init();
 </script>
 

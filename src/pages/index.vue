@@ -85,10 +85,11 @@
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useMainStore } from "src/stores/main";
 
 let store = useMainStore();
+store.init();
 
 const companies = computed(() => store.getCompanies);
 
