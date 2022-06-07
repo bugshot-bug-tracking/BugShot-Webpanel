@@ -57,7 +57,7 @@
 									maxlength="255"
 								/>
 
-								<img src="src/assets/icons/at@.svg" alt="at" />
+								<img src="/src/assets/icons/at@.svg" alt="at" />
 							</div>
 						</div>
 
@@ -80,14 +80,14 @@
 
 							<img
 								v-if="show.current"
-								src="src/assets/icons/hide_password.svg"
+								src="/src/assets/icons/hide_password.svg"
 								alt="hide"
 								@click="show.current = !show.current"
 							/>
 
 							<img
 								v-else
-								src="src/assets/icons/show_password.svg"
+								src="/src/assets/icons/show_password.svg"
 								alt="show"
 								@click="show.current = !show.current"
 							/>
@@ -113,14 +113,14 @@
 
 								<img
 									v-if="show.new"
-									src="src/assets/icons/hide_password.svg"
+									src="/src/assets/icons/hide_password.svg"
 									alt="hide"
 									@click="show.new = !show.new"
 								/>
 
 								<img
 									v-else
-									src="src/assets/icons/show_password.svg"
+									src="/src/assets/icons/show_password.svg"
 									alt="show"
 									@click="show.new = !show.new"
 								/>
@@ -175,14 +175,14 @@
 
 								<img
 									v-if="show.new"
-									src="src/assets/icons/hide_password.svg"
+									src="/src/assets/icons/hide_password.svg"
 									alt="hide"
 									@click="show.new = !show.new"
 								/>
 
 								<img
 									v-else
-									src="src/assets/icons/show_password.svg"
+									src="/src/assets/icons/show_password.svg"
 									alt="show"
 									@click="show.new = !show.new"
 								/>
@@ -223,7 +223,7 @@
 				<Container>
 					<div class="wrapper">
 						<img
-							src="src/assets/extern/logo-2.svg"
+							src="/src/assets/extern/logo-2.svg"
 							alt="BugShot"
 							class="bs-logo"
 						/>
@@ -243,7 +243,7 @@
 								</div>
 
 								<img
-									src="src/assets/extern/chrome-icon.svg"
+									src="/src/assets/extern/chrome-icon.svg"
 									alt="Chrome Icon"
 								/>
 
@@ -268,19 +268,19 @@
 
 								<div class="stores">
 									<img
-										src="src/assets/extern/google_play.svg"
+										src="/src/assets/extern/google_play.svg"
 										alt="Google Play Store"
 										@click.prevent="playStore"
 									/>
 
 									<img
-										src="src/assets/extern/app_store.svg"
+										src="/src/assets/extern/app_store.svg"
 										alt="Apple Store"
 										@click.prevent="appleStore"
 									/>
 
 									<img
-										src="src/assets/extern/windowsstore.svg"
+										src="/src/assets/extern/windowsstore.svg"
 										alt="Windows Store"
 										@click.prevent="windowsStore"
 									/>
@@ -295,7 +295,7 @@
 </template>
 
 <script setup>
-import Column from "../Project/BugsTable/Column.vue";
+import Column from "src/components/BugsTable/Column.vue";
 import Container from "src/components/Container.vue";
 
 import axios from "axios";
@@ -574,7 +574,7 @@ const errField = reactive({
 
 	&::before {
 		content: "";
-		background-image: url("src/assets/icons/check.svg");
+		background-image: url("/src/assets/icons/check.svg");
 		background-position: 0 0;
 		background-size: auto;
 		background-repeat: no-repeat;
@@ -595,7 +595,7 @@ const errField = reactive({
 
 	&::before {
 		content: "";
-		background-image: url("src/assets/icons/classic_X.svg");
+		background-image: url("/src/assets/icons/classic_X.svg");
 		background-position: 0 0;
 		background-size: auto;
 		background-repeat: no-repeat;

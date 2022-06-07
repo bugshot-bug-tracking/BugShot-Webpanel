@@ -1,6 +1,6 @@
 <template>
 	<a class="btn bs bf-purple add-button" @click="tabOpen = true">
-		<img src="../assets/icons/add.svg" alt="add" />
+		<img src="/src/assets/icons/add.svg" alt="add" />
 		{{ $t("add.bug") }}
 	</a>
 
@@ -10,7 +10,7 @@
 				<h4>{{ $t("new_bug_report") }}</h4>
 
 				<img
-					src="../assets/icons/classic_X.svg"
+					src="/src/assets/icons/classic_X.svg"
 					alt="close"
 					@click="tabOpen = false"
 				/>

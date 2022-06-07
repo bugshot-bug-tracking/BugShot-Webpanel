@@ -1,6 +1,6 @@
 <template>
 	<div class="wrapper">
-		<img src="../assets/gif/bugshot_404_error.gif" alt="404" />
+		<img src="/src/assets/gif/bugshot_404_error.gif" alt="404" />
 		<div class="text">{{ $t("problem_encountered") }}</div>
 
 		<router-link

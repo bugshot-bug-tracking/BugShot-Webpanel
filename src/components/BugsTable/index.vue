@@ -63,7 +63,7 @@
 			<a @click="toggleForm">
 				{{ $t("add_new_column") }}
 				<img
-					src="../../../../assets/icons/add.svg"
+					src="/src/assets/icons/add.svg"
 					alt="add"
 					class="bs-to-gray"
 				/>
@@ -84,10 +84,7 @@
 					{{ $t("add.column") }}
 				</a>
 				<a @click="toggleForm" class="bs-to-gray btn">
-					<img
-						src="../../../../assets/icons/round_x.svg"
-						alt="collapse"
-					/>
+					<img src="/src/assets/icons/round_x.svg" alt="collapse" />
 				</a>
 			</div>
 		</Column>
@@ -121,13 +118,7 @@
 
 <script setup>
 import { useProjectStore } from "src/stores/project";
-import Column from "./Column.vue";
 import draggable from "vuedraggable";
-import BugCard from "src/components/BugCard.vue";
-import BugTab from "src/components/BugTab/index.vue";
-import StatusTableHeader from "src/components/StatusTableHeader.vue";
-import StatusDeleteModal from "src/components/Modals/StatusDeleteModal.vue";
-import LoadingModal from "src/components/Modals/LoadingModal.vue";
 
 const props = defineProps({
 	id: {

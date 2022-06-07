@@ -36,12 +36,15 @@
 				<div class="pop-actions" v-if="showActions">
 					<div class="actions">
 						<a class="edit" @click="showModal = 1">
-							<img src="../assets/icons/edit.svg" alt="edit" />
+							<img src="/src/assets/icons/edit.svg" alt="edit" />
 							<div>{{ $t("edit.edit") }}</div>
 						</a>
 
 						<a class="delete" @click="showModal = 2">
-							<img src="../assets/icons/trash.svg" alt="delete" />
+							<img
+								src="/src/assets/icons/trash.svg"
+								alt="delete"
+							/>
 							<div>{{ $t("delete.delete") }}</div>
 						</a>
 					</div>

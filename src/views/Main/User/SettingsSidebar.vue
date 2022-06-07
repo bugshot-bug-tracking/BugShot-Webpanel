@@ -22,7 +22,7 @@
 
 		<div class="log-out">
 			<a class="btn bs be-red" @click="logout">
-				<img src="src/assets/extern/logout.svg" class="bs-to-red" />
+				<img src="/src/assets/extern/logout.svg" class="bs-to-red" />
 				{{ $t("log_out") }}
 			</a>
 		</div>

@@ -19,14 +19,14 @@
 
 				<div class="actions">
 					<img
-						src="../assets/icons/edit.svg"
+						src="/src/assets/icons/edit.svg"
 						alt="edit"
 						class="edit bs-to-gray"
 						@click="editInvite(index)"
 					/>
 
 					<img
-						src="../assets/icons/round_x.svg"
+						src="/src/assets/icons/round_x.svg"
 						alt="delete"
 						class="delete bs-to-gray"
 						@click="deleteInvite(index)"
@@ -36,7 +36,7 @@
 		</div>
 
 		<img
-			src="../assets/icons/add.svg"
+			src="/src/assets/icons/add.svg"
 			alt="add"
 			class="bs-to-green"
 			@click="modalActive = true"
@@ -63,7 +63,7 @@
 						autocomplete="email"
 					/>
 
-					<img src="../assets/icons/at@.svg" alt="at" />
+					<img src="/src/assets/icons/at@.svg" alt="at" />
 				</div>
 
 				<div class="roles">

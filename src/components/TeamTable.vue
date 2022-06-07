@@ -61,7 +61,7 @@
 						<div v-if="canRemove(user.id)" class="actions">
 							<a @click.prevent="removeUser(user)">
 								<img
-									src="../assets/icons/trash.svg"
+									src="/src/assets/icons/trash.svg"
 									alt="Trash Can"
 								/>
 								<div class="">{{ $t("remove") }}</div>
