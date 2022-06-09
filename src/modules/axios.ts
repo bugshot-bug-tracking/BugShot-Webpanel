@@ -1,10 +1,11 @@
 import axios from "axios";
+import { useAuthStore } from "src/stores/auth";
+import { UserModule } from "~/types";
 
-import { useAuthStore } from "/src/stores/auth";
-
-export const install = (app, router) => {
+export const install: UserModule = ({ router }) => {
 	axios.defaults.baseURL = import.meta.env.VITE_API_ENDPOINT;
-	axios.defaults.headers = {
+
+	axios.defaults.headers.common = {
 		Accept: "application/json",
 		"Content-Type": "application/json",
 		clientId: import.meta.env.VITE_CLIENT_ID,
