@@ -91,7 +91,7 @@
 	"enter_project_name": "Gib einen Projektnamen ein",
 	"enter_project_url": "Gib eine Projekt-URL ein (optional)",
 	"problem_encountered": "Wir sind auf ein Problem gestoßen",
-	"no_new_notifications": "Keine neuen Benachrichtigungen",
+	"no_new_notifications": "Sie haben im Moment keine Benachrichtigungen.",
 	"invited_to_join": "Du wurdest zum Betritt eingeladen ",
 	"delete_company_and_projects": "Löschen von Firma und zugehörigen Projekten",
 	"cant_be_reverted": "kann nicht rückgängig gemacht werden",

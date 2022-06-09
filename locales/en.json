@@ -92,7 +92,7 @@
 	"enter_project_name": "Enter project name",
 	"enter_project_url": "Enter project URL (Optional)",
 	"problem_encountered": "We've encountered a problem",
-	"no_new_notifications": "No new notifications",
+	"no_new_notifications": "You don't have any notifications for the moment.",
 	"invited_to_join": "You are invited to join ",
 	"delete_company_and_projects": "Delete company and associated projects",
 	"cant_be_reverted": "can't be reverted",
