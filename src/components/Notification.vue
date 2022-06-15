@@ -1,3 +1,5 @@
+<!-- Change this to reflect different invitation types -->
+
 <template>
 	<div class="entry">
 		<div class="main">
@@ -44,22 +46,18 @@ import { useNotificationStore } from "/src/stores/notifications";
 import { useMainStore } from "/src/stores/main";
 
 const props = defineProps({
-	id: {
+	record: {
 		required: true,
-		type: String,
-		desc: "Invitation id",
+		type: Object,
+		desc: "Notification data",
 	},
 });
 
 const notifications = useNotificationStore();
 
-const record = computed(() => {
-	return notifications.getInvitationById(props.id);
-});
-
 const accept = async () => {
 	try {
-		await notifications.accept(props.id);
+		await notifications.accept(record.id);
 		useMainStore().init();
 	} catch (error) {
 		console.log(error);
@@ -68,7 +66,7 @@ const accept = async () => {
 
 const decline = async () => {
 	try {
-		await notifications.accept(props.id);
+		await notifications.accept(record.id);
 	} catch (error) {
 		console.log(error);
 	}
