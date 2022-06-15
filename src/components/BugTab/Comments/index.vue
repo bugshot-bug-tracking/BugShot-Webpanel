@@ -185,7 +185,7 @@ const postComment = async () => {
 			.post(`bugs/${props.bug_id}/comments`, {
 				bug_id: props.bug_id,
 				content: content,
-				tagged: taggedUsers,
+				tagged: taggedUsers.map((x) => ({ user_id: x })),
 			})
 			.then(() => {
 				update();
