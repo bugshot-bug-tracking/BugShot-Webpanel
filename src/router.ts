@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useAuthStore } from "/src/stores/auth";
+import { useAuthStore } from "src/stores/auth";
 
 import { setupLayouts } from "virtual:generated-layouts";
 import generatedRoutes from "virtual:generated-pages";
@@ -10,8 +10,6 @@ const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes,
 });
-
-// console.log(routes);
 
 router.beforeEach((to, from, next) => {
 	//? does the route have auth requirement

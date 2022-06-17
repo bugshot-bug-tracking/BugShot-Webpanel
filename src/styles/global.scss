@@ -153,11 +153,26 @@
 	--vs-border-color: #7a2de6;
 
 	--vs-dropdown-option--active-bg: #eee5fc;
-	--vs-dropdown-option--active-color: black;
+	--vs-dropdown-option--active-color: #1a2040;
 	--vs-dropdown-max-height: 125px;
 
 	.vs__dropdown-menu {
 		@extend .bs-scroll;
 		@extend .s-purple;
+	}
+}
+
+hr {
+	color: #eee5fc;
+	opacity: 1;
+	margin: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #1a2040;
+
+	&:hover {
+		color: #1a2040;
 	}
 }

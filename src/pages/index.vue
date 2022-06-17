@@ -1,82 +1,7 @@
 <template>
-	<div class="home-layout" :class="{ minimized: minimized }">
+	<div class="home-layout">
 		<section name="sidebar">
-			<TSidebar @minimize="toggle">
-				<template #header>
-					<h3>{{ $t("company", 2) }}</h3>
-				</template>
-
-				<template #main class="bs-scroll s-purple">
-					<div class="companies bs-scroll s-purple">
-						<ul>
-							<li
-								v-for="[, company] of companies"
-								:key="company.id"
-							>
-								<div class="company">
-									<router-link
-										@click="linkOpen"
-										:to="{
-											name: 'company',
-											params: { id: company.id },
-										}"
-									>
-										{{ company.attributes.designation }}
-									</router-link>
-
-									<img
-										src="/src/assets/icons/icn_left_arrow.svg"
-										v-if="
-											companyProjects(company.id)
-												?.length > 0
-										"
-										@click="collapse"
-									/>
-								</div>
-
-								<ul
-									v-if="
-										companyProjects(company.id)?.length > 0
-									"
-									class="proj-list"
-								>
-									<router-link
-										v-for="project of companyProjects(
-											company.id
-										)"
-										:key="project.id"
-										class="project"
-										:to="{
-											name: 'project',
-											params: { id: project.id },
-										}"
-									>
-										<div
-											class="dot"
-											:style="{
-												'background-color': project
-													.attributes.color_hex
-													? project.attributes
-															.color_hex
-													: '#7a2de6',
-											}"
-										/>
-
-										{{ project.attributes.designation }}
-									</router-link>
-								</ul>
-							</li>
-						</ul>
-					</div>
-				</template>
-
-				<template #footer>
-					<CreateDataModal
-						:dataType="'Company'"
-						:postPath="'companies'"
-					/>
-				</template>
-			</TSidebar>
+			<CompanyNavbar />
 		</section>
 
 		<section name="page">
@@ -85,36 +10,12 @@
 	</div>
 </template>
 
-<script setup lang="ts">
-import { useMainStore } from "src/stores/main";
-
-let store = useMainStore();
-store.init();
-
-const companies = computed(() => store.getCompanies);
-
-const companyProjects = (company_id) => store.getCompanyProjects(company_id);
-
-const collapse = (event) => {
-	if (event.target.parentNode.classList.contains("open"))
-		event.target.parentNode.classList.remove("open");
-	else event.target.parentNode.classList.add("open");
-};
-
-const linkOpen = (event) => {
-	event.target.parentNode.classList.add("open");
-};
-
-const minimized = ref(false);
-const toggle = (value) => {
-	minimized.value = value;
-};
-</script>
+<script setup lang="ts"></script>
 
 <style lang="scss" scoped>
 .home-layout {
 	display: grid;
-	grid-template-columns: 0.25fr 1.75fr;
+	grid-template-columns: auto 1.75fr;
 	grid-template-rows: 1fr;
 	gap: 0px 0px;
 	grid-auto-flow: row;
@@ -123,10 +24,6 @@ const toggle = (value) => {
 	height: 100vh;
 	max-height: 100vh;
 	overflow: hidden;
-
-	&.minimized {
-		grid-template-columns: auto 1.75fr;
-	}
 }
 
 section[name="sidebar"] {

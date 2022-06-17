@@ -184,7 +184,7 @@ const { t } = useI18n({ useScope: "global" });
 
 const saveChanges = async () => {
 	let data = {
-		company_id: props.id,
+		id: props.id,
 		designation: companyParams.name,
 		color_hex: colors[companyParams.color],
 		base64: companyParams.image ? btoa(companyParams.image) : null,

@@ -28,7 +28,7 @@
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useI18nStore } from "src/stores/i18n";
 
 const store = useI18nStore();
@@ -51,15 +51,13 @@ const toggle = () => {
 	showLangs.value = !showLangs.value;
 };
 
-const changeLocale = (value) => {
+const changeLocale = (value: string) => {
 	showLangs.value = false;
 
 	store.setLocale(value);
 };
 
-const supportedLocales = computed(() => {
-	return ["auto", ...store.getSupportedLocales];
-});
+const supportedLocales = computed(() => ["auto", ...store.getSupportedLocales]);
 </script>
 
 <style lang="scss" scoped>
@@ -73,13 +71,13 @@ const supportedLocales = computed(() => {
 	font-weight: bold;
 	cursor: pointer;
 	text-transform: uppercase;
-	border-radius: 6px;
+	border-radius: 0.375rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	gap: 2px;
-	padding: 2px;
-	font-size: 14px;
+	gap: 0.125rem;
+	padding: 0.125rem;
+	font-size: 1rem;
 
 	&.active {
 		background-color: #c4f8e5;
@@ -89,22 +87,22 @@ const supportedLocales = computed(() => {
 .selection {
 	position: absolute;
 	background: white;
-	bottom: 32px;
+	bottom: 2rem;
 	width: 100%;
-	border-radius: 6px;
+	border-radius: 0.375rem;
 	font-weight: bold;
 	text-transform: uppercase;
 	z-index: 10;
-	font-size: 14px;
+	font-size: 1rem;
 	box-shadow: 0px 3px 6px hsla(0, 0%, 0%, 0.4);
 
 	ul {
 		list-style: none;
-		padding: 4px;
+		padding: 0.25rem;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: 8px;
+		gap: 0.5rem;
 		margin: 0;
 	}
 
@@ -118,8 +116,8 @@ const supportedLocales = computed(() => {
 }
 
 .auto-locale > span:last-of-type {
-	font-size: 8px;
+	font-size: 0.5rem;
 	vertical-align: super;
-	margin-left: 2px;
+	margin-left: 0.2rem;
 }
 </style>

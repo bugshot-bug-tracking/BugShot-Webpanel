@@ -24,7 +24,7 @@ export const useNotificationStore = defineStore("notification", {
 			}
 		},
 
-		async accept(id) {
+		async accept(id: string) {
 			try {
 				let user = useAuthStore().getUser;
 				let response = await axios.get(
@@ -41,7 +41,7 @@ export const useNotificationStore = defineStore("notification", {
 			}
 		},
 
-		async decline(id) {
+		async decline(id: string) {
 			try {
 				let user = useAuthStore().getUser;
 				let response = await axios.get(
@@ -62,7 +62,7 @@ export const useNotificationStore = defineStore("notification", {
 	getters: {
 		getInvitations: (state) => state.notifications,
 
-		getInvitationById: (state) => (id) =>
+		getInvitationById: (state) => (id: string) =>
 			state.notifications.find((x) => (x.id = id)),
 	},
 });

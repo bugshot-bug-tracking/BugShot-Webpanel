@@ -2,25 +2,27 @@ import { defineStore } from "pinia";
 
 import axios from "axios";
 import { useMainStore } from "./main";
+import { Project } from "~/models/Project";
+import { Status } from "~/models/Status";
 
 export const useProjectStore = defineStore("project", {
 	state: () => ({
-		project_id: null,
-		project: null,
+		project_id: "",
+		project: <Project>{},
 
-		statuses: [],
+		statuses: new Array<Status>(),
 	}),
 
 	actions: {
 		async destroy() {
-			this.project_id = null;
-			this.project = null;
-			this.statuses = [];
+			this.project_id = "";
+			this.project = <Project>{};
+			this.statuses = [] as Status[];
 
 			return true;
 		},
 
-		async init(project_id) {
+		async init(project_id: string) {
 			this.destroy();
 
 			this.project_id = project_id;
@@ -121,7 +123,7 @@ export const useProjectStore = defineStore("project", {
 			}
 		},
 
-		async fetchScreenshots(id) {
+		async fetchScreenshots(id: string) {
 			let bug = this.getBugById(id);
 
 			try {
@@ -143,7 +145,7 @@ export const useProjectStore = defineStore("project", {
 			}
 		},
 
-		async fetchAttachments(id) {
+		async fetchAttachments(id: string) {
 			let bug = this.getBugById(id);
 
 			try {
@@ -157,7 +159,7 @@ export const useProjectStore = defineStore("project", {
 			}
 		},
 
-		async fetchComments(id) {
+		async fetchComments(id: string) {
 			let bug = this.getBugById(id);
 
 			try {
@@ -171,7 +173,7 @@ export const useProjectStore = defineStore("project", {
 			}
 		},
 
-		async fetchBugUsers(id) {
+		async fetchBugUsers(id: string) {
 			let bug = this.getBugById(id);
 
 			try {
@@ -184,15 +186,15 @@ export const useProjectStore = defineStore("project", {
 			}
 		},
 
-		async createStatus(payload) {
+		async createStatus(payload: {
+			designation: string;
+			order_number: number;
+		}) {
 			try {
-				let r = await axios.post(
-					`projects/${this.project_id}/statuses`,
-					{
-						designation: payload.designation,
-						order_number: payload.order_number,
-					}
-				);
+				await axios.post(`projects/${this.project_id}/statuses`, {
+					designation: payload.designation,
+					order_number: payload.order_number,
+				});
 
 				this.refresh();
 			} catch (error) {
@@ -201,7 +203,13 @@ export const useProjectStore = defineStore("project", {
 			}
 		},
 
-		async syncStatus(payload) {
+		async syncStatus(payload: {
+			id: string;
+			changes?: {
+				designation?: string;
+				order_number?: number;
+			};
+		}) {
 			try {
 				// get a reference to the status
 				const status = this.getStatusById(payload.id);
@@ -209,11 +217,11 @@ export const useProjectStore = defineStore("project", {
 				let response = await axios.put(
 					`projects/${this.project_id}/statuses/${status.id}`,
 					{
-						...(payload.changes.designation
+						...(payload.changes?.designation
 							? { designation: payload.changes.designation }
 							: { designation: status.attributes.designation }),
 
-						...(payload.changes.order_number != null
+						...(payload.changes?.order_number != null
 							? { order_number: payload.changes.order_number }
 							: { order_number: status.attributes.order_number }),
 					}
@@ -226,7 +234,7 @@ export const useProjectStore = defineStore("project", {
 			}
 		},
 
-		async deleteStatus(payload) {
+		async deleteStatus(payload: { id: string; move: string | undefined }) {
 			try {
 				await axios.delete(
 					`projects/${this.project_id}/statuses/${payload.id}`,
@@ -249,14 +257,14 @@ export const useProjectStore = defineStore("project", {
 		getProject: (state) => state.project,
 
 		getStatuses: (state) =>
-			state.project?.attributes.statuses.sort((a, b) =>
+			state.project?.attributes?.statuses?.sort((a, b) =>
 				a.attributes.order_number < b.attributes.order_number ? -1 : 1
 			),
 
-		getStatusById: (state) => (id) =>
+		getStatusById: (state) => (id: string) =>
 			state.statuses?.find((x) => x.id === id),
 
-		getBugById: (state) => (id) => {
+		getBugById: (state) => (id: string) => {
 			if (!state.statuses) return null;
 
 			for (const status of state.statuses)
@@ -266,7 +274,7 @@ export const useProjectStore = defineStore("project", {
 			return null;
 		},
 
-		getBugsByStatusId: (state) => (id) => {
+		getBugsByStatusId: (state) => (id: string) => {
 			let status = state.statuses?.find((x) => x.id === id);
 
 			if (status) return status.attributes.bugs;

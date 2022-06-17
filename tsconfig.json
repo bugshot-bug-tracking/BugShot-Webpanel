@@ -13,10 +13,15 @@
 		"noUnusedLocals": true,
 		"strictNullChecks": true,
 		"forceConsistentCasingInFileNames": true,
+		"types": [
+			"vite/client",
+			"vue/macros",
+			"vite-plugin-pages/client",
+			"vite-plugin-vue-layouts/client"
+		],
 		"paths": {
 			"~/*": ["src/*"]
-		},
-		"allowJs": true
+		}
 	},
 	"exclude": ["dist", "node_modules"]
 }
