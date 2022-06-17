@@ -4,8 +4,10 @@ specifiers:
   '@intlify/vue-i18n-loader': ^4.0.0
   '@types/node': ^17.0.36
   '@types/nprogress': ^0.2.0
+  '@types/vue-select': ^3.16.0
   '@vitejs/plugin-vue': ^2.3.3
   '@vuepic/vue-datepicker': ^3.2.0
+  '@vueuse/head': ^0.7.6
   axios: ^0.26.0
   nprogress: ^0.2.0
   pinia: ^2.0.14
@@ -28,6 +30,7 @@ specifiers:
 
 dependencies:
   '@vuepic/vue-datepicker': 3.2.2_vue@3.2.36
+  '@vueuse/head': 0.7.6_vue@3.2.36
   axios: 0.26.1
   nprogress: 0.2.0
   pinia: 2.0.14_hxrfy3rdja4lhsamokddlc63fi
@@ -43,6 +46,7 @@ devDependencies:
   '@intlify/vue-i18n-loader': 4.2.0_vue-i18n@9.1.10+vue@3.2.36
   '@types/node': 17.0.40
   '@types/nprogress': 0.2.0
+  '@types/vue-select': 3.16.0
   '@vitejs/plugin-vue': 2.3.3_vite@2.9.9+vue@3.2.36
   pnpm: 7.1.9
   sass: 1.52.2
@@ -216,6 +220,12 @@ packages:
     resolution: {integrity: sha512-1cYJrqq9GezNFPsWTZpFut/d4CjpZqA0vhqDUPFWYKF1oIyBz5qnoYMzR+0C/T96t3ebLAC1SSnwrVOm5/j74A==}
     dev: true
 
+  /@types/vue-select/3.16.0:
+    resolution: {integrity: sha512-eUNzHK8tY7fT6fWR3mcN3kq9BznRrFPFvmpBZ66DAz4k9aD27AwT54gvR58O9P+ql7/iC0yVvl5lUTjKZ7K1tA==}
+    dependencies:
+      vue: 2.6.14
+    dev: true
+
   /@vitejs/plugin-vue/2.3.3_vite@2.9.9+vue@3.2.36:
     resolution: {integrity: sha512-SmQLDyhz+6lGJhPELsBdzXGc+AcaT8stgkbiTFGpXPe8Tl1tJaBw1A6pxDqDuRsVkD8uscrkx3hA7QDOoKYtyw==}
     engines: {node: '>=12.0.0'}
@@ -340,6 +350,14 @@ packages:
       vue: '>=3.2.0'
     dependencies:
       date-fns: 2.28.0
+      vue: 3.2.36
+    dev: false
+
+  /@vueuse/head/0.7.6_vue@3.2.36:
+    resolution: {integrity: sha512-cOWqCkT3WiF5oEpw+VVEWUJd9RLD5rc7DmnFp3cePsejp+t7686uKD9Z9ZU7Twb7R/BI8iexKTmXo9D/F3v6UA==}
+    peerDependencies:
+      vue: '>=3'
+    dependencies:
       vue: 3.2.36
     dev: false
 
@@ -1612,6 +1630,10 @@ packages:
     dependencies:
       '@volar/vue-typescript': 0.35.2
       typescript: 4.7.3
+    dev: true
+
+  /vue/2.6.14:
+    resolution: {integrity: sha512-x2284lgYvjOMj3Za7kqzRcUSxBboHqtgRE2zlos1qWaOye5yUmHn42LB1250NJBLRwEcdrB0JRwyPTEPhfQjiQ==}
     dev: true
 
   /vue/3.2.36:

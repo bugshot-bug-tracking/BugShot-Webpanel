@@ -1,22 +1,23 @@
 import { defineStore } from "pinia";
 
 import axios from "axios";
+import { User } from "~/models/User";
 
 export const useAuthStore = defineStore("auth", {
 	state: () => ({
 		token: "",
-		user: {},
+		user: <User>{},
 	}),
 
 	actions: {
 		async destroy() {
 			this.token = "";
-			this.user = {};
+			this.user = <User>{};
 
 			return true;
 		},
 
-		async login(payload) {
+		async login(payload: { email: string; password: string }) {
 			try {
 				let response = await axios.post("auth/login", {
 					email: payload.email,
@@ -51,11 +52,12 @@ export const useAuthStore = defineStore("auth", {
 		},
 
 		// validate token by setting the user
-		async attempt(token) {
+		async attempt(token: string) {
 			// no point in checking the token if it doesn't exist
 			if (token == null || token === "") return false;
 
-			axios.defaults.headers["Authorization"] = "Bearer " + token;
+			console.dir(axios);
+			axios.defaults.headers.common["Authorization"] = "Bearer " + token;
 
 			try {
 				// test if the token is still valid
@@ -72,7 +74,7 @@ export const useAuthStore = defineStore("auth", {
 			} catch (error) {
 				//if the token is invalid or it expired set the token from storage to null
 				this.destroy();
-				axios.defaults.headers["Authorization"] = "";
+				axios.defaults.headers.common["Authorization"] = "";
 				localStorage.removeItem("authToken");
 
 				return false;

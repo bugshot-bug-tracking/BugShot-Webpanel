@@ -10,12 +10,14 @@ declare module '@vue/runtime-core' {
     Assignees: typeof import('./components/Assignees.vue')['default']
     AssignModal: typeof import('./components/Modals/AssignModal.vue')['default']
     Attachments: typeof import('./components/Attachments/index.vue')['default']
+    Avatar: typeof import('./components/Avatar.vue')['default']
     BugCard: typeof import('./components/BugCard.vue')['default']
     BugsTable: typeof import('./components/BugsTable.vue')['default']
     BugTab: typeof import('./components/BugTab/index.vue')['default']
     Card: typeof import('./components/Card.vue')['default']
     Column: typeof import('./templates/Column.vue')['default']
     Comments: typeof import('./components/BugTab/Comments/index.vue')['default']
+    CompanyNavbar: typeof import('./components/Navigation/CompanyNavbar.vue')['default']
     Container: typeof import('./components/Container.vue')['default']
     CreateDataModal: typeof import('./components/Modals/CreateDataModal.vue')['default']
     DeleteModal: typeof import('./components/Modals/DeleteModal.vue')['default']
@@ -30,8 +32,9 @@ declare module '@vue/runtime-core' {
     LocalAttachments: typeof import('./components/Attachments/LocalAttachments.vue')['default']
     Message: typeof import('./components/BugTab/Comments/Message.vue')['default']
     Modal: typeof import('./components/Modals/Modal.vue')['default']
-    Navbar: typeof import('./components/Navbar.vue')['default']
+    Navbar: typeof import('./components/Navigation/Navbar.vue')['default']
     Notification: typeof import('./components/Notification.vue')['default']
+    Notifications: typeof import('./components/Notifications.vue')['default']
     Picker: typeof import('./components/Picker.vue')['default']
     PriorityChange: typeof import('./components/PriorityChange.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
@@ -44,6 +47,7 @@ declare module '@vue/runtime-core' {
     T2Page: typeof import('./templates/T2Page.vue')['default']
     TeamTable: typeof import('./components/TeamTable.vue')['default']
     TSidebar: typeof import('./templates/TSidebar.vue')['default']
+    UserMenu: typeof import('./components/UserMenu.vue')['default']
   }
 }
 

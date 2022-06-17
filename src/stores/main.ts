@@ -1,11 +1,12 @@
 import { defineStore } from "pinia";
 
 import axios from "axios";
+import { Company } from "~/models/Company";
 
 export const useMainStore = defineStore("main", {
 	state: () => ({
-		companies: new Map(),
-		projects: new Map(),
+		companies: new Map<String, Company>(),
+		projects: new Map<String, String>(),
 
 		roles: [],
 	}),
@@ -16,8 +17,8 @@ export const useMainStore = defineStore("main", {
 		},
 
 		async init() {
-			this.companies = new Map();
-			this.projects = new Map();
+			this.companies = new Map<String, Company>();
+			this.projects = new Map<String, String>();
 
 			await this.fetchAll();
 			await this.fetchRoles();
@@ -25,15 +26,15 @@ export const useMainStore = defineStore("main", {
 
 		async fetchAll() {
 			try {
-				let response = await axios.get(`companies`, {
-					headers: {
-						// "include-company-image": "true",
-						"include-projects": "true",
-						"include-project-image": "true",
-					},
-				});
-
-				response = response.data.data;
+				let response = (
+					await axios.get(`companies`, {
+						headers: {
+							// "include-company-image": "true",
+							"include-projects": "true",
+							"include-project-image": "true",
+						},
+					})
+				).data.data;
 
 				for (const company of response) {
 					if (company.attributes.image != null)
@@ -73,17 +74,17 @@ export const useMainStore = defineStore("main", {
 			}
 		},
 
-		async fetchCompanyUsers(company_id) {
+		async fetchCompanyUsers(id: string) {
 			try {
 				let response = (
-					await axios.get(`companies/${company_id}`, {
+					await axios.get(`companies/${id}`, {
 						headers: {
 							"include-company-users": "true",
 						},
 					})
 				).data.data;
 
-				let company = this.getCompanyById(company_id);
+				let company = this.getCompanyById(id);
 				company.attributes.users = response.attributes.users;
 			} catch (error) {
 				console.log(error);
@@ -92,10 +93,15 @@ export const useMainStore = defineStore("main", {
 		},
 
 		// data is an object with the company id and new/old data
-		async updateCompany(data) {
+		async updateCompany(data: {
+			id: string;
+			designation: string;
+			color_hex: string;
+			base64: string;
+		}) {
 			try {
 				//get a reference to the bug
-				const company = this.companies.get(data.company_id);
+				const company = this.companies.get(data.id);
 
 				let response = (
 					await axios.put(
@@ -119,7 +125,7 @@ export const useMainStore = defineStore("main", {
 					);
 				response.attributes.projects = company.attributes.projects;
 
-				this.companies.set(data.company_id, response);
+				this.companies.set(data.id, response);
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -127,7 +133,13 @@ export const useMainStore = defineStore("main", {
 		},
 
 		// data is an object with the project id and new/old data
-		async updateProject(data) {
+		async updateProject(data: {
+			id: string;
+			designation: string;
+			url: string;
+			color_hex: string;
+			base64: string;
+		}) {
 			try {
 				//get a reference to the bug
 				const project = this.getProjectById(data.id);
@@ -173,11 +185,11 @@ export const useMainStore = defineStore("main", {
 			}
 		},
 
-		async deleteCompany(company_id) {
+		async deleteCompany(id: string) {
 			try {
-				let response = await axios.delete(`/companies/${company_id}`);
+				await axios.delete(`/companies/${id}`);
 
-				this.companies.delete(company_id);
+				this.companies.delete(id);
 
 				return true;
 			} catch (error) {
@@ -186,22 +198,21 @@ export const useMainStore = defineStore("main", {
 			}
 		},
 
-		async deleteProject(project_id) {
+		async deleteProject(id: string) {
 			try {
-				const project = this.getProjectById(project_id);
+				const project = this.getProjectById(id);
 				await axios.delete(
 					`/companies/${project.attributes.company.id}/projects/${project.id}`
 				);
 
-				let projects =
-					this.getProjectCompany(project_id).attributes.projects;
+				let projects = this.getProjectCompany(id).attributes.projects;
 
 				projects.splice(
-					projects.findIndex((x) => x.id === project_id),
+					projects.findIndex((x) => x.id === id),
 					1
 				);
 
-				this.projects.delete(project_id);
+				this.projects.delete(id);
 
 				return true;
 			} catch (error) {
@@ -214,23 +225,22 @@ export const useMainStore = defineStore("main", {
 	getters: {
 		getCompanies: (state) => state.companies,
 
-		getCompanyById: (state) => (company_id) =>
-			state.companies.get(company_id),
+		getCompanyById: (state) => (id: string) => state.companies.get(id),
 
 		getCompanyWithProjects: (state) =>
 			[...state.companies]
 				.filter((record) => record[1].attributes.projects?.length > 0)
 				.map((r) => r[1]),
 
-		getCompanyProjects: (state) => (company_id) =>
-			state.companies.get(company_id).attributes.projects,
+		getCompanyProjects: (state) => (id: string) =>
+			state.companies.get(id)?.attributes.projects || [],
 
-		getProjectById: (state) => (id) =>
+		getProjectById: (state) => (id: string) =>
 			state.companies
 				.get(state.projects.get(id))
 				?.attributes.projects?.find((x) => x.id === id),
 
-		getProjectCompany: (state) => (id) =>
+		getProjectCompany: (state) => (id: string) =>
 			state.companies.get(state.projects.get(id)),
 
 		getRoles: (state) => state.roles,

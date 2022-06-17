@@ -20,7 +20,13 @@ export default defineConfig({
 
 		// https://github.com/antfu/unplugin-auto-import
 		AutoImport({
-			imports: ["vue", "vue-router", "vue-i18n"],
+			imports: [
+				"vue",
+				"vue-router",
+				"vue-i18n",
+				"@vueuse/head",
+				// "@vueuse/core",
+			],
 			dts: "src/auto-imports.d.ts",
 		}),
 
@@ -28,7 +34,7 @@ export default defineConfig({
 		Components({
 			dirs: ["src/components", "src/templates"],
 			// allow auto load markdown components under `./src/components/`
-			extensions: ["vue", "md"],
+			extensions: ["vue"],
 			// allow auto import and register components used in markdown
 			include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
 			dts: "src/components.d.ts",

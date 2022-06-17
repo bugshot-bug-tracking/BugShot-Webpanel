@@ -23,7 +23,7 @@ export const useI18nStore = defineStore("i18n", {
 			this.setLocale(localStorageLocale);
 		},
 
-		setLocale(payload) {
+		setLocale(payload: string) {
 			let locale = payload;
 
 			if (payload.toLowerCase() === "auto") {
@@ -40,7 +40,7 @@ export const useI18nStore = defineStore("i18n", {
 			this.locale = payload;
 
 			localStorage.setItem("locale", payload);
-			axios.defaults.headers["locale"] = locale;
+			axios.defaults.headers.common["locale"] = locale;
 		},
 
 		determineLocale() {

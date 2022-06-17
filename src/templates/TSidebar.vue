@@ -20,14 +20,11 @@
 	</div>
 </template>
 
-<script setup>
-const emit = defineEmits(["minimize"]);
-
+<script setup lang="ts">
 const minimize = ref(false);
 
 const toggle = () => {
 	minimize.value = !minimize.value;
-	emit("minimize", minimize.value);
 };
 </script>
 
@@ -45,7 +42,7 @@ const toggle = () => {
 
 	border-right: 1px solid hsl(263, 79%, 94%);
 	position: relative;
-	min-width: 200px;
+	min-width: 250px;
 	max-width: 20vw;
 	height: 100%;
 	max-height: 100vh;
