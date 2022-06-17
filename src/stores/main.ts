@@ -233,7 +233,7 @@ export const useMainStore = defineStore("main", {
 				.map((r) => r[1]),
 
 		getCompanyProjects: (state) => (id: string) =>
-			state.companies.get(id).attributes.projects,
+			state.companies.get(id)?.attributes.projects || [],
 
 		getProjectById: (state) => (id: string) =>
 			state.companies

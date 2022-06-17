@@ -104,6 +104,7 @@ header {
 		}
 		.email {
 			color: #9ba5d7;
+			white-space: nowrap;
 		}
 	}
 }
@@ -139,8 +140,6 @@ ul {
 	}
 
 	hr {
-		color: #eee5fc;
-		opacity: 1;
 		margin: 0 1rem;
 	}
 }

@@ -188,5 +188,8 @@
 	"enter_column_name": "Enter column name",
 	"team": "Team",
 	"review": "Review",
-	"the_apps": "The apps"
+	"the_apps": "The apps",
+	"back_to_al_projects": "Back to all projects",
+	"company_details": "Company Details",
+	"plan": "Plan | Plans"
 }

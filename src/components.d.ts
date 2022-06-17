@@ -17,6 +17,7 @@ declare module '@vue/runtime-core' {
     Card: typeof import('./components/Card.vue')['default']
     Column: typeof import('./templates/Column.vue')['default']
     Comments: typeof import('./components/BugTab/Comments/index.vue')['default']
+    CompanyNavbar: typeof import('./components/Navigation/CompanyNavbar.vue')['default']
     Container: typeof import('./components/Container.vue')['default']
     CreateDataModal: typeof import('./components/Modals/CreateDataModal.vue')['default']
     DeleteModal: typeof import('./components/Modals/DeleteModal.vue')['default']

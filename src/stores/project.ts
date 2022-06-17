@@ -257,7 +257,7 @@ export const useProjectStore = defineStore("project", {
 		getProject: (state) => state.project,
 
 		getStatuses: (state) =>
-			state.project?.attributes.statuses.sort((a, b) =>
+			state.project?.attributes?.statuses?.sort((a, b) =>
 				a.attributes.order_number < b.attributes.order_number ? -1 : 1
 			),
 
