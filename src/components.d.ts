@@ -35,6 +35,7 @@ declare module '@vue/runtime-core' {
     Navbar: typeof import('./components/Navigation/Navbar.vue')['default']
     Notification: typeof import('./components/Notification.vue')['default']
     Notifications: typeof import('./components/Notifications.vue')['default']
+    OrderButton: typeof import('./components/OrderButton.vue')['default']
     Picker: typeof import('./components/Picker.vue')['default']
     PriorityChange: typeof import('./components/PriorityChange.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
