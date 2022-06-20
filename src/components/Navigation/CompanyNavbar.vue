@@ -166,7 +166,6 @@ const forceOpen = reactive({
 });
 
 const route = useRoute();
-onMounted(() => force());
 watch(route, () => force());
 
 const force = () => {
@@ -184,10 +183,7 @@ const force = () => {
 	if (route.name?.toString().includes("company")) {
 		if (!route.params.id) return forceOpen.clear();
 
-		let company = store.getCompanyById(<string>route.params.id);
-		if (!company) return forceOpen.clear();
-
-		forceOpen.company = company.id;
+		forceOpen.company = <string>route.params.id;
 		forceOpen.projects = "";
 		return;
 	}
@@ -195,7 +191,10 @@ const force = () => {
 	return forceOpen.clear();
 };
 
-const companies = computed(() => store.getCompanies);
+const companies = computed(() => {
+	force();
+	return store.getCompanies;
+});
 
 const companyProjects = (company_id: string) =>
 	store.getCompanyProjects(company_id);
