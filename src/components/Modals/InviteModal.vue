@@ -64,7 +64,7 @@
 
 <script setup>
 import axios from "axios";
-import { useMainStore } from "src/stores/main";
+import { useMainStore } from "~/stores/main";
 
 const props = defineProps({
 	dataType: {

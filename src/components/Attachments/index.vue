@@ -38,8 +38,8 @@
 
 <script setup>
 import axios from "axios";
-import { useProjectStore } from "src/stores/project";
-import toBase64 from "src/util/toBase64";
+import { useProjectStore } from "~/stores/project";
+import toBase64 from "~/util/toBase64";
 
 const props = defineProps({
 	attachments: {

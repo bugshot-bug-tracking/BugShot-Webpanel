@@ -121,9 +121,9 @@
 </template>
 
 <script setup>
-import { useMainStore } from "src/stores/main";
+import { useMainStore } from "~/stores/main";
 import axios from "axios";
-import colors from "/src/util/colors";
+import colors from "~/util/colors";
 
 const props = defineProps({
 	company_id: {

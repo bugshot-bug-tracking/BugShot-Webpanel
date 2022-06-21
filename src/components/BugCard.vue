@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import dateFix from "src/util/dateFixISO";
+import dateFix from "~/util/dateFixISO";
 
 const emit = defineEmits(["info"]);
 const props = defineProps({

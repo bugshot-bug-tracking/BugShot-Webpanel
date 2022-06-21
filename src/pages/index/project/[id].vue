@@ -21,8 +21,8 @@
 </template>
 
 <script setup>
-import { useMainStore } from "src/stores/main";
-import { useProjectStore } from "src/stores/project";
+import { useMainStore } from "~/stores/main";
+import { useProjectStore } from "~/stores/project";
 
 const props = defineProps({
 	id: {

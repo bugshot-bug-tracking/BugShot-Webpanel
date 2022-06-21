@@ -93,14 +93,14 @@
 </template>
 
 <script setup>
-import { useMainStore } from "src/stores/main";
+import { useMainStore } from "~/stores/main";
 
 import axios from "axios";
 
 import { useI18n } from "vue-i18n";
-import toBase64 from "/src/util/toBase64";
-import colors from "/src/util/colors";
-import { useAuthStore } from "src/stores/auth";
+import toBase64 from "~/util/toBase64";
+import colors from "~/util/colors";
+import { useAuthStore } from "~/stores/auth";
 
 const props = defineProps({
 	id: {

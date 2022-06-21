@@ -41,8 +41,8 @@
 </template>
 
 <script setup>
-import timeToText from "src/util/timeToText";
-import { useMainStore } from "src/stores/main";
+import timeToText from "~/util/timeToText";
+import { useMainStore } from "~/stores/main";
 
 let store = useMainStore();
 

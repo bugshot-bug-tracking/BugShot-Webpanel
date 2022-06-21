@@ -117,7 +117,7 @@
 </template>
 
 <script setup>
-import { useProjectStore } from "src/stores/project";
+import { useProjectStore } from "~/stores/project";
 import draggable from "vuedraggable";
 
 const props = defineProps({

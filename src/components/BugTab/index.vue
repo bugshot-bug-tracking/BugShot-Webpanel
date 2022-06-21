@@ -40,7 +40,7 @@
 </template>
 
 <script setup>
-import { useProjectStore } from "src/stores/project";
+import { useProjectStore } from "~/stores/project";
 import axios from "axios";
 
 const emit = defineEmits(["close", "deleted"]);

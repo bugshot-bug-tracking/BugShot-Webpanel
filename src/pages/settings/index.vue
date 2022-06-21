@@ -295,10 +295,8 @@
 </template>
 
 <script setup>
-import Container from "src/components/Container.vue";
-
 import axios from "axios";
-import { useAuthStore } from "/src/stores/auth";
+import { useAuthStore } from "~/stores/auth";
 
 const data = reactive({
 	first_name: "",

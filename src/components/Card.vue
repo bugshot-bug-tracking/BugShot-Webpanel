@@ -71,8 +71,8 @@
 </template>
 
 <script setup>
-import { useMainStore } from "src/stores/main";
-import timeToText from "src/util/timeToText";
+import { useMainStore } from "~/stores/main";
+import timeToText from "~/util/timeToText";
 
 const props = defineProps({
 	id: {
