@@ -12,6 +12,15 @@
 						{{ $t("back_to_al_projects") }}
 					</RouterLink>
 				</div>
+
+				<div class="right">
+					<OrderButton
+						creation
+						updated
+						@change="sortList"
+						:selected="settingsStore.getCompaniesOrder"
+					/>
+				</div>
 			</header>
 		</template>
 
@@ -146,10 +155,13 @@
 </template>
 
 <script setup lang="ts">
-import { useMainStore } from "src/stores/main";
+import { useMainStore } from "~/stores/main";
+import { useSettingsStore } from "~/stores/settings";
 
 let store = useMainStore();
 store.init();
+
+let settingsStore = useSettingsStore();
 
 const opened = reactive({
 	company: "",
@@ -193,7 +205,66 @@ const force = () => {
 
 const companies = computed(() => {
 	force();
-	return store.getCompanies;
+	let list = store.getCompanies;
+
+	switch (settingsStore.getCompaniesOrder) {
+		default:
+		case 0: // A-Z
+			return [...list.entries()].sort((a, b) => {
+				return a[1].attributes.designation.localeCompare(
+					b[1].attributes.designation
+				);
+			});
+			break;
+
+		case 1: // Z-A
+			return [...list.entries()].sort((a, b) => {
+				return (
+					a[1].attributes.designation.localeCompare(
+						b[1].attributes.designation
+					) * -1
+				);
+			});
+			break;
+
+		case 2: //  Creation newest
+			return [...list.entries()].sort((a, b) => {
+				return (
+					(new Date(a[1].attributes.created_at).getTime() -
+						new Date(b[1].attributes.created_at).getTime()) *
+					-1
+				);
+			});
+			break;
+
+		case 3: // Creation oldest
+			return [...list.entries()].sort((a, b) => {
+				return (
+					new Date(a[1].attributes.created_at).getTime() -
+					new Date(b[1].attributes.created_at).getTime()
+				);
+			});
+			break;
+
+		case 4: // Last edit ascending
+			return [...list.entries()].sort((a, b) => {
+				return (
+					(new Date(a[1].attributes.updated_at).getTime() -
+						new Date(b[1].attributes.updated_at).getTime()) *
+					-1
+				);
+			});
+			break;
+
+		case 5: // Last edit descending
+			return [...list.entries()].sort((a, b) => {
+				return (
+					new Date(a[1].attributes.updated_at).getTime() -
+					new Date(b[1].attributes.updated_at).getTime()
+				);
+			});
+			break;
+	}
 });
 
 const companyProjects = (company_id: string) =>
@@ -212,12 +283,19 @@ const collapseProject = (id: string) => {
 
 	return (opened.projects = id);
 };
+
+const sortList = (sortMode: number) => {
+	settingsStore.setCompaniesOrder(sortMode);
+};
 </script>
 
 <style lang="scss" scoped>
 header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 	text-align: left;
-	padding: 20px;
+	padding: 1rem;
 
 	a {
 		color: #7a2ee6;
