@@ -1,5 +1,5 @@
 <template>
-	<div class="user-menu">
+	<div class="user-menu" ref="root">
 		<Avatar
 			:first_name="user.attributes.first_name"
 			:last_name="user.attributes.last_name"
@@ -51,6 +51,8 @@ const router = useRouter();
 
 const user = computed(() => store.getUser);
 
+const root = ref(null);
+
 const menu = reactive({
 	visible: false,
 	toggle: () => {
@@ -62,6 +64,21 @@ const logout = () => {
 	store.logout();
 	router.push({ name: "Login" });
 };
+
+const autoClose = (event: MouseEvent) => {
+	// event.path for chromium but composedPath is the standard method (ex. firefox)
+	let path: EventTarget[] = event.composedPath && event.composedPath();
+
+	// if clicking outside of this root close the popup
+	if (path.find((element) => element == root.value) == null) {
+		menu.visible = false;
+	}
+};
+
+addEventListener("click", autoClose);
+onUnmounted(() => {
+	document.removeEventListener("click", autoClose);
+});
 </script>
 
 <style lang="scss" scoped>
