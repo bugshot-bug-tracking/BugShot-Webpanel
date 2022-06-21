@@ -135,9 +135,9 @@
 </template>
 
 <script setup>
-import toBase64 from "/src/util/toBase64";
+import toBase64 from "~/util/toBase64";
 import axios from "axios";
-import { useProjectStore } from "src/stores/project";
+import { useProjectStore } from "~/stores/project";
 
 const props = defineProps({
 	id: {

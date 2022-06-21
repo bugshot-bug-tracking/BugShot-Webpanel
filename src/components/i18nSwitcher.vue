@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { useI18nStore } from "src/stores/i18n";
+import { useI18nStore } from "~/stores/i18n";
 
 const store = useI18nStore();
 

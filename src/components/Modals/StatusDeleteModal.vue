@@ -109,7 +109,7 @@
 </template>
 
 <script setup>
-import { useProjectStore } from "src/stores/project";
+import { useProjectStore } from "~/stores/project";
 
 const emit = defineEmits(["close", "delete"]);
 

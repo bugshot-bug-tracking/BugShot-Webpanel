@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import colors from "src/util/colors";
+import colors from "~/util/colors";
 
 const props = defineProps({
 	first_name: {

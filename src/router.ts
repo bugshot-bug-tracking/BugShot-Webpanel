@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useAuthStore } from "src/stores/auth";
+import { useAuthStore } from "~/stores/auth";
 
 import { setupLayouts } from "virtual:generated-layouts";
 import generatedRoutes from "virtual:generated-pages";

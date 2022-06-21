@@ -78,8 +78,8 @@
 </template>
 
 <script setup>
-import { useProjectStore } from "src/stores/project";
-import colors from "src/util/colors";
+import { useProjectStore } from "~/stores/project";
+import colors from "~/util/colors";
 import axios from "axios";
 
 const emit = defineEmits(["close"]);

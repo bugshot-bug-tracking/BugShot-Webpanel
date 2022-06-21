@@ -11,7 +11,6 @@ import Layouts from "vite-plugin-vue-layouts";
 export default defineConfig({
 	resolve: {
 		alias: {
-			"src/": `${path.resolve(__dirname, "src")}/`,
 			"~/": `${path.resolve(__dirname, "src")}/`,
 		},
 	},

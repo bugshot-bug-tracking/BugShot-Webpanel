@@ -94,7 +94,7 @@
 </template>
 
 <script setup>
-import { useMainStore } from "src/stores/main";
+import { useMainStore } from "~/stores/main";
 
 const emit = defineEmits(["change", "submit"]);
 const props = defineProps({

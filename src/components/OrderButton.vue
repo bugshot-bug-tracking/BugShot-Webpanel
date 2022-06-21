@@ -156,7 +156,7 @@ const popupMenu = reactive({
 });
 
 const submit = () => {
-	emit("change", radio.value);
+	emit("change", parseInt("" + radio.value));
 	popupMenu.open = false;
 };
 

@@ -7,6 +7,7 @@ specifiers:
   '@types/vue-select': ^3.16.0
   '@vitejs/plugin-vue': ^2.3.3
   '@vuepic/vue-datepicker': ^3.2.0
+  '@vueuse/core': ^8.7.4
   '@vueuse/head': ^0.7.6
   axios: ^0.26.0
   nprogress: ^0.2.0
@@ -30,6 +31,7 @@ specifiers:
 
 dependencies:
   '@vuepic/vue-datepicker': 3.2.2_vue@3.2.36
+  '@vueuse/core': 8.7.4_vue@3.2.36
   '@vueuse/head': 0.7.6_vue@3.2.36
   axios: 0.26.1
   nprogress: 0.2.0
@@ -51,7 +53,7 @@ devDependencies:
   pnpm: 7.1.9
   sass: 1.52.2
   typescript: 4.7.3
-  unplugin-auto-import: 0.8.7_vite@2.9.9
+  unplugin-auto-import: 0.8.7_e75jyj4ur6huks6bmzzdwugeeq
   unplugin-vue-components: 0.19.6_vite@2.9.9+vue@3.2.36
   vite: 2.9.9_sass@1.52.2
   vite-plugin-pages: 0.23.0_vite@2.9.9
@@ -353,6 +355,22 @@ packages:
       vue: 3.2.36
     dev: false
 
+  /@vueuse/core/8.7.4_vue@3.2.36:
+    resolution: {integrity: sha512-dQgxjb79PDcizlaclgCkCzNoqNv12PnbXxUOFL9VacakmD/ACoSMWwTpcG3HKoDoYyl2V3kSW/8AkvXGEYEGFA==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      '@vueuse/metadata': 8.7.4
+      '@vueuse/shared': 8.7.4_vue@3.2.36
+      vue: 3.2.36
+      vue-demi: 0.13.1_vue@3.2.36
+
   /@vueuse/head/0.7.6_vue@3.2.36:
     resolution: {integrity: sha512-cOWqCkT3WiF5oEpw+VVEWUJd9RLD5rc7DmnFp3cePsejp+t7686uKD9Z9ZU7Twb7R/BI8iexKTmXo9D/F3v6UA==}
     peerDependencies:
@@ -360,6 +378,23 @@ packages:
     dependencies:
       vue: 3.2.36
     dev: false
+
+  /@vueuse/metadata/8.7.4:
+    resolution: {integrity: sha512-CwEYS6/M6JDxk9D1mUsZq3F0VnYnf39rAxOytP58vb4BrhmPKEVfiSpvxuYcJimU9ccT/xjWhwBnsdGC2H9mIQ==}
+
+  /@vueuse/shared/8.7.4_vue@3.2.36:
+    resolution: {integrity: sha512-QhwTEd2Gr/8ZliWVEM8sbMUkXtVVV1Mt1mOkCnIbIN33D/V28FwGKUKqEPGZZCXuJchARnun/J1TAiT/UmZd1w==}
+    peerDependencies:
+      '@vue/composition-api': ^1.1.0
+      vue: ^2.6.0 || ^3.2.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      vue:
+        optional: true
+    dependencies:
+      vue: 3.2.36
+      vue-demi: 0.13.1_vue@3.2.36
 
   /acorn-jsx/5.3.2_acorn@7.4.1:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -1430,7 +1465,7 @@ packages:
       - webpack
     dev: true
 
-  /unplugin-auto-import/0.8.7_vite@2.9.9:
+  /unplugin-auto-import/0.8.7_e75jyj4ur6huks6bmzzdwugeeq:
     resolution: {integrity: sha512-xepkl/lzlPmWym/ZqjgKpev30S5402qZYHnRZ7MQ78+WxBykvUw69PB0awWcWJ7atswNs6LkDRpGNqzjFCEH4w==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -1441,6 +1476,7 @@ packages:
     dependencies:
       '@antfu/utils': 0.5.2
       '@rollup/pluginutils': 4.2.1
+      '@vueuse/core': 8.7.4_vue@3.2.36
       local-pkg: 0.4.1
       magic-string: 0.26.2
       unimport: 0.2.6_vite@2.9.9
@@ -1584,7 +1620,6 @@ packages:
         optional: true
     dependencies:
       vue: 3.2.36
-    dev: false
 
   /vue-i18n/9.1.10_vue@3.2.36:
     resolution: {integrity: sha512-jpr7gV5KPk4n+sSPdpZT8Qx3XzTcNDWffRlHV/cT2NUyEf+sEgTTmLvnBAibjOFJ0zsUyZlVTAWH5DDnYep+1g==}

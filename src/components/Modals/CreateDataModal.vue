@@ -83,9 +83,9 @@
 
 <script setup>
 import axios from "axios";
-import { useMainStore } from "src/stores/main";
-import toBase64 from "/src/util/toBase64";
-import colors from "/src/util/colors";
+import { useMainStore } from "~/stores/main";
+import toBase64 from "~/util/toBase64";
+import colors from "~/util/colors";
 
 const props = defineProps({
 	dataType: {

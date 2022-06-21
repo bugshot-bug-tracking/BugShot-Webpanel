@@ -154,9 +154,9 @@
 </template>
 
 <script setup>
-import dateFix from "/src/util/dateFixISO";
-import { useProjectStore } from "src/stores/project";
-import { useI18nStore } from "src/stores/i18n";
+import dateFix from "~/util/dateFixISO";
+import { useProjectStore } from "~/stores/project";
+import { useI18nStore } from "~/stores/i18n";
 
 const emit = defineEmits(["close", "open_assign"]);
 

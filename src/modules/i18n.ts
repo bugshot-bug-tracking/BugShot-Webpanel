@@ -1,5 +1,5 @@
 import { createI18n } from "vue-i18n";
-import datetimeFormats from "src/config/datetimeFormats";
+import datetimeFormats from "~/config/datetimeFormats";
 import { UserModule } from "~/types";
 
 // Import i18n resources

@@ -73,10 +73,10 @@
 </template>
 
 <script setup>
-import { useProjectStore } from "src/stores/project";
+import { useProjectStore } from "~/stores/project";
 import axios from "axios";
 import { VueTribute } from "vue-tribute";
-import colors from "src/util/colors";
+import colors from "~/util/colors";
 import { maxlengthContentEditable } from "/src/util/maxlength-contenteditable.js";
 import { useAuthStore } from "/src/stores/auth";
 
