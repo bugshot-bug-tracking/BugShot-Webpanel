@@ -44,7 +44,7 @@
 										cursor: pointer;
 									"
 									v-bind="attributes"
-									src="/src/assets/icons/caret-down-fill.svg"
+									src="/src/assets/icons/caret_down.svg"
 								/>
 							</template>
 

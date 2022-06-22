@@ -163,7 +163,7 @@ const priority = computed(() => {
 		z-index: 1;
 		top: 0;
 		left: 0;
-		background-image: url("/src/assets/icons/expand.svg");
+		background-image: url("/src/assets/icons/zoom.svg");
 		background-repeat: no-repeat;
 		background-position: center;
 		background-color: hsla(0, 0%, 0%, 0.15);
@@ -255,20 +255,21 @@ const priority = computed(() => {
 		}
 
 		&.arrow-left {
-			background-image: url("/src/assets/icons/icn_left_arrow.svg");
+			background-image: url("/src/assets/icons/arrow_down.svg");
+			transform: rotateZ(90deg);
 
 			&:hover {
-				background-image: url("/src/assets/icons/icn_left_arrow_hover.svg");
+				background-image: url("/src/assets/icons/arrow_down.svg");
 			}
 		}
 
 		&.arrow-right {
-			background-image: url("/src/assets/icons/icn_left_arrow.svg");
-			transform: rotate(180deg);
+			background-image: url("/src/assets/icons/arrow_down.svg");
+			transform: rotate(-90deg);
 
 			&:hover {
-				background-image: url("/src/assets/icons/icn_left_arrow_hover.svg");
-				transform: rotate(180deg);
+				background-image: url("/src/assets/icons/arrow_down.svg");
+				transform: rotate(-90deg);
 			}
 		}
 	}

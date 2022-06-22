@@ -84,7 +84,7 @@
 					{{ $t("add.column") }}
 				</a>
 				<a @click="toggleForm" class="black-to-gray btn">
-					<img src="/src/assets/icons/round_x.svg" alt="collapse" />
+					<img src="/src/assets/icons/close_1.svg" alt="collapse" />
 				</a>
 			</div>
 		</Column>
@@ -108,7 +108,7 @@
 	>
 		<template #success-img>
 			<img
-				src="/src/assets/gif/delete.gif"
+				src="/src/assets/animations/delete.gif"
 				alt="success"
 				class="h-50 w-auto"
 			/>

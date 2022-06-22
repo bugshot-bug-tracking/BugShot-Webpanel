@@ -30,13 +30,13 @@
 				<img
 					v-if="showPassword"
 					@click="togglePassword"
-					src="/src/assets/icons/hide_password.svg"
+					src="/src/assets/icons/password_hide.svg"
 				/>
 
 				<img
 					v-if="!showPassword"
 					@click="togglePassword"
-					src="/src/assets/icons/show_password.svg"
+					src="/src/assets/icons/password_view.svg"
 				/>
 			</div>
 
@@ -93,13 +93,13 @@
 				<img
 					v-if="showPassword"
 					@click="togglePassword"
-					src="/src/assets/icons/hide_password.svg"
+					src="/src/assets/icons/password_hide.svg"
 				/>
 
 				<img
 					v-if="!showPassword"
 					@click="togglePassword"
-					src="/src/assets/icons/show_password.svg"
+					src="/src/assets/icons/password_view.svg"
 				/>
 			</div>
 
@@ -405,7 +405,7 @@ const validate = computed(() => {
 
 	&::before {
 		content: "";
-		background-image: url("/src/assets/icons/classic_X.svg");
+		background-image: url("/src/assets/icons/close_2.svg");
 		background-position: 0 0;
 		background-size: auto;
 		background-repeat: no-repeat;

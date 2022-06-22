@@ -37,7 +37,7 @@
 				<template #footer>
 					<a class="log-out bs-btn red empty" @click="logout">
 						<img
-							src="/src/assets/extern/logout.svg"
+							src="/src/assets/icons/logout.svg"
 							class="black-to-red"
 						/>
 						{{ $t("log_out") }}

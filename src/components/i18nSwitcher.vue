@@ -2,7 +2,7 @@
 	<div class="language-switch">
 		<div class="locale" @click="toggle" :class="{ active: showLangs }">
 			<img
-				src="/src/assets/icons/lang.svg"
+				src="/src/assets/icons/language.svg"
 				alt="language"
 				class="black-to-green"
 			/>
@@ -82,6 +82,11 @@ const supportedLocales = computed(() => ["auto", ...store.getSupportedLocales]);
 	&.active {
 		background-color: #c4f8e5;
 	}
+
+	img {
+		width: 1.5rem;
+		height: 1.5rem;
+	}
 }
 
 .selection {
@@ -94,7 +99,7 @@ const supportedLocales = computed(() => ["auto", ...store.getSupportedLocales]);
 	text-transform: uppercase;
 	z-index: 10;
 	font-size: 1rem;
-	box-shadow: 0px 3px 6px hsla(0, 0%, 0%, 0.4);
+	box-shadow: 0 0.25rem 0.375rem hsla(0, 0%, 0%, 0.4);
 
 	ul {
 		list-style: none;

@@ -26,7 +26,7 @@
 					/>
 
 					<img
-						src="/src/assets/icons/round_x.svg"
+						src="/src/assets/icons/close_1.svg"
 						alt="delete"
 						class="delete black-to-gray"
 						@click="deleteInvite(index)"
@@ -63,7 +63,7 @@
 						autocomplete="email"
 					/>
 
-					<img src="/src/assets/icons/at@.svg" alt="at" />
+					<img src="/src/assets/icons/mail.svg" alt="at" />
 				</div>
 
 				<div class="roles">

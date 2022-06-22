@@ -5,7 +5,11 @@
 			:class="{ active: active }"
 			@click="active = !active"
 		>
-			<img src="/src/assets/extern/m-2.svg" alt="bell" />
+			<img
+				src="/src/assets/icons/notification.svg"
+				alt="bell"
+				class="black-to-white"
+			/>
 
 			<div class="badge" v-if="invitations.length > 0">
 				{{ invitations.length }}

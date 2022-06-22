@@ -14,14 +14,14 @@
 
 		<div class="actions black-to-gray ms-2" v-if="movable || deletable">
 			<img
-				src="/src/assets/icons/arrow-left-right.svg"
+				src="/src/assets/icons/move.svg"
 				alt="order"
 				class="handle"
 				v-if="movable"
 			/>
 
 			<img
-				src="/src/assets/icons/round_minus.svg"
+				src="/src/assets/icons/remove.svg"
 				alt="edit"
 				@click="emit('delete', id)"
 				v-if="deletable"
@@ -43,7 +43,7 @@
 			/>
 
 			<img
-				src="/src/assets/icons/classic_X.svg"
+				src="/src/assets/icons/close_2.svg"
 				alt="cancel"
 				@click="cancel"
 				style="width: 18px"

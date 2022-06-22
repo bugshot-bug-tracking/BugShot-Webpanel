@@ -61,7 +61,7 @@
 						<div v-if="canRemove(user.id)" class="actions">
 							<a @click.prevent="removeUser(user)">
 								<img
-									src="/src/assets/icons/trash.svg"
+									src="/src/assets/icons/delete.svg"
 									alt="Trash Can"
 								/>
 								<div class="">{{ $t("remove") }}</div>
@@ -95,7 +95,7 @@
 								class="black-to-purple"
 								style="background-color: unset"
 								v-bind="attributes"
-								src="/src/assets/icons/caret-down-fill.svg"
+								src="/src/assets/icons/caret_down.svg"
 							/>
 						</template>
 

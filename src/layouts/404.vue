@@ -1,7 +1,7 @@
 <template>
 	<main>
 		<div>
-			<img src="/src/assets/gif/bugshot_404_error.gif" alt="404" />
+			<img src="/src/assets/animations/bugshot_404_error.gif" alt="404" />
 
 			<span c="#5916b9" text-3xl font-bold>
 				{{ t("problem_encountered") }}

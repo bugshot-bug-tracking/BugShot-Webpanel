@@ -14,7 +14,7 @@
 				@focus="errMessage = null"
 			/>
 
-			<img src="/src/assets/icons/at@.svg" alt="at" />
+			<img src="/src/assets/icons/mail.svg" alt="at" />
 		</div>
 
 		<div class="errors" v-if="errMessage != null">
@@ -34,7 +34,7 @@
 
 	<div class="process" v-if="process">
 		<div class="loading">
-			<img src="/src/assets/global/loading.svg" alt="loading" />
+			<img src="/src/assets/animations/loading.svg" alt="loading" />
 		</div>
 	</div>
 </template>

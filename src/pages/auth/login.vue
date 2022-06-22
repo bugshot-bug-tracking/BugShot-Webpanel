@@ -14,7 +14,7 @@
 				:class="{ error: errMessage }"
 			/>
 
-			<img src="/src/assets/icons/at@.svg" alt="at" />
+			<img src="/src/assets/icons/mail.svg" alt="at" />
 		</div>
 
 		<div class="bs-input w-icon">
@@ -33,14 +33,14 @@
 			<img
 				v-show="passwordOpt.hidden"
 				@click="passwordOpt.toggle"
-				src="/src/assets/icons/hide_password.svg"
+				src="/src/assets/icons/password_hide.svg"
 				style="cursor: pointer"
 			/>
 
 			<img
 				v-show="!passwordOpt.hidden"
 				@click="passwordOpt.toggle"
-				src="/src/assets/icons/show_password.svg"
+				src="/src/assets/icons/password_view.svg"
 				style="cursor: pointer"
 			/>
 		</div>

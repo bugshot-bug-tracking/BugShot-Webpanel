@@ -10,7 +10,7 @@
 				<h4>{{ $t("new_bug_report") }}</h4>
 
 				<img
-					src="/src/assets/icons/classic_X.svg"
+					src="/src/assets/icons/close_2.svg"
 					alt="close"
 					@click="tabOpen = false"
 				/>

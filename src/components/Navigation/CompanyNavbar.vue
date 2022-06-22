@@ -39,7 +39,7 @@
 						>
 							<span>{{ company.attributes.designation }}</span>
 
-							<img src="/src/assets/icons/icn_left_arrow.svg" />
+							<img src="/src/assets/icons/arrow_down.svg" />
 						</div>
 
 						<div class="collapsable">
@@ -61,9 +61,7 @@
 									{{ $t("project", 2) }}
 								</RouterLink>
 
-								<img
-									src="/src/assets/icons/icn_left_arrow.svg"
-								/>
+								<img src="/src/assets/icons/arrow_down.svg" />
 							</div>
 
 							<div class="collapsable">
@@ -340,7 +338,7 @@ ul {
 				background: hsl(158, 79%, 87%);
 
 				> img {
-					transform: rotateZ(90deg);
+					transform: rotateZ(0deg);
 				}
 
 				+ .collapsable {

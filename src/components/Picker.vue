@@ -31,7 +31,10 @@
 			<div class="image" v-show="pickOption === 1" @change="change">
 				<div class="empty" v-if="imgg === null">
 					<div>
-						<img src="/src/assets/icons/image_placeholder.svg" />
+						<img
+							src="/src/assets/icons/image.svg"
+							class="black-to-gray"
+						/>
 
 						<div class="text">
 							{{ $t("picker.drag_and_drop") }}

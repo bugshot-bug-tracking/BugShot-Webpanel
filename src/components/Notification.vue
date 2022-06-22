@@ -31,7 +31,7 @@
 
 			<a @click="decline">
 				<img
-					src="/src/assets/icons/classic_X.svg"
+					src="/src/assets/icons/close_2.svg"
 					alt="Decline"
 					class="decline"
 				/>

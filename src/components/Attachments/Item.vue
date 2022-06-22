@@ -55,7 +55,7 @@ const emit = defineEmits(["download", "delete"]);
 		}
 
 		&.delete {
-			background-image: url("/src/assets/icons/trash.svg");
+			background-image: url("/src/assets/icons/delete.svg");
 		}
 	}
 }
