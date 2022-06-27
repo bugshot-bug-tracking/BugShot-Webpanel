@@ -1,6 +1,6 @@
 <template>
 	<div class="order-button" ref="root">
-		<a @click="popupMenu.toggle">
+		<a @click="popupMenu.toggle" :class="{ active: popupMenu.open }">
 			<img src="/src/assets/icons/ordering.svg" alt="Order by" />
 		</a>
 
@@ -196,6 +196,7 @@ a {
 		height: 1.5rem;
 	}
 
+	&.active,
 	&:hover {
 		background: hsl(265, 79%, 54%);
 

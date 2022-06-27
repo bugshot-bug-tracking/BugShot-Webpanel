@@ -1,5 +1,5 @@
 <template>
-	<div class="wrapper" :class="{ close: minimize }">
+	<div class="wrapper" :class="{ close: sidebar.closed }">
 		<div class="head">
 			<slot name="header" />
 		</div>
@@ -14,18 +14,19 @@
 			<slot name="footer" />
 		</div>
 
-		<div class="hide" @click="toggle">
+		<div class="hide" @click="sidebar.toggle">
 			<img src="/src/assets/icons/caret_down.svg" />
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
-const minimize = ref(false);
-
-const toggle = () => {
-	minimize.value = !minimize.value;
-};
+const sidebar = reactive({
+	closed: false,
+	toggle: () => {
+		sidebar.closed = !sidebar.closed;
+	},
+});
 </script>
 
 <style lang="scss" scoped>
@@ -74,23 +75,21 @@ const toggle = () => {
 		align-items: center;
 		justify-content: center;
 		position: absolute;
-		right: -1.25rem;
+		right: -1.75rem;
 		top: 1.5rem;
 		background-color: #f8f8fc;
-		width: 1.25rem;
-		height: 2rem;
+		width: 1.75rem;
+		height: 2.75rem;
 		border-radius: 0 0.375rem 0.375rem 0;
 		border: 1px solid #ede4fc;
 		border-left: 1px solid #f8f8fc;
-		display: flex;
 		z-index: 1;
 
 		> img {
 			user-select: none;
 			transform: rotateZ(90deg);
-			width: 1.25rem;
-			height: 1.25rem;
-
+			width: 1.75rem;
+			height: 1.75rem;
 			color: #7a2ee6;
 			filter: brightness(0) saturate(1) invert(18%) sepia(72%)
 				saturate(5384%) hue-rotate(263deg) brightness(94%) contrast(92%);

@@ -227,11 +227,6 @@ export const useMainStore = defineStore("main", {
 
 		getCompanyById: (state) => (id: string) => state.companies.get(id),
 
-		getCompanyWithProjects: (state) =>
-			[...state.companies]
-				.filter((record) => record[1].attributes.projects?.length > 0)
-				.map((r) => r[1]),
-
 		getCompanyProjects: (state) => (id: string) =>
 			state.companies.get(id)?.attributes.projects || [],
 

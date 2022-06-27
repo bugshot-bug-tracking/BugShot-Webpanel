@@ -332,6 +332,8 @@ ul {
 				transform: rotateZ(-90deg);
 				transition: transform 0.2s;
 				user-select: none;
+				width: 1.5rem;
+				height: 1.5rem;
 			}
 
 			&.open {

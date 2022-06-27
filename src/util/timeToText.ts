@@ -1,6 +1,6 @@
 import { useI18n } from "vue-i18n";
 
-export default function timeToText(time) {
+export default function timeToText(time: string | Date) {
 	let i18n = useI18n();
 
 	if (!(time && time != "")) return i18n.t("some_time");
@@ -9,7 +9,7 @@ export default function timeToText(time) {
 	let then = new Date(time);
 
 	// get total seconds between the times
-	var delta = Math.abs(then - now) / 1000;
+	var delta = Math.abs(then.getTime() - now.getTime()) / 1000;
 
 	// calculate (and subtract) whole days
 	var days = Math.floor(delta / 86400);
