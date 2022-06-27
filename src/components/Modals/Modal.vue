@@ -3,7 +3,7 @@
 		<div class="modal-mask" v-if="show">
 			<div
 				class="modal-wrapper"
-				@click.self="no_close_button ? {} : $emit('close')"
+				@click.self="no_close_button ? {} : emit('close')"
 			>
 				<div class="modal-container">
 					<button
@@ -23,7 +23,7 @@
 	</transition>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const emit = defineEmits(["close"]);
 
 const props = defineProps({

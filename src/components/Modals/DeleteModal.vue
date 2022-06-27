@@ -9,7 +9,7 @@
 			</span>
 
 			<div class="actions">
-				<a class="bs-btn red" @click.prevent="$emit('delete')">
+				<a class="bs-btn red" @click.prevent="execute">
 					{{ $t("yes") }}
 				</a>
 
@@ -17,13 +17,25 @@
 			</div>
 		</div>
 	</Modal>
+
+	<LoadingModal
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="loadingModal.show = false"
+	/>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
 	text: {
 		required: true,
 		type: String,
+	},
+
+	callback: {
+		required: false,
+		type: Function,
 	},
 });
 
@@ -41,6 +53,44 @@ const close = () => {
 		emit("close");
 	});
 };
+
+const execute = async () => {
+	if (props.callback)
+		try {
+			loadingModal.show = true;
+			loadingModal.state = 0;
+			loadingModal.message = "";
+
+			await props.callback();
+
+			loadingModal.state = 1;
+			loadingModal.message = `Project deleted successfully.`;
+		} catch (error) {
+			console.log(error);
+			loadingModal.state = 2;
+		} finally {
+			setTimeout(() => {
+				show.value = false;
+
+				nextTick(() => {
+					emit("close");
+				});
+
+				loadingModal.show = false;
+				loadingModal.state = 0;
+				loadingModal.message = "";
+			}, 4000);
+		}
+	else {
+		emit("delete");
+	}
+};
+
+const loadingModal = reactive({
+	show: false,
+	state: 0,
+	message: "",
+});
 </script>
 
 <style lang="scss" scoped>
@@ -48,16 +98,16 @@ const close = () => {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: 400px;
-	height: 200px;
+	width: 25rem;
+	height: 12.5rem;
 	justify-content: center;
-	gap: 40px;
-	padding: 20px;
+	gap: 1.25rem;
+	padding: 1.25rem;
 
 	.actions {
 		display: flex;
 		align-items: center;
-		gap: 40px;
+		gap: 2.5rem;
 	}
 
 	.text {

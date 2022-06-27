@@ -50,7 +50,7 @@
 	/>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useMainStore } from "~/stores/main";
 import toBase64 from "~/util/toBase64";
 import colors from "~/util/colors";
@@ -83,16 +83,19 @@ const close = () => {
 const project = computed(() => {
 	const project = store.getProjectById(props.id);
 
-	projectParams.name = project.attributes.designation;
+	if (project) {
+		projectParams.name = project.attributes.designation;
 
-	projectParams.color = project.attributes.color_hex
-		? Object.keys(colors).findIndex(
-				(x) => colors[x] === project.attributes.color_hex
-		  )
-		: 3;
+		projectParams.color = project.attributes.color_hex
+			? colors.findIndex((x) => x === project.attributes.color_hex)
+			: 3;
 
-	projectParams.url = project.attributes.url ? project.attributes.url : "";
-	projectParams.image = project.attributes.image?.attributes.base64;
+		projectParams.url = project.attributes.url
+			? project.attributes.url
+			: "";
+
+		projectParams.image = project.attributes.image?.attributes.base64 || "";
+	}
 
 	return project;
 });
@@ -100,17 +103,17 @@ const project = computed(() => {
 const projectParams = reactive({
 	name: "",
 	color: 3,
-	image: null,
+	image: "",
 	url: "",
 });
 
-const setImage = async (value) => {
+const setImage = async (value: File | null) => {
 	// console.log("setImage", value);
-	if (value != null) projectParams.image = await toBase64(value);
-	else projectParams.image = null;
+	if (value != null) projectParams.image = <string>await toBase64(value);
+	else projectParams.image = "";
 };
 
-const setColor = (value) => {
+const setColor = (value: number) => {
 	// console.log("setImage", value);
 	projectParams.color = value;
 };
@@ -127,7 +130,7 @@ const saveChanges = async () => {
 	try {
 		loadingModal.show = true;
 		loadingModal.state = 0;
-		loadingModal.message = null;
+		loadingModal.message = "";
 
 		await store.updateProject(data);
 
@@ -137,7 +140,7 @@ const saveChanges = async () => {
 		setTimeout(() => {
 			loadingModal.show = false;
 			loadingModal.state = 0;
-			loadingModal.message = null;
+			loadingModal.message = "";
 			close();
 		}, 4000);
 	} catch (error) {
@@ -154,35 +157,35 @@ const saveChanges = async () => {
 const loadingModal = reactive({
 	show: false,
 	state: 0,
-	message: null,
+	message: "",
 });
 </script>
 
 <style lang="scss" scoped>
 .wrapper {
 	width: 20vw;
-	min-width: 500px;
+	min-width: 31rem;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 50px;
-	gap: 10px;
+	padding: 3rem;
+	gap: 0.5rem;
 
 	.header {
 		width: 95%;
-		padding: 10px;
-		font-size: 20px;
+		padding: 0.5rem;
+		font-size: 1.25rem;
 		border-bottom: 1px solid #eee5fc;
-		margin-top: -20px;
-		margin-bottom: 20px;
+		margin-top: -1.25rem;
+		margin-bottom: 1.25rem;
 		font-weight: bold;
 	}
 
 	.label {
-		font-size: 16px;
+		font-size: 1rem;
 		font-weight: bold;
-		padding: 0px 3%;
-		margin-bottom: -10px;
+		padding: 0 0.5rem;
+		margin-bottom: -0.5rem;
 		text-align: left;
 	}
 }
