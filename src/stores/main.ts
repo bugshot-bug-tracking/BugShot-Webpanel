@@ -138,7 +138,7 @@ export const useMainStore = defineStore("main", {
 			designation: string;
 			url: string;
 			color_hex: string;
-			base64: string;
+			base64: string | null;
 		}) {
 			try {
 				//get a reference to the bug
