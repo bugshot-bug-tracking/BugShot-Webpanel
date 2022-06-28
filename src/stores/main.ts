@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 
 import axios from "axios";
 import { Company } from "~/models/Company";
+import nProgress from "nprogress";
 
 export const useMainStore = defineStore("main", {
 	state: () => ({
@@ -20,8 +21,12 @@ export const useMainStore = defineStore("main", {
 			this.companies = new Map<String, Company>();
 			this.projects = new Map<String, String>();
 
+			nProgress.start();
+
 			await this.fetchAll();
 			await this.fetchRoles();
+
+			nProgress.done();
 		},
 
 		async fetchAll() {
@@ -53,7 +58,7 @@ export const useMainStore = defineStore("main", {
 							);
 						else project.attributes.image = null;
 
-						// leave the data in the company object but create a mop of where it is so its easier to access later
+						// leave the data in the company object but create a map of where it is so its easier to access later
 						this.projects.set(project.id, company.id);
 					}
 				}

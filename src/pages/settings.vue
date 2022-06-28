@@ -93,7 +93,7 @@ section.sidebar {
 	grid-area: sidebar;
 
 	h3 {
-		padding: 20px;
+		padding: 1.25rem;
 		text-align: left;
 	}
 }
@@ -117,10 +117,10 @@ meta:
 .account {
 	h4 {
 		text-align: left;
-		padding: 10px 20px;
+		padding: 0.5rem 1.25rem;
 		color: #9ba5d7;
 		border-bottom: 1px solid #ede4fc;
-		margin: 10px;
+		margin: 0.5rem;
 		font-size: 1.1rem;
 		text-transform: uppercase;
 	}
@@ -128,25 +128,25 @@ meta:
 	ul {
 		list-style-type: none;
 		width: 100%;
-		padding: 0 10px;
+		padding: 0 0.5rem;
 		text-align: left;
 		display: flex;
 		flex-direction: column;
 
 		> li {
-			padding: 4px 4px 8px 4px;
+			padding: 0.25rem 0.25rem 0.5rem 0.25rem;
 		}
 	}
 }
 
 .name {
-	padding: 10px;
-	font-size: 20px;
+	padding: 0.5rem;
+	font-size: 1.25rem;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	margin: 0 20px;
-	margin-bottom: 10px;
+	margin: 0 1.25rem;
+	margin-bottom: 0.5rem;
 
 	.username {
 		font-weight: bold;
@@ -155,18 +155,18 @@ meta:
 
 .item {
 	font-weight: 700;
-	padding: 10px 20px;
+	padding: 0.5rem 1.25rem;
 	text-align: left;
 	font-size: 1.1rem;
 
 	&:hover {
 		background-color: hsl(263, 79%, 94%);
 		width: 100%;
-		border-radius: 6px;
+		border-radius: 0.375rem;
 	}
 
 	&.router-link-active {
-		border-radius: 6px;
+		border-radius: 0.375rem;
 		background: hsl(158, 79%, 87%);
 	}
 }
@@ -174,12 +174,12 @@ meta:
 .log-out {
 	display: flex;
 	align-items: center;
-	gap: 8px;
+	gap: 0.5rem;
 
 	img {
-		width: 24px;
-		height: 24px;
-		transform: rotateZ(90deg);
+		width: 1.5rem;
+		height: 1.5rem;
+		transform: rotateZ(0deg);
 	}
 }
 </style>

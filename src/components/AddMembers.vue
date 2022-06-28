@@ -39,6 +39,7 @@
 			src="/src/assets/icons/add.svg"
 			alt="add"
 			class="black-to-green"
+			style="width: 2rem; height: 2rem"
 			@click="modalActive = true"
 		/>
 	</div>

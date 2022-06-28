@@ -20,7 +20,7 @@
 	</T2Page>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useMainStore } from "~/stores/main";
 import { useProjectStore } from "~/stores/project";
 

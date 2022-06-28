@@ -78,7 +78,7 @@ const decline = async () => {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 10px 0px;
+	padding: 0.5rem 0px;
 
 	.main {
 		display: flex;
@@ -87,10 +87,10 @@ const decline = async () => {
 
 		.top {
 			text-align: left;
-			font-size: 14px;
+			font-size: 0.875rem;
 
 			span {
-				font-size: 16px;
+				font-size: 1rem;
 				font-weight: bold;
 			}
 		}
@@ -108,8 +108,8 @@ const decline = async () => {
 		width: 20%;
 
 		> * {
-			width: 28px;
-			height: 28px;
+			width: 1.75rem;
+			height: 1.75rem;
 			border-radius: 100%;
 			cursor: pointer;
 
@@ -119,13 +119,15 @@ const decline = async () => {
 		}
 
 		.accept {
-			width: 16px;
+			width: 1.5rem;
+			height: 1.5rem;
 			// color: #18D992;
 			filter: brightness(0) saturate(1) invert(63%) sepia(74%)
 				saturate(493%) hue-rotate(104deg) brightness(96%) contrast(88%);
 		}
 		.decline {
-			width: 16px;
+			width: 1.5rem;
+			height: 1.5rem;
 			// color: #F23838; red
 			filter: brightness(0) saturate(1) invert(46%) sepia(28%)
 				saturate(5216%) hue-rotate(331deg) brightness(87%)

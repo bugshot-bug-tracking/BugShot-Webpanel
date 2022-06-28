@@ -259,11 +259,11 @@ const loadingModal = reactive({
 	height: 100%;
 	display: flex;
 	position: relative;
-	padding: 30px;
+	padding: 2rem;
 
 	.general {
-		width: 500px;
-		min-width: 500px;
+		width: 31rem;
+		min-width: 31rem;
 
 		.body {
 			position: relative;
@@ -279,8 +279,8 @@ const loadingModal = reactive({
 	}
 
 	.plan {
-		width: 500px;
-		min-width: 500px;
+		width: 31rem;
+		min-width: 31rem;
 	}
 
 	.column {
@@ -288,7 +288,7 @@ const loadingModal = reactive({
 		position: relative;
 		flex-direction: column;
 		height: 100%;
-		padding: 15px;
+		padding: 1rem;
 		width: 100%;
 		border-right: 1px solid #ede4fc;
 	}

@@ -7,7 +7,7 @@
 				src="/src/assets/icons/edit.svg"
 				alt="edit"
 				class="black-to-gray"
-				style="width: 18px"
+				style="width: 1.25rem"
 				@click="flag = false"
 			/>
 		</div>
@@ -38,7 +38,7 @@
 			<img
 				src="/src/assets/icons/check.svg"
 				alt="save"
-				style="width: 18px"
+				style="width: 1.5rem"
 				@click="edit"
 			/>
 
@@ -46,13 +46,13 @@
 				src="/src/assets/icons/close_2.svg"
 				alt="cancel"
 				@click="cancel"
-				style="width: 18px"
+				style="width: 1.5rem"
 			/>
 		</div>
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const emit = defineEmits(["edit", "delete"]);
 const props = defineProps({
 	id: {
@@ -102,24 +102,24 @@ const cancel = () => {
 	align-items: center;
 	justify-content: space-between;
 	width: 100%;
-	height: 40px;
+	height: 2.5rem;
 }
 
 .actions {
 	display: flex;
-	gap: 8px;
+	gap: 0.5rem;
 
 	img {
-		max-height: 22px;
-		max-width: 22px;
+		width: 1.5rem;
+		height: 1.5rem;
 	}
 }
 
 input {
 	border: 1px solid hsl(264, 78%, 77%);
-	border-radius: 8px;
+	border-radius: 0.5rem;
 	width: 100%;
-	padding: 2px 6px;
+	padding: 0.125rem 0.375rem;
 
 	&:focus,
 	&:focus-visible,

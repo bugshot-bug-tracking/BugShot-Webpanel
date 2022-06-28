@@ -140,13 +140,6 @@ const openDelete = (project: Project) => {
 };
 </script>
 
-<style lang="scss" scoped>
-.groups {
-	width: 100%;
-	height: 100%;
-}
-</style>
-
 <route lang="yaml">
 name: company
 </route>

@@ -52,23 +52,23 @@ const emit = defineEmits(["add"]);
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	gap: 6px;
+	gap: 0.375rem;
 	flex-wrap: wrap;
 }
 
 .item {
 	display: flex;
 	align-items: center;
-	gap: 8px;
+	gap: 0.5rem;
 
 	.avatar {
 		color: hsl(0, 0%, 100%);
 		background-color: hsl(265, 80%, 50%);
-		font-size: 12px;
-		padding: 8px;
-		border-radius: 25px;
-		height: 32px;
-		width: 32px;
+		font-size: 0.75rem;
+		padding: 0.5rem;
+		border-radius: 100%;
+		height: 2rem;
+		width: 2rem;
 
 		text-align: center;
 		text-transform: uppercase;
@@ -93,10 +93,15 @@ const emit = defineEmits(["add"]);
 }
 
 .add {
+	display: flex;
+	align-items: center;
 	cursor: pointer;
 	transition: 0.2s;
 
 	img {
+		width: 1.5rem;
+		height: 1.5rem;
+
 		// color: #18d992;
 		filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
 			hue-rotate(104deg) brightness(96%) contrast(88%);
