@@ -1,4 +1,5 @@
 import { Company } from "./Company";
+import { Image } from "./Image";
 import { Status } from "./Status";
 import { User } from "./User";
 
@@ -9,13 +10,13 @@ export interface Project {
 		designation: string;
 		company: Company;
 		color_hex: string;
-		url: URL;
+		url: string;
 		created_at: Date;
 		updated_at: Date;
 		creator: User;
 		bugsDone: number;
 		bugsTotal: number;
-		image?: string;
+		image?: Image;
 		statuses?: Status[];
 	};
 }

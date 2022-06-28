@@ -69,7 +69,7 @@
 					@click="open = !open"
 				>
 					<span>{{ $t("technical_info") + ":" }}</span>
-					<img src="/src/assets/icons/caret-down-fill.svg" />
+					<img src="/src/assets/icons/caret_down.svg" />
 				</div>
 
 				<div class="technical-info">
@@ -243,7 +243,7 @@ const format = (date) => d(new Date(date).toISOString(), "short");
 	}
 
 	.close-button {
-		background-image: url("/src/assets/icons/classic_X.svg");
+		background-image: url("/src/assets/icons/close_2.svg");
 		background-repeat: no-repeat;
 		background-position: center;
 		width: 24px;

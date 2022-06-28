@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
-  <g id="Group_272" data-name="Group 272" transform="translate(0.685 0.685)">
-    <rect id="Rectangle_178" data-name="Rectangle 178" width="24" height="24" transform="translate(-0.185 -0.185)" fill="none" stroke="rgba(0,0,0,0)" stroke-width="1"/>
-    <g id="Group_272-2" data-name="Group 272" transform="translate(2.118 4.543)">
-      <path id="Path_140" data-name="Path 140" d="M19.455,7.409l1.939,1.662v8.035l-1.939,1.939H3.939L2,17.106V9.071L3.939,7.409H6.848L8.788,4.5h5.818l1.939,2.909Z" transform="translate(-2 -4.5)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
-      <circle id="Ellipse_42" data-name="Ellipse 42" cx="2.909" cy="2.909" r="2.909" transform="translate(6.788 4.848)" fill="none" stroke="#fff" stroke-miterlimit="10" stroke-width="2"/>
-    </g>
-  </g>
-</svg>

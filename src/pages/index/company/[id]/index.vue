@@ -7,7 +7,9 @@
 				</template>
 
 				<template #l-bottom>
-					{{ record ? record.attributes.designation : $t("loading") }}
+					{{
+						company ? company.attributes.designation : $t("loading")
+					}}
 				</template>
 
 				<InviteModal :dataType="'Company'" :id="id" />
@@ -19,7 +21,7 @@
 						company_id: id,
 					}"
 					:subTitle="`${$t('company')}: ${
-						record?.attributes.designation
+						company?.attributes.designation
 					}`"
 				/>
 				<router-link
@@ -31,45 +33,56 @@
 			</T2Header>
 		</template>
 
-		<div v-if="areProjects">
-			<GroupContainer
-				:mainText="record.attributes.designation"
-				:secondText="
-					$t('last_update', {
-						time: timeToText(record.attributes.updated_at),
-					})
-				"
-			>
-				<Card
-					v-for="project of companyProjects"
+		<div class="bs-scroll s-green w-100 h-100" v-if="company && projects">
+			<GroupContainer>
+				<template #top-left>
+					<RouterLink
+						:to="{ name: 'company', params: { id: company.id } }"
+					>
+						{{ company.attributes.designation }}
+					</RouterLink>
+				</template>
+
+				<template #top-right>
+					{{
+						$t("last_update", {
+							time: timeToText(company.attributes.updated_at),
+						})
+					}}
+				</template>
+
+				<ProjectCard
+					v-for="project of projects"
 					:key="project.id"
-					:id="project.id"
 					:title="project.attributes.designation"
-					:mainText="$t('task_overview')"
-					:secondText="`${project.attributes.bugsDone} / ${project.attributes.bugsTotal}`"
-					:color="
-						project.attributes.color_hex
-							? project.attributes.color_hex
-							: '#7A2EE6'
-					"
-					:image="
-						project.attributes.image
-							? project.attributes.image
-							: null
-					"
-					:lastEdit="
-						project.attributes.updated_at
-							? project.attributes.updated_at
-							: null
-					"
-					:routeTo="{ name: 'project', params: { id: project.id } }"
+					:lastEdit="project.attributes.updated_at"
+					:image="project.attributes.image?.attributes.base64"
+					:color="project.attributes.color_hex"
+					:progress="{
+						done: project.attributes.bugsDone,
+						total: project.attributes.bugsTotal,
+					}"
+					actions
+					@open="goToProject(project.id)"
+					@edit="openEdit(project)"
+					@delete="openDelete(project)"
 				/>
 			</GroupContainer>
 		</div>
 	</T2Page>
+
+	<EditModal v-if="edit.visible" :id="edit.project_id" @close="edit.reset" />
+
+	<DeleteModal
+		v-if="deleteAction.visible"
+		:text="deleteAction.text"
+		:callback="deleteAction.execute"
+		@close="deleteAction.reset"
+	/>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { Project } from "~/models/Project";
 import { useMainStore } from "~/stores/main";
 import timeToText from "~/util/timeToText";
 
@@ -82,21 +95,49 @@ const props = defineProps({
 });
 
 const store = useMainStore();
+const router = useRouter();
 
-const record = computed(() => {
-	return store.getCompanyById(props.id);
-});
+const company = computed(() => store.getCompanyById(props.id));
 
-const companyProjects = computed(() => {
-	return store.getCompanyProjects(props.id);
-});
+const projects = computed(() => store.getCompanyProjects(props.id));
 
-const areProjects = computed(() => {
-	if (!record.value) return false;
-	if (!record.value.attributes.projects) return false;
-	if (!record.value.attributes.projects.length > 0) return false;
-	return true;
+const goToProject = (id: string) => {
+	router.push({ name: "project", params: { id: id } });
+};
+
+const edit = reactive({
+	visible: false,
+	company_id: "",
+	project_id: "",
+	reset: () => {
+		edit.visible = false;
+		edit.company_id = "";
+		edit.project_id = "";
+	},
 });
+const openEdit = (project: Project) => {
+	edit.company_id = project.attributes.company.id;
+	edit.project_id = project.id;
+	edit.visible = true;
+};
+
+const deleteAction = reactive({
+	visible: false,
+	text: "",
+	execute: () => {},
+	reset: () => {
+		deleteAction.visible = false;
+		deleteAction.text = "";
+		deleteAction.execute = () => {};
+	},
+});
+const openDelete = (project: Project) => {
+	deleteAction.text = project.attributes.designation;
+	deleteAction.execute = async () => {
+		await store.deleteProject(project.id);
+	};
+	deleteAction.visible = true;
+};
 </script>
 
 <route lang="yaml">

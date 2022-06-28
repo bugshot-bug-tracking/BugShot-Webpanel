@@ -29,8 +29,8 @@
 		grid-area: head;
 
 		border-bottom: 1px solid hsl(263, 79%, 94%);
-		padding: 0 50px;
-		min-height: 80px;
+		padding: 0 3rem;
+		min-height: 5rem;
 	}
 
 	.main {

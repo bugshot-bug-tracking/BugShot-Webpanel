@@ -40,7 +40,7 @@
 				@focus="resetError"
 			/>
 
-			<img src="/src/assets/icons/at@.svg" alt="at" />
+			<img src="/src/assets/icons/mail.svg" alt="at" />
 		</div>
 
 		<div class="requed">
@@ -67,14 +67,14 @@
 				<img
 					v-if="showPassword"
 					@click="togglePassword"
-					src="/src/assets/icons/hide_password.svg"
+					src="/src/assets/icons/password_hide.svg"
 					style="cursor: pointer"
 				/>
 
 				<img
 					v-if="!showPassword"
 					@click="togglePassword"
-					src="/src/assets/icons/show_password.svg"
+					src="/src/assets/icons/password_view.svg"
 					style="cursor: pointer"
 				/>
 			</div>
@@ -132,14 +132,14 @@
 				<img
 					v-if="showPasswordConfirm"
 					@click="togglePasswordConfirm"
-					src="/src/assets/icons/hide_password.svg"
+					src="/src/assets/icons/password_hide.svg"
 					style="cursor: pointer"
 				/>
 
 				<img
 					v-if="!showPasswordConfirm"
 					@click="togglePasswordConfirm"
-					src="/src/assets/icons/show_password.svg"
+					src="/src/assets/icons/password_view.svg"
 					style="cursor: pointer"
 				/>
 			</div>
@@ -191,12 +191,12 @@
 
 	<div class="process" v-if="process">
 		<div class="loading" v-if="stage === 0">
-			<img src="/src/assets/global/loading.svg" alt="loading" />
+			<img src="/src/assets/animations/loading.svg" alt="loading" />
 		</div>
 
 		<div class="success" v-if="stage === 1">
 			<img
-				src="/src/assets/gif/bug_confirmation_not_white.gif"
+				src="/src/assets/animations/bug_confirmation_not_white.gif"
 				alt="Success"
 			/>
 
@@ -523,7 +523,7 @@ const openPP = () => {
 
 	&::before {
 		content: "";
-		background-image: url("/src/assets/icons/classic_X.svg");
+		background-image: url("/src/assets/icons/close_2.svg");
 		background-position: 0 0;
 		background-size: auto;
 		background-repeat: no-repeat;

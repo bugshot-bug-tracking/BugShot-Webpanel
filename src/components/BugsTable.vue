@@ -83,8 +83,12 @@
 				<a class="bs-btn green" @click="addStatus">
 					{{ $t("add.column") }}
 				</a>
-				<a @click="toggleForm" class="black-to-gray btn">
-					<img src="/src/assets/icons/round_x.svg" alt="collapse" />
+				<a @click="toggleForm" class="black-to-gray">
+					<img
+						src="/src/assets/icons/close_1.svg"
+						style="width: 1.5rem; height: 1.5rem; cursor: pointer"
+						alt="collapse"
+					/>
 				</a>
 			</div>
 		</Column>
@@ -108,7 +112,7 @@
 	>
 		<template #success-img>
 			<img
-				src="/src/assets/gif/delete.gif"
+				src="/src/assets/animations/delete.gif"
 				alt="success"
 				class="h-50 w-auto"
 			/>
@@ -276,7 +280,7 @@ const loadingModal = reactive({
 	width: 100%;
 	height: 100%;
 	position: relative;
-	padding: 30px;
+	padding: 2rem;
 	display: flex;
 }
 
@@ -291,22 +295,22 @@ const loadingModal = reactive({
 }
 
 .column {
-	min-width: 365px;
-	max-width: 400px;
+	min-width: 23rem;
+	max-width: 25rem;
 }
 
 .extras {
-	padding: 4px;
+	padding: 0.25rem;
 
 	a {
 		writing-mode: vertical-lr;
 		transform: rotate(180deg);
 		display: flex;
 		align-items: center;
-		gap: 6px;
+		gap: 0.5rem;
 		background-color: #edeef7;
-		padding: 8px;
-		border-radius: 8px;
+		padding: 0.5rem;
+		border-radius: 0.5rem;
 		font-weight: bold;
 		user-select: none;
 		cursor: pointer;
@@ -319,6 +323,7 @@ const loadingModal = reactive({
 		}
 
 		img {
+			width: 1.5rem;
 			height: 1.5rem;
 		}
 	}

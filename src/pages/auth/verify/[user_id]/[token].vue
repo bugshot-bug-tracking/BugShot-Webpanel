@@ -1,23 +1,26 @@
 <template>
 	<div class="wrapper">
 		<div class="container loading" v-if="status === 0">
-			<img src="/src/assets/global/loading.svg" alt="loading" />
+			<img src="/src/assets/animations/loading.svg" alt="loading" />
 			<div class="text">{{ $t("verifying") + "..." }}</div>
 		</div>
 
 		<div class="container success" v-if="status === 1">
-			<img src="/src/assets/gif/bug_confirmation.gif" alt="loading" />
+			<img
+				src="/src/assets/animations/bug_confirmation.gif"
+				alt="loading"
+			/>
 			<div class="text">{{ $t("success") + "..." }}</div>
 		</div>
 
 		<div class="container error" v-if="status === 2">
-			<img src="/src/assets/gif/error_bug.gif" alt="loading" />
+			<img src="/src/assets/animations/error_bug.gif" alt="loading" />
 			<div class="text">{{ $t("error") + "..." }}</div>
 		</div>
 	</div>
 
 	<img
-		src="/src/assets/extern/plugin-trans.svg"
+		src="/src/assets/images/plugin-trans.svg"
 		alt="half-logo"
 		class="decoration-right"
 	/>

@@ -22,15 +22,18 @@
 		hue-rotate(194deg) brightness(90%) contrast(86%);
 }
 
+.black-to-white {
+	color: white;
+	filter: brightness(0) invert(1);
+}
+
 .bs-btn {
-	border-radius: 22px;
-	letter-spacing: 0.14px;
-	font-size: 16px;
-	padding: 8px 16px;
+	border-radius: 1.375rem;
+	font-size: 1rem;
+	padding: 0.5rem 1rem;
 	box-shadow: none;
 	width: auto !important;
 	height: auto !important;
-
 	text-decoration: none;
 	cursor: pointer;
 	align-self: center;
@@ -38,7 +41,7 @@
 	&.green {
 		background: hsl(158, 80%, 47%);
 		color: hsl(0, 0%, 100%);
-		border: 2px solid hsl(158, 80%, 47%);
+		border: 0.125rem solid hsl(158, 80%, 47%);
 
 		&:hover {
 			background: hsl(158, 80%, 41%);
@@ -58,7 +61,7 @@
 	&.purple {
 		background: hsl(265, 79%, 54%);
 		color: hsl(0, 0%, 100%);
-		border: 2px solid hsl(265, 79%, 54%);
+		border: 0.125rem solid hsl(265, 79%, 54%);
 
 		&:hover {
 			background: hsl(265, 80%, 41%);
@@ -78,7 +81,7 @@
 	&.red {
 		background: hsl(0, 88%, 58%);
 		color: hsl(0, 0%, 100%);
-		border: 2px solid hsl(0, 88%, 58%);
+		border: 0.125rem solid hsl(0, 88%, 58%);
 
 		&:hover {
 			background: hsl(0, 88%, 45%);
@@ -105,8 +108,8 @@
 
 	/* width */
 	&::-webkit-scrollbar {
-		width: 8px;
-		height: 8px;
+		width: 0.5rem;
+		height: 0.5rem;
 	}
 
 	/* Track */
@@ -116,7 +119,7 @@
 
 	/* Handle */
 	&::-webkit-scrollbar-thumb {
-		border-radius: 8px;
+		border-radius: 0.5rem;
 	}
 
 	/* Handle on hover */
@@ -155,7 +158,7 @@
 
 	--vs-dropdown-option--active-bg: #eee5fc;
 	--vs-dropdown-option--active-color: #1a2040;
-	--vs-dropdown-max-height: 125px;
+	--vs-dropdown-max-height: 8rem;
 
 	.vs__dropdown-menu {
 		@extend .bs-scroll;

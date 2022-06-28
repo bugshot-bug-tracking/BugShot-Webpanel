@@ -10,7 +10,7 @@
 			@change="change"
 		>
 			<div>
-				<img src="/src/assets/icons/image_placeholder.svg" />
+				<img src="/src/assets/icons/image.svg" class="black-to-gray" />
 				<div class="text">{{ $t("screenshot.drag_and_drop") }}</div>
 			</div>
 
@@ -40,7 +40,7 @@
 					<div class="left">
 						<a v-if="counter > 0" @click="counterDecrease">
 							<img
-								src="/src/assets/icons/icn_left_arrow.svg"
+								src="/src/assets/icons/arrow_down.svg"
 								alt="previous"
 							/>
 						</a>
@@ -61,7 +61,7 @@
 
 						<a class="delete" @click="removeImage">
 							<img
-								src="/src/assets/icons/trash.svg"
+								src="/src/assets/icons/delete.svg"
 								alt="delete"
 							/>
 						</a>
@@ -73,7 +73,7 @@
 							@click="counterIncrease"
 						>
 							<img
-								src="/src/assets/icons/icn_left_arrow.svg"
+								src="/src/assets/icons/arrow_down.svg"
 								alt="next"
 							/>
 						</a>
@@ -250,14 +250,16 @@ const removeImage = () => {
 			}
 
 			img {
-				width: 24px;
-				height: 24px;
+				width: 1.5rem;
+				height: 1.5rem;
 			}
 
-			.right {
-				img {
-					transform: rotateZ(180deg);
-				}
+			.left img {
+				transform: rotateZ(90deg);
+			}
+
+			.right img {
+				transform: rotateZ(-90deg);
 			}
 
 			.left,
@@ -266,7 +268,7 @@ const removeImage = () => {
 				cursor: pointer;
 
 				&:hover {
-					// color:#18D992;
+					color: #18d992;
 					filter: brightness(0) saturate(1) brightness(0) saturate(1)
 						invert(63%) sepia(74%) saturate(493%) hue-rotate(104deg)
 						brightness(96%) contrast(88%);
@@ -277,7 +279,7 @@ const removeImage = () => {
 				cursor: pointer;
 
 				&:hover {
-					// color: #F23838;
+					color: #f23838;
 					filter: brightness(0) saturate(1) invert(46%) sepia(28%)
 						saturate(5216%) hue-rotate(331deg) brightness(87%)
 						contrast(121%);

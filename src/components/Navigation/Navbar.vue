@@ -2,7 +2,7 @@
 	<nav>
 		<div class="top">
 			<RouterLink :to="{ name: 'home' }" class="home-logo">
-				<img src="/src/assets/extern/m-1.svg" alt="Home" />
+				<img src="/src/assets/icons/bugshot.svg" alt="Home" />
 			</RouterLink>
 
 			<Notifications />

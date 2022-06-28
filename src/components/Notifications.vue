@@ -1,11 +1,15 @@
 <template>
-	<div class="notifications">
+	<div class="notifications" ref="root">
 		<a
 			class="bell-button"
 			:class="{ active: active }"
 			@click="active = !active"
 		>
-			<img src="/src/assets/extern/m-2.svg" alt="bell" />
+			<img
+				src="/src/assets/icons/notification.svg"
+				alt="bell"
+				class="black-to-white"
+			/>
 
 			<div class="badge" v-if="invitations.length > 0">
 				{{ invitations.length }}
@@ -40,6 +44,23 @@ const invitations = computed(() => store.getInvitations);
 onMounted(() => store.fetchInvitations());
 
 const active = ref(false);
+
+const root = ref(null);
+
+const autoClose = (event: MouseEvent) => {
+	// event.path for chromium but composedPath is the standard method (ex. firefox)
+	let path: EventTarget[] = event.composedPath && event.composedPath();
+
+	// if clicking outside of this root close the popup
+	if (path.find((element) => element == root.value) == null) {
+		active.value = false;
+	}
+};
+
+addEventListener("click", autoClose);
+onUnmounted(() => {
+	document.removeEventListener("click", autoClose);
+});
 </script>
 
 <style lang="scss" scoped>

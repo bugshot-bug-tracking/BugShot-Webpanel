@@ -1,6 +1,6 @@
 <template>
 	<div class="order-button" ref="root">
-		<a @click="popupMenu.toggle">
+		<a @click="popupMenu.toggle" :class="{ active: popupMenu.open }">
 			<img src="/src/assets/icons/ordering.svg" alt="Order by" />
 		</a>
 
@@ -187,13 +187,21 @@ a {
 	transition: 0.3s;
 	cursor: pointer;
 	user-select: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
+	img {
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+
+	&.active,
 	&:hover {
 		background: hsl(265, 79%, 54%);
 
 		img {
 			transition: 0.3s;
-
 			filter: brightness(0) invert(1);
 		}
 	}
@@ -206,7 +214,7 @@ a {
 	top: 3rem;
 	left: -6rem;
 
-	box-shadow: 0px 0.25rem 0.5rem hsla(0, 0%, 0%, 0.129);
+	box-shadow: 0 0.25rem 0.5rem hsla(0, 0%, 0%, 0.129);
 	border: 1px solid #eee5fc;
 	border-radius: 0.5rem;
 	background: white;

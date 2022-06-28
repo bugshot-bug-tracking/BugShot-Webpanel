@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 
 import axios from "axios";
 import { Company } from "~/models/Company";
+import nProgress from "nprogress";
 
 export const useMainStore = defineStore("main", {
 	state: () => ({
@@ -20,8 +21,12 @@ export const useMainStore = defineStore("main", {
 			this.companies = new Map<String, Company>();
 			this.projects = new Map<String, String>();
 
+			nProgress.start();
+
 			await this.fetchAll();
 			await this.fetchRoles();
+
+			nProgress.done();
 		},
 
 		async fetchAll() {
@@ -53,7 +58,7 @@ export const useMainStore = defineStore("main", {
 							);
 						else project.attributes.image = null;
 
-						// leave the data in the company object but create a mop of where it is so its easier to access later
+						// leave the data in the company object but create a map of where it is so its easier to access later
 						this.projects.set(project.id, company.id);
 					}
 				}
@@ -138,7 +143,7 @@ export const useMainStore = defineStore("main", {
 			designation: string;
 			url: string;
 			color_hex: string;
-			base64: string;
+			base64: string | null;
 		}) {
 			try {
 				//get a reference to the bug
@@ -226,11 +231,6 @@ export const useMainStore = defineStore("main", {
 		getCompanies: (state) => state.companies,
 
 		getCompanyById: (state) => (id: string) => state.companies.get(id),
-
-		getCompanyWithProjects: (state) =>
-			[...state.companies]
-				.filter((record) => record[1].attributes.projects?.length > 0)
-				.map((r) => r[1]),
 
 		getCompanyProjects: (state) => (id: string) =>
 			state.companies.get(id)?.attributes.projects || [],

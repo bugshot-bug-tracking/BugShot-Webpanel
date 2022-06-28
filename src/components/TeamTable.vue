@@ -61,7 +61,7 @@
 						<div v-if="canRemove(user.id)" class="actions">
 							<a @click.prevent="removeUser(user)">
 								<img
-									src="/src/assets/icons/trash.svg"
+									src="/src/assets/icons/delete.svg"
 									alt="Trash Can"
 								/>
 								<div class="">{{ $t("remove") }}</div>
@@ -93,9 +93,13 @@
 						<template #open-indicator="{ attributes }">
 							<img
 								class="black-to-purple"
-								style="background-color: unset"
+								style="
+									background-color: unset;
+									width: 1rem;
+									height: 1rem;
+								"
 								v-bind="attributes"
-								src="/src/assets/icons/caret-down-fill.svg"
+								src="/src/assets/icons/caret_down.svg"
 							/>
 						</template>
 
@@ -242,11 +246,11 @@ watch(
 		align-content: center;
 		align-items: center;
 		justify-content: space-between;
-		margin-bottom: 10px;
+		margin-bottom: 0.5rem;
 		border-bottom: 1px solid #ede4fc;
 
 		> * {
-			min-width: 100px;
+			min-width: 6rem;
 		}
 	}
 
@@ -257,32 +261,35 @@ watch(
 	> .items {
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
+		gap: 0.5rem;
 
 		.person {
 			display: flex;
 			align-content: center;
 			align-items: center;
 			justify-content: space-between;
-			padding: 10px;
+			padding: 0.5rem;
 			border-bottom: 1px solid #ede4fc;
 
 			.info {
 				display: flex;
 				align-items: center;
-				gap: 8px;
+				gap: 0.5rem;
 
 				.avatar {
 					color: hsl(0, 0%, 100%);
 					background-color: hsl(265, 80%, 50%);
-					font-size: 12px;
-					padding: 8px;
-					border-radius: 25px;
-					height: 35px;
-					width: 35px;
+					font-size: 0.875rem;
+					padding: 0.5rem;
+					border-radius: 100%;
+					height: 2rem;
+					width: 2rem;
 
 					text-align: center;
 					text-transform: uppercase;
+					display: flex;
+					justify-content: center;
+					align-items: center;
 				}
 
 				.wrapper {
@@ -309,8 +316,10 @@ watch(
 			cursor: pointer;
 			color: black;
 		}
+
 		img {
-			height: 1rem;
+			width: 1.5rem;
+			height: 1.5rem;
 		}
 
 		&:hover {
@@ -326,15 +335,15 @@ watch(
 }
 
 .project-select {
-	padding-bottom: 16px;
+	padding-bottom: 1rem;
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;
-	gap: 8px;
+	gap: 0.5rem;
 
 	span {
 		font-weight: bold;
-		font-size: 18px;
+		font-size: 1.125rem;
 		border-bottom: 1px solid #eee5fc;
 		text-align: left;
 	}

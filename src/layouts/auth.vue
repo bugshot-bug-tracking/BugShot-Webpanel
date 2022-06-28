@@ -1,7 +1,7 @@
 <template>
 	<div class="auth-grid">
 		<header>
-			<img src="/src/assets/icons/bugshot.svg" />
+			<img src="/src/assets/images/bugshot-banner-white.svg" />
 		</header>
 
 		<main>
