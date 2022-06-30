@@ -274,7 +274,7 @@ const loadingModal = reactive({
 		width: 1.5rem;
 		height: 1.5rem;
 		opacity: 0;
-		margin-left: -0.75rem;
+		margin-left: -0.65rem;
 		border-radius: 0.375rem;
 		transition: 0.25s;
 		border-right: 0.875rem solid hsl(158, 80%, 47%);
@@ -308,7 +308,8 @@ const loadingModal = reactive({
 }
 
 .remove-user {
-	height: 0.875rem;
+	height: 1rem;
+	width: 1rem;
 	margin-right: 1rem;
 	cursor: pointer;
 
