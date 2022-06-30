@@ -1,3 +1,4 @@
+import { BugUserRole } from "./BugUserRole";
 import { User } from "./User";
 
 export interface Bug {
@@ -21,4 +22,5 @@ export interface Bug {
 		updated_at: Date;
 		url: URL | string;
 	};
+	users?: BugUserRole[];
 }

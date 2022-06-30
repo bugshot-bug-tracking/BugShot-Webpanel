@@ -4,6 +4,6 @@ export interface User {
 	attributes: {
 		email: string;
 		first_name: string;
-		last_name: Date;
+		last_name: string;
 	};
 }
