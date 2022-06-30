@@ -300,6 +300,7 @@ const format = (date) => d(new Date(date).toISOString(), "short");
 
 			.content {
 				color: hsl(230, 45%, 75%);
+				font-size: 14px;
 			}
 
 			> div {

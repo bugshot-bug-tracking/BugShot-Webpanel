@@ -99,8 +99,8 @@ const emit = defineEmits(["add"]);
 	transition: 0.2s;
 
 	img {
-		width: 1.5rem;
-		height: 1.5rem;
+		width: 2rem;
+		height: 2rem;
 
 		// color: #18d992;
 		filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)

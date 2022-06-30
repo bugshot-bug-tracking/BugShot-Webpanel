@@ -14,6 +14,11 @@
 							multiple
 							@change="upload"
 						/>
+
+						<img
+							src="/src/assets/icons/attachment.svg"
+							alt="attach"
+						/>
 					</label>
 				</div>
 			</div>
@@ -168,10 +173,7 @@ const update = () => {
 		label#file-label {
 			cursor: pointer;
 			transition: 0.3s;
-			background-image: url("/src/assets/icons/attachment.svg");
-			background-repeat: no-repeat;
-			width: 32px;
-			height: 32px;
+
 			filter: brightness(0) saturate(1) invert(63%) sepia(74%)
 				saturate(493%) hue-rotate(104deg) brightness(96%) contrast(88%);
 			//   color: #18d891;
@@ -181,6 +183,11 @@ const update = () => {
 					saturate(5384%) hue-rotate(263deg) brightness(94%)
 					contrast(92%);
 				// color: #7118d8;
+			}
+
+			img {
+				width: 2rem;
+				height: 2rem;
 			}
 		}
 
