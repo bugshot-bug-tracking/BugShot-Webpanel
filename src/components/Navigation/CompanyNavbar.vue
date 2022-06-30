@@ -19,7 +19,11 @@
 						updated
 						@change="sortList"
 						:selected="settingsStore.getCompaniesOrder"
-					/>
+					>
+						<template #header>
+							{{ $t("order_companies") }}
+						</template>
+					</OrderButton>
 				</div>
 			</header>
 		</template>
