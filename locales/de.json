@@ -191,5 +191,14 @@
 	"the_apps": "Die Anwendungen",
 	"back_to_al_projects": "Zurück zu allen Projekten",
 	"company_details": "Firmendetails",
-	"plan": "Planen | \nPläne"
+	"plan": "Planen | Pläne",
+	"alphabetical": "Alphabetisch",
+	"creation": "Erstellung",
+	"newest_first": "Neuste zuerst",
+	"oldest_first": "Älteste zuerst",
+	"last_updated": "Zuletzt aktualisiert",
+	"ascending": "Aufsteigend",
+	"descending": "Absteigend",
+	"apply_ordering": "Übernehmen",
+	"order_companies": "Firmen sortieren"
 }

@@ -191,5 +191,15 @@
 	"the_apps": "The apps",
 	"back_to_al_projects": "Back to all projects",
 	"company_details": "Company Details",
-	"plan": "Plan | Plans"
+	"plan": "Plan | Plans",
+	"alphabetical": "Alphabetical",
+	"creation": "Creation",
+	"newest_first": "Newest first",
+	"oldest_first": "Oldest first",
+	"last_updated": "Last updated",
+	"ascending": "Ascending",
+	"descending": "Descending",
+	"apply_ordering": "Apply ordering",
+	"order_by_company": "Order companies",
+	"order_companies": "Order companies"
 }

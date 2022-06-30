@@ -6,12 +6,14 @@
 
 		<section class="popup" v-show="popupMenu.open">
 			<header>
-				<span>Order {{ name }}</span>
+				<slot name="header">
+					<span>Order {{ name }}</span>
+				</slot>
 			</header>
 			<hr />
 
 			<div class="order-group" v-if="alphabetical">
-				<span>Alphabetical</span>
+				<span>{{ $t("alphabetical") }}</span>
 
 				<div class="options">
 					<label>
@@ -39,7 +41,7 @@
 			</div>
 
 			<div class="order-group" v-if="creation">
-				<span>Creation</span>
+				<span>{{ $t("creation") }}</span>
 
 				<div class="options">
 					<label>
@@ -50,7 +52,7 @@
 							v-model="radio"
 						/>
 
-						<span>Newest first</span>
+						<span>{{ $t("newest_first") }}</span>
 					</label>
 
 					<label>
@@ -61,13 +63,13 @@
 							v-model="radio"
 						/>
 
-						<span>Oldest first</span>
+						<span>{{ $t("oldest_first") }}</span>
 					</label>
 				</div>
 			</div>
 
 			<div class="order-group" v-if="updated">
-				<span>Last update</span>
+				<span>{{ $t("last_updated") }}</span>
 
 				<div class="options">
 					<label>
@@ -78,7 +80,7 @@
 							v-model="radio"
 						/>
 
-						<span>Ascending</span>
+						<span>{{ $t("ascending") }}</span>
 					</label>
 
 					<label>
@@ -89,13 +91,13 @@
 							v-model="radio"
 						/>
 
-						<span>Descending</span>
+						<span>{{ $t("descending") }}</span>
 					</label>
 				</div>
 			</div>
 
 			<button class="bs-btn green my-2" @click.prevent="submit">
-				Apply ordering
+				{{ $t("apply_ordering") }}
 			</button>
 		</section>
 	</div>
@@ -219,7 +221,7 @@ a {
 	border-radius: 0.5rem;
 	background: white;
 	z-index: 30;
-	width: 16rem;
+	min-width: 16rem;
 
 	min-height: 6rem;
 
@@ -239,6 +241,7 @@ header {
 	padding: 1rem 0.5rem;
 	gap: 0.5rem;
 	border-bottom: 1px solid #eee5fc;
+	white-space: nowrap;
 
 	&:last-of-type {
 		border-bottom: unset;
