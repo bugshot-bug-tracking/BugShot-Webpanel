@@ -77,10 +77,11 @@
 	/>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useProjectStore } from "~/stores/project";
 import colors from "~/util/colors";
 import axios from "axios";
+import { User } from "~/models/User";
 
 const emit = defineEmits(["close"]);
 
@@ -94,12 +95,12 @@ const props = defineProps({
 
 const store = useProjectStore();
 
-const list = ref([]);
+const list = ref(Array<{ user: User; original: boolean; checked: boolean }>());
 
 const bug = computed(() => {
 	let bug = store.getBugById(props.id);
 
-	if (!bug.id) list.value = [];
+	if (!bug?.id) list.value = [];
 	else {
 		let project_users = [
 			store.getProject.attributes.creator,
@@ -110,11 +111,11 @@ const bug = computed(() => {
 
 		project_users.forEach((user) => {
 			let checked = false;
-			if (bug.users?.find((x) => x.user.id === user.id)) checked = true;
+			if (bug?.users?.find((x) => x.user.id === user.id)) checked = true;
 
 			list.value.push({
 				user: user,
-				oroginal: checked, // compare checked with this to know what operation to execute (add/remove)
+				original: checked, // compare checked with this to know what operation to execute (add/remove)
 				checked: checked,
 			});
 		});
@@ -123,16 +124,16 @@ const bug = computed(() => {
 	return bug;
 });
 
-const changeUser = (user, checked, index) => {
+const changeUser = (user: User, checked: boolean, index: number) => {
 	list.value[index].checked = !checked;
 };
 
 const submit = async () => {
-	console.log(list.value);
+	if (!bug.value) return;
 	try {
 		loadingModal.show = true;
 		loadingModal.state = 0;
-		loadingModal.message = null;
+		loadingModal.message = "";
 
 		for (const item of list.value) {
 			// if no change was made skip over the item
@@ -155,18 +156,18 @@ const submit = async () => {
 
 			loadingModal.show = false;
 			loadingModal.state = 0;
-			loadingModal.message = null;
+			loadingModal.message = "";
 		}, 4000);
 	} catch (error) {
 		loadingModal.state = 2;
-		loadingModal.message = null;
+		loadingModal.message = "";
 
 		console.log(error);
 
 		setTimeout(() => {
 			loadingModal.show = false;
 			loadingModal.state = 0;
-			loadingModal.message = null;
+			loadingModal.message = "";
 		}, 4000);
 	}
 	store.fetchBugUsers(props.id);
@@ -175,7 +176,7 @@ const submit = async () => {
 const loadingModal = reactive({
 	show: false,
 	state: 0,
-	message: null,
+	message: "",
 });
 </script>
 
@@ -186,51 +187,51 @@ const loadingModal = reactive({
 }
 .close {
 	position: absolute;
-	top: -13px;
-	right: -13px;
+	top: -0.75rem;
+	right: -0.75rem;
 	background-image: url("/src/assets/icons/close_2.svg");
 	background-repeat: no-repeat;
-	width: 16px;
-	height: 16px;
+	width: 1rem;
+	height: 1rem;
 	background-color: hsl(0, 0%, 100%) !important;
-	padding: 12px !important;
+	padding: 0.75rem !important;
 	border-radius: 100% !important;
 	background-position: center;
 	z-index: 1;
-	box-shadow: -1px 2px 10px hsla(0, 0%, 0%, 0.5);
+	box-shadow: -1px 0.125rem 0.625rem hsla(0, 0%, 0%, 0.5);
 	background-size: 60%;
 	cursor: pointer;
 }
 
 .add {
 	align-self: end;
-	padding: 6px 12px;
-	margin-top: 12px;
+	padding: 0.375rem 0.75rem;
+	margin-top: 0.75rem;
 }
 
 .wrapper {
-	width: 300px;
+	width: 19rem;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	padding: 16px;
-	gap: 10px;
+	padding: 1rem;
+	gap: 0.5rem;
 	background-color: white;
 	position: relative;
-	border-radius: 8px;
+	border-radius: 0.5rem;
 
 	.header {
 		font-weight: bold;
-		font-size: 18px;
+		font-size: 1.125rem;
 	}
 }
 
 .options {
 	display: flex;
 	flex-direction: column;
-	gap: 8px;
-	width: 300px;
-	margin-left: -16px;
+	gap: 0.5rem;
+	width: 19rem;
+	margin-left: -1rem;
 }
 
 .item {
@@ -253,8 +254,8 @@ const loadingModal = reactive({
 			}
 
 			& ~ label {
-				padding-left: 10px;
-				padding-right: 0px;
+				padding-left: 0.5rem;
+				padding-right: 0;
 			}
 		}
 	}
@@ -263,30 +264,30 @@ const loadingModal = reactive({
 		display: flex;
 		align-items: center;
 		justify-content: flex-start;
-		gap: 8px;
-		padding: 5px 10px 5px 0;
+		gap: 0.5rem;
+		padding: 0.25rem 0.5rem 0.25rem 0;
 		transition: 0.25s;
 		cursor: pointer;
 	}
 
 	.check-state {
-		width: 24px;
-		height: 24px;
+		width: 1.5rem;
+		height: 1.5rem;
 		opacity: 0;
-		margin-left: -12px;
-		border-radius: 6px;
+		margin-left: -0.75rem;
+		border-radius: 0.375rem;
 		transition: 0.25s;
-		border-right: 12px solid hsl(158, 80%, 47%);
+		border-right: 0.875rem solid hsl(158, 80%, 47%);
 	}
 
 	.avatar {
 		color: hsl(0, 0%, 100%);
 		background-color: hsl(265, 80%, 50%);
-		font-size: 12px;
-		padding: 8px;
-		border-radius: 25px;
-		height: 32px;
-		width: 32px;
+		font-size: 0.75rem;
+		padding: 0.5rem;
+		border-radius: 1.5rem;
+		height: 2rem;
+		width: 2rem;
 
 		text-align: center;
 		text-transform: uppercase;
@@ -300,15 +301,15 @@ const loadingModal = reactive({
 		background: hsl(158, 79%, 87%);
 
 		label {
-			padding-left: 10px;
-			padding-right: 0px;
+			padding-left: 0.5rem;
+			padding-right: 0;
 		}
 	}
 }
 
 .remove-user {
-	height: 14px;
-	margin-right: 16px;
+	height: 0.875rem;
+	margin-right: 1rem;
 	cursor: pointer;
 
 	&:hover {
