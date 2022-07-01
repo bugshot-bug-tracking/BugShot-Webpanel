@@ -21,8 +21,8 @@ declare module '@vue/runtime-core' {
     CreateDataModal: typeof import('./components/Modals/CreateDataModal.vue')['default']
     DeleteModal: typeof import('./components/Modals/DeleteModal.vue')['default']
     EditModal: typeof import('./components/Modals/EditModal.vue')['default']
-    GroupContainer: typeof import('./components/GroupContainer.vue')['default']
-    I18nSwitcher: typeof import('./components/i18nSwitcher.vue')['default']
+    GroupContainer: typeof import('./templates/GroupContainer.vue')['default']
+    I18nSwitcher: typeof import('./components/PopupButton/i18nSwitcher.vue')['default']
     ImageManager: typeof import('./components/ImageManager.vue')['default']
     Info: typeof import('./components/BugTab/Info.vue')['default']
     InviteModal: typeof import('./components/Modals/InviteModal.vue')['default']
@@ -34,7 +34,7 @@ declare module '@vue/runtime-core' {
     Navbar: typeof import('./components/Navigation/Navbar.vue')['default']
     Notification: typeof import('./components/Notification.vue')['default']
     Notifications: typeof import('./components/Notifications.vue')['default']
-    OrderButton: typeof import('./components/OrderButton.vue')['default']
+    OrderButton: typeof import('./components/PopupButton/OrderButton.vue')['default']
     Picker: typeof import('./components/Picker.vue')['default']
     PriorityChange: typeof import('./components/PriorityChange.vue')['default']
     ProjectCard: typeof import('./components/Cards/ProjectCard.vue')['default']
@@ -48,7 +48,7 @@ declare module '@vue/runtime-core' {
     T2Page: typeof import('./templates/T2Page.vue')['default']
     TeamTable: typeof import('./components/TeamTable.vue')['default']
     TSidebar: typeof import('./templates/TSidebar.vue')['default']
-    UserMenu: typeof import('./components/UserMenu.vue')['default']
+    UserMenu: typeof import('./components/PopupButton/UserMenu.vue')['default']
   }
 }
 

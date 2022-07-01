@@ -1,10 +1,10 @@
-<!-- Transform thin into a proper template -->
 <template>
 	<div class="group-container">
 		<div class="top">
 			<div class="text-left">
 				<slot name="top-left"> [PH] Group </slot>
 			</div>
+
 			<div class="text-right">
 				<slot name="top-right"> </slot>
 			</div>
