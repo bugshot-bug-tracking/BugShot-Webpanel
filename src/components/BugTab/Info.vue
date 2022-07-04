@@ -69,7 +69,7 @@
 					@click="open = !open"
 				>
 					<span>{{ $t("technical_info") + ":" }}</span>
-					<img src="/src/assets/icons/caret-down-fill.svg" />
+					<img src="/src/assets/icons/caret_down.svg" />
 				</div>
 
 				<div class="technical-info">
@@ -146,7 +146,7 @@
 				<label>{{ $t("assigned_to") + ":" }}</label>
 
 				<div class="content">
-					<Assignes :list="bug.users" @add="emit('open_assign')" />
+					<Assignees :list="bug.users" @add="emit('open_assign')" />
 				</div>
 			</div>
 		</div>
@@ -154,15 +154,9 @@
 </template>
 
 <script setup>
-import Container from "../Container.vue";
-import Screenshot from "./Screenshot.vue";
-import PriorityChange from "../PriorityChange.vue";
-import Assignes from "../Assignes.vue";
-import dateFix from "/src/util/dateFixISO";
-import { computed, ref } from "@vue/reactivity";
-import { useProjectStore } from "src/stores/project";
-import { useI18nStore } from "src/stores/i18n";
-import { useI18n } from "vue-i18n";
+import dateFix from "~/util/dateFixISO";
+import { useProjectStore } from "~/stores/project";
+import { useI18nStore } from "~/stores/i18n";
 
 const emit = defineEmits(["close", "open_assign"]);
 
@@ -249,7 +243,7 @@ const format = (date) => d(new Date(date).toISOString(), "short");
 	}
 
 	.close-button {
-		background-image: url("/src/assets/icons/classic_X.svg");
+		background-image: url("/src/assets/icons/close_2.svg");
 		background-repeat: no-repeat;
 		background-position: center;
 		width: 24px;
@@ -306,6 +300,7 @@ const format = (date) => d(new Date(date).toISOString(), "short");
 
 			.content {
 				color: hsl(230, 45%, 75%);
+				font-size: 14px;
 			}
 
 			> div {

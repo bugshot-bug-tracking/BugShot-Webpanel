@@ -9,50 +9,88 @@
 			</span>
 
 			<div class="actions">
-				<a class="btn bs bf-red" @click.prevent="$emit('delete')">
+				<a class="bs-btn red" @click.prevent="execute">
 					{{ $t("yes") }}
 				</a>
 
-				<a class="btn bs be-green" @click="close"> {{ $t("no") }}</a>
+				<a class="bs-btn green empty" @click="close"> {{ $t("no") }}</a>
 			</div>
 		</div>
 	</Modal>
+
+	<LoadingModal
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="loadingModal.show = false"
+	/>
 </template>
 
-<script>
-import { ref } from "@vue/reactivity";
-import { nextTick, onMounted } from "@vue/runtime-core";
-import Modal from "../Modal.vue";
-export default {
-	props: {
-		text: {
-			required: true,
-			type: String,
-		},
+<script setup lang="ts">
+const props = defineProps({
+	text: {
+		required: true,
+		type: String,
 	},
-	emits: ["close", "delete"],
-	components: { Modal },
-	setup(props, context) {
-		const show = ref(false);
 
-		onMounted(() => {
-			show.value = true;
-		});
-
-		const close = () => {
-			show.value = false;
-
-			nextTick(() => {
-				context.emit("close");
-			});
-		};
-
-		return {
-			show,
-			close,
-		};
+	callback: {
+		required: false,
+		type: Function,
 	},
+});
+
+const emit = defineEmits(["close", "delete"]);
+const show = ref(false);
+
+onMounted(() => {
+	show.value = true;
+});
+
+const close = () => {
+	show.value = false;
+
+	nextTick(() => {
+		emit("close");
+	});
 };
+
+const execute = async () => {
+	if (props.callback)
+		try {
+			loadingModal.show = true;
+			loadingModal.state = 0;
+			loadingModal.message = "";
+
+			await props.callback();
+
+			loadingModal.state = 1;
+			loadingModal.message = `Project deleted successfully.`;
+		} catch (error) {
+			console.log(error);
+			loadingModal.state = 2;
+		} finally {
+			setTimeout(() => {
+				show.value = false;
+
+				nextTick(() => {
+					emit("close");
+				});
+
+				loadingModal.show = false;
+				loadingModal.state = 0;
+				loadingModal.message = "";
+			}, 4000);
+		}
+	else {
+		emit("delete");
+	}
+};
+
+const loadingModal = reactive({
+	show: false,
+	state: 0,
+	message: "",
+});
 </script>
 
 <style lang="scss" scoped>
@@ -60,16 +98,16 @@ export default {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	width: 400px;
-	height: 200px;
+	width: 25rem;
+	height: 12.5rem;
 	justify-content: center;
-	gap: 40px;
-	padding: 20px;
+	gap: 1.25rem;
+	padding: 1.25rem;
 
 	.actions {
 		display: flex;
 		align-items: center;
-		gap: 40px;
+		gap: 2.5rem;
 	}
 
 	.text {

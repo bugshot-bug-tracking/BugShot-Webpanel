@@ -1,14 +1,11 @@
+<!-- Remove this component and replace it with a global class -->
 <template>
 	<div class="content-container">
 		<slot />
 	</div>
 </template>
 
-<script>
-export default {
-	name: "Container",
-};
-</script>
+<script setup></script>
 
 <style lang="scss" scoped>
 .content-container {

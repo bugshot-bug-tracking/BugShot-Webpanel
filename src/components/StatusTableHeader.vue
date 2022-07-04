@@ -6,22 +6,22 @@
 			<img
 				src="/src/assets/icons/edit.svg"
 				alt="edit"
-				class="bs-to-gray"
-				style="width: 18px"
+				class="black-to-gray"
+				style="width: 1.25rem"
 				@click="flag = false"
 			/>
 		</div>
 
-		<div class="actions bs-to-gray ms-2" v-if="movable || deletable">
+		<div class="actions black-to-gray ms-2" v-if="movable || deletable">
 			<img
-				src="/src/assets/icons/arrow-left-right.svg"
+				src="/src/assets/icons/move.svg"
 				alt="order"
 				class="handle"
 				v-if="movable"
 			/>
 
 			<img
-				src="/src/assets/icons/round_minus.svg"
+				src="/src/assets/icons/remove.svg"
 				alt="edit"
 				@click="emit('delete', id)"
 				v-if="deletable"
@@ -34,27 +34,25 @@
 			<input type="text" v-model="newText" class="w-100" />
 		</div>
 
-		<div class="actions bs-to-gray ms-2">
+		<div class="actions black-to-gray ms-2">
 			<img
 				src="/src/assets/icons/check.svg"
 				alt="save"
-				style="width: 18px"
+				style="width: 1.5rem"
 				@click="edit"
 			/>
 
 			<img
-				src="/src/assets/icons/classic_X.svg"
+				src="/src/assets/icons/close_2.svg"
 				alt="cancel"
 				@click="cancel"
-				style="width: 18px"
+				style="width: 1.5rem"
 			/>
 		</div>
 	</div>
 </template>
 
-<script setup>
-import { ref } from "@vue/reactivity";
-
+<script setup lang="ts">
 const emit = defineEmits(["edit", "delete"]);
 const props = defineProps({
 	id: {
@@ -104,24 +102,24 @@ const cancel = () => {
 	align-items: center;
 	justify-content: space-between;
 	width: 100%;
-	height: 40px;
+	height: 2.5rem;
 }
 
 .actions {
 	display: flex;
-	gap: 8px;
+	gap: 0.5rem;
 
 	img {
-		max-height: 22px;
-		max-width: 22px;
+		width: 1.5rem;
+		height: 1.5rem;
 	}
 }
 
 input {
 	border: 1px solid hsl(264, 78%, 77%);
-	border-radius: 8px;
+	border-radius: 0.5rem;
 	width: 100%;
-	padding: 2px 6px;
+	padding: 0.125rem 0.375rem;
 
 	&:focus,
 	&:focus-visible,

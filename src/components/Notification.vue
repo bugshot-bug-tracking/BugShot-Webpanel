@@ -1,3 +1,5 @@
+<!-- Change this to reflect different invitation types -->
+
 <template>
 	<div class="entry">
 		<div class="main">
@@ -21,7 +23,7 @@
 		<div class="buttons">
 			<a @click="accept">
 				<img
-					src="../assets/icons/check.svg"
+					src="/src/assets/icons/check.svg"
 					alt="Accept"
 					class="accept"
 				/>
@@ -29,7 +31,7 @@
 
 			<a @click="decline">
 				<img
-					src="../assets/icons/classic_X.svg"
+					src="/src/assets/icons/close_2.svg"
 					alt="Decline"
 					class="decline"
 				/>
@@ -39,28 +41,23 @@
 </template>
 
 <script setup>
-import { computed } from "@vue/reactivity";
 import dateFix from "/src/util/dateFixISO";
 import { useNotificationStore } from "/src/stores/notifications";
 import { useMainStore } from "/src/stores/main";
 
 const props = defineProps({
-	id: {
+	record: {
 		required: true,
-		type: String,
-		desc: "Invitation id",
+		type: Object,
+		desc: "Notification data",
 	},
 });
 
 const notifications = useNotificationStore();
 
-const record = computed(() => {
-	return notifications.getInvitationById(props.id);
-});
-
 const accept = async () => {
 	try {
-		await notifications.accept(props.id);
+		await notifications.accept(record.id);
 		useMainStore().init();
 	} catch (error) {
 		console.log(error);
@@ -69,7 +66,7 @@ const accept = async () => {
 
 const decline = async () => {
 	try {
-		await notifications.accept(props.id);
+		await notifications.accept(record.id);
 	} catch (error) {
 		console.log(error);
 	}
@@ -81,7 +78,7 @@ const decline = async () => {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 10px 0px;
+	padding: 0.5rem 0px;
 
 	.main {
 		display: flex;
@@ -90,10 +87,10 @@ const decline = async () => {
 
 		.top {
 			text-align: left;
-			font-size: 14px;
+			font-size: 0.875rem;
 
 			span {
-				font-size: 16px;
+				font-size: 1rem;
 				font-weight: bold;
 			}
 		}
@@ -111,8 +108,8 @@ const decline = async () => {
 		width: 20%;
 
 		> * {
-			width: 28px;
-			height: 28px;
+			width: 1.75rem;
+			height: 1.75rem;
 			border-radius: 100%;
 			cursor: pointer;
 
@@ -122,13 +119,15 @@ const decline = async () => {
 		}
 
 		.accept {
-			width: 16px;
+			width: 1.5rem;
+			height: 1.5rem;
 			// color: #18D992;
 			filter: brightness(0) saturate(1) invert(63%) sepia(74%)
 				saturate(493%) hue-rotate(104deg) brightness(96%) contrast(88%);
 		}
 		.decline {
-			width: 16px;
+			width: 1.5rem;
+			height: 1.5rem;
 			// color: #F23838; red
 			filter: brightness(0) saturate(1) invert(46%) sepia(28%)
 				saturate(5216%) hue-rotate(331deg) brightness(87%)

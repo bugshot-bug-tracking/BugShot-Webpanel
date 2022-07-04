@@ -3,7 +3,6 @@
 		<div class="header">
 			<div class="buttons">
 				<a
-					class="btn"
 					:class="{ active: pickOption === 1 }"
 					@click="pickOption = 1"
 				>
@@ -11,7 +10,6 @@
 				</a>
 
 				<a
-					class="btn"
 					:class="{ active: pickOption === 2 }"
 					@click="pickOption = 2"
 				>
@@ -23,15 +21,18 @@
 		<div
 			class="pick-container"
 			@drop.prevent="drop"
-			@dragenter.prevent="togleDragActive"
-			@dragleave.prevent="togleDragActive"
+			@dragenter.prevent="toggleDragActive"
+			@dragleave.prevent="toggleDragActive"
 			@dragover.prevent
 			:class="{ active: active }"
 		>
 			<div class="image" v-show="pickOption === 1" @change="change">
-				<div class="empty" v-if="imgg === null">
+				<div class="empty" v-if="imgg === ''">
 					<div>
-						<img src="../assets/icons/image_placeholder.svg" />
+						<img
+							src="/src/assets/icons/image.svg"
+							class="black-to-gray"
+						/>
 
 						<div class="text">
 							{{ $t("picker.drag_and_drop") }}
@@ -40,7 +41,7 @@
 
 					<label
 						for="pick-upload"
-						class="btn bs be-green text-capitalize"
+						class="bs-btn green empty text-capitalize"
 					>
 						{{ $t("picker.upload_image") }}
 					</label>
@@ -53,7 +54,7 @@
 						<img :src="imgg" />
 					</div>
 
-					<a class="btn bs be-green" @click="resetImage">
+					<a class="bs-btn green empty" @click="resetImage">
 						{{ $t("remove") }}
 					</a>
 				</div>
@@ -82,88 +83,74 @@
 	</div>
 </template>
 
-<script>
-import { ref } from "@vue/reactivity";
-import colors from "/src/util/colors";
+<script setup lang="ts">
+import colors from "~/util/colors";
 
-export default {
-	name: "Picker",
-	props: {
-		colorPicked: {
-			required: true,
-			type: Number,
-			default: 3,
-		},
-		image: {
-			type: String,
-		},
+const props = defineProps({
+	colorPicked: {
+		required: true,
+		type: Number,
+		default: 3,
 	},
-	emits: ["setImage", "setColor"],
-	setup(props, context) {
-		const pickOption = ref(1);
 
-		const enambleColoorChange = ref(false);
-
-		const active = ref(false);
-
-		const togleDragActive = () => {
-			active.value = !active.value;
-		};
-		const drop = (event) => {
-			active.value = false;
-			pickOption.value = 1;
-
-			let file = event.dataTransfer.files[0];
-			if (!file) return;
-			if (!file.type.includes("image")) {
-				imgg.value = null;
-				return;
-			}
-
-			context.emit("setImage", file);
-
-			imgg.value = URL.createObjectURL(file);
-		};
-
-		const imgg = ref(null);
-		if (props.image && props.image.length > 20) imgg.value = props.image;
-
-		const resetImage = () => {
-			imgg.value = null;
-			context.emit("setImage", null);
-		};
-
-		const change = (event) => {
-			let file = event.target.files[0];
-
-			if (!file) return;
-			if (!file.type.includes("image")) {
-				imgg.value = null;
-				return;
-			}
-
-			context.emit("setImage", file);
-
-			imgg.value = URL.createObjectURL(file);
-		};
-
-		const colorChange = (event) => {
-			context.emit("setColor", Number(props.colorPicked));
-		};
-
-		return {
-			pickOption,
-			colors,
-			enambleColoorChange,
-			drop,
-			active,
-			togleDragActive,
-			imgg,
-			resetImage,
-			change,
-			colorChange,
-		};
+	image: {
+		type: String,
 	},
+});
+
+// const emit = defineEmits(["setImage", "setColor"]);
+const emit = defineEmits<{
+	(e: "setImage", file: File | null): void;
+	(e: "setColor", value: number): void;
+}>();
+
+const pickOption = ref(1);
+
+const active = ref(false);
+
+const toggleDragActive = () => {
+	active.value = !active.value;
+};
+
+const drop = (event: DragEvent) => {
+	active.value = false;
+	pickOption.value = 1;
+
+	let file = event.dataTransfer?.files[0];
+	if (!file || !file.type.includes("image")) {
+		imgg.value = "";
+		return;
+	}
+
+	emit("setImage", file);
+
+	imgg.value = URL.createObjectURL(file);
+};
+
+const imgg = ref("");
+
+if (props.image && props.image.length > 20) imgg.value = props.image;
+
+const resetImage = () => {
+	imgg.value = "";
+	emit("setImage", null);
+};
+
+const change = (event: Event) => {
+	let file = (event.target as HTMLInputElement)?.files;
+
+	if (!file || !file[0].type.includes("image")) {
+		imgg.value = "";
+		return;
+	}
+
+	emit("setImage", file[0]);
+
+	imgg.value = URL.createObjectURL(file[0]);
+};
+
+const colorChange = () => {
+	emit("setColor", Number(props.colorPicked));
 };
 </script>
 
@@ -173,10 +160,10 @@ export default {
 	flex-direction: column;
 	width: 100%;
 	align-items: center;
-	min-width: 350px;
+	min-width: 22rem;
 
 	.header {
-		margin-bottom: 20px;
+		margin-bottom: 1.25rem;
 		width: 100%;
 		display: flex;
 		justify-content: center;
@@ -186,15 +173,15 @@ export default {
 			width: 100%;
 			justify-content: space-around;
 			border: 1px solid #5916b9;
-			border-radius: 8px;
-			font-size: 14px;
+			border-radius: 0.5rem;
+			font-size: 1rem;
 
 			& > :first-child {
-				border-radius: 6px 0 0 6px;
+				border-radius: 0.375rem 0 0 0.375rem;
 			}
 
 			& > :last-child {
-				border-radius: 0 6px 6px 0;
+				border-radius: 0 0.375rem 0.375rem 0;
 			}
 
 			> .active {
@@ -202,9 +189,10 @@ export default {
 				color: hsl(0, 0%, 100%);
 			}
 
-			> * {
+			> a {
 				width: 100%;
-				padding: 4px;
+				padding: 0.375rem;
+				cursor: pointer;
 			}
 		}
 	}
@@ -216,10 +204,10 @@ export default {
 		justify-content: center;
 		background: #f8f8fc 0% 0% no-repeat padding-box;
 		border: 1px solid #bc97f2;
-		border-radius: 9px;
+		border-radius: 0.5rem;
 		width: 100%;
-		height: 250px;
-		padding: 20px;
+		height: 15.5rem;
+		padding: 1.25rem;
 		position: relative;
 
 		&.active {
@@ -230,7 +218,7 @@ export default {
 			width: 100%;
 			height: 100%;
 
-			.empty {
+			> .empty {
 				width: 100%;
 				height: 100%;
 				display: flex;
@@ -239,8 +227,8 @@ export default {
 				justify-content: space-evenly;
 
 				img {
-					width: 46px;
-					height: 46px;
+					width: 3rem;
+					height: 3rem;
 					margin: 0;
 				}
 			}
@@ -268,33 +256,22 @@ export default {
 						height: auto;
 						max-width: 100%;
 						max-height: 100%;
-						border-radius: 8px;
+						border-radius: 0.5rem;
 					}
 				}
 			}
 
 			> * {
-				margin: 10px 0;
+				margin: 0.5rem 0;
 			}
 
 			.text {
 				color: hsl(230, 43%, 73%);
-				margin-top: 10px;
+				margin-top: 0.5rem;
 			}
 
 			input {
 				display: none;
-			}
-
-			> .reset-img {
-				position: absolute;
-				right: 10px;
-				top: 10px;
-
-				width: 16px;
-				height: 16px;
-
-				cursor: pointer;
 			}
 		}
 
@@ -305,36 +282,36 @@ export default {
 			align-items: center;
 			height: 75%;
 			justify-content: space-evenly;
-			margin-bottom: 20px;
+			margin-bottom: 1.25rem;
 
 			> span {
-				font-size: 18px;
+				font-size: 1.125rem;
 			}
 
 			> .colors-grid {
 				width: 100%;
 				display: grid;
-				column-gap: 12px;
-				grid-template-columns: repeat(auto-fit, 30px);
+				column-gap: 0.75rem;
+				grid-template-columns: repeat(auto-fit, 2rem);
 				justify-content: center;
 				justify-items: center;
 			}
 
 			.col-option {
 				appearance: none;
-				width: 24px;
-				height: 24px;
+				width: 1.5rem;
+				height: 1.5rem;
 				background-color: currentColor;
 				border-radius: 100%;
 				cursor: pointer;
 
 				&:checked {
-					background-image: url("../assets/icons/check-white.svg");
+					background-image: url("/src/assets/icons/check-white.svg");
 					background-repeat: no-repeat;
 					background-position: center;
 					background-size: 65%;
 
-					outline: 5px solid;
+					outline: 0.375rem solid;
 					outline-offset: -1px;
 					outline-color: currentColor;
 				}

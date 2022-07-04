@@ -1,6 +1,6 @@
 <template>
-	<a class="btn bs bf-purple add-button" @click="tabOpen = true">
-		<img src="../assets/icons/add.svg" alt="add" />
+	<a class="bs-btn purple add-button" @click="tabOpen = true">
+		<img src="/src/assets/icons/add.svg" alt="add" />
 		{{ $t("add.bug") }}
 	</a>
 
@@ -10,7 +10,7 @@
 				<h4>{{ $t("new_bug_report") }}</h4>
 
 				<img
-					src="../assets/icons/classic_X.svg"
+					src="/src/assets/icons/close_2.svg"
 					alt="close"
 					@click="tabOpen = false"
 				/>
@@ -112,13 +112,13 @@
 
 				<div class="assign-to" v-if="false">
 					<div>Assign to</div>
-					<Assignes :list="[]" />
+					<Assignees :list="[]" />
 				</div>
 			</Container>
 
 			<LocalAttachments @update="attachmentsUpdate" />
 
-			<button class="btn bs bf-green" type="submit">
+			<button class="bs-btn green" type="submit">
 				{{ $t("report_bug") + "!" }}
 			</button>
 		</form>
@@ -135,16 +135,9 @@
 </template>
 
 <script setup>
-import SideTab from "./SideTab.vue";
-import Container from "./Container.vue";
-import { reactive, ref } from "vue";
-import Assignes from "./Assignes.vue";
-import LocalAttachments from "./Attachments/LocalAttachments.vue";
-import ImageManager from "./ImageManager.vue";
-import toBase64 from "/src/util/toBase64";
-import LoadingModal from "/src/components/Modals/LoadingModal.vue";
+import toBase64 from "~/util/toBase64";
 import axios from "axios";
-import { useProjectStore } from "src/stores/project";
+import { useProjectStore } from "~/stores/project";
 
 const props = defineProps({
 	id: {

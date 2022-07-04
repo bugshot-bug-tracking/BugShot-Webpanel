@@ -23,8 +23,7 @@
 </template>
 
 <script setup>
-import PriorityChange from "./PriorityChange.vue";
-import dateFix from "../util/dateFixISO";
+import dateFix from "~/util/dateFixISO";
 
 const emit = defineEmits(["info"]);
 const props = defineProps({
