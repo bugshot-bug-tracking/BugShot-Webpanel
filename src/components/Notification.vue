@@ -57,7 +57,7 @@ const notifications = useNotificationStore();
 
 const accept = async () => {
 	try {
-		await notifications.accept(record.id);
+		await notifications.accept(props.record.id);
 		useMainStore().init();
 	} catch (error) {
 		console.log(error);
@@ -66,7 +66,7 @@ const accept = async () => {
 
 const decline = async () => {
 	try {
-		await notifications.accept(record.id);
+		await notifications.accept(props.record.id);
 	} catch (error) {
 		console.log(error);
 	}
