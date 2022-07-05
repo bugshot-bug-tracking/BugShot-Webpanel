@@ -39,10 +39,7 @@
 						</div>
 					</div>
 
-					<label
-						for="pick-upload"
-						class="bs-btn green empty text-capitalize"
-					>
+					<label for="pick-upload" class="bs-btn green empty">
 						{{ $t("picker.upload_image") }}
 					</label>
 
