@@ -8,7 +8,7 @@
 				<div class="modal-container">
 					<button
 						class="btn btn-modal-close"
-						@click="$emit('close')"
+						@click.prevent="$emit('close')"
 						v-if="!no_close_button"
 					/>
 

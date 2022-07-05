@@ -86,7 +86,7 @@
 
 				<slot name="extra"> </slot>
 
-				<button class="bs-btn green mt-4">
+				<button type="submit" class="bs-btn green mt-4">
 					{{ $t("add.member") }}
 				</button>
 			</form>
