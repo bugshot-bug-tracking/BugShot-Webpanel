@@ -36,8 +36,10 @@
 							class="header"
 							:class="{
 								open:
-									opened.company === company.id ||
-									forceOpen.company === company.id,
+									autoOpen.company === company.id
+										? autoOpen.c_open
+										: manualOpen.company === company.id &&
+										  manualOpen.c_open,
 							}"
 							@click="collapseCompany(company.id)"
 						>
@@ -51,8 +53,11 @@
 								class="header"
 								:class="{
 									open:
-										opened.projects === company.id ||
-										forceOpen.projects === company.id,
+										autoOpen.company === company.id
+											? autoOpen.p_open
+											: manualOpen.company ===
+													company.id &&
+											  manualOpen.p_open,
 								}"
 								@click="collapseProject(company.id)"
 							>
@@ -61,6 +66,7 @@
 										name: 'company',
 										params: { id: company.id },
 									}"
+									class="w-100"
 								>
 									{{ $t("project", 2) }}
 								</RouterLink>
@@ -162,54 +168,81 @@ import { useSettingsStore } from "~/stores/settings";
 
 let store = useMainStore();
 store.init();
-
 let settingsStore = useSettingsStore();
 
-const opened = reactive({
+// control the manual clicking of dropdowns to only have 1 dropdown open at a time (company + projects)
+const manualOpen = reactive({
+	//* used to identify which dropdown group to control
 	company: "",
-	projects: "",
+	//*
+
+	//** handle the state of that dropdown
+	c_open: false,
+	p_open: false,
+	//**
 });
 
-const forceOpen = reactive({
+// control one dropdown independently (company + projects) based on the page opened
+const autoOpen = reactive({
+	//* used to identify which dropdown group to control
 	company: "",
-	projects: "",
+	//*
+
+	//** handle the state of that dropdown
+	c_open: false,
+	p_open: false,
+	//**
+
+	//*** used when the page is changed to not have data leaks between pages
 	clear: () => {
-		forceOpen.company = "";
-		forceOpen.projects = "";
+		autoOpen.company = "";
+		autoOpen.c_open = false;
+		autoOpen.p_open = false;
 	},
+	//***
 });
 
 const route = useRoute();
 watch(route, () => force());
 
+// handle the event when a page is changed and set the properties to identify the dropdown related to it
 const force = () => {
+	// clear the autoOpen state to not have leaks and be set later in a proper way
+	autoOpen.clear();
+
+	// if the page does not contain an id (either project or company) that should be there it's not of concern for this component
+	if (!route.params.id) return;
+
+	// check to see if the page is related to a project and set the appropriate state to autoOpen
 	if (route.name === "project") {
-		if (!route.params.id) return forceOpen.clear();
-
 		let company = store.getProjectCompany(<string>route.params.id);
-		if (!company) return forceOpen.clear();
 
-		forceOpen.company = company.id;
-		forceOpen.projects = company.id;
-		return;
+		if (!company) return;
+
+		autoOpen.company = company.id;
+		autoOpen.c_open = true;
+		autoOpen.p_open = true;
+		return; // leave here to have a predictable exit
 	}
 
+	// check to see if the page is related to a company (ex. company settings, invoices, plans...) and set the appropriate state to autoOpen
 	if (route.name?.toString().includes("company")) {
-		if (!route.params.id) return forceOpen.clear();
-
-		forceOpen.company = <string>route.params.id;
-		forceOpen.projects = "";
-		return;
+		autoOpen.company = <string>route.params.id;
+		autoOpen.c_open = true;
+		autoOpen.p_open = false;
+		return; // leave here to have a predictable exit
 	}
-
-	return forceOpen.clear();
 };
 
 const companies = computed(() => {
+	// when the companies are updated set the navbar accordingly
 	force();
+
 	let list = store.getCompanies;
 
+	// handle the ordering of companies
 	switch (settingsStore.getCompaniesOrder) {
+		// default case fallthrough to case 0
 		default:
 		case 0: // A-Z
 			return [...list.entries()].sort((a, b) => {
@@ -269,21 +302,34 @@ const companies = computed(() => {
 	}
 });
 
+// useful to separate the way projects are obtained in case data changes
 const companyProjects = (company_id: string) =>
 	store.getCompanyProjects(company_id);
 
+// handle the collapsing of companies
 const collapseCompany = (id: string) => {
-	// enable toggling of collapse state for a company
-	if (opened.company === id) return (opened.company = "");
+	// in case the page is related to a company use the autoOpen variable to handle the dropdown state independently from the manual one
+	if (autoOpen.company === id) return (autoOpen.c_open = !autoOpen.c_open);
 
-	return (opened.company = id);
+	// handle the case when switching between companies
+	if (manualOpen.company === id) {
+		// toggle if it's the same
+		manualOpen.c_open = !manualOpen.c_open;
+	} else {
+		// else set the reference to the new one and make it be open
+		manualOpen.company = id;
+		manualOpen.c_open = true;
+		manualOpen.p_open = false;
+	}
 };
 
+// handle the collapsing of company projects dropdown
 const collapseProject = (id: string) => {
-	// enable toggling of collapse state for projects
-	if (opened.projects === id) return (opened.projects = "");
+	// in case the page is related to a company use the autoOpen variable to handle the dropdown state independently from the manual one
+	if (autoOpen.company === id) return (autoOpen.p_open = !autoOpen.p_open);
 
-	return (opened.projects = id);
+	// toggle the company projects dropdown state
+	if (manualOpen.company === id) manualOpen.p_open = !manualOpen.p_open;
 };
 
 const sortList = (sortMode: number) => {
@@ -369,7 +415,7 @@ ul {
 	max-height: 0;
 	flex-direction: column;
 	margin: 0.5rem 0 0.5rem 0.5rem;
-	transition: 0.5s ease-out;
+	transition: 0.2s ease-out;
 	overflow: hidden;
 
 	ul {
