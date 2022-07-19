@@ -3,6 +3,8 @@
 // Read more: https://github.com/vuejs/core/pull/3399
 import '@vue/runtime-core'
 
+export {}
+
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AddBug: typeof import('./components/AddBug.vue')['default']
@@ -51,5 +53,3 @@ declare module '@vue/runtime-core' {
     UserMenu: typeof import('./components/PopupButton/UserMenu.vue')['default']
   }
 }
-
-export {}
