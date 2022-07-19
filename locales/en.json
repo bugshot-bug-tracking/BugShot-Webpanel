@@ -200,6 +200,6 @@
 	"ascending": "Ascending",
 	"descending": "Descending",
 	"apply_ordering": "Apply ordering",
-	"order_by_company": "Order companies",
-	"order_companies": "Order companies"
+	"order_companies": "Order companies",
+	"unauthorized": "You are not authorized to complete this action!"
 }

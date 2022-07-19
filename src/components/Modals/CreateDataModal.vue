@@ -106,6 +106,8 @@ const props = defineProps({
 	},
 });
 
+const { t } = useI18n();
+
 const modalActive = ref(false);
 
 const name = ref("");
@@ -211,8 +213,7 @@ const createResource = async () => {
 		loadingModal.message = null;
 
 		if (error.response.status === 403)
-			loadingModal.message =
-				"You are not authorized to complete this action!";
+			loadingModal.message = t("unauthorized");
 
 		setTimeout(() => {
 			loadingModal.show = false;

@@ -16,6 +16,13 @@ useI18nStore().init();
 body {
 	background-color: hsl(240, 40%, 98%);
 	overflow: hidden;
+	margin: unset;
+}
+
+*,
+::after,
+::before {
+	box-sizing: border-box;
 }
 
 #app {
