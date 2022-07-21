@@ -200,5 +200,6 @@
 	"ascending": "Aufsteigend",
 	"descending": "Absteigend",
 	"apply_ordering": "Übernehmen",
-	"order_companies": "Firmen sortieren"
+	"order_companies": "Firmen sortieren",
+	"unauthorized": "Du bist nicht autorisiert diese Handlung durchzuführen!"
 }
