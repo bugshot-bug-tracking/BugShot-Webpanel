@@ -188,8 +188,6 @@ a {
 }
 
 .component-group {
-	margin: 0.25rem;
-
 	.group-header {
 		text-align: left;
 		color: #9ba5d7;
@@ -200,6 +198,7 @@ a {
 
 	.group-content {
 		width: 100%;
+		height: 100%;
 		padding: 1rem 0;
 	}
 }
@@ -226,4 +225,12 @@ a {
 }
 .bs-bl {
 	border-left: 1px solid #eee5fc;
+}
+
+.dot {
+	width: 0.75rem;
+	height: 0.75rem;
+	border-radius: 100%;
+	background: black;
+	margin: 0.25rem;
 }

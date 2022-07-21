@@ -201,5 +201,9 @@
 	"descending": "Absteigend",
 	"apply_ordering": "Übernehmen",
 	"order_companies": "Firmen sortieren",
-	"unauthorized": "Du bist nicht autorisiert diese Handlung durchzuführen!"
+	"unauthorized": "Du bist nicht autorisiert diese Handlung durchzuführen!",
+	"my_account": "Mein Account",
+	"advanced_settings": "Erweiterte Einstellungen und Benachrichtigungen",
+	"language_options": "Sprachoptionen",
+	"profile_informations": "Profil Informationen"
 }

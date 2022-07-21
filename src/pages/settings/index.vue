@@ -25,9 +25,9 @@
 			</div>
 		</div>
 
-		<div class="component-group">
+		<div class="component-group bs-bl bs-br" px4 style="height: 100%">
 			<div class="group-header">{{ $t("project", 2) }}</div>
-			<div class="group-content">
+			<div class="group-content" style="height: 96%">
 				<UserProjects />
 			</div>
 		</div>

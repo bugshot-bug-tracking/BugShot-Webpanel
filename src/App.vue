@@ -26,6 +26,10 @@ body {
 	box-sizing: border-box;
 }
 
+p {
+	margin: unset;
+}
+
 #app {
 	font-family: "Open Sans", sans-serif;
 	-webkit-font-smoothing: antialiased;
