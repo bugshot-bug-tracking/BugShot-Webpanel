@@ -9,6 +9,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AddBug: typeof import('./components/AddBug.vue')['default']
     AddMembers: typeof import('./components/AddMembers.vue')['default']
+    AdvancedSettings: typeof import('./components/Setttings/AdvancedSettings.vue')['default']
     Assignees: typeof import('./components/Assignees.vue')['default']
     AssignModal: typeof import('./components/Modals/AssignModal.vue')['default']
     Attachments: typeof import('./components/Attachments/index.vue')['default']
@@ -16,6 +17,7 @@ declare module '@vue/runtime-core' {
     BugCard: typeof import('./components/BugCard.vue')['default']
     BugsTable: typeof import('./components/BugsTable.vue')['default']
     BugTab: typeof import('./components/BugTab/index.vue')['default']
+    Clients: typeof import('./components/Setttings/Clients.vue')['default']
     Column: typeof import('./templates/Column.vue')['default']
     Comments: typeof import('./components/BugTab/Comments/index.vue')['default']
     CompanyNavbar: typeof import('./components/Navigation/CompanyNavbar.vue')['default']
@@ -29,6 +31,7 @@ declare module '@vue/runtime-core' {
     Info: typeof import('./components/BugTab/Info.vue')['default']
     InviteModal: typeof import('./components/Modals/InviteModal.vue')['default']
     Item: typeof import('./components/Attachments/Item.vue')['default']
+    LanguageChange: typeof import('./components/Setttings/LanguageChange.vue')['default']
     LoadingModal: typeof import('./components/Modals/LoadingModal.vue')['default']
     LocalAttachments: typeof import('./components/Attachments/LocalAttachments.vue')['default']
     Message: typeof import('./components/BugTab/Comments/Message.vue')['default']
@@ -37,6 +40,7 @@ declare module '@vue/runtime-core' {
     Notification: typeof import('./components/Notification.vue')['default']
     Notifications: typeof import('./components/Notifications.vue')['default']
     OrderButton: typeof import('./components/PopupButton/OrderButton.vue')['default']
+    PasswordChange: typeof import('./components/Setttings/PasswordChange.vue')['default']
     Picker: typeof import('./components/Picker.vue')['default']
     PriorityChange: typeof import('./components/PriorityChange.vue')['default']
     ProjectCard: typeof import('./components/Cards/ProjectCard.vue')['default']
@@ -52,5 +56,7 @@ declare module '@vue/runtime-core' {
     TeamTable: typeof import('./components/TeamTable.vue')['default']
     TSidebar: typeof import('./templates/TSidebar.vue')['default']
     UserMenu: typeof import('./components/PopupButton/UserMenu.vue')['default']
+    UserProjects: typeof import('./components/Setttings/UserProjects.vue')['default']
+    UserSettings: typeof import('./components/Setttings/UserSettings.vue')['default']
   }
 }

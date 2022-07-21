@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import { useAuthStore } from "./stores/auth";
 import "vue-select/dist/vue-select.css";
+import "uno.css";
 
 const app = createApp(App);
 
