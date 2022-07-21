@@ -6,7 +6,7 @@
 			@change="statusMove($event)"
 			:animation="200"
 			group="statuses"
-			class="d-flex w-100 h-100 bs-scroll s-purple"
+			class="status-list bs-scroll s-purple"
 			:scroll-sensitivity="100"
 			:force-fallback="true"
 			handle=".handle"
@@ -282,6 +282,16 @@ const loadingModal = reactive({
 	position: relative;
 	padding: 2rem;
 	display: flex;
+	justify-content: space-between;
+}
+
+.status-list {
+	display: flex;
+	width: 100%;
+	max-width: 100%;
+	height: 100%;
+	max-height: 100%;
+	overflow-x: auto;
 }
 
 .ghost-card {

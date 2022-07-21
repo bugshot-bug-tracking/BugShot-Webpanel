@@ -3,6 +3,8 @@
 // Read more: https://github.com/vuejs/core/pull/3399
 import '@vue/runtime-core'
 
+export {}
+
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AddBug: typeof import('./components/AddBug.vue')['default']
@@ -41,6 +43,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Screenshot: typeof import('./components/BugTab/Screenshot.vue')['default']
+    SettingsNavbar: typeof import('./components/Navigation/SettingsNavbar.vue')['default']
     SideTab: typeof import('./components/SideTab.vue')['default']
     StatusDeleteModal: typeof import('./components/Modals/StatusDeleteModal.vue')['default']
     StatusTableHeader: typeof import('./components/StatusTableHeader.vue')['default']
@@ -51,5 +54,3 @@ declare module '@vue/runtime-core' {
     UserMenu: typeof import('./components/PopupButton/UserMenu.vue')['default']
   }
 }
-
-export {}

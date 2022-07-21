@@ -34,8 +34,3 @@ section[name="page"] {
 	grid-area: page;
 }
 </style>
-
-<route lang="yaml">
-meta:
-    layout: default
-</route>
