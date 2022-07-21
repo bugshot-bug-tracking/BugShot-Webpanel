@@ -201,5 +201,9 @@
 	"descending": "Descending",
 	"apply_ordering": "Apply ordering",
 	"order_companies": "Order companies",
-	"unauthorized": "You are not authorized to complete this action!"
+	"unauthorized": "You are not authorized to complete this action!",
+	"my_account": "My Account",
+	"advanced_settings": "Advanced settings and notifications",
+	"language_options": "Language options",
+	"profile_informations": "Profile information's"
 }
