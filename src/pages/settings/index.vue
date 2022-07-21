@@ -32,7 +32,7 @@
 			</div>
 		</div>
 
-		<div class="component-group">
+		<div class="component-group" w-24rem>
 			<div class="group-header">
 				{{ $t("advanced_settings") }}
 			</div>

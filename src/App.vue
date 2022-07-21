@@ -17,6 +17,7 @@ body {
 	background-color: hsl(240, 40%, 98%);
 	overflow: hidden;
 	margin: unset;
+	color: #1a2040;
 }
 
 *,
@@ -30,7 +31,6 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
-	color: #2c3e50;
 	display: flex;
 }
 
@@ -39,7 +39,6 @@ body {
 
 	a {
 		font-weight: bold;
-		color: #2c3e50;
 
 		&.router-link-exact-active {
 			color: #42b983;

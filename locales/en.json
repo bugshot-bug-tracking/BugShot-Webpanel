@@ -130,7 +130,8 @@
 		"comment": "Edit comment | Edit comments",
 		"attachment": "Edit attachment | Edit attachments",
 		"member": "Edit member | Edit members",
-		"team_member": "Edit team member | Edit team members"
+		"team_member": "Edit team member | Edit team members",
+		"settings": "Edit settings"
 	},
 	"delete": {
 		"delete": "Delete",
@@ -205,5 +206,7 @@
 	"my_account": "My Account",
 	"advanced_settings": "Advanced settings and notifications",
 	"language_options": "Language options",
-	"profile_informations": "Profile information's"
+	"profile_informations": "Profile information's",
+	"notify_me_on": "Notify me on",
+	"show_ui_elements": "Show UI elements"
 }
