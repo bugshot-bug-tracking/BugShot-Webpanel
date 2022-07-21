@@ -39,9 +39,9 @@ const node = ref(null);
 
 onMounted(() => {
 	// single instance as 1 group
-	let regex1 = /(\<[0-9]+\$\@.+\>)/i;
+	let regex1 = /(\<[0-9]+\$\@.+?\>)/i;
 	// grouped by data type (id,tag)
-	let regex2 = /\<([0-9]+)\$\@(.+)\>/i;
+	let regex2 = /\<([0-9]+)\$\@(.+?)\>/i;
 
 	let parts = props.content.split(regex1);
 	node.value.innerText = "";
