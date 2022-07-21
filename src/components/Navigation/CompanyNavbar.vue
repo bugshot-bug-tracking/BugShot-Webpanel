@@ -2,18 +2,22 @@
 	<TSidebar>
 		<template #header>
 			<header>
-				<div class="left">
+				<div>
 					<h3>{{ $t("company", 2) }}</h3>
 
 					<RouterLink
 						:to="{ name: 'home' }"
-						style="text-decoration: underline"
+						style="
+							text-decoration: underline;
+							color: #7a2ee6;
+							font-size: 0.875rem;
+						"
 					>
 						{{ $t("back_to_al_projects") }}
 					</RouterLink>
 				</div>
 
-				<div class="right">
+				<div>
 					<OrderButton
 						creation
 						updated
@@ -345,13 +349,8 @@ header {
 	text-align: left;
 	padding: 1rem;
 
-	a {
-		color: #7a2ee6;
-		font-size: 0.875rem;
-	}
-
 	a.router-link-exact-active {
-		color: #9ba5d7;
+		color: #9ba5d7 !important;
 	}
 }
 
