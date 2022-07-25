@@ -1,5 +1,5 @@
 <template>
-	<article>
+	<article class="bs-scroll s-purple">
 		<div class="component-group">
 			<div class="group-header">
 				{{ $t("profile_informations") }}
