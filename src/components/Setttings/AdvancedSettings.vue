@@ -1,19 +1,19 @@
 <template>
 	<div class="bs-container">
-		<span flex justify-between>
-			<p font-bold style="font-size: 1.125rem">
+		<span>
+			<p font-bold>
 				{{ t("show_ui_elements") }}
 			</p>
 
-			<p class="black-to-gray">All elements</p>
+			<p class="black-to-gray text-3.5">All elements</p>
 		</span>
 
 		<hr mb4 />
 
-		<span flex justify-between>
-			<p font-bold style="font-size: 1.125rem">{{ t("notify_me_on") }}</p>
+		<span>
+			<p font-bold>{{ t("notify_me_on") }}</p>
 
-			<p class="black-to-gray">New bugs only</p>
+			<p class="black-to-gray text-3.5">New bugs only</p>
 		</span>
 
 		<RouterLink
@@ -42,6 +42,8 @@ const { t } = useI18n();
 span {
 	width: 100%;
 	padding: 0.5rem 0;
+	display: flex;
+	justify-content: space-between;
 
 	p {
 		margin: unset;

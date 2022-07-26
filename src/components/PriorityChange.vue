@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="bs-priority"
-		:class="['p' + priority, { unlock: !lock }]"
+		:class="['priority' + priority, { unlock: !lock }]"
 		@click="toggleShow"
 		ref="popup"
 	>

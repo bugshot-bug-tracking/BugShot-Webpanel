@@ -1,10 +1,10 @@
 <template>
 	<div class="home-layout">
-		<section name="sidebar">
+		<section class="sidebar">
 			<CompanyNavbar />
 		</section>
 
-		<section name="page">
+		<section class="page">
 			<RouterView />
 		</section>
 	</div>
@@ -26,11 +26,11 @@
 	overflow: hidden;
 }
 
-section[name="sidebar"] {
+section.sidebar {
 	grid-area: sidebar;
 }
 
-section[name="page"] {
+section.page {
 	grid-area: page;
 }
 </style>

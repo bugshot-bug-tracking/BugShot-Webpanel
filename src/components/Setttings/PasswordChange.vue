@@ -1,6 +1,17 @@
 <template>
 	<div class="bs-container">
-		<div>pass</div>
+		<div class="bs-input2">
+			<label>{{ $t("current_password") }}</label>
+
+			<input
+				type="password"
+				placeholder="**********"
+				disabled
+				class="!pr-44"
+			/>
+
+			<ChangePasswordModal />
+		</div>
 	</div>
 </template>
 
