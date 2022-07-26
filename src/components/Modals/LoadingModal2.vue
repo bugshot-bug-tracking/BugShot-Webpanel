@@ -1,0 +1,124 @@
+<template>
+	<MyModal v-model="show">
+		<div class="process">
+			<div class="loading" v-if="state === 0">
+				<slot name="loading">
+					<img
+						src="src/assets/animations/loading.svg"
+						alt="loading"
+					/>
+				</slot>
+			</div>
+
+			<div class="success" v-if="state === 1">
+				<slot name="success">
+					<slot name="success-img">
+						<img
+							src="src/assets/animations/bug_confirmation.gif"
+							alt="Success"
+						/>
+					</slot>
+					<slot name="success-header">
+						<div>{{ $t("success") + "!" }}</div>
+					</slot>
+
+					<slot name="success-message">
+						<span v-if="message !== ''">{{ message }} </span>
+					</slot>
+				</slot>
+			</div>
+
+			<div class="error" v-if="state === 2">
+				<slot name="error">
+					<slot name="error-img">
+						<img
+							src="src/assets/animations/error_bug.gif"
+							alt="error"
+						/>
+					</slot>
+
+					<slot name="error-header">
+						<div>{{ $t("error") + "!" }}</div>
+					</slot>
+
+					<slot name="error-message">
+						<span v-if="message !== ''">{{ message }} </span>
+					</slot>
+				</slot>
+			</div>
+		</div>
+	</MyModal>
+</template>
+
+<script setup lang="ts">
+defineProps({
+	show: {
+		required: true,
+		type: Boolean,
+		description: "Determine if the modal is visible or not",
+	},
+
+	state: {
+		required: true,
+		type: Number,
+		default: 0,
+		description: "Determine if the state is loading, success or error",
+	},
+
+	message: {
+		required: false,
+		type: String,
+		default: "",
+		description: "Message shown in the success/error state",
+	},
+});
+</script>
+
+<style lang="scss" scoped>
+.process {
+	background-color: #ffffff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 22rem;
+	height: 24rem;
+	padding: 1rem;
+	border-radius: 0.5rem;
+
+	> * {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.success,
+	.error {
+		gap: 1rem;
+
+		img {
+			height: 50%;
+		}
+
+		> div {
+			color: #5916b9;
+			font-weight: bold;
+			font-size: 2rem;
+		}
+	}
+
+	.error div {
+		color: hsl(0, 88%, 58%);
+	}
+
+	span {
+		font-size: 1.125rem;
+		border-top: 1px solid #eee5fc;
+		padding: 1rem;
+		width: 100%;
+		text-align: center;
+	}
+}
+</style>
