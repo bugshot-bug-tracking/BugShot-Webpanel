@@ -24,7 +24,7 @@
 			font-bold
 		>
 			<img
-				src="src/assets/icons/edit.svg"
+				src="/src/assets/icons/edit.svg"
 				alt="edit"
 				class="black-to-purple"
 			/>

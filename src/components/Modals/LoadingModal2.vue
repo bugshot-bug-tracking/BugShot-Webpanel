@@ -4,7 +4,7 @@
 			<div class="loading" v-if="state === 0">
 				<slot name="loading">
 					<img
-						src="src/assets/animations/loading.svg"
+						src="/src/assets/animations/loading.svg"
 						alt="loading"
 					/>
 				</slot>
@@ -14,7 +14,7 @@
 				<slot name="success">
 					<slot name="success-img">
 						<img
-							src="src/assets/animations/bug_confirmation.gif"
+							src="/src/assets/animations/bug_confirmation.gif"
 							alt="Success"
 						/>
 					</slot>
@@ -32,7 +32,7 @@
 				<slot name="error">
 					<slot name="error-img">
 						<img
-							src="src/assets/animations/error_bug.gif"
+							src="/src/assets/animations/error_bug.gif"
 							alt="error"
 						/>
 					</slot>

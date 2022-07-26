@@ -23,7 +23,7 @@
 
 					<a class="remove">
 						<img
-							src="src/assets/icons/delete.svg"
+							src="/src/assets/icons/delete.svg"
 							alt="delete"
 							class="black-to-red"
 							h-4
@@ -43,7 +43,7 @@
 							Google
 
 							<img
-								src="src/assets/icons/close_2.svg"
+								src="/src/assets/icons/close_2.svg"
 								alt="x"
 								class="black-to-white"
 							/>
@@ -58,7 +58,7 @@
 
 			<a class="remove">
 				<img
-					src="src/assets/icons/delete.svg"
+					src="/src/assets/icons/delete.svg"
 					alt="delete"
 					class="black-to-red"
 					h-4
