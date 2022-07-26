@@ -38,7 +38,6 @@ declare module '@vue/runtime-core' {
     LocalAttachments: typeof import('./components/Attachments/LocalAttachments.vue')['default']
     Message: typeof import('./components/BugTab/Comments/Message.vue')['default']
     Modal: typeof import('./components/Modals/Modal.vue')['default']
-    Modal2: typeof import("./components/Modals/Modal2.vue")["default"]
     ModalTemplate: typeof import('./templates/ModalTemplate.vue')['default']
     Navbar: typeof import('./components/Navigation/Navbar.vue')['default']
     Notification: typeof import('./components/Notification.vue')['default']

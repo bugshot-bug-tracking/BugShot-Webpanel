@@ -1,7 +1,7 @@
 <template>
 	<a class="input-image" cursor-pointer @click="modal.open">
 		<img
-			src="src/assets/icons/edit.svg"
+			src="/src/assets/icons/edit.svg"
 			alt="edit"
 			class="black-to-purple"
 		/>

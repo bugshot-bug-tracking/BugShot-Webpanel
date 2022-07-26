@@ -16,7 +16,7 @@
 				{{ $t("extension.install_browser_extension") }}
 			</p>
 
-			<img src="src/assets/icons/chrome.svg" alt="Chrome Icon" w-16 m4 />
+			<img src="/src/assets/icons/chrome.svg" alt="Chrome Icon" w-16 m4 />
 
 			<a class="bs-btn green" @click.prevent="chromeStore" uppercase>
 				{{ $t("extension.install_plugin") }}
@@ -30,19 +30,19 @@
 
 			<div class="stores">
 				<img
-					src="src/assets/images/google_play.svg"
+					src="/src/assets/images/google_play.svg"
 					alt="Google Play Store"
 					@click.prevent="playStore"
 				/>
 
 				<img
-					src="src/assets/images/app_store.svg"
+					src="/src/assets/images/app_store.svg"
 					alt="Apple Store"
 					@click.prevent="appleStore"
 				/>
 
 				<img
-					src="src/assets/images/windowsstore.svg"
+					src="/src/assets/images/windowsstore.svg"
 					alt="Windows Store"
 					@click.prevent="windowsStore"
 				/>

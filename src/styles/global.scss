@@ -293,25 +293,25 @@ a {
 		&.min-chars > li.min-chars {
 			@extend .black-to-green;
 			&::before {
-				background-image: url("src/assets/icons/check.svg");
+				background-image: url("/src/assets/icons/check.svg");
 			}
 		}
 		&.letters > li.letters {
 			@extend .black-to-green;
 			&::before {
-				background-image: url("src/assets/icons/check.svg");
+				background-image: url("/src/assets/icons/check.svg");
 			}
 		}
 		&.numbers > li.numbers {
 			@extend .black-to-green;
 			&::before {
-				background-image: url("src/assets/icons/check.svg");
+				background-image: url("/src/assets/icons/check.svg");
 			}
 		}
 		&.same > li.same {
 			@extend .black-to-green;
 			&::before {
-				background-image: url("src/assets/icons/check.svg");
+				background-image: url("/src/assets/icons/check.svg");
 			}
 		}
 	}
@@ -325,7 +325,7 @@ a {
 
 		&::before {
 			content: "";
-			background-image: url("src/assets/icons/close_2.svg");
+			background-image: url("/src/assets/icons/close_2.svg");
 			background-position: 0 0;
 			background-size: auto;
 			background-repeat: no-repeat;

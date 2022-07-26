@@ -40,7 +40,7 @@
 			/>
 
 			<a class="input-image">
-				<img src="src/assets/icons/mail.svg" alt="mail" />
+				<img src="/src/assets/icons/mail.svg" alt="mail" />
 			</a>
 		</div>
 
@@ -58,13 +58,13 @@
 			/>
 
 			<a class="input-image">
-				<img src="src/assets/icons/phone.svg" alt="tel" />
+				<img src="/src/assets/icons/phone.svg" alt="tel" />
 			</a>
 		</div>
 
 		<a self-end mt4 font-bold cursor-pointer>
 			<img
-				src="src/assets/icons/edit.svg"
+				src="/src/assets/icons/edit.svg"
 				alt="edit"
 				class="black-to-purple"
 			/>

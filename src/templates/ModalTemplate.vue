@@ -7,8 +7,8 @@
 				</h4>
 
 				<img
-					src="src/assets/icons/close_1.svg"
-					alt=""
+					src="/src/assets/icons/close_1.svg"
+					alt="close"
 					w-8
 					h-8
 					cursor-pointer
