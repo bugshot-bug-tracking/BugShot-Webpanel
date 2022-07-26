@@ -159,19 +159,19 @@ p {
 	padding: 3px 10px;
 	user-select: none;
 
-	&.p1 {
+	&.priority1 {
 		background-color: hsl(188, 80%, 47%);
 	}
 
-	&.p2 {
+	&.priority2 {
 		background-color: hsl(218, 80%, 47%);
 	}
 
-	&.p3 {
+	&.priority3 {
 		background-color: hsl(32, 100%, 67%);
 	}
 
-	&.p4 {
+	&.priority4 {
 		background-color: hsl(0, 90%, 60%);
 	}
 }
