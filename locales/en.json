@@ -219,5 +219,14 @@
 	"chose_new_password": "Choose new password",
 	"password_changed": "Password successfully changed",
 	"please_confirm_password": "For security reasons, please confirm your password",
-	"user_updated": "User data successfully updated"
+	"user_updated": "User data successfully updated",
+	"change_interface_language": "Change interface language",
+	"language_change_will_affect": "The language change will affect on this app and the web extension as well",
+	"chose_desired_language": "Choose desired language",
+	"location": {
+		"auto": "Use browser language",
+		"en": "English",
+		"de": "German"
+	},
+	"language_changed": "Language changed"
 }

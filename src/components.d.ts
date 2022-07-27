@@ -33,6 +33,7 @@ declare module '@vue/runtime-core' {
     InviteModal: typeof import('./components/Modals/InviteModal.vue')['default']
     Item: typeof import('./components/Attachments/Item.vue')['default']
     LanguageChange: typeof import('./components/Setttings/LanguageChange.vue')['default']
+    LanguageChangeModal: typeof import('./components/Modals/LanguageChangeModal.vue')['default']
     LoadingModal: typeof import('./components/Modals/LoadingModal.vue')['default']
     LoadingModal2: typeof import('./components/Modals/LoadingModal2.vue')['default']
     LocalAttachments: typeof import('./components/Attachments/LocalAttachments.vue')['default']
