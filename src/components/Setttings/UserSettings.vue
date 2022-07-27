@@ -62,15 +62,7 @@
 			</a>
 		</div>
 
-		<a self-end mt4 font-bold cursor-pointer>
-			<img
-				src="/src/assets/icons/edit.svg"
-				alt="edit"
-				class="black-to-purple"
-			/>
-
-			{{ t("edit.profile") }}
-		</a>
+		<UserSettingsModal self-end mt4 />
 	</div>
 </template>
 

@@ -61,5 +61,6 @@ declare module '@vue/runtime-core' {
     UserMenu: typeof import('./components/PopupButton/UserMenu.vue')['default']
     UserProjects: typeof import('./components/Setttings/UserProjects.vue')['default']
     UserSettings: typeof import('./components/Setttings/UserSettings.vue')['default']
+    UserSettingsModal: typeof import('./components/Modals/UserSettingsModal.vue')['default']
   }
 }
