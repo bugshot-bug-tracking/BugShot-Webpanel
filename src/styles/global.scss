@@ -270,6 +270,28 @@ a {
 			border-color: red;
 		}
 	}
+
+	label.bs-radio {
+		display: flex;
+		gap: 1rem;
+		align-items: center;
+
+		input {
+			display: none;
+
+			&:checked + i.radio {
+				border-width: 0.25rem;
+			}
+		}
+
+		i.radio {
+			width: 1rem;
+			height: 1rem;
+			border-radius: 100%;
+			background-color: #ffffff;
+			border: 0.125rem solid #7a2ee6;
+		}
+	}
 }
 
 .vue-universal-modal {

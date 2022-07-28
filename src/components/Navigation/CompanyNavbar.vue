@@ -171,7 +171,6 @@ import { useMainStore } from "~/stores/main";
 import { useSettingsStore } from "~/stores/settings";
 
 let store = useMainStore();
-store.init();
 let settingsStore = useSettingsStore();
 
 // control the manual clicking of dropdowns to only have 1 dropdown open at a time (company + projects)

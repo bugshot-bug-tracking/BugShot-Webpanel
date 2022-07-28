@@ -25,6 +25,7 @@ declare module '@vue/runtime-core' {
     Container: typeof import('./components/Container.vue')['default']
     CreateDataModal: typeof import('./components/Modals/CreateDataModal.vue')['default']
     DeleteModal: typeof import('./components/Modals/DeleteModal.vue')['default']
+    DeleteModal2: typeof import('./components/Modals/DeleteModal2.vue')['default']
     EditModal: typeof import('./components/Modals/EditModal.vue')['default']
     GroupContainer: typeof import('./templates/GroupContainer.vue')['default']
     I18nSwitcher: typeof import('./components/PopupButton/i18nSwitcher.vue')['default']
@@ -33,6 +34,7 @@ declare module '@vue/runtime-core' {
     InviteModal: typeof import('./components/Modals/InviteModal.vue')['default']
     Item: typeof import('./components/Attachments/Item.vue')['default']
     LanguageChange: typeof import('./components/Setttings/LanguageChange.vue')['default']
+    LanguageChangeModal: typeof import('./components/Modals/LanguageChangeModal.vue')['default']
     LoadingModal: typeof import('./components/Modals/LoadingModal.vue')['default']
     LoadingModal2: typeof import('./components/Modals/LoadingModal2.vue')['default']
     LocalAttachments: typeof import('./components/Attachments/LocalAttachments.vue')['default']
@@ -61,5 +63,6 @@ declare module '@vue/runtime-core' {
     UserMenu: typeof import('./components/PopupButton/UserMenu.vue')['default']
     UserProjects: typeof import('./components/Setttings/UserProjects.vue')['default']
     UserSettings: typeof import('./components/Setttings/UserSettings.vue')['default']
+    UserSettingsModal: typeof import('./components/Modals/UserSettingsModal.vue')['default']
   }
 }

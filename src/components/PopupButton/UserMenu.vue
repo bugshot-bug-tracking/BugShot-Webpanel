@@ -135,7 +135,7 @@ ul {
 
 	a {
 		text-decoration: none;
-		color: black;
+		color: #1a2040;
 		padding: 0.5rem 1.5rem;
 		font-weight: bold;
 		margin: 0.5rem 0;

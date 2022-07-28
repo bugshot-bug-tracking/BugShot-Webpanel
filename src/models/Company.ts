@@ -1,5 +1,6 @@
 import { User } from "./User";
 import { Project } from "./Project";
+import { Role } from "./Role";
 
 export interface Company {
 	id: string;
@@ -11,5 +12,6 @@ export interface Company {
 		updated_at: Date;
 		creator: User;
 		projects?: Array<Project>;
+		role?: Role;
 	};
 }

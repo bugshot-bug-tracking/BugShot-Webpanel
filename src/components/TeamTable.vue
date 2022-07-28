@@ -314,7 +314,7 @@ watch(
 			justify-content: center;
 			gap: 6px;
 			cursor: pointer;
-			color: black;
+			color: #1a2040;
 		}
 
 		img {

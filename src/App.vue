@@ -4,8 +4,10 @@
 
 <script setup lang="ts">
 import { useI18nStore } from "~/stores/i18n";
+import { useMainStore } from "~/stores/main";
 
 useI18nStore().init();
+useMainStore().init();
 </script>
 
 <style lang="scss">

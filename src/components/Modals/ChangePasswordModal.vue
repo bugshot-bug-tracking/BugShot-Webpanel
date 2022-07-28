@@ -330,8 +330,6 @@ const submit = async () => {
 			loadingModal.clear();
 		}, 2500);
 	}
-
-	return;
 };
 
 const cancel = () => {
