@@ -101,7 +101,7 @@ const priorityText = (value) => {
 	border-radius: 8px;
 	padding: 0;
 	text-align: center;
-	color: black;
+	color: #1a2040;
 
 	box-shadow: 0px 8px 10px hsla(232, 41%, 18%, 0.2);
 	border: 1px solid #e6e6ff;
