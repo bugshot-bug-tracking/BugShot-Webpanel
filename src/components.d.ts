@@ -25,6 +25,7 @@ declare module '@vue/runtime-core' {
     Container: typeof import('./components/Container.vue')['default']
     CreateDataModal: typeof import('./components/Modals/CreateDataModal.vue')['default']
     DeleteModal: typeof import('./components/Modals/DeleteModal.vue')['default']
+    DeleteModal2: typeof import('./components/Modals/DeleteModal2.vue')['default']
     EditModal: typeof import('./components/Modals/EditModal.vue')['default']
     GroupContainer: typeof import('./templates/GroupContainer.vue')['default']
     I18nSwitcher: typeof import('./components/PopupButton/i18nSwitcher.vue')['default']
