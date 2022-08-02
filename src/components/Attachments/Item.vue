@@ -1,12 +1,8 @@
 <template>
 	<div class="file-name">{{ name }}</div>
 	<div class="controls">
-		<div
-			v-if="download"
-			class="btn download"
-			@click="$emit('download', id)"
-		/>
-		<div class="btn delete" @click="$emit('delete', id)" />
+		<div v-if="download" class="download" @click="$emit('download', id)" />
+		<div class="delete" @click="$emit('delete', id)" />
 	</div>
 </template>
 
@@ -45,10 +41,11 @@ const emit = defineEmits(["download", "delete"]);
 		margin: 0px 6px;
 	}
 
-	> .btn {
+	> div {
 		background-repeat: no-repeat;
 		width: 24px;
 		height: 24px;
+		cursor: pointer;
 
 		&.download {
 			background-image: url("/src/assets/icons/download.svg");

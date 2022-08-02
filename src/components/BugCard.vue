@@ -1,7 +1,7 @@
 <template>
 	<div class="bug-card">
 		<div class="card" :class="{ active: active }">
-			<div class="card-header bug-title" @click="$emit('info')">
+			<div class="card-header bug-title" @click="emit('info')">
 				{{ title }}
 			</div>
 
@@ -10,23 +10,30 @@
 					<div class="bug-deadline">
 						{{
 							deadline
-								? $d(dateFix(deadline), "short")
+								? $d(new Date(dateFix(deadline)), "short")
 								: $t("no_deadline")
 						}}
 					</div>
 
-					<PriorityChange :priority="priority" />
+					<DropdownButton
+						:color="priorities[priority - 1].color"
+						dumb
+					>
+						<template #text>
+							{{ priorities[priority - 1].text }}
+						</template>
+					</DropdownButton>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import dateFix from "~/util/dateFixISO";
 
 const emit = defineEmits(["info"]);
-const props = defineProps({
+defineProps({
 	title: {
 		required: true,
 		type: String,
@@ -45,6 +52,31 @@ const props = defineProps({
 		default: false,
 	},
 });
+
+const { t } = useI18n();
+
+const priorities = computed(() => [
+	{
+		id: 1,
+		text: t("minor"),
+		color: "#18bed8",
+	},
+	{
+		id: 2,
+		text: t("normal"),
+		color: "#185ed8",
+	},
+	{
+		id: 3,
+		text: t("important"),
+		color: "#ffb057",
+	},
+	{
+		id: 4,
+		text: t("critical"),
+		color: "#f53d3d",
+	},
+]);
 </script>
 
 <style lang="scss" scoped>

@@ -59,17 +59,18 @@ export const useProjectStore = defineStore("project", {
 				).data.data;
 
 				this.project = project;
-				this.statuses = this.project.attributes.statuses;
+				this.statuses = <Status[]>this.project.attributes.statuses;
 			} catch (error) {
 				console.log(error);
 				throw error;
 			}
 		},
 
-		async syncBug(payload) {
+		async syncBug(payload: any) {
 			try {
 				//get a reference to the bug
 				const bug = this.getBugById(payload.id);
+				if (!bug) throw "Bug not found in memory";
 
 				let response = await axios.put(
 					`statuses/${bug.attributes.status_id}/bugs/${bug.id}`,
@@ -114,6 +115,24 @@ export const useProjectStore = defineStore("project", {
 					}
 				);
 
+				if (payload.changes.status_id) {
+					let orgList = this.getBugsByStatusId(
+						bug.attributes.status_id
+					);
+
+					let index1 = orgList?.findIndex(
+						(x) => x.id === payload.changes.status_id
+					);
+
+					if (index1 && index1 > 0) orgList?.splice(index1 - 1, 1);
+
+					let newList = this.getBugsByStatusId(
+						payload.changes.status_id
+					);
+
+					newList?.unshift(bug);
+				}
+
 				bug.attributes = response.data.data.attributes;
 
 				console.log(bug);
@@ -125,6 +144,7 @@ export const useProjectStore = defineStore("project", {
 
 		async fetchScreenshots(id: string) {
 			let bug = this.getBugById(id);
+			if (!bug) throw "Bug not found in memory";
 
 			try {
 				// fetch bug screenshots
@@ -147,6 +167,7 @@ export const useProjectStore = defineStore("project", {
 
 		async fetchAttachments(id: string) {
 			let bug = this.getBugById(id);
+			if (!bug) throw "Bug not found in memory";
 
 			try {
 				// fetch bug screenshots
@@ -161,6 +182,7 @@ export const useProjectStore = defineStore("project", {
 
 		async fetchComments(id: string) {
 			let bug = this.getBugById(id);
+			if (!bug) throw "Bug not found in memory";
 
 			try {
 				// fetch bug screenshots
@@ -175,6 +197,7 @@ export const useProjectStore = defineStore("project", {
 
 		async fetchBugUsers(id: string) {
 			let bug = this.getBugById(id);
+			if (!bug) throw "Bug not found in memory";
 
 			try {
 				// fetch bug screenshots
@@ -213,6 +236,7 @@ export const useProjectStore = defineStore("project", {
 			try {
 				// get a reference to the status
 				const status = this.getStatusById(payload.id);
+				if (!status) throw "Status not found in memory";
 
 				let response = await axios.put(
 					`projects/${this.project_id}/statuses/${status.id}`,
@@ -268,7 +292,7 @@ export const useProjectStore = defineStore("project", {
 			if (!state.statuses) return null;
 
 			for (const status of state.statuses)
-				for (const bug of status.attributes.bugs)
+				for (const bug of status.attributes.bugs ?? [])
 					if (bug.id === id) return bug;
 
 			return null;
@@ -287,6 +311,6 @@ export const useProjectStore = defineStore("project", {
 			return state.statuses?.find((x) => x.attributes.order_number === 0);
 		},
 
-		getProjectUsers: (state) => state.project?.attributes.users,
+		getProjectUsers: (state) => state.project?.attributes.users ?? [],
 	},
 });

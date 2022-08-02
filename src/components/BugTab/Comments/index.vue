@@ -5,7 +5,7 @@
 				<div class="header">
 					<span>{{ $t("comment", 2) }}</span>
 
-					<div class="btn refresh-button" @click="update" />
+					<div class="refresh-button" @click="update" />
 				</div>
 			</div>
 
@@ -61,9 +61,10 @@
 				</div>
 
 				<div
-					class="btn comment-send-button text-capitalize"
+					class="bs-btn green"
 					:class="{ disabled: messageLength > 250 }"
 					@click="postComment"
+					self-end
 				>
 					{{ $t("add.comment") }}
 				</div>
@@ -259,6 +260,7 @@ onMounted(() => {
 				background-position: center;
 				width: 24px;
 				height: 24px;
+				cursor: pointer;
 
 				&:hover {
 					filter: brightness(0) saturate(1) invert(63%) sepia(74%)
@@ -329,19 +331,6 @@ onMounted(() => {
 				outline: unset;
 				border: 1px solid hsl(265, 80%, 50%);
 				transition: ease-in 0.1s;
-			}
-		}
-
-		.comment-send-button {
-			background-color: hsl(158, 80%, 47%);
-			color: hsl(0, 0%, 100%);
-			border-radius: 20px;
-			font-size: 14px;
-			font-weight: 700;
-
-			&:hover {
-				background: hsl(158, 80%, 37%);
-				color: hsl(0, 0%, 100%);
 			}
 		}
 	}

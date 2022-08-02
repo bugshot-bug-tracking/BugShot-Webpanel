@@ -7,7 +7,7 @@
 			>
 				<div class="modal-container">
 					<button
-						class="btn btn-modal-close"
+						class="btn-modal-close"
 						@click.prevent="$emit('close')"
 						v-if="!no_close_button"
 					/>
@@ -86,6 +86,7 @@ const props = defineProps({
 		z-index: 1;
 		box-shadow: -1px 2px 10px hsla(0, 0%, 0%, 0.5);
 		background-size: 70%;
+		border: unset;
 
 		&:focus {
 			box-shadow: unset;

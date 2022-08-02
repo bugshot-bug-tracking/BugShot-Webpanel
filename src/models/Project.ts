@@ -11,12 +11,13 @@ export interface Project {
 		company: Company;
 		color_hex: string;
 		url: string;
-		created_at: Date;
-		updated_at: Date;
+		created_at: string;
+		updated_at: string;
 		creator: User;
 		bugsDone: number;
 		bugsTotal: number;
 		image?: Image;
 		statuses?: Status[];
+		users?: User[];
 	};
 }

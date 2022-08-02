@@ -6,7 +6,11 @@
 					<div class="content">{{ bug.attributes.designation }}</div>
 				</div>
 
-				<div class="btn close-button" @click="$emit('close')" />
+				<div
+					class="close-button"
+					@click="$emit('close')"
+					cursor-pointer
+				/>
 			</div>
 
 			<div class="id">
@@ -25,7 +29,12 @@
 					</div>
 
 					<div class="date">
-						{{ $d(dateFix(bug.attributes.created_at), "short") }}
+						{{
+							$d(
+								new Date(dateFix(bug.attributes.created_at)),
+								"short"
+							)
+						}}
 					</div>
 				</div>
 			</div>
@@ -107,20 +116,46 @@
 				<div class="grid1x2">
 					<label>{{ $t("priority") + ":" }}</label>
 
-					<PriorityChange
-						:priority="bug.attributes.priority.id"
-						class="content"
-						:lock="false"
-						@change="changePriority"
-					/>
+					<DropdownButton
+						@select="changePriority"
+						:list="priorities"
+						:color="
+							priorities[bug.attributes.priority.id - 1].color
+						"
+					>
+						<template #text>
+							{{
+								priorities[bug.attributes.priority.id - 1].text
+							}}
+						</template>
+
+						<template #item="{ item }">
+							<div flex items-center gap-2>
+								<div
+									class="dot"
+									:style="{
+										background: item.color,
+									}"
+								/>
+
+								{{ item.text }}
+							</div>
+						</template>
+					</DropdownButton>
 				</div>
 
 				<div class="grid1x2 status">
 					<label>{{ $t("status") + ":" }}</label>
 
-					<div class="content status">
-						{{ status.attributes.designation }}
-					</div>
+					<DropdownButton
+						@select="changeStatus"
+						:list="statuses"
+						:text="status.attributes.designation"
+					>
+						<template #item="{ item }">
+							{{ item.attributes.designation }}
+						</template>
+					</DropdownButton>
 				</div>
 			</div>
 
@@ -153,10 +188,11 @@
 	</Container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import dateFix from "~/util/dateFixISO";
 import { useProjectStore } from "~/stores/project";
 import { useI18nStore } from "~/stores/i18n";
+import { Status } from "~/models/Status.js";
 
 const emit = defineEmits(["close", "open_assign"]);
 
@@ -173,15 +209,52 @@ const props = defineProps({
 
 const store = useProjectStore();
 
+const { t } = useI18n();
+
+const statuses = computed(() => store.getStatuses);
+
+const priorities = computed(() => [
+	{
+		id: 1,
+		text: t("minor"),
+		color: "#18bed8",
+	},
+	{
+		id: 2,
+		text: t("normal"),
+		color: "#185ed8",
+	},
+	{
+		id: 3,
+		text: t("important"),
+		color: "#ffb057",
+	},
+	{
+		id: 4,
+		text: t("critical"),
+		color: "#f53d3d",
+	},
+]);
+
 const open = ref(false);
 
 const datePicker = ref(dateFix(props.bug.attributes.deadline));
 
-const changePriority = (value) => {
+const changePriority = (value: { id: number; text: string; color: string }) => {
 	store.syncBug({
 		id: props.bug.id,
 		changes: {
-			priority_id: value,
+			priority_id: value.id,
+		},
+	});
+};
+
+const changeStatus = (item: Status) => {
+	store.syncBug({
+		id: props.bug.id,
+		changes: {
+			status_id: item.id,
+			order_number: 0,
 		},
 	});
 };
@@ -220,7 +293,7 @@ const changeDeadline = () => {
 
 const { d } = useI18n({ useScope: "global" });
 const locale = computed(() => useI18nStore().getCurrentLocale);
-const format = (date) => d(new Date(date).toISOString(), "short");
+const format = (date: Date) => d(new Date(date).toISOString(), "short");
 </script>
 
 <style lang="scss" scoped>

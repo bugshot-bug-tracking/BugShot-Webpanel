@@ -229,5 +229,6 @@
 		"de": "German"
 	},
 	"language_changed": "Language changed",
-	"want_to_leave": "Are you sure you want to leave"
+	"want_to_leave": "Are you sure you want to leave",
+	"empty": "Empty"
 }

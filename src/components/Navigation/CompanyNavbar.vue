@@ -173,6 +173,8 @@ import { useSettingsStore } from "~/stores/settings";
 let store = useMainStore();
 let settingsStore = useSettingsStore();
 
+store.init();
+
 // control the manual clicking of dropdowns to only have 1 dropdown open at a time (company + projects)
 const manualOpen = reactive({
 	//* used to identify which dropdown group to control

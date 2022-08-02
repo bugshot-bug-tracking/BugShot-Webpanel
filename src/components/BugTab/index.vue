@@ -19,7 +19,7 @@
 			/>
 
 			<div class="delete-btn-wrapper">
-				<div class="btn delete-bug-btn" @click="deleteBug">
+				<div class="delete-bug-btn" @click="deleteBug">
 					<div class="delete-icon" />
 
 					<span class="text-capitalize">
@@ -99,10 +99,11 @@ const assignShow = ref(false);
 	align-items: center;
 	justify-content: center;
 
-	.btn.delete-bug-btn {
+	.delete-bug-btn {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
+		cursor: pointer;
 
 		> .delete-icon {
 			width: 24px;
