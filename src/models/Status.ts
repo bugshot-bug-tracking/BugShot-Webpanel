@@ -8,7 +8,7 @@ export interface Status {
 		order_number: number;
 		bugs?: Bug[];
 
-		created_at: Date;
-		updated_at: Date;
+		created_at: string;
+		updated_at: string;
 	};
 }

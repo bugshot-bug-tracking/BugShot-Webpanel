@@ -8,8 +8,8 @@ export interface Company {
 	attributes: {
 		designation: string;
 		color_hex: string;
-		created_at: Date;
-		updated_at: Date;
+		created_at: string;
+		updated_at: string;
 		creator: User;
 		projects?: Array<Project>;
 		role?: Role;
