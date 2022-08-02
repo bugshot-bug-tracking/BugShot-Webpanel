@@ -114,6 +114,24 @@ export const useProjectStore = defineStore("project", {
 					}
 				);
 
+				if (payload.changes.status_id) {
+					let orgList = this.getBugsByStatusId(
+						bug.attributes.status_id
+					);
+
+					let index1 = orgList?.findIndex(
+						(x) => x.id === payload.changes.status_id
+					);
+
+					orgList?.splice(index1 - 1, 1);
+
+					let newList = this.getBugsByStatusId(
+						payload.changes.status_id
+					);
+
+					newList?.unshift(bug);
+				}
+
 				bug.attributes = response.data.data.attributes;
 
 				console.log(bug);
