@@ -120,12 +120,10 @@ export const useProjectStore = defineStore("project", {
 						bug.attributes.status_id
 					);
 
-					let index1 = orgList?.findIndex(
-						(x) => x.id === payload.changes.status_id
-					);
+					let index1 = orgList?.findIndex((x) => x.id === bug.id);
 
 					if (index1 !== undefined && index1 >= 0)
-						orgList?.splice(index1 - 1, 1);
+						orgList?.splice(index1, 1);
 
 					let newList = this.getBugsByStatusId(
 						payload.changes.status_id
