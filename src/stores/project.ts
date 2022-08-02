@@ -124,7 +124,7 @@ export const useProjectStore = defineStore("project", {
 						(x) => x.id === payload.changes.status_id
 					);
 
-					if (index1 && index1 > 0) orgList?.splice(index1 - 1, 1);
+					if (index1 && index1 >= 0) orgList?.splice(index1 - 1, 1);
 
 					let newList = this.getBugsByStatusId(
 						payload.changes.status_id
