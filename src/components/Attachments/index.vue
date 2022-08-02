@@ -5,8 +5,8 @@
 			<div class="header">
 				<div class="title">{{ $t("attachment", 2) }}</div>
 
-				<div>
-					<div class="btn refresh-button" @click="update" />
+				<div flex items-center>
+					<div class="refresh-button" @click="update" />
 					<label id="file-label">
 						<input
 							type="file"
@@ -198,6 +198,7 @@ const update = () => {
 			width: 24px;
 			height: 24px;
 			margin-right: 10px;
+			cursor: pointer;
 
 			&:hover {
 				filter: brightness(0) saturate(1) invert(55%) sepia(54%)

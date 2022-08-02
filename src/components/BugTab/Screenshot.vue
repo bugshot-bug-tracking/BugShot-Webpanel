@@ -25,10 +25,7 @@
 		<template v-slot:extra>
 			<div class="controls-bottom">
 				<div class="controls">
-					<div
-						class="btn btn-hide-mark"
-						@click="mark.show = !mark.show"
-					>
+					<div class="btn-hide-mark" @click="mark.show = !mark.show">
 						{{ mark.show ? $t("hide_mark") : $t("show_mark") }}
 					</div>
 
@@ -45,14 +42,14 @@
 
 			<div class="controls-side" v-if="screenshots.length > 1">
 				<div
-					class="btn btn-side-arrow arrow-left"
+					class="btn-side-arrow arrow-left"
 					v-if="counter > 0"
 					@click="previous"
 				/>
 				<div v-else />
 
 				<div
-					class="btn btn-side-arrow arrow-right"
+					class="btn-side-arrow arrow-right"
 					v-if="counter < screenshots.length - 1"
 					@click="next"
 				/>
@@ -212,6 +209,9 @@ const priority = computed(() => {
 			height: 40px;
 			color: hsl(158, 80%, 47%);
 			font-weight: 500;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 
 			&:hover {
 				background-color: hsl(158, 80%, 47%);

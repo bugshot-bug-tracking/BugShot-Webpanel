@@ -6,7 +6,11 @@
 					<div class="content">{{ bug.attributes.designation }}</div>
 				</div>
 
-				<div class="btn close-button" @click="$emit('close')" />
+				<div
+					class="close-button"
+					@click="$emit('close')"
+					cursor-pointer
+				/>
 			</div>
 
 			<div class="id">
