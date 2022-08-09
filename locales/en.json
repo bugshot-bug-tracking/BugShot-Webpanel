@@ -221,7 +221,7 @@
 	"please_confirm_password": "For security reasons, please confirm your password",
 	"user_updated": "User data successfully updated",
 	"change_interface_language": "Change interface language",
-	"language_change_will_affect": "The language change will affect on this app and the web extension as well",
+	"language_change_will_affect": "The language change will affect this app and the web extension",
 	"chose_desired_language": "Choose desired language",
 	"location": {
 		"auto": "Use browser language",
