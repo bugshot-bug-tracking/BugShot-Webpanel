@@ -50,7 +50,10 @@
 					<a
 						class="remove"
 						@click="deleteCompany(company)"
-						v-if="!(company.attributes.creator.id === user.id)"
+						v-if="
+							!(company.attributes.creator.id === user.id) &&
+							companyProjects(company.id).length === 0
+						"
 					>
 						<img
 							src="/src/assets/icons/delete.svg"
