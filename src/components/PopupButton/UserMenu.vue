@@ -4,6 +4,7 @@
 			:first_name="user.attributes.first_name"
 			:last_name="user.attributes.last_name"
 			@click="menu.toggle"
+			cursor-pointer
 		/>
 
 		<section class="popup" v-if="menu.visible">
