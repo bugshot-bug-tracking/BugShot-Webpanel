@@ -245,7 +245,8 @@ export const useMainStore = defineStore("main", {
 			try {
 				await axios.delete(`projects/${project_id}/users/${user_id}`);
 
-				let projects = this.getProjectCompany(id).attributes.projects;
+				let projects =
+					this.getProjectCompany(project_id).attributes.projects;
 
 				projects.splice(
 					projects.findIndex((x) => x.id === project_id),
