@@ -43,7 +43,12 @@
 						{{ $t("picker.upload_image") }}
 					</label>
 
-					<input type="file" name="upload" id="pick-upload" />
+					<input
+						type="file"
+						name="upload"
+						id="pick-upload"
+						ref="picker"
+					/>
 				</div>
 
 				<div class="preview" v-else>
@@ -131,6 +136,7 @@ if (props.image && props.image.length > 20) imgg.value = props.image;
 const resetImage = () => {
 	imgg.value = "";
 	emit("setImage", null);
+	picker.value = null;
 };
 
 const change = (event: Event) => {
@@ -149,6 +155,8 @@ const change = (event: Event) => {
 const colorChange = () => {
 	emit("setColor", Number(props.colorPicked));
 };
+
+const picker = ref(null);
 </script>
 
 <style lang="scss" scoped>
