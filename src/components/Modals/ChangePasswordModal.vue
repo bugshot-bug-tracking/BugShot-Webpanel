@@ -18,6 +18,14 @@
 				class="bs-form"
 			>
 				<p>{{ t("password_change_on") }} {{ user.attributes.email }}</p>
+
+				<input
+					type="email"
+					:value="user.attributes.email"
+					disabled
+					hidden
+				/>
+
 				<div class="form-group">
 					<div class="bs-input2">
 						<label flex justify-between>
@@ -34,7 +42,7 @@
 							maxlength="255"
 							class="!pr-12"
 							:class="{ error: currentPassword.error }"
-							@focus.prevent="currentPassword.clear"
+							@focus.prevent="currentPassword.resetError"
 						/>
 
 						<img
@@ -228,6 +236,8 @@ const modal = reactive({
 	},
 	close: () => {
 		modal.show = false;
+		currentPassword.clear();
+		newPassword.clear();
 	},
 });
 
@@ -240,6 +250,12 @@ const currentPassword = reactive({
 		currentPassword.show = !currentPassword.show;
 	},
 	clear: () => {
+		currentPassword.value = "";
+		currentPassword.show = false;
+		currentPassword.error = false;
+		currentPassword.errorMessage = "";
+	},
+	resetError: () => {
 		currentPassword.error = false;
 		currentPassword.errorMessage = "";
 	},
@@ -280,6 +296,15 @@ const newPassword = reactive({
 			};
 		}
 	),
+	clear: () => {
+		newPassword.value = "";
+		newPassword.confirm = "";
+		newPassword.show = false;
+		newPassword.error = false;
+		newPassword.confirmError = false;
+		newPassword.showValidate = false;
+		newPassword.showConfirmValidate = false;
+	},
 });
 
 const submit = async () => {
