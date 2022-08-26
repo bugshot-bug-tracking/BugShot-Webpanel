@@ -380,28 +380,27 @@
 .bs-priority {
 	font-weight: normal;
 	font-size: 0.75rem;
-	line-height: 16px;
-	color: hsl(0, 0%, 100%);
+	line-height: 1rem;
+	color: #ffffff;
 	border-radius: 1rem;
 	width: fit-content;
 	height: fit-content;
-	position: relative;
 	padding: 0.25rem 0.5rem;
 	user-select: none;
 
-	&.priority1 {
+	&.priority-1 {
 		background-color: hsl(188, 80%, 47%);
 	}
 
-	&.priority2 {
+	&.priority-2 {
 		background-color: hsl(218, 80%, 47%);
 	}
 
-	&.priority3 {
+	&.priority-3 {
 		background-color: hsl(32, 100%, 67%);
 	}
 
-	&.priority4 {
+	&.priority-4 {
 		background-color: hsl(0, 90%, 60%);
 	}
 }

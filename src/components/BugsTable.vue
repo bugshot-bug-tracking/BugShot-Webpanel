@@ -44,8 +44,16 @@
 								"
 								:deadline="
 									getBug(element.id).attributes.deadline
-										? getBug(element.id).attributes.deadline
-										: ''
+										? $d(
+												new Date(
+													dateFix(
+														getBug(element.id)
+															.attributes.deadline
+													)
+												),
+												'short'
+										  )
+										: $t('no_deadline')
 								"
 								:priority="
 									getBug(element.id).attributes.priority.id
@@ -123,6 +131,7 @@
 <script setup>
 import { useProjectStore } from "~/stores/project";
 import draggable from "vuedraggable";
+import dateFix from "~/util/dateFixISO";
 
 const props = defineProps({
 	id: {
@@ -302,6 +311,10 @@ const loadingModal = reactive({
 .drag-zone {
 	min-height: 100%;
 	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding-bottom: 0.5rem;
 }
 
 .column {
