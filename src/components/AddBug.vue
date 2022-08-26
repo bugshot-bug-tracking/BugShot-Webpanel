@@ -4,8 +4,8 @@
 		{{ $t("add.bug") }}
 	</a>
 
-	<SideTab v-if="tabOpen" class="tab-shaddow">
-		<form @submit.prevent="submit">
+	<div v-if="tabOpen" class="bs-tab bs-scroll s-purple">
+		<form @submit.prevent="submit" flex flex-col gap-4>
 			<div class="top">
 				<h4>{{ $t("new_bug_report") }}</h4>
 
@@ -16,11 +16,11 @@
 				/>
 			</div>
 
-			<Container>
+			<div class="bs-container">
 				<ImageManager @update="imagesUpdate" />
-			</Container>
+			</div>
 
-			<Container class="gap-4">
+			<div class="bs-container" gap-4>
 				<div class="bs-input counted">
 					<span>{{ `${data.designation.length}/50` }}</span>
 					<input
@@ -114,15 +114,28 @@
 					<div>Assign to</div>
 					<Assignees :list="[]" />
 				</div>
-			</Container>
+			</div>
 
-			<LocalAttachments @update="attachmentsUpdate" />
+			<AttachmentsList
+				:list="data.attachments"
+				:error="attachments.error"
+				@upload="attachments.upload"
+			>
+				<template #item="{ item, index }">
+					<AttachmentsItem
+						:name="item.name"
+						:id="index"
+						@delete="attachments.delete"
+						:download="false"
+					/>
+				</template>
+			</AttachmentsList>
 
 			<button class="bs-btn green" type="submit">
 				{{ $t("report_bug") + "!" }}
 			</button>
 		</form>
-	</SideTab>
+	</div>
 
 	<LoadingModal
 		:show="loadingModal.show"
@@ -131,10 +144,10 @@
 		@close="loadingModal.show = false"
 	/>
 
-	<div class="outside-overlay" v-if="tabOpen" @click="tabOpen = false" />
+	<div class="full-overlay" v-if="tabOpen" @click="tabOpen = false" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import toBase64 from "~/util/toBase64";
 import axios from "axios";
 import { useProjectStore } from "~/stores/project";
@@ -157,16 +170,25 @@ const data = reactive({
 	deadline: null,
 	priority: 2,
 	images: [],
-	attachments: [],
+	attachments: [] as File[],
+});
+
+const attachments = reactive({
+	error: "",
+
+	upload: (files: File[]) => {
+		data.attachments = files;
+	},
+
+	delete: (index: number) => {
+		data.attachments.splice(index, 1);
+	},
 });
 
 const clearDeadline = () => {
 	data.deadline = null;
 };
 
-const attachmentsUpdate = (files) => {
-	data.attachments = files;
-};
 const imagesUpdate = (files) => {
 	data.images = files;
 };
@@ -356,19 +378,5 @@ const loadingModal = reactive({
 		right: 0.5rem;
 		font-size: 12px;
 	}
-}
-
-.tab-shaddow {
-	box-shadow: -10px 0px 24px hsla(231, 42%, 18%, 0.11);
-}
-
-.outside-overlay {
-	position: fixed;
-	width: 100vw;
-	height: 100vh;
-	background: #00000073;
-	top: 0;
-	left: 0;
-	z-index: 1;
 }
 </style>
