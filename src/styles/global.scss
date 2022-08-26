@@ -187,6 +187,13 @@ a {
 	}
 }
 
+ul,
+ol {
+	list-style: none;
+	margin: unset;
+	padding: unset;
+}
+
 .component-group {
 	.group-header {
 		text-align: left;
@@ -384,4 +391,32 @@ a {
 		align-items: center;
 		padding: 0.5rem 0;
 	}
+}
+
+.bs-tab {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: stretch;
+	background-color: hsl(240, 40%, 98%);
+	height: 100vh;
+	width: 25rem;
+	max-width: 30rem;
+	overflow: auto;
+	padding: 1rem;
+	position: absolute;
+	z-index: 20;
+	top: 0;
+	right: 0;
+	box-shadow: -0.5rem 0px 1.5rem hsla(231, 42%, 18%, 0.11);
+}
+
+.full-overlay {
+	position: fixed;
+	width: 100vw;
+	height: 100vh;
+	background: hsla(0, 0%, 0%, 0.45);
+	top: 0;
+	left: 0;
+	z-index: 10;
 }
