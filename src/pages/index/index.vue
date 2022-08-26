@@ -4,7 +4,7 @@
 			<h3>{{ $t("all_projects") }}</h3>
 		</template>
 
-		<div class="groups bs-scroll s-purple">
+		<div class="groups bs-scroll">
 			<GroupContainer v-for="company of companies" :key="company.id">
 				<template #top-left>
 					<RouterLink

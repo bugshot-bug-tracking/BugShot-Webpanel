@@ -33,7 +33,7 @@
 		</template>
 
 		<template #main>
-			<div class="companies bs-scroll s-purple">
+			<div class="companies bs-scroll">
 				<ul>
 					<li v-for="[, company] of companies" :key="company.id">
 						<div

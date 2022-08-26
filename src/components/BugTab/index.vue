@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div v-if="bug" class="bs-tab bs-scroll s-purple" gap-4>
+		<div v-if="bug" class="bs-tab bs-scroll" gap-4>
 			<Info
 				:bug="bug"
 				:status="status"

@@ -25,7 +25,7 @@
 			</div>
 
 			<form
-				class="default-form bs-scroll s-purple"
+				class="default-form bs-scroll"
 				@submit.prevent="createResource"
 			>
 				<div class="bs-input my-3 text-capitalize">

@@ -21,7 +21,7 @@
 				<span>{{ $t("notification", 2) }}</span>
 			</header>
 
-			<ul class="main bs-scroll s-purple" v-if="invitations.length > 0">
+			<ul class="main bs-scroll" v-if="invitations.length > 0">
 				<li v-for="invite of invitations" :key="invite.id">
 					<Notification :record="invite" />
 				</li>

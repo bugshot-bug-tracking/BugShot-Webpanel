@@ -1,12 +1,12 @@
 <template>
-	<div class="bugs-table bs-scroll s-purple" v-if="statuses">
+	<div class="bugs-table bs-scroll" v-if="statuses">
 		<draggable
 			:list="statuses"
 			:item-key="(item) => item.id"
 			@change="statusMove($event)"
 			:animation="200"
 			group="statuses"
-			class="status-list bs-scroll s-purple"
+			class="status-list bs-scroll"
 			:scroll-sensitivity="100"
 			:force-fallback="true"
 			handle=".handle"

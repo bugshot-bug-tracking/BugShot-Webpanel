@@ -11,7 +11,7 @@
 			</span>
 		</div>
 
-		<ul class="bs-scroll s-purple" style="height: 100%">
+		<ul class="bs-scroll" style="height: 100%">
 			<li class="bs-bb" pb4 v-for="[, company] of companies">
 				<div class="header">
 					<div class="company">

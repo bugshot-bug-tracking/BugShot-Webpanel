@@ -4,7 +4,7 @@
 		{{ $t("add.bug") }}
 	</a>
 
-	<div v-if="tabOpen" class="bs-tab bs-scroll s-purple">
+	<div v-if="tabOpen" class="bs-tab bs-scroll">
 		<form @submit.prevent="submit" flex flex-col gap-4>
 			<div class="top">
 				<h4>{{ $t("new_bug_report") }}</h4>

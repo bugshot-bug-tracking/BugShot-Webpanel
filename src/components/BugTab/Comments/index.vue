@@ -41,7 +41,7 @@
 						id="comment-input"
 						contenteditable="true"
 						ref="message"
-						class="bs-scroll s-purple"
+						class="bs-scroll"
 						data-max-length="250"
 						@input="setLength"
 						@paste="paste"
