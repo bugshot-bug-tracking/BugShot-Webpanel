@@ -15,7 +15,7 @@ declare module '@vue/runtime-core' {
     AttachmentsItem: typeof import('./components/Attachments/AttachmentsItem.vue')['default']
     AttachmentsList: typeof import('./components/Attachments/AttachmentsList.vue')['default']
     Avatar: typeof import('./components/Avatar.vue')['default']
-    BugCard: typeof import('./components/BugCard.vue')['default']
+    BugCard: typeof import('./components/Cards/BugCard.vue')['default']
     BugsTable: typeof import('./components/BugsTable.vue')['default']
     BugTab: typeof import('./components/BugTab/index.vue')['default']
     ChangePasswordModal: typeof import('./components/Modals/ChangePasswordModal.vue')['default']

@@ -5,15 +5,16 @@
 			<div class="timestamp">{{ $d(dateFix(timestamp), "short") }}</div>
 		</div>
 
-		<div class="creator">
-			<div class="avatar">
-				{{ creator.first_name[0] + creator.last_name[0] }}
-			</div>
-		</div>
+		<Avatar
+			:first_name="creator.first_name"
+			:last_name="creator.last_name"
+			size="XS"
+			class="mt-0"
+		/>
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import dateFix from "/src/util/dateFixISO";
 
 const props = defineProps({

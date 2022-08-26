@@ -38,7 +38,6 @@
 					>
 						<template #item="{ element }">
 							<BugCard
-								:id="element.id"
 								:title="
 									getBug(element.id).attributes.designation
 								"

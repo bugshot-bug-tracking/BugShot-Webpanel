@@ -1,11 +1,10 @@
-<!-- Update in time to support different modes of use and use images (if possible scale to width and height 1:1) -->
-
 <template>
-	<div class="avatar">
+	<div class="avatar" :class="size">
 		<div class="wrapper" :style="{ background: background_color }">
-			<div class="initials" v-if="!image">
+			<div class="initials" v-if="image === ''">
 				{{ first_name[0] + last_name[0] }}
 			</div>
+
 			<div class="image" v-else></div>
 		</div>
 	</div>
@@ -28,21 +27,14 @@ const props = defineProps({
 	image: {
 		required: false,
 		type: String,
-		default: null,
+		default: "",
 	},
 
-	mode: {
+	size: {
 		required: false,
 		type: String,
-		validator: (value: string) =>
-			["normal", "switch", "online"].includes(value),
-		default: "normal",
-	},
-
-	mode_options: {
-		required: false,
-		type: Object,
-		default: {},
+		validator: (value: string) => ["S", "M", "L", "XL"].includes(value),
+		default: "S",
 	},
 });
 
@@ -60,12 +52,47 @@ const background_color = computed(() => {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	margin: auto;
 
 	.wrapper {
 		border-radius: 100%;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		width: 100%;
+		height: 100%;
+	}
+
+	&.XS {
+		width: 2rem;
+		height: 2rem;
+		font-size: 0.75rem;
+	}
+
+	&.S {
+		width: 2.5rem;
+		height: 2.5rem;
+		font-size: 1rem;
+	}
+
+	//WIP no use found yet
+	&.M {
+		width: 3.5rem;
+		height: 3.5rem;
+		font-size: 1.25rem;
+	}
+
+	//WIP no use found yet
+	&.L {
+		width: 4.5rem;
+		height: 4.5rem;
+		font-size: 2rem;
+	}
+
+	&.XL {
+		width: 9rem;
+		height: 9rem;
+		font-size: 4rem;
 	}
 }
 
@@ -73,21 +100,5 @@ const background_color = computed(() => {
 	text-transform: uppercase;
 	color: white;
 	padding: 0.5rem;
-}
-
-.creator {
-	color: hsl(0, 0%, 100%);
-	background-color: hsl(265, 80%, 50%);
-	font-size: 12px;
-	padding: 8px;
-	border-radius: 25px;
-	height: 35px;
-	width: 35px;
-	position: relative;
-
-	.avatar {
-		text-align: center;
-		text-transform: uppercase;
-	}
 }
 </style>
