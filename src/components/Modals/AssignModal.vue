@@ -41,6 +41,7 @@
 									user.attributes.last_name[0]
 								}}
 							</div>
+
 							<div class="name">
 								{{
 									user.attributes.first_name +
@@ -183,7 +184,7 @@ const loadingModal = reactive({
 <style lang="scss" scoped>
 .modal {
 	background-color: hsla(0, 0%, 0%, 0.5);
-	z-index: 2;
+	z-index: 15;
 }
 .close {
 	position: absolute;
