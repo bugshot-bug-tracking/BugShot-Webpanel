@@ -3,7 +3,16 @@
 		<template #header>
 			<T2Header v-if="project">
 				<template #l-top>
-					{{ project.attributes.designation }}
+					<a :href="project.attributes.url" target="_blank">
+						{{ project.attributes.designation }}
+
+						<img
+							src="/src/assets/icons/external-link.svg"
+							alt="external"
+							w-3
+							v-if="project.attributes.url"
+						/>
+					</a>
 				</template>
 
 				<template #l-bottom>
