@@ -36,14 +36,23 @@ const props = defineProps({
 		validator: (value: string) => ["S", "M", "L", "XL"].includes(value),
 		default: "S",
 	},
+
+	color: {
+		required: false,
+		type: String,
+		default: null,
+	},
 });
 
 const background_color = computed(() => {
-	return colors[
-		(props.first_name.toUpperCase().charCodeAt(0) +
-			props.last_name.toUpperCase().charCodeAt(0)) %
-			7
-	];
+	return (
+		props.color ??
+		colors[
+			(props.first_name.toUpperCase().charCodeAt(0) +
+				props.last_name.toUpperCase().charCodeAt(0)) %
+				7
+		]
+	);
 });
 </script>
 
