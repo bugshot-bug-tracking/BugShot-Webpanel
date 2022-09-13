@@ -29,18 +29,11 @@
 				:bug_id="id"
 			/>
 
-			<div class="delete-bug-btn" @click="deleteBug">
-				<img
-					src="/src/assets/icons/delete.svg"
-					alt="delete"
-					mr-2
-					class="black-to-red"
-				/>
+			<a class="delete-bug-btn black-to-red" @click="deleteBug">
+				<img src="/src/assets/icons/delete.svg" alt="delete" />
 
-				<span>
-					{{ $t("delete.bug") }}
-				</span>
-			</div>
+				{{ $t("delete.bug") }}
+			</a>
 		</div>
 
 		<AssignModal v-if="assignShow" :id="id" @close="assignShow = false" />
@@ -173,16 +166,15 @@ const attachments = reactive({
 
 <style lang="scss" scoped>
 .delete-bug-btn {
-	display: inline-flex;
+	display: flex;
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
 
-	> span {
-		color: hsl(0, 90%, 60%);
-		text-transform: capitalize;
-		font-weight: 600;
-		font-size: 1.25rem;
-	}
+	text-transform: capitalize;
+	font-weight: 600;
+	font-size: 1.25rem;
+
+	gap: 0.5rem;
 }
 </style>
