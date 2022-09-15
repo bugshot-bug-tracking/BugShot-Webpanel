@@ -33,7 +33,7 @@
 		</template>
 
 		<template #main>
-			<div class="companies bs-scroll s-purple">
+			<div class="companies bs-scroll">
 				<ul>
 					<li v-for="[, company] of companies" :key="company.id">
 						<div
@@ -92,7 +92,10 @@
 										<RouterLink
 											:to="{
 												name: 'project',
-												params: { id: project.id },
+												params: {
+													id: company?.id,
+													project_id: project.id,
+												},
 											}"
 											class="route"
 										>
@@ -220,11 +223,7 @@ const force = () => {
 
 	// check to see if the page is related to a project and set the appropriate state to autoOpen
 	if (route.name === "project") {
-		let company = store.getProjectCompany(<string>route.params.id);
-
-		if (!company) return;
-
-		autoOpen.company = company.id;
+		autoOpen.company = route.params.id as string;
 		autoOpen.c_open = true;
 		autoOpen.p_open = true;
 		return; // leave here to have a predictable exit
@@ -232,7 +231,7 @@ const force = () => {
 
 	// check to see if the page is related to a company (ex. company settings, invoices, plans...) and set the appropriate state to autoOpen
 	if (route.name?.toString().includes("company")) {
-		autoOpen.company = <string>route.params.id;
+		autoOpen.company = route.params.id as string;
 		autoOpen.c_open = true;
 		autoOpen.p_open = false;
 		return; // leave here to have a predictable exit

@@ -216,6 +216,7 @@
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
+		@close="loadingModal.clear"
 	/>
 </template>
 
@@ -349,11 +350,6 @@ const submit = async () => {
 			currentPassword.error = true;
 			currentPassword.errorMessage = data.errors["old_password"][0];
 		}
-	} finally {
-		setTimeout(() => {
-			if (loadingModal.state === 1) modal.close();
-			loadingModal.clear();
-		}, 2500);
 	}
 };
 

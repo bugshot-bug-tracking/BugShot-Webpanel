@@ -1,5 +1,5 @@
 <template>
-	<Modal :show="show" @close="close">
+	<Modal :show="show" @close="close" z-100>
 		<div class="wrapper">
 			<div class="w-100">
 				<h3 class="mb-4"><b>Delete column?</b></h3>

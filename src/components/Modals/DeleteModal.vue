@@ -2,7 +2,7 @@
 	<Modal :show="show" @close="close">
 		<div class="wrapper">
 			<span class="text">
-				<p>{{ $t("want_to_delete") }}</p>
+				<p>{{ t("want_to_delete") }}</p>
 				<p>
 					<b> {{ text }}</b> ?
 				</p>
@@ -10,19 +10,22 @@
 
 			<div class="actions">
 				<a class="bs-btn red" @click.prevent="execute">
-					{{ $t("yes") }}
+					{{ t("yes") }}
 				</a>
 
-				<a class="bs-btn green empty" @click="close"> {{ $t("no") }}</a>
+				<a class="bs-btn green empty" @click="close"> {{ t("no") }}</a>
 			</div>
 		</div>
 	</Modal>
 
-	<LoadingModal
+	<LoadingModal2
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
-		@close="loadingModal.show = false"
+		@close="
+			loadingModal.clear;
+			close();
+		"
 	/>
 </template>
 
@@ -42,6 +45,8 @@ const props = defineProps({
 const emit = defineEmits(["close", "delete"]);
 const show = ref(false);
 
+const { t } = useI18n();
+
 onMounted(() => {
 	show.value = true;
 });
@@ -58,28 +63,14 @@ const execute = async () => {
 	if (props.callback)
 		try {
 			loadingModal.show = true;
-			loadingModal.state = 0;
-			loadingModal.message = "";
 
 			await props.callback();
 
 			loadingModal.state = 1;
-			loadingModal.message = `Project deleted successfully.`;
+			loadingModal.message = t("project_deleted_succesfuly");
 		} catch (error) {
 			console.log(error);
 			loadingModal.state = 2;
-		} finally {
-			setTimeout(() => {
-				show.value = false;
-
-				nextTick(() => {
-					emit("close");
-				});
-
-				loadingModal.show = false;
-				loadingModal.state = 0;
-				loadingModal.message = "";
-			}, 4000);
 		}
 	else {
 		emit("delete");
@@ -90,6 +81,11 @@ const loadingModal = reactive({
 	show: false,
 	state: 0,
 	message: "",
+	clear: () => {
+		loadingModal.show = false;
+		loadingModal.state = 0;
+		loadingModal.message = "";
+	},
 });
 </script>
 

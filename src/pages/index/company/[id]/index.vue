@@ -12,7 +12,15 @@
 					}}
 				</template>
 
-				<InviteModal :dataType="'Company'" :id="id" />
+				<ManageMembers
+					:list="company?.attributes.users"
+					:pending_list="company?.pending ?? []"
+					:add="addMember"
+					:edit="editMember"
+					:delete="deleteMember"
+					:deleteInvitation="deleteInvitation"
+					:preOpenCall="preCall"
+				/>
 
 				<CreateDataModal
 					:dataType="'Project'"
@@ -24,6 +32,7 @@
 						company?.attributes.designation
 					}`"
 				/>
+
 				<router-link
 					:to="{ name: 'company-settings', params: { id: id } }"
 					class="bs-btn green empty text-capitalize"
@@ -63,7 +72,9 @@
 						total: project.attributes.bugsTotal,
 					}"
 					actions
-					@open="goToProject(project.id)"
+					@open="
+						goToProject(project.attributes.company.id, project.id)
+					"
 					@edit="openEdit(project)"
 					@delete="openDelete(project)"
 				/>
@@ -82,6 +93,7 @@
 </template>
 
 <script setup lang="ts">
+import axios from "axios";
 import { Project } from "~/models/Project";
 import { useMainStore } from "~/stores/main";
 import timeToText from "~/util/timeToText";
@@ -101,8 +113,11 @@ const company = computed(() => store.getCompanyById(props.id));
 
 const projects = computed(() => store.getCompanyProjects(props.id));
 
-const goToProject = (id: string) => {
-	router.push({ name: "project", params: { id: id } });
+const goToProject = (company_id: string, project_id: string) => {
+	router.push({
+		name: "project",
+		params: { id: company_id, project_id: project_id },
+	});
 };
 
 const edit = reactive({
@@ -137,6 +152,51 @@ const openDelete = (project: Project) => {
 		await store.deleteProject(project.id);
 	};
 	deleteAction.visible = true;
+};
+
+const preCall = async () => {
+	await store.fetchCompanyUsers(props.id);
+	await store.fetchCompanyInvitations(props.id);
+};
+
+const addMember = async (email: String, role_id: number) => {
+	let response = await axios.post(`companies/${props.id}/invite`, {
+		target_email: email,
+		role_id: role_id,
+	});
+
+	company.value?.pending?.push(response.data.data);
+};
+
+const editMember = async (user_id: number, role_id: number) => {
+	let response = await axios.put(`companies/${props.id}/users/${user_id}`, {
+		role_id: role_id,
+	});
+
+	let user = company.value?.attributes.users?.find((x) => x.id === user_id);
+	if (user) user.role = response.data.data.role;
+};
+
+const deleteMember = async (user_id: number) => {
+	await axios.delete(`companies/${props.id}/users/${user_id}`);
+
+	let index = company.value?.attributes.users?.findIndex(
+		(x) => x.id === user_id
+	);
+
+	if (index !== undefined && index !== -1)
+		company.value?.attributes.users?.splice(index, 1);
+};
+
+const deleteInvitation = async (invitation_id: string) => {
+	await axios.delete(`invitations/${invitation_id}`);
+
+	let index = company.value?.pending?.findIndex(
+		(x) => x.id === invitation_id
+	);
+
+	if (index !== undefined && index !== -1)
+		company.value?.pending?.splice(index, 1);
 };
 </script>
 

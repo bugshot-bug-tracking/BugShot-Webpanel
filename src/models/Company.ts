@@ -13,5 +13,7 @@ export interface Company {
 		creator: User;
 		projects?: Array<Project>;
 		role?: Role;
+		users?: User[];
 	};
+	pending?: any[];
 }

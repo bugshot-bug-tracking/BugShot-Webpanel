@@ -1,5 +1,5 @@
 <template>
-	<MyModal v-model="show">
+	<MyModal v-model="show" :close="close" z-200>
 		<div class="process">
 			<div class="loading" v-if="state === 0">
 				<slot name="loading">
@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
 	show: {
 		required: true,
 		type: Boolean,
@@ -72,6 +72,30 @@ defineProps({
 		description: "Message shown in the success/error state",
 	},
 });
+
+const emit = defineEmits(["close", "onSuccess", "onError"]);
+
+const close = () => {
+	if (props.state === 0) return;
+	if (props.state === 1) emit("onSuccess");
+	if (props.state === 2) emit("onError");
+
+	emit("close");
+};
+
+watch(
+	props,
+	() => {
+		if (props.state === 1 || props.state === 2)
+			setTimeout(() => {
+				if (props.state === 1) emit("onSuccess");
+				if (props.state === 2) emit("onError");
+
+				emit("close");
+			}, 3000);
+	},
+	{ deep: true }
+);
 </script>
 
 <style lang="scss" scoped>

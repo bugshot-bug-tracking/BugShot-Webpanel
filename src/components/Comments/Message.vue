@@ -1,20 +1,23 @@
 <template>
-	<div class="message-wrapper" :class="sender === 0 ? `self` : `other`">
+	<div class="message-wrapper" :class="{ owner: owner }">
 		<div class="content">
 			<div class="message" ref="node">{{ content }}</div>
 			<div class="timestamp">{{ $d(dateFix(timestamp), "short") }}</div>
 		</div>
 
-		<div class="creator">
-			<div class="avatar">
-				{{ creator.first_name[0] + creator.last_name[0] }}
-			</div>
-		</div>
+		<Avatar
+			:first_name="creator.first_name"
+			:last_name="creator.last_name"
+			size="S"
+			class="mt-0"
+			:color="owner ? colors[3] : colors[4]"
+		/>
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import dateFix from "/src/util/dateFixISO";
+import colors from "/src/util/colors";
 
 const props = defineProps({
 	content: {
@@ -25,9 +28,10 @@ const props = defineProps({
 		required: true,
 		type: Object,
 	},
-	sender: {
+	owner: {
 		required: true,
-		type: Number,
+		type: Boolean,
+		default: false,
 	},
 	timestamp: {
 		required: true,
@@ -66,78 +70,55 @@ onMounted(() => {
 .message-wrapper {
 	display: inline-flex;
 	width: 100%;
-	margin: 10px 0;
+	margin: 0.5rem 0;
+	flex-direction: row-reverse;
 
 	.content {
 		display: flex;
 		flex-direction: column;
 		width: 100%;
 		text-align: start;
+		align-items: flex-start;
 
 		.message {
-			font-size: 14px;
+			font-size: 0.875rem;
 			background: hsl(230, 43%, 95%);
-			border-radius: 20px;
+			border-radius: 1.25rem;
 			position: relative;
-			padding: 8px 15px;
-			margin: 0 10px;
+			padding: 0.5rem 1rem;
+			margin: 0 0.5rem;
 			max-width: 75%;
 			overflow-wrap: anywhere;
 
 			&::before {
-				border-width: 10px;
+				border-width: 0.6rem;
 				border-style: solid;
 				border-color: hsl(230, 43%, 95%) transparent transparent
 					transparent;
 				content: "";
 				position: absolute;
-				right: -6px;
 				top: 0;
-			}
-		}
-
-		.timestamp {
-			font-size: 10px;
-			margin: 0 2em;
-		}
-	}
-
-	.creator {
-		color: hsl(0, 0%, 100%);
-		background-color: hsl(265, 80%, 50%);
-		font-size: 12px;
-		padding: 8px;
-		border-radius: 25px;
-		height: 35px;
-		width: 35px;
-		position: relative;
-
-		.avatar {
-			text-align: center;
-			text-transform: uppercase;
-		}
-	}
-
-	&.self {
-		.content {
-			align-items: flex-end;
-		}
-	}
-
-	&.other {
-		flex-direction: row-reverse;
-
-		.content {
-			align-items: flex-start;
-
-			.message::before {
-				left: -6px;
+				left: -0.25rem;
 				right: unset;
 			}
 		}
 
-		.creator {
-			background-color: hsl(158, 80%, 47%);
+		.timestamp {
+			font-size: 0.75rem;
+			margin: 0 1rem;
+		}
+	}
+
+	&.owner {
+		flex-direction: row;
+
+		.content {
+			align-items: flex-end;
+
+			.message::before {
+				right: -0.25rem;
+				left: unset;
+			}
 		}
 	}
 }

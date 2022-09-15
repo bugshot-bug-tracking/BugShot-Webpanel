@@ -3,13 +3,14 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { Company } from "~/models/Company";
 import nProgress from "nprogress";
+import { Role } from "~/models/Role";
 
 export const useMainStore = defineStore("main", {
 	state: () => ({
 		companies: new Map<String, Company>(),
 		projects: new Map<String, String>(),
 
-		roles: [],
+		roles: [] as Role[],
 	}),
 
 	actions: {
@@ -87,12 +88,33 @@ export const useMainStore = defineStore("main", {
 					await axios.get(`companies/${id}`, {
 						headers: {
 							"include-company-users": "true",
+							"include-company-users-roles": "true",
 						},
 					})
 				).data.data;
 
 				let company = this.getCompanyById(id);
 				company.attributes.users = response.attributes.users;
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async fetchCompanyInvitations(id: string) {
+			try {
+				console.log(id);
+				let response = (
+					await axios.get(`companies/${id}/invitations`, {
+						headers: {
+							"status-id": "1",
+						},
+					})
+				).data.data;
+
+				let company = this.companies.get(id);
+
+				if (company) company.pending = response;
 			} catch (error) {
 				console.log(error);
 				throw error;

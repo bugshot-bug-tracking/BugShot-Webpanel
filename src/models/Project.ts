@@ -20,4 +20,5 @@ export interface Project {
 		statuses?: Status[];
 		users?: User[];
 	};
+	pending?: any;
 }

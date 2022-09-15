@@ -84,11 +84,11 @@
 		@close="showDelete = false"
 	/>
 
-	<LoadingModal
+	<LoadingModal2
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
-		@close="loadingModal.show = false"
+		@close="loadingModal.clear"
 	/>
 </template>
 
@@ -190,27 +190,14 @@ const saveChanges = async () => {
 
 	try {
 		loadingModal.show = true;
-		loadingModal.state = 0;
-		loadingModal.message = null;
 
 		await store.updateCompany(data);
 
 		loadingModal.state = 1;
 		loadingModal.message = t("company_edit_success");
-
-		setTimeout(() => {
-			loadingModal.show = false;
-			loadingModal.state = 0;
-			loadingModal.message = null;
-		}, 4000);
 	} catch (error) {
 		console.log(error);
 		loadingModal.state = 2;
-
-		setTimeout(() => {
-			loadingModal.show = false;
-			loadingModal.state = 0;
-		}, 4000);
 	}
 };
 
@@ -220,26 +207,14 @@ const deleteCompany = async () => {
 	try {
 		showDelete.value = false;
 		loadingModal.show = true;
-		loadingModal.state = 0;
-		loadingModal.message = null;
 
 		await store.deleteCompany(record.value.id);
 
 		loadingModal.state = 1;
 		loadingModal.message = t("company_delete_success");
-
-		setTimeout(() => {
-			loadingModal.show = false;
-			loadingModal.state = 0;
-			loadingModal.message = null;
-		}, 4000);
 	} catch (error) {
+		console.log(error);
 		loadingModal.state = 2;
-
-		setTimeout(() => {
-			loadingModal.show = false;
-			loadingModal.state = 0;
-		}, 4000);
 	}
 };
 
@@ -247,7 +222,12 @@ const showDelete = ref(false);
 const loadingModal = reactive({
 	show: false,
 	state: 0,
-	message: null,
+	message: "",
+	clear: () => {
+		loadingModal.show = false;
+		loadingModal.state = 0;
+		loadingModal.message = "";
+	},
 });
 </script>
 

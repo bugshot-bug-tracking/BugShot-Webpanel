@@ -1,5 +1,5 @@
 <template>
-	<MyModal v-model="modal.show" :close="modal.close">
+	<MyModal v-model="modal.show" :close="modal.close" z-101>
 		<div class="wrapper">
 			<span class="text">
 				<p v-if="header === ''">{{ $t("want_to_delete") }}</p>
@@ -26,6 +26,10 @@
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
+		@close="
+			loadingModal.clear;
+			modal.close();
+		"
 	/>
 </template>
 
@@ -70,12 +74,6 @@ const execute = async () => {
 
 			loadingModal.state = 2;
 			loadingModal.message = data.message;
-		} finally {
-			setTimeout(() => {
-				if (loadingModal.state === 1) modal.close();
-
-				loadingModal.clear();
-			}, 2500);
 		}
 	else {
 		emit("delete");
@@ -89,6 +87,7 @@ watch(
 		modal.show = props.show;
 	}
 );
+
 const modal = reactive({
 	show: props.show,
 	open: () => {

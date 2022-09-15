@@ -64,6 +64,8 @@
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
+		@close="loadingModal.clear"
+		@onSuccess="modal.close()"
 	/>
 </template>
 
@@ -104,11 +106,6 @@ const submit = async () => {
 
 		loadingModal.state = 2;
 		loadingModal.message = data.message;
-	} finally {
-		setTimeout(() => {
-			if (loadingModal.state === 1) modal.close();
-			loadingModal.clear();
-		}, 2500);
 	}
 };
 

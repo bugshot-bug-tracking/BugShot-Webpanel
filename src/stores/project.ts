@@ -1,13 +1,13 @@
 import { defineStore } from "pinia";
 
 import axios from "axios";
-import { useMainStore } from "./main";
 import { Project } from "~/models/Project";
 import { Status } from "~/models/Status";
 
 export const useProjectStore = defineStore("project", {
 	state: () => ({
 		project_id: "",
+		company_id: "",
 		project: <Project>{},
 
 		statuses: new Array<Status>(),
@@ -22,10 +22,11 @@ export const useProjectStore = defineStore("project", {
 			return true;
 		},
 
-		async init(project_id: string) {
+		async init(company_id: string, project_id: string) {
 			this.destroy();
 
 			this.project_id = project_id;
+			this.company_id = company_id;
 
 			await this.loadProject();
 		},
@@ -36,18 +37,9 @@ export const useProjectStore = defineStore("project", {
 
 		async loadProject() {
 			try {
-				let main_project = useMainStore().getProjectById(
-					this.project_id
-				);
-
-				if (!main_project) {
-					console.log("Error while loading project!");
-					return;
-				}
-
 				let project = (
 					await axios.get(
-						`companies/${main_project.attributes.company.id}/projects/${this.project_id}`,
+						`companies/${this.company_id}/projects/${this.project_id}`,
 						{
 							headers: {
 								"include-project-users": true,
@@ -60,6 +52,44 @@ export const useProjectStore = defineStore("project", {
 
 				this.project = project;
 				this.statuses = <Status[]>this.project.attributes.statuses;
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async fetchProjectUsers() {
+			try {
+				let response = (
+					await axios.get(
+						`companies/${this.company_id}/projects/${this.project_id}`,
+						{
+							headers: {
+								"include-project-users": true,
+								"include-project-users-roles": true,
+							},
+						}
+					)
+				).data.data;
+
+				this.project.attributes.users = response.attributes.users;
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async fetchProjectInvitations() {
+			try {
+				let response = (
+					await axios.get(`projects/${this.project.id}/invitations`, {
+						headers: {
+							"status-id": "1",
+						},
+					})
+				).data.data;
+
+				if (this.project) this.project.pending = response;
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -237,6 +267,17 @@ export const useProjectStore = defineStore("project", {
 				const status = this.getStatusById(payload.id);
 				if (!status) throw "Status not found in memory";
 
+				if (payload.changes?.designation)
+					status.attributes.designation = payload.changes.designation;
+				if (payload.changes?.order_number != undefined) {
+					status.attributes.order_number >
+					payload.changes.order_number
+						? (status.attributes.order_number =
+								payload.changes.order_number - 0.1)
+						: (status.attributes.order_number =
+								payload.changes.order_number + 0.1);
+				}
+
 				let response = await axios.put(
 					`projects/${this.project_id}/statuses/${status.id}`,
 					{
@@ -246,7 +287,11 @@ export const useProjectStore = defineStore("project", {
 
 						...(payload.changes?.order_number != null
 							? { order_number: payload.changes.order_number }
-							: { order_number: status.attributes.order_number }),
+							: {
+									order_number: Math.round(
+										status.attributes.order_number
+									), // Math.round in case the status was moved before refresh finished
+							  }),
 					}
 				);
 
@@ -310,6 +355,6 @@ export const useProjectStore = defineStore("project", {
 			return state.statuses?.find((x) => x.attributes.order_number === 0);
 		},
 
-		getProjectUsers: (state) => state.project?.attributes.users ?? [],
+		getProjectUsers: (state) => state.project.attributes.users,
 	},
 });

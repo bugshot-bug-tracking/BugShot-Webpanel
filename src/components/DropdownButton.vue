@@ -16,7 +16,7 @@
 			class="dropdown-container"
 			:class="{ open: active.value }"
 		>
-			<div class="dropdown-wrapper bs-scroll s-purple">
+			<div class="dropdown-wrapper bs-scroll">
 				<p p-4 v-if="list.length < 1">{{ $t("empty") }}</p>
 
 				<ul v-else>

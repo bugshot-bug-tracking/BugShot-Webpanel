@@ -41,6 +41,7 @@
 									user.attributes.last_name[0]
 								}}
 							</div>
+
 							<div class="name">
 								{{
 									user.attributes.first_name +
@@ -69,11 +70,14 @@
 		</div>
 	</div>
 
-	<LoadingModal
+	<LoadingModal2
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
-		@close="loadingModal.show = false"
+		@close="
+			loadingModal.clear;
+			emit('close');
+		"
 	/>
 </template>
 
@@ -94,6 +98,8 @@ const props = defineProps({
 });
 
 const store = useProjectStore();
+
+const { t } = useI18n();
 
 const list = ref(Array<{ user: User; original: boolean; checked: boolean }>());
 
@@ -130,10 +136,9 @@ const changeUser = (user: User, checked: boolean, index: number) => {
 
 const submit = async () => {
 	if (!bug.value) return;
+
 	try {
 		loadingModal.show = true;
-		loadingModal.state = 0;
-		loadingModal.message = "";
 
 		for (const item of list.value) {
 			// if no change was made skip over the item
@@ -148,42 +153,35 @@ const submit = async () => {
 					`bugs/${bug.value.id}/users/${item.user.id}`
 				);
 		}
+
+		await store.fetchBugUsers(props.id);
+
 		loadingModal.state = 1;
-		loadingModal.message = "Members updated!";
-
-		setTimeout(() => {
-			emit("close");
-
-			loadingModal.show = false;
-			loadingModal.state = 0;
-			loadingModal.message = "";
-		}, 4000);
+		loadingModal.message = t("members_updated");
 	} catch (error) {
 		loadingModal.state = 2;
 		loadingModal.message = "";
 
 		console.log(error);
-
-		setTimeout(() => {
-			loadingModal.show = false;
-			loadingModal.state = 0;
-			loadingModal.message = "";
-		}, 4000);
 	}
-	store.fetchBugUsers(props.id);
 };
 
 const loadingModal = reactive({
 	show: false,
 	state: 0,
 	message: "",
+	clear: () => {
+		loadingModal.show = false;
+		loadingModal.state = 0;
+		loadingModal.message = "";
+	},
 });
 </script>
 
 <style lang="scss" scoped>
 .modal {
 	background-color: hsla(0, 0%, 0%, 0.5);
-	z-index: 2;
+	z-index: 15;
 }
 .close {
 	position: absolute;

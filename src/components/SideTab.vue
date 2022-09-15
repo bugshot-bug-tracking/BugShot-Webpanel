@@ -1,6 +1,6 @@
 <!-- Remove this component and replace it with a global class -->
 <template>
-	<div class="tab bs-scroll s-purple">
+	<div class="tab bs-scroll">
 		<slot />
 	</div>
 </template>
