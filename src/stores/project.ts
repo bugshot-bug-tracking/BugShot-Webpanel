@@ -58,6 +58,44 @@ export const useProjectStore = defineStore("project", {
 			}
 		},
 
+		async fetchProjectUsers() {
+			try {
+				let response = (
+					await axios.get(
+						`companies/${this.company_id}/projects/${this.project_id}`,
+						{
+							headers: {
+								"include-project-users": true,
+								"include-project-users-roles": true,
+							},
+						}
+					)
+				).data.data;
+
+				this.project.attributes.users = response.attributes.users;
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async fetchProjectInvitations() {
+			try {
+				let response = (
+					await axios.get(`projects/${this.project.id}/invitations`, {
+						headers: {
+							"status-id": "1",
+						},
+					})
+				).data.data;
+
+				if (this.project) this.project.pending = response;
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
 		async syncBug(payload: any) {
 			try {
 				//get a reference to the bug

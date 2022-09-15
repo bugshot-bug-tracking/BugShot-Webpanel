@@ -21,7 +21,15 @@
 
 				<AddBug :id="id" />
 
-				<InviteModal :dataType="'Project'" :id="id" />
+				<ManageMembers
+					:list="project.attributes.users"
+					:pending_list="project?.pending ?? []"
+					:add="addMember"
+					:edit="editMember"
+					:delete="deleteMember"
+					:deleteInvitation="deleteInvitation"
+					:preOpenCall="preCall"
+				/>
 			</T2Header>
 		</template>
 
@@ -30,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMainStore } from "~/stores/main";
+import axios from "axios";
 import { useProjectStore } from "~/stores/project";
 
 const props = defineProps({
@@ -58,7 +66,53 @@ watch(
 
 const project = computed(() => useProjectStore().getProject);
 
+const preCall = () => {
+	useProjectStore().fetchProjectUsers();
+	useProjectStore().fetchProjectInvitations();
+};
 
+const addMember = async (email: String, role_id: number) => {
+	let response = await axios.post(`projects/${props.project_id}/invite`, {
+		target_email: email,
+		role_id: role_id,
+	});
+
+	project.value?.pending?.push(response.data.data);
+};
+
+const editMember = async (user_id: number, role_id: number) => {
+	let response = await axios.put(
+		`projects/${props.project_id}/users/${user_id}`,
+		{
+			role_id: role_id,
+		}
+	);
+
+	let user = project.value?.attributes.users?.find((x) => x.id === user_id);
+	if (user) user.role = response.data.data.role;
+};
+
+const deleteMember = async (user_id: number) => {
+	await axios.delete(`projects/${props.project_id}/users/${user_id}`);
+
+	let index = project.value?.attributes.users?.findIndex(
+		(x) => x.id === user_id
+	);
+
+	if (index !== undefined && index !== -1)
+		project.value?.attributes.users?.splice(index, 1);
+};
+
+const deleteInvitation = async (invitation_id: string) => {
+	await axios.delete(`invitations/${invitation_id}`);
+
+	let index = project.value?.pending?.findIndex(
+		(x: any) => x.id === invitation_id
+	);
+
+	if (index !== undefined && index !== -1)
+		project.value?.pending?.splice(index, 1);
+};
 </script>
 
 <route lang="yaml">

@@ -230,5 +230,13 @@
 	},
 	"language_changed": "Language changed",
 	"want_to_leave": "Are you sure you want to leave",
-	"empty": "Empty"
+	"empty": "Empty",
+	"invitation sent": "Invitation sent!",
+	"user_role_updated": "User role updated!",
+	"manage_members": "Manage members",
+	"member_list": "Member list",
+	"want_to_remove": "Are you sure you want to remove",
+	"pending_invitations": "Pending invitations",
+	"user_removed": "User removed!",
+	"invitation_removed": "Invitation removed"
 }

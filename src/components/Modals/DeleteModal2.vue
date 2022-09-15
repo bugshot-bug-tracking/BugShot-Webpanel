@@ -1,5 +1,5 @@
 <template>
-	<MyModal v-model="modal.show" :close="modal.close">
+	<MyModal v-model="modal.show" :close="modal.close" z-101>
 		<div class="wrapper">
 			<span class="text">
 				<p v-if="header === ''">{{ $t("want_to_delete") }}</p>
@@ -89,6 +89,7 @@ watch(
 		modal.show = props.show;
 	}
 );
+
 const modal = reactive({
 	show: props.show,
 	open: () => {
