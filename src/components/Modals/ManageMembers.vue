@@ -112,12 +112,12 @@ const inviteModal = reactive({
 	show: false,
 	open: () => {
 		inviteModal.show = true;
-		inviteModal.user = null;
+		inviteModal.user = undefined;
 		inviteModal.editMode = false;
 	},
 	close: () => {
 		inviteModal.show = false;
-		inviteModal.user = null;
+		inviteModal.user = undefined;
 		inviteModal.editMode = false;
 	},
 	openEdit: (user: User) => {
@@ -125,7 +125,7 @@ const inviteModal = reactive({
 		inviteModal.user = user;
 		inviteModal.show = true;
 	},
-	user: null,
+	user: {} as User | undefined,
 	editMode: false,
 
 	submit: async (user: { email: string; role_id: Number }) => {
@@ -136,7 +136,7 @@ const inviteModal = reactive({
 
 			loadingModal.state = 1;
 			loadingModal.message = t("invitation sent");
-		} catch (error) {
+		} catch (error: any) {
 			console.log(error);
 
 			loadingModal.state = 2;
@@ -159,7 +159,7 @@ const inviteModal = reactive({
 
 			loadingModal.state = 1;
 			loadingModal.message = t("user_role_updated");
-		} catch (error) {
+		} catch (error: any) {
 			console.log(error);
 
 			loadingModal.state = 2;
@@ -187,28 +187,28 @@ const deleteModal = reactive({
 	text: "[PH]",
 	header: t("want_to_remove"),
 	callback: null,
-	entity: null, //a place to store the data object for after the modal confirmation
+	entity: {} as User | undefined | any, //a place to store the data object for after the modal confirmation
 	invMode: false,
 	open: (user: User) => {
 		deleteModal.show = true;
 
 		deleteModal.text = `${user.attributes.first_name} ${user.attributes.last_name}`;
 
-		deleteModal.entity = user;
+		deleteModal.entity = user as User;
 	},
 	openInvitation: (invitation: any) => {
 		deleteModal.show = true;
 
 		deleteModal.text = `${invitation.attributes.target_email}`;
 
-		deleteModal.entity = invitation;
+		deleteModal.entity = invitation as any;
 		deleteModal.invMode = true;
 	},
 	clear: () => {
 		deleteModal.show = false;
 		deleteModal.text = "";
 		deleteModal.callback = null;
-		deleteModal.entity = null;
+		deleteModal.entity = undefined;
 		deleteModal.invMode = false;
 	},
 });
@@ -221,7 +221,7 @@ const deleteUser = async () => {
 
 		loadingModal.state = 1;
 		loadingModal.message = t("user_removed");
-	} catch (error) {
+	} catch (error: any) {
 		console.log(error);
 
 		loadingModal.state = 2;
@@ -237,12 +237,12 @@ const deleteInvitation = async () => {
 		loadingModal.show = true;
 
 		console.log(deleteModal.entity);
-		if (deleteModal.entity)
+		if (deleteModal.entity && props.deleteInvitation)
 			await props.deleteInvitation(deleteModal.entity.id);
 
 		loadingModal.state = 1;
 		loadingModal.message = t("invitation_removed") + "!";
-	} catch (error) {
+	} catch (error: any) {
 		console.log(error);
 
 		loadingModal.state = 2;
