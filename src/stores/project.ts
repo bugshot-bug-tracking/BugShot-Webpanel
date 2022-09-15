@@ -267,6 +267,17 @@ export const useProjectStore = defineStore("project", {
 				const status = this.getStatusById(payload.id);
 				if (!status) throw "Status not found in memory";
 
+				if (payload.changes?.designation)
+					status.attributes.designation = payload.changes.designation;
+				if (payload.changes?.order_number != undefined) {
+					status.attributes.order_number >
+					payload.changes.order_number
+						? (status.attributes.order_number =
+								payload.changes.order_number - 0.1)
+						: (status.attributes.order_number =
+								payload.changes.order_number + 0.1);
+				}
+
 				let response = await axios.put(
 					`projects/${this.project_id}/statuses/${status.id}`,
 					{
@@ -276,7 +287,11 @@ export const useProjectStore = defineStore("project", {
 
 						...(payload.changes?.order_number != null
 							? { order_number: payload.changes.order_number }
-							: { order_number: status.attributes.order_number }),
+							: {
+									order_number: Math.round(
+										status.attributes.order_number
+									), // Math.round in case the status was moved before refresh finished
+							  }),
 					}
 				);
 
