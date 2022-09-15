@@ -154,9 +154,9 @@ const openDelete = (project: Project) => {
 	deleteAction.visible = true;
 };
 
-const preCall = () => {
-	store.fetchCompanyUsers(props.id);
-	store.fetchCompanyInvitations(props.id);
+const preCall = async () => {
+	await store.fetchCompanyUsers(props.id);
+	await store.fetchCompanyInvitations(props.id);
 };
 
 const addMember = async (email: String, role_id: number) => {

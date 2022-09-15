@@ -66,9 +66,9 @@ watch(
 
 const project = computed(() => useProjectStore().getProject);
 
-const preCall = () => {
-	useProjectStore().fetchProjectUsers();
-	useProjectStore().fetchProjectInvitations();
+const preCall = async () => {
+	await useProjectStore().fetchProjectUsers();
+	await useProjectStore().fetchProjectInvitations();
 };
 
 const addMember = async (email: String, role_id: number) => {
