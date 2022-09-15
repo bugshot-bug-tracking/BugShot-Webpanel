@@ -73,11 +73,11 @@
 		</div>
 	</Modal>
 
-	<LoadingModal
+	<LoadingModal2
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
-		@close="loadingModal.show = false"
+		@close="loadingModal.clear"
 	/>
 </template>
 
@@ -141,8 +141,6 @@ const createResource = async () => {
 
 	try {
 		loadingModal.show = true;
-		loadingModal.state = 0;
-		loadingModal.message = null;
 
 		if (
 			props.dataType === "Project" &&
@@ -192,41 +190,35 @@ const createResource = async () => {
 				}
 			}
 
-		loadingModal.state = 1;
+		await useMainStore().init();
 
+		loadingModal.state = 1;
 		loadingModal.message = `${props.dataType} created!`;
 
-		useMainStore().init();
-
-		setTimeout(() => {
-			modalActive.value = false;
-			loadingModal.show = false;
-			name.value = "";
-			color.value = 3;
-			file.value = null;
-			url.value = "";
-		}, 4000);
+		modalActive.value = false;
+		name.value = "";
+		color.value = 3;
+		file.value = null;
+		url.value = "";
 	} catch (error) {
 		console.log(error);
 
 		loadingModal.state = 2;
-		loadingModal.message = null;
 
 		if (error.response.status === 403)
 			loadingModal.message = t("unauthorized");
-
-		setTimeout(() => {
-			loadingModal.show = false;
-			loadingModal.state = 0;
-			loadingModal.message = null;
-		}, 4000);
 	}
 };
 
 const loadingModal = reactive({
 	show: false,
 	state: 0,
-	message: null,
+	message: "",
+	clear: () => {
+		loadingModal.show = false;
+		loadingModal.state = 0;
+		loadingModal.message = "";
+	},
 });
 
 const setInviteMembers = (value) => {

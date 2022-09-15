@@ -29,7 +29,7 @@
 				:bug_id="id"
 			/>
 
-			<a class="delete-bug-btn black-to-red" @click="deleteBug">
+			<a class="delete-bug-btn black-to-red" @click="deleteAsk">
 				<img src="/src/assets/icons/delete.svg" alt="delete" />
 
 				{{ $t("delete.bug") }}
@@ -40,6 +40,24 @@
 
 		<div class="full-overlay" @click="emit('close')" />
 	</div>
+
+	<DeleteModal2
+		:show="deleteModal.show"
+		:header="deleteModal.header"
+		:text="deleteModal.text"
+		@close="deleteModal.clear"
+		@delete="deleteBug"
+	/>
+
+	<LoadingModal2
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="
+			loadingModal.clear;
+			emit('close');
+		"
+	/>
 </template>
 
 <script setup lang="ts">
@@ -52,8 +70,11 @@ const props = defineProps({
 	id: {
 		required: true,
 		type: String,
+		description: "Bug ID",
 	},
 });
+
+const { t } = useI18n();
 
 const store = useProjectStore();
 
@@ -77,10 +98,21 @@ watch(bug, () => {
 	store.fetchBugUsers(props.id);
 });
 
+const deleteAsk = async () => {
+	if (!status.value || !bug.value) return console.log("Strange error!");
+
+	deleteModal.show = true;
+	deleteModal.text = bug.value.attributes.designation;
+};
+
 const deleteBug = async () => {
 	if (!status.value || !bug.value) return console.log("Strange error!");
 
+	deleteModal.clear();
+
 	try {
+		loadingModal.show = true;
+
 		await axios.delete(`statuses/${status.value.id}/bugs/${bug.value.id}`);
 
 		status.value.attributes.bugs?.splice(
@@ -90,9 +122,11 @@ const deleteBug = async () => {
 			1
 		);
 
-		emit("close");
+		loadingModal.state = 1;
 	} catch (error) {
 		console.error(error);
+
+		loadingModal.state = 2;
 	}
 };
 
@@ -160,6 +194,29 @@ const attachments = reactive({
 
 	update: () => {
 		store.fetchAttachments(props.id);
+	},
+});
+
+const deleteModal = reactive({
+	show: false,
+	text: "test",
+	header: t("want_to_delete"),
+	callback: null,
+	clear: () => {
+		deleteModal.show = false;
+		deleteModal.text = "";
+		deleteModal.callback = null;
+	},
+});
+
+const loadingModal = reactive({
+	show: false,
+	state: 0,
+	message: "",
+	clear: () => {
+		loadingModal.show = false;
+		loadingModal.state = 0;
+		loadingModal.message = "";
 	},
 });
 </script>

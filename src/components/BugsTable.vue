@@ -111,11 +111,11 @@
 		@close="deleteModal.show = false"
 	/>
 
-	<LoadingModal
+	<LoadingModal2
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
-		@close="loadingModal.show = false"
+		@close="loadingModal.clear"
 	>
 		<template #success-img>
 			<img
@@ -124,7 +124,7 @@
 				class="h-50 w-auto"
 			/>
 		</template>
-	</LoadingModal>
+	</LoadingModal2>
 </template>
 
 <script setup>
@@ -239,34 +239,20 @@ const openDeleteModal = (id) => {
 const deleteStatus = async (payload) => {
 	try {
 		loadingModal.show = true;
-		loadingModal.state = 0;
-		loadingModal.message = null;
 
 		await store.deleteStatus({
 			id: payload.id,
 			move: payload.move,
 		});
 
+		deleteModal.show = false;
+
 		loadingModal.state = 1;
 		loadingModal.message = "Status deleted successfully.";
-
-		setTimeout(() => {
-			deleteModal.show = false;
-			loadingModal.show = false;
-			loadingModal.state = 0;
-			loadingModal.message = null;
-		}, 4000);
 	} catch (error) {
 		loadingModal.state = 2;
-		loadingModal.message = null;
 
 		console.log(error);
-
-		setTimeout(() => {
-			loadingModal.show = false;
-			loadingModal.state = 0;
-			loadingModal.message = null;
-		}, 4000);
 	}
 };
 
@@ -279,7 +265,12 @@ const deleteModal = reactive({
 const loadingModal = reactive({
 	show: false,
 	state: 0,
-	message: null,
+	message: "",
+	clear: () => {
+		loadingModal.show = false;
+		loadingModal.state = 0;
+		loadingModal.message = "";
+	},
 });
 </script>
 

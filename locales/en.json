@@ -238,5 +238,7 @@
 	"want_to_remove": "Are you sure you want to remove",
 	"pending_invitations": "Pending invitations",
 	"user_removed": "User removed!",
-	"invitation_removed": "Invitation removed"
+	"invitation_removed": "Invitation removed",
+	"members_updated": "Members updated!",
+	"project_deleted_succesfuly": "Project deleted successfully."
 }

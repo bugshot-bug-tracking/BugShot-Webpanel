@@ -80,7 +80,10 @@
 							<RouterLink
 								:to="{
 									name: 'project',
-									params: { id: project.id },
+									params: {
+										id: company.id,
+										project_id: project.id,
+									},
 								}"
 							>
 								{{ project.attributes.designation }}

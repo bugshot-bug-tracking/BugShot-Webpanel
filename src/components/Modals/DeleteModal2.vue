@@ -26,6 +26,10 @@
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
+		@close="
+			loadingModal.clear;
+			modal.close();
+		"
 	/>
 </template>
 
@@ -70,12 +74,6 @@ const execute = async () => {
 
 			loadingModal.state = 2;
 			loadingModal.message = data.message;
-		} finally {
-			setTimeout(() => {
-				if (loadingModal.state === 1) modal.close();
-
-				loadingModal.clear();
-			}, 2500);
 		}
 	else {
 		emit("delete");

@@ -137,11 +137,11 @@
 		</form>
 	</div>
 
-	<LoadingModal
+	<LoadingModal2
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
-		@close="loadingModal.show = false"
+		@close="loadingModal.clear"
 	/>
 
 	<div class="full-overlay" v-if="tabOpen" @click="tabOpen = false" />
@@ -169,7 +169,7 @@ const data = reactive({
 	description: "",
 	deadline: null,
 	priority: 2,
-	images: [],
+	images: [] as File[],
 	attachments: [] as File[],
 });
 
@@ -189,17 +189,13 @@ const clearDeadline = () => {
 	data.deadline = null;
 };
 
-const imagesUpdate = (files) => {
+const imagesUpdate = (files: File[]) => {
 	data.images = files;
 };
 
 const submit = async () => {
-	console.log(data);
-
 	try {
 		loadingModal.show = true;
-		loadingModal.state = 0;
-		loadingModal.message = null;
 
 		let status = store.getFirstStatus;
 
@@ -220,8 +216,6 @@ const submit = async () => {
 		// get the data from response
 		bug = bug.data.data;
 
-		console.log(bug);
-
 		// using the bug id send screenshots one-by-one
 		for (const file of data.images) {
 			let screen = await axios.post(`bugs/${bug.id}/screenshots`, {
@@ -237,28 +231,17 @@ const submit = async () => {
 			});
 		}
 
+		await store.refresh();
+
 		loadingModal.state = 1;
 		loadingModal.message = `Bug report created!`;
 
-		store.refresh();
-
-		setTimeout(() => {
-			loadingModal.show = false;
-			tabOpen.value = false;
-
-			resetData();
-		}, 4000);
+		tabOpen.value = false;
+		resetData();
 	} catch (error) {
 		loadingModal.state = 2;
-		loadingModal.message = null;
 
 		console.log(error);
-
-		setTimeout(() => {
-			loadingModal.show = false;
-			loadingModal.state = 0;
-			loadingModal.message = null;
-		}, 4000);
 	}
 };
 
@@ -274,7 +257,12 @@ const resetData = () => {
 const loadingModal = reactive({
 	show: false,
 	state: 0,
-	message: null,
+	message: "",
+	clear: () => {
+		loadingModal.show = false;
+		loadingModal.state = 0;
+		loadingModal.message = "";
+	},
 });
 </script>
 

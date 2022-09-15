@@ -73,10 +73,12 @@ const props = defineProps({
 	},
 });
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close", "onSuccess", "onError"]);
 
 const close = () => {
 	if (props.state === 0) return;
+	if (props.state === 1) emit("onSuccess");
+	if (props.state === 2) emit("onError");
 
 	emit("close");
 };
@@ -86,6 +88,9 @@ watch(
 	() => {
 		if (props.state === 1 || props.state === 2)
 			setTimeout(() => {
+				if (props.state === 1) emit("onSuccess");
+				if (props.state === 2) emit("onError");
+
 				emit("close");
 			}, 3000);
 	},
