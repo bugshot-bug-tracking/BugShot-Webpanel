@@ -34,7 +34,7 @@
 						total: project.attributes.bugsTotal,
 					}"
 					actions
-					@open="goToProject(project.id)"
+					@open="goToProject(company.id, project.id)"
 					@edit="openEdit(project)"
 					@delete="openDelete(project)"
 				/>
@@ -71,8 +71,11 @@ const companies = computed(() => {
 
 const companyProjects = (id: string) => store.getCompanyProjects(id);
 
-const goToProject = (id: string) => {
-	router.push({ name: "project", params: { id: id } });
+const goToProject = (company_id: string, project_id: string) => {
+	router.push({
+		name: "project",
+		params: { id: company_id, project_id: project_id },
+	});
 };
 
 const edit = reactive({

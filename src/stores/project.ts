@@ -1,13 +1,13 @@
 import { defineStore } from "pinia";
 
 import axios from "axios";
-import { useMainStore } from "./main";
 import { Project } from "~/models/Project";
 import { Status } from "~/models/Status";
 
 export const useProjectStore = defineStore("project", {
 	state: () => ({
 		project_id: "",
+		company_id: "",
 		project: <Project>{},
 
 		statuses: new Array<Status>(),
@@ -22,10 +22,11 @@ export const useProjectStore = defineStore("project", {
 			return true;
 		},
 
-		async init(project_id: string) {
+		async init(company_id: string, project_id: string) {
 			this.destroy();
 
 			this.project_id = project_id;
+			this.company_id = company_id;
 
 			await this.loadProject();
 		},
@@ -36,18 +37,9 @@ export const useProjectStore = defineStore("project", {
 
 		async loadProject() {
 			try {
-				let main_project = useMainStore().getProjectById(
-					this.project_id
-				);
-
-				if (!main_project) {
-					console.log("Error while loading project!");
-					return;
-				}
-
 				let project = (
 					await axios.get(
-						`companies/${main_project.attributes.company.id}/projects/${this.project_id}`,
+						`companies/${this.company_id}/projects/${this.project_id}`,
 						{
 							headers: {
 								"include-project-users": true,
@@ -310,6 +302,6 @@ export const useProjectStore = defineStore("project", {
 			return state.statuses?.find((x) => x.attributes.order_number === 0);
 		},
 
-		getProjectUsers: (state) => state.project?.attributes.users ?? [],
+		getProjectUsers: (state) => state.project.attributes.users,
 	},
 });

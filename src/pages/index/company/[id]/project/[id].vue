@@ -1,7 +1,7 @@
 <template>
 	<T2Page>
 		<template #header>
-			<T2Header v-if="project">
+			<T2Header v-if="project.id">
 				<template #l-top>
 					<a :href="project.attributes.url" target="_blank">
 						{{ project.attributes.designation }}
@@ -37,17 +37,28 @@ const props = defineProps({
 	id: {
 		required: true,
 		type: String,
+		description: "Company ID",
+	},
+	project_id: {
+		required: true,
+		type: String,
 		description: "Project ID",
 	},
 });
 
-const project = computed(() => {
-	let project = useMainStore().getProjectById(props.id);
+useProjectStore().init(props.id, props.project_id);
 
-	if (project) useProjectStore().init(props.id);
+watch(
+	props,
+	() => {
+		useProjectStore().init(props.id, props.project_id);
+	},
+	{ deep: true }
+);
 
-	return project;
-});
+const project = computed(() => useProjectStore().getProject);
+
+
 </script>
 
 <route lang="yaml">
