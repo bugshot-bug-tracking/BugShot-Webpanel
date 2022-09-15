@@ -1,5 +1,9 @@
 <template>
-	<a class="bs-btn purple" @click="modal.open">
+	<a
+		class="bs-btn purple"
+		@click="modal.open"
+		:class="{ loading: modal.loading }"
+	>
 		{{ $t("member", 2) }}
 	</a>
 
@@ -98,13 +102,20 @@ const { t } = useI18n();
 
 const modal = reactive({
 	show: false,
+	loading: false,
 	open: async () => {
+		if (modal.loading === true) return;
+		modal.loading = true;
 		if (props.preOpenCall) await props.preOpenCall();
 		modal.show = true;
+		modal.loading = false;
 	},
 	close: async () => {
+		if (modal.loading === true) return;
+		modal.loading = true;
 		if (props.postOpenCall) await props.postOpenCall();
 		modal.show = false;
+		modal.loading = false;
 	},
 });
 
