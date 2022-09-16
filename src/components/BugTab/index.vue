@@ -6,7 +6,15 @@
 				:status="status"
 				@close="emit('close')"
 				@open_assign="assignShow = true"
-			/>
+			>
+				<template #screenshot>
+					<Screenshot
+						:screenshots="bug.screenshots ?? []"
+						:priority="bug.attributes.priority.id"
+						:loading="loading"
+					/>
+				</template>
+			</Info>
 
 			<AttachmentsList
 				:list="bug.attachments ?? []"
@@ -83,8 +91,16 @@ const status = computed(() =>
 	store.getStatusById(bug.value.attributes.status_id)
 );
 
+const loading = ref(true);
+
+const loadScreenshots = async () => {
+	loading.value = true;
+	await store.fetchScreenshots(props.id);
+	loading.value = false;
+};
+
 // called on mount
-store.fetchScreenshots(props.id);
+loadScreenshots();
 store.fetchAttachments(props.id);
 store.fetchComments(props.id);
 store.fetchBugUsers(props.id);
@@ -92,7 +108,7 @@ store.fetchBugUsers(props.id);
 // called on update
 watch(bug, () => {
 	if (!bug.value) return;
-	store.fetchScreenshots(props.id);
+	loadScreenshots();
 	store.fetchAttachments(props.id);
 	store.fetchComments(props.id);
 	store.fetchBugUsers(props.id);
