@@ -584,7 +584,7 @@ const format = (date: Date) => d(new Date(date).toISOString(), "short");
 	}
 	.grid1x2 {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: auto auto;
 		grid-template-rows: 1fr;
 	}
 
