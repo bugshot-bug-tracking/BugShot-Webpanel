@@ -27,7 +27,7 @@
 		:state="loadingModal.state"
 		:message="loadingModal.message"
 		@close="
-			loadingModal.clear;
+			loadingModal.clear();
 			modal.close();
 		"
 	/>

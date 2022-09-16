@@ -39,14 +39,13 @@
 				</div>
 			</div>
 
-			<div
-				class="screenshot"
-				v-if="bug.screenshots ? bug.screenshots.length > 0 : false"
-			>
-				<Screenshot
-					:screenshots="bug.screenshots ? bug.screenshots : []"
-					:priority="bug.attributes.priority.id"
-				/>
+			<div>
+				<slot name="screenshot">
+					<Screenshot
+						:screenshots="bug.screenshots ?? []"
+						:priority="bug.attributes.priority.id"
+					/>
+				</slot>
 			</div>
 
 			<div class="url" v-if="bug.attributes.url">

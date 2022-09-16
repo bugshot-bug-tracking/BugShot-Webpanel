@@ -1,61 +1,67 @@
 <template>
-	<div class="thumbnail-wraper" @click="toggleModal">
-		<img class="thumbnail" :src="thumbnail" alt="Screenshots" />
-		<div class="enlarge" />
-	</div>
+	<div
+		class="screenshot"
+		:class="{ loading: loading }"
+		v-if="loading || screenshots.length > 0"
+	>
+		<div class="thumbnail-wraper" @click="toggleModal" v-if="!loading">
+			<img class="thumbnail" :src="thumbnail" alt="Screenshots" />
+			<div class="enlarge" />
+		</div>
 
-	<Modal :show="modal" @close="modal = !modal">
-		<img
-			:src="showImage"
-			alt="Screenshots"
-			class="screen"
-			ref="bigScreen"
-		/>
-
-		<div
-			v-show="mark.show"
-			class="marker"
-			:class="priority"
-			:style="{
-				left: mark.x + '%',
-				top: mark.y + '%',
-			}"
-		/>
-
-		<template v-slot:extra>
-			<div class="controls-bottom">
-				<div class="controls">
+		<Modal :show="modal" @close="modal = !modal">
+			<img
+				:src="showImage"
+				alt="Screenshots"
+				class="screen"
+				ref="bigScreen"
+			/>
+			
+			<div
+				v-show="mark.show"
+				class="marker"
+				:class="priority"
+				:style="{
+					left: mark.x + '%',
+					top: mark.y + '%',
+				}"
+			/>
+			
+			<template v-slot:extra>
+				<div class="controls-bottom">
+					<div class="controls">
 					<div class="btn-hide-mark" @click="mark.show = !mark.show">
-						{{ mark.show ? $t("hide_mark") : $t("show_mark") }}
-					</div>
+							{{ mark.show ? $t("hide_mark") : $t("show_mark") }}
+						</div>
 
 					<div class="images-counter" v-if="screenshots.length > 1">
-						{{
-							$t("member_out_of", {
-								x: counter + 1,
-								n: screenshots.length,
-							})
-						}}
+							{{
+								$t("member_out_of", {
+									x: counter + 1,
+									n: screenshots.length,
+								})
+							}}
+						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="controls-side" v-if="screenshots.length > 1">
-				<div
-					class="btn-side-arrow arrow-left"
-					v-if="counter > 0"
-					@click="previous"
-				/>
-				<div v-else />
+				<div class="controls-side" v-if="screenshots.length > 1">
+					<div
+						class="btn-side-arrow arrow-left"
+						v-if="counter > 0"
+						@click="previous"
+					/>
+					<div v-else />
 
-				<div
-					class="btn-side-arrow arrow-right"
-					v-if="counter < screenshots.length - 1"
-					@click="next"
-				/>
-			</div>
-		</template>
-	</Modal>
+					<div
+						class="btn-side-arrow arrow-right"
+						v-if="counter < screenshots.length - 1"
+						@click="next"
+					/>
+				</div>
+			</template>
+		</Modal>
+	</div>
 </template>
 
 <script setup>
@@ -67,6 +73,11 @@ const props = defineProps({
 	priority: {
 		required: true,
 		type: Number,
+	},
+	loading: {
+		required: false,
+		type: Boolean,
+		default: false,
 	},
 });
 const emit = defineEmits(["loading"]);
@@ -146,6 +157,30 @@ const priority = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+.screenshot {
+	position: relative;
+	width: 100%;
+	height: 170px;
+	margin: 0.4em 0;
+	background-color: hsl(0, 0%, 50%);
+	border: 2px solid hsl(240, 100%, 95%);
+	overflow: hidden;
+
+	&.loading {
+		background-color: hsl(0, 50%, 50%);
+		animation: skeleton-loading 1.5s linear infinite alternate;
+	}
+
+	@keyframes skeleton-loading {
+		0% {
+			background-color: hsl(255, 20%, 80%);
+		}
+		100% {
+			background-color: hsl(255, 20%, 95%);
+		}
+	}
+}
+
 .thumbnail-wraper {
 	cursor: pointer;
 

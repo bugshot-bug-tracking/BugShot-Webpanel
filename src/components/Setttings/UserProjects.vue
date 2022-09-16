@@ -159,7 +159,7 @@ const deleteCompany = async (company: Company) => {
 	deleteModal.show = true;
 	deleteModal.text = company.attributes.designation;
 	deleteModal.callback = async () => {
-		store.removeCompanyUser(company.id, user.value.id);
+		await store.removeCompanyUser(company.id, user.value.id);
 	};
 };
 
