@@ -1,9 +1,21 @@
 <template>
 	<Container>
 		<div id="info" class="d-flex flex-column no-wrap">
-			<div class="justify-content-between mb-2 align-items-start">
-				<div class="title">
+			<div
+				class="justify-content-between mb-2 align-items-start"
+				v-if="!bugData.flag1"
+			>
+				<div class="title" flex>
 					<div class="content">{{ bug.attributes.designation }}</div>
+					<img
+						w-4
+						ml-2
+						class="black-to-gray"
+						src="/src/assets/icons/edit.svg"
+						alt="edit"
+						cursor-pointer
+						@click="bugData.editDesignation"
+					/>
 				</div>
 
 				<div
@@ -11,6 +23,32 @@
 					@click="$emit('close')"
 					cursor-pointer
 				/>
+			</div>
+
+			<div flex gap-4 items-center v-else>
+				<input
+					type="text"
+					v-model="bugData.designation"
+					class="w-100"
+				/>
+
+				<div class="flex gap-2 black-to-gray ms-2">
+					<img
+						src="/src/assets/icons/check.svg"
+						alt="save"
+						style="width: 1.5rem"
+						cursor-pointer
+						@click="changeDesignation"
+					/>
+
+					<img
+						src="/src/assets/icons/close_2.svg"
+						alt="cancel"
+						style="width: 1.5rem"
+						cursor-pointer
+						@click="bugData.flag1 = false"
+					/>
+				</div>
 			</div>
 
 			<div class="id">
@@ -57,9 +95,53 @@
 				</div>
 			</div>
 
-			<div class="description" v-if="bug.attributes.description">
-				<label>{{ $t("description") + ":" }}</label>
-				<div class="content">{{ bug.attributes.description }}</div>
+			<div class="description">
+				<div flex justify-between mb-2>
+					<label>
+						{{ $t("description") + ":" }}
+						<img
+							w-4
+							ml-2
+							class="black-to-gray"
+							src="/src/assets/icons/edit.svg"
+							alt="edit"
+							cursor-pointer
+							@click="bugData.editDescription"
+							v-if="!bugData.flag2"
+						/>
+					</label>
+
+					<div
+						class="flex gap-2 black-to-gray ms-2"
+						v-if="bugData.flag2"
+					>
+						<img
+							src="/src/assets/icons/check.svg"
+							alt="save"
+							style="width: 1.5rem"
+							cursor-pointer
+							@click="changeDescription"
+						/>
+						<img
+							src="/src/assets/icons/close_2.svg"
+							alt="cancel"
+							style="width: 1.5rem"
+							cursor-pointer
+							@click="bugData.flag2 = false"
+						/>
+					</div>
+				</div>
+
+				<div class="content" v-if="!bugData.flag2">
+					{{ bug.attributes.description }}
+				</div>
+
+				<textarea
+					v-else
+					v-model="bugData.description"
+					style="width: 100%"
+					class="bs-scroll"
+				/>
 			</div>
 
 			<div
@@ -238,6 +320,47 @@ const priorities = computed(() => [
 const open = ref(false);
 
 const datePicker = ref(dateFix(props.bug.attributes.deadline));
+
+const bugData = reactive({
+	designation: "",
+	flag1: false,
+	description: "",
+	flag2: false,
+	editDesignation: () => {
+		bugData.designation = props.bug.attributes.designation;
+		bugData.flag1 = true;
+	},
+	editDescription: () => {
+		bugData.description = props.bug.attributes.description;
+		bugData.flag2 = true;
+	},
+});
+
+const changeDesignation = () => {
+	bugData.flag1 = false;
+
+	props.bug.attributes.designation = bugData.designation;
+
+	store.syncBug({
+		id: props.bug.id,
+		changes: {
+			designation: bugData.designation,
+		},
+	});
+};
+
+const changeDescription = () => {
+	bugData.flag2 = false;
+
+	props.bug.attributes.description = bugData.description;
+
+	store.syncBug({
+		id: props.bug.id,
+		changes: {
+			description: bugData.description,
+		},
+	});
+};
 
 const changePriority = (value: { id: number; text: string; color: string }) => {
 	store.syncBug({
@@ -470,6 +593,24 @@ const format = (date: Date) => d(new Date(date).toISOString(), "short");
 			min-width: 90px;
 			margin-top: 6px;
 		}
+	}
+}
+
+input,
+textarea {
+	border: 1px solid hsl(264deg, 78%, 77%);
+	border-radius: 0.5rem;
+	padding: 0.5rem;
+
+	&:focus,
+	&:focus-visible,
+	&:hover {
+		border-color: hsl(265, 79%, 41%);
+		outline-color: hsl(265, 79%, 41%);
+	}
+
+	&.error {
+		border-color: red;
 	}
 }
 </style>

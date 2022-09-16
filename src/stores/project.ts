@@ -106,8 +106,15 @@ export const useProjectStore = defineStore("project", {
 					`statuses/${bug.attributes.status_id}/bugs/${bug.id}`,
 					{
 						ai_id: bug.attributes.ai_id,
-						designation: bug.attributes.designation,
-						description: bug.attributes.description,
+
+						...(payload.changes.designation
+							? { designation: payload.changes.designation }
+							: { designation: bug.attributes.designation }),
+
+						...(payload.changes.description
+							? { description: payload.changes.description }
+							: { description: bug.attributes.description }),
+
 						url: bug.attributes.url,
 						operating_system: bug.attributes.operating_system,
 						browser: bug.attributes.browser,

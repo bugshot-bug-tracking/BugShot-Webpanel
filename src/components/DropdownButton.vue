@@ -1,15 +1,25 @@
 <template>
 	<div class="bs-btn-dropdown" ref="root">
-		<a
-			:style="{
-				background: color,
-				cursor: dumb ? 'unset' : 'pointer',
-			}"
-			:class="{ open: active.value }"
-			@click="active.toggle"
-		>
-			<slot name="text">{{ text }}</slot>
-		</a>
+		<div @click="active.toggle">
+			<a
+				:style="{
+					background: color,
+					cursor: dumb ? 'unset' : 'pointer',
+				}"
+				:class="{ open: active.value }"
+			>
+				<slot name="text">{{ text }}</slot>
+			</a>
+			<img
+				v-if="!dumb"
+				w-3
+				ml-1
+				class="black-to-gray"
+				src="/src/assets/icons/edit.svg"
+				alt="edit"
+				cursor-pointer
+			/>
+		</div>
 
 		<div
 			v-if="!dumb"
