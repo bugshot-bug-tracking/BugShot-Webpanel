@@ -230,6 +230,16 @@
 	gap: 0.5rem;
 	position: relative;
 
+	label {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		span {
+			font-size: 0.75rem;
+		}
+	}
+
 	.input-image {
 		position: absolute;
 		right: 1rem;
@@ -241,7 +251,8 @@
 		}
 	}
 
-	input {
+	input,
+	textarea {
 		border: 1px solid hsl(264deg, 78%, 77%);
 		border-radius: 0.5rem;
 		padding: 0.75rem;

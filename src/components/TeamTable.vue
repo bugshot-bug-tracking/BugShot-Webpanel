@@ -20,7 +20,7 @@
 						v-for="user of [
 							company.attributes.creator,
 							...company.attributes.users,
-						]"
+						].filter((x) => x)"
 						:key="user.id"
 					>
 						<div class="info">

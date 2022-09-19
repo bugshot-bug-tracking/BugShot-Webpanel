@@ -240,5 +240,11 @@
 	"user_removed": "User removed!",
 	"invitation_removed": "Invitation removed",
 	"members_updated": "Members updated!",
-	"project_deleted_succesfuly": "Project deleted successfully."
+	"project_deleted_succesfuly": "Project deleted successfully.",
+	"anonymous": "Anonymous",
+	"title": "Title",
+	"feedback_form": "Feedback form",
+	"submit_feedback": "Submit feedback",
+	"tanks_feedback": "Thank you for your feedback!",
+	"feedback": "Feedback"
 }

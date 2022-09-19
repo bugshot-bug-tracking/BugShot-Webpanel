@@ -35,11 +35,11 @@
 							class="role"
 							:class="{
 								owner:
-									company.attributes.creator.id === user.id,
+									company.attributes.creator?.id === user.id,
 							}"
 						>
 							{{
-								company.attributes.creator.id === user.id
+								company.attributes.creator?.id === user.id
 									? "Owner"
 									: company.attributes.role?.attributes
 											.designation
@@ -51,7 +51,7 @@
 						class="remove"
 						@click="deleteCompany(company)"
 						v-if="
-							!(company.attributes.creator.id === user.id) &&
+							!(company.attributes.creator?.id === user.id) &&
 							companyProjects(company.id).length === 0
 						"
 					>
@@ -94,7 +94,9 @@
 								alt="x"
 								class="black-to-white"
 								@click="deleteProject(project)"
-								v-if="project.attributes.creator.id !== user.id"
+								v-if="
+									project.attributes.creator?.id !== user.id
+								"
 							/>
 						</div>
 					</div>

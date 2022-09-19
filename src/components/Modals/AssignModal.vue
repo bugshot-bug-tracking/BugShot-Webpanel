@@ -111,7 +111,7 @@ const bug = computed(() => {
 		let project_users = [
 			store.getProject.attributes.creator,
 			...store.getProjectUsers,
-		];
+		].filter((x) => x);
 
 		list.value = [];
 
