@@ -9,6 +9,7 @@
 					alt="refresh"
 					class="refresh-button"
 					@click="emit('update')"
+					v-if="!local"
 				/>
 
 				<label class="file-label black-to-green">
@@ -44,6 +45,12 @@ const props = defineProps({
 		required: false,
 		type: String,
 		default: "",
+	},
+	local: {
+		required: false,
+		type: Boolean,
+		default: false,
+		description: "Hide refresh button when set to true",
 	},
 });
 

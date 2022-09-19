@@ -59,11 +59,27 @@
 			<div class="creator">
 				<label>{{ $t("creator") + ":" }}</label>
 
-				<div class="content">
+				<div class="content" v-if="bug.creator">
 					<div class="name">
 						{{
 							`${bug.attributes.creator.attributes.first_name} ${bug.attributes.creator.attributes.last_name}`
 						}}
+					</div>
+
+					<div class="date">
+						{{
+							$d(
+								new Date(dateFix(bug.attributes.created_at)),
+								"short"
+							)
+						}}
+					</div>
+				</div>
+
+				
+				<div class="content" v-else>
+					<div class="name">
+						{{ `${bug.attributes.selector ?? t("anonymous")}` }}
 					</div>
 
 					<div class="date">

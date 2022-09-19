@@ -1,5 +1,7 @@
 <template>
 	<RouterView />
+
+	<Feedback />
 </template>
 
 <script setup lang="ts">
