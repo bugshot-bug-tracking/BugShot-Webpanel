@@ -59,7 +59,7 @@
 			<div class="creator">
 				<label>{{ $t("creator") + ":" }}</label>
 
-				<div class="content" v-if="bug.creator">
+				<div class="content" v-if="bug.attributes.creator">
 					<div class="name">
 						{{
 							`${bug.attributes.creator.attributes.first_name} ${bug.attributes.creator.attributes.last_name}`
@@ -76,7 +76,6 @@
 					</div>
 				</div>
 
-				
 				<div class="content" v-else>
 					<div class="name">
 						{{ `${bug.attributes.selector ?? t("anonymous")}` }}
