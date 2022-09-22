@@ -504,11 +504,10 @@ const openPP = () => {
 		content: "";
 		background-image: url("/src/assets/icons/check.svg");
 		background-position: 0 0;
-		background-size: auto;
+		background-size: contain;
 		background-repeat: no-repeat;
 		width: 1rem;
 		height: 1rem;
-		position: absolute;
 		left: -1.5rem;
 	}
 }
@@ -525,11 +524,10 @@ const openPP = () => {
 		content: "";
 		background-image: url("/src/assets/icons/close_2.svg");
 		background-position: 0 0;
-		background-size: auto;
+		background-size: contain;
 		background-repeat: no-repeat;
 		width: 1rem;
 		height: 1rem;
-		position: absolute;
 		left: -1.5rem;
 	}
 }
