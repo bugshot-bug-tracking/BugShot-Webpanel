@@ -166,22 +166,22 @@ export const useProjectStore = defineStore("project", {
 					}
 				);
 
-				if (payload.changes.status_id) {
-					let orgList = this.getBugsByStatusId(
-						bug.attributes.status_id
-					);
+				// if (payload.changes.status_id) {
+				// 	let orgList = this.getBugsByStatusId(
+				// 		bug.attributes.status_id
+				// 	);
 
-					let index1 = orgList?.findIndex((x) => x.id === bug.id);
+				// 	let index1 = orgList?.findIndex((x) => x.id === bug.id);
 
-					if (index1 !== undefined && index1 >= 0)
-						orgList?.splice(index1, 1);
+				// 	if (index1 !== undefined && index1 >= 0)
+				// 		orgList?.splice(index1, 1);
 
-					let newList = this.getBugsByStatusId(
-						payload.changes.status_id
-					);
+				// 	let newList = this.getBugsByStatusId(
+				// 		payload.changes.status_id
+				// 	);
 
-					newList?.unshift(bug);
-				}
+				// 	newList?.unshift(bug);
+				// }
 
 				bug.attributes = response.data.data.attributes;
 
