@@ -3,12 +3,14 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { Project } from "~/models/Project";
 import { Status } from "~/models/Status";
+import { Company } from "~/models/Company";
 
 export const useProjectStore = defineStore("project", {
 	state: () => ({
 		project_id: "",
 		company_id: "",
 		project: <Project>{},
+		company: <Company>{},
 
 		statuses: new Array<Status>(),
 	}),
@@ -43,6 +45,7 @@ export const useProjectStore = defineStore("project", {
 						{
 							headers: {
 								"include-project-users": true,
+								"include-project-role": true,
 								"include-statuses": true,
 								"include-bugs": true,
 							},
@@ -50,7 +53,18 @@ export const useProjectStore = defineStore("project", {
 					)
 				).data.data;
 
+				let company = (
+					await axios.get(`companies/${this.company_id}`, {
+						headers: {
+							"include-company-users": true,
+							"include-company-users-roles": true,
+						},
+					})
+				).data.data;
+
 				this.project = project;
+				this.company = company;
+
 				this.statuses = <Status[]>this.project.attributes.statuses;
 			} catch (error) {
 				console.log(error);
@@ -363,5 +377,7 @@ export const useProjectStore = defineStore("project", {
 		},
 
 		getProjectUsers: (state) => state.project.attributes.users,
+
+		getCompanyUsers: (state) => state.company.attributes.users,
 	},
 });

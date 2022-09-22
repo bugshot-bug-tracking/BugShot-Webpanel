@@ -22,6 +22,7 @@
 				<AddBug :id="id" />
 
 				<ManageMembers
+					v-if="isAuthorized"
 					:list="project.attributes.users"
 					:pending_list="project?.pending ?? []"
 					:add="addMember"
@@ -39,6 +40,7 @@
 
 <script setup lang="ts">
 import axios from "axios";
+import { useAuthStore } from "~/stores/auth";
 import { useProjectStore } from "~/stores/project";
 
 const props = defineProps({
@@ -65,6 +67,14 @@ watch(
 );
 
 const project = computed(() => useProjectStore().getProject);
+
+const isAuthorized = computed(() => {
+	// temp code replace with proper ?global? logic
+	return (
+		project.value?.attributes.role?.id === 1 ||
+		project.value.attributes.creator?.id === useAuthStore().getUser.id
+	);
+});
 
 const preCall = async () => {
 	await useProjectStore().fetchProjectUsers();

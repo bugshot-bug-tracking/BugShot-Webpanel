@@ -74,7 +74,8 @@ const props = defineProps({
 	user: {
 		type: Object,
 		required: false,
-		default: null,
+		default: undefined,
+
 	},
 });
 
@@ -111,7 +112,7 @@ const closeModal = () => {
 watch(
 	props,
 	() => {
-		if (props.user) {
+		if (props.editMode && props.user?.id) {
 			rolePicked.value = props.user.role.id;
 			email.value = props.user.attributes.email;
 		}
@@ -122,8 +123,8 @@ watch(
 const disableSubmit = computed(() => {
 	if (
 		props.editMode &&
-		props.user.attributes.email === email.value &&
-		props.user.role.id === rolePicked.value
+		props.user?.attributes.email === email.value &&
+		props.user?.role.id === rolePicked.value
 	)
 		return true;
 

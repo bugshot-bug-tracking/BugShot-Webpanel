@@ -13,6 +13,7 @@
 				</template>
 
 				<ManageMembers
+					v-if="isAuthorized"
 					:list="company?.attributes.users"
 					:pending_list="company?.pending ?? []"
 					:add="addMember"
@@ -95,6 +96,7 @@
 <script setup lang="ts">
 import axios from "axios";
 import { Project } from "~/models/Project";
+import { useAuthStore } from "~/stores/auth";
 import { useMainStore } from "~/stores/main";
 import timeToText from "~/util/timeToText";
 
@@ -112,6 +114,14 @@ const router = useRouter();
 const company = computed(() => store.getCompanyById(props.id));
 
 const projects = computed(() => store.getCompanyProjects(props.id));
+
+const isAuthorized = computed(() => {
+	// temp code replace with proper ?global? logic
+	return (
+		company.value?.attributes.role?.id === 1 ||
+		company.value?.attributes.creator?.id === useAuthStore().getUser.id
+	);
+});
 
 const goToProject = (company_id: string, project_id: string) => {
 	router.push({
@@ -156,6 +166,7 @@ const openDelete = (project: Project) => {
 
 const preCall = async () => {
 	await store.fetchCompanyUsers(props.id);
+
 	await store.fetchCompanyInvitations(props.id);
 };
 
