@@ -81,8 +81,8 @@ import { useProjectStore } from "~/stores/project";
 import axios from "axios";
 import { VueTribute } from "vue-tribute";
 import colors from "~/util/colors";
-import { maxlengthContentEditable } from "/src/util/maxlength-contenteditable.js";
-import { useAuthStore } from "/src/stores/auth";
+import { maxlengthContentEditable } from "~/util/maxlength-contenteditable.js";
+import { useAuthStore } from "~/stores/auth";
 
 const props = defineProps({
 	bug_id: {

@@ -46,8 +46,8 @@
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
-		@close="loadingModal.clear;"
-		@onSuccess="close()"
+		@close="loadingModal.clear"
+		@onSuccess="close"
 	/>
 </template>
 
