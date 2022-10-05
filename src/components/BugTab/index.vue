@@ -62,7 +62,7 @@
 		:state="loadingModal.state"
 		:message="loadingModal.message"
 		@close="
-			loadingModal.clear;
+			loadingModal.clear();
 			emit('close');
 		"
 	/>

@@ -155,8 +155,6 @@ const submit = async () => {
 	try {
 		loadingModal.show = true;
 
-		let id = crypto.randomUUID();
-
 		let browser = getBrowser();
 
 		let att_list = await Promise.all(
@@ -167,7 +165,6 @@ const submit = async () => {
 		);
 
 		await axios.post("/feedbacks", {
-			id: id,
 			designation: formData.designation,
 			description: formData.description,
 			url: window.location.href,

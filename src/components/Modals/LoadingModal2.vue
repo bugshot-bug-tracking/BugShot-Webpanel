@@ -19,7 +19,7 @@
 						/>
 					</slot>
 					<slot name="success-header">
-						<div>{{ $t("success") + "!" }}</div>
+						<div>{{ t("success") + "!" }}</div>
 					</slot>
 
 					<slot name="success-message">
@@ -38,7 +38,7 @@
 					</slot>
 
 					<slot name="error-header">
-						<div>{{ $t("error") + "!" }}</div>
+						<div>{{ t("error") + "!" }}</div>
 					</slot>
 
 					<slot name="error-message">
@@ -75,10 +75,17 @@ const props = defineProps({
 
 const emit = defineEmits(["close", "onSuccess", "onError"]);
 
+const { t } = useI18n();
+
+const timeout = ref({} as ReturnType<typeof setTimeout>);
+
 const close = () => {
 	if (props.state === 0) return;
 	if (props.state === 1) emit("onSuccess");
 	if (props.state === 2) emit("onError");
+
+	clearTimeout(timeout.value);
+	timeout.value = {} as ReturnType<typeof setTimeout>;
 
 	emit("close");
 };
@@ -86,13 +93,9 @@ const close = () => {
 watch(
 	props,
 	() => {
-		if (props.state === 1 || props.state === 2)
-			setTimeout(() => {
-				if (props.state === 1) emit("onSuccess");
-				if (props.state === 2) emit("onError");
+		if (props.state === 0) return;
 
-				emit("close");
-			}, 3000);
+		timeout.value = setTimeout(close, 3000);
 	},
 	{ deep: true }
 );
