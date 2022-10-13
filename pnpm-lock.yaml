@@ -6,6 +6,7 @@ specifiers:
   '@types/nprogress': ^0.2.0
   '@types/vue-select': ^3.16.2
   '@vitejs/plugin-vue': ^3.1.2
+  '@vue-stripe/vue-stripe': ^4.4.4
   '@vuepic/vue-datepicker': ^3.5.2
   '@vueuse/core': ^9.3.0
   '@vueuse/head': ^0.9.8
@@ -33,6 +34,7 @@ specifiers:
   vuedraggable: ^4.1.0
 
 dependencies:
+  '@vue-stripe/vue-stripe': 4.4.4
   '@vuepic/vue-datepicker': 3.5.2_vue@3.2.40
   '@vueuse/core': 9.3.0_vue@3.2.40
   '@vueuse/head': 0.9.8_vue@3.2.40
@@ -298,6 +300,10 @@ packages:
       picomatch: 2.3.1
     dev: true
 
+  /@stripe/stripe-js/1.41.0:
+    resolution: {integrity: sha512-9cbv1CO/fF37qDiHFCxkRgSJjlIZLV0bl+m6zu4dUObRnfYq5bpczCByOvhiSWtbrKqNhYL1j+otPSogRfSqGw==}
+    dev: false
+
   /@types/debug/4.1.7:
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
     dependencies:
@@ -529,6 +535,13 @@ packages:
       '@volar/typescript': 1.0.7
       '@volar/vue-language-core': 1.0.7
     dev: true
+
+  /@vue-stripe/vue-stripe/4.4.4:
+    resolution: {integrity: sha512-PgcVRcQ6TBtSBQS6yvzoH9kJpiCXZ6DamGZBBGNG5+4/UYsaDTLpyuP8xw0sqm0KQn69kRv2Uq17B6bsAp/LxQ==}
+    dependencies:
+      '@stripe/stripe-js': 1.41.0
+      vue-coerce-props: 1.0.0
+    dev: false
 
   /@vue/compiler-core/3.2.40:
     resolution: {integrity: sha512-2Dc3Stk0J/VyQ4OUr2yEC53kU28614lZS+bnrCbFSAIftBJ40g/2yQzf4mPBiFuqguMB7hyHaujdgZAQ67kZYA==}
@@ -2255,6 +2268,10 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /vue-coerce-props/1.0.0:
+    resolution: {integrity: sha512-4fdRMXO6FHzmE7H4soAph6QmPg3sL/RiGdd+axuxuU07f02LNMns0jMM88fmt1bvSbN+2Wyd8raho6p6nXUzag==}
+    dev: false
 
   /vue-demi/0.13.11_vue@3.2.40:
     resolution: {integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==}

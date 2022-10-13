@@ -9,6 +9,7 @@
 		"typecheck": "vue-tsc --noEmit"
 	},
 	"dependencies": {
+		"@vue-stripe/vue-stripe": "^4.4.4",
 		"@vuepic/vue-datepicker": "^3.5.2",
 		"@vueuse/core": "^9.3.0",
 		"@vueuse/head": "^0.9.8",
