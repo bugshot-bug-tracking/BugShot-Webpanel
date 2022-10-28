@@ -246,5 +246,17 @@
 	"feedback_form": "Feedback form",
 	"submit_feedback": "Submit feedback",
 	"tanks_feedback": "Thank you for your feedback!",
-	"feedback": "Feedback"
+	"feedback": "Feedback",
+	"payments_and_plans": "Payments and Plans",
+	"purchase_plan": "Purchase Plan",
+	"choosoe_the_plan": "Choose the right plan for you",
+	"choosoe_plan": "Choose plan",
+	"monthly": "Monthly",
+	"yearly": "Yearly",
+	"save_n%": "save {n}%",
+	"month": "Month",
+	"year": "Year",
+	"yearly_payment": "yearly payment",
+	"monthly_payment": "monthly payment",
+	"bugshot_account": "Bugshot account"
 }

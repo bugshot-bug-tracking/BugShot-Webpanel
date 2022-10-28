@@ -10,7 +10,11 @@
 	</div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useMainStore } from "~/stores/main";
+
+useMainStore().init();
+</script>
 
 <style lang="scss" scoped>
 .home-layout {
