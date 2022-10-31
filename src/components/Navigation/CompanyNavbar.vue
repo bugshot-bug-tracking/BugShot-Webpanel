@@ -47,7 +47,21 @@
 							}"
 							@click="collapseCompany(company.id)"
 						>
-							<span>{{ company.attributes.designation }}</span>
+							<div flex items-center gap-2>
+								{{ company.attributes.designation }}
+
+								<img
+									v-if="
+										user?.id ===
+										company.attributes.creator?.id
+									"
+									src="/src/assets/icons/my_projects.svg"
+									alt="owner"
+									w-5
+									h-5
+									:title="$t('owner')"
+								/>
+							</div>
 
 							<img src="/src/assets/icons/arrow_down.svg" />
 						</div>
@@ -72,7 +86,16 @@
 									}"
 									class="w-100"
 								>
-									{{ $t("project", 2) }}
+									<div flex items-center gap-2>
+										<img
+											src="/src/assets/icons/projects.svg"
+											alt="project"
+											w-5
+											h-5
+										/>
+
+										{{ $t("project", 2) }}
+									</div>
 								</RouterLink>
 
 								<img src="/src/assets/icons/arrow_down.svg" />
@@ -129,7 +152,16 @@
 								class="route"
 								style="font-weight: bold"
 							>
-								{{ $t("company_details") }}
+								<div flex items-center gap-2>
+									<img
+										src="/src/assets/icons/gear.svg"
+										alt="project"
+										w-5
+										h-5
+									/>
+
+									{{ $t("company_details") }}
+								</div>
 							</RouterLink>
 
 							<RouterLink
@@ -170,11 +202,14 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from "~/stores/auth";
 import { useMainStore } from "~/stores/main";
 import { useSettingsStore } from "~/stores/settings";
 
 let store = useMainStore();
 let settingsStore = useSettingsStore();
+
+let user = computed(() => useAuthStore().getUser);
 
 store.init();
 

@@ -38,7 +38,17 @@
 					:to="{ name: 'company-settings', params: { id: id } }"
 					class="bs-btn green empty text-capitalize"
 				>
-					{{ $t("company_settings") }}
+					<div flex items-center gap-2>
+						<img
+							src="/src/assets/icons/gear.svg"
+							alt="project"
+							class="black-to-green"
+							w-5
+							h-5
+						/>
+
+						{{ $t("company_settings") }}
+					</div>
 				</router-link>
 			</T2Header>
 		</template>

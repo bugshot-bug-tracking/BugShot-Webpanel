@@ -258,5 +258,7 @@
 	"year": "Year",
 	"yearly_payment": "yearly payment",
 	"monthly_payment": "monthly payment",
-	"bugshot_account": "Bugshot account"
+	"bugshot_account": "Bugshot account",
+	"project_settings": "Project Settings",
+	"owner": "Owner"
 }

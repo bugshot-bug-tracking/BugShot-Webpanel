@@ -19,8 +19,6 @@
 					{{ project.attributes.company.attributes.designation }}
 				</template>
 
-				<AddBug :id="id" />
-
 				<ManageMembers
 					v-if="isAuthorized"
 					:list="project.attributes.users"
@@ -31,6 +29,8 @@
 					:deleteInvitation="deleteInvitation"
 					:preOpenCall="preCall"
 				/>
+
+				<AddBug :id="id" />
 			</T2Header>
 		</template>
 

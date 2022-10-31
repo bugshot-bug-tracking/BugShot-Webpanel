@@ -1,13 +1,34 @@
 <template>
-	<a
-		class="bs-btn text-capitalize"
-		:class="{
-			'green empty': dataType === 'Company',
-			green: dataType === 'Project',
-		}"
-		@click="modalActive = !modalActive"
-	>
-		{{ dataType === "Company" ? $t("add.company") : $t("add.project") }}
+	<a @click="modalActive = !modalActive">
+		<slot name="button" v-bind="{ active: modalActive }">
+			<div
+				flex
+				items-center
+				gap-2
+				class="bs-btn text-capitalize"
+				:class="{
+					'green empty': dataType === 'Company',
+					green: dataType === 'Project',
+				}"
+			>
+				<img
+					src="/src/assets/icons/add.svg"
+					alt="project"
+					w-6
+					h-6
+					:class="{
+						'black-to-green': dataType === 'Company',
+						'black-to-white': dataType === 'Project',
+					}"
+				/>
+
+				{{
+					dataType === "Company"
+						? $t("add.company")
+						: $t("add.project")
+				}}
+			</div>
+		</slot>
 	</a>
 
 	<Modal :show="modalActive" @close="modalActive = false">
