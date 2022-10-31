@@ -27,46 +27,21 @@
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
-
 const router = useRouter();
-
-const props = defineProps({
-	user_id: {
-		required: true,
-		type: String,
-	},
-	token: {
-		required: true,
-		type: String,
-	},
-});
-// 0 means loading, 1 means success, 2 means error
-const status = ref(0);
 
 const route = useRoute();
 
-const verify = async () => {
-	status.value = 0;
+const status = ref(0);
 
-	try {
-		let response = await axios.get(
-			`/auth/email/verify/${props.user_id}/${props.token}?expires=${route.query.expires}&signature=${route.query.signature}`
-		);
+if (route.query.status === "success") {
+	status.value = 1;
+} else {
+	status.value = 2;
+}
 
-		status.value = 1;
-	} catch (error) {
-		console.log(error);
-
-		status.value = 2;
-	} finally {
-		setTimeout(() => {
-			router.push({ name: "Login" });
-		}, 3000);
-	}
-};
-
-verify();
+setTimeout(() => {
+	router.push({ name: "home" });
+}, 3000);
 </script>
 
 <style lang="scss" scoped>
@@ -129,7 +104,7 @@ verify();
 </style>
 
 <route lang="yaml">
-name: Verify
+name: payment-status
 
 meta:
     layout: empty

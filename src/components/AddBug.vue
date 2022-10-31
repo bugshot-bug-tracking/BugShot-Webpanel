@@ -1,5 +1,5 @@
 <template>
-	<a class="bs-btn purple add-button" @click="tabOpen = true">
+	<a class="bs-btn green add-button" @click="tabOpen = true">
 		<img src="/src/assets/icons/add.svg" alt="add" />
 		{{ $t("add.bug") }}
 	</a>

@@ -30,6 +30,7 @@
 				<h4>
 					{{ $t("setting", 2) }}
 				</h4>
+
 				<ul>
 					<router-link
 						:to="{
@@ -38,6 +39,15 @@
 						class="item"
 					>
 						{{ $t("account_settings") }}
+					</router-link>
+
+					<router-link
+						:to="{
+							name: 'payments',
+						}"
+						class="item"
+					>
+						{{ $t("payments_and_plans") }}
 					</router-link>
 				</ul>
 			</div>
@@ -102,6 +112,7 @@ header {
 		text-align: left;
 		display: flex;
 		flex-direction: column;
+		gap: 1rem;
 
 		> li {
 			padding: 0.25rem 0.25rem 0.5rem 0.25rem;
@@ -135,7 +146,7 @@ header {
 		border-radius: 0.375rem;
 	}
 
-	&.router-link-active {
+	&.router-link-exact-active {
 		border-radius: 0.375rem;
 		background: hsl(158, 79%, 87%);
 	}

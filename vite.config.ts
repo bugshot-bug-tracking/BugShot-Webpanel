@@ -48,6 +48,7 @@ export default defineConfig({
 			extendRoute(route, parent) {
 				if (
 					route.name === "all" ||
+					route.name === "payment-status" ||
 					String(route.path).match(/^\/auth/i)
 				) {
 					// Index is unauthenticated.

@@ -4,7 +4,17 @@
 		@click="modal.open"
 		:class="{ loading: modal.loading }"
 	>
-		{{ $t("member", 2) }}
+		<div flex items-center gap-2>
+			<img
+				src="/src/assets/icons/people.svg"
+				alt="peoples"
+				class="black-to-white"
+				w-5
+				h-5
+			/>
+
+			{{ $t("member", 2) }}
+		</div>
 	</a>
 
 	<MyModal v-model="modal.show" :close="modal.close" z-100>

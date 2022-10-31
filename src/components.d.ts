@@ -50,6 +50,7 @@ declare module '@vue/runtime-core' {
     OrderButton: typeof import('./components/PopupButton/OrderButton.vue')['default']
     PasswordChange: typeof import('./components/Setttings/PasswordChange.vue')['default']
     Picker: typeof import('./components/Picker.vue')['default']
+    Plan: typeof import('./components/Plan.vue')['default']
     ProjectCard: typeof import('./components/Cards/ProjectCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
