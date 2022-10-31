@@ -11,10 +11,16 @@ useI18nStore().init();
 </script>
 
 <style lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
 @import "./styles/global.scss";
 @import "./styles/custom.scss";
 @import "./styles/external.scss";
+
+@font-face {
+	font-family: "Open Sans";
+	src: url("~/assets/fonts/OpenSans/static/OpenSans/OpenSans-Regular.ttf");
+	font-style: normal;
+	font-weight: normal;
+}
 
 #app {
 	font-family: "Open Sans", sans-serif;
