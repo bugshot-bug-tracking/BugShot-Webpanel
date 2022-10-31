@@ -31,6 +31,26 @@
 				/>
 
 				<AddBug :id="id" />
+
+				<router-link
+					:to="{
+						name: 'project-settings',
+						params: { id: id, project_id: project_id },
+					}"
+					class="bs-btn green empty text-capitalize"
+				>
+					<div flex items-center gap-2>
+						<img
+							src="/src/assets/icons/gear.svg"
+							alt="project"
+							class="black-to-green"
+							w-5
+							h-5
+						/>
+
+						{{ $t("project_settings") }}
+					</div>
+				</router-link>
 			</T2Header>
 		</template>
 

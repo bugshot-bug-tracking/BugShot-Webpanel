@@ -111,6 +111,9 @@
 										v-for="project of companyProjects(
 											company.id
 										)"
+										flex
+										items-center
+										justify-between
 									>
 										<RouterLink
 											:to="{
@@ -139,6 +142,29 @@
 														.designation
 												}}
 											</span>
+										</RouterLink>
+
+										<RouterLink
+											:to="{
+												name: 'project-settings',
+												params: {
+													id: company.id,
+													project_id: project.id,
+												},
+											}"
+											class="route"
+											style="
+												font-weight: bold;
+												width: auto;
+											"
+										>
+											<img
+												src="/src/assets/icons/gear.svg"
+												alt="project"
+												w-5
+												h-5
+												:title="$t('project_settings')"
+											/>
 										</RouterLink>
 									</li>
 								</ul>
@@ -257,7 +283,7 @@ const force = () => {
 	if (!route.params.id) return;
 
 	// check to see if the page is related to a project and set the appropriate state to autoOpen
-	if (route.name === "project") {
+	if (route.name === "project" || route.name === "project-settings") {
 		autoOpen.company = route.params.id as string;
 		autoOpen.c_open = true;
 		autoOpen.p_open = true;
