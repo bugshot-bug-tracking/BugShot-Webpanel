@@ -1,5 +1,6 @@
 import { Company } from "./Company";
 import { Image } from "./Image";
+import { Invitation } from "./Invitation";
 import { Role } from "./Role";
 import { Status } from "./Status";
 import { User } from "./User";
@@ -22,5 +23,5 @@ export interface Project {
 		users?: User[];
 		role?: Role;
 	};
-	pending?: any;
+	pending?: Invitation[];
 }

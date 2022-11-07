@@ -1,3 +1,6 @@
+<!-- Note:
+	- Proposal: remove the popup options and replace them with a gear that redirects to the project settings page
+-->
 <template>
 	<div class="project-card">
 		<div

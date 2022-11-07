@@ -1,21 +1,20 @@
 <template>
-	<a
-		class="bs-btn purple"
-		@click="modal.open"
-		:class="{ loading: modal.loading }"
-	>
-		<div flex items-center gap-2>
-			<img
-				src="/src/assets/icons/people.svg"
-				alt="peoples"
-				class="black-to-white"
-				w-5
-				h-5
-			/>
-
-			{{ $t("member", 2) }}
-		</div>
-	</a>
+	<div @click="modal.open">
+		<slot name="button" v-bind="{ loading: modal.loading }">
+			<a class="bs-btn purple" :class="{ loading: modal.loading }">
+				<div flex items-center gap-2>
+					<img
+						src="/src/assets/icons/people.svg"
+						alt="peoples"
+						class="black-to-white"
+						w-5
+						h-5
+					/>
+					{{ $t("member", 2) }}
+				</div>
+			</a>
+		</slot>
+	</div>
 
 	<MyModal v-model="modal.show" :close="modal.close" z-100>
 		<ModalTemplate @close="modal.close">

@@ -62,7 +62,6 @@ const background_color = computed(() => {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin: auto;
 
 	.wrapper {
 		border-radius: 100%;

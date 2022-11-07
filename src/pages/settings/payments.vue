@@ -7,7 +7,7 @@
 		<article class="bs-scroll" v-if="!loading">
 			<header>
 				<p>
-					<b>{{ $t("choosoe_the_plan") }}</b>
+					<b>{{ $t("choose_the_plan") }}</b>
 				</p>
 
 				<p text-6 uppercase flex gap-1>
@@ -51,7 +51,7 @@
 									class="bs-btn green"
 									@click="store.check(getProductPrice(plan))"
 								>
-									{{ $t("choosoe_plan") }}
+									{{ $t("choose_plan") }}
 								</button>
 							</template>
 						</Plan>

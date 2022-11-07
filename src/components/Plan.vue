@@ -50,7 +50,7 @@
 
 		<div class="choose-button">
 			<slot name="button">
-				<button class="bs-btn green">{{ $t("choosoe_plan") }}</button>
+				<button class="bs-btn green">{{ $t("choose_plan") }}</button>
 			</slot>
 		</div>
 	</div>
