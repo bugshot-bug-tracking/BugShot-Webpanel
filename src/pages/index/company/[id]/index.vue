@@ -37,6 +37,7 @@
 				<router-link
 					:to="{ name: 'company-settings', params: { id: id } }"
 					class="bs-btn green empty text-capitalize"
+					v-if="isAuthorized"
 				>
 					<div flex items-center gap-2>
 						<img
