@@ -83,7 +83,7 @@
 
 				<AddMembers @change="setInviteMembers" />
 
-				<button class="bs-btn green mt-2 text-capitalize">
+				<button class="bs-btn green m-a text-capitalize">
 					{{
 						dataType === "Company"
 							? $t("create.company")

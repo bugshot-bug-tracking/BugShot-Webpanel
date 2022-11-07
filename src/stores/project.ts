@@ -4,6 +4,7 @@ import axios from "axios";
 import { Project } from "~/models/Project";
 import { Status } from "~/models/Status";
 import { Company } from "~/models/Company";
+import { useMainStore } from "./main";
 
 export const useProjectStore = defineStore("project", {
 	state: () => ({
@@ -45,9 +46,11 @@ export const useProjectStore = defineStore("project", {
 						{
 							headers: {
 								"include-project-users": true,
+								"include-project-users-roles": true,
 								"include-project-role": true,
 								"include-statuses": true,
 								"include-bugs": true,
+								"include-project-image": true,
 							},
 						}
 					)
@@ -299,7 +302,8 @@ export const useProjectStore = defineStore("project", {
 								payload.changes.order_number + 0.1);
 				}
 
-				let response = await axios.put(
+				// let response =
+				await axios.put(
 					`projects/${this.project_id}/statuses/${status.id}`,
 					{
 						...(payload.changes?.designation
@@ -335,6 +339,127 @@ export const useProjectStore = defineStore("project", {
 				);
 
 				this.refresh();
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async sendProjectInvitation(payload: {
+			email: string;
+			role_id: number;
+		}) {
+			try {
+				let response = await axios.post(
+					`projects/${this.project.id}/invite`,
+					{
+						target_email: payload.email,
+						role_id: payload.role_id,
+					}
+				);
+
+				this.project.pending?.push(response.data.data);
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async deleteProjectInvitation(payload: { invitation_id: string }) {
+			try {
+				await axios.delete(`invitations/${payload.invitation_id}`);
+
+				let index = this.project.pending?.findIndex(
+					(x: any) => x.id === payload.invitation_id
+				);
+
+				if (index !== undefined && index !== -1)
+					this.project.pending?.splice(index, 1);
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async editProjectMember(payload: { user_id: number; role_id: number }) {
+			try {
+				let response = await axios.put(
+					`projects/${this.project.id}/users/${payload.user_id}`,
+					{
+						role_id: payload.role_id,
+					}
+				);
+
+				let user = this.project.attributes.users?.find(
+					(x) => x.id === payload.user_id
+				);
+
+				if (user) user.role = response.data.data.role;
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async deleteProjectMember(payload: { user_id: number }) {
+			try {
+				await axios.delete(
+					`projects/${this.project.id}/users/${payload.user_id}`
+				);
+
+				let index = this.project.attributes.users?.findIndex(
+					(x) => x.id === payload.user_id
+				);
+
+				if (index !== undefined && index !== -1)
+					this.project.attributes.users?.splice(index, 1);
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async updateProject(payload: {
+			designation: string;
+			url: string;
+			color_hex: string;
+			base64: string;
+		}) {
+			try {
+				await axios.put(
+					`companies/${this.company.id}/projects/${this.project.id}`,
+					{
+						designation: payload.designation,
+						url: payload.url,
+						color_hex: payload.color_hex,
+						base64: payload.base64,
+					}
+				);
+
+				await this.refresh();
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async deleteProject() {
+			try {
+				await axios.delete(
+					`/companies/${this.project.attributes.company.id}/projects/${this.project.id}`
+				);
+
+				let projects = useMainStore().getProjectCompany(this.project.id)
+					?.attributes.projects;
+
+				if (projects) {
+					projects.splice(
+						projects.findIndex((x) => x.id === this.project.id),
+						1
+					);
+
+					useMainStore().projects.delete(this.project.id);
+				}
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -376,8 +501,13 @@ export const useProjectStore = defineStore("project", {
 			return state.statuses?.find((x) => x.attributes.order_number === 0);
 		},
 
-		getProjectUsers: (state) => state.project.attributes.users,
+		getProjectUsers: (state) => state.project?.attributes?.users ?? [],
 
-		getCompanyUsers: (state) => state.company.attributes.users,
+		getCompanyUsers: (state) => state.company?.attributes?.users,
+
+		getProjectCreator: (state) =>
+			state.project?.attributes?.creator ?? undefined,
+
+		getProjectPendingInvitations: (state) => state.project?.pending ?? [],
 	},
 });

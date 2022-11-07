@@ -1,3 +1,4 @@
+<!-- Delete this file and replace instances of this with ProjectEditModal component in the future -->
 <template>
 	<Modal :show="show" @close="close">
 		<div class="wrapper" v-if="project">
@@ -35,7 +36,7 @@
 					:image="projectParams.image"
 				/>
 
-				<button class="bs-btn green mt-3">
+				<button class="bs-btn green mt-3 m-a">
 					{{ $t("save_changes") }}
 				</button>
 			</form>

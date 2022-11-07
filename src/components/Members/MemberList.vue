@@ -9,13 +9,16 @@
 				<div class="user-email">
 					{{
 						invitationMode
-							? item.attributes.target_email
-							: item.attributes.email
+							? (item as Invitation).attributes.target_email
+							: (item as User).attributes.email
 					}}
 				</div>
 
-				<div class="user-role" v-if="!invitationMode">
-					{{ item.role.attributes.designation }}
+				<div
+					class="user-role"
+					v-if="!invitationMode && (item.type === 'User') && (item as User).role"
+				>
+					{{ (item as User).role?.attributes.designation }}
 				</div>
 				<div v-else />
 
@@ -52,6 +55,8 @@
 </template>
 
 <script setup lang="ts">
+import { PropType } from "vue";
+import { Invitation } from "~/models/Invitation";
 import { User } from "~/models/User";
 
 const emit = defineEmits<{
@@ -62,7 +67,7 @@ const emit = defineEmits<{
 
 defineProps({
 	list: {
-		type: Array,
+		type: Array as PropType<User[] | Invitation[]>,
 		required: true,
 		default: [],
 	},

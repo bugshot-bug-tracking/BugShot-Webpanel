@@ -1,3 +1,7 @@
+<!-- Note:
+	- Proposal: add different modes like a cooldown one where the submit button is only available after some :time 
+ -->
+
 <template>
 	<Modal :show="show" @close="close">
 		<div class="wrapper">
@@ -67,7 +71,7 @@ const execute = async () => {
 			await props.callback();
 
 			loadingModal.state = 1;
-			loadingModal.message = t("project_deleted_succesfuly");
+			loadingModal.message = t("project_deleted_successfully");
 		} catch (error) {
 			console.log(error);
 			loadingModal.state = 2;

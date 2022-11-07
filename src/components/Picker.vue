@@ -172,6 +172,7 @@ const picker = ref(null);
 		width: 100%;
 		display: flex;
 		justify-content: center;
+		text-align: center;
 
 		.buttons {
 			display: flex;

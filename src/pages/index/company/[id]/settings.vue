@@ -1,106 +1,136 @@
 <template>
-	<T2Page>
+	<T2Page v-if="company.id">
 		<template #header>
-			<T2Header v-if="record">
+			<T2Header>
 				<template #l-top>
-					{{ $t("general_settings") }}
+					{{ $t("company_settings") }}
 				</template>
 
 				<template #l-bottom>
-					{{ record?.attributes.designation }}
+					{{
+						company.id
+							? company.attributes.designation
+							: $t("loading")
+					}}
 				</template>
 			</T2Header>
 		</template>
 
-		<div class="settings-table" v-if="record">
-			<Column class="general">
-				<div class="body">
-					<Container>
-						<form
-							class="wrapper default-form"
-							@submit.prevent="saveChanges"
-						>
-							<div class="bs-input my-3">
-								<input
-									v-model="companyParams.name"
-									:placeholder="record.attributes.designation"
-									:type="'text'"
-								/>
-							</div>
+		<article class="bs-scroll" p-8 content-start>
+			<div class="component-group" max-w-128>
+				<div class="group-header">
+					{{ $t("company_settings") }}
+				</div>
+				<div class="group-content">
+					<CompanyResourceSettings
+						:company_name="company.attributes.designation"
+						:organization_name="''"
+						:image="company.attributes.image?.attributes.base64"
+						:color="company.attributes.color_hex"
+						:editFunction="editCompany"
+					/>
+				</div>
+			</div>
 
-							<!-- change color Picked to the record color -->
-							<Picker
-								:colorPicked="companyParams.color"
-								@setImage="setImage"
-								@setColor="setColor"
-								:image="companyParams.image"
-								v-if="imageFlag"
+			<div class="component-group" max-w-176 min-w-160>
+				<div class="group-header">
+					{{ $t("team_members") }}
+				</div>
+
+				<div class="group-content">
+					<AssignmentTable
+						:title="$t('team_members')"
+						:list="members"
+					>
+						<template #after-title>
+							<div ml-a>
+								<ManageMembers
+									v-if="isAuthorized"
+									:list="store.getUsers"
+									:pending_list="pendingMembers"
+									:add="addMember"
+									:edit="editMember"
+									:delete="deleteMember"
+									:deleteInvitation="deleteInvitation"
+									:preOpenCall="preCall"
+								>
+									<template #button="{ loading }">
+										<img
+											src="/src/assets/icons/gear.svg"
+											alt="gear"
+											:title="
+												!loading
+													? t('manage_members')
+													: $t('loading') + '...'
+											"
+											w-8
+											h-8
+											class="manage-button"
+											:class="{ loading: loading }"
+										/>
+									</template>
+								</ManageMembers>
+							</div>
+						</template>
+
+						<template #item="{ item }: { item: User }">
+							<UserHeader
+								:first_name="item.attributes.first_name"
+								:last_name="item.attributes.last_name"
+								:email="item.attributes.email"
+								:role_text="item.role?.attributes.designation"
+								:owner="
+									company.attributes.creator?.id === item.id
+								"
+								py-4
+								:removable="false"
+								:current_user="user.id === item.id"
 							/>
 
-							<button class="bs-btn green mt-3">
-								{{ $t("save_changes") }}
-							</button>
-						</form>
-					</Container>
-
-					<div v-if="!canEdit" class="disabled-overlay" />
+							<AssignedToList :list="bugs" @remove="" />
+						</template>
+					</AssignmentTable>
 				</div>
+			</div>
 
-				<div class="d-flex flex-column" v-if="canDelete">
-					<a class="text-danger" @click.prevent="showDelete = true">
-						{{ $t("delete_company_and_projects") }}
-					</a>
-
-					{{ "(" + $t("cant_be_reverted") + ")" }}
+			<div class="component-group" max-w-128 v-if="false">
+				<div class="group-header">
+					{{ $t("resource_token") }}
 				</div>
-			</Column>
-
-			<Column class="members">
-				<template v-slot:header>
-					<div class="bold">{{ $t("team_members") }}</div>
-				</template>
-
-				<div class="body">
-					<TeamTable :company_id="id" />
-
-					<div v-if="!canEdit" class="disabled-overlay" />
+				<div class="group-content">
+					<span>token</span>
 				</div>
-			</Column>
+			</div>
 
-			<Column class="plan" v-if="false">
-				<template v-slot:header>
-					<div class="bold">Plan Details</div>
-				</template>
+			<div class="component-group" max-w-128>
+				<div class="group-header">
+					{{ $t("actions") }}
+				</div>
+				<div class="group-content">
+					<div class="delete-project" flex flex-col gap-2 p-6 py-8>
+						<a class="text-to-red" underline @click="openDelete">
+							{{ t("delete_company_and_projects") }}?
+						</a>
 
-				<div class="body"></div>
-			</Column>
-		</div>
+						<p>({{ t("operation_cant_be_reverted") }})</p>
+					</div>
+				</div>
+			</div>
+		</article>
 	</T2Page>
 
 	<DeleteModal
-		v-if="showDelete"
-		:text="record.attributes.designation"
-		@delete="deleteCompany"
-		@close="showDelete = false"
-	/>
-
-	<LoadingModal2
-		:show="loadingModal.show"
-		:state="loadingModal.state"
-		:message="loadingModal.message"
-		@close="loadingModal.clear"
+		v-if="deleteAction.visible"
+		:text="deleteAction.text"
+		:callback="deleteAction.execute"
+		@close="deleteAction.reset"
 	/>
 </template>
 
-<script setup>
-import { useMainStore } from "~/stores/main";
-
-import axios from "axios";
-
-import { useI18n } from "vue-i18n";
-import toBase64 from "~/util/toBase64";
-import colors from "~/util/colors";
+<script setup lang="ts">
+import { User } from "~/models/User";
 import { useAuthStore } from "~/stores/auth";
+import { useCompanyStore } from "~/stores/company";
 
 const props = defineProps({
 	id: {
@@ -110,184 +140,154 @@ const props = defineProps({
 	},
 });
 
-const store = useMainStore();
+const { t } = useI18n();
+let router = useRouter();
 
-const companyParams = reactive({
-	name: "",
-	color: 0,
-	image: null,
-});
-const imageFlag = ref(false);
+const user = computed(() => useAuthStore().getUser);
 
-const user = computed(() => {
-	return useAuthStore().getUser;
-});
+const store = useCompanyStore();
 
-const canEdit = computed(() => {
-	if (!user.value || !record.value || !record.value.attributes.creator)
-		return false;
+store.init(props.id);
 
-	return user.value.id === record.value.attributes.creator.id;
-});
+watch(
+	props,
+	() => {
+		store.init(props.id);
+	},
+	{ deep: true }
+);
 
-const canDelete = computed(() => {
-	if (!user.value || !record.value || !record.value.attributes.creator)
-		return false;
+const isAuthorized = computed(() => {
+	if (!company.value.id) return;
 
-	return user.value.id === record.value.attributes.creator.id;
-});
-
-const record = computed(() => {
-	let company = store.getCompanyById(props.id);
-	imageFlag.value = false;
-
-	if (company) {
-		companyParams.name = company.attributes.designation;
-
-		companyParams.color = company.attributes.color_hex
-			? colors.findIndex((x) => x === company.attributes.color_hex)
-			: 3;
-
-		try {
-			axios.get(`companies/${company.id}/image`).then((response) => {
-				if (response.data.data.attributes)
-					companyParams.image = atob(
-						response.data.data.attributes.base64
-					);
-				else {
-					companyParams.image = null;
-				}
-				imageFlag.value = true;
-			});
-		} catch (error) {
-			console.log(error);
-		}
-	}
-
-	return company;
+	// temp code replace with proper ?global? logic
+	return (
+		company.value?.attributes.role?.id === 1 ||
+		company.value?.attributes.creator?.id === user.value.id
+	);
 });
 
-const setImage = async (value) => {
-	// console.log("setImage", value);
-	if (value != null) companyParams.image = await toBase64(value);
-	else companyParams.image = null;
+const company = computed(() => store.getCompany);
+
+const members = computed(() => {
+	let users = [...store.getUsers];
+
+	if (store.getCreator) users.unshift(store.getCreator);
+
+	return users;
+});
+
+const pendingMembers = computed(() => {
+	return store.getPendingInvitations;
+});
+
+const bugs = computed(() => {
+	// const st = store.getFirstStatus;
+
+	// let b = store.getBugsByStatusId(st?.id);
+	// return b ?? [];
+	return [];
+});
+
+const preCall = async () => {
+	await store.fetchUsers();
+
+	await store.fetchInvitations();
 };
 
-const setColor = (value) => {
-	// console.log("setImage", value);
-	companyParams.color = value;
+const addMember = async (email: string, role_id: number) => {
+	await store.sendInvitation({ email, role_id });
 };
 
-const { t } = useI18n({ useScope: "global" });
-
-const saveChanges = async () => {
-	let data = {
-		id: props.id,
-		designation: companyParams.name,
-		color_hex: colors[companyParams.color],
-		base64: companyParams.image ? btoa(companyParams.image) : null,
-	};
-
-	try {
-		loadingModal.show = true;
-
-		await store.updateCompany(data);
-
-		loadingModal.state = 1;
-		loadingModal.message = t("company_edit_success");
-	} catch (error) {
-		console.log(error);
-		loadingModal.state = 2;
-	}
+const editMember = async (user_id: number, role_id: number) => {
+	await store.editMember({ user_id, role_id });
 };
 
-const deleteCompany = async () => {
-	if (!canDelete.value) return;
-
-	try {
-		showDelete.value = false;
-		loadingModal.show = true;
-
-		await store.deleteCompany(record.value.id);
-
-		loadingModal.state = 1;
-		loadingModal.message = t("company_delete_success");
-	} catch (error) {
-		console.log(error);
-		loadingModal.state = 2;
-	}
+const deleteMember = async (user_id: number) => {
+	await store.deleteMember({ user_id });
 };
 
-const showDelete = ref(false);
-const loadingModal = reactive({
-	show: false,
-	state: 0,
-	message: "",
-	clear: () => {
-		loadingModal.show = false;
-		loadingModal.state = 0;
-		loadingModal.message = "";
+const deleteInvitation = async (invitation_id: string) => {
+	await store.deleteInvitation({ invitation_id });
+};
+
+const editCompany = async (data: {
+	designation: string;
+	color_hex: string;
+	base64: string;
+}) => {
+	await store.updateCompany(data);
+};
+
+const deleteAction = reactive({
+	visible: false,
+	text: "",
+	execute: () => {},
+	reset: () => {
+		deleteAction.visible = false;
+		deleteAction.text = "";
+		deleteAction.execute = () => {};
 	},
 });
+
+const openDelete = () => {
+	deleteAction.text = company.value.attributes.designation;
+	deleteAction.execute = async () => {
+		await store.deleteCompany();
+
+		router.push({
+			name: "home",
+		});
+	};
+	deleteAction.visible = true;
+};
 </script>
 
 <style lang="scss" scoped>
-.settings-table {
-	width: 100%;
-	height: 100%;
+article {
 	display: flex;
-	position: relative;
-	padding: 2rem;
-
-	.general {
-		width: 31rem;
-		min-width: 31rem;
-
-		.body {
-			position: relative;
-		}
-	}
-
-	.members {
-		max-width: 40%;
-
-		.body {
-			position: relative;
-		}
-	}
-
-	.plan {
-		width: 31rem;
-		min-width: 31rem;
-	}
-
-	.column {
-		display: flex;
-		position: relative;
-		flex-direction: column;
-		height: 100%;
-		padding: 1rem;
-		width: 100%;
-		border-right: 1px solid #ede4fc;
-	}
-
-	.wrapper {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
+	flex-direction: column;
+	flex-wrap: wrap;
+	max-height: 100%;
+	column-gap: 3rem;
 }
 
-.bold {
-	font-weight: bold;
-}
-
-.text-danger {
+.manage-button {
 	cursor: pointer;
 
-	&:hover {
-		font-weight: bold;
+	&.loading {
+		cursor: default;
+		opacity: 0.5 !important;
+
+		animation: spin 4s linear infinite;
+
+		@keyframes spin {
+			100% {
+				-webkit-transform: rotate(360deg);
+				transform: rotate(360deg);
+			}
+		}
 	}
+}
+
+.delete-project {
+	background: #fcebeb;
+	box-shadow: 0 0.125rem 0.25rem #00000029;
+	border: 1px solid #ffbbbb;
+	border-radius: 0.5rem;
+
+	a {
+		cursor: pointer;
+
+		&:hover {
+			font-weight: bold;
+			color: #f23838;
+		}
+	}
+}
+
+.component-group {
+	min-height: 80vh;
 }
 </style>
 

@@ -1,6 +1,6 @@
 <template>
 	<a class="bs-btn green add-button" @click="tabOpen = true">
-		<img src="/src/assets/icons/add.svg" alt="add" />
+		<img src="/src/assets/icons/add.svg" alt="add" class="black-to-white" />
 		{{ $t("add.bug") }}
 	</a>
 
@@ -273,7 +273,6 @@ const loadingModal = reactive({
 	gap: 6px;
 
 	> img {
-		filter: invert(1);
 		height: 1.5rem;
 	}
 }

@@ -12,11 +12,15 @@
 			<UserMenu />
 
 			<I18nSwitcher />
+
+			<div class="version" title="BugShot version">v{{ version }}</div>
 		</div>
 	</nav>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { version } from "~/../package.json";
+</script>
 
 <style lang="scss" scoped>
 nav {
@@ -52,5 +56,10 @@ nav {
 	margin-bottom: 1rem;
 	align-items: center;
 	gap: 1rem;
+}
+
+.version {
+	color: #18d992;
+	font-size: 0.825rem;
 }
 </style>

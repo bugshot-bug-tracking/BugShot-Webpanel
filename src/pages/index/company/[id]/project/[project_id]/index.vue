@@ -38,6 +38,7 @@
 						params: { id: id, project_id: project_id },
 					}"
 					class="bs-btn green empty text-capitalize"
+					v-if="isAuthorized"
 				>
 					<div flex items-center gap-2>
 						<img

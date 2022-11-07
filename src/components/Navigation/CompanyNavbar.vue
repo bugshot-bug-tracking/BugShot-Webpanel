@@ -34,7 +34,7 @@
 
 		<template #main>
 			<div class="companies bs-scroll">
-				<ul>
+				<ul v-if="companies.length > 0">
 					<li v-for="[, company] of companies" :key="company.id">
 						<div
 							class="header"
@@ -153,14 +153,21 @@
 												},
 											}"
 											class="route"
-											style="
-												font-weight: bold;
-												width: auto;
+											:style="{
+												'font-weight': 'bold',
+												width: 'auto',
+											}"
+											v-if="
+												user.id ===
+													company.attributes.creator
+														?.id ||
+												project.attributes.role?.id ===
+													1
 											"
 										>
 											<img
 												src="/src/assets/icons/gear.svg"
-												alt="project"
+												alt="settings"
 												w-5
 												h-5
 												:title="$t('project_settings')"
@@ -177,11 +184,16 @@
 								}"
 								class="route"
 								style="font-weight: bold"
+								v-if="
+									user.id ===
+										company.attributes.creator?.id ||
+									company.attributes.role?.id === 1
+								"
 							>
 								<div flex items-center gap-2>
 									<img
 										src="/src/assets/icons/gear.svg"
-										alt="project"
+										alt="settings"
 										w-5
 										h-5
 									/>
@@ -228,6 +240,7 @@
 </template>
 
 <script setup lang="ts">
+import { Company } from "~/models/Company";
 import { useAuthStore } from "~/stores/auth";
 import { useMainStore } from "~/stores/main";
 import { useSettingsStore } from "~/stores/settings";
@@ -238,6 +251,14 @@ let settingsStore = useSettingsStore();
 let user = computed(() => useAuthStore().getUser);
 
 store.init();
+
+const isAuthorized = (company: Company) => {
+	if (user.value.id === company.attributes.creator?.id) return true;
+
+	if (company.attributes.role?.id === 1) return true;
+
+	return false;
+};
 
 // control the manual clicking of dropdowns to only have 1 dropdown open at a time (company + projects)
 const manualOpen = reactive({
