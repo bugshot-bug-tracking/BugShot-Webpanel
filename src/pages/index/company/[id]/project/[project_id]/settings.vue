@@ -22,7 +22,7 @@
 					{{ $t("project_settings") }}
 				</div>
 				<div class="group-content">
-					<ResourceSettings
+					<ProjectResourceSettings
 						:project_name="project.attributes.designation"
 						:company_name="
 							project.attributes.company.attributes.designation

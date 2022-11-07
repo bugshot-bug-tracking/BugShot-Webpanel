@@ -2,55 +2,41 @@
 	<div class="bs-container" flex flex-col gap-4>
 		<div h-52 class="image">
 			<img :src="values.image" alt="image" v-if="image" />
-			<div v-else :style="{ color: color ?? COLOR.PURPLE }">
-				<img src="/src/assets/icons/projects.svg" alt="project" />
+			<div v-else :style="{ color: color ?? COLOR.PURPLE }" w-120>
+				<img src="/src/assets/icons/company.svg" alt="project" />
 			</div>
 		</div>
 
 		<div class="bs-input2">
 			<label>
-				{{ t("project_name") }}
+				{{ t("company_name") }}
 			</label>
 
 			<input
 				type="text"
-				:placeholder="t('project_name')"
-				v-model="values.p_name"
-				disabled
-			/>
-		</div>
-
-		<div class="bs-input2">
-			<label>
-				{{ t("company") }}
-			</label>
-
-			<input
-				type="text"
-				:placeholder="t('company')"
+				:placeholder="t('company_name')"
 				v-model="values.c_name"
 				disabled
 			/>
 		</div>
 
-		<div class="bs-input2">
+		<div class="bs-input2" v-if="values.o_name !== ''">
 			<label>
-				{{ t("url") }}
+				{{ t("organization_name") }}
 			</label>
 
 			<input
 				type="text"
-				:placeholder="'http(s)://'"
-				v-model="values.url"
+				:placeholder="t('organization')"
+				v-model="values.o_name"
 				disabled
 			/>
 		</div>
 
-		<ProjectEditModal
-			:name="project_name"
+		<CompanyEditModal
+			:name="company_name"
 			:color="color"
 			:image="image"
-			:url="url"
 			:submit="editFunction"
 		>
 			<template #button>
@@ -60,10 +46,10 @@
 						alt="edit"
 						class="black-to-purple"
 					/>
-					<b> {{ t("edit.project") }}</b>
+					<b> {{ t("edit.company") }}</b>
 				</a>
 			</template>
-		</ProjectEditModal>
+		</CompanyEditModal>
 	</div>
 </template>
 
@@ -73,17 +59,12 @@ import { COLOR } from "~/util/colors";
 const { t } = useI18n();
 
 const props = defineProps({
-	project_name: {
-		required: true,
-		type: String,
-	},
-
 	company_name: {
 		required: true,
 		type: String,
 	},
 
-	url: {
+	organization_name: {
 		required: true,
 		type: String,
 	},
@@ -106,15 +87,13 @@ const props = defineProps({
 });
 
 const values = reactive({
-	p_name: "",
 	c_name: "",
-	url: "",
+	o_name: "",
 	image: "",
 
 	set: () => {
-		values.p_name = props.project_name;
 		values.c_name = props.company_name;
-		values.url = props.url;
+		values.o_name = props.organization_name;
 		values.image = atob(props.image ?? "");
 	},
 });

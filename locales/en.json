@@ -273,5 +273,9 @@
 	"leave": "Leave",
 	"delete_project_and_bugs": "Delete project and associated bugs",
 	"operation_cant_be_reverted": "Operation can't be reverted",
-	"project_edited_succ": "Project edited successfully"
+	"project_edited_succ": "Project edited successfully",
+	"company_name": "Company name",
+	"organization_name": "Organization name",
+	"organization": "Organization",
+	"company_edited_succ": "Company eddited successfuly"
 }

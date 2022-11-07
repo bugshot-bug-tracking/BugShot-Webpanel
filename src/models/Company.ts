@@ -2,6 +2,7 @@ import { User } from "./User";
 import { Project } from "./Project";
 import { Role } from "./Role";
 import { Invitation } from "./Invitation";
+import { Image } from "./Image";
 
 export interface Company {
 	id: string;
@@ -15,6 +16,7 @@ export interface Company {
 		projects?: Array<Project>;
 		role?: Role;
 		users?: User[];
+		image?: Image;
 	};
 	pending?: Invitation[];
 }
