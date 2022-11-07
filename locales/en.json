@@ -240,7 +240,7 @@
 	"user_removed": "User removed!",
 	"invitation_removed": "Invitation removed",
 	"members_updated": "Members updated!",
-	"project_deleted_succesfuly": "Project deleted successfully.",
+	"project_deleted_successfully": "Project deleted successfully.",
 	"anonymous": "Anonymous",
 	"title": "Title",
 	"feedback_form": "Feedback form",
@@ -249,8 +249,8 @@
 	"feedback": "Feedback",
 	"payments_and_plans": "Payments and Plans",
 	"purchase_plan": "Purchase Plan",
-	"choosoe_the_plan": "Choose the right plan for you",
-	"choosoe_plan": "Choose plan",
+	"choose_the_plan": "Choose the right plan for you",
+	"choose_plan": "Choose plan",
 	"monthly": "Monthly",
 	"yearly": "Yearly",
 	"save_n%": "save {n}%",
@@ -260,5 +260,18 @@
 	"monthly_payment": "monthly payment",
 	"bugshot_account": "Bugshot account",
 	"project_settings": "Project Settings",
-	"owner": "Owner"
+	"owner": "Owner",
+	"actions": "Actions",
+	"resource_token": "Resource Token",
+	"remove_member": "Remove member",
+	"roles": {
+		"owner": "Owner",
+		"team": "Team",
+		"manager": "Manager",
+		"client": "Client"
+	},
+	"leave": "Leave",
+	"delete_project_and_bugs": "Delete project and associated bugs",
+	"operation_cant_be_reverted": "Operation can't be reverted",
+	"project_edited_succ": "Project edited successfully"
 }
