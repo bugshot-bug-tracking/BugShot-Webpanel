@@ -258,7 +258,7 @@
 	"year": "Year",
 	"yearly_payment": "yearly payment",
 	"monthly_payment": "monthly payment",
-	"bugshot_account": "Bugshot account",
+	"bugshot_account": "BugShot account",
 	"project_settings": "Project Settings",
 	"owner": "Owner",
 	"actions": "Actions",
@@ -277,5 +277,7 @@
 	"company_name": "Company name",
 	"organization_name": "Organization name",
 	"organization": "Organization",
-	"company_edited_succ": "Company eddited successfuly"
+	"company_edited_succ": "Company edited successfully",
+	"close": "Close",
+	"new_version_released": "A new version was released"
 }
