@@ -46,6 +46,7 @@
 							name: 'payments',
 						}"
 						class="item"
+						v-if="false"
 					>
 						{{ $t("payments_and_plans") }}
 					</router-link>
