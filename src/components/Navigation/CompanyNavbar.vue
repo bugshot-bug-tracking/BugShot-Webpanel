@@ -132,74 +132,79 @@
 											},
 										}"
 										class="route"
+										justify-between
 									>
-										<div
-											class="dot"
-											:style="{
-												'background-color':
-													project.attributes.color_hex ?? COLOR.PURPLE,
+										<div flex gap-2>
+											<div
+												class="dot"
+												:style="{
+													'background-color':
+														project.attributes.color_hex ??
+														COLOR.PURPLE,
+												}"
+												v-if="false"
+											/>
+
+											<img
+												v-if="user?.id === project.attributes.creator?.id"
+												src="/src/assets/icons/my_projects.svg"
+												alt="owner"
+												w-6
+												h-6
+												:title="$t('owner')"
+											/>
+
+											<span>
+												{{ project.attributes.designation }}
+											</span>
+										</div>
+
+										<RouterLink
+											v-if="
+												user.id === company.attributes.creator?.id ||
+												company.attributes.role?.id === 1 ||
+												project.attributes.role?.id === 1
+											"
+											:to="{
+												name: 'project-settings',
+												params: {
+													id: company.id,
+													project_id: project.id,
+												},
 											}"
-											v-if="false"
-										/>
-
-										<img
-											v-if="user?.id === project.attributes.creator?.id"
-											src="/src/assets/icons/my_projects.svg"
-											alt="owner"
-											w-6
-											h-6
-											:title="$t('owner')"
-										/>
-
-										<span>
-											{{ project.attributes.designation }}
-										</span>
+											class="route settings"
+											:style="{
+												'font-weight': 'bold',
+												width: 'auto',
+												padding: 0,
+											}"
+										>
+											<img
+												src="/src/assets/icons/gear.svg"
+												alt="settings"
+												w-6
+												h-6
+												:title="$t('project_settings')"
+											/>
+										</RouterLink>
+										<div
+											v-else
+											class="route settings"
+											:style="{
+												'font-weight': 'bold',
+												width: 'auto',
+												opacity: '0.25',
+											}"
+										>
+											<img
+												src="/src/assets/icons/gear.svg"
+												alt="settings"
+												w-6
+												h-6
+												:title="$t('unauthorized')"
+											/>
+										</div>
 									</RouterLink>
-
-									<RouterLink
-										v-if="
-											user.id === company.attributes.creator?.id ||
-											company.attributes.role?.id === 1 ||
-											project.attributes.role?.id === 1
-										"
-										:to="{
-											name: 'project-settings',
-											params: {
-												id: company.id,
-												project_id: project.id,
-											},
-										}"
-										class="route settings"
-										:style="{
-											'font-weight': 'bold',
-											width: 'auto',
-										}"
-									>
-										<img
-											src="/src/assets/icons/gear.svg"
-											alt="settings"
-											w-6
-											h-6
-											:title="$t('project_settings')"
-										/>
-									</RouterLink>
-									<div
-										v-else
-										class="route settings"
-										:style="{
-											'font-weight': 'bold',
-											width: 'auto',
-											opacity: '0.25',
-										}"
-									>
-										<img
-											src="/src/assets/icons/gear.svg"
-											alt="settings"
-											w-6
-											h-6
-											:title="$t('unauthorized')"
-										/>
-									</div>
 								</li>
 							</ul>
 
@@ -501,7 +506,7 @@ ul {
 }
 
 .route {
-	display: inline-flex;
+	display: flex;
 	align-items: flex-start;
 	padding: 0.5rem;
 	width: 100%;
@@ -515,10 +520,14 @@ ul {
 	&.router-link-exact-active {
 		background: hsl(158, 79%, 87%);
 
-		&.settings img {
-			color: #7a2ee6;
-			filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
-				hue-rotate(263deg) brightness(94%) contrast(92%);
+		&.settings {
+			background: transparent;
+
+			img {
+				color: #7a2ee6;
+				filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+					hue-rotate(263deg) brightness(94%) contrast(92%);
+			}
 		}
 	}
 }
