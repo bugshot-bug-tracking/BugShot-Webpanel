@@ -89,11 +89,12 @@
 								</RouterLink>
 								<div
 									v-else
-									class="route settings disabled"
+									class="route settings"
 									:style="{
 										'font-weight': 'bold',
 										width: 'auto',
 										padding: 0,
+										opacity: '0.25',
 									}"
 									@click.prevent=""
 								>
@@ -184,10 +185,11 @@
 									</RouterLink>
 									<div
 										v-else
-										class="route settings disabled"
+										class="route settings"
 										:style="{
 											'font-weight': 'bold',
 											width: 'auto',
+											opacity: '0.25',
 										}"
 									>
 										<img
@@ -439,6 +441,7 @@ ul {
 			cursor: pointer;
 			border-radius: 0.5rem;
 			line-height: 1.5;
+			gap: 1rem;
 
 			&:hover {
 				background-color: hsl(263, 79%, 94%);

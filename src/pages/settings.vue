@@ -15,7 +15,7 @@
 <style lang="scss" scoped>
 .home-layout {
 	display: grid;
-	grid-template-columns: fit-content(20rem) 1.75fr;
+	grid-template-columns: fit-content(22rem) 1.75fr;
 	grid-template-rows: 1fr;
 	gap: 0px 0px;
 	grid-auto-flow: row;
