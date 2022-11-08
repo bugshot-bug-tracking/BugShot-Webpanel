@@ -262,7 +262,7 @@
 	"project_settings": "Project Settings",
 	"owner": "Owner",
 	"actions": "Actions",
-	"resource_token": "Resource Token",
+	"resource_token": "API Token",
 	"remove_member": "Remove member",
 	"roles": {
 		"owner": "Owner",
