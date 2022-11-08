@@ -2,12 +2,15 @@
 	<div class="announcement" v-if="visible">
 		<div />
 
-		<p>{{ $t("new_version_released") }}!</p>
+		<div>
+			<p>{{ t("new_version_released") }}!</p>
+			<p>{{ t("banner_info") }}</p>
+		</div>
 
 		<img
 			src="/src/assets/icons/close_2.svg"
 			alt="close"
-			:title="$t('close')"
+			:title="t('close')"
 			@click="acknowledge"
 			cursor-pointer
 		/>
@@ -33,6 +36,10 @@ const acknowledge = () => {
 	local.value = version;
 	visibility.value = false;
 };
+
+const { t } = useI18n({
+	inheritLocale: true,
+});
 </script>
 
 <style lang="scss" scoped>
@@ -42,7 +49,6 @@ const acknowledge = () => {
 	top: 0;
 	left: 0;
 	display: flex;
-	height: 2rem;
 	background-color: hsl(32deg, 100%, 67%);
 	align-items: center;
 	justify-content: space-between;
@@ -51,3 +57,14 @@ const acknowledge = () => {
 	padding: 1rem;
 }
 </style>
+
+<i18n>
+{
+  "en": {
+    "banner_info": "If you encounter any problems or bugs, please use the feedback form in the lower right corner to tell us about them."
+  },
+  "de": {
+    "banner_info": "Sollte es zu Problemen oder Fehler kommen, nutze bitte das Feedback Formular in der unteren rechten Ecke um uns darüber zu berichten."
+  }
+}
+</i18n>
