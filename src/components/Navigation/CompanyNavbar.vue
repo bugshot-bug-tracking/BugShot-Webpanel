@@ -7,11 +7,11 @@
 
 					<RouterLink
 						:to="{ name: 'home' }"
-						style="
-							text-decoration: underline;
-							color: #7a2ee6;
-							font-size: 0.875rem;
-						"
+						:style="{
+							'text-decoration': 'underline',
+							color: '#7a2ee6',
+							'font-size': '0.875rem',
+						}"
 					>
 						{{ $t("back_to_al_projects") }}
 					</RouterLink>
@@ -36,115 +36,135 @@
 			<div class="companies bs-scroll">
 				<ul v-if="companies.length > 0">
 					<li v-for="[, company] of companies" :key="company.id">
-						<div
+						<RouterLink
+							:to="{
+								name: 'company',
+								params: { id: company.id },
+							}"
 							class="header"
 							:class="{
 								open:
 									autoOpen.company === company.id
 										? autoOpen.c_open
-										: manualOpen.company === company.id &&
-										  manualOpen.c_open,
+										: manualOpen.company === company.id && manualOpen.c_open,
 							}"
-							@click="collapseCompany(company.id)"
 						>
-							<div flex items-center gap-2>
-								{{ company.attributes.designation }}
-
+							<div flex gap-2>
 								<img
-									v-if="
-										user?.id ===
-										company.attributes.creator?.id
-									"
+									v-if="user?.id === company.attributes.creator?.id"
 									src="/src/assets/icons/my_projects.svg"
 									alt="owner"
-									w-5
-									h-5
+									w-6
+									h-6
 									:title="$t('owner')"
 								/>
+
+								{{ company.attributes.designation }}
 							</div>
 
-							<img src="/src/assets/icons/arrow_down.svg" />
-						</div>
-
-						<div class="collapsable">
-							<div
-								class="header"
-								:class="{
-									open:
-										autoOpen.company === company.id
-											? autoOpen.p_open
-											: manualOpen.company ===
-													company.id &&
-											  manualOpen.p_open,
-								}"
-								@click="collapseProject(company.id)"
-							>
+							<div flex gap-2>
 								<RouterLink
+									v-if="
+										user.id === company.attributes.creator?.id ||
+										company.attributes.role?.id === 1
+									"
 									:to="{
-										name: 'company',
+										name: 'company-settings',
 										params: { id: company.id },
 									}"
-									class="w-100"
+									class="route settings"
+									:style="{
+										'font-weight': 'bold',
+										width: 'auto',
+										padding: 0,
+									}"
 								>
-									<div flex items-center gap-2>
-										<img
-											src="/src/assets/icons/projects.svg"
-											alt="project"
-											w-5
-											h-5
-										/>
-
-										{{ $t("project", 2) }}
-									</div>
+									<img
+										src="/src/assets/icons/gear.svg"
+										alt="settings"
+										w-6
+										h-6
+										:title="$t('company_settings')"
+									/>
 								</RouterLink>
-
-								<img src="/src/assets/icons/arrow_down.svg" />
-							</div>
-
-							<div class="collapsable">
-								<ul
-									v-if="
-										companyProjects(company.id).length > 0
-									"
+								<div
+									v-else
+									class="route settings"
+									:style="{
+										'font-weight': 'bold',
+										width: 'auto',
+										padding: 0,
+										opacity: '0.25',
+									}"
+									@click.prevent=""
 								>
-									<li
-										v-for="project of companyProjects(
-											company.id
-										)"
-										flex
-										items-center
+									<img
+										src="/src/assets/icons/gear.svg"
+										alt="settings"
+										w-6
+										h-6
+										:title="$t('unauthorized')"
+									/>
+								</div>
+
+								<img
+									src="/src/assets/icons/arrow_down.svg"
+									class="arrow"
+									@click.prevent="collapseCompany(company.id)"
+								/>
+							</div>
+						</RouterLink>
+
+						<div class="collapsable">
+							<ul v-if="companyProjects(company.id).length > 0">
+								<li
+									v-for="project of companyProjects(company.id)"
+									flex
+									items-start
+									justify-between
+								>
+									<RouterLink
+										:to="{
+											name: 'project',
+											params: {
+												id: company?.id,
+												project_id: project.id,
+											},
+										}"
+										class="route"
 										justify-between
 									>
-										<RouterLink
-											:to="{
-												name: 'project',
-												params: {
-													id: company?.id,
-													project_id: project.id,
-												},
-											}"
-											class="route"
-										>
+										<div flex gap-2>
 											<div
 												class="dot"
 												:style="{
-													'background-color': project
-														.attributes.color_hex
-														? project.attributes
-																.color_hex
-														: '#7a2de6',
+													'background-color':
+														project.attributes.color_hex ??
+														COLOR.PURPLE,
 												}"
+												v-if="false"
+											/>
+
+											<img
+												v-if="user?.id === project.attributes.creator?.id"
+												src="/src/assets/icons/my_projects.svg"
+												alt="owner"
+												w-6
+												h-6
+												:title="$t('owner')"
 											/>
 
 											<span>
-												{{
-													project.attributes
-														.designation
-												}}
+												{{ project.attributes.designation }}
 											</span>
-										</RouterLink>
+										</div>
 
 										<RouterLink
+											v-if="
+												user.id === company.attributes.creator?.id ||
+												company.attributes.role?.id === 1 ||
+												project.attributes.role?.id === 1
+											"
 											:to="{
 												name: 'project-settings',
 												params: {
@@ -152,55 +172,41 @@
 													project_id: project.id,
 												},
 											}"
-											class="route"
+											class="route settings"
 											:style="{
 												'font-weight': 'bold',
 												width: 'auto',
+												padding: 0,
 											}"
-											v-if="
-												user.id ===
-													company.attributes.creator
-														?.id ||
-												project.attributes.role?.id ===
-													1
-											"
 										>
 											<img
 												src="/src/assets/icons/gear.svg"
 												alt="settings"
-												w-5
-												h-5
+												w-6
+												h-6
 												:title="$t('project_settings')"
 											/>
 										</RouterLink>
-									</li>
-								</ul>
-							</div>
-
-							<RouterLink
-								:to="{
-									name: 'company-settings',
-									params: { id: company.id },
-								}"
-								class="route"
-								style="font-weight: bold"
-								v-if="
-									user.id ===
-										company.attributes.creator?.id ||
-									company.attributes.role?.id === 1
-								"
-							>
-								<div flex items-center gap-2>
-									<img
-										src="/src/assets/icons/gear.svg"
-										alt="settings"
-										w-5
-										h-5
-									/>
-
-									{{ $t("company_details") }}
-								</div>
-							</RouterLink>
+										<div
+											v-else
+											class="route settings"
+											:style="{
+												'font-weight': 'bold',
+												width: 'auto',
+												opacity: '0.25',
+											}"
+										>
+											<img
+												src="/src/assets/icons/gear.svg"
+												alt="settings"
+												w-6
+												h-6
+												:title="$t('unauthorized')"
+											/>
+										</div>
+									</RouterLink>
+								</li>
+							</ul>
 
 							<RouterLink
 								:to="{
@@ -240,10 +246,10 @@
 </template>
 
 <script setup lang="ts">
-import { Company } from "~/models/Company";
 import { useAuthStore } from "~/stores/auth";
 import { useMainStore } from "~/stores/main";
 import { useSettingsStore } from "~/stores/settings";
+import { COLOR } from "~/util/colors";
 
 let store = useMainStore();
 let settingsStore = useSettingsStore();
@@ -251,14 +257,6 @@ let settingsStore = useSettingsStore();
 let user = computed(() => useAuthStore().getUser);
 
 store.init();
-
-const isAuthorized = (company: Company) => {
-	if (user.value.id === company.attributes.creator?.id) return true;
-
-	if (company.attributes.role?.id === 1) return true;
-
-	return false;
-};
 
 // control the manual clicking of dropdowns to only have 1 dropdown open at a time (company + projects)
 const manualOpen = reactive({
@@ -332,19 +330,13 @@ const companies = computed(() => {
 		default:
 		case 0: // A-Z
 			return [...list.entries()].sort((a, b) => {
-				return a[1].attributes.designation.localeCompare(
-					b[1].attributes.designation
-				);
+				return a[1].attributes.designation.localeCompare(b[1].attributes.designation);
 			});
 			break;
 
 		case 1: // Z-A
 			return [...list.entries()].sort((a, b) => {
-				return (
-					a[1].attributes.designation.localeCompare(
-						b[1].attributes.designation
-					) * -1
-				);
+				return a[1].attributes.designation.localeCompare(b[1].attributes.designation) * -1;
 			});
 			break;
 
@@ -389,8 +381,7 @@ const companies = computed(() => {
 });
 
 // useful to separate the way projects are obtained in case data changes
-const companyProjects = (company_id: string) =>
-	store.getCompanyProjects(company_id);
+const companyProjects = (company_id: string) => store.getCompanyProjects(company_id);
 
 // handle the collapsing of companies
 const collapseCompany = (id: string) => {
@@ -448,29 +439,32 @@ ul {
 		.header {
 			width: 100%;
 			display: flex;
-			align-items: center;
+			align-items: flex-start;
 			justify-content: space-between;
 			padding: 0.5rem;
 			font-weight: bold;
 			cursor: pointer;
 			border-radius: 0.5rem;
+			line-height: 1.5;
+			gap: 1rem;
 
 			&:hover {
 				background-color: hsl(263, 79%, 94%);
 			}
 
-			> img {
+			.arrow {
 				transform: rotateZ(-90deg);
 				transition: transform 0.2s;
 				user-select: none;
 				width: 1.5rem;
 				height: 1.5rem;
+				line-height: 1.5;
 			}
 
 			&.open {
 				background: hsl(158, 79%, 87%);
 
-				> img {
+				> div img {
 					transform: rotateZ(0deg);
 				}
 
@@ -512,8 +506,8 @@ ul {
 }
 
 .route {
-	display: inline-flex;
-	align-items: baseline;
+	display: flex;
+	align-items: flex-start;
 	padding: 0.5rem;
 	width: 100%;
 	border-radius: 0.5rem;
@@ -525,6 +519,16 @@ ul {
 
 	&.router-link-exact-active {
 		background: hsl(158, 79%, 87%);
+
+		&.settings {
+			background: transparent;
+
+			img {
+				color: #7a2ee6;
+				filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+					hue-rotate(263deg) brightness(94%) contrast(92%);
+			}
+		}
 	}
 }
 

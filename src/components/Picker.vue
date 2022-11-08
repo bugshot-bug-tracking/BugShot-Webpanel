@@ -2,17 +2,11 @@
 	<div class="picker">
 		<div class="header">
 			<div class="buttons">
-				<a
-					:class="{ active: pickOption === 1 }"
-					@click="pickOption = 1"
-				>
+				<a :class="{ active: pickOption === 1 }" @click="pickOption = 1">
 					{{ $t("image") }}
 				</a>
 
-				<a
-					:class="{ active: pickOption === 2 }"
-					@click="pickOption = 2"
-				>
+				<a :class="{ active: pickOption === 2 }" @click="pickOption = 2">
 					{{ $t("color") }}
 				</a>
 			</div>
@@ -28,11 +22,8 @@
 		>
 			<div class="image" v-show="pickOption === 1" @change="change">
 				<div class="empty" v-if="imgg === ''">
-					<div>
-						<img
-							src="/src/assets/icons/image.svg"
-							class="black-to-gray"
-						/>
+					<div text-center>
+						<img src="/src/assets/icons/image.svg" class="black-to-gray" />
 
 						<div class="text">
 							{{ $t("picker.drag_and_drop") }}
@@ -43,12 +34,7 @@
 						{{ $t("picker.upload_image") }}
 					</label>
 
-					<input
-						type="file"
-						name="upload"
-						id="pick-upload"
-						ref="picker"
-					/>
+					<input type="file" name="upload" id="pick-upload" ref="picker" />
 				</div>
 
 				<div class="preview" v-else>

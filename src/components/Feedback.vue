@@ -29,7 +29,7 @@
 				<div class="bs-container" gap-4>
 					<div class="bs-input2">
 						<label>
-							{{ t("email") + " (Optional)" }}
+							{{ `${t("email")} (${t("optional")})` }}
 						</label>
 
 						<input

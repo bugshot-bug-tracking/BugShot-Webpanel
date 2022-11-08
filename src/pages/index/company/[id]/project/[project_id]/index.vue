@@ -52,6 +52,23 @@
 						{{ $t("project_settings") }}
 					</div>
 				</router-link>
+				<div
+					v-else
+					class="bs-btn green empty text-capitalize disabled"
+					:title="$t('unauthorized')"
+				>
+					<div flex items-center gap-2>
+						<img
+							src="/src/assets/icons/gear.svg"
+							alt="project"
+							class="black-to-green"
+							w-5
+							h-5
+						/>
+
+						{{ $t("project_settings") }}
+					</div>
+				</div>
 			</T2Header>
 		</template>
 
@@ -93,7 +110,8 @@ const isAuthorized = computed(() => {
 	// temp code replace with proper ?global? logic
 	return (
 		project.value?.attributes.role?.id === 1 ||
-		project.value.attributes.creator?.id === useAuthStore().getUser.id
+		project.value.attributes.creator?.id === useAuthStore().getUser.id ||
+		useProjectStore().company.attributes.role?.id === 1
 	);
 });
 
@@ -112,12 +130,9 @@ const addMember = async (email: String, role_id: number) => {
 };
 
 const editMember = async (user_id: number, role_id: number) => {
-	let response = await axios.put(
-		`projects/${props.project_id}/users/${user_id}`,
-		{
-			role_id: role_id,
-		}
-	);
+	let response = await axios.put(`projects/${props.project_id}/users/${user_id}`, {
+		role_id: role_id,
+	});
 
 	let user = project.value?.attributes.users?.find((x) => x.id === user_id);
 	if (user) user.role = response.data.data.role;
@@ -126,23 +141,17 @@ const editMember = async (user_id: number, role_id: number) => {
 const deleteMember = async (user_id: number) => {
 	await axios.delete(`projects/${props.project_id}/users/${user_id}`);
 
-	let index = project.value?.attributes.users?.findIndex(
-		(x) => x.id === user_id
-	);
+	let index = project.value?.attributes.users?.findIndex((x) => x.id === user_id);
 
-	if (index !== undefined && index !== -1)
-		project.value?.attributes.users?.splice(index, 1);
+	if (index !== undefined && index !== -1) project.value?.attributes.users?.splice(index, 1);
 };
 
 const deleteInvitation = async (invitation_id: string) => {
 	await axios.delete(`invitations/${invitation_id}`);
 
-	let index = project.value?.pending?.findIndex(
-		(x: any) => x.id === invitation_id
-	);
+	let index = project.value?.pending?.findIndex((x: any) => x.id === invitation_id);
 
-	if (index !== undefined && index !== -1)
-		project.value?.pending?.splice(index, 1);
+	if (index !== undefined && index !== -1) project.value?.pending?.splice(index, 1);
 };
 </script>
 
