@@ -194,6 +194,7 @@
 												'font-weight': 'bold',
 												width: 'auto',
 												opacity: '0.25',
+												padding: 0,
 											}"
 										>
 											<img
