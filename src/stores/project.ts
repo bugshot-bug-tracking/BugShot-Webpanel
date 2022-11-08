@@ -61,6 +61,7 @@ export const useProjectStore = defineStore("project", {
 						headers: {
 							"include-company-users": true,
 							"include-company-users-roles": true,
+							"include-company-role": true,
 						},
 					})
 				).data.data;
