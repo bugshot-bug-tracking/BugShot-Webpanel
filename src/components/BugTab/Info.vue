@@ -1,12 +1,54 @@
 <template>
 	<Container>
 		<div id="info" class="d-flex flex-column no-wrap">
-			<div class="justify-content-between mb-2 align-items-start">
-				<div class="title">
+			<div
+				class="justify-content-between mb-2 align-items-start"
+				v-if="!bugData.flag1"
+			>
+				<div class="title" flex>
 					<div class="content">{{ bug.attributes.designation }}</div>
+					<img
+						w-4
+						ml-2
+						class="black-to-gray"
+						src="/src/assets/icons/edit.svg"
+						alt="edit"
+						cursor-pointer
+						@click="bugData.editDesignation"
+					/>
 				</div>
 
-				<div class="btn close-button" @click="$emit('close')" />
+				<div
+					class="close-button"
+					@click="$emit('close')"
+					cursor-pointer
+				/>
+			</div>
+
+			<div flex gap-4 items-center v-else>
+				<input
+					type="text"
+					v-model="bugData.designation"
+					class="w-100"
+				/>
+
+				<div class="flex gap-2 black-to-gray ms-2">
+					<img
+						src="/src/assets/icons/check.svg"
+						alt="save"
+						style="width: 1.5rem"
+						cursor-pointer
+						@click="changeDesignation"
+					/>
+
+					<img
+						src="/src/assets/icons/close_2.svg"
+						alt="cancel"
+						style="width: 1.5rem"
+						cursor-pointer
+						@click="bugData.flag1 = false"
+					/>
+				</div>
 			</div>
 
 			<div class="id">
@@ -17,7 +59,7 @@
 			<div class="creator">
 				<label>{{ $t("creator") + ":" }}</label>
 
-				<div class="content">
+				<div class="content" v-if="bug.attributes.creator">
 					<div class="name">
 						{{
 							`${bug.attributes.creator.attributes.first_name} ${bug.attributes.creator.attributes.last_name}`
@@ -25,19 +67,38 @@
 					</div>
 
 					<div class="date">
-						{{ $d(dateFix(bug.attributes.created_at), "short") }}
+						{{
+							$d(
+								new Date(dateFix(bug.attributes.created_at)),
+								"short"
+							)
+						}}
+					</div>
+				</div>
+
+				<div class="content" v-else>
+					<div class="name">
+						{{ `${bug.attributes.selector ?? t("anonymous")}` }}
+					</div>
+
+					<div class="date">
+						{{
+							$d(
+								new Date(dateFix(bug.attributes.created_at)),
+								"short"
+							)
+						}}
 					</div>
 				</div>
 			</div>
 
-			<div
-				class="screenshot"
-				v-if="bug.screenshots ? bug.screenshots.length > 0 : false"
-			>
-				<Screenshot
-					:screenshots="bug.screenshots ? bug.screenshots : []"
-					:priority="bug.attributes.priority.id"
-				/>
+			<div>
+				<slot name="screenshot">
+					<Screenshot
+						:screenshots="bug.screenshots ?? []"
+						:priority="bug.attributes.priority.id"
+					/>
+				</slot>
 			</div>
 
 			<div class="url" v-if="bug.attributes.url">
@@ -49,9 +110,53 @@
 				</div>
 			</div>
 
-			<div class="description" v-if="bug.attributes.description">
-				<label>{{ $t("description") + ":" }}</label>
-				<div class="content">{{ bug.attributes.description }}</div>
+			<div class="description">
+				<div flex justify-between mb-2>
+					<label>
+						{{ $t("description") + ":" }}
+						<img
+							w-4
+							ml-2
+							class="black-to-gray"
+							src="/src/assets/icons/edit.svg"
+							alt="edit"
+							cursor-pointer
+							@click="bugData.editDescription"
+							v-if="!bugData.flag2"
+						/>
+					</label>
+
+					<div
+						class="flex gap-2 black-to-gray ms-2"
+						v-if="bugData.flag2"
+					>
+						<img
+							src="/src/assets/icons/check.svg"
+							alt="save"
+							style="width: 1.5rem"
+							cursor-pointer
+							@click="changeDescription"
+						/>
+						<img
+							src="/src/assets/icons/close_2.svg"
+							alt="cancel"
+							style="width: 1.5rem"
+							cursor-pointer
+							@click="bugData.flag2 = false"
+						/>
+					</div>
+				</div>
+
+				<div class="content" v-if="!bugData.flag2">
+					{{ bug.attributes.description }}
+				</div>
+
+				<textarea
+					v-else
+					v-model="bugData.description"
+					style="width: 100%"
+					class="bs-scroll"
+				/>
 			</div>
 
 			<div
@@ -107,20 +212,46 @@
 				<div class="grid1x2">
 					<label>{{ $t("priority") + ":" }}</label>
 
-					<PriorityChange
-						:priority="bug.attributes.priority.id"
-						class="content"
-						:lock="false"
-						@change="changePriority"
-					/>
+					<DropdownButton
+						@select="changePriority"
+						:list="priorities"
+						:color="
+							priorities[bug.attributes.priority.id - 1].color
+						"
+					>
+						<template #text>
+							{{
+								priorities[bug.attributes.priority.id - 1].text
+							}}
+						</template>
+
+						<template #item="{ item }">
+							<div flex items-center gap-2>
+								<div
+									class="dot"
+									:style="{
+										background: item.color,
+									}"
+								/>
+
+								{{ item.text }}
+							</div>
+						</template>
+					</DropdownButton>
 				</div>
 
 				<div class="grid1x2 status">
 					<label>{{ $t("status") + ":" }}</label>
 
-					<div class="content status">
-						{{ status.attributes.designation }}
-					</div>
+					<DropdownButton
+						@select="changeStatus"
+						:list="statuses"
+						:text="status.attributes.designation"
+					>
+						<template #item="{ item }">
+							{{ item.attributes.designation }}
+						</template>
+					</DropdownButton>
 				</div>
 			</div>
 
@@ -153,10 +284,11 @@
 	</Container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import dateFix from "~/util/dateFixISO";
 import { useProjectStore } from "~/stores/project";
 import { useI18nStore } from "~/stores/i18n";
+import { Status } from "~/models/Status.js";
 
 const emit = defineEmits(["close", "open_assign"]);
 
@@ -173,15 +305,93 @@ const props = defineProps({
 
 const store = useProjectStore();
 
+const { t } = useI18n();
+
+const statuses = computed(() => store.getStatuses);
+
+const priorities = computed(() => [
+	{
+		id: 1,
+		text: t("minor"),
+		color: "#18bed8",
+	},
+	{
+		id: 2,
+		text: t("normal"),
+		color: "#185ed8",
+	},
+	{
+		id: 3,
+		text: t("important"),
+		color: "#ffb057",
+	},
+	{
+		id: 4,
+		text: t("critical"),
+		color: "#f53d3d",
+	},
+]);
+
 const open = ref(false);
 
 const datePicker = ref(dateFix(props.bug.attributes.deadline));
 
-const changePriority = (value) => {
+const bugData = reactive({
+	designation: "",
+	flag1: false,
+	description: "",
+	flag2: false,
+	editDesignation: () => {
+		bugData.designation = props.bug.attributes.designation;
+		bugData.flag1 = true;
+	},
+	editDescription: () => {
+		bugData.description = props.bug.attributes.description;
+		bugData.flag2 = true;
+	},
+});
+
+const changeDesignation = () => {
+	bugData.flag1 = false;
+
+	props.bug.attributes.designation = bugData.designation;
+
 	store.syncBug({
 		id: props.bug.id,
 		changes: {
-			priority_id: value,
+			designation: bugData.designation,
+		},
+	});
+};
+
+const changeDescription = () => {
+	bugData.flag2 = false;
+
+	props.bug.attributes.description = bugData.description;
+
+	store.syncBug({
+		id: props.bug.id,
+		changes: {
+			description: bugData.description,
+		},
+	});
+};
+
+const changePriority = (value: { id: number; text: string; color: string }) => {
+	store.syncBug({
+		id: props.bug.id,
+		changes: {
+			priority_id: value.id,
+		},
+	});
+};
+
+const changeStatus = (item: Status) => {
+	store.syncBug({
+		id: props.bug.id,
+		changes: {
+			status_id: item.id,
+			order_number: 0,
 		},
 	});
 };
@@ -220,7 +430,7 @@ const changeDeadline = () => {
 
 const { d } = useI18n({ useScope: "global" });
 const locale = computed(() => useI18nStore().getCurrentLocale);
-const format = (date) => d(new Date(date).toISOString(), "short");
+const format = (date: Date) => d(new Date(date).toISOString(), "short");
 </script>
 
 <style lang="scss" scoped>
@@ -389,7 +599,7 @@ const format = (date) => d(new Date(date).toISOString(), "short");
 	}
 	.grid1x2 {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: auto auto;
 		grid-template-rows: 1fr;
 	}
 
@@ -398,6 +608,24 @@ const format = (date) => d(new Date(date).toISOString(), "short");
 			min-width: 90px;
 			margin-top: 6px;
 		}
+	}
+}
+
+input,
+textarea {
+	border: 1px solid hsl(264deg, 78%, 77%);
+	border-radius: 0.5rem;
+	padding: 0.5rem;
+
+	&:focus,
+	&:focus-visible,
+	&:hover {
+		border-color: hsl(265, 79%, 41%);
+		outline-color: hsl(265, 79%, 41%);
+	}
+
+	&.error {
+		border-color: red;
 	}
 }
 </style>

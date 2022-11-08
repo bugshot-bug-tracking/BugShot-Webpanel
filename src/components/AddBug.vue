@@ -1,11 +1,11 @@
 <template>
-	<a class="bs-btn purple add-button" @click="tabOpen = true">
-		<img src="/src/assets/icons/add.svg" alt="add" />
+	<a class="bs-btn green add-button" @click="tabOpen = true">
+		<img src="/src/assets/icons/add.svg" alt="add" class="black-to-white" />
 		{{ $t("add.bug") }}
 	</a>
 
-	<SideTab v-if="tabOpen" class="tab-shaddow">
-		<form @submit.prevent="submit">
+	<div v-if="tabOpen" class="bs-tab bs-scroll">
+		<form @submit.prevent="submit" flex flex-col gap-4>
 			<div class="top">
 				<h4>{{ $t("new_bug_report") }}</h4>
 
@@ -16,11 +16,11 @@
 				/>
 			</div>
 
-			<Container>
+			<div class="bs-container">
 				<ImageManager @update="imagesUpdate" />
-			</Container>
+			</div>
 
-			<Container class="gap-4">
+			<div class="bs-container" gap-4>
 				<div class="bs-input counted">
 					<span>{{ `${data.designation.length}/50` }}</span>
 					<input
@@ -114,27 +114,40 @@
 					<div>Assign to</div>
 					<Assignees :list="[]" />
 				</div>
-			</Container>
+			</div>
 
-			<LocalAttachments @update="attachmentsUpdate" />
+			<AttachmentsList
+				:list="data.attachments"
+				:error="attachments.error"
+				@upload="attachments.upload"
+			>
+				<template #item="{ item, index }">
+					<AttachmentsItem
+						:name="item.name"
+						:id="index"
+						@delete="attachments.delete"
+						:download="false"
+					/>
+				</template>
+			</AttachmentsList>
 
 			<button class="bs-btn green" type="submit">
 				{{ $t("report_bug") + "!" }}
 			</button>
 		</form>
-	</SideTab>
+	</div>
 
-	<LoadingModal
+	<LoadingModal2
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
-		@close="loadingModal.show = false"
+		@close="loadingModal.clear"
 	/>
 
-	<div class="outside-overlay" v-if="tabOpen" @click="tabOpen = false" />
+	<div class="full-overlay" v-if="tabOpen" @click="tabOpen = false" />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import toBase64 from "~/util/toBase64";
 import axios from "axios";
 import { useProjectStore } from "~/stores/project";
@@ -156,28 +169,33 @@ const data = reactive({
 	description: "",
 	deadline: null,
 	priority: 2,
-	images: [],
-	attachments: [],
+	images: [] as File[],
+	attachments: [] as File[],
+});
+
+const attachments = reactive({
+	error: "",
+
+	upload: (files: File[]) => {
+		data.attachments = files;
+	},
+
+	delete: (index: number) => {
+		data.attachments.splice(index, 1);
+	},
 });
 
 const clearDeadline = () => {
 	data.deadline = null;
 };
 
-const attachmentsUpdate = (files) => {
-	data.attachments = files;
-};
-const imagesUpdate = (files) => {
+const imagesUpdate = (files: File[]) => {
 	data.images = files;
 };
 
 const submit = async () => {
-	console.log(data);
-
 	try {
 		loadingModal.show = true;
-		loadingModal.state = 0;
-		loadingModal.message = null;
 
 		let status = store.getFirstStatus;
 
@@ -198,8 +216,6 @@ const submit = async () => {
 		// get the data from response
 		bug = bug.data.data;
 
-		console.log(bug);
-
 		// using the bug id send screenshots one-by-one
 		for (const file of data.images) {
 			let screen = await axios.post(`bugs/${bug.id}/screenshots`, {
@@ -215,28 +231,17 @@ const submit = async () => {
 			});
 		}
 
+		await store.refresh();
+
 		loadingModal.state = 1;
 		loadingModal.message = `Bug report created!`;
 
-		store.refresh();
-
-		setTimeout(() => {
-			loadingModal.show = false;
-			tabOpen.value = false;
-
-			resetData();
-		}, 4000);
+		tabOpen.value = false;
+		resetData();
 	} catch (error) {
 		loadingModal.state = 2;
-		loadingModal.message = null;
 
 		console.log(error);
-
-		setTimeout(() => {
-			loadingModal.show = false;
-			loadingModal.state = 0;
-			loadingModal.message = null;
-		}, 4000);
 	}
 };
 
@@ -252,7 +257,12 @@ const resetData = () => {
 const loadingModal = reactive({
 	show: false,
 	state: 0,
-	message: null,
+	message: "",
+	clear: () => {
+		loadingModal.show = false;
+		loadingModal.state = 0;
+		loadingModal.message = "";
+	},
 });
 </script>
 
@@ -263,7 +273,6 @@ const loadingModal = reactive({
 	gap: 6px;
 
 	> img {
-		filter: invert(1);
 		height: 1.5rem;
 	}
 }
@@ -356,19 +365,5 @@ const loadingModal = reactive({
 		right: 0.5rem;
 		font-size: 12px;
 	}
-}
-
-.tab-shaddow {
-	box-shadow: -10px 0px 24px hsla(231, 42%, 18%, 0.11);
-}
-
-.outside-overlay {
-	position: fixed;
-	width: 100vw;
-	height: 100vh;
-	background: #00000073;
-	top: 0;
-	left: 0;
-	z-index: 1;
 }
 </style>

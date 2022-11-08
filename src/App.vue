@@ -1,5 +1,9 @@
 <template>
+	<Banner />
+
 	<RouterView />
+
+	<Feedback />
 </template>
 
 <script setup lang="ts">
@@ -9,20 +13,15 @@ useI18nStore().init();
 </script>
 
 <style lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
 @import "./styles/global.scss";
-@import "@vuepic/vue-datepicker/src/VueDatePicker/style/main.scss";
+@import "./styles/custom.scss";
+@import "./styles/external.scss";
 
-body {
-	background-color: hsl(240, 40%, 98%);
-	overflow: hidden;
-	margin: unset;
-}
-
-*,
-::after,
-::before {
-	box-sizing: border-box;
+@font-face {
+	font-family: "Open Sans";
+	src: url("~/assets/fonts/OpenSans/static/OpenSans/OpenSans-Regular.ttf");
+	font-style: normal;
+	font-weight: normal;
 }
 
 #app {
@@ -30,40 +29,7 @@ body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
-	color: #2c3e50;
 	display: flex;
-}
-
-#nav {
-	padding: 30px;
-
-	a {
-		font-weight: bold;
-		color: #2c3e50;
-
-		&.router-link-exact-active {
-			color: #42b983;
-		}
-	}
-}
-
-#nprogress {
-	pointer-events: none;
-}
-
-#nprogress .bar {
-	background: hsl(158, 80%, 41%);
-	opacity: 0.75;
-	position: fixed;
-	z-index: 1031;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 4px;
-}
-
-.dp__select {
-	color: #18b984;
 }
 </style>
 
@@ -75,16 +41,6 @@ body {
 		opacity: 0.5 !important;
 		filter: none !important;
 	}
-}
-
-.disabled-overlay {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	opacity: 0.5;
-	top: 0;
-	left: 0;
-	background-color: white;
 }
 
 .default-form {
@@ -139,37 +95,6 @@ body {
 			position: absolute;
 			right: 12px;
 		}
-	}
-}
-</style>
-
-<style lang="scss">
-.bs-priority {
-	font-weight: normal;
-	font-size: 12px;
-	line-height: 16px;
-	color: hsl(0, 0%, 100%);
-	border-radius: 30px;
-	width: fit-content;
-	height: fit-content;
-	position: relative;
-	padding: 3px 10px;
-	user-select: none;
-
-	&.p1 {
-		background-color: hsl(188, 80%, 47%);
-	}
-
-	&.p2 {
-		background-color: hsl(218, 80%, 47%);
-	}
-
-	&.p3 {
-		background-color: hsl(32, 100%, 67%);
-	}
-
-	&.p4 {
-		background-color: hsl(0, 90%, 60%);
 	}
 }
 </style>

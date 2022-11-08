@@ -20,7 +20,7 @@
 						v-for="user of [
 							company.attributes.creator,
 							...company.attributes.users,
-						]"
+						].filter((x) => x)"
 						:key="user.id"
 					>
 						<div class="info">
@@ -314,7 +314,7 @@ watch(
 			justify-content: center;
 			gap: 6px;
 			cursor: pointer;
-			color: black;
+			color: #1a2040;
 		}
 
 		img {

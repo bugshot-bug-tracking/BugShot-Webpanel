@@ -56,7 +56,6 @@ export const useAuthStore = defineStore("auth", {
 			// no point in checking the token if it doesn't exist
 			if (token == null || token === "") return false;
 
-			console.dir(axios);
 			axios.defaults.headers.common["Authorization"] = "Bearer " + token;
 
 			try {
@@ -79,6 +78,23 @@ export const useAuthStore = defineStore("auth", {
 
 				return false;
 			}
+		},
+
+		async updateUser(payload: {
+			email: string;
+			first_name: string;
+			last_name: string;
+			password: string;
+		}) {
+			let response = await axios.put(`/users/${this.user.id}`, {
+				first_name: payload.first_name.trim(),
+				last_name: payload.last_name.trim(),
+				email: payload.email.trim(),
+
+				old_password: payload.password,
+			});
+
+			this.user = <User>response.data.data;
 		},
 	},
 

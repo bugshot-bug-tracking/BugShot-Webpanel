@@ -6,6 +6,7 @@ import Components from "unplugin-vue-components/vite";
 
 import Pages from "vite-plugin-pages";
 import Layouts from "vite-plugin-vue-layouts";
+import Unocss from "unocss/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -47,6 +48,7 @@ export default defineConfig({
 			extendRoute(route, parent) {
 				if (
 					route.name === "all" ||
+					route.name === "payment-status" ||
 					String(route.path).match(/^\/auth/i)
 				) {
 					// Index is unauthenticated.
@@ -62,5 +64,7 @@ export default defineConfig({
 		}),
 
 		Layouts(),
+
+		Unocss(),
 	],
 });

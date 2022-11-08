@@ -1,10 +1,23 @@
 <template>
 	<TSidebar @minimize="toggle">
 		<template #header>
-			<h3>{{ $t("setting", 2) }}</h3>
+			<header>
+				<h3>{{ $t("my_account") }}</h3>
+
+				<RouterLink
+					:to="{ name: 'home' }"
+					style="
+						text-decoration: underline;
+						color: #7a2ee6;
+						font-size: 0.875rem;
+					"
+				>
+					{{ $t("back_to_al_projects") }}
+				</RouterLink>
+			</header>
 		</template>
 
-		<template #main class="bs-scroll s-purple">
+		<template #main>
 			<div class="user">
 				<span class="name">
 					<div>{{ $t("hello") + "," }}</div>
@@ -13,7 +26,6 @@
 					</div></span
 				>
 			</div>
-
 			<div class="account">
 				<h4>
 					{{ $t("setting", 2) }}
@@ -28,13 +40,26 @@
 					>
 						{{ $t("account_settings") }}
 					</router-link>
+
+					<router-link
+						:to="{
+							name: 'payments',
+						}"
+						class="item"
+						v-if="false"
+					>
+						{{ $t("payments_and_plans") }}
+					</router-link>
 				</ul>
 			</div>
 		</template>
 
 		<template #footer>
-			<a class="log-out bs-btn red empty" @click="logout">
-				<img src="/src/assets/icons/logout.svg" class="black-to-red" />
+			<a class="log-out bs-btn purple empty" @click="logout">
+				<img
+					src="/src/assets/icons/logout.svg"
+					class="black-to-purple"
+				/>
 				{{ $t("log_out") }}
 			</a>
 		</template>
@@ -60,9 +85,16 @@ const toggle = (value: boolean) => {
 };
 </script>
 
-<style lang="scss"></style>
-
 <style lang="scss" scoped>
+header {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: flex-start;
+	text-align: left;
+	padding: 1rem;
+}
+
 .account {
 	h4 {
 		text-align: left;
@@ -81,6 +113,7 @@ const toggle = (value: boolean) => {
 		text-align: left;
 		display: flex;
 		flex-direction: column;
+		gap: 1rem;
 
 		> li {
 			padding: 0.25rem 0.25rem 0.5rem 0.25rem;
@@ -114,7 +147,7 @@ const toggle = (value: boolean) => {
 		border-radius: 0.375rem;
 	}
 
-	&.router-link-active {
+	&.router-link-exact-active {
 		border-radius: 0.375rem;
 		background: hsl(158, 79%, 87%);
 	}

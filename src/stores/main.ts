@@ -3,13 +3,14 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { Company } from "~/models/Company";
 import nProgress from "nprogress";
+import { Role } from "~/models/Role";
 
 export const useMainStore = defineStore("main", {
 	state: () => ({
 		companies: new Map<String, Company>(),
 		projects: new Map<String, String>(),
 
-		roles: [],
+		roles: [] as Role[],
 	}),
 
 	actions: {
@@ -37,6 +38,8 @@ export const useMainStore = defineStore("main", {
 							// "include-company-image": "true",
 							"include-projects": "true",
 							"include-project-image": "true",
+							"include-company-role": "true",
+							"include-project-role": "true",
 						},
 					})
 				).data.data;
@@ -85,12 +88,33 @@ export const useMainStore = defineStore("main", {
 					await axios.get(`companies/${id}`, {
 						headers: {
 							"include-company-users": "true",
+							"include-company-users-roles": "true",
 						},
 					})
 				).data.data;
 
 				let company = this.getCompanyById(id);
 				company.attributes.users = response.attributes.users;
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async fetchCompanyInvitations(id: string) {
+			try {
+				console.log(id);
+				let response = (
+					await axios.get(`companies/${id}/invitations`, {
+						headers: {
+							"status-id": "1",
+						},
+					})
+				).data.data;
+
+				let company = this.companies.get(id);
+
+				if (company) company.pending = response;
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -225,6 +249,40 @@ export const useMainStore = defineStore("main", {
 				throw error;
 			}
 		},
+
+		async removeCompanyUser(company_id: string, user_id: number) {
+			try {
+				await axios.delete(`companies/${company_id}/users/${user_id}`);
+
+				this.companies.delete(company_id);
+
+				return true;
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async removeProjectUser(project_id: string, user_id: number) {
+			try {
+				await axios.delete(`projects/${project_id}/users/${user_id}`);
+
+				let projects =
+					this.getProjectCompany(project_id).attributes.projects;
+
+				projects.splice(
+					projects.findIndex((x) => x.id === project_id),
+					1
+				);
+
+				this.projects.delete(project_id);
+
+				return true;
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
 	},
 
 	getters: {
@@ -244,5 +302,7 @@ export const useMainStore = defineStore("main", {
 			state.companies.get(state.projects.get(id)),
 
 		getRoles: (state) => state.roles,
+
+		getProjectsCount: (state) => state.projects.size,
 	},
 });

@@ -4,6 +4,7 @@
 			:first_name="user.attributes.first_name"
 			:last_name="user.attributes.last_name"
 			@click="menu.toggle"
+			cursor-pointer
 		/>
 
 		<section class="popup" v-if="menu.visible">
@@ -135,7 +136,7 @@ ul {
 
 	a {
 		text-decoration: none;
-		color: black;
+		color: #1a2040;
 		padding: 0.5rem 1.5rem;
 		font-weight: bold;
 		margin: 0.5rem 0;

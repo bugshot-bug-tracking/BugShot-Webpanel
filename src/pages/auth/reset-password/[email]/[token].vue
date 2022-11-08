@@ -374,7 +374,7 @@ const validate = computed(() => {
 }
 
 .good {
-	color: black;
+	color: #1a2040;
 	// color: #18d891;
 	filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
 		hue-rotate(104deg) brightness(96%) contrast(88%);
@@ -395,7 +395,7 @@ const validate = computed(() => {
 	}
 }
 .bad {
-	color: black;
+	color: #1a2040;
 	// color: #f23636;
 	filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
 		hue-rotate(263deg) brightness(94%) contrast(92%);

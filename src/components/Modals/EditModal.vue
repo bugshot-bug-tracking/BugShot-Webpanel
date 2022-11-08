@@ -1,3 +1,4 @@
+<!-- Delete this file and replace instances of this with ProjectEditModal component in the future -->
 <template>
 	<Modal :show="show" @close="close">
 		<div class="wrapper" v-if="project">
@@ -35,18 +36,19 @@
 					:image="projectParams.image"
 				/>
 
-				<button class="bs-btn green mt-3">
+				<button class="bs-btn green mt-3 m-a">
 					{{ $t("save_changes") }}
 				</button>
 			</form>
 		</div>
 	</Modal>
 
-	<LoadingModal
+	<LoadingModal2
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
-		@close="loadingModal.show = false"
+		@close="loadingModal.clear"
+		@onSuccess="close"
 	/>
 </template>
 
@@ -109,7 +111,7 @@ const projectParams = reactive({
 
 const setImage = async (value: File | null) => {
 	// console.log("setImage", value);
-	if (value != null) projectParams.image = <string>await toBase64(value);
+	if (value != null) projectParams.image = (await toBase64(value)) as string;
 	else projectParams.image = "";
 };
 
@@ -129,28 +131,14 @@ const saveChanges = async () => {
 
 	try {
 		loadingModal.show = true;
-		loadingModal.state = 0;
-		loadingModal.message = "";
 
 		await store.updateProject(data);
 
 		loadingModal.state = 1;
 		loadingModal.message = `Project edited successfully.`;
-
-		setTimeout(() => {
-			loadingModal.show = false;
-			loadingModal.state = 0;
-			loadingModal.message = "";
-			close();
-		}, 4000);
 	} catch (error) {
 		console.log(error);
 		loadingModal.state = 2;
-
-		setTimeout(() => {
-			loadingModal.show = false;
-			loadingModal.state = 0;
-		}, 4000);
 	}
 };
 
@@ -158,6 +146,11 @@ const loadingModal = reactive({
 	show: false,
 	state: 0,
 	message: "",
+	clear: () => {
+		loadingModal.show = false;
+		loadingModal.state = 0;
+		loadingModal.message = "";
+	},
 });
 </script>
 

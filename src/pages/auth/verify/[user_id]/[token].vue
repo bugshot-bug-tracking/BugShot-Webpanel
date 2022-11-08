@@ -26,7 +26,7 @@
 	/>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import axios from "axios";
 
 const router = useRouter();
@@ -46,29 +46,24 @@ const status = ref(0);
 
 const route = useRoute();
 
-const verify = () => {
+const verify = async () => {
 	status.value = 0;
 
-	axios
-		.get(
+	try {
+		let response = await axios.get(
 			`/auth/email/verify/${props.user_id}/${props.token}?expires=${route.query.expires}&signature=${route.query.signature}`
-		)
-		.then((response) => {
-			status.value = 1;
+		);
 
-			setTimeout(() => {
-				router.push({ name: "Login" });
-			}, 3000);
-		})
-		.catch((error) => {
-			console.log(error);
+		status.value = 1;
+	} catch (error) {
+		console.log(error);
 
-			status.value = 2;
-
-			setTimeout(() => {
-				router.push({ name: "Login" });
-			}, 5000);
-		});
+		status.value = 2;
+	} finally {
+		setTimeout(() => {
+			router.push({ name: "Login" });
+		}, 3000);
+	}
 };
 
 verify();

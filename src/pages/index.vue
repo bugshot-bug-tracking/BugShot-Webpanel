@@ -1,16 +1,20 @@
 <template>
 	<div class="home-layout">
-		<section name="sidebar">
+		<section class="sidebar">
 			<CompanyNavbar />
 		</section>
 
-		<section name="page">
+		<section class="page">
 			<RouterView />
 		</section>
 	</div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useMainStore } from "~/stores/main";
+
+useMainStore().init();
+</script>
 
 <style lang="scss" scoped>
 .home-layout {
@@ -26,11 +30,11 @@
 	overflow: hidden;
 }
 
-section[name="sidebar"] {
+section.sidebar {
 	grid-area: sidebar;
 }
 
-section[name="page"] {
+section.page {
 	grid-area: page;
 }
 </style>

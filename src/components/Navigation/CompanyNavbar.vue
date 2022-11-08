@@ -2,18 +2,22 @@
 	<TSidebar>
 		<template #header>
 			<header>
-				<div class="left">
+				<div>
 					<h3>{{ $t("company", 2) }}</h3>
 
 					<RouterLink
 						:to="{ name: 'home' }"
-						style="text-decoration: underline"
+						style="
+							text-decoration: underline;
+							color: #7a2ee6;
+							font-size: 0.875rem;
+						"
 					>
 						{{ $t("back_to_al_projects") }}
 					</RouterLink>
 				</div>
 
-				<div class="right">
+				<div>
 					<OrderButton
 						creation
 						updated
@@ -29,8 +33,8 @@
 		</template>
 
 		<template #main>
-			<div class="companies bs-scroll s-purple">
-				<ul>
+			<div class="companies bs-scroll">
+				<ul v-if="companies.length > 0">
 					<li v-for="[, company] of companies" :key="company.id">
 						<div
 							class="header"
@@ -43,7 +47,21 @@
 							}"
 							@click="collapseCompany(company.id)"
 						>
-							<span>{{ company.attributes.designation }}</span>
+							<div flex items-center gap-2>
+								{{ company.attributes.designation }}
+
+								<img
+									v-if="
+										user?.id ===
+										company.attributes.creator?.id
+									"
+									src="/src/assets/icons/my_projects.svg"
+									alt="owner"
+									w-5
+									h-5
+									:title="$t('owner')"
+								/>
+							</div>
 
 							<img src="/src/assets/icons/arrow_down.svg" />
 						</div>
@@ -68,7 +86,16 @@
 									}"
 									class="w-100"
 								>
-									{{ $t("project", 2) }}
+									<div flex items-center gap-2>
+										<img
+											src="/src/assets/icons/projects.svg"
+											alt="project"
+											w-5
+											h-5
+										/>
+
+										{{ $t("project", 2) }}
+									</div>
 								</RouterLink>
 
 								<img src="/src/assets/icons/arrow_down.svg" />
@@ -84,11 +111,17 @@
 										v-for="project of companyProjects(
 											company.id
 										)"
+										flex
+										items-center
+										justify-between
 									>
 										<RouterLink
 											:to="{
 												name: 'project',
-												params: { id: project.id },
+												params: {
+													id: company?.id,
+													project_id: project.id,
+												},
 											}"
 											class="route"
 										>
@@ -110,6 +143,36 @@
 												}}
 											</span>
 										</RouterLink>
+
+										<RouterLink
+											:to="{
+												name: 'project-settings',
+												params: {
+													id: company.id,
+													project_id: project.id,
+												},
+											}"
+											class="route"
+											:style="{
+												'font-weight': 'bold',
+												width: 'auto',
+											}"
+											v-if="
+												user.id ===
+													company.attributes.creator
+														?.id ||
+												project.attributes.role?.id ===
+													1
+											"
+										>
+											<img
+												src="/src/assets/icons/gear.svg"
+												alt="settings"
+												w-5
+												h-5
+												:title="$t('project_settings')"
+											/>
+										</RouterLink>
 									</li>
 								</ul>
 							</div>
@@ -121,8 +184,22 @@
 								}"
 								class="route"
 								style="font-weight: bold"
+								v-if="
+									user.id ===
+										company.attributes.creator?.id ||
+									company.attributes.role?.id === 1
+								"
 							>
-								{{ $t("company_details") }}
+								<div flex items-center gap-2>
+									<img
+										src="/src/assets/icons/gear.svg"
+										alt="settings"
+										w-5
+										h-5
+									/>
+
+									{{ $t("company_details") }}
+								</div>
 							</RouterLink>
 
 							<RouterLink
@@ -163,12 +240,25 @@
 </template>
 
 <script setup lang="ts">
+import { Company } from "~/models/Company";
+import { useAuthStore } from "~/stores/auth";
 import { useMainStore } from "~/stores/main";
 import { useSettingsStore } from "~/stores/settings";
 
 let store = useMainStore();
-store.init();
 let settingsStore = useSettingsStore();
+
+let user = computed(() => useAuthStore().getUser);
+
+store.init();
+
+const isAuthorized = (company: Company) => {
+	if (user.value.id === company.attributes.creator?.id) return true;
+
+	if (company.attributes.role?.id === 1) return true;
+
+	return false;
+};
 
 // control the manual clicking of dropdowns to only have 1 dropdown open at a time (company + projects)
 const manualOpen = reactive({
@@ -214,12 +304,8 @@ const force = () => {
 	if (!route.params.id) return;
 
 	// check to see if the page is related to a project and set the appropriate state to autoOpen
-	if (route.name === "project") {
-		let company = store.getProjectCompany(<string>route.params.id);
-
-		if (!company) return;
-
-		autoOpen.company = company.id;
+	if (route.name === "project" || route.name === "project-settings") {
+		autoOpen.company = route.params.id as string;
 		autoOpen.c_open = true;
 		autoOpen.p_open = true;
 		return; // leave here to have a predictable exit
@@ -227,7 +313,7 @@ const force = () => {
 
 	// check to see if the page is related to a company (ex. company settings, invoices, plans...) and set the appropriate state to autoOpen
 	if (route.name?.toString().includes("company")) {
-		autoOpen.company = <string>route.params.id;
+		autoOpen.company = route.params.id as string;
 		autoOpen.c_open = true;
 		autoOpen.p_open = false;
 		return; // leave here to have a predictable exit
@@ -345,13 +431,8 @@ header {
 	text-align: left;
 	padding: 1rem;
 
-	a {
-		color: #7a2ee6;
-		font-size: 0.875rem;
-	}
-
 	a.router-link-exact-active {
-		color: #9ba5d7;
+		color: #9ba5d7 !important;
 	}
 }
 

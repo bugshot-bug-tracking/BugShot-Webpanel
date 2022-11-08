@@ -1,38 +1,23 @@
 <template>
-	<div class="wrapper">
+	<div class="wrapper" flex>
 		<div class="people">
 			<div class="item" v-for="item in list" :key="item.id">
-				<div
-					class="avatar"
-					:style="{
-						'background-color':
-							colors[
-								(item.user.attributes.first_name.charCodeAt(0) +
-									item.user.attributes.last_name.charCodeAt(
-										0
-									)) %
-									7
-							],
-					}"
-				>
-					{{
-						item.user.attributes.first_name[0] +
-						item.user.attributes.last_name[0]
-					}}
-				</div>
+				<Avatar
+					:size="'XS'"
+					:first_name="item.attributes.first_name"
+					:last_name="item.attributes.last_name"
+				/>
 			</div>
 
-			<a class="add" @click="$emit('add')">
+			<a class="add" @click="emit('add')">
 				<img src="/src/assets/icons/add.svg" alt="Add button" />
 			</a>
 		</div>
 	</div>
 </template>
 
-<script setup>
-import colors from "/src/util/colors";
-
-const props = defineProps({
+<script setup lang="ts">
+defineProps({
 	list: {
 		type: Array,
 		required: true,
@@ -44,10 +29,6 @@ const emit = defineEmits(["add"]);
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
-	display: flex;
-}
-
 .people {
 	display: flex;
 	align-items: center;
@@ -60,36 +41,6 @@ const emit = defineEmits(["add"]);
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
-
-	.avatar {
-		color: hsl(0, 0%, 100%);
-		background-color: hsl(265, 80%, 50%);
-		font-size: 0.75rem;
-		padding: 0.5rem;
-		border-radius: 100%;
-		height: 2rem;
-		width: 2rem;
-
-		text-align: center;
-		text-transform: uppercase;
-
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.wrapper {
-		display: flex;
-		flex-direction: column;
-		text-align: left;
-
-		.name {
-			font-weight: bold;
-		}
-		.email {
-			word-break: normal;
-		}
-	}
 }
 
 .add {

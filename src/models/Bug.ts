@@ -1,4 +1,7 @@
+import { Attachment } from "./Attachment";
 import { BugUserRole } from "./BugUserRole";
+import { Priority } from "./Priority";
+import { Screenshot } from "./Screenshot";
 import { User } from "./User";
 
 export interface Bug {
@@ -7,20 +10,23 @@ export interface Bug {
 	attributes: {
 		ai_id: number;
 		browser: string;
-		created_at: Date;
+		created_at: string;
 		creator: User;
-		deadline: Date;
+		deadline: string;
 		description: string;
 		designation: string;
 		operating_system: string;
 		order_number: number;
-		priority: Object;
+		priority: Priority;
 		project_id: string;
 		resolution: string;
 		selector: string;
 		status_id: string;
-		updated_at: Date;
+		updated_at: string;
 		url: URL | string;
 	};
 	users?: BugUserRole[];
+	screenshots?: Screenshot[];
+	attachments?: Attachment[];
+	comments?: Comment[];
 }

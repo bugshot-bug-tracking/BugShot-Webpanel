@@ -1,13 +1,34 @@
 <template>
-	<a
-		class="bs-btn text-capitalize"
-		:class="{
-			'green empty': dataType === 'Company',
-			green: dataType === 'Project',
-		}"
-		@click="modalActive = !modalActive"
-	>
-		{{ dataType === "Company" ? $t("add.company") : $t("add.project") }}
+	<a @click="modalActive = !modalActive">
+		<slot name="button" v-bind="{ active: modalActive }">
+			<div
+				flex
+				items-center
+				gap-2
+				class="bs-btn text-capitalize"
+				:class="{
+					'green empty': dataType === 'Company',
+					green: dataType === 'Project',
+				}"
+			>
+				<img
+					src="/src/assets/icons/add.svg"
+					alt="project"
+					w-6
+					h-6
+					:class="{
+						'black-to-green': dataType === 'Company',
+						'black-to-white': dataType === 'Project',
+					}"
+				/>
+
+				{{
+					dataType === "Company"
+						? $t("add.company")
+						: $t("add.project")
+				}}
+			</div>
+		</slot>
 	</a>
 
 	<Modal :show="modalActive" @close="modalActive = false">
@@ -25,7 +46,7 @@
 			</div>
 
 			<form
-				class="default-form bs-scroll s-purple"
+				class="default-form bs-scroll"
 				@submit.prevent="createResource"
 			>
 				<div class="bs-input my-3 text-capitalize">
@@ -62,7 +83,7 @@
 
 				<AddMembers @change="setInviteMembers" />
 
-				<button class="bs-btn green mt-2 text-capitalize">
+				<button class="bs-btn green m-a text-capitalize">
 					{{
 						dataType === "Company"
 							? $t("create.company")
@@ -73,11 +94,11 @@
 		</div>
 	</Modal>
 
-	<LoadingModal
+	<LoadingModal2
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
-		@close="loadingModal.show = false"
+		@close="loadingModal.clear"
 	/>
 </template>
 
@@ -141,8 +162,6 @@ const createResource = async () => {
 
 	try {
 		loadingModal.show = true;
-		loadingModal.state = 0;
-		loadingModal.message = null;
 
 		if (
 			props.dataType === "Project" &&
@@ -192,41 +211,35 @@ const createResource = async () => {
 				}
 			}
 
-		loadingModal.state = 1;
+		await useMainStore().init();
 
+		loadingModal.state = 1;
 		loadingModal.message = `${props.dataType} created!`;
 
-		useMainStore().init();
-
-		setTimeout(() => {
-			modalActive.value = false;
-			loadingModal.show = false;
-			name.value = "";
-			color.value = 3;
-			file.value = null;
-			url.value = "";
-		}, 4000);
+		modalActive.value = false;
+		name.value = "";
+		color.value = 3;
+		file.value = null;
+		url.value = "";
 	} catch (error) {
 		console.log(error);
 
 		loadingModal.state = 2;
-		loadingModal.message = null;
 
 		if (error.response.status === 403)
 			loadingModal.message = t("unauthorized");
-
-		setTimeout(() => {
-			loadingModal.show = false;
-			loadingModal.state = 0;
-			loadingModal.message = null;
-		}, 4000);
 	}
 };
 
 const loadingModal = reactive({
 	show: false,
 	state: 0,
-	message: null,
+	message: "",
+	clear: () => {
+		loadingModal.show = false;
+		loadingModal.state = 0;
+		loadingModal.message = "";
+	},
 });
 
 const setInviteMembers = (value) => {

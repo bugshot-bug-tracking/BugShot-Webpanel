@@ -492,7 +492,7 @@ const openPP = () => {
 }
 
 .good {
-	color: black;
+	color: #1a2040;
 	// color: #18d891;
 	filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
 		hue-rotate(104deg) brightness(96%) contrast(88%);
@@ -504,16 +504,15 @@ const openPP = () => {
 		content: "";
 		background-image: url("/src/assets/icons/check.svg");
 		background-position: 0 0;
-		background-size: auto;
+		background-size: contain;
 		background-repeat: no-repeat;
 		width: 1rem;
 		height: 1rem;
-		position: absolute;
 		left: -1.5rem;
 	}
 }
 .bad {
-	color: black;
+	color: #1a2040;
 	// color: #f23636;
 	filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
 		hue-rotate(263deg) brightness(94%) contrast(92%);
@@ -525,11 +524,10 @@ const openPP = () => {
 		content: "";
 		background-image: url("/src/assets/icons/close_2.svg");
 		background-position: 0 0;
-		background-size: auto;
+		background-size: contain;
 		background-repeat: no-repeat;
 		width: 1rem;
 		height: 1rem;
-		position: absolute;
 		left: -1.5rem;
 	}
 }
