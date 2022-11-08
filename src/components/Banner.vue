@@ -37,9 +37,7 @@ const acknowledge = () => {
 	visibility.value = false;
 };
 
-const { t } = useI18n({
-	inheritLocale: true,
-});
+const { t } = useI18n();
 </script>
 
 <style lang="scss" scoped>
@@ -57,14 +55,3 @@ const { t } = useI18n({
 	padding: 1rem;
 }
 </style>
-
-<i18n>
-{
-  "en": {
-    "banner_info": "If you encounter any problems or bugs, please use the feedback form in the lower right corner to tell us about them."
-  },
-  "de": {
-    "banner_info": "Sollte es zu Problemen oder Fehler kommen, nutze bitte das Feedback Formular in der unteren rechten Ecke um uns darüber zu berichten."
-  }
-}
-</i18n>
