@@ -67,10 +67,5 @@ export default defineConfig({
 		Layouts(),
 
 		Unocss(),
-
-		vueI18n({
-			// you need to set i18n resource including paths !
-			include: path.resolve(__dirname, "locales"),
-		}),
 	],
 });
