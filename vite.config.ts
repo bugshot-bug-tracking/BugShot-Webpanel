@@ -7,6 +7,7 @@ import Components from "unplugin-vue-components/vite";
 import Pages from "vite-plugin-pages";
 import Layouts from "vite-plugin-vue-layouts";
 import Unocss from "unocss/vite";
+import vueI18n from "@intlify/vite-plugin-vue-i18n";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -66,5 +67,10 @@ export default defineConfig({
 		Layouts(),
 
 		Unocss(),
+
+		vueI18n({
+			// you need to set i18n resource including paths !
+			include: path.resolve(__dirname, "locales"),
+		}),
 	],
 });
