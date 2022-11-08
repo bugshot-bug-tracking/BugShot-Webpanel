@@ -1,3 +1,7 @@
+<!-- Notes:
+	- update this component to show when there is a major/minor version and ignore fixes
+ -->
+
 <template>
 	<div class="announcement" v-if="visible">
 		<div />

@@ -7,11 +7,7 @@
 				</template>
 
 				<template #l-bottom>
-					{{
-						project.id
-							? project.attributes.designation
-							: $t("loading")
-					}}
+					{{ project.id ? project.attributes.designation : $t("loading") }}
 				</template>
 			</T2Header>
 		</template>
@@ -24,9 +20,7 @@
 				<div class="group-content">
 					<ProjectResourceSettings
 						:project_name="project.attributes.designation"
-						:company_name="
-							project.attributes.company.attributes.designation
-						"
+						:company_name="project.attributes.company.attributes.designation"
 						:url="project.attributes.url ?? ''"
 						:image="project.attributes.image?.attributes.base64"
 						:color="project.attributes.color_hex"
@@ -41,10 +35,7 @@
 				</div>
 
 				<div class="group-content">
-					<AssignmentTable
-						:title="$t('team_members')"
-						:list="members"
-					>
+					<AssignmentTable :title="$t('team_members')" :list="members">
 						<template #after-title>
 							<div ml-a>
 								<ManageMembers
@@ -82,9 +73,7 @@
 								:last_name="item.attributes.last_name"
 								:email="item.attributes.email"
 								:role_text="item.role?.attributes.designation"
-								:owner="
-									project.attributes.creator?.id === item.id
-								"
+								:owner="project.attributes.creator?.id === item.id"
 								py-4
 								:removable="false"
 								:current_user="user.id === item.id"
@@ -171,7 +160,8 @@ const isAuthorized = computed(() => {
 	// temp code replace with proper ?global? logic
 	return (
 		project.value?.attributes.role?.id === 1 ||
-		project.value?.attributes.creator?.id === user.value.id
+		project.value?.attributes.creator?.id === user.value.id ||
+		useProjectStore().company.attributes.role?.id === 1
 	);
 });
 
