@@ -3,21 +3,21 @@
  -->
 
 <template>
-	<div class="announcement" v-if="visible">
-		<div />
-
-		<div>
-			<p>{{ t("new_version_released") }}!</p>
-			<p>{{ t("banner_info") }}</p>
+	<div class="announcement-wrapper">
+		<div class="announcement" v-if="visible">
+			<div />
+			<div>
+				<p>{{ t("new_version_released") }}!</p>
+				<p>{{ t("banner_info") }}</p>
+			</div>
+			<img
+				src="/src/assets/icons/close_2.svg"
+				alt="close"
+				:title="t('close')"
+				@click="acknowledge"
+				cursor-pointer
+			/>
 		</div>
-
-		<img
-			src="/src/assets/icons/close_2.svg"
-			alt="close"
-			:title="t('close')"
-			@click="acknowledge"
-			cursor-pointer
-		/>
 	</div>
 </template>
 
@@ -45,17 +45,25 @@ const { t } = useI18n();
 </script>
 
 <style lang="scss" scoped>
-.announcement {
+.announcement-wrapper {
+	width: max-content;
 	position: absolute;
-	width: 100%;
 	top: 0;
 	left: 0;
+	right: 0;
+	padding: 1rem;
+	z-index: 10;
+	margin: 0 auto;
+}
+
+.announcement {
 	display: flex;
 	background-color: hsl(32deg, 100%, 67%);
 	align-items: center;
 	justify-content: space-between;
-	z-index: 1000;
 	box-shadow: 0px 0.5rem 1rem -0.125rem rgba(0, 0, 0, 0.1);
 	padding: 1rem;
+	border-radius: 0.5rem;
+	gap: 1rem;
 }
 </style>
