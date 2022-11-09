@@ -13,7 +13,7 @@
 			<img
 				src="/src/assets/icons/close_2.svg"
 				alt="close"
-				:title="t('close')"
+				:title="$t('close')"
 				@click="acknowledge"
 				cursor-pointer
 			/>
@@ -41,7 +41,7 @@ const acknowledge = () => {
 	visibility.value = false;
 };
 
-const { t } = useI18n();
+const { t } = useI18n({ inheritLocale: true });
 </script>
 
 <style lang="scss" scoped>
@@ -67,3 +67,16 @@ const { t } = useI18n();
 	gap: 1rem;
 }
 </style>
+
+<i18n lang="json">
+{
+	"en": {
+		"new_version_released": "A new version was released",
+		"banner_info": "If you encounter any problems or bugs, please use the feedback form in the lower right corner to tell us about them."
+	},
+	"de": {
+		"new_version_released": "Eine neue Version wurde veröffentlicht",
+		"banner_info": "Sollte es zu Problemen oder Fehler kommen, nutze bitte das Feedback Formular in der unteren rechten Ecke um uns darüber zu berichten."
+	}
+}
+</i18n>
