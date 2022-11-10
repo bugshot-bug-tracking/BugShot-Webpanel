@@ -115,12 +115,13 @@
 		"column": "Add column"
 	},
 	"create": {
-		"create": "Create",
+		"": "Create",
 		"company": "Create company | Create companies",
 		"project": "Create project | Create projects",
 		"bug": "Create bug | Create bugs",
 		"comment": "Create comment | Create comments",
-		"attachment": "Create attachment | Create attachments"
+		"attachment": "Create attachment | Create attachments",
+		"organization": "Create organization"
 	},
 	"edit": {
 		"edit": "Edit",
@@ -279,5 +280,8 @@
 	"organization": "Organization",
 	"company_edited_succ": "Company edited successfully",
 	"close": "Close",
-	"optional": "Optional"
+	"optional": "Optional",
+	"no_organizations": "You don't have any organizations",
+	"please_add_new_one": "Please add a new one",
+	"organization_succ_created": "Organization successfully created"
 }

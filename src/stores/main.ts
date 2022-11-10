@@ -4,6 +4,7 @@ import axios from "axios";
 import { Company } from "~/models/Company";
 import nProgress from "nprogress";
 import { Role } from "~/models/Role";
+import { Organization } from "~/models/Organization";
 
 export const useMainStore = defineStore("main", {
 	state: () => ({
@@ -11,6 +12,8 @@ export const useMainStore = defineStore("main", {
 		projects: new Map<String, String>(),
 
 		roles: [] as Role[],
+
+		organizations: [] as Organization[],
 	}),
 
 	actions: {
@@ -28,6 +31,13 @@ export const useMainStore = defineStore("main", {
 			await this.fetchRoles();
 
 			nProgress.done();
+		},
+
+		async initOrganizations() {
+			let response = (await axios.get(`organizations`)).data.data;
+
+			this.organizations = response;
+			return response;
 		},
 
 		async fetchAll() {
@@ -52,10 +62,7 @@ export const useMainStore = defineStore("main", {
 					this.companies.set(company.id, company);
 
 					for (const project of company.attributes.projects) {
-						if (
-							project.attributes.image != null &&
-							project.attributes.image.attributes
-						)
+						if (project.attributes.image != null && project.attributes.image.attributes)
 							project.attributes.image.attributes.base64 = atob(
 								project.attributes.image.attributes.base64
 							);
@@ -190,8 +197,7 @@ export const useMainStore = defineStore("main", {
 					)
 				).data.data;
 
-				let image = (await axios.get(`projects/${project.id}/image`))
-					.data.data;
+				let image = (await axios.get(`projects/${project.id}/image`)).data.data;
 
 				if (image != null && image.attributes)
 					image.attributes.base64 = atob(image.attributes.base64);
@@ -204,9 +210,7 @@ export const useMainStore = defineStore("main", {
 				console.log(company);
 
 				company.attributes.projects[
-					company.attributes.projects.findIndex(
-						(x) => x.id === project.id
-					)
+					company.attributes.projects.findIndex((x) => x.id === project.id)
 				] = response;
 			} catch (error) {
 				console.log(error);
@@ -267,8 +271,7 @@ export const useMainStore = defineStore("main", {
 			try {
 				await axios.delete(`projects/${project_id}/users/${user_id}`);
 
-				let projects =
-					this.getProjectCompany(project_id).attributes.projects;
+				let projects = this.getProjectCompany(project_id).attributes.projects;
 
 				projects.splice(
 					projects.findIndex((x) => x.id === project_id),
@@ -298,11 +301,12 @@ export const useMainStore = defineStore("main", {
 				.get(state.projects.get(id))
 				?.attributes.projects?.find((x) => x.id === id),
 
-		getProjectCompany: (state) => (id: string) =>
-			state.companies.get(state.projects.get(id)),
+		getProjectCompany: (state) => (id: string) => state.companies.get(state.projects.get(id)),
 
 		getRoles: (state) => state.roles,
 
 		getProjectsCount: (state) => state.projects.size,
+
+		getOrganizations: (state) => state.organizations,
 	},
 });
