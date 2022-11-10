@@ -3,6 +3,7 @@
 		:submit="onSubmit"
 		:success_message="$t('organization_succ_created')"
 		:primary_button="primary_button"
+		@close="reset"
 	>
 		<template #button-text>
 			<span uppercase font-bold>{{ $t("create.organization") }}</span>
@@ -15,7 +16,7 @@
 		<template #modal-form>
 			<div class="bs-input2">
 				<label>
-					{{ t("organization_name") }}
+					{{ $t("organization_name") }}
 				</label>
 
 				<input
@@ -46,16 +47,18 @@ defineProps({
 	},
 });
 
-const { t } = useI18n();
-
 const data = reactive({
 	designation: "",
 });
 
-const store = useOrganizationStore();
+const reset = () => {
+	data.designation = "";
+};
 
 const onSubmit = async () => {
-	await store.createOrganization(data);
+	await useOrganizationStore().createOrganization(data);
+
+	reset();
 };
 </script>
 

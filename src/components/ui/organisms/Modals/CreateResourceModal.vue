@@ -53,29 +53,11 @@
 		:state="loadingModal.state"
 		:message="loadingModal.message"
 		@close="loadingModal.clear"
+		@onSuccess="modal.close"
 	/>
 </template>
 
 <script setup lang="ts">
-const modal = reactive({
-	show: false,
-	loading: false,
-	open: async () => {
-		if (modal.loading === true) return;
-		modal.loading = true;
-		if (props.preOpenCall) await props.preOpenCall();
-		modal.show = true;
-		modal.loading = false;
-	},
-	close: async () => {
-		if (modal.loading === true) return;
-		modal.loading = true;
-		if (props.postOpenCall) await props.postOpenCall();
-		modal.show = false;
-		modal.loading = false;
-	},
-});
-
 const props = defineProps({
 	primary_button: {
 		type: Boolean,
@@ -105,7 +87,29 @@ const props = defineProps({
 	},
 });
 
+const emit = defineEmits(["close"]);
+
 const { t } = useI18n();
+
+const modal = reactive({
+	show: false,
+	loading: false,
+	open: async () => {
+		if (modal.loading === true) return;
+		modal.loading = true;
+		if (props.preOpenCall) await props.preOpenCall();
+		modal.show = true;
+		modal.loading = false;
+	},
+	close: async () => {
+		if (modal.loading === true) return;
+		modal.loading = true;
+		if (props.postOpenCall) await props.postOpenCall();
+		modal.show = false;
+		modal.loading = false;
+		emit("close");
+	},
+});
 
 const onSubmit = async () => {
 	try {
