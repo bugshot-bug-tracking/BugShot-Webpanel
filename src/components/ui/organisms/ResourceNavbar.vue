@@ -1,16 +1,135 @@
 <template>
 	<TSidebar>
 		<template #header>
-			<header></header>
+			<header>
+				<div>
+					<h3>
+						<slot name="header-text"> [PH] resource </slot>
+					</h3>
+
+					<RouterLink
+						:to="{ name: 'home' }"
+						:style="{
+							'text-decoration': 'underline',
+							color: '#7a2ee6',
+							'font-size': '0.875rem',
+						}"
+					>
+						{{ $t("back_to_al_projects") }}
+					</RouterLink>
+				</div>
+
+				<div>
+					<OrderButton creation updated @change="onChangeOrder" :selected="order">
+						<template #header>
+							<slot name="order-text"> [PH] Order resource </slot>
+						</template>
+					</OrderButton>
+				</div>
+			</header>
 		</template>
 
-		<template #main> </template>
+		<template #main>
+			<div class="list-wrapper bs-scroll">
+				<ul>
+					<li v-for="item in orderedList" :key="item.id">
+						<slot name="item" v-bind="{ item }"> </slot>
 
-		<template #footer> </template>
+						<hr />
+					</li>
+				</ul>
+			</div>
+		</template>
+
+		<template #footer v-if="$slots['footer']">
+			<slot name="footer"> </slot>
+		</template>
 	</TSidebar>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { PropType } from "vue";
+import { Company } from "~/models/Company";
+import { Organization } from "~/models/Organization";
+
+const props = defineProps({
+	order: {
+		type: Number,
+		required: true,
+	},
+
+	list: {
+		type: Array as PropType<Company[] | Organization[]>,
+		required: true,
+	},
+});
+
+const emit = defineEmits<{ (event: "change-order", value: number): void }>();
+
+const onChangeOrder = (value: number) => {
+	emit("change-order", value);
+};
+
+const orderedList = computed(() => {
+	// when the companies are updated set the navbar accordingly
+	// force();
+
+	// handle the ordering of companies
+	switch (props.order) {
+		// default case fallthrough to case 0
+		default:
+		case 0: // A-Z
+			return [...props.list].sort((a, b) => {
+				return a.attributes.designation.localeCompare(b.attributes.designation);
+			});
+			break;
+
+		case 1: // Z-A
+			return [...props.list].sort((a, b) => {
+				return a.attributes.designation.localeCompare(b.attributes.designation) * -1;
+			});
+			break;
+
+		case 2: //  Creation newest
+			return [...props.list].sort((a, b) => {
+				return (
+					(new Date(a.attributes.created_at).getTime() -
+						new Date(b.attributes.created_at).getTime()) *
+					-1
+				);
+			});
+			break;
+
+		case 3: // Creation oldest
+			return [...props.list].sort((a, b) => {
+				return (
+					new Date(a.attributes.created_at).getTime() -
+					new Date(b.attributes.created_at).getTime()
+				);
+			});
+			break;
+
+		case 4: // Last edit ascending
+			return [...props.list].sort((a, b) => {
+				return (
+					(new Date(a.attributes.updated_at).getTime() -
+						new Date(b.attributes.updated_at).getTime()) *
+					-1
+				);
+			});
+			break;
+
+		case 5: // Last edit descending
+			return [...props.list].sort((a, b) => {
+				return (
+					new Date(a.attributes.updated_at).getTime() -
+					new Date(b.attributes.updated_at).getTime()
+				);
+			});
+			break;
+	}
+});
+</script>
 
 <style lang="scss" scoped>
 header {
@@ -25,115 +144,26 @@ header {
 	}
 }
 
-ul {
-	list-style-type: none;
-	padding: 0.5rem;
-	text-align: left;
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
-
-	li {
-		.header {
-			width: 100%;
-			display: flex;
-			align-items: flex-start;
-			justify-content: space-between;
-			padding: 0.5rem;
-			font-weight: bold;
-			cursor: pointer;
-			border-radius: 0.5rem;
-			line-height: 1.5;
-			gap: 1rem;
-
-			&:hover {
-				background-color: hsl(263, 79%, 94%);
-			}
-
-			.arrow {
-				transform: rotateZ(-90deg);
-				transition: transform 0.2s;
-				user-select: none;
-				width: 1.5rem;
-				height: 1.5rem;
-				line-height: 1.5;
-			}
-
-			&.open {
-				background: hsl(158, 79%, 87%);
-
-				> div img {
-					transform: rotateZ(0deg);
-				}
-
-				+ .collapsable {
-					visibility: visible;
-					max-height: 10000px;
-					transition: 0.5s ease-in;
-				}
-			}
-		}
-
-		&:last-of-type {
-			hr {
-				display: none;
-			}
-		}
-	}
-}
-
-.collapsable {
-	display: flex;
-	visibility: collapse;
-	max-height: 0;
-	flex-direction: column;
-	margin: 0.5rem 0 0.5rem 0.5rem;
-	transition: 0.2s ease-out;
-	overflow: hidden;
-
-	ul {
-		padding: 0;
-	}
-}
-
-.companies {
-	padding: 0.5rem;
-	padding-right: 0;
+.list-wrapper {
+	padding: 0.5rem 0 0.5rem 0.5rem;
 	height: 100%;
 	width: 100%;
-}
 
-.route {
-	display: flex;
-	align-items: flex-start;
-	padding: 0.5rem;
-	width: 100%;
-	border-radius: 0.5rem;
-	gap: 0.5rem;
+	ul {
+		list-style-type: none;
+		padding: 0.5rem;
+		text-align: left;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
 
-	&:hover {
-		background-color: hsl(263, 79%, 94%);
-	}
-
-	&.router-link-exact-active {
-		background: hsl(158, 79%, 87%);
-
-		&.settings {
-			background: transparent;
-
-			img {
-				color: #7a2ee6;
-				filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
-					hue-rotate(263deg) brightness(94%) contrast(92%);
+		li {
+			&:last-of-type {
+				hr {
+					display: none;
+				}
 			}
 		}
 	}
-}
-
-.dot {
-	border-radius: 100%;
-	background-color: red;
-	padding: 0.5rem;
-	transform: translateY(0.1rem);
 }
 </style>

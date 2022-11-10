@@ -277,11 +277,13 @@
 	"project_edited_succ": "Project edited successfully",
 	"company_name": "Company name",
 	"organization_name": "Organization name",
-	"organization": "Organization",
+	"organization": "Organization | Organizations",
 	"company_edited_succ": "Company edited successfully",
 	"close": "Close",
 	"optional": "Optional",
 	"no_organizations": "You don't have any organizations",
 	"please_add_new_one": "Please add a new one",
-	"organization_succ_created": "Organization successfully created"
+	"organization_succ_created": "Organization successfully created",
+	"order_organizations": "Order organizations",
+	"overview": "Overview"
 }
