@@ -6,7 +6,7 @@
 				items-center
 				gap-2
 				class="bs-btn green text-capitalize"
-				:class="{ loading: modal.loading }"
+				:class="{ empty: !primary_button, loading: modal.loading }"
 			>
 				<slot name="button-image">
 					<img
@@ -14,7 +14,10 @@
 						alt="project"
 						w-6
 						h-6
-						class="black-to-white"
+						:class="{
+							'black-to-white': primary_button,
+							'black-to-green': !primary_button,
+						}"
 					/>
 				</slot>
 
@@ -74,6 +77,12 @@ const modal = reactive({
 });
 
 const props = defineProps({
+	primary_button: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+
 	success_message: {
 		type: String,
 		required: false,

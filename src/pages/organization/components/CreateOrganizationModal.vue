@@ -1,5 +1,9 @@
 <template>
-	<CreateResourceModal :submit="onSubmit" :success_message="$t('organization_succ_created')">
+	<CreateResourceModal
+		:submit="onSubmit"
+		:success_message="$t('organization_succ_created')"
+		:primary_button="primary_button"
+	>
 		<template #button-text>
 			<span uppercase font-bold>{{ $t("create.organization") }}</span>
 		</template>
@@ -33,6 +37,14 @@
 
 <script setup lang="ts">
 import { useOrganizationStore } from "~/stores/organizations";
+
+defineProps({
+	primary_button: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+});
 
 const { t } = useI18n();
 
