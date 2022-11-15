@@ -5,7 +5,7 @@ import { HeadClient } from "@vueuse/head";
 interface AppContext<HasRouter extends boolean = true> {
 	app: App<Element>;
 	router: HasRouter extends true ? Router : undefined;
-	head: HeadClient | undefined;
+	head?: HeadClient | undefined;
 }
 
 export type UserModule = (ctx: AppContext) => void;
