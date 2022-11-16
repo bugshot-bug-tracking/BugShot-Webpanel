@@ -22,6 +22,10 @@
 					{{ $t("organization_settings") }}
 				</div>
 				<div class="group-content">
+					<OrganizationSettings
+						:name="resource.attributes.designation"
+						:editFunction="editResource"
+					/>
 				</div>
 			</div>
 
@@ -64,6 +68,7 @@
 
 <script setup lang="ts">
 import { useOrganizationStore } from "~/stores/organization";
+import OrganizationSettings from "~/pages/organization/components/OrganizationSettings.vue";
 
 const props = defineProps({
 	id: {
