@@ -3,7 +3,7 @@
 		<img src="/src/assets/animations/loading.svg" alt="loading circle" />
 	</main>
 
-	<main class="main-grid" v-else-if="organizations.length > 0">
+	<main class="main-grid" v-else-if="(organizations?.length ?? -1) > 0">
 		<section class="grid-sidebar">
 			<OrganizationNavbar />
 		</section>
@@ -21,13 +21,13 @@
 
 			<p>{{ $t("please_add_new_one") }}</p>
 
-			<CreateOrganizationModal :primary_button="true" />
+			<OrganizationCreateModal :primary_button="true" />
 		</section>
 	</main>
 </template>
 
 <script setup lang="ts">
-import CreateOrganizationModal from "./organization/components/CreateOrganizationModal.vue";
+import OrganizationCreateModal from "./organization/components/OrganizationCreateModal.vue";
 import OrganizationNavbar from "./organization/components/OrganizationNavbar.vue";
 import { useMainStore } from "~/stores/main";
 

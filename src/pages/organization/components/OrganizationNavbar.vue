@@ -66,13 +66,13 @@
 		</template>
 
 		<template #footer>
-			<CreateOrganizationModal :primary_button="false" />
+			<OrganizationCreateModal :primary_button="false" />
 		</template>
 	</ResourceNavbar>
 </template>
 
 <script setup lang="ts">
-import CreateOrganizationModal from "./CreateOrganizationModal.vue";
+import OrganizationCreateModal from "./OrganizationCreateModal.vue";
 import { useSettingsStore } from "~/stores/settings";
 import { useMainStore } from "~/stores/main";
 import { Organization } from "~/models/Organization";
@@ -84,7 +84,7 @@ const onChangeOrder = (value: number) => {
 	useSettingsStore().setOrganizationsOrder(value);
 };
 
-const organizations = useMainStore().getOrganizations;
+const organizations = computed(() => useMainStore().getOrganizations);
 
 const user = computed(() => useAuthStore().getUser);
 

@@ -7,7 +7,7 @@ const store = useMainStore();
 
 const route = useRouter();
 
-route.push({ name: "organization", params: { id: store.organizations[0].id } });
+route.push({ name: "organization", params: { id: store.getOrganizations![0].id } });
 </script>
 
 <style lang="scss" scoped></style>
