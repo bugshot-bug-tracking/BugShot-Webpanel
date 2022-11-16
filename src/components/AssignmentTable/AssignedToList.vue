@@ -1,14 +1,16 @@
 <template>
 	<section v-if="list.length > 0">
 		<header>
-			<b>{{ $t("assigned_to") }}</b>
+			<slot name="header">
+				<b>{{ $t("assigned_to") }}</b>
 
-			<span> ({{ list.length }} {{ $t(`${type}`, list.length) }}) </span>
+				<span> ({{ list.length }} {{ $t(`${type.toLowerCase()}`, list.length) }}) </span>
+			</slot>
 		</header>
 
-		<ul my-4 gap-2 flex flex-wrap max-w-40vw>
+		<ul v-if="list.length > 0" my-4 gap-2 flex flex-wrap max-w-40vw>
 			<li class="item" v-for="item of list" :key="item.id">
-				{{ item.attributes.designation }}
+				<slot name="text" v-bind="{ item: item }">{{ item.attributes.designation }}</slot>
 
 				<img
 					v-if="removable"
@@ -22,12 +24,17 @@
 			</li>
 		</ul>
 	</section>
+
+	<div v-else text-start class="black-to-gray">
+		{{ $t(type.toLowerCase() + "_no_resources") }}
+	</div>
 </template>
 
 <script setup lang="ts">
 import { PropType } from "vue";
 
-const props = defineProps({
+// const props =
+defineProps({
 	list: {
 		required: false,
 		type: Array as PropType<
@@ -43,11 +50,15 @@ const props = defineProps({
 		default: false,
 		description: "Toggle for remove button visibility",
 	},
+
+	type: {
+		required: true,
+		type: String,
+		description: "Type of the list",
+	},
 });
 
 const emit = defineEmits<{ (event: "remove", item: any): void }>();
-
-const type = computed(() => props.list[0].type.toLowerCase());
 </script>
 
 <style lang="scss" scoped>

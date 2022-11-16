@@ -28,6 +28,7 @@
 			/>
 
 			<MemberList
+				v-if="pending_list.length > 0"
 				:list="pending_list"
 				invitationMode
 				@delete="deleteModal.openInvitation"

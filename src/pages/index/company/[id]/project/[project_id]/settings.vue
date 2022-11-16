@@ -79,7 +79,7 @@
 								:current_user="user.id === item.id"
 							/>
 
-							<AssignedToList :list="bugs" @remove="" />
+							<AssignedToList :list="bugs" @remove="" :type="'Bug'" />
 						</template>
 					</AssignmentTable>
 				</div>

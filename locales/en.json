@@ -133,7 +133,8 @@
 		"member": "Edit member | Edit members",
 		"team_member": "Edit team member | Edit team members",
 		"settings": "Edit settings",
-		"profile": "Edit profile"
+		"profile": "Edit profile",
+		"organization": "Edit organization"
 	},
 	"delete": {
 		"delete": "Delete",
@@ -285,5 +286,14 @@
 	"please_add_new_one": "Please add a new one",
 	"organization_succ_created": "Organization successfully created",
 	"order_organizations": "Order organizations",
-	"overview": "Overview"
+	"overview": "Overview",
+	"delete_organization_and_projects": "Delete organization and associated companies",
+	"organization_settings": "Organization settings",
+	"enter_organization_name": "Enter organization name",
+	"organization_edited_succ": "Organization edited successfully",
+
+	"organization_no_resources": "You do not have any organizations",
+	"company_no_resources": "You do not have any companies",
+	"project_no_resources": "You do not have any projects",
+	"bug_no_resources": "You do not have any bugs"
 }
