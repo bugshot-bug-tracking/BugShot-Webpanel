@@ -1,52 +1,46 @@
 <template>
-	<div class="group-header">
-		{{ $t("team_members") }}
-	</div>
+	<AssignmentTable :title="$t('team_members')" :list="members">
+		<template #after-title>
+			<div ml-a>
+				<ManageMembers
+					:list="manageableMembers"
+					:pending_list="pendingMembers"
+					:add="addMember"
+					:edit="editMember"
+					:delete="deleteMember"
+					:deleteInvitation="deleteInvitation"
+					:preOpenCall="preCall"
+				>
+					<template #button="{ loading }">
+						<img
+							src="/src/assets/icons/gear.svg"
+							alt="gear"
+							:title="!loading ? $t('manage_members') : $t('loading') + '...'"
+							w-8
+							h-8
+							class="manage-button"
+							:class="{ loading: loading }"
+						/>
+					</template>
+				</ManageMembers>
+			</div>
+		</template>
 
-	<div class="group-content" v-if="resource">
-		<AssignmentTable :title="$t('team_members')" :list="members">
-			<template #after-title>
-				<div ml-a>
-					<ManageMembers
-						:list="manageableMembers"
-						:pending_list="pendingMembers"
-						:add="addMember"
-						:edit="editMember"
-						:delete="deleteMember"
-						:deleteInvitation="deleteInvitation"
-						:preOpenCall="preCall"
-					>
-						<template #button="{ loading }">
-							<img
-								src="/src/assets/icons/gear.svg"
-								alt="gear"
-								:title="!loading ? $t('manage_members') : $t('loading') + '...'"
-								w-8
-								h-8
-								class="manage-button"
-								:class="{ loading: loading }"
-							/>
-						</template>
-					</ManageMembers>
-				</div>
-			</template>
+		<template #item="{ item }: { item: User }">
+			<UserHeader
+				:first_name="item.attributes.first_name"
+				:last_name="item.attributes.last_name"
+				:email="item.attributes.email"
+				:role_text="item.role?.attributes.designation"
+				:owner="resource!.attributes.creator?.id === item.id"
+				py-4
+				:removable="false"
+				:current_user="user.id === item.id"
+			/>
 
-			<template #item="{ item }: { item: User }">
-				<UserHeader
-					:first_name="item.attributes.first_name"
-					:last_name="item.attributes.last_name"
-					:email="item.attributes.email"
-					:role_text="item.role?.attributes.designation"
-					:owner="resource.attributes.creator?.id === item.id"
-					py-4
-					:removable="false"
-					:current_user="user.id === item.id"
-				/>
-
-				<!-- <AssignedToList :list="" @remove="" /> -->
-			</template>
-		</AssignmentTable>
-	</div>
+			<!-- <AssignedToList :list="" @remove="" /> -->
+		</template>
+	</AssignmentTable>
 </template>
 
 <script setup lang="ts">

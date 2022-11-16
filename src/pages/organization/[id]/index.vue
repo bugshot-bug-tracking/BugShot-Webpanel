@@ -56,7 +56,13 @@
 			</div>
 
 			<div class="component-group" max-w-176 min-w-160 h-80vh>
-				<OrganizationTeamTable />
+				<div class="group-header">
+					{{ $t("team_members") }}
+				</div>
+
+				<div class="group-content" v-if="resource">
+					<OrganizationTeamTable />
+				</div>
 			</div>
 
 			<div class="component-group" max-w-128 v-if="false">
