@@ -7,11 +7,7 @@
 				</template>
 
 				<template #l-bottom>
-					{{
-						company.id
-							? company.attributes.designation
-							: $t("loading")
-					}}
+					{{ company.id ? company.attributes.designation : $t("loading") }}
 				</template>
 			</T2Header>
 		</template>
@@ -38,10 +34,7 @@
 				</div>
 
 				<div class="group-content">
-					<AssignmentTable
-						:title="$t('team_members')"
-						:list="members"
-					>
+					<AssignmentTable :title="$t('team_members')" :list="members">
 						<template #after-title>
 							<div ml-a>
 								<ManageMembers
@@ -79,9 +72,7 @@
 								:last_name="item.attributes.last_name"
 								:email="item.attributes.email"
 								:role_text="item.role?.attributes.designation"
-								:owner="
-									company.attributes.creator?.id === item.id
-								"
+								:owner="company.attributes.creator?.id === item.id"
 								py-4
 								:removable="false"
 								:current_user="user.id === item.id"
@@ -211,11 +202,7 @@ const deleteInvitation = async (invitation_id: string) => {
 	await store.deleteInvitation({ invitation_id });
 };
 
-const editCompany = async (data: {
-	designation: string;
-	color_hex: string;
-	base64: string;
-}) => {
+const editCompany = async (data: { designation: string; color_hex: string; base64: string }) => {
 	await store.updateCompany(data);
 };
 

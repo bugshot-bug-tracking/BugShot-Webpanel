@@ -160,16 +160,10 @@ const inviteModal = reactive({
 			console.log(error);
 
 			loadingModal.state = 2;
-			loadingModal.message = error.response.data.data?.message.replace(
-				":",
-				""
-			);
+			loadingModal.message = error.response.data.data?.message.replace(":", "");
 		}
 	},
-	change: async (value: {
-		old: User;
-		new: { email: string; role_id: Number };
-	}) => {
+	change: async (value: { old: User; new: { email: string; role_id: Number } }) => {
 		console.log(value);
 
 		try {
@@ -183,10 +177,7 @@ const inviteModal = reactive({
 			console.log(error);
 
 			loadingModal.state = 2;
-			loadingModal.message = error.response.data.data?.message.replace(
-				":",
-				""
-			);
+			loadingModal.message = error.response.data.data?.message.replace(":", "");
 		}
 	},
 });
@@ -245,10 +236,7 @@ const deleteUser = async () => {
 		console.log(error);
 
 		loadingModal.state = 2;
-		loadingModal.message = error.response.data.data?.message.replace(
-			":",
-			""
-		);
+		loadingModal.message = error.response.data.data?.message.replace(":", "");
 	}
 };
 
@@ -266,10 +254,7 @@ const deleteInvitation = async () => {
 		console.log(error);
 
 		loadingModal.state = 2;
-		loadingModal.message = error.response.data.data?.message.replace(
-			":",
-			""
-		);
+		loadingModal.message = error.response.data.data?.message.replace(":", "");
 	}
 };
 </script>

@@ -39,7 +39,7 @@ const organizations = computed(() => store.getOrganizations);
 
 onMounted(async () => {
 	// fetch organizations data and set the appropriate main based on store.organizations
-	// TODO add an error main component
+	//TODO add an error main component
 	try {
 		await store.initOrganizations();
 	} catch (error) {

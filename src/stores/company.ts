@@ -78,14 +78,11 @@ export const useCompanyStore = defineStore("company", {
 		async fetchInvitations() {
 			try {
 				let response = (
-					await axios.get(
-						`companies/${this.company.id}/invitations`,
-						{
-							headers: {
-								"status-id": "1",
-							},
-						}
-					)
+					await axios.get(`companies/${this.company.id}/invitations`, {
+						headers: {
+							"status-id": "1",
+						},
+					})
 				).data.data;
 
 				if (this.company) this.company.pending = response;
@@ -97,13 +94,10 @@ export const useCompanyStore = defineStore("company", {
 
 		async sendInvitation(payload: { email: string; role_id: number }) {
 			try {
-				let response = await axios.post(
-					`companies/${this.company.id}/invite`,
-					{
-						target_email: payload.email,
-						role_id: payload.role_id,
-					}
-				);
+				let response = await axios.post(`companies/${this.company.id}/invite`, {
+					target_email: payload.email,
+					role_id: payload.role_id,
+				});
 
 				this.company.pending?.push(response.data.data);
 			} catch (error) {
@@ -120,8 +114,7 @@ export const useCompanyStore = defineStore("company", {
 					(x: any) => x.id === payload.invitation_id
 				);
 
-				if (index !== undefined && index !== -1)
-					this.company.pending?.splice(index, 1);
+				if (index !== undefined && index !== -1) this.company.pending?.splice(index, 1);
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -137,9 +130,7 @@ export const useCompanyStore = defineStore("company", {
 					}
 				);
 
-				let user = this.company.attributes.users?.find(
-					(x) => x.id === payload.user_id
-				);
+				let user = this.company.attributes.users?.find((x) => x.id === payload.user_id);
 
 				if (user) user.role = response.data.data.role;
 			} catch (error) {
@@ -150,9 +141,7 @@ export const useCompanyStore = defineStore("company", {
 
 		async deleteMember(payload: { user_id: number }) {
 			try {
-				await axios.delete(
-					`companies/${this.company.id}/users/${payload.user_id}`
-				);
+				await axios.delete(`companies/${this.company.id}/users/${payload.user_id}`);
 
 				let index = this.company.attributes.users?.findIndex(
 					(x) => x.id === payload.user_id
@@ -166,11 +155,7 @@ export const useCompanyStore = defineStore("company", {
 			}
 		},
 
-		async updateCompany(payload: {
-			designation: string;
-			color_hex: string;
-			base64: string;
-		}) {
+		async updateCompany(payload: { designation: string; color_hex: string; base64: string }) {
 			try {
 				await axios.put(`companies/${this.company.id}`, {
 					designation: payload.designation,

@@ -73,9 +73,8 @@ header {
 
 		&:hover {
 			color: #f23838;
-			filter: brightness(0) saturate(1) invert(46%) sepia(28%)
-				saturate(5216%) hue-rotate(331deg) brightness(87%)
-				contrast(121%);
+			filter: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%)
+				hue-rotate(331deg) brightness(87%) contrast(121%);
 		}
 	}
 

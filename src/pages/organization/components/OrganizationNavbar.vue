@@ -88,7 +88,7 @@ const organizations = useMainStore().getOrganizations;
 
 const user = computed(() => useAuthStore().getUser);
 
-// TODO somehow move the logic bellow vvvvv in the ResourceNavbar or ResourceNavbarItem
+//TODO somehow move the logic bellow vvvvv in the ResourceNavbar or ResourceNavbarItem
 
 const items_opened = reactive({
 	// used for identifying the item to manually toggle
