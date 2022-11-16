@@ -15,6 +15,5 @@ export const useOrganizationStore = defineStore("organization", {
 		},
 	},
 
-	getters: {
-	},
+	getters: {},
 });

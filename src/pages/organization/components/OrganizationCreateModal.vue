@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { useOrganizationStore } from "~/stores/organizations";
+import { useOrganizationStore } from "~/stores/organization";
 
 defineProps({
 	primary_button: {
