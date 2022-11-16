@@ -27,36 +27,21 @@
 				</div>
 			</div>
 
-			<div
-				class="right"
-				ref="popup"
-				@click="popupMenu.toggle"
-				v-if="actions"
-			>
-				<img src="/src/assets/icons/more_options.svg" />
-
-				<div class="popup-actions" v-if="popupMenu.visible">
-					<div class="actions">
-						<a class="edit" @click="emit('edit')">
-							<img src="/src/assets/icons/edit.svg" alt="edit" />
-							<div>{{ $t("edit.edit") }}</div>
-						</a>
-
-						<a class="delete" @click="emit('delete')">
-							<img
-								src="/src/assets/icons/delete.svg"
-								alt="delete"
-							/>
-							<div>{{ $t("delete.delete") }}</div>
-						</a>
-					</div>
-				</div>
+			<div class="right" ref="popup" v-if="actions">
+				<RouterLink :to="to_settings" v-if="to_settings">
+					<img
+						src="/src/assets/icons/gear.svg"
+						alt="settings"
+						:title="$t('setting', 2)"
+					/>
+				</RouterLink>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
+import { PropType } from "vue";
 import timeToText from "~/util/timeToText";
 
 defineProps({
@@ -93,6 +78,11 @@ defineProps({
 		required: false,
 		type: Boolean,
 		default: false,
+	},
+
+	to_settings: {
+		type: Object as PropType<{ name: string; params: { id: string } }>,
+		required: false,
 	},
 });
 

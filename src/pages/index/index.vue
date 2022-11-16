@@ -7,9 +7,7 @@
 		<div class="groups bs-scroll">
 			<GroupContainer v-for="company of companies" :key="company.id">
 				<template #top-left>
-					<RouterLink
-						:to="{ name: 'company', params: { id: company.id } }"
-					>
+					<RouterLink :to="{ name: 'company', params: { id: company.id } }">
 						{{ company.attributes.designation }}
 					</RouterLink>
 				</template>
@@ -35,27 +33,19 @@
 					}"
 					actions
 					@open="goToProject(company.id, project.id)"
-					@edit="openEdit(project)"
-					@delete="openDelete(project)"
+					:to_settings="{
+						name: 'project-settings',
+						params: { id: company.id, project_id: project.id },
+					}"
 				/>
 			</GroupContainer>
 		</div>
 	</T2Page>
-
-	<EditModal v-if="edit.visible" :id="edit.project_id" @close="edit.reset" />
-
-	<DeleteModal
-		v-if="deleteAction.visible"
-		:text="deleteAction.text"
-		:callback="deleteAction.execute"
-		@close="deleteAction.reset"
-	/>
 </template>
 
 <script setup lang="ts">
 import timeToText from "~/util/timeToText";
 import { useMainStore } from "~/stores/main";
-import { Project } from "~/models/Project";
 
 const store = useMainStore();
 const router = useRouter();
@@ -64,9 +54,7 @@ const companies = computed(() => {
 	return [...store.getCompanies]
 		.map((r) => r[1])
 		.filter((record) => record.attributes.projects?.length || 0 > 0)
-		.sort((a, b) =>
-			a.attributes.updated_at < b.attributes.updated_at ? 1 : -1
-		);
+		.sort((a, b) => (a.attributes.updated_at < b.attributes.updated_at ? 1 : -1));
 });
 
 const companyProjects = (id: string) => store.getCompanyProjects(id);
@@ -76,40 +64,6 @@ const goToProject = (company_id: string, project_id: string) => {
 		name: "project",
 		params: { id: company_id, project_id: project_id },
 	});
-};
-
-const edit = reactive({
-	visible: false,
-	company_id: "",
-	project_id: "",
-	reset: () => {
-		edit.visible = false;
-		edit.company_id = "";
-		edit.project_id = "";
-	},
-});
-const openEdit = (project: Project) => {
-	edit.company_id = project.attributes.company.id;
-	edit.project_id = project.id;
-	edit.visible = true;
-};
-
-const deleteAction = reactive({
-	visible: false,
-	text: "",
-	execute: () => {},
-	reset: () => {
-		deleteAction.visible = false;
-		deleteAction.text = "";
-		deleteAction.execute = () => {};
-	},
-});
-const openDelete = (project: Project) => {
-	deleteAction.text = project.attributes.designation;
-	deleteAction.execute = async () => {
-		await store.deleteProject(project.id);
-	};
-	deleteAction.visible = true;
 };
 </script>
 

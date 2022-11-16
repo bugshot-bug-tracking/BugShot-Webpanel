@@ -7,9 +7,7 @@
 				</template>
 
 				<template #l-bottom>
-					{{
-						company ? company.attributes.designation : $t("loading")
-					}}
+					{{ company ? company.attributes.designation : $t("loading") }}
 				</template>
 
 				<ManageMembers
@@ -29,9 +27,7 @@
 					:aditionalBody="{
 						company_id: id,
 					}"
-					:subTitle="`${$t('company')}: ${
-						company?.attributes.designation
-					}`"
+					:subTitle="`${$t('company')}: ${company?.attributes.designation}`"
 				/>
 
 				<router-link
@@ -57,9 +53,7 @@
 		<div class="bs-scroll s-green w-100 h-100" v-if="company && projects">
 			<GroupContainer>
 				<template #top-left>
-					<RouterLink
-						:to="{ name: 'company', params: { id: company.id } }"
-					>
+					<RouterLink :to="{ name: 'company', params: { id: company.id } }">
 						{{ company.attributes.designation }}
 					</RouterLink>
 				</template>
@@ -84,29 +78,19 @@
 						total: project.attributes.bugsTotal,
 					}"
 					actions
-					@open="
-						goToProject(project.attributes.company.id, project.id)
-					"
-					@edit="openEdit(project)"
-					@delete="openDelete(project)"
+					@open="goToProject(project.attributes.company.id, project.id)"
+					:to_settings="{
+						name: 'project-settings',
+						params: { id: project.attributes.company.id, project_id: project.id },
+					}"
 				/>
 			</GroupContainer>
 		</div>
 	</T2Page>
-
-	<EditModal v-if="edit.visible" :id="edit.project_id" @close="edit.reset" />
-
-	<DeleteModal
-		v-if="deleteAction.visible"
-		:text="deleteAction.text"
-		:callback="deleteAction.execute"
-		@close="deleteAction.reset"
-	/>
 </template>
 
 <script setup lang="ts">
 import axios from "axios";
-import { Project } from "~/models/Project";
 import { useAuthStore } from "~/stores/auth";
 import { useMainStore } from "~/stores/main";
 import timeToText from "~/util/timeToText";
@@ -127,7 +111,7 @@ const company = computed(() => store.getCompanyById(props.id));
 const projects = computed(() => store.getCompanyProjects(props.id));
 
 const isAuthorized = computed(() => {
-	// temp code replace with proper ?global? logic
+	//TODO temp code replace with proper ?global? logic
 	return (
 		company.value?.attributes.role?.id === 1 ||
 		company.value?.attributes.creator?.id === useAuthStore().getUser.id
@@ -140,41 +124,6 @@ const goToProject = (company_id: string, project_id: string) => {
 		params: { id: company_id, project_id: project_id },
 	});
 };
-
-const edit = reactive({
-	visible: false,
-	company_id: "",
-	project_id: "",
-	reset: () => {
-		edit.visible = false;
-		edit.company_id = "";
-		edit.project_id = "";
-	},
-});
-const openEdit = (project: Project) => {
-	edit.company_id = project.attributes.company.id;
-	edit.project_id = project.id;
-	edit.visible = true;
-};
-
-const deleteAction = reactive({
-	visible: false,
-	text: "",
-	execute: () => {},
-	reset: () => {
-		deleteAction.visible = false;
-		deleteAction.text = "";
-		deleteAction.execute = () => {};
-	},
-});
-const openDelete = (project: Project) => {
-	deleteAction.text = project.attributes.designation;
-	deleteAction.execute = async () => {
-		await store.deleteProject(project.id);
-	};
-	deleteAction.visible = true;
-};
-
 const preCall = async () => {
 	await store.fetchCompanyUsers(props.id);
 
@@ -202,23 +151,17 @@ const editMember = async (user_id: number, role_id: number) => {
 const deleteMember = async (user_id: number) => {
 	await axios.delete(`companies/${props.id}/users/${user_id}`);
 
-	let index = company.value?.attributes.users?.findIndex(
-		(x) => x.id === user_id
-	);
+	let index = company.value?.attributes.users?.findIndex((x) => x.id === user_id);
 
-	if (index !== undefined && index !== -1)
-		company.value?.attributes.users?.splice(index, 1);
+	if (index !== undefined && index !== -1) company.value?.attributes.users?.splice(index, 1);
 };
 
 const deleteInvitation = async (invitation_id: string) => {
 	await axios.delete(`invitations/${invitation_id}`);
 
-	let index = company.value?.pending?.findIndex(
-		(x) => x.id === invitation_id
-	);
+	let index = company.value?.pending?.findIndex((x) => x.id === invitation_id);
 
-	if (index !== undefined && index !== -1)
-		company.value?.pending?.splice(index, 1);
+	if (index !== undefined && index !== -1) company.value?.pending?.splice(index, 1);
 };
 </script>
 
