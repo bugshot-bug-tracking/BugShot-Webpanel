@@ -45,6 +45,16 @@
 				</div>
 			</div>
 
+			<div class="component-group" max-w-176 min-w-160 h-80vh>
+				<div class="group-header">
+					{{ $t("company", 2) }}
+				</div>
+
+				<div class="group-content">
+					<OrganizationCompaniesTable />
+				</div>
+			</div>
+
 			<div class="component-group" max-w-128 v-if="false">
 				<div class="group-header">
 					{{ $t("resource_token") }}
@@ -69,6 +79,7 @@
 <script setup lang="ts">
 import { useOrganizationStore } from "~/stores/organization";
 import OrganizationSettings from "~/pages/organization/components/OrganizationSettings.vue";
+import OrganizationCompaniesTable from "~/pages/organization/partials/OrganizationCompaniesTable.vue";
 
 const props = defineProps({
 	id: {
