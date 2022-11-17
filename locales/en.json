@@ -296,4 +296,7 @@
 	"project_no_resources": "You do not have any projects",
 	"bug_no_resources": "You do not have any bugs",
 	"company_succ_created": "Company successfully created",
+	"no_plan": "No plan",
+	"member_plan": "Member plan",
+	"view_details": "View details"
 }

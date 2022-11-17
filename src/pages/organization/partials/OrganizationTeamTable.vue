@@ -36,9 +36,43 @@
 				py-4
 				:removable="false"
 				:current_user="user.id === item.id"
-			/>
+			>
+				<template #end>
+					<RouterLink
+						:to="{
+							name: 'organization-user',
+							params: { id: resource?.id, user_id: item.id },
+						}"
+						class="black-to-purple"
+						:style="{ 'font-size': '0.825rem' }"
+					>
+						<img
+							src="/src/assets/icons/password_view.svg"
+							alt="view"
+							:style="{ width: '0.825rem', height: '0.825rem' }"
+							mr-1
+						/>
 
-			<!-- <AssignedToList :list="" @remove="" /> -->
+						<b>{{ $t("view_details") }}</b>
+					</RouterLink>
+				</template>
+			</UserHeader>
+
+			<AssignedToList :list="store.companies" @remove="" :type="'Company'" my-2 />
+
+			<div flex gap-4 class="black-to-purple" mb-2>
+				<b>{{ $t("member_plan") }}:</b>
+
+				<div v-if="item.subscription">
+					<img src="/src/assets/icons/starter.svg" alt="" w-5 h-5 mr-1 />
+
+					{{ item.subscription }}
+				</div>
+
+				<div v-else>
+					{{ $t("no_plan") }}
+				</div>
+			</div>
 		</template>
 	</AssignmentTable>
 </template>

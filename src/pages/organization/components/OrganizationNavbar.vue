@@ -44,6 +44,25 @@
 					</RouterLink>
 
 					<RouterLink
+						:to="{ name: 'organization-users', params: { id: item.id } }"
+						class="route"
+						:style="{
+							'font-weight': 'bold',
+							width: 'auto',
+						}"
+					>
+						<img
+							src="/src/assets/icons/people.svg"
+							alt="memers"
+							w-6
+							h-6
+							p-1
+							:title="$t('team_members')"
+						/>
+						{{ $t("team_members") }}
+					</RouterLink>
+
+					<RouterLink
 						:to="{ name: 'organization-payments', params: { id: item.id } }"
 						class="route"
 						:style="{
