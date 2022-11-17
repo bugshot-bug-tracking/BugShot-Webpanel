@@ -42,6 +42,12 @@
 				</template>
 			</AssignedToList>
 		</template>
+
+		<template #footer>
+			<div mx-a w-fit>
+				<CompanyCreateModal />
+			</div>
+		</template>
 	</AssignmentTable>
 </template>
 

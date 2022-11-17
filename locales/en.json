@@ -291,9 +291,9 @@
 	"organization_settings": "Organization settings",
 	"enter_organization_name": "Enter organization name",
 	"organization_edited_succ": "Organization edited successfully",
-
 	"organization_no_resources": "You do not have any organizations",
 	"company_no_resources": "You do not have any companies",
 	"project_no_resources": "You do not have any projects",
-	"bug_no_resources": "You do not have any bugs"
+	"bug_no_resources": "You do not have any bugs",
+	"company_succ_created": "Company successfully created",
 }

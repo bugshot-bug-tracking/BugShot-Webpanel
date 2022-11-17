@@ -25,6 +25,7 @@ declare module '@vue/runtime-core' {
     Clients: typeof import('./components/Settings/Clients.vue')['default']
     Column: typeof import('./templates/Column.vue')['default']
     Comments: typeof import('./components/Comments/index.vue')['default']
+    CompanyCreateModal: typeof import('./components/company/CompanyCreateModal.vue')['default']
     CompanyEditModal: typeof import('./components/Modals/CompanyEditModal.vue')['default']
     CompanyNavbar: typeof import('./components/Navigation/CompanyNavbar.vue')['default']
     CompanyResourceSettings: typeof import('./components/CompanyResourceSettings.vue')['default']

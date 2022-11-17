@@ -200,17 +200,19 @@ export const useOrganizationStore = defineStore("organization", {
 
 		async createCompany({
 			designation,
-			image,
+			base64,
 			color_hex,
 		}: {
 			designation: string;
-			image: string | undefined;
+			base64: string | undefined;
 			color_hex: string;
 		}) {
-			let response = await axios.post("companies", { designation, image, color_hex });
+			let response = await axios.post("companies", { designation, base64, color_hex });
 
 			if (!this.companies) this.companies = [] as Company[];
 			this.companies.push(response.data.data);
+
+			return response.data.data;
 		},
 	},
 
@@ -220,6 +222,7 @@ export const useOrganizationStore = defineStore("organization", {
 		getMembers: (state) =>
 			state.members?.map((x) => {
 				x.user.role = x.role;
+				x.user.subscription = x.subscription;
 				return x.user;
 			}) ?? [],
 

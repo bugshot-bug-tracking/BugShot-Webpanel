@@ -1,5 +1,5 @@
 <template>
-	<RouterLink :to="to_resource" class="header" :class="{ open: open }">
+	<RouterLink :to="to_resource" class="route-header" :class="{ open: open }">
 		<div flex gap-2>
 			<img
 				v-if="owner"
@@ -29,7 +29,7 @@
 					alt="settings"
 					w-6
 					h-6
-					:title="$t('settings')"
+					:title="$t('setting', 2)"
 				/>
 			</RouterLink>
 			<div
@@ -133,7 +133,7 @@ const emit = defineEmits(["toggle"]);
 	}
 }
 
-.header {
+.route-header {
 	width: 100%;
 	display: flex;
 	align-items: flex-start;

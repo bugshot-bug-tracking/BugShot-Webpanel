@@ -106,6 +106,23 @@ export const useCompanyStore = defineStore("company", {
 			}
 		},
 
+		/**
+		 * Function used to send an invitation for a specific company without requiring the store to be initialized
+		 * @param id A company ID
+		 * @param payload Invitation details
+		 */
+		async sendInvitationSpecific(id: string, payload: { email: string; role_id: number }) {
+			try {
+				await axios.post(`companies/${id}/invite`, {
+					target_email: payload.email,
+					role_id: payload.role_id,
+				});
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
 		async deleteInvitation(payload: { invitation_id: string }) {
 			try {
 				await axios.delete(`invitations/${payload.invitation_id}`);
