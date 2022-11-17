@@ -78,11 +78,12 @@
 
 	<div v-else>{{ t("empty") }}</div>
 
-	<DeleteModal
-		v-if="deleteAction.visible"
-		:text="deleteAction.text"
-		:callback="deleteAction.execute"
-		@close="deleteAction.reset"
+	<DeleteModal2
+		:show="deleteModal.show"
+		:header="deleteModal.header"
+		:text="deleteModal.text"
+		:callback="deleteModal.callback"
+		@close="deleteModal.clear"
 	/>
 </template>
 
@@ -134,14 +135,15 @@ const editResource = async (data: { designation: string }) => {
 	await store.updateResource(data);
 };
 
-const deleteAction = reactive({
-	visible: false,
-	text: "",
-	execute: () => {},
-	reset: () => {
-		deleteAction.visible = false;
-		deleteAction.text = "";
-		deleteAction.execute = () => {};
+const deleteModal = reactive({
+	show: false,
+	text: "test",
+	header: t("want_to_delete"),
+	callback: null as Function | null,
+	clear: () => {
+		deleteModal.show = false;
+		deleteModal.text = "";
+		deleteModal.callback = null;
 	},
 });
 
@@ -149,15 +151,15 @@ const openDelete = () => {
 	// shouldn't be triggered because of the template page if; but just in case and because TS
 	if (resource.value === undefined) return;
 
-	deleteAction.text = resource.value.attributes.designation;
-	deleteAction.execute = async () => {
+	deleteModal.text = resource.value.attributes.designation;
+	deleteModal.callback = async () => {
 		await store.deleteOrganization();
 
 		router.push({
 			name: "organization-index",
 		});
 	};
-	deleteAction.visible = true;
+	deleteModal.show = true;
 };
 </script>
 

@@ -110,11 +110,12 @@
 		</article>
 	</T2Page>
 
-	<DeleteModal
-		v-if="deleteAction.visible"
-		:text="deleteAction.text"
-		:callback="deleteAction.execute"
-		@close="deleteAction.reset"
+	<DeleteModal2
+		:show="deleteModal.show"
+		:header="deleteModal.header"
+		:text="deleteModal.text"
+		:callback="deleteModal.callback"
+		@close="deleteModal.clear"
 	/>
 </template>
 
@@ -206,27 +207,28 @@ const editCompany = async (data: { designation: string; color_hex: string; base6
 	await store.updateCompany(data);
 };
 
-const deleteAction = reactive({
-	visible: false,
-	text: "",
-	execute: () => {},
-	reset: () => {
-		deleteAction.visible = false;
-		deleteAction.text = "";
-		deleteAction.execute = () => {};
+const deleteModal = reactive({
+	show: false,
+	text: "test",
+	header: t("want_to_delete"),
+	callback: null as Function | null,
+	clear: () => {
+		deleteModal.show = false;
+		deleteModal.text = "";
+		deleteModal.callback = null;
 	},
 });
 
 const openDelete = () => {
-	deleteAction.text = company.value.attributes.designation;
-	deleteAction.execute = async () => {
+	deleteModal.text = company.value.attributes.designation;
+	deleteModal.callback = async () => {
 		await store.deleteCompany();
 
 		router.push({
 			name: "home",
 		});
 	};
-	deleteAction.visible = true;
+	deleteModal.show = true;
 };
 </script>
 
