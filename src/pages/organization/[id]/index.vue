@@ -90,8 +90,8 @@
 <script setup lang="ts">
 import { useOrganizationStore } from "~/stores/organization";
 import OrganizationSettings from "~/pages/organization/components/OrganizationSettings.vue";
-import OrganizationCompaniesTable from "~/pages/organization/partials/OrganizationCompaniesTable.vue";
-import OrganizationTeamTable from "~/pages/organization/partials/OrganizationTeamTable.vue";
+import OrganizationCompaniesTable from "~/pages/organization/components/OrganizationCompaniesTable.vue";
+import OrganizationTeamTable from "~/pages/organization/components/OrganizationTeamTable.vue";
 
 const props = defineProps({
 	id: {
