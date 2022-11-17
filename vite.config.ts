@@ -62,7 +62,7 @@ export default defineConfig({
 					meta: { ...route.meta, requiresAuth: true },
 				};
 			},
-			exclude: ["**/components/*.vue", "**/partials/*.vue"],
+			exclude: ["**/components/**.vue"],
 		}),
 
 		Layouts(),
