@@ -53,6 +53,8 @@ onMounted(async () => {
 <style lang="scss" scoped></style>
 
 <route lang="yaml">
+name: organization-root
+
 meta:
     layout: default2
 </route>

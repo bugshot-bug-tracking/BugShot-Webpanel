@@ -298,5 +298,6 @@
 	"company_succ_created": "Company successfully created",
 	"no_plan": "No plan",
 	"member_plan": "Member plan",
-	"view_details": "View details"
+	"view_details": "View details",
+	"organization_members": "Organization members"
 }
