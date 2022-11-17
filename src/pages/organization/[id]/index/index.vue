@@ -1,5 +1,5 @@
 <template>
-	<T2Page>
+	<T2Page v-if="resource">
 		<template #header>
 			<T2Header>
 				<template #l-top>
@@ -87,7 +87,8 @@ import OrganizationSettings from "~/pages/organization/components/OrganizationSe
 import OrganizationCompaniesTable from "~/pages/organization/components/OrganizationCompaniesTable.vue";
 import OrganizationTeamTable from "~/pages/organization/components/OrganizationTeamTable.vue";
 
-const props = defineProps({
+// const props =
+defineProps({
 	id: {
 		type: String,
 		required: true,

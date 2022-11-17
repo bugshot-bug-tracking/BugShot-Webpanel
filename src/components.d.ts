@@ -76,6 +76,7 @@ declare module '@vue/runtime-core' {
     T2Page: typeof import('./templates/T2Page.vue')['default']
     TeamTable: typeof import('./components/TeamTable.vue')['default']
     TSidebar: typeof import('./templates/TSidebar.vue')['default']
+    UserCard: typeof import('./components/UserCard.vue')['default']
     UserHeader: typeof import('./components/AssignmentTable/UserHeader.vue')['default']
     UserMenu: typeof import('./components/PopupButton/UserMenu.vue')['default']
     UserProjects: typeof import('./components/Settings/UserProjects.vue')['default']

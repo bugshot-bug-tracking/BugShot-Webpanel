@@ -25,14 +25,22 @@ export const useMainStore = defineStore("main", {
 		},
 
 		async init() {
-			await this.destroy();
+			try {
+				nProgress.start();
+				await this.destroy();
 
-			nProgress.start();
+				await this.fetchRoles();
 
-			await this.fetchAll();
-			await this.fetchRoles();
+				await this.fetchAll(); // remove when new structure is finalized
 
-			nProgress.done();
+				nProgress.done();
+			} catch (error) {
+				console.log(error);
+
+				return false;
+			}
+
+			return true;
 		},
 
 		async initOrganizations() {

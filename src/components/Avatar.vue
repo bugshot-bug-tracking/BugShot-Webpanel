@@ -33,8 +33,7 @@ const props = defineProps({
 	size: {
 		required: false,
 		type: String,
-		validator: (value: string) =>
-			["XS", "S", "M", "L", "XL"].includes(value),
+		validator: (value: string) => ["XS", "S", "M", "L", "XL"].includes(value),
 		default: "S",
 	},
 
@@ -75,12 +74,16 @@ const background_color = computed(() => {
 	&.XS {
 		width: 2rem;
 		height: 2rem;
+		min-width: 2rem;
+		min-height: 2rem;
 		font-size: 0.75rem;
 	}
 
 	&.S {
 		width: 2.5rem;
 		height: 2.5rem;
+		min-width: 2.5rem;
+		min-height: 2.5rem;
 		font-size: 1rem;
 	}
 
@@ -88,6 +91,8 @@ const background_color = computed(() => {
 	&.M {
 		width: 3.5rem;
 		height: 3.5rem;
+		min-width: 3.5rem;
+		min-height: 3.5rem;
 		font-size: 1.25rem;
 	}
 
@@ -95,12 +100,16 @@ const background_color = computed(() => {
 	&.L {
 		width: 4.5rem;
 		height: 4.5rem;
+		min-width: 4.5rem;
+		min-height: 4.5rem;
 		font-size: 2rem;
 	}
 
 	&.XL {
 		width: 9rem;
 		height: 9rem;
+		min-width: 9rem;
+		min-height: 9rem;
 		font-size: 4rem;
 	}
 }
