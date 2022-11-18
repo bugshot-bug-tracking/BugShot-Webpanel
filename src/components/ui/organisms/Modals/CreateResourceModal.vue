@@ -28,7 +28,7 @@
 		</slot>
 	</a>
 
-	<MyModal v-model="modal.show" :close="modal.close" z-100>
+	<MyModal :modelValue="modal.show" :close="modal.close" z-100>
 		<ModalTemplate @close="modal.close">
 			<template #header-text>
 				<slot name="modal-header">

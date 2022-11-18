@@ -1,3 +1,7 @@
+<!-- Notes
+	- check and update this component for a cleanlier structure
+-->
+
 <template>
 	<div class="picker">
 		<div class="header">
@@ -57,7 +61,7 @@
 					<input
 						type="radio"
 						name="colorOptions"
-						v-model="colorPicked"
+						v-model="color_picked"
 						v-for="(color, index) of colors"
 						:key="'c' + index"
 						:value="index"
@@ -85,6 +89,9 @@ const props = defineProps({
 		type: String,
 	},
 });
+
+const color_picked = ref(3);
+color_picked.value = props.colorPicked;
 
 // const emit = defineEmits(["setImage", "setColor"]);
 const emit = defineEmits<{

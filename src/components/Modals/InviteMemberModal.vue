@@ -1,5 +1,5 @@
 <template>
-	<MyModal v-model="show" z-101>
+	<MyModal :modelValue="show" z-101>
 		<ModalTemplate @close="closeModal">
 			<template #header-text>
 				{{ editMode ? $t("edit.team_member") : $t("add.team_member") }}
@@ -75,7 +75,6 @@ const props = defineProps({
 		type: Object,
 		required: false,
 		default: undefined,
-
 	},
 });
 
