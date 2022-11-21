@@ -106,11 +106,11 @@ const background_color = computed(() => {
 	}
 
 	&.XL {
-		width: 9rem;
-		height: 9rem;
-		min-width: 9rem;
-		min-height: 9rem;
-		font-size: 4rem;
+		width: 8rem;
+		height: 8rem;
+		min-width: 8rem;
+		min-height: 8rem;
+		font-size: 3.5rem;
 	}
 }
 

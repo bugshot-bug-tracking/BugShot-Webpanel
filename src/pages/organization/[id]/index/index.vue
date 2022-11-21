@@ -60,15 +60,6 @@
 					<OrganizationTeamTable />
 				</div>
 			</div>
-
-			<div class="component-group" max-w-128 v-if="false">
-				<div class="group-header">
-					{{ $t("resource_token") }}
-				</div>
-				<div class="group-content">
-					<span>token</span>
-				</div>
-			</div>
 		</article>
 	</T2Page>
 
