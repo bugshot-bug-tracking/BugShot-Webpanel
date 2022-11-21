@@ -64,6 +64,7 @@ declare module '@vue/runtime-core' {
     ResourceHeader: typeof import('./components/AssignmentTable/ResourceHeader.vue')['default']
     ResourceNavbar: typeof import('./components/ui/organisms/ResourceNavbar.vue')['default']
     ResourceNavbarItem: typeof import('./components/ui/molecules/ResourceNavbarItem.vue')['default']
+    ResourceToken: typeof import('./components/ResourceToken.vue')['default']
     RolePin: typeof import('./components/ui/atoms/RolePin.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

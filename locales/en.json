@@ -299,5 +299,9 @@
 	"no_plan": "No plan",
 	"member_plan": "Member plan",
 	"view_details": "View details",
-	"organization_members": "Organization members"
+	"organization_members": "Organization members",
+	"generate_token": "Generate token",
+	"token": "Token",
+	"delete_token": "Delete token",
+	"refresh": "Refresh"
 }

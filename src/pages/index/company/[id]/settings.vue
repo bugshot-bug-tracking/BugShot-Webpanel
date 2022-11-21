@@ -84,16 +84,16 @@
 				</div>
 			</div>
 
-			<div class="component-group" max-w-128 v-if="false">
+			<div class="component-group" max-w-128 :style="{ 'min-height': 'auto' }">
 				<div class="group-header">
 					{{ $t("resource_token") }}
 				</div>
 				<div class="group-content">
-					<span>token</span>
+					<ResourceToken :type="'Company'" :id="company.id" />
 				</div>
 			</div>
 
-			<div class="component-group" max-w-128>
+			<div class="component-group" max-w-128 :style="{ 'min-height': 'auto' }">
 				<div class="group-header">
 					{{ $t("actions") }}
 				</div>
