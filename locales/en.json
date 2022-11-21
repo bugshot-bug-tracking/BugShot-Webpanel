@@ -303,5 +303,7 @@
 	"generate_token": "Generate token",
 	"token": "Token",
 	"delete_token": "Delete token",
-	"refresh": "Refresh"
+	"refresh": "Refresh",
+	"profile": "Profile",
+	"member_since": "Member since"
 }

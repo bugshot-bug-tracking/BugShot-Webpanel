@@ -80,6 +80,7 @@ declare module '@vue/runtime-core' {
     UserCard: typeof import('./components/Cards/UserCard.vue')['default']
     UserHeader: typeof import('./components/AssignmentTable/UserHeader.vue')['default']
     UserMenu: typeof import('./components/PopupButton/UserMenu.vue')['default']
+    UserProfileCard: typeof import('./components/Cards/UserProfileCard.vue')['default']
     UserProjects: typeof import('./components/Settings/UserProjects.vue')['default']
     UserSettings: typeof import('./components/Settings/UserSettings.vue')['default']
     UserSettingsModal: typeof import('./components/Modals/UserSettingsModal.vue')['default']

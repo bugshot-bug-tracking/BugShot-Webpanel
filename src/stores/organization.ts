@@ -233,5 +233,22 @@ export const useOrganizationStore = defineStore("organization", {
 		getCompanies: (state) => state.companies ?? [],
 		getCompanyProjects: (state) => (id: string) =>
 			state.companies?.find((x) => x.id === id)?.attributes.projects ?? [],
+
+		getOrganizationMember: (state) => (user_id: number) => {
+			if (user_id === state.organization?.attributes.creator.id) {
+				let creator = state.organization.attributes.creator;
+				creator.subscription = null; //TODO resolve this somehow to be the creator subscription
+
+				return creator;
+			}
+
+			let resource = state.members?.find((x) => x.user.id === user_id);
+
+			if (!resource) return undefined;
+
+			resource.user.subscription = resource.subscription;
+
+			return resource.user;
+		},
 	},
 });
