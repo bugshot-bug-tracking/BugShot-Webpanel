@@ -10,10 +10,15 @@
 					{{ $t("token") }}
 				</label>
 
-				<input type="text" :placeholder="$t('token')" v-model="code.token" disabled />
+				<input
+					type="text"
+					:placeholder="$t('token')"
+					v-model="code.attributes.token"
+					disabled
+				/>
 			</div>
 
-			<button class="bs-btn red" mx-a mt-4>
+			<button class="bs-btn red" mx-a mt-4 @click.prevent="actions.delete(code.id)">
 				{{ $t("delete_token") }}
 			</button>
 		</div>
@@ -27,7 +32,7 @@
 		</div>
 
 		<div v-else class="generate-state">
-			<button class="bs-btn green">
+			<button class="bs-btn green" @click.prevent="actions.update">
 				{{ $t("generate_token") }}
 			</button>
 		</div>
@@ -61,21 +66,9 @@ const actions = reactive({
 			loading.value = true;
 			error.value = false;
 
-			let type = "";
-
-			switch (props.type) {
-				case "Company":
-					type = "companies";
-					break;
-
-				case "Project":
-					type = "projects";
-					break;
-			}
-
-			let response = await axios.get(`${type}/${props.id}/api-tokens`);
-
-			console.log(response);
+			let response = await axios.get(
+				`${props.type.toLocaleLowerCase()}/${props.id}/api-tokens`
+			);
 
 			tokens.value = response.data.data;
 
@@ -88,28 +81,26 @@ const actions = reactive({
 		}
 	},
 
-	update: () => {},
+	update: async () => {
+		try {
+			loading.value = true;
+			error.value = false;
+
+			await axios.post(`${props.type.toLocaleLowerCase()}/${props.id}/api-tokens`);
+		} catch (err) {
+			error.value = true;
+			console.log(err);
+		} finally {
+			loading.value = false;
+		}
+	},
 
 	delete: async (value: number) => {
 		try {
 			loading.value = true;
 			error.value = false;
 
-			let type = "";
-
-			switch (props.type) {
-				case "Company":
-					type = "companies";
-					break;
-
-				case "Project":
-					type = "projects";
-					break;
-			}
-
-			let response = await axios.delete(`${type}/${props.id}/api-tokens/${value}`);
-
-			console.log(response);
+			await axios.delete(`${props.type.toLocaleLowerCase()}/${props.id}/api-tokens/${value}`);
 		} catch (err) {
 			error.value = true;
 			console.log(err);
@@ -149,5 +140,6 @@ onMounted(() => {
 	align-items: center;
 	justify-content: center;
 	height: 100%;
+	margin: auto;
 }
 </style>
