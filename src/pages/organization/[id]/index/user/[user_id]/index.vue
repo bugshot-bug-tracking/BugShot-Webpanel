@@ -27,11 +27,22 @@
 					/>
 				</div>
 			</div>
+
+			<div class="component-group" max-w-128 max-h-80vh w-120>
+				<div class="group-header">
+					{{ $t("companies_projects_for_member") }}
+				</div>
+
+				<div class="group-content">
+					<OrganizationUserCompaniesTable :user_id="parseInt(user_id)" />
+				</div>
+			</div>
 		</article>
 	</T2Page>
 </template>
 
 <script setup lang="ts">
+import OrganizationUserCompaniesTable from "~/pages/organization/components/OrganizationUserCompaniesTable.vue";
 import { useOrganizationStore } from "~/stores/organization";
 
 const props = defineProps({
@@ -58,3 +69,16 @@ const member = computed(() => store.getOrganizationMember(parseInt(props.user_id
 <route lang="yaml">
 name: "organization-user"
 </route>
+
+<style lang="scss" scoped>
+article {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	max-height: 100%;
+	column-gap: 3rem;
+	align-content: flex-start;
+	height: 100%;
+	width: 100%;
+}
+</style>

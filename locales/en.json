@@ -305,5 +305,6 @@
 	"delete_token": "Delete token",
 	"refresh": "Refresh",
 	"profile": "Profile",
-	"member_since": "Member since"
+	"member_since": "Member since",
+	"companies_projects_for_member": "Companies and projects for team member"
 }

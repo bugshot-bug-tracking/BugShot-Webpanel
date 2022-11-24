@@ -133,6 +133,8 @@ article {
 	flex-wrap: wrap;
 	max-height: 100%;
 	column-gap: 3rem;
+	height: 100%;
+	width: 100%;
 }
 
 .delete-project {

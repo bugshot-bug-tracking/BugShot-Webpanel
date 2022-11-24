@@ -30,7 +30,7 @@ import { PropType } from "vue";
 // const props =
 defineProps({
 	title: {
-		required: true,
+		required: false,
 		type: String,
 		description: "Text shown in the title slot",
 		default: "[PH] Title",
