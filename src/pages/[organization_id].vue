@@ -70,7 +70,4 @@ const resource = computed(() => store.getCompanies);
 
 <route lang="yaml">
 name: company-root
-
-meta:
-    layout: default2
 </route>

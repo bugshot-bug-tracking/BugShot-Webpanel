@@ -32,7 +32,4 @@ const organizations = computed(() => store.getOrganizations);
 
 <route lang="yaml">
 name: organization-root
-
-meta:
-    layout: default2
 </route>
