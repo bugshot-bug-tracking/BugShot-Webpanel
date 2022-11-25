@@ -34,12 +34,15 @@
 
 .main-empty {
 	margin: auto;
+	height: 100%;
 
 	section {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 		gap: 1rem;
+		height: 100%;
 
 		h1 {
 			font-weight: bold;

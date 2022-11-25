@@ -31,13 +31,13 @@ export const useMainStore = defineStore("main", {
 
 				await this.fetchRoles();
 
-				await this.fetchAll(); // remove when new structure is finalized
+				await this.initOrganizations();
 
 				nProgress.done();
 			} catch (error) {
 				console.log(error);
 
-				return false;
+				throw error;
 			}
 
 			return true;
@@ -51,6 +51,9 @@ export const useMainStore = defineStore("main", {
 			return response;
 		},
 
+		/**
+		 * @deprecated Since version 1.2.6. If possible use company store. Will be removed in the near future
+		 */
 		async fetchAll() {
 			let response = (
 				await axios.get(`companies`, {

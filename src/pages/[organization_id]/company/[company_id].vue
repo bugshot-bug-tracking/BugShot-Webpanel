@@ -11,19 +11,25 @@
 </template>
 
 <script setup lang="ts">
-import { useOrganizationStore } from "~/stores/organization";
+import { useCompanyStore } from "~/stores/company";
 
 const props = defineProps({
-	id: {
+	organization_id: {
 		type: String,
 		required: true,
 		description: "Organization ID",
+	},
+
+	company_id: {
+		type: String,
+		required: true,
+		description: "Company ID",
 	},
 });
 
 const { t } = useI18n();
 
-const store = useOrganizationStore();
+const store = useCompanyStore();
 
 const loading = ref(true);
 const error = ref(false);
@@ -33,7 +39,7 @@ const initStore = async () => {
 		loading.value = true;
 		error.value = false;
 
-		await store.init(props.id);
+		await store.init(props.organization_id, props.company_id);
 	} catch (err) {
 		console.log(err);
 		error.value = true;
@@ -51,7 +57,7 @@ watch(
 	{ deep: true }
 );
 
-const resource = computed(() => store.getOrganization);
+const resource = computed(() => store.getCompany);
 </script>
 
 <style lang="scss" scoped>

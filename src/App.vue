@@ -1,7 +1,11 @@
 <template>
 	<Banner />
 
-	<RouterView />
+	<main class="main-loading" v-if="loading">
+		<img src="/src/assets/animations/loading.svg" alt="loading circle" />
+	</main>
+
+	<RouterView v-else />
 
 	<Feedback />
 </template>
@@ -10,10 +14,35 @@
 import { useI18nStore } from "~/stores/i18n";
 import { useMainStore } from "./stores/main";
 
-useI18nStore().init();
+const store = useMainStore();
 
-useMainStore().init();
+const loading = ref(true);
+
+onMounted(async () => {
+	// fetch main data
+	//TODO add an error main component
+	try {
+		loading.value = true;
+
+		useI18nStore().init();
+
+		await store.init();
+	} catch (error) {
+		console.log(error);
+	} finally {
+		loading.value = false;
+	}
+});
 </script>
+
+<style scoped>
+.main-loading {
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+</style>
 
 <style lang="scss">
 @import "./styles/global.scss";

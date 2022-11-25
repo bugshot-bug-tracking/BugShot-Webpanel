@@ -7,7 +7,12 @@
 		<div class="groups bs-scroll">
 			<GroupContainer v-for="company of companies" :key="company.id">
 				<template #top-left>
-					<RouterLink :to="{ name: 'company', params: { id: company.id } }">
+					<RouterLink
+						:to="{
+							name: 'company',
+							params: { organization_id: organization_id, company_id: company.id },
+						}"
+					>
 						{{ company.attributes.designation }}
 					</RouterLink>
 				</template>
@@ -35,7 +40,11 @@
 					@open="goToProject(company.id, project.id)"
 					:to_settings="{
 						name: 'project-settings',
-						params: { id: company.id, project_id: project.id },
+						params: {
+							organization_id: organization_id,
+							company_id: company.id,
+							project_id: project.id,
+						},
 					}"
 				/>
 			</GroupContainer>
@@ -45,14 +54,21 @@
 
 <script setup lang="ts">
 import timeToText from "~/util/timeToText";
-import { useMainStore } from "~/stores/main";
+import { useOrganizationStore } from "~/stores/organization";
 
-const store = useMainStore();
+const props = defineProps({
+	organization_id: {
+		type: String,
+		required: true,
+		description: "Organization ID",
+	},
+});
+
+const store = useOrganizationStore();
 const router = useRouter();
 
 const companies = computed(() => {
 	return [...store.getCompanies]
-		.map((r) => r[1])
 		.filter((record) => record.attributes.projects?.length || 0 > 0)
 		.sort((a, b) => (a.attributes.updated_at < b.attributes.updated_at ? 1 : -1));
 });
@@ -62,7 +78,11 @@ const companyProjects = (id: string) => store.getCompanyProjects(id);
 const goToProject = (company_id: string, project_id: string) => {
 	router.push({
 		name: "project",
-		params: { id: company_id, project_id: project_id },
+		params: {
+			organization_id: props.organization_id,
+			company_id: company_id,
+			project_id: project_id,
+		},
 	});
 };
 </script>
@@ -83,5 +103,5 @@ h3 {
 </style>
 
 <route lang="yaml">
-name: home
+name: organization-home
 </route>

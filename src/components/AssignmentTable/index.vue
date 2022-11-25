@@ -16,7 +16,9 @@
 			</li>
 		</ul>
 
-		<div v-else>{{ $t(list[0].type.toLowerCase() + "_no_resources") }}</div>
+		<div my-8 class="black-to-gray" v-else>
+			<b>{{ $t("no_resources") }}</b>
+		</div>
 
 		<footer v-if="$slots['footer']">
 			<slot name="footer"> </slot>

@@ -306,5 +306,10 @@
 	"refresh": "Refresh",
 	"profile": "Profile",
 	"member_since": "Member since",
-	"companies_projects_for_member": "Companies and projects for team member"
+	"companies_projects_for_member": "Companies and projects for team member",
+	"no_resources": "No resources",
+	"no_companies": "You do not have any companies",
+	"project_url": "Project URL",
+	"project_succ_created": "Project successfully created",
+	"no_projects": "You do not have any projects"
 }

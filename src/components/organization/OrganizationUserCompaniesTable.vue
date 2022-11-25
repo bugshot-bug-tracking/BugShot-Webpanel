@@ -2,7 +2,7 @@
 	<AssignmentTable :title="$t('company', 2)" :list="companies">
 		<template #title>
 			<span class="black-to-gray">{{ $t("organization") }}:</span>
-			{{ organization?.attributes.designation }}
+			{{ organization.attributes.designation }}
 		</template>
 
 		<template #item="{ item }: { item: Company }">
@@ -12,7 +12,12 @@
 			>
 				<template #text>
 					<b>
-						<RouterLink :to="{ name: 'company', params: { id: item.id } }">
+						<RouterLink
+							:to="{
+								name: 'company',
+								params: { organization_id: organization.id, company_id: item.id },
+							}"
+						>
 							{{ item.attributes.designation }}
 						</RouterLink>
 					</b>
@@ -28,7 +33,11 @@
 					<RouterLink
 						:to="{
 							name: 'project',
-							params: { id: item.id, project_id: project.item.id },
+							params: {
+								organization_id: organization.id,
+								company_id: item.id,
+								project_id: project.item.id,
+							},
 						}"
 						:style="{ color: 'white' }"
 					>
@@ -55,7 +64,7 @@ const props = defineProps({
 
 const store = useOrganizationStore();
 
-const organization = computed(() => store.getOrganization);
+const organization = computed(() => store.getOrganization!);
 
 const user = computed(() => store.getOrganizationMember(props.user_id));
 

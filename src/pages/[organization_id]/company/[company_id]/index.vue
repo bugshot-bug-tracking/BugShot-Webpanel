@@ -1,5 +1,17 @@
 <template>
-	<T2Page>
+	<div class="main-empty" v-if="projects.length < 1">
+		<section>
+			<img src="/src/assets/images/nothing_to_show.svg" alt="empty boxes" w-88 h-88 />
+
+			<h1 w-88 text-6>{{ $t("no_projects") }}</h1>
+
+			<p>{{ $t("please_add_new_one") }}</p>
+
+			<ProjectCreateModal :primary_button="true" />
+		</section>
+	</div>
+
+	<T2Page v-else>
 		<template #header>
 			<T2Header>
 				<template #l-top>
@@ -7,7 +19,7 @@
 				</template>
 
 				<template #l-bottom>
-					{{ company ? company.attributes.designation : $t("loading") }}
+					{{ company.attributes.designation }}
 				</template>
 
 				<ManageMembers
@@ -21,17 +33,13 @@
 					:preOpenCall="preCall"
 				/>
 
-				<CreateDataModal
-					:dataType="'Project'"
-					:postPath="`companies/${id}/projects`"
-					:aditionalBody="{
-						company_id: id,
-					}"
-					:subTitle="`${$t('company')}: ${company?.attributes.designation}`"
-				/>
+				<ProjectCreateModal :primary_button="true" />
 
-				<router-link
-					:to="{ name: 'company-settings', params: { id: id } }"
+				<RouterLink
+					:to="{
+						name: 'company-settings',
+						params: { organization_id: organization_id, company_id: company.id },
+					}"
 					class="bs-btn green empty text-capitalize"
 					v-if="isAuthorized"
 				>
@@ -46,14 +54,19 @@
 
 						{{ $t("company_settings") }}
 					</div>
-				</router-link>
+				</RouterLink>
 			</T2Header>
 		</template>
 
-		<div class="bs-scroll s-green w-100 h-100" v-if="company && projects">
+		<div class="bs-scroll s-green w-100 h-100" v-if="company && projects.length > 0">
 			<GroupContainer>
 				<template #top-left>
-					<RouterLink :to="{ name: 'company', params: { id: company.id } }">
+					<RouterLink
+						:to="{
+							name: 'company',
+							params: { organization_id: organization_id, company_id: company.id },
+						}"
+					>
 						{{ company.attributes.designation }}
 					</RouterLink>
 				</template>
@@ -81,7 +94,11 @@
 					@open="goToProject(project.attributes.company.id, project.id)"
 					:to_settings="{
 						name: 'project-settings',
-						params: { id: project.attributes.company.id, project_id: project.id },
+						params: {
+							organization_id: organization_id,
+							company_id: company.id,
+							project_id: project.id,
+						},
 					}"
 				/>
 			</GroupContainer>
@@ -90,25 +107,30 @@
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
 import { useAuthStore } from "~/stores/auth";
-import { useMainStore } from "~/stores/main";
+import { useCompanyStore } from "~/stores/company";
 import timeToText from "~/util/timeToText";
 
 const props = defineProps({
-	id: {
+	organization_id: {
+		type: String,
+		required: true,
+		description: "Organization ID",
+	},
+
+	company_id: {
 		required: true,
 		type: String,
 		description: "Company ID",
 	},
 });
 
-const store = useMainStore();
+const store = useCompanyStore();
 const router = useRouter();
 
-const company = computed(() => store.getCompanyById(props.id));
+const company = computed(() => store.getCompany!);
 
-const projects = computed(() => store.getCompanyProjects(props.id));
+const projects = computed(() => store.getProjects);
 
 const isAuthorized = computed(() => {
 	//TODO temp code replace with proper ?global? logic
@@ -121,47 +143,34 @@ const isAuthorized = computed(() => {
 const goToProject = (company_id: string, project_id: string) => {
 	router.push({
 		name: "project",
-		params: { id: company_id, project_id: project_id },
+		params: {
+			organization_id: props.organization_id,
+			company_id: company_id,
+			project_id: project_id,
+		},
 	});
 };
+
 const preCall = async () => {
-	await store.fetchCompanyUsers(props.id);
+	await store.fetchUsers();
 
-	await store.fetchCompanyInvitations(props.id);
+	await store.fetchInvitations();
 };
 
-const addMember = async (email: String, role_id: number) => {
-	let response = await axios.post(`companies/${props.id}/invite`, {
-		target_email: email,
-		role_id: role_id,
-	});
-
-	company.value?.pending?.push(response.data.data);
-};
-
-const editMember = async (user_id: number, role_id: number) => {
-	let response = await axios.put(`companies/${props.id}/users/${user_id}`, {
-		role_id: role_id,
-	});
-
-	let user = company.value?.attributes.users?.find((x) => x.id === user_id);
-	if (user) user.role = response.data.data.role;
-};
-
-const deleteMember = async (user_id: number) => {
-	await axios.delete(`companies/${props.id}/users/${user_id}`);
-
-	let index = company.value?.attributes.users?.findIndex((x) => x.id === user_id);
-
-	if (index !== undefined && index !== -1) company.value?.attributes.users?.splice(index, 1);
+const addMember = async (email: string, role_id: number) => {
+	await store.sendInvitation({ email, role_id });
 };
 
 const deleteInvitation = async (invitation_id: string) => {
-	await axios.delete(`invitations/${invitation_id}`);
+	await store.deleteInvitation({ invitation_id });
+};
 
-	let index = company.value?.pending?.findIndex((x) => x.id === invitation_id);
+const editMember = async (user_id: number, role_id: number) => {
+	await store.editMember({ user_id, role_id });
+};
 
-	if (index !== undefined && index !== -1) company.value?.pending?.splice(index, 1);
+const deleteMember = async (user_id: number) => {
+	await store.deleteMember({ user_id });
 };
 </script>
 

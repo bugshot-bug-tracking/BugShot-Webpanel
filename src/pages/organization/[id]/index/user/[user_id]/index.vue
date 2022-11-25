@@ -42,7 +42,6 @@
 </template>
 
 <script setup lang="ts">
-import OrganizationUserCompaniesTable from "~/pages/organization/components/OrganizationUserCompaniesTable.vue";
 import { useOrganizationStore } from "~/stores/organization";
 
 const props = defineProps({
@@ -66,10 +65,6 @@ const resource = computed(() => store.getOrganization);
 const member = computed(() => store.getOrganizationMember(parseInt(props.user_id)));
 </script>
 
-<route lang="yaml">
-name: "organization-user"
-</route>
-
 <style lang="scss" scoped>
 article {
 	display: flex;
@@ -82,3 +77,7 @@ article {
 	width: 100%;
 }
 </style>
+
+<route lang="yaml">
+name: "organization-user"
+</route>

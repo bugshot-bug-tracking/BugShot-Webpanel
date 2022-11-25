@@ -7,14 +7,25 @@
 			>
 				<template #text>
 					<b>
-						<RouterLink :to="{ name: 'company', params: { id: item.id } }">
+						<RouterLink
+							:to="{
+								name: 'company',
+								params: { organization_id: organization.id, company_id: item.id },
+							}"
+						>
 							{{ item.attributes.designation }}
 						</RouterLink>
 					</b>
 				</template>
 
 				<template #after-text>
-					<RouterLink :to="{ name: 'company-settings', params: { id: item.id } }" ml-a>
+					<RouterLink
+						:to="{
+							name: 'company-settings',
+							params: { organization_id: organization.id, company_id: item.id },
+						}"
+						ml-a
+					>
 						<img
 							src="/src/assets/icons/gear.svg"
 							alt="settings"
@@ -33,7 +44,11 @@
 					<RouterLink
 						:to="{
 							name: 'project',
-							params: { id: item.id, project_id: project.item.id },
+							params: {
+								organization_id: organization.id,
+								company_id: item.id,
+								project_id: project.item.id,
+							},
 						}"
 						:style="{ color: 'white' }"
 					>
@@ -62,6 +77,8 @@ const store = useOrganizationStore();
 const user = computed(() => useAuthStore().getUser);
 
 const companies = computed(() => store.getCompanies);
+
+const organization = computed(() => store.getOrganization!);
 </script>
 
 <style scoped></style>

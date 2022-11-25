@@ -1,31 +1,44 @@
 <template>
 	<CreateResourceModal
 		:submit="onSubmit"
-		:success_message="$t('company_succ_created')"
+		:success_message="$t('project_succ_created')"
 		:primary_button="primary_button"
 		@close="reset"
 	>
 		<template #button-text>
-			<span uppercase font-bold>{{ $t("create.company") }}</span>
+			<span font-bold>{{ $t("create.project") }}</span>
 		</template>
 
 		<template #modal-header>
-			<span capitalize>{{ $t("create.company") }}</span>
+			<span capitalize>{{ $t("create.project") }}</span>
 		</template>
 
 		<template #modal-form>
 			<div class="bs-input2">
 				<label>
-					{{ $t("company_name") }}
+					{{ $t("project_name") }}
 				</label>
 
 				<input
 					type="text"
-					:placeholder="$t('company_name')"
+					:placeholder="$t('project_name')"
 					required
 					minlength="1"
 					maxlength="255"
 					v-model="data.designation"
+				/>
+			</div>
+
+			<div class="bs-input2">
+				<label>
+					{{ $t("project_url") }}
+				</label>
+
+				<input
+					type="text"
+					:placeholder="$t('enter_project_url')"
+					maxlength="65000"
+					v-model="data.url"
 				/>
 			</div>
 
@@ -40,13 +53,12 @@
 		</template>
 
 		<template #modal-submit_button>
-			<span capitalize>{{ $t("create.company") }}</span>
+			<span capitalize>{{ $t("create.project") }}</span>
 		</template>
 	</CreateResourceModal>
 </template>
 
 <script setup lang="ts">
-import { useOrganizationStore } from "~/stores/organization";
 import { useCompanyStore } from "~/stores/company";
 import colors from "~/util/colors";
 import toBase64 from "~/util/toBase64";
@@ -61,6 +73,7 @@ defineProps({
 
 const data = reactive({
 	designation: "",
+	url: undefined as undefined | string,
 	image: undefined as File | undefined,
 	color: 3,
 	memberList: [] as { email: string; role: number }[],
@@ -79,6 +92,7 @@ const data = reactive({
 
 const reset = () => {
 	data.designation = "";
+	data.url = undefined;
 	data.image = undefined;
 	data.color = 3;
 };
@@ -90,8 +104,9 @@ const onSubmit = async () => {
 		image = btoa((await toBase64(data.image)) as string);
 	}
 
-	let response = await useOrganizationStore().createCompany({
+	let response = await useCompanyStore().createProject({
 		designation: data.designation,
+		url: data.url,
 		color_hex: colors[data.color],
 		base64: image,
 	});

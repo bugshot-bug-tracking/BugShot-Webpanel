@@ -15,7 +15,7 @@
 
 		<div flex gap-2>
 			<RouterLink
-				v-if="authorized && to_settings"
+				v-if="(owner || authorized) && to_settings"
 				:to="to_settings"
 				class="route settings"
 				:style="{
@@ -32,6 +32,7 @@
 					:title="$t('setting', 2)"
 				/>
 			</RouterLink>
+
 			<div
 				v-else-if="!authorized && to_settings"
 				class="route settings"

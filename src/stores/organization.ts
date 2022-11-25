@@ -30,11 +30,16 @@ export const useOrganizationStore = defineStore("organization", {
 
 			this.organization_id = id;
 
-			await this.load();
+			try {
+				await this.load();
 
-			await this.fetchUsers();
+				await this.fetchUsers();
 
-			await this.fetchCompanies();
+				await this.fetchCompanies();
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
 		},
 
 		async refresh() {
@@ -43,7 +48,13 @@ export const useOrganizationStore = defineStore("organization", {
 
 		async load() {
 			try {
-				let response = (await axios.get(`organizations/${this.organization_id}`)).data.data;
+				let response = (
+					await axios.get(`organizations/${this.organization_id}`, {
+						headers: {
+							"include-organization-role": true,
+						},
+					})
+				).data.data;
 
 				this.organization = response;
 			} catch (error) {
@@ -180,16 +191,14 @@ export const useOrganizationStore = defineStore("organization", {
 
 		async fetchCompanies() {
 			try {
-				let response = //! use this implemented
-					// await axios.get(`organizations/${this.organization_id}/companies`, {
-					(
-						await axios.get(`companies`, {
-							headers: {
-								"include-company-role": "true",
-								"include-projects": "true",
-							},
-						})
-					).data.data;
+				let response = (
+					await axios.get(`organizations/${this.organization_id}/companies`, {
+						headers: {
+							"include-company-role": "true",
+							"include-projects": "true",
+						},
+					})
+				).data.data;
 
 				this.companies = response;
 			} catch (error) {
@@ -207,7 +216,11 @@ export const useOrganizationStore = defineStore("organization", {
 			base64: string | undefined;
 			color_hex: string;
 		}) {
-			let response = await axios.post("companies", { designation, base64, color_hex });
+			let response = await axios.post(`organizations/${this.organization_id}/companies`, {
+				designation,
+				base64,
+				color_hex,
+			});
 
 			if (!this.companies) this.companies = [] as Company[];
 			this.companies.push(response.data.data);
@@ -250,5 +263,7 @@ export const useOrganizationStore = defineStore("organization", {
 
 			return resource.user;
 		},
+
+		getCompanyById: (state) => (id: string) => state.companies?.find((x) => x.id === id),
 	},
 });
