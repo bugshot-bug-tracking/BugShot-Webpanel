@@ -8,7 +8,7 @@
 			</slot>
 		</header>
 
-		<ul v-if="list.length > 0" my-4 gap-2 flex flex-wrap max-w-40vw>
+		<ul my-4 gap-2 flex flex-wrap max-w-40vw>
 			<li class="item" v-for="item of list" :key="item.id">
 				<slot name="text" v-bind="{ item: item }">{{ item.attributes.designation }}</slot>
 

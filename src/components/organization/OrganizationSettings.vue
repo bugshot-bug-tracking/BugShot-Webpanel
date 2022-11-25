@@ -1,30 +1,29 @@
 <template>
 	<div class="bs-container" flex flex-col gap-4>
 		<div h-52 class="image">
-			<img :src="values.image" alt="image" v-if="image" />
-			<div v-else :style="{ color: color ?? COLOR.PURPLE }" w-120>
+			<div :style="{ color: COLOR.PURPLE }" w-120>
 				<img src="/src/assets/icons/organization.svg" alt="project" />
 			</div>
 		</div>
 
 		<div class="bs-input2">
 			<label>
-				{{ t("organization_name") }}
+				{{ $t("organization_name") }}
 			</label>
 
 			<input
 				type="text"
-				:placeholder="t('organization_name')"
-				v-model="values.name"
+				:placeholder="$t('organization_name')"
+				v-model="resource.attributes.designation"
 				disabled
 			/>
 		</div>
 
-		<OrganizationEditModal :name="name" :color="color" :image="image" :submit="editFunction">
+		<OrganizationEditModal :name="resource.attributes.designation" :submit="editResource">
 			<template #button>
 				<a mt4 cursor-pointer>
 					<img src="/src/assets/icons/edit.svg" alt="edit" class="black-to-purple" />
-					<b> {{ t("edit.organization") }}</b>
+					<b> {{ $t("edit.organization") }}</b>
 				</a>
 			</template>
 		</OrganizationEditModal>
@@ -32,48 +31,16 @@
 </template>
 
 <script setup lang="ts">
+import { useOrganizationStore } from "~/stores/organization";
 import { COLOR } from "~/util/colors";
 
-const { t } = useI18n();
+const store = useOrganizationStore();
 
-const props = defineProps({
-	name: {
-		required: true,
-		type: String,
-	},
+const resource = computed(() => store.getOrganization!);
 
-	image: {
-		required: false,
-		type: String,
-		default: undefined,
-	},
-
-	color: {
-		required: false,
-		type: String,
-		default: COLOR.PURPLE,
-	},
-
-	editFunction: {
-		type: Function,
-		required: true,
-	},
-});
-
-const values = reactive({
-	name: "",
-	image: "",
-
-	set: () => {
-		values.name = props.name;
-		values.image = atob(props.image ?? "");
-	},
-});
-
-values.set();
-watch(props, () => {
-	values.set();
-});
+const editResource = async (data: { designation: string }) => {
+	await store.updateResource(data);
+};
 </script>
 
 <style lang="scss" scoped>

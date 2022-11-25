@@ -3,11 +3,11 @@
 		<img src="/src/assets/animations/loading.svg" alt="loading circle" />
 	</div>
 
-	<div v-else-if="!loading && error">{{ t("error") }}</div>
+	<div v-else-if="!loading && error">{{ $t("error") }}</div>
 
 	<RouterView v-else-if="!loading && !error && resource?.id" />
 
-	<div v-else>{{ t("empty") }}</div>
+	<div v-else>{{ $t("empty") }}</div>
 </template>
 
 <script setup lang="ts">
@@ -20,8 +20,6 @@ const props = defineProps({
 		description: "Organization ID",
 	},
 });
-
-const { t } = useI18n();
 
 const store = useOrganizationStore();
 

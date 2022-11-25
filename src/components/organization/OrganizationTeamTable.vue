@@ -32,7 +32,7 @@
 				:last_name="item.attributes.last_name"
 				:email="item.attributes.email"
 				:role_text="item.role?.attributes.designation"
-				:owner="resource!.attributes.creator?.id === item.id"
+				:owner="resource.attributes.creator?.id === item.id"
 				py-4
 				:removable="false"
 				:current_user="user.id === item.id"
@@ -41,7 +41,7 @@
 					<RouterLink
 						:to="{
 							name: 'organization-user',
-							params: { id: resource?.id, user_id: item.id },
+							params: { id: resource.id, user_id: item.id },
 						}"
 						class="black-to-purple"
 						:style="{ 'font-size': '0.825rem' }"
@@ -58,7 +58,12 @@
 				</template>
 			</UserHeader>
 
-			<AssignedToList :list="store.companies" @remove="" :type="'Company'" my-2 />
+			<AssignedToList
+				:list="store.getMemberCompanies(item.id)"
+				@remove=""
+				:type="'Company'"
+				my-2
+			/>
 
 			<div flex gap-4 class="black-to-purple" mb-2>
 				<b>{{ $t("member_plan") }}:</b>
@@ -86,13 +91,12 @@ import { useOrganizationStore } from "~/stores/organization";
 const store = useOrganizationStore();
 
 const user = computed(() => useAuthStore().getUser);
-const resource = computed(() => store.getOrganization);
+
+const resource = computed(() => store.getOrganization!);
 
 const members = computed(() => {
-	let users = [...store.getMembers];
-
+	let users = [...(store.getMembers ?? [])];
 	if (store.getCreator) users.unshift(store.getCreator);
-
 	return users;
 });
 
@@ -103,7 +107,6 @@ const pendingMembers = computed(() => store.getPendingInvitations);
 
 const preCall = async () => {
 	await store.fetchUsers();
-
 	await store.fetchPendingInvitations();
 };
 

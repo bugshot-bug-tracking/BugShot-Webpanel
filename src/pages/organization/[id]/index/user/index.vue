@@ -42,7 +42,7 @@ const store = useOrganizationStore();
 const resource = computed(() => store.getOrganization);
 
 const members = computed(() => {
-	let users = [...store.getMembers];
+	let users = [...(store.getMembers ?? [])];
 
 	if (store.getCreator) users.unshift(store.getCreator);
 

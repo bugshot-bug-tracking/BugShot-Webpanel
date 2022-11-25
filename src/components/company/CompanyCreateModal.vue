@@ -72,7 +72,7 @@ const data = reactive({
 		data.image = value;
 	},
 
-	setInviteMembers: (value: []) => {
+	setInviteMembers: (value: { email: string; role: number }[]) => {
 		data.memberList = value;
 	},
 });
@@ -81,6 +81,7 @@ const reset = () => {
 	data.designation = "";
 	data.image = undefined;
 	data.color = 3;
+	data.memberList = [];
 };
 
 const onSubmit = async () => {

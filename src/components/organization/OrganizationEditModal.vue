@@ -32,14 +32,6 @@
 					/>
 				</div>
 
-				<!-- <Picker
-					class="my-2"
-					:colorPicked="data.color"
-					@setImage="data.setImage"
-					@setColor="data.setColor"
-					:image="data.image"
-				/> -->
-
 				<button class="bs-btn green mt-3 m-a">
 					{{ $t("save_changes") }}
 				</button>

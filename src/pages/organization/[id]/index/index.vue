@@ -1,9 +1,9 @@
 <template>
-	<T2Page v-if="resource">
+	<T2Page>
 		<template #header>
 			<T2Header>
 				<template #l-top>
-					{{ $t("organization") }}
+					{{ t("organization") }}
 				</template>
 
 				<template #l-bottom>
@@ -15,24 +15,21 @@
 		<article class="bs-scroll" p-8 content-start>
 			<div class="component-group" max-w-128>
 				<div class="group-header">
-					{{ $t("organization_settings") }}
+					{{ t("organization_settings") }}
 				</div>
 				<div class="group-content">
-					<OrganizationSettings
-						:name="resource.attributes.designation"
-						:editFunction="editResource"
-					/>
+					<OrganizationSettings />
 				</div>
 			</div>
 
 			<div class="component-group" max-w-128>
 				<div class="group-header">
-					{{ $t("actions") }}
+					{{ t("actions") }}
 				</div>
 
 				<div class="group-content">
 					<div class="delete-project" flex flex-col gap-2 p-6 py-8>
-						<a class="text-to-red" underline @click="openDelete">
+						<a class="text-to-red" underline @click="deleteModal.open">
 							{{ t("delete_organization_and_projects") }}?
 						</a>
 
@@ -43,7 +40,7 @@
 
 			<div class="component-group" max-w-176 min-w-160 h-80vh>
 				<div class="group-header">
-					{{ $t("company", 2) }}
+					{{ t("company", 2) }}
 				</div>
 
 				<div class="group-content">
@@ -53,7 +50,7 @@
 
 			<div class="component-group" max-w-176 min-w-160 h-80vh>
 				<div class="group-header">
-					{{ $t("team_members") }}
+					{{ t("team_members") }}
 				</div>
 
 				<div class="group-content" v-if="resource">
@@ -89,11 +86,7 @@ let router = useRouter();
 
 const store = useOrganizationStore();
 
-const resource = computed(() => store.getOrganization);
-
-const editResource = async (data: { designation: string }) => {
-	await store.updateResource(data);
-};
+const resource = computed(() => store.getOrganization!);
 
 const deleteModal = reactive({
 	show: false,
@@ -105,22 +98,20 @@ const deleteModal = reactive({
 		deleteModal.text = "";
 		deleteModal.callback = null;
 	},
+	open: () => {
+		deleteModal.text = resource.value.attributes.designation;
+
+		deleteModal.callback = async () => {
+			await store.deleteResource();
+
+			router.push({
+				name: "organization-index",
+			});
+		};
+
+		deleteModal.show = true;
+	},
 });
-
-const openDelete = () => {
-	// shouldn't be triggered because of the template page if; but just in case and because TS
-	if (resource.value === undefined) return;
-
-	deleteModal.text = resource.value.attributes.designation;
-	deleteModal.callback = async () => {
-		await store.deleteOrganization();
-
-		router.push({
-			name: "organization-index",
-		});
-	};
-	deleteModal.show = true;
-};
 </script>
 
 <style lang="scss" scoped>

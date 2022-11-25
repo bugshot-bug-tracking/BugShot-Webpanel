@@ -1,16 +1,9 @@
 <template>
 	<div flex items-center gap-2 py-2>
-		<div
-			class="dot"
-			:style="{
-				background: color,
-			}"
-		/>
+		<div class="dot" :style="{ background: color }" />
 
 		<slot name="text">
-			<b>
-				{{ name }}
-			</b>
+			<b> {{ name }} </b>
 		</slot>
 
 		<img
@@ -66,8 +59,4 @@ const color = computed(
 				7
 		]
 );
-
-// const emit = defineEmits(["remove"]);
 </script>
-
-<style scoped></style>

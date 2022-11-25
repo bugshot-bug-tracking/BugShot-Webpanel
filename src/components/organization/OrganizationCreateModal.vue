@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { useOrganizationStore } from "~/stores/organization";
+import { useMainStore } from "~/stores/main";
 
 defineProps({
 	primary_button: {
@@ -56,10 +56,8 @@ const reset = () => {
 };
 
 const onSubmit = async () => {
-	await useOrganizationStore().createOrganization(data);
+	await useMainStore().createOrganization(data);
 
 	reset();
 };
 </script>
-
-<style lang="scss" scoped></style>

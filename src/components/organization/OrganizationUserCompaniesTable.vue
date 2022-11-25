@@ -68,7 +68,9 @@ const organization = computed(() => store.getOrganization!);
 
 const user = computed(() => store.getOrganizationMember(props.user_id));
 
-const companies = computed(() => store.getCompanies);
+const companies = computed(() => store.getMemberCompanies(props.user_id));
+
+//!TODO use get on org/id/user/id to get the companies and projects and set the correct data here + watch on props
 </script>
 
 <style scoped></style>

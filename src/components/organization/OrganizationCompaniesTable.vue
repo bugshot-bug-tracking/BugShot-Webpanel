@@ -74,11 +74,10 @@ import { Company } from "~/models/Company";
 import { Project } from "~/models/Project";
 
 const store = useOrganizationStore();
+
 const user = computed(() => useAuthStore().getUser);
 
 const companies = computed(() => store.getCompanies);
 
 const organization = computed(() => store.getOrganization!);
 </script>
-
-<style scoped></style>

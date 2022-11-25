@@ -20,17 +20,21 @@ export const useOrganizationStore = defineStore("organization", {
 
 	actions: {
 		async destroy() {
+			this.organization_id = undefined;
 			this.organization = undefined;
+			this.members = undefined;
+			this.pendingInvitations = undefined;
+			this.companies = undefined;
 
 			return true;
 		},
 
 		async init(id: string) {
-			this.destroy();
-
-			this.organization_id = id;
-
 			try {
+				this.destroy();
+
+				this.organization_id = id;
+
 				await this.load();
 
 				await this.fetchUsers();
@@ -43,24 +47,45 @@ export const useOrganizationStore = defineStore("organization", {
 		},
 
 		async refresh() {
-			await this.load();
-		},
-
-		async load() {
 			try {
-				let response = (
-					await axios.get(`organizations/${this.organization_id}`, {
-						headers: {
-							"include-organization-role": true,
-						},
-					})
-				).data.data;
-
-				this.organization = response;
+				await this.load();
 			} catch (error) {
 				console.log(error);
 				throw error;
 			}
+		},
+
+		async load() {
+			let response = (
+				await axios.get(`organizations/${this.organization_id}`, {
+					headers: {
+						"include-organization-role": true,
+					},
+				})
+			).data.data;
+
+			this.organization = response;
+		},
+
+		async updateResource(payload: { designation: string }) {
+			let response = (
+				await axios.put(`organizations/${this.organization_id}`, {
+					designation: payload.designation,
+				})
+			).data.data;
+
+			useMainStore().updateOrganization(response);
+
+			await this.refresh();
+		},
+
+		async deleteResource() {
+			// if an id was not set return
+			if (this.organization_id === undefined) return;
+
+			await axios.delete(`organizations/${this.organization_id}`);
+
+			useMainStore().removeOrganization(this.organization_id);
 		},
 
 		async fetchUsers() {
@@ -68,6 +93,8 @@ export const useOrganizationStore = defineStore("organization", {
 				await axios.get(`organizations/${this.organization_id}/users`, {
 					headers: {
 						"include-organization-role": true,
+						"include-users-companies": true,
+						"include-users-company-role": true,
 					},
 				})
 			).data.data;
@@ -75,136 +102,71 @@ export const useOrganizationStore = defineStore("organization", {
 			this.members = response;
 		},
 
-		async createOrganization({ designation }: { designation: string }) {
-			let response = await axios.post("organizations", { designation });
-
-			useMainStore().addOrganization(response.data.data);
-		},
-
-		async deleteOrganization() {
-			// if an id was not set return
-			// if (this.organization_id ?? "" === "") return;
-			if (this.organization_id === undefined) return;
-
-			try {
-				await axios.delete(`organizations/${this.organization_id}`);
-
-				useMainStore().removeOrganization(this.organization_id);
-			} catch (error) {
-				console.log(error);
-				throw error;
-			}
-		},
-
 		async fetchPendingInvitations() {
-			try {
-				let response = (
-					await axios.get(`organizations/${this.organization_id}/invitations`, {
-						headers: {
-							"status-id": 1,
-						},
-					})
-				).data.data;
+			let response = (
+				await axios.get(`organizations/${this.organization_id}/invitations`, {
+					headers: {
+						"status-id": 1,
+					},
+				})
+			).data.data;
 
-				this.pendingInvitations = response;
-			} catch (error) {
-				console.log(error);
-				throw error;
-			}
+			this.pendingInvitations = response;
 		},
 
 		async sendInvitation(payload: { email: string; role_id: number }) {
-			try {
-				let response = await axios.post(`organizations/${this.organization_id}/invite`, {
+			let response = (
+				await axios.post(`organizations/${this.organization_id}/invite`, {
 					target_email: payload.email,
 					role_id: payload.role_id,
-				});
+				})
+			).data.data;
 
-				if (!this.pendingInvitations) this.pendingInvitations = [] as Invitation[];
-				this.pendingInvitations.push(response.data.data);
-			} catch (error) {
-				console.log(error);
-				throw error;
-			}
+			if (!this.pendingInvitations) this.pendingInvitations = [] as Invitation[];
+			this.pendingInvitations.push(response);
 		},
 
 		async deleteInvitation(payload: { invitation_id: string }) {
-			try {
-				await axios.delete(`invitations/${payload.invitation_id}`);
+			await axios.delete(`invitations/${payload.invitation_id}`);
 
-				let index = this.pendingInvitations?.findIndex(
-					(x: any) => x.id === payload.invitation_id
-				);
+			let index = this.pendingInvitations?.findIndex(
+				(x: any) => x.id === payload.invitation_id
+			);
 
-				if (index !== undefined && index !== -1) this.pendingInvitations!.splice(index, 1);
-			} catch (error) {
-				console.log(error);
-				throw error;
-			}
+			if (index !== undefined && index !== -1) this.pendingInvitations!.splice(index, 1);
 		},
 
 		async editMember(payload: { user_id: number; role_id: number }) {
-			try {
-				let response = await axios.put(
-					`organizations/${this.organization_id}/users/${payload.user_id}`,
-					{
-						role_id: payload.role_id,
-					}
-				);
+			let response = (
+				await axios.put(`organizations/${this.organization_id}/users/${payload.user_id}`, {
+					role_id: payload.role_id,
+				})
+			).data.data;
 
-				let user = this.members?.find((x) => x.user.id === payload.user_id);
+			let user = this.members?.find((x) => x.user.id === payload.user_id);
 
-				if (user) user.role = response.data.data.role;
-			} catch (error) {
-				console.log(error);
-				throw error;
-			}
+			if (user) user.role = response.role;
 		},
 
 		async deleteMember(payload: { user_id: number }) {
-			try {
-				await axios.delete(
-					`organizations/${this.organization_id}/users/${payload.user_id}`
-				);
+			await axios.delete(`organizations/${this.organization_id}/users/${payload.user_id}`);
 
-				let index = this.members?.findIndex((x) => x.user.id === payload.user_id);
+			let index = this.members?.findIndex((x) => x.user.id === payload.user_id);
 
-				if (index !== undefined && index !== -1) this.members!.splice(index, 1);
-			} catch (error) {
-				console.log(error);
-				throw error;
-			}
-		},
-
-		async updateResource(payload: { designation: string }) {
-			try {
-				await axios.put(`organizations/${this.organization_id}`, {
-					designation: payload.designation,
-				});
-
-				await this.refresh();
-			} catch (error) {
-				console.log(error);
-				throw error;
-			}
+			if (index !== undefined && index !== -1) this.members!.splice(index, 1);
 		},
 
 		async fetchCompanies() {
-			try {
-				let response = (
-					await axios.get(`organizations/${this.organization_id}/companies`, {
-						headers: {
-							"include-company-role": "true",
-							"include-projects": "true",
-						},
-					})
-				).data.data;
+			let response = (
+				await axios.get(`organizations/${this.organization_id}/companies`, {
+					headers: {
+						"include-company-role": "true",
+						"include-projects": "true",
+					},
+				})
+			).data.data;
 
-				this.companies = response;
-			} catch (error) {
-				console.log(error);
-				throw error;
-			}
+			this.companies = response;
 		},
 
 		async createCompany({
@@ -216,16 +178,58 @@ export const useOrganizationStore = defineStore("organization", {
 			base64: string | undefined;
 			color_hex: string;
 		}) {
-			let response = await axios.post(`organizations/${this.organization_id}/companies`, {
-				designation,
-				base64,
-				color_hex,
-			});
+			let response = (
+				await axios.post(`organizations/${this.organization_id}/companies`, {
+					designation,
+					base64,
+					color_hex,
+				})
+			).data.data;
 
+			this.addCompany(response);
+
+			return response;
+		},
+
+		/**
+		 * Add an company to local store
+		 */
+		addCompany(company: Company) {
 			if (!this.companies) this.companies = [] as Company[];
-			this.companies.push(response.data.data);
 
-			return response.data.data;
+			return this.companies.push(company);
+		},
+
+		/**
+		 * Update an company in local store
+		 */
+		updateCompany(company: Company) {
+			if (!this.companies) return false;
+
+			let item = this.companies?.find((x) => x.id === company.id);
+
+			if (!item) return false;
+
+			item = company;
+
+			return true;
+		},
+
+		/**
+		 * Remove an company from local store
+		 */
+		removeCompany(id: string) {
+			if (!this.companies) return true;
+
+			let index = this.companies?.findIndex((x) => x.id === id);
+
+			if (index === -1) return true;
+
+			this.companies.splice(index, 1);
+
+			if (this.companies.length === 0) this.companies = undefined;
+
+			return true;
 		},
 	},
 
@@ -237,15 +241,16 @@ export const useOrganizationStore = defineStore("organization", {
 				x.user.role = x.role;
 				x.user.subscription = x.subscription;
 				return x.user;
-			}) ?? [],
+			}),
 
-		getCreator: (state) => state.organization?.attributes?.creator ?? undefined,
+		getCreator: (state) => state.organization?.attributes?.creator,
 
-		getPendingInvitations: (state) => state.pendingInvitations ?? [],
+		getPendingInvitations: (state) => state.pendingInvitations,
 
-		getCompanies: (state) => state.companies ?? [],
+		getCompanies: (state) => state.companies,
+
 		getCompanyProjects: (state) => (id: string) =>
-			state.companies?.find((x) => x.id === id)?.attributes.projects ?? [],
+			state.companies?.find((x) => x.id === id)?.attributes.projects,
 
 		getOrganizationMember: (state) => (user_id: number) => {
 			if (user_id === state.organization?.attributes.creator.id) {
@@ -265,5 +270,15 @@ export const useOrganizationStore = defineStore("organization", {
 		},
 
 		getCompanyById: (state) => (id: string) => state.companies?.find((x) => x.id === id),
+
+		getMemberCompanies: (state) => (id: number) => {
+			if (id === state.organization?.attributes.creator.id) return state.companies;
+
+			let entry = state.members?.find((x) => x.user.id === id);
+			if (!entry) return undefined;
+
+			//! API update it to remove the attributes
+			return entry.attributes.companies;
+		},
 	},
 });

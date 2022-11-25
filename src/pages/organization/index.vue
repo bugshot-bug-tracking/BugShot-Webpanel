@@ -10,8 +10,6 @@ const route = useRouter();
 route.push({ name: "organization", params: { id: store.getOrganizations![0].id } });
 </script>
 
-<style lang="scss" scoped></style>
-
 <route lang="yaml">
 name: organization-index
 </route>
