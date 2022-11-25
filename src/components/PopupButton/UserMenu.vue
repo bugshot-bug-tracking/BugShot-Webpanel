@@ -28,11 +28,14 @@
 				</RouterLink>
 
 				<hr v-if="false" />
-				<RouterLink to="/webhook" v-if="false">
-					My Webhooks
-				</RouterLink>
-
+				<RouterLink to="/webhook" v-if="false"> My Webhooks </RouterLink>
 				<hr />
+
+				<RouterLink :to="{ name: 'organization-index' }">
+					{{ $t("organization", 2) }}
+				</RouterLink>
+				<hr />
+
 				<RouterLink to="/settings"> {{ $t("the_apps") }} </RouterLink>
 				<hr />
 

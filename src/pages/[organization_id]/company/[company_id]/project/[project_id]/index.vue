@@ -30,12 +30,16 @@
 					:preOpenCall="preCall"
 				/>
 
-				<AddBug :id="id" />
+				<AddBug :id="project_id" />
 
-				<router-link
+				<RouterLink
 					:to="{
 						name: 'project-settings',
-						params: { id: id, project_id: project_id },
+						params: {
+							organization_id: organization_id,
+							company_id: company_id,
+							project_id: project_id,
+						},
 					}"
 					class="bs-btn green empty text-capitalize"
 					v-if="isAuthorized"
@@ -51,7 +55,7 @@
 
 						{{ $t("project_settings") }}
 					</div>
-				</router-link>
+				</RouterLink>
 				<div
 					v-else
 					class="bs-btn green empty text-capitalize disabled"
@@ -72,7 +76,7 @@
 			</T2Header>
 		</template>
 
-		<BugsTable v-if="project" :id="id" />
+		<BugsTable v-if="project" :id="project_id" />
 	</T2Page>
 </template>
 
@@ -82,42 +86,41 @@ import { useAuthStore } from "~/stores/auth";
 import { useProjectStore } from "~/stores/project";
 
 const props = defineProps({
-	id: {
-		required: true,
+	organization_id: {
 		type: String,
+		required: true,
+		description: "Organization ID",
+	},
+
+	company_id: {
+		type: String,
+		required: true,
 		description: "Company ID",
 	},
+
 	project_id: {
-		required: true,
 		type: String,
+		required: true,
 		description: "Project ID",
 	},
 });
 
-useProjectStore().init(props.id, props.project_id);
+const store = useProjectStore();
 
-watch(
-	props,
-	() => {
-		useProjectStore().init(props.id, props.project_id);
-	},
-	{ deep: true }
-);
-
-const project = computed(() => useProjectStore().getProject);
+const project = computed(() => store.getProject);
 
 const isAuthorized = computed(() => {
 	// temp code replace with proper ?global? logic
 	return (
 		project.value?.attributes.role?.id === 1 ||
 		project.value.attributes.creator?.id === useAuthStore().getUser.id ||
-		useProjectStore().company.attributes.role?.id === 1
+		store.company.attributes.role?.id === 1
 	);
 });
 
 const preCall = async () => {
-	await useProjectStore().fetchProjectUsers();
-	await useProjectStore().fetchProjectInvitations();
+	await store.fetchProjectUsers();
+	await store.fetchProjectInvitations();
 };
 
 const addMember = async (email: String, role_id: number) => {

@@ -3,7 +3,6 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { Project } from "~/models/Project";
 import { Status } from "~/models/Status";
-import { Company } from "~/models/Company";
 import { useMainStore } from "./main";
 
 export const useProjectStore = defineStore("project", {
@@ -11,7 +10,6 @@ export const useProjectStore = defineStore("project", {
 		project_id: "",
 		company_id: "",
 		project: <Project>{},
-		company: <Company>{},
 
 		statuses: new Array<Status>(),
 	}),
@@ -41,33 +39,19 @@ export const useProjectStore = defineStore("project", {
 		async loadProject() {
 			try {
 				let project = (
-					await axios.get(
-						`companies/${this.company_id}/projects/${this.project_id}`,
-						{
-							headers: {
-								"include-project-users": true,
-								"include-project-users-roles": true,
-								"include-project-role": true,
-								"include-statuses": true,
-								"include-bugs": true,
-								"include-project-image": true,
-							},
-						}
-					)
-				).data.data;
-
-				let company = (
-					await axios.get(`companies/${this.company_id}`, {
+					await axios.get(`companies/${this.company_id}/projects/${this.project_id}`, {
 						headers: {
-							"include-company-users": true,
-							"include-company-users-roles": true,
-							"include-company-role": true,
+							"include-project-users": true,
+							"include-project-users-roles": true,
+							"include-project-role": true,
+							"include-statuses": true,
+							"include-bugs": true,
+							"include-project-image": true,
 						},
 					})
 				).data.data;
 
 				this.project = project;
-				this.company = company;
 
 				this.statuses = <Status[]>this.project.attributes.statuses;
 			} catch (error) {
@@ -79,15 +63,12 @@ export const useProjectStore = defineStore("project", {
 		async fetchProjectUsers() {
 			try {
 				let response = (
-					await axios.get(
-						`companies/${this.company_id}/projects/${this.project_id}`,
-						{
-							headers: {
-								"include-project-users": true,
-								"include-project-users-roles": true,
-							},
-						}
-					)
+					await axios.get(`companies/${this.company_id}/projects/${this.project_id}`, {
+						headers: {
+							"include-project-users": true,
+							"include-project-users-roles": true,
+						},
+					})
 				).data.data;
 
 				this.project.attributes.users = response.attributes.users;
@@ -154,18 +135,12 @@ export const useProjectStore = defineStore("project", {
 						// if undefined it means that no change was made; if null it means resetting the deadline;
 						...(payload.changes.deadline === undefined
 							? {
-									deadline: bug.attributes.deadline?.slice(
-										0,
-										-1
-									),
+									deadline: bug.attributes.deadline?.slice(0, -1),
 							  }
 							: payload.changes.deadline === null
 							? { deadline: null }
 							: {
-									deadline: payload.changes.deadline?.slice(
-										0,
-										-1
-									),
+									deadline: payload.changes.deadline?.slice(0, -1),
 							  }),
 					}
 				);
@@ -202,15 +177,12 @@ export const useProjectStore = defineStore("project", {
 
 			try {
 				// fetch bug screenshots
-				let screenshots = (await axios.get(`bugs/${id}/screenshots`))
-					.data.data;
+				let screenshots = (await axios.get(`bugs/${id}/screenshots`)).data.data;
 
 				for (const screenshot of screenshots) {
 					// fetch each status bugs
 
-					screenshot.attributes.base64 = atob(
-						screenshot.attributes.base64
-					);
+					screenshot.attributes.base64 = atob(screenshot.attributes.base64);
 				}
 
 				bug.screenshots = screenshots;
@@ -225,8 +197,7 @@ export const useProjectStore = defineStore("project", {
 
 			try {
 				// fetch bug screenshots
-				let attachments = (await axios.get(`bugs/${id}/attachments`))
-					.data.data;
+				let attachments = (await axios.get(`bugs/${id}/attachments`)).data.data;
 
 				bug.attachments = attachments;
 			} catch (error) {
@@ -240,8 +211,7 @@ export const useProjectStore = defineStore("project", {
 
 			try {
 				// fetch bug screenshots
-				let comments = (await axios.get(`bugs/${id}/comments`)).data
-					.data;
+				let comments = (await axios.get(`bugs/${id}/comments`)).data.data;
 
 				bug.comments = comments;
 			} catch (error) {
@@ -263,10 +233,7 @@ export const useProjectStore = defineStore("project", {
 			}
 		},
 
-		async createStatus(payload: {
-			designation: string;
-			order_number: number;
-		}) {
+		async createStatus(payload: { designation: string; order_number: number }) {
 			try {
 				await axios.post(`projects/${this.project_id}/statuses`, {
 					designation: payload.designation,
@@ -295,31 +262,23 @@ export const useProjectStore = defineStore("project", {
 				if (payload.changes?.designation)
 					status.attributes.designation = payload.changes.designation;
 				if (payload.changes?.order_number != undefined) {
-					status.attributes.order_number >
-					payload.changes.order_number
-						? (status.attributes.order_number =
-								payload.changes.order_number - 0.1)
-						: (status.attributes.order_number =
-								payload.changes.order_number + 0.1);
+					status.attributes.order_number > payload.changes.order_number
+						? (status.attributes.order_number = payload.changes.order_number - 0.1)
+						: (status.attributes.order_number = payload.changes.order_number + 0.1);
 				}
 
 				// let response =
-				await axios.put(
-					`projects/${this.project_id}/statuses/${status.id}`,
-					{
-						...(payload.changes?.designation
-							? { designation: payload.changes.designation }
-							: { designation: status.attributes.designation }),
+				await axios.put(`projects/${this.project_id}/statuses/${status.id}`, {
+					...(payload.changes?.designation
+						? { designation: payload.changes.designation }
+						: { designation: status.attributes.designation }),
 
-						...(payload.changes?.order_number != null
-							? { order_number: payload.changes.order_number }
-							: {
-									order_number: Math.round(
-										status.attributes.order_number
-									), // Math.round in case the status was moved before refresh finished
-							  }),
-					}
-				);
+					...(payload.changes?.order_number != null
+						? { order_number: payload.changes.order_number }
+						: {
+								order_number: Math.round(status.attributes.order_number), // Math.round in case the status was moved before refresh finished
+						  }),
+				});
 
 				this.refresh();
 			} catch (error) {
@@ -330,14 +289,11 @@ export const useProjectStore = defineStore("project", {
 
 		async deleteStatus(payload: { id: string; move: string | undefined }) {
 			try {
-				await axios.delete(
-					`projects/${this.project_id}/statuses/${payload.id}`,
-					{
-						headers: {
-							...(payload.move ? { move: payload.move } : {}),
-						},
-					}
-				);
+				await axios.delete(`projects/${this.project_id}/statuses/${payload.id}`, {
+					headers: {
+						...(payload.move ? { move: payload.move } : {}),
+					},
+				});
 
 				this.refresh();
 			} catch (error) {
@@ -346,18 +302,12 @@ export const useProjectStore = defineStore("project", {
 			}
 		},
 
-		async sendProjectInvitation(payload: {
-			email: string;
-			role_id: number;
-		}) {
+		async sendProjectInvitation(payload: { email: string; role_id: number }) {
 			try {
-				let response = await axios.post(
-					`projects/${this.project.id}/invite`,
-					{
-						target_email: payload.email,
-						role_id: payload.role_id,
-					}
-				);
+				let response = await axios.post(`projects/${this.project.id}/invite`, {
+					target_email: payload.email,
+					role_id: payload.role_id,
+				});
 
 				this.project.pending?.push(response.data.data);
 			} catch (error) {
@@ -374,8 +324,7 @@ export const useProjectStore = defineStore("project", {
 					(x: any) => x.id === payload.invitation_id
 				);
 
-				if (index !== undefined && index !== -1)
-					this.project.pending?.splice(index, 1);
+				if (index !== undefined && index !== -1) this.project.pending?.splice(index, 1);
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -391,9 +340,7 @@ export const useProjectStore = defineStore("project", {
 					}
 				);
 
-				let user = this.project.attributes.users?.find(
-					(x) => x.id === payload.user_id
-				);
+				let user = this.project.attributes.users?.find((x) => x.id === payload.user_id);
 
 				if (user) user.role = response.data.data.role;
 			} catch (error) {
@@ -404,9 +351,7 @@ export const useProjectStore = defineStore("project", {
 
 		async deleteProjectMember(payload: { user_id: number }) {
 			try {
-				await axios.delete(
-					`projects/${this.project.id}/users/${payload.user_id}`
-				);
+				await axios.delete(`projects/${this.project.id}/users/${payload.user_id}`);
 
 				let index = this.project.attributes.users?.findIndex(
 					(x) => x.id === payload.user_id
@@ -427,15 +372,12 @@ export const useProjectStore = defineStore("project", {
 			base64: string;
 		}) {
 			try {
-				await axios.put(
-					`companies/${this.company.id}/projects/${this.project.id}`,
-					{
-						designation: payload.designation,
-						url: payload.url,
-						color_hex: payload.color_hex,
-						base64: payload.base64,
-					}
-				);
+				await axios.put(`companies/${this.company_id}/projects/${this.project.id}`, {
+					designation: payload.designation,
+					url: payload.url,
+					color_hex: payload.color_hex,
+					base64: payload.base64,
+				});
 
 				await this.refresh();
 			} catch (error) {
@@ -450,8 +392,8 @@ export const useProjectStore = defineStore("project", {
 					`/companies/${this.project.attributes.company.id}/projects/${this.project.id}`
 				);
 
-				let projects = useMainStore().getProjectCompany(this.project.id)
-					?.attributes.projects;
+				let projects = useMainStore().getProjectCompany(this.project.id)?.attributes
+					.projects;
 
 				if (projects) {
 					projects.splice(
@@ -476,15 +418,13 @@ export const useProjectStore = defineStore("project", {
 				a.attributes.order_number < b.attributes.order_number ? -1 : 1
 			),
 
-		getStatusById: (state) => (id: string) =>
-			state.statuses?.find((x) => x.id === id),
+		getStatusById: (state) => (id: string) => state.statuses?.find((x) => x.id === id),
 
 		getBugById: (state) => (id: string) => {
 			if (!state.statuses) return null;
 
 			for (const status of state.statuses)
-				for (const bug of status.attributes.bugs ?? [])
-					if (bug.id === id) return bug;
+				for (const bug of status.attributes.bugs ?? []) if (bug.id === id) return bug;
 
 			return null;
 		},
@@ -504,10 +444,7 @@ export const useProjectStore = defineStore("project", {
 
 		getProjectUsers: (state) => state.project?.attributes?.users ?? [],
 
-		getCompanyUsers: (state) => state.company?.attributes?.users,
-
-		getProjectCreator: (state) =>
-			state.project?.attributes?.creator ?? undefined,
+		getProjectCreator: (state) => state.project?.attributes?.creator ?? undefined,
 
 		getProjectPendingInvitations: (state) => state.project?.pending ?? [],
 	},

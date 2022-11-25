@@ -16,7 +16,7 @@
 		</slot>
 	</div>
 
-	<MyModal v-model="modal.show" :close="modal.close" z-100>
+	<MyModal :modelValue="modal.show" :close="modal.close" z-100>
 		<ModalTemplate @close="modal.close">
 			<template #header-text> {{ $t("manage_members") }} </template>
 
@@ -28,6 +28,7 @@
 			/>
 
 			<MemberList
+				v-if="pending_list.length > 0"
 				:list="pending_list"
 				invitationMode
 				@delete="deleteModal.openInvitation"
@@ -160,16 +161,10 @@ const inviteModal = reactive({
 			console.log(error);
 
 			loadingModal.state = 2;
-			loadingModal.message = error.response.data.data?.message.replace(
-				":",
-				""
-			);
+			loadingModal.message = error.response.data.data?.message.replace(":", "");
 		}
 	},
-	change: async (value: {
-		old: User;
-		new: { email: string; role_id: Number };
-	}) => {
+	change: async (value: { old: User; new: { email: string; role_id: Number } }) => {
 		console.log(value);
 
 		try {
@@ -183,10 +178,7 @@ const inviteModal = reactive({
 			console.log(error);
 
 			loadingModal.state = 2;
-			loadingModal.message = error.response.data.data?.message.replace(
-				":",
-				""
-			);
+			loadingModal.message = error.response.data.data?.message.replace(":", "");
 		}
 	},
 });
@@ -245,10 +237,7 @@ const deleteUser = async () => {
 		console.log(error);
 
 		loadingModal.state = 2;
-		loadingModal.message = error.response.data.data?.message.replace(
-			":",
-			""
-		);
+		loadingModal.message = error.response.data.data?.message.replace(":", "");
 	}
 };
 
@@ -266,10 +255,7 @@ const deleteInvitation = async () => {
 		console.log(error);
 
 		loadingModal.state = 2;
-		loadingModal.message = error.response.data.data?.message.replace(
-			":",
-			""
-		);
+		loadingModal.message = error.response.data.data?.message.replace(":", "");
 	}
 };
 </script>

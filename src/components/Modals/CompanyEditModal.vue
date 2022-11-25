@@ -16,7 +16,7 @@
 		</slot>
 	</div>
 
-	<MyModal v-model="modal.show" :close="modal.close" z-100>
+	<MyModal :modelValue="modal.show" :close="modal.close" z-100>
 		<ModalTemplate @close="modal.close">
 			<template #header-text>{{ $t("edit.company") }}</template>
 
@@ -157,10 +157,7 @@ const onSubmit = async () => {
 		console.log(error);
 
 		loadingModal.state = 2;
-		loadingModal.message = error.response.data.data?.message.replace(
-			":",
-			""
-		);
+		loadingModal.message = error.response.data.data?.message.replace(":", "");
 	}
 };
 

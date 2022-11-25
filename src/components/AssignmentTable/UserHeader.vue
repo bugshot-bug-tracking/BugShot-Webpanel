@@ -1,11 +1,6 @@
 <template>
 	<div flex items-center gap-2>
-		<Avatar
-			:first_name="first_name"
-			:last_name="last_name"
-			size="XS"
-			class="mt-0"
-		/>
+		<Avatar :first_name="first_name" :last_name="last_name" size="XS" class="mt-0" />
 
 		<b>
 			{{ first_name }}
@@ -18,24 +13,12 @@
 
 		<RolePin v-if="owner" :text="$t('owner')" :preset="'owner'" />
 
-		<RolePin
-			v-if="role_text"
-			:text="$t('roles.' + role_text.toLocaleLowerCase())"
-		/>
+		<RolePin v-if="role_text" :text="$t('roles.' + role_text.toLocaleLowerCase())" />
 
-		<div
-			ml-a
-			flex
-			items-center
-			gap-2
-			cursor-pointer
-			v-if="removable && !owner"
-		>
+		<div ml-a flex items-center gap-2 cursor-pointer v-if="removable && !owner">
 			<img
 				:src="
-					current_user
-						? '/src/assets/icons/logout.svg'
-						: '/src/assets/icons/delete.svg'
+					current_user ? '/src/assets/icons/logout.svg' : '/src/assets/icons/delete.svg'
 				"
 				alt="trash can"
 				class="black-to-red"
@@ -44,6 +27,10 @@
 			<span class="text-to-red" @click="emit('remove')">
 				{{ current_user ? $t("leave") : $t("remove_member") }}
 			</span>
+		</div>
+
+		<div ml-a flex items-center>
+			<slot name="end"> </slot>
 		</div>
 	</div>
 </template>

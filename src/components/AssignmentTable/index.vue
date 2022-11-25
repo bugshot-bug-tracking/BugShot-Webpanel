@@ -1,5 +1,5 @@
 <template>
-	<article class="bs-container">
+	<section class="bs-container">
 		<header class="bs-bb">
 			<span>
 				<b>
@@ -10,16 +10,20 @@
 			<slot name="after-title"> </slot>
 		</header>
 
-		<ul class="bs-scroll">
+		<ul class="bs-scroll" v-if="list.length > 0">
 			<li class="bs-bb" v-for="item of list" :key="item.id">
 				<slot name="item" v-bind="{ item: item }"> </slot>
 			</li>
 		</ul>
 
+		<div my-8 class="black-to-gray" v-else>
+			<b>{{ $t("no_resources") }}</b>
+		</div>
+
 		<footer v-if="$slots['footer']">
 			<slot name="footer"> </slot>
 		</footer>
-	</article>
+	</section>
 </template>
 
 <script setup lang="ts">
@@ -28,7 +32,7 @@ import { PropType } from "vue";
 // const props =
 defineProps({
 	title: {
-		required: true,
+		required: false,
 		type: String,
 		description: "Text shown in the title slot",
 		default: "[PH] Title",
@@ -46,7 +50,7 @@ defineProps({
 </script>
 
 <style lang="scss" scoped>
-article {
+section {
 	max-height: 100%;
 }
 
@@ -66,6 +70,10 @@ ul {
 }
 
 li {
-	padding-bottom: 1rem;
+	padding-bottom: 0.5rem;
+
+	&:last-of-type {
+		border: unset;
+	}
 }
 </style>

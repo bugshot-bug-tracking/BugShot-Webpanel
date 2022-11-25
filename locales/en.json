@@ -115,12 +115,13 @@
 		"column": "Add column"
 	},
 	"create": {
-		"create": "Create",
+		"": "Create",
 		"company": "Create company | Create companies",
 		"project": "Create project | Create projects",
 		"bug": "Create bug | Create bugs",
 		"comment": "Create comment | Create comments",
-		"attachment": "Create attachment | Create attachments"
+		"attachment": "Create attachment | Create attachments",
+		"organization": "Create organization"
 	},
 	"edit": {
 		"edit": "Edit",
@@ -132,7 +133,8 @@
 		"member": "Edit member | Edit members",
 		"team_member": "Edit team member | Edit team members",
 		"settings": "Edit settings",
-		"profile": "Edit profile"
+		"profile": "Edit profile",
+		"organization": "Edit organization"
 	},
 	"delete": {
 		"delete": "Delete",
@@ -276,8 +278,38 @@
 	"project_edited_succ": "Project edited successfully",
 	"company_name": "Company name",
 	"organization_name": "Organization name",
-	"organization": "Organization",
+	"organization": "Organization | Organizations",
 	"company_edited_succ": "Company edited successfully",
 	"close": "Close",
-	"optional": "Optional"
+	"optional": "Optional",
+	"no_organizations": "You don't have any organizations",
+	"please_add_new_one": "Please add a new one",
+	"organization_succ_created": "Organization successfully created",
+	"order_organizations": "Order organizations",
+	"overview": "Overview",
+	"delete_organization_and_projects": "Delete organization and associated companies",
+	"organization_settings": "Organization settings",
+	"enter_organization_name": "Enter organization name",
+	"organization_edited_succ": "Organization edited successfully",
+	"organization_no_resources": "You do not have any organizations",
+	"company_no_resources": "You do not have any companies",
+	"project_no_resources": "You do not have any projects",
+	"bug_no_resources": "You do not have any bugs",
+	"company_succ_created": "Company successfully created",
+	"no_plan": "No plan",
+	"member_plan": "Member plan",
+	"view_details": "View details",
+	"organization_members": "Organization members",
+	"generate_token": "Generate token",
+	"token": "Token",
+	"delete_token": "Delete token",
+	"refresh": "Refresh",
+	"profile": "Profile",
+	"member_since": "Member since",
+	"companies_projects_for_member": "Companies and projects for team member",
+	"no_resources": "No resources",
+	"no_companies": "You do not have any companies",
+	"project_url": "Project URL",
+	"project_succ_created": "Project successfully created",
+	"no_projects": "You do not have any projects"
 }

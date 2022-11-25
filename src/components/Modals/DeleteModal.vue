@@ -1,4 +1,5 @@
 <!-- Note:
+	! delete this and replace with DeleteModal2
 	- Proposal: add different modes like a cooldown one where the submit button is only available after some :time 
  -->
 
