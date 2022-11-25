@@ -33,7 +33,6 @@
 
 <script setup lang="ts">
 import { COLOR } from "~/util/colors";
-import OrganizationEditModal from "~/pages/organization/components/OrganizationEditModal.vue";
 
 const { t } = useI18n();
 
