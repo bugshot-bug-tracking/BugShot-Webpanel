@@ -102,10 +102,7 @@ const user = computed(() => {
 });
 
 const projectTeam = computed(() => {
-	return [
-		store.getProject.attributes.creator,
-		...store.getProjectUsers,
-	].filter((x) => x);
+	return [store.getProject.attributes.creator, ...store.getMembers].filter((x) => x);
 });
 
 // tributejs options

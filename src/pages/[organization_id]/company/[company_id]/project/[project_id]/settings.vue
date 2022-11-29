@@ -1,5 +1,5 @@
 <template>
-	<T2Page v-if="project.id">
+	<T2Page>
 		<template #header>
 			<T2Header>
 				<template #l-top>
@@ -7,7 +7,7 @@
 				</template>
 
 				<template #l-bottom>
-					{{ project.id ? project.attributes.designation : $t("loading") }}
+					{{ project.attributes.designation }}
 				</template>
 			</T2Header>
 		</template>
@@ -18,13 +18,12 @@
 					{{ $t("project_settings") }}
 				</div>
 				<div class="group-content">
-					<ProjectResourceSettings
+					<ProjectSettings
 						:project_name="project.attributes.designation"
 						:company_name="project.attributes.company.attributes.designation"
 						:url="project.attributes.url ?? ''"
 						:image="project.attributes.image?.attributes.base64"
 						:color="project.attributes.color_hex"
-						:editFunction="editProject"
 					/>
 				</div>
 			</div>
@@ -40,7 +39,7 @@
 							<div ml-a>
 								<ManageMembers
 									v-if="isAuthorized"
-									:list="store.getProjectUsers"
+									:list="manageableMembers"
 									:pending_list="pendingMembers"
 									:add="addMember"
 									:edit="editMember"
@@ -79,7 +78,7 @@
 								:current_user="user.id === item.id"
 							/>
 
-							<AssignedToList :list="bugs" @remove="" :type="'Bug'" />
+							<AssignedToList :list="[]" @remove="" :type="'Bug'" />
 						</template>
 					</AssignmentTable>
 				</div>
@@ -100,7 +99,7 @@
 				</div>
 				<div class="group-content">
 					<div class="delete-project" flex flex-col gap-2 p-6 py-8>
-						<a class="text-to-red" underline @click="openDelete">
+						<a class="text-to-red" underline @click="deleteModal.open">
 							{{ t("delete_project_and_bugs") }}?
 						</a>
 
@@ -153,9 +152,9 @@ const user = computed(() => useAuthStore().getUser);
 
 const store = useProjectStore();
 
-const isAuthorized = computed(() => {
-	if (!project.value.id) return;
+const project = computed(() => store.getProject!);
 
+const isAuthorized = computed(() => {
 	// temp code replace with proper ?global? logic
 	return (
 		project.value?.attributes.role?.id === 1 ||
@@ -164,58 +163,34 @@ const isAuthorized = computed(() => {
 	);
 });
 
-const project = computed(() => store.getProject);
-
 const members = computed(() => {
-	let users = [...store.getProjectUsers];
+	let users = [...(store.getMembers ?? [])];
 
-	if (store.getProjectCreator) users.unshift(store.getProjectCreator);
+	if (store.getCreator) users.unshift(store.getCreator);
 
 	return users;
 });
 
-const pendingMembers = computed(() => {
-	console.log(store.getProjectPendingInvitations);
-	return store.getProjectPendingInvitations;
-});
-
-const bugs = computed(() => {
-	// const st = store.getFirstStatus;
-
-	// let b = store.getBugsByStatusId(st?.id);
-	// return b ?? [];
-	return [];
-});
-
 const preCall = async () => {
-	await store.fetchProjectUsers();
+	await store.fetchUsers();
 
-	await store.fetchProjectInvitations();
+	await store.fetchInvitations();
 };
 
 const addMember = async (email: string, role_id: number) => {
-	await store.sendProjectInvitation({ email, role_id });
-};
-
-const editMember = async (user_id: number, role_id: number) => {
-	await store.editProjectMember({ user_id, role_id });
-};
-
-const deleteMember = async (user_id: number) => {
-	await store.deleteProjectMember({ user_id });
+	await store.sendInvitation({ email, role_id });
 };
 
 const deleteInvitation = async (invitation_id: string) => {
-	await store.deleteProjectInvitation({ invitation_id });
+	await store.deleteInvitation({ invitation_id });
 };
 
-const editProject = async (data: {
-	designation: string;
-	url: string;
-	color_hex: string;
-	base64: string;
-}) => {
-	await store.updateProject(data);
+const editMember = async (user_id: number, role_id: number) => {
+	await store.editMember({ user_id, role_id });
+};
+
+const deleteMember = async (user_id: number) => {
+	await store.deleteMember({ user_id });
 };
 
 const deleteModal = reactive({
@@ -228,23 +203,27 @@ const deleteModal = reactive({
 		deleteModal.text = "";
 		deleteModal.callback = null;
 	},
+	open: () => {
+		deleteModal.text = project.value.attributes.designation;
+		deleteModal.callback = async () => {
+			await store.deleteResource();
+
+			router.push({
+				name: "company",
+				params: {
+					organization_id: props.organization_id,
+					company_id: props.company_id,
+				},
+			});
+		};
+		deleteModal.show = true;
+	},
 });
 
-const openDelete = () => {
-	deleteModal.text = project.value.attributes.designation;
-	deleteModal.callback = async () => {
-		await store.deleteProject();
+//TODO replace this with members when ManageMember component ignores owner actions
+const manageableMembers = computed(() => store.getMembers);
 
-		router.push({
-			name: "company",
-			params: {
-				organization_id: props.organization_id,
-				company_id: props.company_id,
-			},
-		});
-	};
-	deleteModal.show = true;
-};
+const pendingMembers = computed(() => store.getPendingInvitations);
 </script>
 
 <style lang="scss" scoped>

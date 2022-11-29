@@ -24,8 +24,8 @@
 
 				<ManageMembers
 					v-if="isAuthorized"
-					:list="company?.attributes.users"
-					:pending_list="company?.pending ?? []"
+					:list="manageableMembers"
+					:pending_list="pendingMembers"
 					:add="addMember"
 					:edit="editMember"
 					:delete="deleteMember"
@@ -126,11 +126,12 @@ const props = defineProps({
 });
 
 const store = useCompanyStore();
+
 const router = useRouter();
 
 const company = computed(() => store.getCompany!);
 
-const projects = computed(() => store.getProjects);
+const projects = computed(() => store.getProjects ?? []);
 
 const isAuthorized = computed(() => {
 	//TODO temp code replace with proper ?global? logic
@@ -172,6 +173,11 @@ const editMember = async (user_id: number, role_id: number) => {
 const deleteMember = async (user_id: number) => {
 	await store.deleteMember({ user_id });
 };
+
+//TODO replace this with members when ManageMember component ignores owner actions
+const manageableMembers = computed(() => store.getMembers);
+
+const pendingMembers = computed(() => store.getPendingInvitations);
 </script>
 
 <route lang="yaml">

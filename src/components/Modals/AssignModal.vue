@@ -95,10 +95,9 @@ const bug = computed(() => {
 
 	if (!bug?.id) list.value = [];
 	else {
-		let project_users = [
-			store.getProject.attributes.creator,
-			...store.getProjectUsers,
-		].filter((x) => x);
+		let project_users = [store.getProject.attributes.creator, ...store.getMembers].filter(
+			(x) => x
+		);
 
 		list.value = [];
 

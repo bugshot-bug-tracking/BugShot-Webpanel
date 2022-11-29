@@ -1,7 +1,7 @@
 <template>
 	<div class="bs-container" flex flex-col gap-4>
 		<div h-52 class="image">
-			<img :src="values.image" alt="image" v-if="image" />
+			<img :src="c_image" alt="image" v-if="c_image" />
 			<div v-else :style="{ color: color ?? COLOR.PURPLE }" w-120>
 				<img src="/src/assets/icons/projects.svg" alt="project" />
 			</div>
@@ -12,12 +12,7 @@
 				{{ t("project_name") }}
 			</label>
 
-			<input
-				type="text"
-				:placeholder="t('project_name')"
-				v-model="values.p_name"
-				disabled
-			/>
+			<input type="text" :placeholder="t('project_name')" :value="project_name" disabled />
 		</div>
 
 		<div class="bs-input2">
@@ -25,12 +20,7 @@
 				{{ t("company") }}
 			</label>
 
-			<input
-				type="text"
-				:placeholder="t('company')"
-				v-model="values.c_name"
-				disabled
-			/>
+			<input type="text" :placeholder="t('company')" :value="company_name" disabled />
 		</div>
 
 		<div class="bs-input2">
@@ -38,12 +28,7 @@
 				{{ t("url") }}
 			</label>
 
-			<input
-				type="text"
-				:placeholder="'http(s)://'"
-				v-model="values.url"
-				disabled
-			/>
+			<input type="text" :placeholder="'http(s)://'" :value="url" disabled />
 		</div>
 
 		<ProjectEditModal
@@ -55,11 +40,7 @@
 		>
 			<template #button>
 				<a mt4 cursor-pointer>
-					<img
-						src="/src/assets/icons/edit.svg"
-						alt="edit"
-						class="black-to-purple"
-					/>
+					<img src="/src/assets/icons/edit.svg" alt="edit" class="black-to-purple" />
 					<b> {{ t("edit.project") }}</b>
 				</a>
 			</template>
@@ -68,6 +49,7 @@
 </template>
 
 <script setup lang="ts">
+import { useProjectStore } from "~/stores/project";
 import { COLOR } from "~/util/colors";
 
 const { t } = useI18n();
@@ -91,7 +73,7 @@ const props = defineProps({
 	image: {
 		required: false,
 		type: String,
-		default: undefined,
+		default: "",
 	},
 
 	color: {
@@ -99,30 +81,18 @@ const props = defineProps({
 		type: String,
 		default: COLOR.PURPLE,
 	},
-
-	editFunction: {
-		required: true,
-	},
 });
 
-const values = reactive({
-	p_name: "",
-	c_name: "",
-	url: "",
-	image: "",
+const c_image = computed(() => (props.image !== "" ? atob(props.image) : undefined));
 
-	set: () => {
-		values.p_name = props.project_name;
-		values.c_name = props.company_name;
-		values.url = props.url;
-		values.image = atob(props.image ?? "");
-	},
-});
-
-values.set();
-watch(props, () => {
-	values.set();
-});
+const editFunction = async (data: {
+	designation: string;
+	url: string;
+	color_hex: string;
+	base64: string;
+}) => {
+	await useProjectStore().updateResource(data);
+};
 </script>
 
 <style lang="scss" scoped>
