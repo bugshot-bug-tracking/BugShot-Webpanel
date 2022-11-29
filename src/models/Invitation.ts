@@ -1,4 +1,5 @@
 import { Company } from "./Company";
+import { Organization } from "./Organization";
 import { Project } from "./Project";
 import { Role } from "./Role";
 import { User } from "./User";
@@ -9,7 +10,7 @@ export interface Invitation {
 	attributes: {
 		sender: User;
 		target_email: string;
-		invitable: Project | Company;
+		invitable: Project | Company | Organization;
 		role: Role;
 		status: {
 			id: number;

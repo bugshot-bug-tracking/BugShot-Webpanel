@@ -1,13 +1,13 @@
 <template>
-	<T2Page v-if="project.id">
+	<T2Page>
 		<template #header>
 			<T2Header>
 				<template #l-top>
-					{{ $t("project_settings") }}
+					{{ $t("company_settings") }}
 				</template>
 
 				<template #l-bottom>
-					{{ project.id ? project.attributes.designation : $t("loading") }}
+					{{ company.attributes.designation }}
 				</template>
 			</T2Header>
 		</template>
@@ -15,16 +15,14 @@
 		<article class="bs-scroll" p-8 content-start>
 			<div class="component-group" max-w-128>
 				<div class="group-header">
-					{{ $t("project_settings") }}
+					{{ $t("company_settings") }}
 				</div>
 				<div class="group-content">
-					<ProjectResourceSettings
-						:project_name="project.attributes.designation"
-						:company_name="project.attributes.company.attributes.designation"
-						:url="project.attributes.url ?? ''"
-						:image="project.attributes.image?.attributes.base64"
-						:color="project.attributes.color_hex"
-						:editFunction="editProject"
+					<CompanySettings
+						:company_name="company.attributes.designation"
+						:organization_name="company.attributes.organization.attributes.designation"
+						:image="company.attributes.image?.attributes.base64"
+						:color="company.attributes.color_hex"
 					/>
 				</div>
 			</div>
@@ -40,7 +38,7 @@
 							<div ml-a>
 								<ManageMembers
 									v-if="isAuthorized"
-									:list="store.getProjectUsers"
+									:list="store.getMembers"
 									:pending_list="pendingMembers"
 									:add="addMember"
 									:edit="editMember"
@@ -73,35 +71,35 @@
 								:last_name="item.attributes.last_name"
 								:email="item.attributes.email"
 								:role_text="item.role?.attributes.designation"
-								:owner="project.attributes.creator?.id === item.id"
+								:owner="company.attributes.creator?.id === item.id"
 								py-4
 								:removable="false"
 								:current_user="user.id === item.id"
 							/>
 
-							<AssignedToList :list="bugs" @remove="" />
+							<AssignedToList :list="[]" @remove="" :type="'Project'" />
 						</template>
 					</AssignmentTable>
 				</div>
 			</div>
 
-			<div class="component-group" max-w-128 v-if="false">
+			<div class="component-group" max-w-128 :style="{ 'min-height': 'auto' }">
 				<div class="group-header">
 					{{ $t("resource_token") }}
 				</div>
 				<div class="group-content">
-					<span>token</span>
+					<ResourceToken :type="'Company'" :id="company.id" />
 				</div>
 			</div>
 
-			<div class="component-group" max-w-128>
+			<div class="component-group" max-w-128 :style="{ 'min-height': 'auto' }">
 				<div class="group-header">
 					{{ $t("actions") }}
 				</div>
 				<div class="group-content">
 					<div class="delete-project" flex flex-col gap-2 p-6 py-8>
-						<a class="text-to-red" underline @click="openDelete">
-							{{ t("delete_project_and_bugs") }}?
+						<a class="text-to-red" underline @click="deleteModal.open">
+							{{ t("delete_company_and_projects") }}?
 						</a>
 
 						<p>({{ t("operation_cant_be_reverted") }})</p>
@@ -111,29 +109,31 @@
 		</article>
 	</T2Page>
 
-	<DeleteModal
-		v-if="deleteAction.visible"
-		:text="deleteAction.text"
-		:callback="deleteAction.execute"
-		@close="deleteAction.reset"
+	<DeleteModal2
+		:show="deleteModal.show"
+		:header="deleteModal.header"
+		:text="deleteModal.text"
+		:callback="deleteModal.callback"
+		@close="deleteModal.clear"
 	/>
 </template>
 
 <script setup lang="ts">
 import { User } from "~/models/User";
 import { useAuthStore } from "~/stores/auth";
-import { useProjectStore } from "~/stores/project";
+import { useCompanyStore } from "~/stores/company";
 
 const props = defineProps({
-	id: {
+	organization_id: {
+		type: String,
+		required: true,
+		description: "Organization ID",
+	},
+
+	company_id: {
 		required: true,
 		type: String,
 		description: "Company ID",
-	},
-	project_id: {
-		required: true,
-		type: String,
-		description: "Project ID",
 	},
 });
 
@@ -142,108 +142,76 @@ let router = useRouter();
 
 const user = computed(() => useAuthStore().getUser);
 
-const store = useProjectStore();
-
-store.init(props.id, props.project_id);
-
-watch(
-	props,
-	() => {
-		store.init(props.id, props.project_id);
-	},
-	{ deep: true }
-);
+const store = useCompanyStore();
 
 const isAuthorized = computed(() => {
-	if (!project.value.id) return;
+	if (!company.value.id) return;
 
 	// temp code replace with proper ?global? logic
 	return (
-		project.value?.attributes.role?.id === 1 ||
-		project.value?.attributes.creator?.id === user.value.id ||
-		useProjectStore().company.attributes.role?.id === 1
+		company.value?.attributes.role?.id === 1 ||
+		company.value?.attributes.creator?.id === user.value.id
 	);
 });
 
-const project = computed(() => store.getProject);
+const company = computed(() => store.getCompany!);
 
 const members = computed(() => {
-	let users = [...store.getProjectUsers];
+	let users = [...(store.getMembers ?? [])];
 
-	if (store.getProjectCreator) users.unshift(store.getProjectCreator);
+	if (store.getCreator) users.unshift(store.getCreator);
 
 	return users;
 });
 
-const pendingMembers = computed(() => {
-	console.log(store.getProjectPendingInvitations);
-	return store.getProjectPendingInvitations;
-});
-
-const bugs = computed(() => {
-	// const st = store.getFirstStatus;
-
-	// let b = store.getBugsByStatusId(st?.id);
-	// return b ?? [];
-	return [];
-});
+const pendingMembers = computed(() => store.getPendingInvitations);
 
 const preCall = async () => {
-	await store.fetchProjectUsers();
+	await store.fetchUsers();
 
-	await store.fetchProjectInvitations();
+	await store.fetchInvitations();
 };
 
 const addMember = async (email: string, role_id: number) => {
-	await store.sendProjectInvitation({ email, role_id });
+	await store.sendInvitation({ email, role_id });
 };
 
 const editMember = async (user_id: number, role_id: number) => {
-	await store.editProjectMember({ user_id, role_id });
+	await store.editMember({ user_id, role_id });
 };
 
 const deleteMember = async (user_id: number) => {
-	await store.deleteProjectMember({ user_id });
+	await store.deleteMember({ user_id });
 };
 
 const deleteInvitation = async (invitation_id: string) => {
-	await store.deleteProjectInvitation({ invitation_id });
+	await store.deleteInvitation({ invitation_id });
 };
 
-const editProject = async (data: {
-	designation: string;
-	url: string;
-	color_hex: string;
-	base64: string;
-}) => {
-	await store.updateProject(data);
-};
+const deleteModal = reactive({
+	show: false,
+	text: "test",
+	header: t("want_to_delete"),
+	callback: null as Function | null,
+	clear: () => {
+		deleteModal.show = false;
+		deleteModal.text = "";
+		deleteModal.callback = null;
+	},
 
-const deleteAction = reactive({
-	visible: false,
-	text: "",
-	execute: () => {},
-	reset: () => {
-		deleteAction.visible = false;
-		deleteAction.text = "";
-		deleteAction.execute = () => {};
+	open: () => {
+		deleteModal.text = company.value.attributes.designation;
+		deleteModal.callback = async () => {
+			await store.deleteResource();
+
+			router.push({
+				name: "organization-home",
+				params: { organization_id: props.organization_id },
+			});
+		};
+		deleteModal.show = true;
 	},
 });
-
-const openDelete = () => {
-	deleteAction.text = project.value.attributes.designation;
-	deleteAction.execute = async () => {
-		await store.deleteProject();
-
-		router.push({
-			name: "company",
-			params: {
-				id: props.id,
-			},
-		});
-	};
-	deleteAction.visible = true;
-};
 </script>
 
 <style lang="scss" scoped>
@@ -295,5 +263,5 @@ article {
 </style>
 
 <route lang="yaml">
-name: project-settings
+name: company-settings
 </route>

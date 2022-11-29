@@ -1,20 +1,20 @@
+<!-- Note:
+	
+	- needs a recheck for ensuring  that it's up to date with the api, with rem units and ts
+	- maybe refactor to be more reusable
+	- TODO change user-role to use the RolePin
+ -->
+
 <template>
 	<div class="invite-members">
 		<span>{{ $t("add.team_member") }}</span>
 
 		<div class="user-list w-100 d-flex flex-column" v-if="displayList">
-			<div
-				class="user-item w-100"
-				v-for="(item, index) in invites"
-				:key="index"
-			>
+			<div class="user-item w-100" v-for="(item, index) in invites" :key="index">
 				<div class="user-email">{{ item.email }}</div>
 
 				<div class="user-role">
-					{{
-						roles.find((x) => x.id === item.role).attributes
-							.designation
-					}}
+					{{ roles.find((x) => x.id === item.role).attributes.designation }}
 				</div>
 
 				<div class="actions">
@@ -176,7 +176,7 @@ const deleteInvite = (value) => {
 const closeModal = () => {
 	modalActive.value = false;
 	email.value = "";
-	rolePicked.value = 4;
+	rolePicked.value = 2;
 	editMode.on = false;
 	editMode.index = -1;
 };
@@ -203,8 +203,8 @@ const roles = computed(() => useMainStore().getRoles);
 		cursor: pointer;
 
 		&:hover {
-			filter: brightness(0) saturate(1) invert(18%) sepia(72%)
-				saturate(5384%) hue-rotate(263deg) brightness(94%) contrast(92%);
+			filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+				hue-rotate(263deg) brightness(94%) contrast(92%);
 		}
 	}
 }
@@ -283,15 +283,13 @@ const roles = computed(() => useMainStore().getRoles);
 				cursor: pointer;
 
 				&.edit:hover {
-					filter: brightness(0) saturate(1) invert(18%) sepia(72%)
-						saturate(5384%) hue-rotate(263deg) brightness(94%)
-						contrast(92%);
+					filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+						hue-rotate(263deg) brightness(94%) contrast(92%);
 				}
 
 				&.delete:hover {
-					filter: brightness(0) saturate(1) invert(46%) sepia(28%)
-						saturate(5216%) hue-rotate(331deg) brightness(87%)
-						contrast(121%);
+					filter: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%)
+						hue-rotate(331deg) brightness(87%) contrast(121%);
 				}
 			}
 		}

@@ -16,7 +16,7 @@
 		</slot>
 	</div>
 
-	<MyModal v-model="modal.show" :close="modal.close" z-100>
+	<MyModal :modelValue="modal.show" :close="modal.close" z-100>
 		<ModalTemplate @close="modal.close">
 			<template #header-text>{{ $t("edit.company") }}</template>
 
@@ -51,7 +51,10 @@
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
-		@close="loadingModal.clear"
+		@close="
+			loadingModal.clear();
+			modal.close();
+		"
 	/>
 </template>
 
@@ -130,7 +133,7 @@ const data = reactive({
 	},
 
 	setColor: (value: number) => {
-		// console.log("setImage", value);
+		// console.log("setColor", value);
 		data.color = value;
 	},
 });
@@ -157,10 +160,7 @@ const onSubmit = async () => {
 		console.log(error);
 
 		loadingModal.state = 2;
-		loadingModal.message = error.response.data.data?.message.replace(
-			":",
-			""
-		);
+		loadingModal.message = error.response.data.data?.message.replace(":", "");
 	}
 };
 

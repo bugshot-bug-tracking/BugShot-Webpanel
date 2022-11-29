@@ -1,10 +1,6 @@
 <template>
 	<section class="bugshot-feedback" z-1>
-		<div
-			class="feedback-button"
-			@click="form.toggle"
-			:class="{ open: form.show }"
-		>
+		<div class="feedback-button" @click="form.toggle" :class="{ open: form.show }">
 			<img src="/src/assets/icons/bugshot.svg" alt="bugshot" />
 
 			<p>{{ t("feedback") }}</p>
@@ -12,18 +8,10 @@
 
 		<div class="feedback-form" v-if="form.show">
 			<div z--1 class="full-overlay"></div>
-			<form
-				@submit.prevent="submit"
-				@reset.prevent="cancel"
-				class="bs-form bs-scroll"
-			>
+			<form @submit.prevent="submit" @reset.prevent="cancel" class="bs-form bs-scroll">
 				<div flex justify-between px-2 style="width: 100%">
 					<h1 text-6>{{ t("feedback_form") }}</h1>
-					<img
-						src="/src/assets/icons/close_2.svg"
-						alt="close"
-						@click="form.close"
-					/>
+					<img src="/src/assets/icons/close_2.svg" alt="close" @click="form.close" />
 				</div>
 
 				<div class="bs-container" gap-4>
@@ -51,9 +39,7 @@
 						<label>
 							{{ t("title") }}
 
-							<span>{{
-								`${formData.designation.length}/250`
-							}}</span>
+							<span>{{ `${formData.designation.length}/250` }}</span>
 						</label>
 
 						<input
@@ -69,9 +55,7 @@
 					<div class="bs-input2">
 						<label>
 							{{ t("description") }}
-							<span>{{
-								`${formData.description.length}/1500`
-							}}</span>
+							<span>{{ `${formData.description.length}/1500` }}</span>
 						</label>
 
 						<textarea
@@ -160,7 +144,7 @@ const submit = async () => {
 		let att_list = await Promise.all(
 			formData.attachments.map(async (x) => ({
 				designation: x.name,
-				base64: btoa(await toBase64(x)),
+				base64: btoa((await toBase64(x)) as string),
 			}))
 		);
 
