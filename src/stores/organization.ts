@@ -16,6 +16,8 @@ export const useOrganizationStore = defineStore("organization", {
 		pendingInvitations: undefined as Invitation[] | undefined,
 
 		companies: undefined as Company[] | undefined,
+
+		member: undefined as OrganizationUserRole | undefined,
 	}),
 
 	actions: {
@@ -161,7 +163,9 @@ export const useOrganizationStore = defineStore("organization", {
 				await axios.get(`organizations/${this.organization_id}/companies`, {
 					headers: {
 						"include-company-role": "true",
+						"include-company-image": "true",
 						"include-projects": "true",
+						"include-project-image": "true",
 					},
 				})
 			).data.data;
@@ -179,11 +183,22 @@ export const useOrganizationStore = defineStore("organization", {
 			color_hex: string;
 		}) {
 			let response = (
-				await axios.post(`organizations/${this.organization_id}/companies`, {
-					designation,
-					base64,
-					color_hex,
-				})
+				await axios.post(
+					`organizations/${this.organization_id}/companies`,
+					{
+						designation,
+						base64,
+						color_hex,
+					},
+					{
+						headers: {
+							"include-company-role": "true",
+							"include-company-image": "true",
+							"include-projects": "true",
+							"include-project-image": "true",
+						},
+					}
+				)
 			).data.data;
 
 			this.addCompany(response);
@@ -210,7 +225,7 @@ export const useOrganizationStore = defineStore("organization", {
 
 			if (!item) return false;
 
-			item = company;
+			Object.assign(item.attributes, company.attributes);
 
 			return true;
 		},
@@ -230,6 +245,22 @@ export const useOrganizationStore = defineStore("organization", {
 			if (this.companies.length === 0) this.companies = undefined;
 
 			return true;
+		},
+
+		async fetchMember(id: number) {
+			this.member = undefined;
+
+			let response = (
+				await axios.get(`organizations/${this.organization_id}/users/${id}`, {
+					headers: {
+						"include-users-company-role": true,
+						"include-users-companies": true,
+						"include-users-projects": true,
+					},
+				})
+			).data.data;
+
+			this.member = response;
 		},
 	},
 
@@ -277,8 +308,7 @@ export const useOrganizationStore = defineStore("organization", {
 			let entry = state.members?.find((x) => x.user.id === id);
 			if (!entry) return undefined;
 
-			//! API update it to remove the attributes
-			return entry.attributes.companies;
+			return entry.attributes?.companies;
 		},
 	},
 });

@@ -34,7 +34,7 @@
 				</div>
 
 				<div class="group-content">
-					<OrganizationUserCompaniesTable :user_id="parseInt(user_id)" />
+					<OrganizationUserCompaniesTable />
 				</div>
 			</div>
 		</article>
@@ -44,12 +44,13 @@
 <script setup lang="ts">
 import { useOrganizationStore } from "~/stores/organization";
 
-const props = defineProps({
+defineProps({
 	id: {
 		type: String,
 		required: true,
 		description: "Organization ID",
 	},
+
 	user_id: {
 		// needs to be cast to Number because router sends as String
 		type: String,
@@ -62,7 +63,7 @@ const store = useOrganizationStore();
 
 const resource = computed(() => store.getOrganization);
 
-const member = computed(() => store.getOrganizationMember(parseInt(props.user_id)));
+const member = computed(() => store.member?.user);
 </script>
 
 <style lang="scss" scoped>
