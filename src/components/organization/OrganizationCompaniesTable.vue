@@ -4,6 +4,7 @@
 			<ResourceHeader
 				:name="item.attributes.designation"
 				:owner="user.id === item.attributes.creator?.id"
+				:color="item.attributes.color_hex"
 			>
 				<template #text>
 					<b>

@@ -8,7 +8,8 @@
 		<template #item="{ item }: { item: Company }">
 			<ResourceHeader
 				:name="item.attributes.designation"
-				:owner="user?.id === item.attributes.creator?.id"
+				:owner="member.user.id === item.attributes.creator?.id"
+				:color="item.attributes.color_hex"
 			>
 				<template #text>
 					<b>
@@ -24,7 +25,7 @@
 				</template>
 			</ResourceHeader>
 
-			<AssignedToList :list="store.getCompanyProjects(item.id)" @remove="" :type="'Project'">
+			<AssignedToList :list="projects(item.id)" @remove="" :type="'Project'">
 				<template #header>
 					<b>{{ $t("project", 2) }}</b>
 				</template>
@@ -55,22 +56,14 @@ import { useOrganizationStore } from "~/stores/organization";
 import { Company } from "~/models/Company";
 import { Project } from "~/models/Project";
 
-const props = defineProps({
-	user_id: {
-		required: true,
-		type: Number,
-	},
-});
-
 const store = useOrganizationStore();
 
 const organization = computed(() => store.getOrganization!);
 
-const user = computed(() => store.getOrganizationMember(props.user_id));
+const member = computed(() => store.member!);
 
-const companies = computed(() => store.getMemberCompanies(props.user_id));
+const companies = computed(() => member.value.attributes?.companies);
 
-//!TODO use get on org/id/user/id to get the companies and projects and set the correct data here + watch on props
+const projects = (company_id: string) =>
+	member.value.attributes?.companies.find((x) => x.id === company_id)?.attributes.projects;
 </script>
-
-<style scoped></style>
