@@ -1,5 +1,5 @@
 <template>
-	<T2Page v-if="company.id">
+	<T2Page>
 		<template #header>
 			<T2Header>
 				<template #l-top>
@@ -7,7 +7,7 @@
 				</template>
 
 				<template #l-bottom>
-					{{ company.id ? company.attributes.designation : $t("loading") }}
+					{{ company.attributes.designation }}
 				</template>
 			</T2Header>
 		</template>
@@ -18,12 +18,11 @@
 					{{ $t("company_settings") }}
 				</div>
 				<div class="group-content">
-					<CompanyResourceSettings
+					<CompanySettings
 						:company_name="company.attributes.designation"
-						:organization_name="''"
+						:organization_name="company.attributes.organization.attributes.designation"
 						:image="company.attributes.image?.attributes.base64"
 						:color="company.attributes.color_hex"
-						:editFunction="editCompany"
 					/>
 				</div>
 			</div>
@@ -39,7 +38,7 @@
 							<div ml-a>
 								<ManageMembers
 									v-if="isAuthorized"
-									:list="store.getUsers"
+									:list="store.getMembers"
 									:pending_list="pendingMembers"
 									:add="addMember"
 									:edit="editMember"
@@ -78,7 +77,7 @@
 								:current_user="user.id === item.id"
 							/>
 
-							<AssignedToList :list="bugs" @remove="" :type="'Project'" />
+							<AssignedToList :list="[]" @remove="" :type="'Project'" />
 						</template>
 					</AssignmentTable>
 				</div>
@@ -99,7 +98,7 @@
 				</div>
 				<div class="group-content">
 					<div class="delete-project" flex flex-col gap-2 p-6 py-8>
-						<a class="text-to-red" underline @click="openDelete">
+						<a class="text-to-red" underline @click="deleteModal.open">
 							{{ t("delete_company_and_projects") }}?
 						</a>
 
@@ -124,8 +123,7 @@ import { User } from "~/models/User";
 import { useAuthStore } from "~/stores/auth";
 import { useCompanyStore } from "~/stores/company";
 
-// const props =
-defineProps({
+const props = defineProps({
 	organization_id: {
 		type: String,
 		required: true,
@@ -159,24 +157,14 @@ const isAuthorized = computed(() => {
 const company = computed(() => store.getCompany!);
 
 const members = computed(() => {
-	let users = [...store.getUsers];
+	let users = [...(store.getMembers ?? [])];
 
 	if (store.getCreator) users.unshift(store.getCreator);
 
 	return users;
 });
 
-const pendingMembers = computed(() => {
-	return store.getPendingInvitations;
-});
-
-const bugs = computed(() => {
-	// const st = store.getFirstStatus;
-
-	// let b = store.getBugsByStatusId(st?.id);
-	// return b ?? [];
-	return [];
-});
+const pendingMembers = computed(() => store.getPendingInvitations);
 
 const preCall = async () => {
 	await store.fetchUsers();
@@ -200,10 +188,6 @@ const deleteInvitation = async (invitation_id: string) => {
 	await store.deleteInvitation({ invitation_id });
 };
 
-const editCompany = async (data: { designation: string; color_hex: string; base64: string }) => {
-	await store.updateCompany(data);
-};
-
 const deleteModal = reactive({
 	show: false,
 	text: "test",
@@ -214,19 +198,20 @@ const deleteModal = reactive({
 		deleteModal.text = "";
 		deleteModal.callback = null;
 	},
+
+	open: () => {
+		deleteModal.text = company.value.attributes.designation;
+		deleteModal.callback = async () => {
+			await store.deleteResource();
+
+			router.push({
+				name: "organization-home",
+				params: { organization_id: props.organization_id },
+			});
+		};
+		deleteModal.show = true;
+	},
 });
-
-const openDelete = () => {
-	deleteModal.text = company.value.attributes.designation;
-	deleteModal.callback = async () => {
-		await store.deleteCompany();
-
-		router.push({
-			name: "home",
-		});
-	};
-	deleteModal.show = true;
-};
 </script>
 
 <style lang="scss" scoped>

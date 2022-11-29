@@ -1,7 +1,7 @@
 <template>
 	<div class="bs-container" flex flex-col gap-4>
 		<div h-52 class="image">
-			<img :src="values.image" alt="image" v-if="image" />
+			<img :src="c_image" alt="image" v-if="c_image" />
 			<div v-else :style="{ color: color ?? COLOR.PURPLE }" w-120>
 				<img src="/src/assets/icons/company.svg" alt="project" />
 			</div>
@@ -12,15 +12,10 @@
 				{{ t("company_name") }}
 			</label>
 
-			<input
-				type="text"
-				:placeholder="t('company_name')"
-				v-model="values.c_name"
-				disabled
-			/>
+			<input type="text" :placeholder="t('company_name')" :value="company_name" disabled />
 		</div>
 
-		<div class="bs-input2" v-if="values.o_name !== ''">
+		<div class="bs-input2">
 			<label>
 				{{ t("organization_name") }}
 			</label>
@@ -28,24 +23,15 @@
 			<input
 				type="text"
 				:placeholder="t('organization')"
-				v-model="values.o_name"
+				:value="organization_name"
 				disabled
 			/>
 		</div>
 
-		<CompanyEditModal
-			:name="company_name"
-			:color="color"
-			:image="image"
-			:submit="editFunction"
-		>
+		<CompanyEditModal :name="company_name" :color="color" :image="image" :submit="editFunction">
 			<template #button>
 				<a mt4 cursor-pointer>
-					<img
-						src="/src/assets/icons/edit.svg"
-						alt="edit"
-						class="black-to-purple"
-					/>
+					<img src="/src/assets/icons/edit.svg" alt="edit" class="black-to-purple" />
 					<b> {{ t("edit.company") }}</b>
 				</a>
 			</template>
@@ -55,6 +41,7 @@
 
 <script setup lang="ts">
 import { COLOR } from "~/util/colors";
+import { useCompanyStore } from "~/stores/company";
 
 const { t } = useI18n();
 
@@ -72,7 +59,7 @@ const props = defineProps({
 	image: {
 		required: false,
 		type: String,
-		default: undefined,
+		default: "",
 	},
 
 	color: {
@@ -80,28 +67,13 @@ const props = defineProps({
 		type: String,
 		default: COLOR.PURPLE,
 	},
-
-	editFunction: {
-		required: true,
-	},
 });
 
-const values = reactive({
-	c_name: "",
-	o_name: "",
-	image: "",
+const editFunction = async (data: { designation: string; color_hex: string; base64: string }) => {
+	await useCompanyStore().updateResource(data);
+};
 
-	set: () => {
-		values.c_name = props.company_name;
-		values.o_name = props.organization_name;
-		values.image = atob(props.image ?? "");
-	},
-});
-
-values.set();
-watch(props, () => {
-	values.set();
-});
+const c_image = computed(() => (props.image !== "" ? atob(props.image) : undefined));
 </script>
 
 <style lang="scss" scoped>
