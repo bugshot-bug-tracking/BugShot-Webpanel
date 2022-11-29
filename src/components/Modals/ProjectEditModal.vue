@@ -61,7 +61,10 @@
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
-		@close="loadingModal.clear"
+		@close="
+			loadingModal.clear();
+			modal.close();
+		"
 	/>
 </template>
 
@@ -145,7 +148,7 @@ const projectParams = reactive({
 	},
 
 	setColor: (value: number) => {
-		// console.log("setImage", value);
+		// console.log("setColor", value);
 		projectParams.color = value;
 	},
 });

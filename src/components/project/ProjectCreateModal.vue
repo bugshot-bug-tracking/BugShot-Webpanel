@@ -60,6 +60,7 @@
 
 <script setup lang="ts">
 import { useCompanyStore } from "~/stores/company";
+import { useProjectStore } from "~/stores/project";
 import colors from "~/util/colors";
 import toBase64 from "~/util/toBase64";
 
@@ -114,7 +115,7 @@ const onSubmit = async () => {
 	if (data.memberList) {
 		await Promise.all(
 			data.memberList.map(async (x) => {
-				return await useCompanyStore().sendInvitationSpecific(response.id, {
+				return await useProjectStore().sendInvitationSpecific(response.id, {
 					email: x.email,
 					role_id: x.role,
 				});

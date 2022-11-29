@@ -146,7 +146,7 @@ const change = (event: Event) => {
 };
 
 const colorChange = () => {
-	emit("setColor", Number(props.colorPicked));
+	emit("setColor", Number(color_picked.value));
 };
 
 const picker = ref(null);

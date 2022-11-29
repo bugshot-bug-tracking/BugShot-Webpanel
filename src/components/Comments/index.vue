@@ -35,9 +35,7 @@
 			<div class="comments-bottom-header">
 				<span>{{ $t("add.comment") }}</span>
 
-				<div :class="{ 'over-limit': messageLength > 250 }">
-					{{ messageLength }} / 250
-				</div>
+				<div :class="{ 'over-limit': messageLength > 250 }">{{ messageLength }} / 250</div>
 			</div>
 
 			<vue-tribute :options="options" style="width: 100%">
@@ -54,12 +52,7 @@
 
 			<div
 				:hidden="messageLength <= 250"
-				style="
-					font-size: 0.875rem;
-					color: red;
-					align-self: start;
-					margin-top: -0.5rem;
-				"
+				style="font-size: 0.875rem; color: red; align-self: start; margin-top: -0.5rem"
 			>
 				{{ $t("limits.characters_exceeded") }}
 			</div>
@@ -145,17 +138,10 @@ const options = reactive({
 					]
 				};"
 			>
-				${
-					item.original.attributes.first_name[0] +
-					item.original.attributes.last_name[0]
-				}
+				${item.original.attributes.first_name[0] + item.original.attributes.last_name[0]}
 			</div>
 			<div class="name">
-				${
-					item.original.attributes.first_name +
-					" " +
-					item.original.attributes.last_name
-				}
+				${item.original.attributes.first_name + " " + item.original.attributes.last_name}
 			</div>
 		`;
 	},
@@ -174,9 +160,7 @@ const postComment = async () => {
 	lock.value = true;
 
 	try {
-		const tagNodes = message.value.querySelectorAll(
-			"span[value].comment-tag"
-		);
+		const tagNodes = message.value.querySelectorAll("span[value].comment-tag");
 
 		let taggedUsers = [];
 		tagNodes.forEach((node) => {
@@ -264,8 +248,8 @@ section {
 
 		&:hover {
 			color: #7a2ee6;
-			filter: brightness(0) saturate(1) invert(18%) sepia(72%)
-				saturate(5384%) hue-rotate(263deg) brightness(94%) contrast(92%);
+			filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+				hue-rotate(263deg) brightness(94%) contrast(92%);
 		}
 	}
 
@@ -274,8 +258,8 @@ section {
 
 		&:hover {
 			color: #18d992;
-			filter: brightness(0) saturate(1) invert(63%) sepia(74%)
-				saturate(493%) hue-rotate(104deg) brightness(96%) contrast(88%);
+			filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
+				hue-rotate(104deg) brightness(96%) contrast(88%);
 		}
 	}
 }

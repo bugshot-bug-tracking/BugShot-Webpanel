@@ -1,6 +1,6 @@
 <template>
 	<div flex items-center gap-2 py-2>
-		<div class="dot" :style="{ background: color }" />
+		<div class="dot" :style="{ background: c_color }" />
 
 		<slot name="text">
 			<b> {{ name }} </b>
@@ -48,10 +48,17 @@ const props = defineProps({
 		default: false,
 		description: "Flag for showing the proper remove message",
 	},
+
+	color: {
+		tpe: String,
+		required: false,
+		default: undefined,
+	},
 });
 
-const color = computed(
+const c_color = computed(
 	() =>
+		props.color ??
 		colors[
 			(props.name.charCodeAt(0) +
 				props.name.charCodeAt(props.name.length / 2) +

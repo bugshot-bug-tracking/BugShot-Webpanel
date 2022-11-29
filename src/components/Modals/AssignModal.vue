@@ -26,28 +26,17 @@
 								:style="{
 									'background-color':
 										colors[
-											(user.attributes.first_name.charCodeAt(
-												0
-											) +
-												user.attributes.last_name.charCodeAt(
-													0
-												)) %
+											(user.attributes.first_name.charCodeAt(0) +
+												user.attributes.last_name.charCodeAt(0)) %
 												7
 										],
 								}"
 							>
-								{{
-									user.attributes.first_name[0] +
-									user.attributes.last_name[0]
-								}}
+								{{ user.attributes.first_name[0] + user.attributes.last_name[0] }}
 							</div>
 
 							<div class="name">
-								{{
-									user.attributes.first_name +
-									" " +
-									user.attributes.last_name
-								}}
+								{{ user.attributes.first_name + " " + user.attributes.last_name }}
 							</div>
 						</label>
 					</div>
@@ -64,9 +53,7 @@
 
 			<a class="close" @click="$emit('close')" />
 
-			<a class="bs-btn green add" @click="submit">{{
-				$t("add.member", 2)
-			}}</a>
+			<a class="bs-btn green add" @click="submit">{{ $t("add.member", 2) }}</a>
 		</div>
 	</div>
 
@@ -148,10 +135,7 @@ const submit = async () => {
 				await axios.post(`bugs/${bug.value.id}/assign-user`, {
 					user_id: item.user.id,
 				});
-			else
-				await axios.delete(
-					`bugs/${bug.value.id}/users/${item.user.id}`
-				);
+			else await axios.delete(`bugs/${bug.value.id}/users/${item.user.id}`);
 		}
 
 		await store.fetchBugUsers(props.id);

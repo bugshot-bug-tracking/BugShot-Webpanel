@@ -18,7 +18,7 @@
 				/>
 			</div>
 
-			<button class="bs-btn red" mx-a mt-4 @click.prevent="actions.delete(code.id)">
+			<button class="bs-btn red" mx-a mt-4 @click.prevent="actions.delete(code?.id)">
 				{{ $t("delete_token") }}
 			</button>
 		</div>
@@ -41,6 +41,7 @@
 
 <script setup lang="ts">
 import axios from "axios";
+import { ApiToken } from "~/models/ApiToken";
 
 const props = defineProps({
 	type: {
@@ -55,7 +56,7 @@ const props = defineProps({
 });
 
 const loading = ref(true);
-const code = ref(undefined as undefined | Object);
+const code = ref(undefined as ApiToken | undefined);
 const error = ref(false);
 
 const tokens = ref(undefined as undefined | []);
@@ -93,9 +94,13 @@ const actions = reactive({
 		} finally {
 			loading.value = false;
 		}
+
+		actions.get();
 	},
 
-	delete: async (value: number) => {
+	delete: async (value: number | undefined) => {
+		if (value === undefined) return;
+
 		try {
 			loading.value = true;
 			error.value = false;

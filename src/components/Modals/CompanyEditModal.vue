@@ -51,7 +51,10 @@
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
-		@close="loadingModal.clear"
+		@close="
+			loadingModal.clear();
+			modal.close();
+		"
 	/>
 </template>
 
@@ -130,7 +133,7 @@ const data = reactive({
 	},
 
 	setColor: (value: number) => {
-		// console.log("setImage", value);
+		// console.log("setColor", value);
 		data.color = value;
 	},
 });

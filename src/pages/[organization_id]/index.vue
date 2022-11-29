@@ -68,7 +68,7 @@ const store = useOrganizationStore();
 const router = useRouter();
 
 const companies = computed(() => {
-	return [...store.getCompanies]
+	return [...(store.getCompanies ?? [])]
 		.filter((record) => record.attributes.projects?.length || 0 > 0)
 		.sort((a, b) => (a.attributes.updated_at < b.attributes.updated_at ? 1 : -1));
 });

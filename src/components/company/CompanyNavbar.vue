@@ -193,8 +193,8 @@ watch(route, () => setOpen());
 const setOpen = () => {
 	if (!route.params.company_id) return;
 
-	// check to see if the page is related to a organization (ex. settings, invoices, plans...) and set the appropriate state
-	if (route.name?.toString().includes("company")) {
+	// check to see if the page is related to a company (ex. settings, invoices, plans...) and set the appropriate state
+	if (route.name?.toString().includes("company") || route.name?.toString().includes("project")) {
 		items_opened.secondary = route.params.company_id as string;
 		items_opened.s_open = true;
 		return; // leave here to have a predictable exit
@@ -204,7 +204,7 @@ const setOpen = () => {
 setOpen();
 
 const companyProjects = (company_id: string) => {
-	return useOrganizationStore().getCompanyProjects(company_id);
+	return useOrganizationStore().getCompanyProjects(company_id) ?? [];
 };
 
 const organization = computed(() => useOrganizationStore().getOrganization);
