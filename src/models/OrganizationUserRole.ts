@@ -8,5 +8,7 @@ export interface OrganizationUserRole {
 	user: User;
 	role: Role;
 	subscription: any;
-	companies?: Company[];
+	attributes?: {
+		companies: Company[];
+	};
 }
