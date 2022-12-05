@@ -144,7 +144,8 @@
 		"comment": "Delete comment | Delete comments",
 		"attachment": "Delete attachment | Delete attachments",
 		"member": "Delete member | Delete members",
-		"team_member": "Delete team member | Delete team members"
+		"team_member": "Delete team member | Delete team members",
+		"column": "Delete column"
 	},
 	"select": {
 		"select": "Select",
@@ -311,5 +312,15 @@
 	"no_companies": "You do not have any companies",
 	"project_url": "Project URL",
 	"project_succ_created": "Project successfully created",
-	"no_projects": "You do not have any projects"
+	"no_projects": "You do not have any projects",
+	"bug_created": "Bug report created!",
+	"please_choose": "Please choose",
+	"status_deleted_succ": "Status deleted successfully.",
+	"about_to_delete_column_x": "You are about to delete column {0}",
+	"column_contains_reports": "This column contains reports.",
+	"what_to_to_with_reports": "What do you want to happen with the existing reports?",
+	"move_reports_to": "I want them moved to:",
+	"do_nothing": "Do nothing",
+	"option_will_delete_reports": "this option will delete the reports",
+	"continue_with_delete": "Continue with deletion"
 }

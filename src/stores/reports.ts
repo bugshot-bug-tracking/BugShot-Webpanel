@@ -77,10 +77,10 @@ export const useReportsStore = defineStore("reports", {
 
 		async createStatus({
 			designation,
-			order_number,
+			order_number = 0,
 		}: {
 			designation: string;
-			order_number: number;
+			order_number?: number;
 		}) {
 			await axios.post(`projects/${this.project.id}/statuses`, {
 				designation: designation,
@@ -207,9 +207,9 @@ export const useReportsStore = defineStore("reports", {
 			status_id?: string;
 			priority_id?: number;
 			order_number?: number;
-			deadline?: string;
+			deadline?: string | null;
 		}) {
-			if (!this.bug) return;
+			if (!this.bug) throw "Bug not set";
 
 			let response = (
 				await axios.put(`statuses/${this.bug.attributes.status_id}/bugs/${this.bug.id}`, {
@@ -244,14 +244,51 @@ export const useReportsStore = defineStore("reports", {
 			).data.data;
 
 			Object.assign(this.bug.attributes, (response as Bug).attributes);
+
+			this.refresh();
+		},
+
+		async moveBug({
+			bug_id,
+			changes,
+		}: {
+			bug_id: string;
+			changes: { status_id: string; order_number: number };
+		}) {
+			let bug = this.getBugById(bug_id);
+			if (!bug) throw "Bug not found!";
+
+			await axios.put(`statuses/${bug.attributes.status_id}/bugs/${bug.id}`, {
+				ai_id: bug.attributes.ai_id,
+
+				designation: bug.attributes.designation,
+
+				description: bug.attributes.description,
+
+				url: bug.attributes.url,
+				operating_system: bug.attributes.operating_system,
+				browser: bug.attributes.browser,
+				selector: bug.attributes.selector,
+				resolution: bug.attributes.resolution,
+
+				...{ status_id: changes.status_id ?? bug.attributes.status_id },
+
+				priority_id: bug.attributes.priority.id,
+
+				...{
+					order_number: changes.order_number ?? bug.attributes.order_number,
+				},
+
+				deadline: bug.attributes.deadline?.slice(0, -1),
+			});
 		},
 
 		async deleteBug() {
-			if (!this.bug) return;
+			if (!this.bug) throw "Bug not set!";
 
 			await axios.delete(`statuses/${this.bug.attributes.status_id}/bugs/${this.bug.id}`);
 
-			let status = this.statuses?.find((x) => x.id === this.bug?.attributes.status_id);
+			let status = this.getStatusById(this.bug.attributes.status_id);
 
 			if (!status) return;
 
@@ -259,11 +296,11 @@ export const useReportsStore = defineStore("reports", {
 
 			if (!index) return;
 
-			status.attributes.bugs?.slice(index, 1);
+			status.attributes.bugs?.splice(index, 1);
 		},
 
 		async fetchScreenshots() {
-			if (!this.bug) return;
+			if (!this.bug) throw "Bug not set!";
 
 			let screenshots = (await axios.get(`bugs/${this.bug.id}/screenshots`)).data
 				.data as Screenshot[];
@@ -274,7 +311,7 @@ export const useReportsStore = defineStore("reports", {
 		},
 
 		async fetchAttachments() {
-			if (!this.bug) return;
+			if (!this.bug) throw "Bug not set!";
 
 			let attachments = (await axios.get(`bugs/${this.bug.id}/attachments`)).data
 				.data as Attachment[];
@@ -283,7 +320,7 @@ export const useReportsStore = defineStore("reports", {
 		},
 
 		async fetchComments() {
-			if (!this.bug) return;
+			if (!this.bug) throw "Bug not set!";
 
 			let comments = (await axios.get(`bugs/${this.bug.id}/comments`)).data.data as Comment[];
 
@@ -291,7 +328,7 @@ export const useReportsStore = defineStore("reports", {
 		},
 
 		async fetchBugUsers() {
-			if (!this.bug) return;
+			if (!this.bug) throw "Bug not set!";
 
 			let users = (await axios.get(`bugs/${this.bug.id}/users`)).data.data as User[];
 

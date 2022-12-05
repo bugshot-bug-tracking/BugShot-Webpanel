@@ -73,6 +73,7 @@ import { useProjectStore } from "~/stores/project";
 import colors from "~/util/colors";
 import axios from "axios";
 import { User } from "~/models/User";
+import { useReportsStore } from "~/stores/reports";
 
 const emit = defineEmits(["close"]);
 
@@ -84,29 +85,30 @@ const props = defineProps({
 	},
 });
 
-const store = useProjectStore();
+const store = useReportsStore();
 
 const { t } = useI18n();
 
-const list = ref(Array<{ user: User; original: boolean; checked: boolean }>());
+const list = ref<{ user: User; original: boolean; checked: boolean }[]>([]);
 
 const bug = computed(() => {
 	let bug = store.getBugById(props.id);
 
 	if (!bug?.id) list.value = [];
 	else {
-		let project_users = [store.getProject.attributes.creator, ...store.getMembers].filter(
-			(x) => x
-		);
+		let project_users = [
+			useProjectStore().getProject!.attributes.creator,
+			...(useProjectStore().getMembers ?? []),
+		].filter((x) => x);
 
 		list.value = [];
 
 		project_users.forEach((user) => {
 			let checked = false;
-			if (bug?.users?.find((x) => x.user.id === user.id)) checked = true;
+			if (bug?.users?.find((x) => x.user.id === user?.id)) checked = true;
 
 			list.value.push({
-				user: user,
+				user: user!,
 				original: checked, // compare checked with this to know what operation to execute (add/remove)
 				checked: checked,
 			});
@@ -137,7 +139,7 @@ const submit = async () => {
 			else await axios.delete(`bugs/${bug.value.id}/users/${item.user.id}`);
 		}
 
-		await store.fetchBugUsers(props.id);
+		await store.fetchBugUsers();
 
 		loadingModal.state = 1;
 		loadingModal.message = t("members_updated");

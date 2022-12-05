@@ -68,6 +68,7 @@ declare module '@vue/runtime-core' {
     ProjectCard: typeof import('./components/Cards/ProjectCard.vue')['default']
     ProjectCreateModal: typeof import('./components/project/ProjectCreateModal.vue')['default']
     ProjectEditModal: typeof import('./components/Modals/ProjectEditModal.vue')['default']
+    ProjectKanbanBoard: typeof import('./components/project/ProjectKanbanBoard.vue')['default']
     ProjectSettings: typeof import('./components/project/ProjectSettings.vue')['default']
     ResourceHeader: typeof import('./components/AssignmentTable/ResourceHeader.vue')['default']
     ResourceNavbar: typeof import('./components/ui/organisms/ResourceNavbar.vue')['default']

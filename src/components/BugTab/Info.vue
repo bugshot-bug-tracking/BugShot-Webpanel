@@ -1,10 +1,7 @@
 <template>
 	<Container>
 		<div id="info" class="d-flex flex-column no-wrap">
-			<div
-				class="justify-content-between mb-2 align-items-start"
-				v-if="!bugData.flag1"
-			>
+			<div class="justify-content-between mb-2 align-items-start" v-if="!bugData.flag1">
 				<div class="title" flex>
 					<div class="content">{{ bug.attributes.designation }}</div>
 					<img
@@ -18,19 +15,11 @@
 					/>
 				</div>
 
-				<div
-					class="close-button"
-					@click="$emit('close')"
-					cursor-pointer
-				/>
+				<div class="close-button" @click="$emit('close')" cursor-pointer />
 			</div>
 
 			<div flex gap-4 items-center v-else>
-				<input
-					type="text"
-					v-model="bugData.designation"
-					class="w-100"
-				/>
+				<input type="text" v-model="bugData.designation" class="w-100" />
 
 				<div class="flex gap-2 black-to-gray ms-2">
 					<img
@@ -67,12 +56,7 @@
 					</div>
 
 					<div class="date">
-						{{
-							$d(
-								new Date(dateFix(bug.attributes.created_at)),
-								"short"
-							)
-						}}
+						{{ $d(new Date(dateFix(bug.attributes.created_at)), "short") }}
 					</div>
 				</div>
 
@@ -82,12 +66,7 @@
 					</div>
 
 					<div class="date">
-						{{
-							$d(
-								new Date(dateFix(bug.attributes.created_at)),
-								"short"
-							)
-						}}
+						{{ $d(new Date(dateFix(bug.attributes.created_at)), "short") }}
 					</div>
 				</div>
 			</div>
@@ -126,10 +105,7 @@
 						/>
 					</label>
 
-					<div
-						class="flex gap-2 black-to-gray ms-2"
-						v-if="bugData.flag2"
-					>
+					<div class="flex gap-2 black-to-gray ms-2" v-if="bugData.flag2">
 						<img
 							src="/src/assets/icons/check.svg"
 							alt="save"
@@ -215,14 +191,10 @@
 					<DropdownButton
 						@select="changePriority"
 						:list="priorities"
-						:color="
-							priorities[bug.attributes.priority.id - 1].color
-						"
+						:color="priorities[bug.attributes.priority.id - 1].color"
 					>
 						<template #text>
-							{{
-								priorities[bug.attributes.priority.id - 1].text
-							}}
+							{{ priorities[bug.attributes.priority.id - 1].text }}
 						</template>
 
 						<template #item="{ item }">
@@ -286,7 +258,7 @@
 
 <script setup lang="ts">
 import dateFix from "~/util/dateFixISO";
-import { useProjectStore } from "~/stores/project";
+import { useReportsStore } from "~/stores/reports";
 import { useI18nStore } from "~/stores/i18n";
 import { Status } from "~/models/Status.js";
 
@@ -303,7 +275,7 @@ const props = defineProps({
 	},
 });
 
-const store = useProjectStore();
+const store = useReportsStore();
 
 const { t } = useI18n();
 
@@ -356,11 +328,8 @@ const changeDesignation = () => {
 
 	props.bug.attributes.designation = bugData.designation;
 
-	store.syncBug({
-		id: props.bug.id,
-		changes: {
-			designation: bugData.designation,
-		},
+	store.updateBug({
+		designation: bugData.designation,
 	});
 };
 
@@ -369,46 +338,32 @@ const changeDescription = () => {
 
 	props.bug.attributes.description = bugData.description;
 
-	store.syncBug({
-		id: props.bug.id,
-		changes: {
-			description: bugData.description,
-		},
+	store.updateBug({
+		description: bugData.description,
 	});
 };
 
 const changePriority = (value: { id: number; text: string; color: string }) => {
-	store.syncBug({
-		id: props.bug.id,
-		changes: {
-			priority_id: value.id,
-		},
+	store.updateBug({
+		priority_id: value.id,
 	});
 };
 
 const changeStatus = (item: Status) => {
-	store.syncBug({
-		id: props.bug.id,
-		changes: {
-			status_id: item.id,
-			order_number: 0,
-		},
+	store.updateBug({
+		status_id: item.id,
+		order_number: 0,
 	});
 };
 
 const clearDeadline = () => {
-	store.syncBug({
-		id: props.bug.id,
-		changes: {
-			deadline: null,
-		},
+	store.updateBug({
+		deadline: null,
 	});
 };
 
 const changeDeadline = () => {
-	let newDate = datePicker.value
-		? new Date(datePicker.value).toISOString()
-		: null;
+	let newDate = datePicker.value ? new Date(datePicker.value).toISOString() : null;
 
 	if (props.bug.attributes.deadline != null) {
 		let bug_deadline = props.bug.attributes.deadline;
@@ -420,11 +375,8 @@ const changeDeadline = () => {
 		if (newDate && newDate === deadline) return;
 	}
 
-	store.syncBug({
-		id: props.bug.id,
-		changes: {
-			deadline: newDate,
-		},
+	store.updateBug({
+		deadline: newDate,
 	});
 };
 

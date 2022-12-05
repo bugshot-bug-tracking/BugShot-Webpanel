@@ -145,10 +145,9 @@
 
 <script setup lang="ts">
 import toBase64 from "~/util/toBase64";
-import axios from "axios";
-import { useProjectStore } from "~/stores/project";
+import { useReportsStore } from "~/stores/reports";
 
-const store = useProjectStore();
+const store = useReportsStore();
 
 const { t } = useI18n();
 
@@ -157,7 +156,7 @@ const tabOpen = ref(false);
 const data = reactive({
 	designation: "",
 	description: "",
-	deadline: null,
+	deadline: undefined as string | undefined,
 	priority: 2,
 	images: [] as File[],
 	attachments: [] as File[],
@@ -176,7 +175,7 @@ const attachments = reactive({
 });
 
 const clearDeadline = () => {
-	data.deadline = null;
+	data.deadline = undefined;
 };
 
 const imagesUpdate = (files: File[]) => {
@@ -187,42 +186,32 @@ const submit = async () => {
 	try {
 		loadingModal.show = true;
 
-		let status = store.getFirstStatus;
+		// convert all images from file to string
+		let images = await Promise.all(
+			data.attachments.map(async (i) => ({
+				base64: btoa((await toBase64(i)) as string),
+			}))
+		);
 
-		// send bug data and get bug object
-		let bug = await axios.post(`statuses/${status.id}/bugs`, {
+		// convert all attachments from file to string
+		let attachments = await Promise.all(
+			data.attachments.map(async (a) => ({
+				designation: a.name,
+				base64: btoa((await toBase64(a)) as string),
+			}))
+		);
+
+		await store.createBug({
 			designation: data.designation,
 			description: data.description,
 			priority_id: data.priority,
-			...(data.deadline
-				? {
-						deadline: new Date(data.deadline).toISOString().slice(0, -1),
-				  }
-				: {}),
+			deadline: data.deadline,
+			images: images,
+			attachments: attachments,
 		});
 
-		// get the data from response
-		bug = bug.data.data;
-
-		// using the bug id send screenshots one-by-one
-		for (const file of data.images) {
-			let screen = await axios.post(`bugs/${bug.id}/screenshots`, {
-				base64: btoa((await toBase64(file)) as string),
-			});
-		}
-
-		// using the bug id send attachments one-by-one
-		for (const file of data.attachments) {
-			let screen = await axios.post(`bugs/${bug.id}/attachments`, {
-				designation: file.name,
-				base64: btoa((await toBase64(file)) as string),
-			});
-		}
-
-		await store.refresh();
-
 		loadingModal.state = 1;
-		loadingModal.message = `Bug report created!`;
+		loadingModal.message = t("bug_created");
 
 		tabOpen.value = false;
 		resetData();
@@ -236,7 +225,7 @@ const submit = async () => {
 const resetData = () => {
 	data.designation = "";
 	data.description = "";
-	data.deadline = null;
+	data.deadline = undefined;
 	data.priority = 2;
 	data.images = [];
 	data.attachments = [];
