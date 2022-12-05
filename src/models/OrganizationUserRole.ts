@@ -6,5 +6,5 @@ export interface OrganizationUserRole {
 	user: User;
 	role: Role;
 	subscription: any;
-	companies?: Company[];
+	companies?: { company: Company; role: Role }[];
 }
