@@ -92,7 +92,7 @@ export const useReportsStore = defineStore("reports", {
 
 		async updateStatus({
 			id,
-			changes,
+			changes = {},
 		}: {
 			id: string;
 			changes: {

@@ -13,12 +13,7 @@
 		</div>
 
 		<div class="actions black-to-gray ms-2" v-if="movable || deletable">
-			<img
-				src="/src/assets/icons/move.svg"
-				alt="order"
-				class="handle"
-				v-if="movable"
-			/>
+			<img src="/src/assets/icons/move.svg" alt="order" class="handle" v-if="movable" />
 
 			<img
 				src="/src/assets/icons/remove.svg"
@@ -35,12 +30,7 @@
 		</div>
 
 		<div class="actions black-to-gray ms-2">
-			<img
-				src="/src/assets/icons/check.svg"
-				alt="save"
-				style="width: 1.5rem"
-				@click="edit"
-			/>
+			<img src="/src/assets/icons/check.svg" alt="save" style="width: 1.5rem" @click="edit" />
 
 			<img
 				src="/src/assets/icons/close_2.svg"
@@ -84,7 +74,9 @@ const newText = ref(props.text);
 const edit = () => {
 	emit("edit", {
 		id: props.id,
-		text: newText.value,
+		changes: {
+			designation: newText.value,
+		},
 	});
 
 	flag.value = true;
