@@ -76,7 +76,11 @@
 			</T2Header>
 		</template>
 
-		<BugsTable :id="project_id" />
+		<div v-if="loading" class="loading">
+			<img src="/src/assets/animations/loading.svg" alt="loading circle" />
+		</div>
+
+		<ProjectKanbanBoard v-else />
 	</T2Page>
 </template>
 
@@ -84,9 +88,9 @@
 import { useAuthStore } from "~/stores/auth";
 import { useCompanyStore } from "~/stores/company";
 import { useProjectStore } from "~/stores/project";
+import { useReportsStore } from "~/stores/reports";
 
-// const props =
-defineProps({
+const props = defineProps({
 	organization_id: {
 		type: String,
 		required: true,
@@ -145,7 +149,44 @@ const deleteMember = async (user_id: number) => {
 const manageableMembers = computed(() => store.getMembers);
 
 const pendingMembers = computed(() => store.getPendingInvitations);
+
+const reportsStore = useReportsStore();
+
+const loading = ref(true);
+const error = ref(false);
+
+const initStore = async () => {
+	try {
+		loading.value = true;
+		error.value = false;
+
+		await reportsStore.init();
+	} catch (err) {
+		console.log(err);
+		error.value = true;
+	} finally {
+		loading.value = false;
+	}
+};
+
+initStore();
+watch(
+	props,
+	() => {
+		initStore();
+	},
+	{ deep: true }
+);
 </script>
+
+<style lang="scss" scoped>
+.loading {
+	display: flex;
+	height: 100%;
+	justify-content: center;
+	align-items: center;
+}
+</style>
 
 <route lang="yaml">
 name: project

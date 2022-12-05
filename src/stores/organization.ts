@@ -95,6 +95,7 @@ export const useOrganizationStore = defineStore("organization", {
 				await axios.get(`organizations/${this.organization_id}/users`, {
 					headers: {
 						"include-organization-role": true,
+						"include-users-organization-role": true,
 						"include-users-companies": true,
 						"include-users-company-role": true,
 					},
@@ -308,7 +309,7 @@ export const useOrganizationStore = defineStore("organization", {
 			let entry = state.members?.find((x) => x.user.id === id);
 			if (!entry) return undefined;
 
-			return entry.attributes?.companies;
+			return entry.companies;
 		},
 	},
 });

@@ -1,7 +1,7 @@
 <template>
 	<section class="bs-container">
 		<div class="header">
-			<h1 text-5 m-0>{{ $t("comment", 2) }}</h1>
+			<h1 text-5 m-0>{{ t("comment", 2) }}</h1>
 
 			<div flex items-center gap-2>
 				<img
@@ -33,7 +33,7 @@
 
 		<div class="comments-bottom">
 			<div class="comments-bottom-header">
-				<span>{{ $t("add.comment") }}</span>
+				<span>{{ t("add.comment") }}</span>
 
 				<div :class="{ 'over-limit': messageLength > 250 }">{{ messageLength }} / 250</div>
 			</div>
@@ -54,7 +54,7 @@
 				:hidden="messageLength <= 250"
 				style="font-size: 0.875rem; color: red; align-self: start; margin-top: -0.5rem"
 			>
-				{{ $t("limits.characters_exceeded") }}
+				{{ t("limits.characters_exceeded") }}
 			</div>
 
 			<div
@@ -63,7 +63,7 @@
 				@click="postComment"
 				self-end
 			>
-				{{ $t("add.comment") }}
+				{{ t("add.comment") }}
 			</div>
 		</div>
 	</section>
@@ -76,6 +76,7 @@ import { VueTribute } from "vue-tribute";
 import colors from "~/util/colors";
 import { maxlengthContentEditable } from "~/util/maxlength-contenteditable.js";
 import { useAuthStore } from "~/stores/auth";
+import { useReportsStore } from "~/stores/reports";
 
 const props = defineProps({
 	bug_id: {
@@ -102,7 +103,7 @@ const user = computed(() => {
 });
 
 const projectTeam = computed(() => {
-	return [store.getProject.attributes.creator, ...store.getMembers].filter((x) => x);
+	return [store.getProject!.attributes.creator, ...(store.getMembers ?? [])].filter((x) => x);
 });
 
 // tributejs options
@@ -202,7 +203,7 @@ const setLength = (event) => {
 };
 
 const update = () => {
-	store.fetchComments(props.bug_id);
+	useReportsStore().fetchComments();
 };
 
 const scrollToBottom = () => {
