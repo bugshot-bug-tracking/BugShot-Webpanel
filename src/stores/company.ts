@@ -105,7 +105,11 @@ export const useCompanyStore = defineStore("company", {
 		},
 
 		async fetchUsers() {
-			let response = (await axios.get(`companies/${this.company_id}/users`)).data.data;
+			let response = (
+				await axios.get(`companies/${this.company_id}/users`, {
+					headers: { "include-users-company-role": true },
+				})
+			).data.data;
 
 			this.members = response;
 		},

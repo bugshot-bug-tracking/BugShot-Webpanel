@@ -102,7 +102,11 @@ export const useProjectStore = defineStore("project", {
 		},
 
 		async fetchUsers() {
-			let response = (await axios.get(`projects/${this.project_id}/users`)).data.data;
+			let response = (
+				await axios.get(`projects/${this.project_id}/users`, {
+					headers: { "include-users-project-role": true },
+				})
+			).data.data;
 
 			this.members = response;
 		},
