@@ -1,0 +1,339 @@
+import { defineStore } from "pinia";
+
+import axios from "axios";
+
+import { Status } from "~/models/Status";
+import { Bug } from "~/models/Bug";
+import { Screenshot } from "~/models/Screenshot";
+import { Attachment } from "~/models/Attachment";
+import { User } from "~/models/User";
+import { useProjectStore } from "./project";
+
+export const useReportsStore = defineStore("reports", {
+	state: () => ({
+		project: useProjectStore().getProject!,
+
+		statuses: undefined as Status[] | undefined,
+
+		// vvv-- the active bug and it's resources --vvv
+
+		bug: undefined as Bug | undefined,
+
+		screenshots: undefined as Screenshot[] | undefined,
+		attachments: undefined as Attachment[] | undefined,
+		comments: undefined as Comment[] | undefined,
+
+		assignees: undefined as User[] | undefined,
+
+		// ------
+	}),
+
+	actions: {
+		async destroy() {
+			this.statuses = undefined;
+			this.bug = undefined;
+			this.screenshots = undefined;
+			this.attachments = undefined;
+			this.comments = undefined;
+			this.assignees = undefined;
+
+			return true;
+		},
+
+		async init() {
+			try {
+				this.destroy();
+
+				await this.fetchStatuses();
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+
+			return true;
+		},
+
+		async refresh() {
+			try {
+				await this.fetchStatuses();
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async fetchStatuses() {
+			let response = (
+				await axios.get(`projects/${this.project.id}/statuses`, {
+					headers: {
+						"include-statuses": true,
+						"include-bugs": true,
+					},
+				})
+			).data.data;
+
+			this.statuses = response;
+		},
+
+		async createStatus({
+			designation,
+			order_number,
+		}: {
+			designation: string;
+			order_number: number;
+		}) {
+			await axios.post(`projects/${this.project.id}/statuses`, {
+				designation: designation,
+				order_number: order_number,
+			});
+
+			this.refresh();
+		},
+
+		async updateStatus({
+			id,
+			changes,
+		}: {
+			id: string;
+			changes: {
+				designation?: string;
+				order_number?: number;
+			};
+		}) {
+			// get a reference to the status
+			const status = this.statuses?.find((x) => x.id === id);
+			if (!status) throw "Status not found in memory";
+
+			if (changes.designation) status.attributes.designation = changes.designation;
+
+			if (changes.order_number != undefined) {
+				status.attributes.order_number > changes.order_number
+					? (status.attributes.order_number = changes.order_number - 0.1)
+					: (status.attributes.order_number = changes.order_number + 0.1);
+			}
+
+			// let response =
+			await axios.put(`projects/${this.project.id}/statuses/${status.id}`, {
+				...{ designation: changes.designation ?? status.attributes.designation },
+
+				...{
+					order_number:
+						changes.order_number != null
+							? changes.order_number
+							: Math.round(status.attributes.order_number), // Math.round in case the status was moved before refresh finished
+				},
+			});
+
+			this.refresh();
+		},
+
+		async deleteStatus({ id, move }: { id: string; move: string | undefined }) {
+			await axios.delete(`projects/${this.project.id}/statuses/${id}`, {
+				headers: {
+					...(move ? { move: move } : {}),
+				},
+			});
+
+			this.refresh();
+		},
+
+		async setBug(id: string) {
+			this.bug = undefined;
+			this.screenshots = undefined;
+			this.attachments = undefined;
+			this.comments = undefined;
+			this.assignees = undefined;
+
+			let bug = this.getBugById(id);
+
+			if (!bug) throw `Bug (${id}) could not be found!`;
+
+			this.bug = bug;
+
+			await this.fetchScreenshots();
+			await this.fetchAttachments();
+			await this.fetchComments();
+			await this.fetchBugUsers();
+		},
+
+		async createBug({
+			designation,
+			description,
+			deadline,
+			priority_id,
+			images,
+			attachments,
+		}: {
+			designation: string;
+			description: string;
+			deadline?: string;
+			priority_id: number;
+			images?: { base64: string }[];
+			attachments?: { designation: string; base64: string }[];
+		}) {
+			let status = this.getFirstStatus;
+
+			if (!status) return;
+
+			let response = (
+				await axios.post(`statuses/${status.id}/bugs`, {
+					designation: designation,
+					description: description,
+					priority_id: priority_id,
+					...{
+						deadline: deadline ? new Date(deadline).toISOString().slice(0, -1) : null,
+					},
+				})
+			).data.data;
+
+			if (images)
+				// using the bug id send screenshots one-by-one
+				for (const image of images) {
+					await axios.post(`bugs/${response.id}/screenshots`, image);
+				}
+
+			if (attachments)
+				// using the bug id send screenshots one-by-one
+				for (const attachment of attachments) {
+					await axios.post(`bugs/${response.id}/attachments`, attachment);
+				}
+
+			this.refresh();
+		},
+
+		async updateBug(changes: {
+			designation?: string;
+			description?: string;
+			status_id?: string;
+			priority_id?: number;
+			order_number?: number;
+			deadline?: string;
+		}) {
+			if (!this.bug) return;
+
+			let response = (
+				await axios.put(`statuses/${this.bug.attributes.status_id}/bugs/${this.bug.id}`, {
+					ai_id: this.bug.attributes.ai_id,
+
+					...{ designation: changes.designation ?? this.bug.attributes.designation },
+
+					...{ description: changes.description ?? this.bug.attributes.description },
+
+					url: this.bug.attributes.url,
+					operating_system: this.bug.attributes.operating_system,
+					browser: this.bug.attributes.browser,
+					selector: this.bug.attributes.selector,
+					resolution: this.bug.attributes.resolution,
+
+					...{ status_id: changes.status_id ?? this.bug.attributes.status_id },
+
+					...{ priority_id: changes.priority_id ?? this.bug.attributes.priority.id },
+
+					...{ order_number: changes.order_number ?? this.bug.attributes.order_number },
+
+					// if undefined it means that no change was made; if null it means resetting the deadline;
+					...{
+						deadline:
+							changes.deadline === undefined
+								? this.bug.attributes.deadline?.slice(0, -1)
+								: changes.deadline === null
+								? null
+								: changes.deadline?.slice(0, -1),
+					},
+				})
+			).data.data;
+
+			Object.assign(this.bug.attributes, (response as Bug).attributes);
+		},
+
+		async deleteBug() {
+			if (!this.bug) return;
+
+			await axios.delete(`statuses/${this.bug.attributes.status_id}/bugs/${this.bug.id}`);
+
+			let status = this.statuses?.find((x) => x.id === this.bug?.attributes.status_id);
+
+			if (!status) return;
+
+			let index = status.attributes.bugs?.findIndex((x) => x.id === this.bug!.id);
+
+			if (!index) return;
+
+			status.attributes.bugs?.slice(index, 1);
+		},
+
+		async fetchScreenshots() {
+			if (!this.bug) return;
+
+			let screenshots = (await axios.get(`bugs/${this.bug.id}/screenshots`)).data
+				.data as Screenshot[];
+
+			screenshots.forEach((x) => (x.attributes.base64 = atob(x.attributes.base64)));
+
+			this.screenshots = screenshots;
+		},
+
+		async fetchAttachments() {
+			if (!this.bug) return;
+
+			let attachments = (await axios.get(`bugs/${this.bug.id}/attachments`)).data
+				.data as Attachment[];
+
+			this.attachments = attachments;
+		},
+
+		async fetchComments() {
+			if (!this.bug) return;
+
+			let comments = (await axios.get(`bugs/${this.bug.id}/comments`)).data.data as Comment[];
+
+			this.comments = comments;
+		},
+
+		async fetchBugUsers() {
+			if (!this.bug) return;
+
+			let users = (await axios.get(`bugs/${this.bug.id}/users`)).data.data as User[];
+
+			this.assignees = users;
+		},
+	},
+
+	getters: {
+		getStatuses: (state) =>
+			state.statuses?.sort((a, b) =>
+				a.attributes.order_number < b.attributes.order_number ? -1 : 1
+			),
+
+		getStatusById: (state) => (id: string) => state.statuses?.find((x) => x.id === id),
+
+		getBug: (state) => state.bug,
+
+		getScreenshots: (state) => state.screenshots,
+		getAttachments: (state) => state.attachments,
+		getComments: (state) => state.comments,
+		getAssignees: (state) => state.assignees,
+
+		getBugById: (state) => (id: string) => {
+			if (!state.statuses) return null;
+
+			for (const status of state.statuses)
+				for (const bug of status.attributes.bugs ?? []) if (bug.id === id) return bug;
+
+			return null;
+		},
+
+		getBugsByStatusId: (state) => (id: string) => {
+			let status = state.statuses?.find((x) => x.id === id);
+
+			if (status) return status.attributes.bugs;
+			else return [];
+		},
+
+		getFirstStatus: (state) => {
+			if ((state.statuses?.length ?? -1) < 1) return null;
+
+			return state.statuses?.find((x) => x.attributes.order_number === 0);
+		},
+	},
+});
