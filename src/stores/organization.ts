@@ -308,7 +308,6 @@ export const useOrganizationStore = defineStore("organization", {
 
 			let entry = state.members?.find((x) => x.user.id === id);
 			if (!entry) return undefined;
-			console.log("sss", id, entry);
 
 			return entry.companies?.map((x) => {
 				x.company.attributes.role = x.role;
