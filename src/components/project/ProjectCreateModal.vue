@@ -77,7 +77,7 @@ const data = reactive({
 	url: undefined as undefined | string,
 	image: undefined as File | undefined,
 	color: 3,
-	memberList: [] as { email: string; role: number }[],
+	memberList: [] as { email: string; role_id: number }[],
 
 	setColor: (value: number) => {
 		data.color = value;
@@ -117,7 +117,7 @@ const onSubmit = async () => {
 			data.memberList.map(async (x) => {
 				return await useProjectStore().sendInvitationSpecific(response.id, {
 					email: x.email,
-					role_id: x.role,
+					role_id: x.role_id,
 				});
 			})
 		);

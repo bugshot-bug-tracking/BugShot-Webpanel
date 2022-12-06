@@ -21,9 +21,9 @@
 			<template #header-text>{{ $t("edit.company") }}</template>
 
 			<form class="default-form" @submit.prevent="onSubmit">
-				<div class="label">{{ $t("company_name") }}</div>
-
 				<div class="bs-input my-3">
+					<label>{{ $t("company_name") }}</label>
+
 					<input
 						v-model="data.name"
 						:placeholder="$t('enter_company_name')"
