@@ -7,7 +7,7 @@
 
 	<form id="login-form" @submit.prevent="submit">
 		<div class="requed">
-			<div class="bs-input w-icon">
+			<div class="bs-input">
 				<input
 					:type="passwordType"
 					:placeholder="$t('password')"
@@ -31,12 +31,14 @@
 					v-if="showPassword"
 					@click="togglePassword"
 					src="/src/assets/icons/password_hide.svg"
+					class="input-image"
 				/>
 
 				<img
 					v-if="!showPassword"
 					@click="togglePassword"
 					src="/src/assets/icons/password_view.svg"
+					class="input-image"
 				/>
 			</div>
 
@@ -71,7 +73,7 @@
 		</div>
 
 		<div class="requed">
-			<div class="bs-input w-icon">
+			<div class="bs-input">
 				<input
 					:type="passwordType"
 					:placeholder="$t('confirm_password')"
@@ -94,12 +96,14 @@
 					v-if="showPassword"
 					@click="togglePassword"
 					src="/src/assets/icons/password_hide.svg"
+					class="input-image"
 				/>
 
 				<img
 					v-if="!showPassword"
 					@click="togglePassword"
 					src="/src/assets/icons/password_view.svg"
+					class="input-image"
 				/>
 			</div>
 
@@ -181,15 +185,11 @@ const submit = () => {
 
 			if (error.response?.status !== 422) {
 				console.log(error);
-				errMessage.value = error.response
-					? error.response.data.errors.detail
-					: "Error!";
+				errMessage.value = error.response ? error.response.data.errors.detail : "Error!";
 				return;
 			}
 
-			const resError = error.response
-				? error.response.data.errors
-				: "Error!";
+			const resError = error.response ? error.response.data.errors : "Error!";
 
 			if (resError?.password) {
 				errMessage.value = resError.password[0];
@@ -376,8 +376,8 @@ const validate = computed(() => {
 .good {
 	color: #1a2040;
 	// color: #18d891;
-	filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
-		hue-rotate(104deg) brightness(96%) contrast(88%);
+	filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%) hue-rotate(104deg)
+		brightness(96%) contrast(88%);
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -397,8 +397,8 @@ const validate = computed(() => {
 .bad {
 	color: #1a2040;
 	// color: #f23636;
-	filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
-		hue-rotate(263deg) brightness(94%) contrast(92%);
+	filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%) hue-rotate(263deg)
+		brightness(94%) contrast(92%);
 	position: relative;
 	display: flex;
 	align-items: center;

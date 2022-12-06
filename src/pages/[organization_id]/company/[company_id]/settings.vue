@@ -83,7 +83,7 @@
 				</div>
 			</div>
 
-			<div class="component-group" max-w-128 :style="{ 'min-height': 'auto' }">
+			<div v-if="false" class="component-group" max-w-128 :style="{ 'min-height': 'auto' }">
 				<div class="group-header">
 					{{ $t("resource_token") }}
 				</div>

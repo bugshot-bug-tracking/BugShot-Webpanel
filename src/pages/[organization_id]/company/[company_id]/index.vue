@@ -1,17 +1,5 @@
 <template>
-	<div class="main-empty" v-if="projects.length < 1">
-		<section>
-			<img src="/src/assets/images/nothing_to_show.svg" alt="empty boxes" w-88 h-88 />
-
-			<h1 w-88 text-6>{{ $t("no_projects") }}</h1>
-
-			<p>{{ $t("please_add_new_one") }}</p>
-
-			<ProjectCreateModal :primary_button="true" />
-		</section>
-	</div>
-
-	<T2Page v-else>
+	<T2Page>
 		<template #header>
 			<T2Header>
 				<template #l-top>
@@ -58,7 +46,19 @@
 			</T2Header>
 		</template>
 
-		<div class="bs-scroll s-green w-100 h-100" v-if="company && projects.length > 0">
+		<div class="main-empty" v-if="projects.length < 1">
+			<section>
+				<img src="/src/assets/images/nothing_to_show.svg" alt="empty boxes" w-88 h-88 />
+
+				<h1 w-88 text-6>{{ $t("no_projects") }}</h1>
+
+				<p>{{ $t("please_add_new_one") }}</p>
+
+				<ProjectCreateModal :primary_button="true" />
+			</section>
+		</div>
+
+		<div class="bs-scroll s-green w-100 h-100" v-else>
 			<GroupContainer>
 				<template #top-left>
 					<RouterLink

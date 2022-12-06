@@ -46,7 +46,11 @@
 		@change="inviteModal.change"
 		:user="inviteModal.user"
 		:editMode="inviteModal.editMode"
-	/>
+	>
+		<template #extra>
+			<slot name="extra" />
+		</template>
+	</InviteMemberModal>
 
 	<DeleteModal2
 		:show="deleteModal.show"

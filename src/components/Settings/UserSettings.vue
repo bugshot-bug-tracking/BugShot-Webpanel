@@ -1,6 +1,6 @@
 <template>
 	<div class="bs-container" flex flex-col gap-4>
-		<div class="bs-input2">
+		<div class="bs-input">
 			<label>
 				{{ t("first_name") }}
 			</label>
@@ -13,7 +13,7 @@
 			/>
 		</div>
 
-		<div class="bs-input2">
+		<div class="bs-input">
 			<label>
 				{{ t("last_name") }}
 			</label>
@@ -26,7 +26,7 @@
 			/>
 		</div>
 
-		<div class="bs-input2">
+		<div class="bs-input">
 			<label>
 				{{ t("email") }}
 			</label>
@@ -44,7 +44,7 @@
 			</a>
 		</div>
 
-		<div class="bs-input2" v-if="user.attributes.phone">
+		<div class="bs-input" v-if="user.attributes.phone">
 			<label>
 				{{ t("telephone_number") }}
 			</label>

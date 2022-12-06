@@ -21,9 +21,11 @@
 			<template #header-text>{{ $t("edit.project") }}</template>
 
 			<form class="default-form" @submit.prevent="onSubmit">
-				<div class="label">{{ $t("project_name") }}</div>
-
 				<div class="bs-input my-3">
+					<label>
+						<b>{{ $t("project_name") }}</b>
+					</label>
+
 					<input
 						v-model="projectParams.name"
 						:placeholder="$t('enter_project_name')"
@@ -32,9 +34,9 @@
 					/>
 				</div>
 
-				<div class="label">URL</div>
-
 				<div class="bs-input my-3">
+					<label> <b>URL</b> </label>
+
 					<input
 						v-model="projectParams.url"
 						:placeholder="$t('enter_project_url')"

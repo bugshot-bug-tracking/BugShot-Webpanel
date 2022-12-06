@@ -1,25 +1,25 @@
 .black-to-green {
 	color: #18d992;
-	filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
-		hue-rotate(104deg) brightness(96%) contrast(88%);
+	filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%) hue-rotate(104deg)
+		brightness(96%) contrast(88%);
 }
 
 .black-to-purple {
 	color: #7a2ee6;
-	filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
-		hue-rotate(263deg) brightness(94%) contrast(92%);
+	filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%) hue-rotate(263deg)
+		brightness(94%) contrast(92%);
 }
 
 .black-to-red {
 	color: #f23838;
-	filter: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%)
-		hue-rotate(331deg) brightness(87%) contrast(121%);
+	filter: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%) hue-rotate(331deg)
+		brightness(87%) contrast(121%);
 }
 
 .black-to-gray {
 	color: #9ba5d7;
-	filter: brightness(0) saturate(1) invert(73%) sepia(14%) saturate(897%)
-		hue-rotate(194deg) brightness(90%) contrast(86%);
+	filter: brightness(0) saturate(1) invert(73%) sepia(14%) saturate(897%) hue-rotate(194deg)
+		brightness(90%) contrast(86%);
 }
 
 .black-to-white {
@@ -243,7 +243,7 @@
 	margin: 0.25rem;
 }
 
-.bs-input2 {
+.bs-input {
 	display: flex;
 	flex-direction: column;
 	text-align: left;

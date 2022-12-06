@@ -17,8 +17,12 @@
 			</div>
 
 			<div class="bs-container" gap-4>
-				<div class="bs-input counted">
-					<span>{{ `${data.designation.length}/70` }}</span>
+				<div class="bs-input">
+					<label flex justify-between>
+						<p>{{ t("bug_name") }}</p>
+						<span>{{ `${data.designation.length}/70` }}</span>
+					</label>
+
 					<input
 						type="text"
 						:placeholder="t('bug_name')"
@@ -29,8 +33,12 @@
 					/>
 				</div>
 
-				<div class="bs-input counted">
-					<span>{{ `${data.description.length}/1500` }}</span>
+				<div class="bs-input">
+					<label flex justify-between>
+						<p>{{ t("describe_problem") }}</p>
+						<span>{{ `${data.description.length}/1500` }}</span>
+					</label>
+
 					<textarea
 						:placeholder="t('describe_problem')"
 						v-model="data.description"
@@ -331,16 +339,5 @@ const loadingModal = reactive({
 	justify-content: space-between;
 	font-weight: bold;
 	font-size: 14px;
-}
-
-.counted {
-	margin-top: 1rem;
-
-	span {
-		position: absolute;
-		top: -1.25rem;
-		right: 0.5rem;
-		font-size: 12px;
-	}
 }
 </style>

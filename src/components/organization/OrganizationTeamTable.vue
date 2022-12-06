@@ -22,6 +22,41 @@
 							:class="{ loading: loading }"
 						/>
 					</template>
+
+					<!--
+
+						//TODO make this work and extract ManageMembers into resource specific components so it can be reused in other places; make the button a slot
+
+						<template #extra>
+						<div class="w-100 project-select">
+							<span>Assign to Company?</span>
+
+							<v-select
+								:options="companies"
+								:placeholder="'Select Company'"
+								:get-option-label="(option) => option.attributes.designation"
+								:reduce="(option) => option.id"
+								v-model="selectOption"
+							>
+								<template #open-indicator="{ attributes }">
+									<img
+										class="black-to-purple"
+										style="background-color: unset; width: 1rem; height: 1rem"
+										v-bind="attributes"
+										src="/src/assets/icons/caret_down.svg"
+									/>
+								</template>
+
+								<template v-slot:option="option">
+									{{ option.attributes.designation }}
+								</template>
+
+								<template v-slot:selected-option="option">
+									{{ option.attributes.designation }}
+								</template>
+							</v-select>
+						</div>
+					</template> -->
 				</ManageMembers>
 			</div>
 		</template>
@@ -125,6 +160,10 @@ const editMember = async (user_id: number, role_id: number) => {
 const deleteMember = async (user_id: number) => {
 	await store.deleteMember({ user_id });
 };
+
+// const companies = computed(() => store.getCompanies);
+
+// const selectOption = ref(null);
 </script>
 
 <style lang="scss" scoped>

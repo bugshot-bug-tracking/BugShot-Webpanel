@@ -2,7 +2,7 @@
 	<div class="title" v-if="!process">{{ $t("password_reset") }}</div>
 
 	<form v-if="!message && !process" id="login-form" @submit.prevent="submit">
-		<div class="bs-input w-icon">
+		<div class="bs-input" :style="{ width: '100%' }">
 			<input
 				type="email"
 				:placeholder="$t('email_address')"
@@ -14,7 +14,7 @@
 				@focus="errMessage = null"
 			/>
 
-			<img src="/src/assets/icons/mail.svg" alt="at" />
+			<img class="input-image" src="/src/assets/icons/mail.svg" alt="at" />
 		</div>
 
 		<div class="errors" v-if="errMessage != null">
