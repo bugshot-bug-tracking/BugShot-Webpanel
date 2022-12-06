@@ -15,7 +15,7 @@
 				</div>
 
 				<div class="bs-container" gap-4>
-					<div class="bs-input2">
+					<div class="bs-input">
 						<label>
 							{{ `${t("email")} (${t("optional")})` }}
 						</label>
@@ -35,7 +35,7 @@
 						</a>
 					</div>
 
-					<div class="bs-input2">
+					<div class="bs-input">
 						<label>
 							{{ t("title") }}
 
@@ -52,7 +52,7 @@
 						/>
 					</div>
 
-					<div class="bs-input2">
+					<div class="bs-input">
 						<label>
 							{{ t("description") }}
 							<span>{{ `${formData.description.length}/1500` }}</span>

@@ -16,10 +16,7 @@
 			<Column class="general">
 				<div class="body">
 					<Container>
-						<form
-							class="wrapper default-form"
-							@submit.prevent="saveChanges"
-						>
+						<form class="wrapper default-form" @submit.prevent="saveChanges">
 							<div class="bs-input my-3">
 								<input
 									v-model="companyParams.name"
@@ -124,15 +121,13 @@ const user = computed(() => {
 });
 
 const canEdit = computed(() => {
-	if (!user.value || !record.value || !record.value.attributes.creator)
-		return false;
+	if (!user.value || !record.value || !record.value.attributes.creator) return false;
 
 	return user.value.id === record.value.attributes.creator.id;
 });
 
 const canDelete = computed(() => {
-	if (!user.value || !record.value || !record.value.attributes.creator)
-		return false;
+	if (!user.value || !record.value || !record.value.attributes.creator) return false;
 
 	return user.value.id === record.value.attributes.creator.id;
 });
@@ -151,9 +146,7 @@ const record = computed(() => {
 		try {
 			axios.get(`companies/${company.id}/image`).then((response) => {
 				if (response.data.data.attributes)
-					companyParams.image = atob(
-						response.data.data.attributes.base64
-					);
+					companyParams.image = atob(response.data.data.attributes.base64);
 				else {
 					companyParams.image = null;
 				}

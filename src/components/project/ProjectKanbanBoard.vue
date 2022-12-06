@@ -66,9 +66,14 @@
 
 		<Column class="column p-0 w-auto" v-if="newStatus.form">
 			<div class="bs-input">
+				<label>
+					{{ $t("enter_column_name") }}
+				</label>
+
 				<input
 					type="text"
 					:placeholder="$t('enter_column_name')"
+					minlength="1"
 					v-model="newStatus.name"
 				/>
 			</div>

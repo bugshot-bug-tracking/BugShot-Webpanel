@@ -14,7 +14,7 @@
 				<input type="email" :value="user.attributes.email" disabled hidden />
 
 				<div class="form-group">
-					<div class="bs-input2">
+					<div class="bs-input">
 						<label flex justify-between>
 							{{ t("current_password") }}
 						</label>
@@ -59,7 +59,7 @@
 				<div class="form-group" gap-0>
 					<h5>{{ t("chose_new_password") }}</h5>
 
-					<div class="bs-input2">
+					<div class="bs-input">
 						<label> {{ t("new_password") }} </label>
 
 						<input
@@ -118,7 +118,7 @@
 						</ul>
 					</div>
 
-					<div class="bs-input2">
+					<div class="bs-input">
 						<label> {{ t("confirm_password") }} </label>
 
 						<input

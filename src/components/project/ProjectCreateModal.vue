@@ -14,7 +14,7 @@
 		</template>
 
 		<template #modal-form>
-			<div class="bs-input2">
+			<div class="bs-input">
 				<label>
 					{{ $t("project_name") }}
 				</label>
@@ -29,7 +29,7 @@
 				/>
 			</div>
 
-			<div class="bs-input2">
+			<div class="bs-input">
 				<label>
 					{{ $t("project_url") }}
 				</label>

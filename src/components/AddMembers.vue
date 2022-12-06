@@ -54,7 +54,7 @@
 				@submit.prevent="modalSubmit"
 				class="d-flex flex-column align-items-center w-100 gap-4"
 			>
-				<div class="bs-input w-icon">
+				<div class="bs-input" :style="{ width: '100%' }">
 					<input
 						:placeholder="$t('email')"
 						:type="'email'"
@@ -64,7 +64,7 @@
 						autocomplete="email"
 					/>
 
-					<img src="/src/assets/icons/mail.svg" alt="at" />
+					<img class="input-image" src="/src/assets/icons/mail.svg" alt="at" />
 				</div>
 
 				<div class="roles">

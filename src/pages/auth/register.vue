@@ -28,7 +28,7 @@
 			/>
 		</div>
 
-		<div class="bs-input w-icon">
+		<div class="bs-input">
 			<input
 				type="email"
 				:placeholder="$t('email_address')"
@@ -40,11 +40,11 @@
 				@focus="resetError"
 			/>
 
-			<img src="/src/assets/icons/mail.svg" alt="at" />
+			<img class="input-image" src="/src/assets/icons/mail.svg" alt="at" />
 		</div>
 
 		<div class="requed">
-			<div class="bs-input w-icon">
+			<div class="bs-input">
 				<input
 					:type="passwordType"
 					:placeholder="$t('password')"
@@ -69,6 +69,7 @@
 					@click="togglePassword"
 					src="/src/assets/icons/password_hide.svg"
 					style="cursor: pointer"
+					class="input-image"
 				/>
 
 				<img
@@ -76,6 +77,7 @@
 					@click="togglePassword"
 					src="/src/assets/icons/password_view.svg"
 					style="cursor: pointer"
+					class="input-image"
 				/>
 			</div>
 
@@ -110,7 +112,7 @@
 		</div>
 
 		<div class="requed">
-			<div class="bs-input w-icon">
+			<div class="bs-input">
 				<input
 					:type="passwordTypeConfirm"
 					:placeholder="$t('confirm_password')"
@@ -134,6 +136,7 @@
 					@click="togglePasswordConfirm"
 					src="/src/assets/icons/password_hide.svg"
 					style="cursor: pointer"
+					class="input-image"
 				/>
 
 				<img
@@ -141,6 +144,7 @@
 					@click="togglePasswordConfirm"
 					src="/src/assets/icons/password_view.svg"
 					style="cursor: pointer"
+					class="input-image"
 				/>
 			</div>
 
@@ -167,9 +171,7 @@
 				</template>
 
 				<template v-slot:pp>
-					<a class="linked" @click="openPP">{{
-						$t("privacy_policy")
-					}}</a>
+					<a class="linked" @click="openPP">{{ $t("privacy_policy") }}</a>
 				</template>
 			</i18n-t>
 		</div>
@@ -195,10 +197,7 @@
 		</div>
 
 		<div class="success" v-if="stage === 1">
-			<img
-				src="/src/assets/animations/bug_confirmation_not_white.gif"
-				alt="Success"
-			/>
+			<img src="/src/assets/animations/bug_confirmation_not_white.gif" alt="Success" />
 
 			<div>{{ $t("success") + "!" }}</div>
 
@@ -287,8 +286,7 @@ const submit = () => {
 			errField.email = null;
 			errField.password = null;
 
-			if (error.response.status !== 422)
-				console.error(error.response.data.errors);
+			if (error.response.status !== 422) console.error(error.response.data.errors);
 
 			const resError = error.response.data.errors;
 
@@ -494,8 +492,8 @@ const openPP = () => {
 .good {
 	color: #1a2040;
 	// color: #18d891;
-	filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
-		hue-rotate(104deg) brightness(96%) contrast(88%);
+	filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%) hue-rotate(104deg)
+		brightness(96%) contrast(88%);
 	position: relative;
 	display: flex;
 	align-items: center;
@@ -514,8 +512,8 @@ const openPP = () => {
 .bad {
 	color: #1a2040;
 	// color: #f23636;
-	filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
-		hue-rotate(263deg) brightness(94%) contrast(92%);
+	filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%) hue-rotate(263deg)
+		brightness(94%) contrast(92%);
 	position: relative;
 	display: flex;
 	align-items: center;

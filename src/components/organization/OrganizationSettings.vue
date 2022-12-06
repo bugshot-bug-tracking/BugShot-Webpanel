@@ -6,7 +6,7 @@
 			</div>
 		</div>
 
-		<div class="bs-input2">
+		<div class="bs-input">
 			<label>
 				{{ $t("organization_name") }}
 			</label>

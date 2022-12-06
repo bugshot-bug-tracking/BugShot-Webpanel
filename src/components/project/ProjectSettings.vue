@@ -7,7 +7,7 @@
 			</div>
 		</div>
 
-		<div class="bs-input2">
+		<div class="bs-input">
 			<label>
 				{{ t("project_name") }}
 			</label>
@@ -15,7 +15,7 @@
 			<input type="text" :placeholder="t('project_name')" :value="project_name" disabled />
 		</div>
 
-		<div class="bs-input2">
+		<div class="bs-input">
 			<label>
 				{{ t("company") }}
 			</label>
@@ -23,7 +23,7 @@
 			<input type="text" :placeholder="t('company')" :value="company_name" disabled />
 		</div>
 
-		<div class="bs-input2">
+		<div class="bs-input">
 			<label>
 				{{ t("url") }}
 			</label>

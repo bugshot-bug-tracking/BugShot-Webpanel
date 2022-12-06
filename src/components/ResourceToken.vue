@@ -5,7 +5,7 @@
 		</div>
 
 		<div v-else-if="!loading && code">
-			<div class="bs-input2">
+			<div class="bs-input">
 				<label>
 					{{ $t("token") }}
 				</label>

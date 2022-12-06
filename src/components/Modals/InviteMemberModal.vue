@@ -6,7 +6,7 @@
 			</template>
 
 			<form @submit.prevent="modalSubmit" @reset="closeModal">
-				<div class="bs-input w-icon">
+				<div class="bs-input" :style="{ width: '100%' }">
 					<input
 						:placeholder="$t('email')"
 						:type="'email'"
@@ -17,7 +17,7 @@
 						:disabled="disableSubmit"
 					/>
 
-					<img src="/src/assets/icons/mail.svg" alt="at" />
+					<img class="input-image" src="/src/assets/icons/mail.svg" alt="at" />
 				</div>
 
 				<div class="roles">
