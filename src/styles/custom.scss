@@ -405,7 +405,7 @@
 	align-items: stretch;
 	background-color: hsl(240, 40%, 98%);
 	height: 100vh;
-	width: 25rem;
+	min-width: 25rem;
 	max-width: 30rem;
 	overflow: auto;
 	padding: 1rem;

@@ -6,6 +6,7 @@ import { Organization } from "~/models/Organization";
 import { Invitation } from "~/models/Invitation";
 import { OrganizationUserRole } from "~/models/OrganizationUserRole";
 import { Company } from "~/models/Company";
+import { useSettingsStore } from "./settings";
 
 export const useOrganizationStore = defineStore("organization", {
 	state: () => ({
@@ -42,6 +43,8 @@ export const useOrganizationStore = defineStore("organization", {
 				await this.fetchUsers();
 
 				await this.fetchCompanies();
+
+				useSettingsStore().setPreferredOrganization(id);
 			} catch (error) {
 				console.log(error);
 				throw error;

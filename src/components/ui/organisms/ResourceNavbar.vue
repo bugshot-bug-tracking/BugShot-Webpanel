@@ -1,6 +1,8 @@
 <template>
 	<TSidebar>
 		<template #header>
+			<slot name="pre-header" />
+
 			<header>
 				<div>
 					<h3>

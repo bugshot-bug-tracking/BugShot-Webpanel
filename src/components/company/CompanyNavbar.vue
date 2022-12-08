@@ -1,6 +1,8 @@
 <template>
 	<ResourceNavbar :list="resources" :order="order" @change-order="onChangeOrder">
-		<template> </template>
+		<template #pre-header>
+			<OrganizationSwitcher noLabel p-2 />
+		</template>
 
 		<template #header-text>
 			{{ $t("company", 2) }}

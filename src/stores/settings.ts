@@ -5,6 +5,8 @@ export const useSettingsStore = defineStore("settings", {
 	state: () => ({
 		companiesOrder: useStorage("companiesOrder", 0),
 		organizationsOrder: useStorage("organizationsOrder", 0),
+
+		preferredOrganization: useStorage("pref-org", ""),
 	}),
 
 	actions: {
@@ -27,10 +29,15 @@ export const useSettingsStore = defineStore("settings", {
 				this.organizationsOrder = n;
 			} else this.organizationsOrder = value;
 		},
+
+		setPreferredOrganization(id: string) {
+			this.preferredOrganization = id;
+		},
 	},
 
 	getters: {
 		getCompaniesOrder: (state) => state.companiesOrder,
 		getOrganizationsOrder: (state) => state.organizationsOrder,
+		getPreferredOrganization: (state) => state.preferredOrganization,
 	},
 });
