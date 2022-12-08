@@ -15,6 +15,8 @@
 
 	<main class="main-empty" v-else>
 		<section>
+			<OrganizationSwitcher />
+
 			<img src="/src/assets/images/nothing_to_show.svg" alt="empty boxes" w-88 h-88 />
 
 			<h1 w-88 text-6>{{ $t("no_companies") }}</h1>

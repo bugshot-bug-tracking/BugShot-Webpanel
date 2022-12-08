@@ -2,14 +2,22 @@
 
 <script setup lang="ts">
 import { useMainStore } from "~/stores/main";
-
-const store = useMainStore();
+import { useSettingsStore } from "~/stores/settings";
 
 const route = useRouter();
 
-route.push({
-	name: "organization-home",
-	params: { organization_id: store.getOrganizations![0].id },
+onMounted(() => {
+	const preferredOrganization = useSettingsStore().getPreferredOrganization;
+
+	route.push({
+		name: "organization-home",
+		params: {
+			organization_id:
+				preferredOrganization !== ""
+					? preferredOrganization
+					: useMainStore().getOrganizations![0].id,
+		},
+	});
 });
 </script>
 
