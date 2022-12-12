@@ -257,7 +257,7 @@ export const useProjectStore = defineStore("project", {
 				// fetch bug screenshots
 				let users = (await axios.get(`bugs/${id}/users`)).data.data;
 
-				bug.users = users;
+				bug.users = users.map((x) => x.user);
 			} catch (error) {
 				console.log(error);
 			}

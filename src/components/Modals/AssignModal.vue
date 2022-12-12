@@ -117,7 +117,7 @@ const bug = computed(() => {
 
 		project_users.forEach((user) => {
 			let checked = false;
-			if (bug?.users?.find((x) => x.user.id === user.id)) checked = true;
+			if (bug?.users?.find((x) => x.id === user.id)) checked = true;
 
 			list.value.push({
 				user: user,
