@@ -249,7 +249,7 @@
 				<label>{{ $t("assigned_to") + ":" }}</label>
 
 				<div class="content">
-					<Assignees :list="bug.users" @add="emit('open_assign')" />
+					<Assignees :list="assignees" @add="emit('open_assign')" />
 				</div>
 			</div>
 		</div>
@@ -383,6 +383,8 @@ const changeDeadline = () => {
 const { d } = useI18n({ useScope: "global" });
 const locale = computed(() => useI18nStore().getCurrentLocale);
 const format = (date: Date) => d(new Date(date).toISOString(), "short");
+
+const assignees = computed(() => store.getAssignees);
 </script>
 
 <style lang="scss" scoped>
