@@ -28,7 +28,7 @@ declare module '@vue/runtime-core' {
     CompanyEditModal: typeof import('./components/Modals/CompanyEditModal.vue')['default']
     CompanyNavbar: typeof import('./components/company/CompanyNavbar.vue')['default']
     CompanySettings: typeof import('./components/company/CompanySettings.vue')['default']
-    Container: typeof import('./components/Container.vue')['default']
+    Container: typeof import('./templates/Container.vue')['default']
     CreateResourceModal: typeof import('./components/ui/organisms/Modals/CreateResourceModal.vue')['default']
     DeleteModal: typeof import('./components/Modals/DeleteModal.vue')['default']
     DeleteModal2: typeof import('./components/Modals/DeleteModal2.vue')['default']

@@ -1,5 +1,5 @@
 <template>
-	<Container>
+	<div class="content-container">
 		<div id="info" class="d-flex flex-column no-wrap">
 			<div class="justify-content-between mb-2 align-items-start" v-if="!bugData.flag1">
 				<div class="title" flex>
@@ -253,7 +253,7 @@
 				</div>
 			</div>
 		</div>
-	</Container>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -581,5 +581,18 @@ textarea {
 	&.error {
 		border-color: red;
 	}
+}
+
+.content-container {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	background: hsl(0, 0%, 100%) 0% 0% no-repeat padding-box;
+	border: 1px solid hsl(240, 100%, 95%);
+	border-radius: 16px;
+	padding: 20px;
+	box-shadow: hsla(0, 0%, 0%, 0.35) 10px 10px 10px -11px;
+	margin-bottom: 1.25em;
+	position: relative;
 }
 </style>
