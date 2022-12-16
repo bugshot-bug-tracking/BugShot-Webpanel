@@ -22,9 +22,7 @@
 			!(function (f, b, e, v, n, t, s) {
 				if (f.fbq) return;
 				n = f.fbq = function () {
-					n.callMethod
-						? n.callMethod.apply(n, arguments)
-						: n.queue.push(arguments);
+					n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
 				};
 				if (!f._fbq) f._fbq = n;
 				n.push = n;
@@ -36,12 +34,7 @@
 				t.src = v;
 				s = b.getElementsByTagName(e)[0];
 				s.parentNode.insertBefore(t, s);
-			})(
-				window,
-				document,
-				"script",
-				"https://connect.facebook.net/en_US/fbevents.js"
-			);
+			})(window, document, "script", "https://connect.facebook.net/en_US/fbevents.js");
 			fbq("init", "1485021685228427");
 			fbq("track", "PageView");
 		</script>
@@ -58,8 +51,7 @@
 		<!-- LinkedIn Analytics Code -->
 		<script type="text/javascript">
 			_linkedin_partner_id = "4022506";
-			window._linkedin_data_partner_ids =
-				window._linkedin_data_partner_ids || [];
+			window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
 			window._linkedin_data_partner_ids.push(_linkedin_partner_id);
 		</script>
 		<script type="text/javascript">
@@ -74,8 +66,7 @@
 				var b = document.createElement("script");
 				b.type = "text/javascript";
 				b.async = true;
-				b.src =
-					"https://snap.licdn.com/li.lms-analytics/insight.min.js";
+				b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
 				s.parentNode.insertBefore(b, s);
 			})(window.lintrk);
 		</script>
@@ -94,12 +85,21 @@
 	<body>
 		<noscript>
 			<strong>
-				We're sorry but this app doesn't work properly without
-				JavaScript enabled. Please enable it to continue.
+				We're sorry but this app doesn't work properly without JavaScript enabled. Please
+				enable it to continue.
 			</strong>
 		</noscript>
 
-		<div id="app"></div>
+		<div id="app">
+			<div style="display: flex; width: 100vw; height: 100vh">
+				<img
+					src="/src/assets/animations/loading.svg"
+					alt="loading circle"
+					style="margin: auto"
+				/>
+			</div>
+		</div>
+
 		<div id="modals"></div>
 		<script type="module" src="/src/main.ts"></script>
 	</body>
