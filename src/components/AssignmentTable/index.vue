@@ -10,9 +10,11 @@
 			<slot name="after-title"> </slot>
 		</header>
 
-		<ul class="bs-scroll" v-if="list.length > 0">
+		<div v-if="list === undefined" />
+
+		<ul class="bs-scroll" v-else-if="list.length > 0">
 			<li class="bs-bb" v-for="item of list" :key="item.id">
-				<slot name="item" v-bind="{ item: item }"> </slot>
+				<slot name="item" v-bind="item"> </slot>
 			</li>
 		</ul>
 
@@ -44,7 +46,7 @@ defineProps({
 			{ type: string; id: string; attributes: { designation: string } }[]
 		>,
 		description: "List of items to show",
-		default: [],
+		default: undefined,
 	},
 });
 </script>

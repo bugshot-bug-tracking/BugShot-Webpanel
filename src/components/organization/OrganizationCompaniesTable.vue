@@ -1,6 +1,6 @@
 <template>
 	<AssignmentTable :title="$t('company', 2)" :list="companies">
-		<template #item="{ item }: { item: Company }">
+		<template #item="item: Company">
 			<ResourceHeader
 				:name="item.attributes.designation"
 				:owner="user.id === item.attributes.creator?.id"

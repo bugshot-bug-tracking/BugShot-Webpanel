@@ -66,17 +66,32 @@
 							</div>
 						</template>
 
-						<template #item="{ item }: { item: User }">
+						<template #item="item: User">
 							<UserHeader
 								:first_name="item.attributes.first_name"
 								:last_name="item.attributes.last_name"
 								:email="item.attributes.email"
-								:role_text="item.role?.attributes.designation"
-								:owner="project.attributes.creator?.id === item.id"
 								py-4
-								:removable="false"
-								:current_user="user.id === item.id"
-							/>
+							>
+								<template #role-badge>
+									<Badge
+										v-if="project.attributes.creator?.id === item.id"
+										:text="$t('owner')"
+										:preset="'gf'"
+									/>
+
+									<Badge
+										v-else-if="item.role?.attributes.designation"
+										:text="
+											$t(
+												'roles.' +
+													item.role?.attributes.designation.toLocaleLowerCase()
+											)
+										"
+										:preset="'pe'"
+									/>
+								</template>
+							</UserHeader>
 
 							<AssignedToList :list="[]" @remove="" :type="'Bug'" />
 						</template>

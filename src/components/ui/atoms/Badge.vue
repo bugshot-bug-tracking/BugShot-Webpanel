@@ -1,11 +1,17 @@
 <template>
 	<div
-		class="user-role"
+		class="bs-badge"
 		:style="{ color: config.color }"
 		:class="{ empty: config.empty }"
 		capitalize
 	>
-		<span>{{ text }}</span>
+		<slot name="image" />
+
+		<span v-if="text">
+			{{ text }}
+		</span>
+
+		<span v-else>{{ noText ?? $t("nothing") }}</span>
 	</div>
 </template>
 
@@ -16,8 +22,14 @@ import colors, { COLOR } from "~/util/colors";
 const props = defineProps({
 	text: {
 		type: String,
-		required: true,
-		default: "[PH] Role",
+		required: false,
+		default: undefined,
+	},
+
+	noText: {
+		type: String,
+		required: false,
+		default: undefined,
 	},
 
 	color: {
@@ -36,25 +48,36 @@ const props = defineProps({
 	preset: {
 		type: String,
 		required: false,
-		validator: (value: string) => ["owner", "team"].includes(value),
+		validator: (value: string) => ["pf", "pe", "gf", "ge"].includes(value),
 		default: undefined,
 	},
 });
 
 const config = computed(() => {
 	const conf = {
-		color: COLOR.PURPLE,
-		empty: true,
+		color: COLOR.GRAY,
+		empty: false,
 	};
 
-	if (props.preset !== undefined) {
-		switch (props.preset) {
-			case "owner":
-				conf.color = COLOR.GREEN;
-				conf.empty = false;
+	if (props.text && props.preset !== undefined) {
+		switch (props.preset[0]) {
+			case "p":
+				conf.color = COLOR.PURPLE;
+				break;
 
-			case "team":
+			case "g":
+				conf.color = COLOR.GREEN;
+				break;
+		}
+
+		switch (props.preset[1]) {
+			case "e":
+				conf.empty = true;
+				break;
+
 			default:
+			case "f":
+				conf.empty = false;
 				break;
 		}
 	}
@@ -66,28 +89,3 @@ const config = computed(() => {
 	return conf;
 });
 </script>
-
-<style scoped lang="scss">
-.user-role {
-	border-radius: 0.5rem;
-	padding: 0.25rem 0.5rem;
-	font-size: 0.875rem;
-	text-align: center;
-	user-select: none;
-	border: 2px solid currentColor;
-	background-color: currentColor;
-
-	span {
-		color: #ffffff;
-	}
-
-	&.empty {
-		background-color: #ffffff;
-		font-weight: bold;
-
-		span {
-			color: currentColor;
-		}
-	}
-}
-</style>
