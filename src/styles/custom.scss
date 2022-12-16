@@ -463,3 +463,30 @@
 		background-color: hsl(0, 90%, 60%);
 	}
 }
+
+.bs-badge {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	border-radius: 0.5rem;
+	padding: 0.25rem 0.5rem;
+	font-size: 0.875rem;
+	text-align: center;
+	user-select: none;
+	border: 2px solid currentColor;
+	background-color: currentColor;
+
+	span {
+		color: #ffffff;
+	}
+
+	&.empty {
+		background-color: #ffffff;
+		font-weight: bold;
+
+		span {
+			color: currentColor;
+		}
+	}
+}

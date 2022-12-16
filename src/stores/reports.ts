@@ -6,8 +6,8 @@ import { Status } from "~/models/Status";
 import { Bug } from "~/models/Bug";
 import { Screenshot } from "~/models/Screenshot";
 import { Attachment } from "~/models/Attachment";
-import { User } from "~/models/User";
 import { useProjectStore } from "./project";
+import { BugUserRole } from "~/models/BugUserRole";
 
 export const useReportsStore = defineStore("reports", {
 	state: () => ({
@@ -23,7 +23,7 @@ export const useReportsStore = defineStore("reports", {
 		attachments: undefined as Attachment[] | undefined,
 		comments: undefined as Comment[] | undefined,
 
-		assignees: undefined as User[] | undefined,
+		assignees: undefined as BugUserRole[] | undefined,
 
 		// ------
 	}),
@@ -330,7 +330,7 @@ export const useReportsStore = defineStore("reports", {
 		async fetchBugUsers() {
 			if (!this.bug) throw "Bug not set!";
 
-			let users = (await axios.get(`bugs/${this.bug.id}/users`)).data.data as User[];
+			let users = (await axios.get(`bugs/${this.bug.id}/users`)).data.data as BugUserRole[];
 
 			this.assignees = users;
 		},
@@ -349,7 +349,11 @@ export const useReportsStore = defineStore("reports", {
 		getScreenshots: (state) => state.screenshots,
 		getAttachments: (state) => state.attachments,
 		getComments: (state) => state.comments,
-		getAssignees: (state) => state.assignees,
+		getAssignees: (state) =>
+			state.assignees?.map((x: BugUserRole) => {
+				x.user.role = x.role;
+				return x.user;
+			}),
 
 		getBugById: (state) => (id: string) => {
 			if (!state.statuses) return null;

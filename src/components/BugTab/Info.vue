@@ -1,5 +1,5 @@
 <template>
-	<Container>
+	<div class="content-container">
 		<div id="info" class="d-flex flex-column no-wrap">
 			<div class="justify-content-between mb-2 align-items-start" v-if="!bugData.flag1">
 				<div class="title" flex>
@@ -249,11 +249,11 @@
 				<label>{{ $t("assigned_to") + ":" }}</label>
 
 				<div class="content">
-					<Assignees :list="bug.users" @add="emit('open_assign')" />
+					<Assignees :list="assignees" @add="emit('open_assign')" />
 				</div>
 			</div>
 		</div>
-	</Container>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -383,6 +383,8 @@ const changeDeadline = () => {
 const { d } = useI18n({ useScope: "global" });
 const locale = computed(() => useI18nStore().getCurrentLocale);
 const format = (date: Date) => d(new Date(date).toISOString(), "short");
+
+const assignees = computed(() => store.getAssignees);
 </script>
 
 <style lang="scss" scoped>
@@ -579,5 +581,18 @@ textarea {
 	&.error {
 		border-color: red;
 	}
+}
+
+.content-container {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	background: hsl(0, 0%, 100%) 0% 0% no-repeat padding-box;
+	border: 1px solid hsl(240, 100%, 95%);
+	border-radius: 16px;
+	padding: 20px;
+	box-shadow: hsla(0, 0%, 0%, 0.35) 10px 10px 10px -11px;
+	margin-bottom: 1.25em;
+	position: relative;
 }
 </style>

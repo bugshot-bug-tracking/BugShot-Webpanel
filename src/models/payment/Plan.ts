@@ -12,7 +12,7 @@ export interface Attributes {
 	description: string;
 	images: any[];
 	livemode: boolean;
-	metadata: { hidden?: string };
+	metadata: { hidden?: string; feature_list?: string };
 	name: string;
 	package_dimensions?: any;
 	shippable?: any;

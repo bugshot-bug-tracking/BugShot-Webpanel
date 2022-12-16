@@ -5,7 +5,7 @@
 			{{ organization.attributes.designation }}
 		</template>
 
-		<template #item="{ item }: { item: Company }">
+		<template #item="item: Company">
 			<ResourceHeader
 				:name="item.attributes.designation"
 				:owner="member.user.id === item.attributes.creator?.id"

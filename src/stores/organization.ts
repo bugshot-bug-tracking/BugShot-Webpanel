@@ -19,6 +19,8 @@ export const useOrganizationStore = defineStore("organization", {
 		companies: undefined as Company[] | undefined,
 
 		member: undefined as OrganizationUserRole | undefined,
+
+		licenses: [{ id: "prod_MyQTiOJU9juzSO", quantity: 5 }] as any,
 	}),
 
 	actions: {
@@ -316,6 +318,10 @@ export const useOrganizationStore = defineStore("organization", {
 				x.company.attributes.role = x.role;
 				return x.company;
 			});
+		},
+
+		getLicense: (state) => (id: string) => {
+			return state.licenses?.find((x) => x.id === id);
 		},
 	},
 });

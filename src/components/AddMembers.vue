@@ -10,7 +10,7 @@
 			<div class="user-item" v-for="(item, index) in invites" :key="index">
 				<div class="user-email">{{ item.email }}</div>
 
-				<RolePin
+				<Badge
 					:text="
 						$t(
 							'roles.' +
@@ -19,7 +19,7 @@
 									?.attributes.designation.toLocaleLowerCase()
 						)
 					"
-					:empty="false"
+					preset="pf"
 				/>
 
 				<div class="actions">

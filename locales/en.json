@@ -322,5 +322,10 @@
 	"move_reports_to": "I want them moved to:",
 	"do_nothing": "Do nothing",
 	"option_will_delete_reports": "this option will delete the reports",
-	"continue_with_delete": "Continue with deletion"
+	"continue_with_delete": "Continue with deletion",
+	"license": "License | Licenses",
+	"nothing": "Nothing",
+	"owned": "Owned",
+	"quantity": "Quantity",
+	"perks": "Perks"
 }
