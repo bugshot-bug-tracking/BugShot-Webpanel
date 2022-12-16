@@ -1,6 +1,6 @@
 <template>
 	<section class="bs-container">
-		<header class="bs-bb" v-if="$slots['title']">
+		<header class="bs-bb" v-if="$slots['header'] || $slots['title']">
 			<slot name="header">
 				<b>
 					<slot name="title" />
