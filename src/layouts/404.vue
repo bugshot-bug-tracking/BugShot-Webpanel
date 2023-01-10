@@ -3,7 +3,7 @@
 		<div>
 			<img src="/src/assets/animations/bugshot_404_error.gif" alt="404" />
 
-			<span c="#5916b9" text-3xl font-bold>
+			<span>
 				{{ t("problem_encountered") }}
 			</span>
 
@@ -26,7 +26,7 @@ div {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	gap: 40px;
+	gap: 2.5rem;
 
 	span {
 		color: #5916b9;
