@@ -20,7 +20,13 @@ export const useOrganizationStore = defineStore("organization", {
 
 		member: undefined as OrganizationUserRole | undefined,
 
-		licenses: [{ id: "prod_MyQTiOJU9juzSO", quantity: 5 }] as any,
+		licenses: [
+			{
+				id: "prod_MyQTiOJU9juzSO",
+				quantity: 5,
+				price: { id: "price_1METcRBvcGEa3FETbMcUxsym" },
+			},
+		] as any,
 	}),
 
 	actions: {
@@ -320,8 +326,8 @@ export const useOrganizationStore = defineStore("organization", {
 			});
 		},
 
-		getLicense: (state) => (id: string) => {
-			return state.licenses?.find((x) => x.id === id);
+		getLicense: (state) => (product_id: string, price_id: string) => {
+			return state.licenses?.find((x) => x.id === product_id && x.price.id === price_id);
 		},
 	},
 });

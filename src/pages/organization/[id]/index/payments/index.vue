@@ -85,7 +85,9 @@
 							</li>
 						</ul>
 
-						<button class="bs-btn green" mt-8>Buy More</button>
+						<RouterLink :to="{ name: 'organization-payments-buy' }">
+							<button class="bs-btn green" mt-8>Buy More</button>
+						</RouterLink>
 					</Container>
 				</div>
 			</div>

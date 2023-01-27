@@ -34,6 +34,8 @@
 </template>
 
 <script setup lang="ts">
+import { PropType } from "vue";
+
 const props = defineProps({
 	show: {
 		required: true,
@@ -53,7 +55,7 @@ const props = defineProps({
 
 	callback: {
 		required: false,
-		type: Function || null,
+		type: null as PropType<Function> | null,
 	},
 });
 

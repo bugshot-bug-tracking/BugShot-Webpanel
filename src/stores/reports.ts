@@ -29,22 +29,11 @@ export const useReportsStore = defineStore("reports", {
 	}),
 
 	actions: {
-		async destroy() {
-			this.statuses = undefined;
-			this.bug = undefined;
-			this.screenshots = undefined;
-			this.attachments = undefined;
-			this.comments = undefined;
-			this.assignees = undefined;
-
-			return true;
-		},
-
-		async init() {
+		async init(id: string) {
 			try {
-				this.destroy();
+				this.$reset();
 
-				await this.fetchStatuses();
+				await this.fetchStatuses(id);
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -62,9 +51,9 @@ export const useReportsStore = defineStore("reports", {
 			}
 		},
 
-		async fetchStatuses() {
+		async fetchStatuses(id?: string) {
 			let response = (
-				await axios.get(`projects/${this.project.id}/statuses`, {
+				await axios.get(`projects/${id ?? this.project.id}/statuses`, {
 					headers: {
 						"include-statuses": true,
 						"include-bugs": true,
