@@ -156,11 +156,13 @@ const loading = ref(true);
 const error = ref(false);
 
 const initStore = async () => {
+	if (!props.project_id) return;
+
 	try {
 		loading.value = true;
 		error.value = false;
 
-		await reportsStore.init();
+		await reportsStore.init(props.project_id);
 	} catch (err) {
 		console.log(err);
 		error.value = true;

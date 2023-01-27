@@ -18,19 +18,9 @@ export const useProjectStore = defineStore("project", {
 	}),
 
 	actions: {
-		async destroy() {
-			this.company_id = undefined;
-			this.project_id = undefined;
-			this.project = undefined;
-			this.members = undefined;
-			this.pendingInvitations = undefined;
-
-			return true;
-		},
-
 		async init(company_id: string, project_id: string) {
 			try {
-				this.destroy();
+				this.$reset();
 
 				this.project_id = project_id;
 				this.company_id = company_id;

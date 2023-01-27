@@ -8,7 +8,7 @@
 main {
 	grid-area: main;
 	position: relative;
-	padding: 30px;
+	padding: 2rem;
 
 	display: flex;
 	flex-direction: column;

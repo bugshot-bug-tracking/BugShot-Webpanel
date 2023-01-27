@@ -57,7 +57,7 @@
 	> main {
 		grid-area: main;
 		position: relative;
-		padding: 30px;
+		padding: 2rem;
 
 		display: flex;
 		flex-direction: column;
@@ -73,7 +73,7 @@
 		justify-content: flex-end;
 		gap: 1rem;
 		width: 100%;
-		padding: 30px;
+		padding: 2rem;
 		padding-top: 0;
 	}
 }
