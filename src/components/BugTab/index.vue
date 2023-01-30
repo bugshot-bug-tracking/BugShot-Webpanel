@@ -109,7 +109,16 @@ const initStore = async () => {
 initStore();
 watch(props, initStore, { deep: true });
 
-const bug = computed(() => store.getBug!);
+const bug = computed(() => {
+	let b = store.getBug;
+
+	if (b?.attributes.deleted_at != undefined) {
+		emit("close");
+		alert("The bug was deleted!");
+	}
+
+	return b;
+});
 
 const status = computed(() => store.getStatusById(bug.value.attributes.status_id));
 

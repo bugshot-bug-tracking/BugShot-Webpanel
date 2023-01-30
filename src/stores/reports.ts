@@ -8,10 +8,11 @@ import { Screenshot } from "~/models/Screenshot";
 import { Attachment } from "~/models/Attachment";
 import { useProjectStore } from "./project";
 import { BugUserRole } from "~/models/BugUserRole";
+import { pusher } from "~/composables/pusher";
 
 export const useReportsStore = defineStore("reports", {
 	state: () => ({
-		project: useProjectStore().getProject!,
+		project: useProjectStore().project,
 
 		statuses: undefined as Status[] | undefined,
 
@@ -127,6 +128,9 @@ export const useReportsStore = defineStore("reports", {
 		},
 
 		async setBug(id: string) {
+			// unsubscribe from old bug
+			await this.unhookBug(this.bug?.id);
+
 			this.bug = undefined;
 			this.screenshots = undefined;
 			this.attachments = undefined;
@@ -143,6 +147,9 @@ export const useReportsStore = defineStore("reports", {
 			await this.fetchAttachments();
 			await this.fetchComments();
 			await this.fetchBugUsers();
+
+			// subscribe to live updates
+			await this.hookBug(bug.id);
 		},
 
 		async createBug({
@@ -283,7 +290,7 @@ export const useReportsStore = defineStore("reports", {
 
 			let index = status.attributes.bugs?.findIndex((x) => x.id === this.bug!.id);
 
-			if (!index) return;
+			if (index == undefined || index === -1) return;
 
 			status.attributes.bugs?.splice(index, 1);
 		},
@@ -322,6 +329,86 @@ export const useReportsStore = defineStore("reports", {
 			let users = (await axios.get(`bugs/${this.bug.id}/users`)).data.data as BugUserRole[];
 
 			this.assignees = users;
+		},
+
+		async unhookBug(id: string | undefined) {
+			if (id == undefined) return;
+
+			const channel = `bugs.${id}`;
+
+			const pusher_channel = pusher.channel(channel);
+
+			if (pusher_channel) pusher_channel.unsubscribe();
+		},
+
+		async hookBug(id: string) {
+			const channel = `bugs.${id}`;
+
+			pusher.subscribe(channel);
+
+			pusher.bind("bug.updated", async (data: any) => {
+				if (data && data.type === "Bug") {
+					Object.assign(this.bug!.attributes, (data as Bug).attributes);
+
+					//TODO treat move or order change
+				} else console.log(data);
+			});
+
+			pusher.bind("bug.deleted", async (data: any) => {
+				let status = this.getStatusById(this.bug!.attributes.status_id);
+
+				if (!status) return;
+
+				let index = status.attributes.bugs?.findIndex((x) => x.id === this.bug!.id);
+
+				if (index == undefined || index === -1) return;
+
+				status.attributes.bugs?.splice(index, 1);
+
+				this.bug!.attributes.deleted_at = new Date().toString();
+			});
+
+			pusher.bind("members.updated", async () => {
+				await this.fetchBugUsers();
+			});
+
+			pusher.bind("screenshot.created", (data: any) => {
+				if (data && data.type === "Screenshot") {
+					this.screenshots?.push(data);
+				} else console.log(data);
+			});
+
+			pusher.bind("screenshot.deleted", (data: string) => {
+				if (isNaN(Number(data))) return;
+
+				let index = this.screenshots?.findIndex((x) => x.id === Number(data));
+
+				if (index == undefined || index === -1) return;
+
+				this.screenshots?.splice(index, 1);
+			});
+
+			pusher.bind("attachment.created", (data: any) => {
+				if (data && data.type === "Attachment") {
+					this.attachments?.push(data);
+				} else console.log(data);
+			});
+
+			pusher.bind("attachment.deleted", (data: string) => {
+				if (isNaN(Number(data))) return;
+
+				let index = this.attachments?.findIndex((x) => x.id === Number(data));
+
+				if (index == undefined || index === -1) return;
+
+				this.attachments?.splice(index, 1);
+			});
+
+			pusher.bind("comment.created", (data: any) => {
+				if (data && data.type === "Comment") {
+					this.comments?.push(data);
+				} else console.log(data);
+			});
 		},
 	},
 
