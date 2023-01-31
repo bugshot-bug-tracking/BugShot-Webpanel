@@ -30,19 +30,9 @@ export const useOrganizationStore = defineStore("organization", {
 	}),
 
 	actions: {
-		async destroy() {
-			this.organization_id = undefined;
-			this.organization = undefined;
-			this.members = undefined;
-			this.pendingInvitations = undefined;
-			this.companies = undefined;
-
-			return true;
-		},
-
 		async init(id: string) {
 			try {
-				this.destroy();
+				this.$reset();
 
 				this.organization_id = id;
 

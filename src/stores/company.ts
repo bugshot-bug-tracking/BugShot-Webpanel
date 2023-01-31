@@ -21,18 +21,9 @@ export const useCompanyStore = defineStore("company", {
 	}),
 
 	actions: {
-		async destroy() {
-			this.organization_id = undefined;
-			this.company_id = undefined;
-			this.company = undefined;
-			this.projects = undefined;
-
-			return true;
-		},
-
 		async init(organization_id: string, company_id: string) {
 			try {
-				this.destroy();
+				this.$reset();
 
 				this.company_id = company_id;
 				this.organization_id = organization_id;

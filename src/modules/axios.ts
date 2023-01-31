@@ -23,7 +23,7 @@ export const install: UserModule = ({ router }) => {
 				if (error.config.url === "auth/login") throw error;
 
 				// clear the local storage then redirect
-				useAuthStore().destroy();
+				useAuthStore().$reset();
 
 				router.push({ name: "Login" });
 				return;
