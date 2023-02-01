@@ -6,6 +6,8 @@ import { CompanyUserRole } from "~/models/CompanyUserRole";
 import { Invitation } from "~/models/Invitation";
 import { Project } from "~/models/Project";
 import { useOrganizationStore } from "./organization";
+import { pusher } from "~/composables/pusher";
+import { useProjectStore } from "./project";
 
 export const useCompanyStore = defineStore("company", {
 	state: () => ({
@@ -23,6 +25,8 @@ export const useCompanyStore = defineStore("company", {
 	actions: {
 		async init(organization_id: string, company_id: string) {
 			try {
+				this.unhook();
+
 				this.$reset();
 
 				this.company_id = company_id;
@@ -33,6 +37,8 @@ export const useCompanyStore = defineStore("company", {
 				await this.fetchUsers();
 
 				await this.fetchProjects();
+
+				this.hook();
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -265,6 +271,80 @@ export const useCompanyStore = defineStore("company", {
 
 			return true;
 		},
+
+		async unhook() {
+			if (this.company === undefined) return;
+
+			const api_channel = `company.${this.company.id}`;
+
+			const channel = pusher.channel(api_channel);
+
+			if (channel != undefined) {
+				channel.unsubscribe();
+				channel.unbind_all();
+			}
+		},
+
+		async hook() {
+			if (this.company === undefined) return;
+
+			const api_channel = `company.${this.company.id}`;
+
+			let channel = pusher.subscribe(api_channel);
+
+			channel.bind("project.updated", (data: any) => {
+				if (!(data && data.type === "Project")) return console.log(data);
+
+				let project = data as Project;
+
+				let oldProject = this.projects?.find((x) => x.id === project.id);
+
+				if (oldProject == undefined) return;
+
+				Object.assign(oldProject.attributes, project.attributes);
+
+				if (useProjectStore().project_id === project.id)
+					useProjectStore().handleRemoteUpdate();
+			});
+
+			channel.bind("project.deleted", (data: any) => {
+				if (!(data && data.type === "Project")) return console.log(data);
+
+				let project = data as Project;
+
+				let index = this.projects?.findIndex((x) => x.id === project.id);
+
+				if (index === undefined || index === -1)
+					return console.log(
+						`project.deleted: Project not found in company projects list!`
+					);
+
+				this.projects?.splice(index, 1);
+
+				if (useProjectStore().project_id === project.id)
+					useProjectStore().handleRemoteDelete();
+			});
+		},
+
+		//TODO maybe update with better logic.
+
+		async handleRemoteUpdate() {
+			let company = this.company;
+
+			alert(`Company ${company?.attributes.designation} was updated!`);
+
+			this.load();
+		},
+
+		async handleRemoteDelete() {
+			let company = this.company;
+
+			alert(`Company ${company?.attributes.designation} was deleted!`);
+
+			this.$reset();
+		},
+
+		// ---
 	},
 
 	getters: {

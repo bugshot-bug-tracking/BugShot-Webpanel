@@ -5,10 +5,12 @@ import { Project } from "~/models/Project";
 import { Invitation } from "~/models/Invitation";
 import { ProjectUserRole } from "~/models/ProjectUserRole";
 import { useCompanyStore } from "./company";
+import { pusher } from "~/composables/pusher";
 
 export const useProjectStore = defineStore("project", {
 	state: () => ({
 		company_id: undefined as string | undefined,
+		company: useCompanyStore().company,
 
 		project_id: undefined as string | undefined,
 		project: undefined as Project | undefined,
@@ -20,14 +22,17 @@ export const useProjectStore = defineStore("project", {
 	actions: {
 		async init(company_id: string, project_id: string) {
 			try {
+				this.unhook();
+
 				this.$reset();
 
 				this.project_id = project_id;
 				this.company_id = company_id;
 
 				await this.load();
-
 				await this.fetchUsers();
+
+				this.hook();
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -167,6 +172,51 @@ export const useProjectStore = defineStore("project", {
 
 			if (index !== undefined && index !== -1) this.members!.splice(index, 1);
 		},
+
+		async unhook() {
+			if (this.project === undefined) return;
+
+			const api_channel = `project.${this.project.id}`;
+
+			const channel = pusher.channel(api_channel);
+
+			if (channel != undefined) {
+				channel.unsubscribe();
+				channel.unbind_all();
+			}
+		},
+
+		async hook() {
+			if (this.project === undefined) return;
+
+			const api_channel = `project.${this.project.id}`;
+
+			let channel = pusher.subscribe(api_channel);
+
+			channel.bind("members.updated", async (data: any) => {
+				await this.fetchUsers();
+			});
+		},
+
+		//TODO maybe update with better logic.
+
+		async handleRemoteUpdate() {
+			let project = this.project;
+
+			alert(`Project ${project?.attributes.designation} was updated!`);
+
+			this.load();
+		},
+
+		async handleRemoteDelete() {
+			let project = this.project;
+
+			alert(`Project ${project?.attributes.designation} was deleted!`);
+
+			this.$reset();
+		},
+
+		// ---
 	},
 
 	getters: {

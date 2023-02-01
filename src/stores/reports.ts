@@ -27,7 +27,7 @@ export const useReportsStore = defineStore("reports", {
 
 		assignees: undefined as BugUserRole[] | undefined,
 
-		// ------
+		// ^^^---------------------------------------^^^
 	}),
 
 	actions: {
