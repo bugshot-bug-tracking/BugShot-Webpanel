@@ -10,13 +10,6 @@ export const useAuthStore = defineStore("auth", {
 	}),
 
 	actions: {
-		async destroy() {
-			this.token = "";
-			this.user = <User>{};
-
-			return true;
-		},
-
 		async login(payload: { email: string; password: string }) {
 			try {
 				let response = await axios.post("auth/login", {
@@ -39,7 +32,7 @@ export const useAuthStore = defineStore("auth", {
 					.post("auth/logout")
 					// 2xx
 					.then((response) => {
-						this.destroy();
+						this.$reset();
 						return true;
 					})
 					// 4xx, 5xx
@@ -72,7 +65,7 @@ export const useAuthStore = defineStore("auth", {
 				return true;
 			} catch (error) {
 				//if the token is invalid or it expired set the token from storage to null
-				this.destroy();
+				this.$reset();
 				axios.defaults.headers.common["Authorization"] = "";
 				localStorage.removeItem("authToken");
 

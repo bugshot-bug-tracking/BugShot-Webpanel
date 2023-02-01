@@ -7,6 +7,8 @@ import { Invitation } from "~/models/Invitation";
 import { OrganizationUserRole } from "~/models/OrganizationUserRole";
 import { Company } from "~/models/Company";
 import { useSettingsStore } from "./settings";
+import { pusher } from "~/composables/pusher";
+import { useCompanyStore } from "./company";
 
 export const useOrganizationStore = defineStore("organization", {
 	state: () => ({
@@ -30,19 +32,11 @@ export const useOrganizationStore = defineStore("organization", {
 	}),
 
 	actions: {
-		async destroy() {
-			this.organization_id = undefined;
-			this.organization = undefined;
-			this.members = undefined;
-			this.pendingInvitations = undefined;
-			this.companies = undefined;
-
-			return true;
-		},
-
 		async init(id: string) {
 			try {
-				this.destroy();
+				this.unhook();
+
+				this.$reset();
 
 				this.organization_id = id;
 
@@ -53,6 +47,8 @@ export const useOrganizationStore = defineStore("organization", {
 				await this.fetchCompanies();
 
 				useSettingsStore().setPreferredOrganization(id);
+
+				this.hook();
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -274,6 +270,60 @@ export const useOrganizationStore = defineStore("organization", {
 
 			this.member = response;
 		},
+
+		async unhook() {
+			if (this.organization === undefined) return;
+
+			const api_channel = `organization.${this.organization.id}`;
+
+			const channel = pusher.channel(api_channel);
+
+			if (channel != undefined) {
+				channel.unsubscribe();
+				channel.unbind_all();
+			}
+		},
+
+		async hook() {
+			if (this.organization === undefined) return;
+
+			const api_channel = `organization.${this.organization.id}`;
+
+			let channel = pusher.subscribe(api_channel);
+
+			channel.bind("company.updated", (data: any) => {
+				if (!(data && data.type === "Company")) return console.log(data);
+
+				let company = data as Company;
+
+				let oldCompany = this.companies?.find((x) => x.id === company.id);
+
+				if (oldCompany == undefined) return;
+
+				Object.assign(oldCompany.attributes, company.attributes);
+
+				if (useCompanyStore().company_id === company.id)
+					useCompanyStore().handleRemoteUpdate();
+			});
+
+			channel.bind("company.deleted", (data: any) => {
+				if (!(data && data.type === "Company")) return console.log(data);
+
+				let company = data as Company;
+
+				let index = this.companies?.findIndex((x) => x.id === company.id);
+
+				if (index === undefined || index === -1)
+					return console.log(
+						`company.deleted: Company not found in organization companies list!`
+					);
+
+				this.companies?.splice(index, 1);
+
+				if (useCompanyStore().company_id === company.id)
+					useCompanyStore().handleRemoteDelete();
+			});
+		},
 	},
 
 	getters: {
@@ -327,7 +377,7 @@ export const useOrganizationStore = defineStore("organization", {
 		},
 
 		getLicense: (state) => (product_id: string, price_id: string) => {
-			return state.licenses?.find((x) => x.id === product_id && x.price.id === price_id);
+			return state.licenses?.find((x: any) => x.id === product_id && x.price.id === price_id);
 		},
 	},
 });
