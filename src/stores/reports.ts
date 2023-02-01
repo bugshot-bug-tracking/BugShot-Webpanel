@@ -353,7 +353,8 @@ export const useReportsStore = defineStore("reports", {
 			let channel = pusher.subscribe(bug_channel);
 
 			channel.bind("bug.updated", async (data: any) => {
-				if (data && data.type === "Bug") {
+		if (!(data && data.type === "Bug")) return console.log(data);
+
 					let newBug = data as Bug;
 					let oldBug = this.bug!;
 
@@ -431,11 +432,13 @@ export const useReportsStore = defineStore("reports", {
 			});
 
 			channel.bind("bug.deleted", async (data: any) => {
-				let status = this.getStatusById(this.bug!.attributes.status_id);
+		if (!(data && data.type === "Bug")) return console.log(data);
+
+		let status = this.getStatusById((data as Bug).attributes.status_id);
 
 				if (!status) return;
 
-				let index = status.attributes.bugs?.findIndex((x) => x.id === this.bug!.id);
+		let index = status.attributes.bugs?.findIndex((x) => x.id === data.id);
 
 				if (index == undefined || index === -1) return;
 
@@ -449,9 +452,9 @@ export const useReportsStore = defineStore("reports", {
 			});
 
 			channel.bind("screenshot.created", (data: any) => {
-				if (data && data.type === "Screenshot") {
+				if (!(data && data.type === "Screenshot")) return console.log(data);
+
 					this.screenshots?.push(data);
-				} else console.log(data);
 			});
 
 			channel.bind("screenshot.deleted", (data: string) => {
@@ -465,9 +468,8 @@ export const useReportsStore = defineStore("reports", {
 			});
 
 			channel.bind("attachment.created", (data: any) => {
-				if (data && data.type === "Attachment") {
+				if (!(data && data.type === "Attachment")) return console.log(data);
 					this.attachments?.push(data);
-				} else console.log(data);
 			});
 
 			channel.bind("attachment.deleted", (data: string) => {
@@ -481,9 +483,8 @@ export const useReportsStore = defineStore("reports", {
 			});
 
 			channel.bind("comment.created", (data: any) => {
-				if (data && data.type === "Comment") {
+				if (!(data && data.type === "Comment")) return console.log(data);
 					this.comments?.push(data);
-				} else console.log(data);
 			});
 		},
 	},
