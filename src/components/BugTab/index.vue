@@ -109,13 +109,28 @@ const initStore = async () => {
 initStore();
 watch(props, initStore, { deep: true });
 
-const bug = computed(() => store.getBug!);
+const bug = computed(() => {
+	let b = store.getBug;
+
+	if (b?.attributes.deleted_at != undefined) {
+		emit("close");
+		alert("The bug was deleted!");
+	}
+
+	return b;
+});
 
 const status = computed(() => store.getStatusById(bug.value.attributes.status_id));
 
 const screenshots = computed(() => store.getScreenshots);
 const attachmentsList = computed(() => store.getAttachments);
-const comments = computed(() => store.getComments);
+const comments = computed(() =>
+	store.getComments?.sort((a, b) => {
+		if (a.attributes.crated_at < b.attributes.crated_at) return -1;
+		else if (a.attributes.crated_at > b.attributes.crated_at) return 1;
+		return 0;
+	})
+);
 
 const deleteBug = async () => {
 	await store.deleteBug();
@@ -210,6 +225,10 @@ const loadingModal = reactive({
 		loadingModal.state = 0;
 		loadingModal.message = "";
 	},
+});
+
+onUnmounted(() => {
+	store.setBug(undefined);
 });
 </script>
 

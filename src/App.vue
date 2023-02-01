@@ -12,26 +12,41 @@
 
 <script setup lang="ts">
 import { useI18nStore } from "~/stores/i18n";
+import { useAuthStore } from "./stores/auth";
 import { useMainStore } from "./stores/main";
 
-const store = useMainStore();
+const user = computed(() => useAuthStore().getUser);
 
 const loading = ref(true);
 
+//TODO add an error main component
+
 onMounted(async () => {
-	// fetch main data
-	//TODO add an error main component
 	try {
 		loading.value = true;
 
 		useI18nStore().init();
 
-		await store.init();
+		await useAuthStore().attempt(localStorage.getItem("authToken") || "");
 	} catch (error) {
 		console.log(error);
 	} finally {
 		loading.value = false;
 	}
+});
+
+// when there is a user (auth on), fetch main data
+watch(user, async (newUser, oldUser) => {
+	if ((oldUser.id == undefined && newUser.id != undefined) || oldUser.id !== newUser.id)
+		try {
+			loading.value = true;
+
+			if (user.value.id) await useMainStore().init();
+		} catch (error) {
+			console.log(error);
+		} finally {
+			loading.value = false;
+		}
 });
 </script>
 

@@ -13,18 +13,11 @@ export const useMainStore = defineStore("main", {
 	}),
 
 	actions: {
-		async destroy() {
-			this.roles = undefined;
-
-			this.organizations = undefined;
-
-			return true;
-		},
-
 		async init() {
 			try {
 				nProgress.start();
-				await this.destroy();
+
+				this.$reset();
 
 				await this.fetchRoles();
 

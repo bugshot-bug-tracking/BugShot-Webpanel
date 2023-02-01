@@ -1,7 +1,6 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import { useAuthStore } from "./stores/auth";
 import "vue-select/dist/vue-select.css";
 import "uno.css";
 import { UserModule } from "./types";
@@ -15,8 +14,4 @@ Object.values(import.meta.glob<{ install: UserModule }>("./modules/*.ts", { eage
 	(i) => i.install?.({ app, router })
 );
 
-useAuthStore()
-	.attempt(localStorage.getItem("authToken") || "")
-	.then(() => {
-		app.mount("#app");
-	});
+app.mount("#app");
