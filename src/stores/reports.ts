@@ -54,6 +54,8 @@ export const useReportsStore = defineStore("reports", {
 		},
 
 		async fetchStatuses(id?: string) {
+			this.unhook();
+
 			let response = (
 				await axios.get(`projects/${id ?? this.project.id}/statuses`, {
 					headers: {
@@ -64,6 +66,8 @@ export const useReportsStore = defineStore("reports", {
 			).data.data;
 
 			this.statuses = response;
+
+			this.hook();
 		},
 
 		async createStatus({
@@ -347,105 +351,11 @@ export const useReportsStore = defineStore("reports", {
 			}
 		},
 
+		// register listeners for the active bug resources
 		async hookBug(id: string) {
 			const bug_channel = `bugs.${id}`;
 
 			let channel = pusher.subscribe(bug_channel);
-
-			channel.bind("bug.updated", async (data: any) => {
-		if (!(data && data.type === "Bug")) return console.log(data);
-
-					let newBug = data as Bug;
-					let oldBug = this.bug!;
-
-					let sameStatus = newBug.attributes.status_id === oldBug.attributes.status_id;
-
-					if (
-						newBug.attributes.order_number !== oldBug.attributes.order_number ||
-						!sameStatus
-					) {
-						let oldStatus = this.statuses?.find(
-							(x) => x.id === oldBug.attributes.status_id
-						);
-						// if they are the same status but different order, update just the bugs in that status
-						if (sameStatus) {
-							oldStatus?.attributes.bugs?.forEach((bug) => {
-								// if the move was to the right (ex. bug 1 was moved after 4), all the bugs in interval (1, 4] or [2, 4] should be -1
-								if (
-									oldBug.attributes.order_number < newBug.attributes.order_number
-								) {
-									if (
-										bug.attributes.order_number >
-											oldBug.attributes.order_number &&
-										bug.attributes.order_number <=
-											newBug.attributes.order_number
-									) {
-										bug.attributes.order_number--;
-									}
-
-									// else if the move was to the left (ex. bug 6 was moved before 1), all the bugs in interval [1, 6) or [1, 5] should be +1
-								} else {
-									if (
-										bug.attributes.order_number >=
-											newBug.attributes.order_number &&
-										bug.attributes.order_number < oldBug.attributes.order_number
-									) {
-										bug.attributes.order_number++;
-									}
-								}
-							});
-
-							Object.assign(this.bug!.attributes, (data as Bug).attributes);
-						} else {
-							let newStatus = this.statuses?.find(
-								(x) => x.id === newBug.attributes.status_id
-							);
-
-							oldStatus?.attributes.bugs?.forEach((bug) => {
-								if (bug.id === oldBug.id) {
-									bug.attributes.order_number = -1;
-									return;
-								}
-								if (bug.attributes.order_number > oldBug.attributes.order_number)
-									bug.attributes.order_number--;
-							});
-
-							newStatus?.attributes.bugs?.forEach((bug) => {
-								if (bug.attributes.order_number >= newBug.attributes.order_number)
-									bug.attributes.order_number++;
-							});
-
-							// remove old bug
-							let oldIndex = oldStatus?.attributes.bugs?.findIndex(
-								(x) => x.attributes.order_number === -1
-							);
-
-							if (oldIndex && oldIndex != -1)
-								oldStatus?.attributes.bugs?.splice(oldIndex, 1);
-
-							newStatus?.attributes.bugs?.push(newBug);
-
-							this.bug = newStatus?.attributes.bugs?.find((x) => x.id === newBug.id);
-						}
-					}
-				} else console.log(data);
-			});
-
-			channel.bind("bug.deleted", async (data: any) => {
-		if (!(data && data.type === "Bug")) return console.log(data);
-
-		let status = this.getStatusById((data as Bug).attributes.status_id);
-
-				if (!status) return;
-
-		let index = status.attributes.bugs?.findIndex((x) => x.id === data.id);
-
-				if (index == undefined || index === -1) return;
-
-				status.attributes.bugs?.splice(index, 1);
-
-				this.bug!.attributes.deleted_at = new Date().toString();
-			});
 
 			channel.bind("members.updated", async () => {
 				await this.fetchBugUsers();
@@ -454,7 +364,7 @@ export const useReportsStore = defineStore("reports", {
 			channel.bind("screenshot.created", (data: any) => {
 				if (!(data && data.type === "Screenshot")) return console.log(data);
 
-					this.screenshots?.push(data);
+				this.screenshots?.push(data);
 			});
 
 			channel.bind("screenshot.deleted", (data: string) => {
@@ -469,7 +379,7 @@ export const useReportsStore = defineStore("reports", {
 
 			channel.bind("attachment.created", (data: any) => {
 				if (!(data && data.type === "Attachment")) return console.log(data);
-					this.attachments?.push(data);
+				this.attachments?.push(data);
 			});
 
 			channel.bind("attachment.deleted", (data: string) => {
@@ -484,7 +394,168 @@ export const useReportsStore = defineStore("reports", {
 
 			channel.bind("comment.created", (data: any) => {
 				if (!(data && data.type === "Comment")) return console.log(data);
-					this.comments?.push(data);
+				this.comments?.push(data);
+			});
+		},
+
+		async unhook() {
+			if (this === undefined) return;
+
+			const api_channel = `project.${this.project!.id}`;
+
+			const channel = pusher.channel(api_channel);
+
+			if (channel != undefined) {
+				channel.unsubscribe();
+				channel.unbind_all();
+			}
+		},
+
+		async hook() {
+			const api_channel = `project.${this.project!.id}`;
+
+			let channel = pusher.subscribe(api_channel);
+
+			channel.bind("status.created", (data: any) => {
+				if (!(data && data.type === "Status")) return console.log(data);
+
+				this.statuses?.push(data as Status);
+			});
+
+			channel.bind("status.deleted", (data: any) => {
+				let index = this.statuses?.findIndex((x) => x.id === data);
+
+				if (index == undefined || index === -1) return;
+
+				this.statuses?.splice(index, 1);
+			});
+
+			channel.bind("status.updated", (data: any) => {
+				if (!(data && data.type === "Status")) return console.log(data);
+
+				let oldStatus = this.statuses?.find((x) => x.id === (data as Status).id);
+
+				if (oldStatus === undefined) return;
+
+				let newStatus = data as Status;
+
+				if (oldStatus.attributes.order_number === newStatus.attributes.order_number)
+					return Object.assign(oldStatus.attributes, (data as Status).attributes);
+
+				this.statuses?.forEach((status) => {
+					// if the move was to the right (ex. status 1 was moved after 4), all the statuses in interval (1, 4] or [2, 4] should be -1
+					if (oldStatus!.attributes.order_number < newStatus.attributes.order_number) {
+						if (
+							status.attributes.order_number > oldStatus!.attributes.order_number &&
+							status.attributes.order_number <= newStatus.attributes.order_number
+						) {
+							status.attributes.order_number--;
+						}
+
+						// else if the move was to the left (ex. status 6 was moved before 1), all the statuses in interval [1, 6) or [1, 5] should be +1
+					} else {
+						if (
+							status.attributes.order_number >= newStatus.attributes.order_number &&
+							status.attributes.order_number < oldStatus!.attributes.order_number
+						) {
+							status.attributes.order_number++;
+						}
+					}
+				});
+
+				Object.assign(oldStatus.attributes, (data as Status).attributes);
+			});
+
+			channel.bind("bug.updated", async (data: any) => {
+				if (!(data && data.type === "Bug")) return console.log(data);
+
+				let newBug = data as Bug;
+				let oldBug = this.statuses
+					?.find((x) =>
+						x.attributes.bugs?.find((x) => x.id === newBug.id) ? true : false
+					)
+					?.attributes.bugs?.find((x) => x.id === (data as Bug).id);
+
+				// if no bug found in memory
+				if (oldBug === undefined)
+					return console.log("bug.updated: No bug found in memory!");
+
+				let sameStatus = newBug.attributes.status_id === oldBug.attributes.status_id;
+
+				// if no reorder was made just update the bug properties
+				if (newBug.attributes.order_number === oldBug.attributes.order_number && sameStatus)
+					return Object.assign(oldBug!.attributes, newBug.attributes);
+
+				let oldStatus = this.statuses?.find((x) => x.id === oldBug!.attributes.status_id);
+
+				// if they are the same status but different order, update just the bugs in that status
+				if (sameStatus) {
+					oldStatus?.attributes.bugs?.forEach((bug) => {
+						// if the move was to the right (ex. bug 1 was moved after 4), all the bugs in interval (1, 4] or [2, 4] should be -1
+						if (oldBug!.attributes.order_number < newBug.attributes.order_number) {
+							if (
+								bug.attributes.order_number > oldBug!.attributes.order_number &&
+								bug.attributes.order_number <= newBug.attributes.order_number
+							) {
+								bug.attributes.order_number--;
+							}
+
+							// else if the move was to the left (ex. bug 6 was moved before 1), all the bugs in interval [1, 6) or [1, 5] should be +1
+						} else {
+							if (
+								bug.attributes.order_number >= newBug.attributes.order_number &&
+								bug.attributes.order_number < oldBug!.attributes.order_number
+							) {
+								bug.attributes.order_number++;
+							}
+						}
+					});
+
+					Object.assign(oldBug!.attributes, newBug.attributes);
+				} else {
+					let newStatus = this.statuses?.find(
+						(x) => x.id === newBug.attributes.status_id
+					);
+
+					// remove old bug
+					let oldIndex = oldStatus?.attributes.bugs?.findIndex((x) => x.id === newBug.id);
+
+					if (oldIndex != undefined && oldIndex != -1)
+						oldStatus?.attributes.bugs?.splice(oldIndex, 1);
+
+					oldStatus?.attributes.bugs?.forEach((bug) => {
+						if (bug.attributes.order_number > oldBug!.attributes.order_number)
+							bug.attributes.order_number--;
+					});
+
+					newStatus?.attributes.bugs?.forEach((bug) => {
+						if (bug.attributes.order_number >= newBug.attributes.order_number)
+							bug.attributes.order_number++;
+					});
+
+					newStatus?.attributes.bugs?.push(newBug);
+
+					if (this.bug?.id === newBug.id)
+						this.bug = newStatus?.attributes.bugs?.find((x) => x.id === newBug.id);
+				}
+			});
+
+			channel.bind("bug.deleted", async (data: any) => {
+				if (!(data && data.type === "Bug")) return console.log(data);
+
+				let status = this.getStatusById((data as Bug).attributes.status_id);
+
+				if (!status) return;
+
+				let index = status.attributes.bugs?.findIndex((x) => x.id === data.id);
+
+				if (index == undefined || index === -1) return;
+
+				status.attributes.bugs?.splice(index, 1);
+
+				// helps to close the bug info tab without errors
+				if (this.bug?.id === (data as Bug).id)
+					this.bug!.attributes.deleted_at = new Date().toString();
 			});
 		},
 	},
