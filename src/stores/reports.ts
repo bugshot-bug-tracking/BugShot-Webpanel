@@ -353,7 +353,7 @@ export const useReportsStore = defineStore("reports", {
 
 		// register listeners for the active bug resources
 		async hookBug(id: string) {
-			const bug_channel = `bugs.${id}`;
+			const bug_channel = `bug.${id}`;
 
 			let channel = pusher.subscribe(bug_channel);
 
