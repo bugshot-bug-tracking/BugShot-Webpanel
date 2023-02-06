@@ -341,7 +341,7 @@ export const useReportsStore = defineStore("reports", {
 		async unhookBug(id: string | undefined) {
 			if (id == undefined) return;
 
-			const channel = `bugs.${id}`;
+			const channel = `bug.${id}`;
 
 			const pusher_channel = pusher.channel(channel);
 
