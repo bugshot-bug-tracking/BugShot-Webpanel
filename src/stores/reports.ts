@@ -557,6 +557,27 @@ export const useReportsStore = defineStore("reports", {
 				if (this.bug?.id === (data as Bug).id)
 					this.bug!.attributes.deleted_at = new Date().toString();
 			});
+
+			channel.bind("bug.created", async (data: any) => {
+				if (!(data && data.type === "Bug")) return console.log(data);
+
+				let newBug = data as Bug;
+
+				let status = this.getStatusById((data as Bug).attributes.status_id);
+
+				if (!status) return;
+
+				let itExists = status?.attributes.bugs?.find((b) => b.id === newBug.id);
+
+				if (itExists) return console.log(`bug.created: bug already in memory.`);
+
+				status.attributes.bugs?.forEach((bug) => {
+					if (bug.attributes.order_number >= newBug.attributes.order_number)
+						bug.attributes.order_number++;
+				});
+
+				status.attributes.bugs?.push(newBug);
+			});
 		},
 	},
 
