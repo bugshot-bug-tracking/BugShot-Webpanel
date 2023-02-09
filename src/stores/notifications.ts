@@ -16,10 +16,13 @@ export const useNotificationStore = defineStore("notification", {
 		// fetch all notifications
 		async fetchInvitations() {
 			try {
+				this.unhook();
 				let notifications = (await axios.get(`users/${this.user.id}/invitations`)).data
 					.data;
 
 				this.notifications = notifications;
+
+				this.hook();
 			} catch (error) {
 				console.log(error);
 			}
