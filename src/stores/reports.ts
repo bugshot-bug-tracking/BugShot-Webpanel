@@ -362,15 +362,15 @@ export const useReportsStore = defineStore("reports", {
 			});
 
 			channel.bind("screenshot.created", (data: any) => {
-				if (!(data && data.type === "Screenshot")) return console.log(data);
+				if (!(data && data.data.type === "Screenshot")) return console.log(data);
 
-				this.screenshots?.push(data);
+				this.screenshots?.push(data.data);
 			});
 
-			channel.bind("screenshot.deleted", (data: string) => {
-				if (isNaN(Number(data))) return;
+			channel.bind("screenshot.deleted", (data: any) => {
+				if (!(data && data.data.type === "Screenshot")) return console.log(data);
 
-				let index = this.screenshots?.findIndex((x) => x.id === Number(data));
+				let index = this.screenshots?.findIndex((x) => x.id === data.data.id);
 
 				if (index == undefined || index === -1) return;
 
@@ -378,14 +378,14 @@ export const useReportsStore = defineStore("reports", {
 			});
 
 			channel.bind("attachment.created", (data: any) => {
-				if (!(data && data.type === "Attachment")) return console.log(data);
-				this.attachments?.push(data);
+				if (!(data && data.data.type === "Attachment")) return console.log(data);
+				this.attachments?.push(data.data);
 			});
 
-			channel.bind("attachment.deleted", (data: string) => {
-				if (isNaN(Number(data))) return;
+			channel.bind("attachment.deleted", (data: any) => {
+				if (!(data && data.data.type === "Attachment")) return console.log(data);
 
-				let index = this.attachments?.findIndex((x) => x.id === Number(data));
+				let index = this.attachments?.findIndex((x) => x.id === data.data.id);
 
 				if (index == undefined || index === -1) return;
 
@@ -393,8 +393,8 @@ export const useReportsStore = defineStore("reports", {
 			});
 
 			channel.bind("comment.created", (data: any) => {
-				if (!(data && data.type === "Comment")) return console.log(data);
-				this.comments?.push(data);
+				if (!(data && data.data.type === "Comment")) return console.log(data);
+				this.comments?.push(data.data);
 			});
 		},
 
@@ -417,9 +417,9 @@ export const useReportsStore = defineStore("reports", {
 			let channel = pusher.subscribe(api_channel);
 
 			channel.bind("status.created", (data: any) => {
-				if (!(data && data.type === "Status")) return console.log(data);
+				if (!(data && data.data.type === "Status")) return console.log(data);
 
-				this.statuses?.push(data as Status);
+				this.statuses?.push(data.data as Status);
 			});
 
 			channel.bind("status.deleted", (data: any) => {
@@ -431,16 +431,16 @@ export const useReportsStore = defineStore("reports", {
 			});
 
 			channel.bind("status.updated", (data: any) => {
-				if (!(data && data.type === "Status")) return console.log(data);
+				if (!(data && data.data.type === "Status")) return console.log(data);
 
-				let oldStatus = this.statuses?.find((x) => x.id === (data as Status).id);
+				let oldStatus = this.statuses?.find((x) => x.id === (data.data as Status).id);
 
 				if (oldStatus === undefined) return;
 
-				let newStatus = data as Status;
+				let newStatus = data.data as Status;
 
 				if (oldStatus.attributes.order_number === newStatus.attributes.order_number)
-					return Object.assign(oldStatus.attributes, (data as Status).attributes);
+					return Object.assign(oldStatus.attributes, newStatus.attributes);
 
 				this.statuses?.forEach((status) => {
 					// if the move was to the right (ex. status 1 was moved after 4), all the statuses in interval (1, 4] or [2, 4] should be -1
@@ -463,18 +463,18 @@ export const useReportsStore = defineStore("reports", {
 					}
 				});
 
-				Object.assign(oldStatus.attributes, (data as Status).attributes);
+				Object.assign(oldStatus.attributes, newStatus.attributes);
 			});
 
 			channel.bind("bug.updated", async (data: any) => {
-				if (!(data && data.type === "Bug")) return console.log(data);
+				if (!(data && data.data.type === "Bug")) return console.log(data);
 
-				let newBug = data as Bug;
+				let newBug = data.data as Bug;
 				let oldBug = this.statuses
 					?.find((x) =>
 						x.attributes.bugs?.find((x) => x.id === newBug.id) ? true : false
 					)
-					?.attributes.bugs?.find((x) => x.id === (data as Bug).id);
+					?.attributes.bugs?.find((x) => x.id === newBug.id);
 
 				// if no bug found in memory
 				if (oldBug === undefined)
@@ -541,29 +541,29 @@ export const useReportsStore = defineStore("reports", {
 			});
 
 			channel.bind("bug.deleted", async (data: any) => {
-				if (!(data && data.type === "Bug")) return console.log(data);
+				if (!(data && data.data.type === "Bug")) return console.log(data);
 
-				let status = this.getStatusById((data as Bug).attributes.status_id);
+				let status = this.getStatusById((data.data as Bug).attributes.status_id);
 
 				if (!status) return;
 
-				let index = status.attributes.bugs?.findIndex((x) => x.id === data.id);
+				let index = status.attributes.bugs?.findIndex((x) => x.id === data.data.id);
 
 				if (index == undefined || index === -1) return;
 
 				status.attributes.bugs?.splice(index, 1);
 
 				// helps to close the bug info tab without errors
-				if (this.bug?.id === (data as Bug).id)
+				if (this.bug?.id === (data.data as Bug).id)
 					this.bug!.attributes.deleted_at = new Date().toString();
 			});
 
 			channel.bind("bug.created", async (data: any) => {
-				if (!(data && data.type === "Bug")) return console.log(data);
+				if (!(data && data.data.type === "Bug")) return console.log(data);
 
-				let newBug = data as Bug;
+				let newBug = data.data as Bug;
 
-				let status = this.getStatusById((data as Bug).attributes.status_id);
+				let status = this.getStatusById(newBug.attributes.status_id);
 
 				if (!status) return;
 

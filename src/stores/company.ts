@@ -293,9 +293,9 @@ export const useCompanyStore = defineStore("company", {
 			let channel = pusher.subscribe(api_channel);
 
 			channel.bind("project.updated", (data: any) => {
-				if (!(data && data.type === "Project")) return console.log(data);
+				if (!(data && data.data.type === "Project")) return console.log(data);
 
-				let project = data as Project;
+				let project = data.data as Project;
 
 				let oldProject = this.projects?.find((x) => x.id === project.id);
 
@@ -308,9 +308,9 @@ export const useCompanyStore = defineStore("company", {
 			});
 
 			channel.bind("project.deleted", (data: any) => {
-				if (!(data && data.type === "Project")) return console.log(data);
+				if (!(data && data.data.type === "Project")) return console.log(data);
 
-				let project = data as Project;
+				let project = data.data as Project;
 
 				let index = this.projects?.findIndex((x) => x.id === project.id);
 

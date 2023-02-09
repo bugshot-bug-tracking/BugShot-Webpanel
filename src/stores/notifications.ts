@@ -78,7 +78,7 @@ export const useNotificationStore = defineStore("notification", {
 			let channel = pusher.subscribe(api_channel);
 
 			channel.bind("invitation.created", (data: any) => {
-				if (!(data && data.type === "Invitation")) return console.log(data);
+				if (!(data && data.data.type === "Invitation")) return console.log(data);
 
 				this.fetchInvitations();
 			});
