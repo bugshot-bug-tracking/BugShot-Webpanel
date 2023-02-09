@@ -36,6 +36,8 @@ export const useReportsStore = defineStore("reports", {
 				this.$reset();
 
 				await this.fetchStatuses(id);
+
+				this.hook();
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -54,8 +56,6 @@ export const useReportsStore = defineStore("reports", {
 		},
 
 		async fetchStatuses(id?: string) {
-			this.unhook();
-
 			let response = (
 				await axios.get(`projects/${id ?? this.project.id}/statuses`, {
 					headers: {
@@ -66,8 +66,6 @@ export const useReportsStore = defineStore("reports", {
 			).data.data;
 
 			this.statuses = response;
-
-			this.hook();
 		},
 
 		async createStatus({
@@ -400,21 +398,22 @@ export const useReportsStore = defineStore("reports", {
 
 		async unhook() {
 			if (this === undefined) return;
-
-			const api_channel = `project.${this.project!.id}`;
-
-			const channel = pusher.channel(api_channel);
-
-			if (channel != undefined) {
-				channel.unsubscribe();
-				channel.unbind_all();
-			}
 		},
 
 		async hook() {
 			const api_channel = `project.${this.project!.id}`;
 
-			let channel = pusher.subscribe(api_channel);
+			let channel = undefined;
+
+			if (
+				pusher.channel(api_channel) == undefined ||
+				pusher.channel(api_channel).subscribed === false
+			)
+				channel = pusher.subscribe(api_channel);
+			else channel = pusher.channel(api_channel);
+
+			if (!channel) return;
+			if (channel.callbacks.get("status.created")) return;
 
 			channel.bind("status.created", (data: any) => {
 				if (!(data && data.data.type === "Status")) return console.log(data);
@@ -470,6 +469,7 @@ export const useReportsStore = defineStore("reports", {
 				if (!(data && data.data.type === "Bug")) return console.log(data);
 
 				let newBug = data.data as Bug;
+
 				let oldBug = this.statuses
 					?.find((x) =>
 						x.attributes.bugs?.find((x) => x.id === newBug.id) ? true : false
