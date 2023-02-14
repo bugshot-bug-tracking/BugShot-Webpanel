@@ -422,7 +422,9 @@ export const useReportsStore = defineStore("reports", {
 			});
 
 			channel.bind("status.deleted", (data: any) => {
-				let index = this.statuses?.findIndex((x) => x.id === data);
+				if (!(data && data.data.type === "Status")) return console.log(data);
+
+				let index = this.statuses?.findIndex((x) => x.id === data.data.id);
 
 				if (index == undefined || index === -1) return;
 
