@@ -4,6 +4,7 @@ import axios from "axios";
 import nProgress from "nprogress";
 import { Role } from "~/models/Role";
 import { Organization } from "~/models/Organization";
+import { useAuthStore } from "./auth";
 
 export const useMainStore = defineStore("main", {
 	state: () => ({
@@ -73,7 +74,7 @@ export const useMainStore = defineStore("main", {
 
 			if (!item) return false;
 
-			item = organization;
+			Object.assign(item.attributes, organization.attributes);
 
 			return true;
 		},
@@ -101,5 +102,8 @@ export const useMainStore = defineStore("main", {
 
 		getOrganizationById: (state) => (id: string) =>
 			state.organizations?.find((x) => x.id === id),
+
+		getMyOrganization: (state) =>
+			state.organizations?.find((o) => o.attributes.creator.id === useAuthStore().user.id)!,
 	},
 });

@@ -7,7 +7,7 @@ const store = useMainStore();
 
 const route = useRouter();
 
-route.push({ name: "organization", params: { id: store.getOrganizations![0].id } });
+route.replace({ name: "organization", params: { id: store.getMyOrganization.id } });
 </script>
 
 <route lang="yaml">

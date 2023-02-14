@@ -88,8 +88,14 @@
 
 <script setup lang="ts">
 const props = defineProps({
-	title: String,
-	description: String,
+	title: {
+		required: true,
+		type: String,
+	},
+	description: {
+		required: false,
+		type: String,
+	},
 	price: {
 		type: Number,
 		required: true,

@@ -15,7 +15,7 @@ onMounted(() => {
 
 		const preferredOrganization = useSettingsStore().getPreferredOrganization;
 
-		route.push({
+		route.replace({
 			name: "organization-home",
 			params: {
 				organization_id:

@@ -1,6 +1,6 @@
 <template>
-	<div :class="`size-${size}`">
-		<label>
+	<div :class="`size-${size}`" flex items-baseline>
+		<div flex>
 			<button @click="decrementValue">-</button>
 
 			<input
@@ -12,9 +12,9 @@
 			/>
 
 			<button @click="incrementValue">+</button>
+		</div>
 
-			<b ml-3>{{ labelText?.toLocaleLowerCase() }}</b>
-		</label>
+		<b ml-3>{{ labelText?.toLocaleLowerCase() }}</b>
 	</div>
 </template>
 
@@ -74,10 +74,6 @@ const decrementValue = (event: any) => {
 </script>
 
 <style lang="scss" scoped>
-label {
-	display: flex;
-}
-
 button {
 	font-weight: bold;
 	border: 2px solid var(--bs-purple);
@@ -110,9 +106,10 @@ input {
 		-webkit-appearance: none;
 		margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 	}
-}
-input[type="number"] {
-	-moz-appearance: textfield; /* Firefox */
+
+	&[type="number"] {
+		-moz-appearance: textfield; /* Firefox */
+	}
 }
 
 .size-S {
@@ -131,9 +128,7 @@ input[type="number"] {
 }
 
 .size-M {
-	label {
-		font-size: 1.125rem;
-	}
+	font-size: 1.125rem;
 
 	input {
 		height: 2.5rem;
