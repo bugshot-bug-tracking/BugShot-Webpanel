@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { Product } from "~/models/payment/Plan";
+import { Price, Product } from "~/models/payment/Plan";
 import axios from "axios";
 import { useAuthStore } from "./auth";
 
@@ -10,9 +10,46 @@ export const usePaymentsStore = defineStore("payments", {
 
 	actions: {
 		async init() {
+			try {
 			let response = await axios.get("stripe/products");
 
 			this.products = response.data.data;
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+		},
+
+		async createCheckout({ price, quantity }: { price: Price; quantity: number }) {
+			let response = await axios.post("/stripe/checkout/create-session", {
+				line_items: [
+					{
+						price: price.id,
+						quantity: quantity,
+					},
+				],
+				mode: "subscription",
+
+				success_url: "http://localhost:8080/payment?status=success",
+				cancel_url: window.location.href,
+
+				subscription_data: {
+					trial_settings: { end_behavior: { missing_payment_method: "create_invoice" } },
+					trial_period_days: 14,
+				},
+
+				payment_method_collection: "if_required",
+
+				customer_email: useAuthStore().user.attributes.email,
+
+				// consent_collection: {
+				// 	terms_of_service: "required",
+				// },
+			});
+
+			console.log(response);
+
+			window.location.href = response.data.checkout_session.url;
 		},
 
 		async stripe() {},
@@ -87,9 +124,7 @@ export const usePaymentsStore = defineStore("payments", {
 
 		getActiveProducts: (state) =>
 			state.products.filter(
-				(p) =>
-					p.attributes.active === true &&
-					p.attributes.metadata.hidden !== "true"
+				(p) => p.attributes.active === true && p.attributes.metadata.hidden !== "true"
 			),
 	},
 });

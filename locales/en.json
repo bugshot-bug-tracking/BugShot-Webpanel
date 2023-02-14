@@ -327,5 +327,21 @@
 	"nothing": "Nothing",
 	"owned": "Owned",
 	"quantity": "Quantity",
-	"perks": "Perks"
+	"perks": "Perks",
+	"n_months_free": "{n} months free",
+	"extra_for_n_each": "extra for {n}€ each",
+	"s_billed_monthly": "{0}€ billed monthly",
+	"s_billed_yearly": "{0}€ billed yearly",
+	"checkout": "Checkout",
+	"what_is_included": "What is included",
+	"continue": "Continue",
+
+	"first_page": {
+		"welcome": "Welcome!",
+		"line_1": "Thank you for giving BugShot a chance.",
+		"line_2": "To use our product you will need to chose a plan suitable to your needs",
+		"line_3": "but don't worry, we have a 14 day trial period for all of our available plans."
+	},
+	"customer_portal": "Customer portal",
+	"enter": "Enter"
 }

@@ -5,7 +5,7 @@
 				<b>{{ $t("choose_the_plan") }}</b>
 			</p>
 
-			<p text-6 flex gap-1 items-baseline>
+			<p text-5 flex gap-1 items-baseline>
 				<b
 					class="month-opt"
 					:class="{ 'selected-opt': isMonthly }"
@@ -31,30 +31,25 @@
 		<div class="main bs-scroll">
 			<ul>
 				<li v-for="product in processedProducts" :key="product.id">
-					<Plan
-						:name="product.name"
+					<PlanCard
+						:title="product.name"
+						:description="product.value.attributes.description"
+						:features="product.features"
 						:type="isMonthly ? 'month' : 'year'"
 						:price="
 							isMonthly
-								? (product.prices.monthly_unit_amount ?? 0) / 100
-								: (product.prices.yearly_unit_amount ?? 0) / 100
+								? (product.prices.monthly.unit_amount ?? 0) / 100
+								: (product.prices.yearly.unit_amount ?? 0) / 100
 						"
-						:features="product.features"
-						:image="`/src/assets/images/stripe/${product.image ?? 'default'}.png`"
+						:extra_price="
+							isMonthly
+								? (product.prices.monthly.extra_unit_amount ?? 0) / 100
+								: (product.prices.yearly.extra_unit_amount ?? 0) / 100
+						"
+						@submit="onSubmit($event, product)"
+						:loading="cardLoading === product.id"
 					>
-						<template #button>
-							<button
-								class="bs-btn green"
-								@click="
-									store.check(
-										isMonthly ? product.prices.monthly : product.prices.yearly
-									)
-								"
-							>
-								{{ $t("choose_plan") }}
-							</button>
-						</template>
-					</Plan>
+					</PlanCard>
 				</li>
 			</ul>
 		</div>
@@ -93,34 +88,68 @@ const products = computed(() => store.getActiveProducts);
 const processedProducts = computed(() =>
 	products.value
 		.map((prod) => ({
+			value: prod,
 			id: prod.id,
 			name: prod.attributes.name,
 			prices: {
-				monthly: prod.attributes.prices.find(
-					(x) => x.attributes.recurring.interval === "month"
-				),
+				monthly: {
+					price: prod.attributes.prices.find(
+						(x) => x.attributes.recurring.interval === "month"
+					),
+					unit_amount: prod.attributes.prices
+						.find((x) => x.attributes.recurring.interval === "month")
+						?.attributes.tiers?.find((t) => t.up_to === 1)?.unit_amount,
 
-				yearly: prod.attributes.prices.find(
-					(x) => x.attributes.recurring.interval === "year"
-				),
+					extra: prod.attributes.prices
+						.find((x) => x.attributes.recurring.interval === "month")
+						?.attributes.tiers?.find((t) => t.up_to == null),
 
-				monthly_unit_amount: prod.attributes.prices
-					.find((x) => x.attributes.recurring.interval === "month")
-					?.attributes.tiers?.find((t) => t.up_to === 1)?.unit_amount,
+					extra_unit_amount: prod.attributes.prices
+						.find((x) => x.attributes.recurring.interval === "month")
+						?.attributes.tiers?.find((t) => t.up_to == null)?.unit_amount,
+				},
 
-				yearly_unit_amount: prod.attributes.prices
-					.find((x) => x.attributes.recurring.interval === "year")
-					?.attributes.tiers?.find((t) => t.up_to === 1)?.unit_amount,
+				yearly: {
+					price: prod.attributes.prices.find(
+						(x) => x.attributes.recurring.interval === "year"
+					),
+
+					unit_amount: prod.attributes.prices
+						.find((x) => x.attributes.recurring.interval === "year")
+						?.attributes.tiers?.find((t) => t.up_to === 1)?.unit_amount,
+
+					extra: prod.attributes.prices
+						.find((x) => x.attributes.recurring.interval === "year")
+						?.attributes.tiers?.find((t) => t.up_to == null),
+
+					extra_unit_amount: prod.attributes.prices
+						.find((x) => x.attributes.recurring.interval === "year")
+						?.attributes.tiers?.find((t) => t.up_to == null)?.unit_amount,
+				},
 			},
+
 			features: prod.attributes.metadata.feature_list?.split(";"),
+
 			image: prod.attributes.metadata.image,
 		}))
-		.sort(
-			(a, b) =>
-				(a.prices.monthly?.attributes.unit_amount ?? 0) -
-				(b.prices.monthly?.attributes.unit_amount ?? 0)
-		)
+		.sort((a, b) => (a.prices.monthly?.unit_amount ?? 0) - (b.prices.monthly?.unit_amount ?? 0))
 );
+
+const onSubmit = (value: number, product: typeof processedProducts.value[0]) => {
+	cardLoading.value = product.id;
+
+	// just a safety measure
+	if (value < 1) value = 1;
+
+	let mainPrice = isMonthly.value ? product.prices.monthly.price : product.prices.yearly.price;
+
+	store.createCheckout({
+		price: mainPrice!,
+		quantity: value,
+	});
+};
+
+const cardLoading = ref("");
 </script>
 
 <style lang="scss" scoped>
@@ -169,7 +198,6 @@ header {
 	}
 }
 .month-opt {
-	color: #9ba5d7;
 	cursor: pointer;
 }
 
@@ -177,7 +205,6 @@ header {
 	display: flex;
 	align-items: center;
 	gap: 0.75rem;
-	color: #9ba5d7;
 	cursor: pointer;
 
 	span {
@@ -204,7 +231,11 @@ header {
 }
 
 .selected-opt {
-	color: #1a2040;
+	color: var(--bs-purple);
+}
+
+:deep(.n-card) {
+	border-radius: 0.5rem;
 }
 </style>
 
