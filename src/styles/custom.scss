@@ -1,3 +1,18 @@
+:root {
+	--bs-green: #18d992;
+	--bs-purple: #7a2ee6;
+	--bs-blue: #1849cf;
+	--bs-gray: #9ba5d7;
+	--bs-red: #f23838;
+	--bs-yellow: #ffb057;
+
+	--bs-light-green: #c4f8e5;
+	--bs-light-purple: #bb97f2;
+	--bs-light-blue: #18bed8;
+
+	--bs-dark: #1a2040;
+}
+
 .black-to-green {
 	color: #18d992;
 	filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%) hue-rotate(104deg)
