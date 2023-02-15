@@ -3,9 +3,13 @@ import Echo from "laravel-echo";
 import axios from "axios";
 import { Channel, ChannelAuthorizationCallback } from "pusher-js";
 
-export const pusher = new Pusher(import.meta.env.VITE_PUSHER_KEY, {
-	cluster: import.meta.env.VITE_PUSHER_CLUSTER,
-});
+declare global {
+	interface Window {
+		Pusher: any;
+	}
+}
+
+window.Pusher = Pusher;
 
 export const echo = new Echo({
 	broadcaster: "pusher",
