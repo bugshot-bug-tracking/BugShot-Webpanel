@@ -6,7 +6,7 @@ import { CompanyUserRole } from "~/models/CompanyUserRole";
 import { Invitation } from "~/models/Invitation";
 import { Project } from "~/models/Project";
 import { useOrganizationStore } from "./organization";
-import { pusher } from "~/composables/listeners";
+import { echo } from "~/composables/listeners";
 import { useProjectStore } from "./project";
 
 export const useCompanyStore = defineStore("company", {
@@ -277,12 +277,7 @@ export const useCompanyStore = defineStore("company", {
 
 			const api_channel = `company.${this.company.id}`;
 
-			const channel = pusher.channel(api_channel);
-
-			if (channel != undefined) {
-				channel.unsubscribe();
-				channel.unbind_all();
-			}
+			echo.leave(api_channel);
 		},
 
 		async hook() {
@@ -290,9 +285,9 @@ export const useCompanyStore = defineStore("company", {
 
 			const api_channel = `company.${this.company.id}`;
 
-			let channel = pusher.subscribe(api_channel);
+			let channel = echo.private(api_channel);
 
-			channel.bind("project.updated", (data: any) => {
+			channel.listen(".project.updated", (data: any) => {
 				if (!(data && data.data.type === "Project")) return console.log(data);
 
 				let project = data.data as Project;
@@ -307,7 +302,7 @@ export const useCompanyStore = defineStore("company", {
 					useProjectStore().handleRemoteUpdate();
 			});
 
-			channel.bind("project.deleted", (data: any) => {
+			channel.listen(".project.deleted", (data: any) => {
 				if (!(data && data.data.type === "Project")) return console.log(data);
 
 				let project = data.data as Project;

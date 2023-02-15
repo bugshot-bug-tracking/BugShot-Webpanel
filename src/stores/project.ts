@@ -5,7 +5,7 @@ import { Project } from "~/models/Project";
 import { Invitation } from "~/models/Invitation";
 import { ProjectUserRole } from "~/models/ProjectUserRole";
 import { useCompanyStore } from "./company";
-import { pusher } from "~/composables/listeners";
+import { echo } from "~/composables/listeners";
 
 export const useProjectStore = defineStore("project", {
 	state: () => ({
@@ -178,12 +178,7 @@ export const useProjectStore = defineStore("project", {
 
 			const api_channel = `project.${this.project.id}`;
 
-			const channel = pusher.channel(api_channel);
-
-			if (channel != undefined) {
-				channel.unsubscribe();
-				channel.unbind_all();
-			}
+			echo.leave(api_channel);
 		},
 
 		async hook() {
@@ -191,9 +186,9 @@ export const useProjectStore = defineStore("project", {
 
 			const api_channel = `project.${this.project.id}`;
 
-			let channel = pusher.subscribe(api_channel);
+			let channel = echo.private(api_channel);
 
-			channel.bind("members.updated", async (data: any) => {
+			channel.listen(".members.updated", async (data: any) => {
 				await this.fetchUsers();
 			});
 		},
