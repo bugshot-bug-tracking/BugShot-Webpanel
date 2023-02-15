@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 import { useAuthStore } from "./auth";
 import axios from "axios";
-import { pusher } from "~/composables/pusher";
+import { echo } from "~/composables/listeners";
 import { Invitation } from "~/models/Invitation";
 
 export const useNotificationStore = defineStore("notification", {
@@ -65,12 +65,7 @@ export const useNotificationStore = defineStore("notification", {
 
 			const api_channel = `user.${this.user.id}`;
 
-			const channel = pusher.channel(api_channel);
-
-			if (channel != undefined) {
-				channel.unsubscribe();
-				channel.unbind_all();
-			}
+			echo.leave(api_channel);
 		},
 
 		async hook() {
@@ -78,9 +73,9 @@ export const useNotificationStore = defineStore("notification", {
 
 			const api_channel = `user.${this.user.id}`;
 
-			let channel = pusher.subscribe(api_channel);
+			let channel = echo.private(api_channel);
 
-			channel.bind("invitation.created", (data: any) => {
+			channel.listen(".invitation.created", (data: any) => {
 				if (!(data && data.data.type === "Invitation")) return console.log(data);
 
 				this.fetchInvitations();

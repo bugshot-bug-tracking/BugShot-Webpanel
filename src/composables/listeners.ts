@@ -1,6 +1,7 @@
 import Pusher from "pusher-js";
 import Echo from "laravel-echo";
 import axios from "axios";
+import { Channel, ChannelAuthorizationCallback } from "pusher-js";
 
 export const pusher = new Pusher(import.meta.env.VITE_PUSHER_KEY, {
 	cluster: import.meta.env.VITE_PUSHER_CLUSTER,
@@ -13,8 +14,10 @@ export const echo = new Echo({
 	forceTLS: true,
 	authEndpoint: `${import.meta.env.VITE_API_ENDPOINT}/broadcasting/auth`,
 
-	authorizer: (channel, options) => ({
-		authorize: (socketId, callback) => {
+	authorizer: (channel: Channel) => ({
+		authorize: (socketId: string, callback: ChannelAuthorizationCallback) => {
+			axios.defaults.headers.common["X-Socket-ID"] = socketId;
+
 			axios
 				.post("/broadcasting/auth", {
 					socket_id: socketId,
@@ -24,7 +27,7 @@ export const echo = new Echo({
 					callback(null, response.data);
 				})
 				.catch((error) => {
-					callback(error);
+					callback(error, null);
 				});
 		},
 	}),

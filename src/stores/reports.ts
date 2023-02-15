@@ -8,7 +8,7 @@ import { Screenshot } from "~/models/Screenshot";
 import { Attachment } from "~/models/Attachment";
 import { useProjectStore } from "./project";
 import { BugUserRole } from "~/models/BugUserRole";
-import { echo, pusher } from "~/composables/pusher";
+import { echo } from "~/composables/listeners";
 import { Comment } from "~/models/Comment";
 
 export const useReportsStore = defineStore("reports", {
@@ -339,42 +339,28 @@ export const useReportsStore = defineStore("reports", {
 		async unhookBug(id: string | undefined) {
 			if (id == undefined) return;
 
-			const channel = `bug.${id}`;
+			const api_channel = `bug.${id}`;
 
-			const pusher_channel = pusher.channel(channel);
-
-			if (pusher_channel != undefined) {
-				pusher_channel.unsubscribe();
-				pusher_channel.unbind_all();
-			}
+			echo.leave(api_channel);
 		},
 
 		// register listeners for the active bug resources
 		async hookBug(id: string) {
-			const bug_channel = `bug.${id}`;
+			const api_channel = `bug.${id}`;
 
-			let ec = echo.private(bug_channel);
+			let channel = echo.private(api_channel);
 
-			ec.listen(".comment.created", (data: any) => {
-				console.log("comment created echo!", data);
-
-				if (!(data && data.data.type === "Comment")) return console.log(data);
-				this.comments?.push(data.data);
-			});
-
-			let channel = pusher.subscribe(bug_channel);
-
-			channel.bind("members.updated", async () => {
+			channel.listen(".members.updated", async () => {
 				await this.fetchBugUsers();
 			});
 
-			channel.bind("screenshot.created", (data: any) => {
+			channel.listen(".screenshot.created", (data: any) => {
 				if (!(data && data.data.type === "Screenshot")) return console.log(data);
 
 				this.screenshots?.push(data.data);
 			});
 
-			channel.bind("screenshot.deleted", (data: any) => {
+			channel.listen(".screenshot.deleted", (data: any) => {
 				if (!(data && data.data.type === "Screenshot")) return console.log(data);
 
 				let index = this.screenshots?.findIndex((x) => x.id === data.data.id);
@@ -384,12 +370,12 @@ export const useReportsStore = defineStore("reports", {
 				this.screenshots?.splice(index, 1);
 			});
 
-			channel.bind("attachment.created", (data: any) => {
+			channel.listen(".attachment.created", (data: any) => {
 				if (!(data && data.data.type === "Attachment")) return console.log(data);
 				this.attachments?.push(data.data);
 			});
 
-			channel.bind("attachment.deleted", (data: any) => {
+			channel.listen(".attachment.deleted", (data: any) => {
 				if (!(data && data.data.type === "Attachment")) return console.log(data);
 
 				let index = this.attachments?.findIndex((x) => x.id === data.data.id);
@@ -399,7 +385,7 @@ export const useReportsStore = defineStore("reports", {
 				this.attachments?.splice(index, 1);
 			});
 
-			channel.bind("comment.created", (data: any) => {
+			channel.listen(".comment.created", (data: any) => {
 				if (!(data && data.data.type === "Comment")) return console.log(data);
 				this.comments?.push(data.data);
 			});
@@ -412,25 +398,15 @@ export const useReportsStore = defineStore("reports", {
 		async hook() {
 			const api_channel = `project.${this.project!.id}`;
 
-			let channel = undefined;
+			const channel = echo.private(api_channel);
 
-			if (
-				pusher.channel(api_channel) == undefined ||
-				pusher.channel(api_channel).subscribed === false
-			)
-				channel = pusher.subscribe(api_channel);
-			else channel = pusher.channel(api_channel);
-
-			if (!channel) return;
-			if (channel.callbacks.get("status.created")) return;
-
-			channel.bind("status.created", (data: any) => {
+			channel.listen(".status.created", (data: any) => {
 				if (!(data && data.data.type === "Status")) return console.log(data);
 
 				this.statuses?.push(data.data as Status);
 			});
 
-			channel.bind("status.deleted", (data: any) => {
+			channel.listen(".status.deleted", (data: any) => {
 				if (!(data && data.data.type === "Status")) return console.log(data);
 
 				let index = this.statuses?.findIndex((x) => x.id === data.data.id);
@@ -440,7 +416,7 @@ export const useReportsStore = defineStore("reports", {
 				this.statuses?.splice(index, 1);
 			});
 
-			channel.bind("status.updated", (data: any) => {
+			channel.listen(".status.updated", (data: any) => {
 				if (!(data && data.data.type === "Status")) return console.log(data);
 
 				let oldStatus = this.statuses?.find((x) => x.id === (data.data as Status).id);
@@ -476,7 +452,7 @@ export const useReportsStore = defineStore("reports", {
 				Object.assign(oldStatus.attributes, newStatus.attributes);
 			});
 
-			channel.bind("bug.updated", async (data: any) => {
+			channel.listen(".bug.updated", async (data: any) => {
 				if (!(data && data.data.type === "Bug")) return console.log(data);
 
 				let newBug = data.data as Bug;
@@ -551,7 +527,7 @@ export const useReportsStore = defineStore("reports", {
 				}
 			});
 
-			channel.bind("bug.deleted", async (data: any) => {
+			channel.listen(".bug.deleted", async (data: any) => {
 				if (!(data && data.data.type === "Bug")) return console.log(data);
 
 				let status = this.getStatusById((data.data as Bug).attributes.status_id);
@@ -569,7 +545,7 @@ export const useReportsStore = defineStore("reports", {
 					this.bug!.attributes.deleted_at = new Date().toString();
 			});
 
-			channel.bind("bug.created", async (data: any) => {
+			channel.listen(".bug.created", async (data: any) => {
 				if (!(data && data.data.type === "Bug")) return console.log(data);
 
 				let newBug = data.data as Bug;
