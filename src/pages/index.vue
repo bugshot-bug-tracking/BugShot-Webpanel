@@ -7,8 +7,10 @@ import { useSettingsStore } from "~/stores/settings";
 const route = useRouter();
 const store = useMainStore();
 
-onMounted(() => {
-	if (store.organizations === undefined || store.organizations.length < 1) {
+const organizations = computed(() => store.organizations);
+
+const redirect = () => {
+	if (organizations.value === undefined || organizations.value.length < 1) {
 		// redirect to new page
 	} else {
 		// redirect to first org page or the favorite org page
@@ -21,11 +23,15 @@ onMounted(() => {
 				organization_id:
 					preferredOrganization !== ""
 						? preferredOrganization
-						: store.organizations[0].id,
+						: store.getMyOrganization.id,
 			},
 		});
 	}
-});
+};
+
+onMounted(redirect);
+
+watch(organizations, redirect);
 </script>
 
 <route lang="yaml">

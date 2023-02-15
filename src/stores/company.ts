@@ -8,6 +8,7 @@ import { Project } from "~/models/Project";
 import { useOrganizationStore } from "./organization";
 import { echo } from "~/composables/listeners";
 import { useProjectStore } from "./project";
+import { useAuthStore } from "./auth";
 
 export const useCompanyStore = defineStore("company", {
 	state: () => ({
@@ -252,6 +253,14 @@ export const useCompanyStore = defineStore("company", {
 
 			Object.assign(item.attributes, project.attributes);
 
+			let up_item = useOrganizationStore()
+				.companies?.find((c) => c.id === project.attributes.company.id)
+				?.attributes.projects?.find((p) => p.id === project.id);
+
+			if (!up_item) return false;
+
+			Object.assign(up_item.attributes, project.attributes);
+
 			return true;
 		},
 
@@ -300,6 +309,14 @@ export const useCompanyStore = defineStore("company", {
 
 				if (useProjectStore().project_id === project.id)
 					useProjectStore().handleRemoteUpdate();
+
+				let up_oldProject = useOrganizationStore()
+					?.companies?.find((c) => c.id === project.attributes.company.id)
+					?.attributes.projects?.find((p) => p.id === project.id);
+
+				if (up_oldProject == undefined) return;
+
+				Object.assign(up_oldProject.attributes, project.attributes);
 			});
 
 			channel.listen(".project.deleted", (data: any) => {
@@ -318,7 +335,40 @@ export const useCompanyStore = defineStore("company", {
 
 				if (useProjectStore().project_id === project.id)
 					useProjectStore().handleRemoteDelete();
+
+				let up_index = useOrganizationStore()
+					?.companies?.find((c) => c.id === project.attributes.company.id)
+					?.attributes.projects?.findIndex((p) => p.id === project.id);
+
+				if (up_index === undefined || up_index === -1)
+					return console.log(
+						`project.deleted: Project not found in organization company projects list!`
+					);
+
+				useOrganizationStore()
+					?.companies?.find((c) => c.id === project.attributes.company.id)
+					?.attributes.projects?.splice(up_index, 1);
 			});
+
+			const user = useAuthStore().user;
+			if (
+				user.id === this.company?.attributes.creator?.id ||
+				this.company?.attributes.role?.id === 1
+			) {
+				const admin_channel = echo.private(api_channel + ".admin");
+
+				admin_channel.listen(".project.created", (data: any) => {
+					if (!(data && data.data.type === "Project")) return console.log(data);
+
+					let project = data.data as Project;
+
+					this.projects?.push(project);
+
+					useOrganizationStore()
+						?.companies?.find((c) => c.id === project.attributes.company.id)
+						?.attributes.projects?.push(project);
+				});
+			}
 		},
 
 		//TODO maybe update with better logic.
