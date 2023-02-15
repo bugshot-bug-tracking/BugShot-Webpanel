@@ -9,6 +9,7 @@ import { Company } from "~/models/Company";
 import { useSettingsStore } from "./settings";
 import { echo } from "~/composables/listeners";
 import { useCompanyStore } from "./company";
+import { useAuthStore } from "./auth";
 
 export const useOrganizationStore = defineStore("organization", {
 	state: () => ({
@@ -58,6 +59,10 @@ export const useOrganizationStore = defineStore("organization", {
 		async refresh() {
 			try {
 				await this.load();
+
+				await this.fetchUsers();
+
+				await this.fetchCompanies();
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -318,6 +323,22 @@ export const useOrganizationStore = defineStore("organization", {
 				if (useCompanyStore().company_id === company.id)
 					useCompanyStore().handleRemoteDelete();
 			});
+
+			const user = useAuthStore().user;
+			if (
+				user.id === this.organization?.attributes.creator?.id ||
+				this.organization?.attributes.role?.id === 1
+			) {
+				const admin_channel = echo.private(api_channel + ".admin");
+
+				admin_channel.listen(".company.created", (data: any) => {
+					if (!(data && data.data.type === "Company")) return console.log(data);
+
+					let company = data.data as Company;
+
+					this.companies?.push(company);
+				});
+			}
 		},
 	},
 
