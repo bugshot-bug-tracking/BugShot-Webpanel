@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 
 import { useAuthStore } from "./auth";
 import axios from "axios";
-import { pusher } from "~/composables/pusher";
+import { pusher } from "~/composables/listeners";
 import { Invitation } from "~/models/Invitation";
 
 export const useNotificationStore = defineStore("notification", {

@@ -7,7 +7,7 @@ import { Invitation } from "~/models/Invitation";
 import { OrganizationUserRole } from "~/models/OrganizationUserRole";
 import { Company } from "~/models/Company";
 import { useSettingsStore } from "./settings";
-import { pusher } from "~/composables/pusher";
+import { pusher } from "~/composables/listeners";
 import { useCompanyStore } from "./company";
 
 export const useOrganizationStore = defineStore("organization", {

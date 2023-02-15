@@ -5,7 +5,7 @@ import { Project } from "~/models/Project";
 import { Invitation } from "~/models/Invitation";
 import { ProjectUserRole } from "~/models/ProjectUserRole";
 import { useCompanyStore } from "./company";
-import { pusher } from "~/composables/pusher";
+import { pusher } from "~/composables/listeners";
 
 export const useProjectStore = defineStore("project", {
 	state: () => ({

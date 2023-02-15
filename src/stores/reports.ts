@@ -8,7 +8,7 @@ import { Screenshot } from "~/models/Screenshot";
 import { Attachment } from "~/models/Attachment";
 import { useProjectStore } from "./project";
 import { BugUserRole } from "~/models/BugUserRole";
-import { echo, pusher } from "~/composables/pusher";
+import { echo, pusher } from "~/composables/listeners";
 import { Comment } from "~/models/Comment";
 
 export const useReportsStore = defineStore("reports", {
