@@ -8,7 +8,7 @@ import { Screenshot } from "~/models/Screenshot";
 import { Attachment } from "~/models/Attachment";
 import { useProjectStore } from "./project";
 import { BugUserRole } from "~/models/BugUserRole";
-import { pusher } from "~/composables/pusher";
+import { echo, pusher } from "~/composables/pusher";
 import { Comment } from "~/models/Comment";
 
 export const useReportsStore = defineStore("reports", {
@@ -353,6 +353,15 @@ export const useReportsStore = defineStore("reports", {
 		async hookBug(id: string) {
 			const bug_channel = `bug.${id}`;
 
+			let ec = echo.private(bug_channel);
+
+			ec.listen(".comment.created", (data: any) => {
+				console.log("comment created echo!", data);
+
+				if (!(data && data.data.type === "Comment")) return console.log(data);
+				this.comments?.push(data.data);
+			});
+
 			let channel = pusher.subscribe(bug_channel);
 
 			channel.bind("members.updated", async () => {
@@ -422,7 +431,9 @@ export const useReportsStore = defineStore("reports", {
 			});
 
 			channel.bind("status.deleted", (data: any) => {
-				let index = this.statuses?.findIndex((x) => x.id === data);
+				if (!(data && data.data.type === "Status")) return console.log(data);
+
+				let index = this.statuses?.findIndex((x) => x.id === data.data.id);
 
 				if (index == undefined || index === -1) return;
 

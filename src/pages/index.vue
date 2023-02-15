@@ -5,19 +5,26 @@ import { useMainStore } from "~/stores/main";
 import { useSettingsStore } from "~/stores/settings";
 
 const route = useRouter();
+const store = useMainStore();
 
 onMounted(() => {
-	const preferredOrganization = useSettingsStore().getPreferredOrganization;
+	if (store.organizations === undefined || store.organizations.length < 1) {
+		// redirect to new page
+	} else {
+		// redirect to first org page or the favorite org page
 
-	route.push({
-		name: "organization-home",
-		params: {
-			organization_id:
-				preferredOrganization !== ""
-					? preferredOrganization
-					: useMainStore().getOrganizations![0].id,
-		},
-	});
+		const preferredOrganization = useSettingsStore().getPreferredOrganization;
+
+		route.replace({
+			name: "organization-home",
+			params: {
+				organization_id:
+					preferredOrganization !== ""
+						? preferredOrganization
+						: store.organizations[0].id,
+			},
+		});
+	}
 });
 </script>
 

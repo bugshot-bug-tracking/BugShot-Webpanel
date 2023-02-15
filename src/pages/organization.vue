@@ -1,5 +1,9 @@
 <template>
-	<main class="main-grid" v-if="(organizations?.length ?? -1) > 0">
+	<main class="main-loading" v-if="organizations == undefined">
+		<img src="/src/assets/animations/loading.svg" alt="loading circle" />
+	</main>
+
+	<main class="main-grid" v-else-if="organizations.length > 0">
 		<section class="grid-sidebar">
 			<OrganizationNavbar />
 		</section>

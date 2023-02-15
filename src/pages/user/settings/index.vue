@@ -25,13 +25,6 @@
 			</div>
 		</div>
 
-		<div class="component-group bs-bl bs-br" px4 style="height: 100%">
-			<div class="group-header">{{ $t("project", 2) }}</div>
-			<div class="group-content" style="height: 96%">
-				<UserProjects />
-			</div>
-		</div>
-
 		<div class="component-group" w-24rem v-if="false">
 			<div class="group-header">
 				{{ $t("advanced_settings") }}
@@ -62,6 +55,7 @@ article {
 	flex-direction: column;
 	max-height: 100vh;
 	column-gap: 1rem;
+	align-content: flex-start;
 }
 </style>
 

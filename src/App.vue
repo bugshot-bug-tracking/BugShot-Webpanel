@@ -71,10 +71,13 @@ watch(user, async (newUser, oldUser) => {
 	font-weight: normal;
 }
 
-#app {
+html {
 	font-family: "Open Sans", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+#app {
 	text-align: center;
 	display: flex;
 }
