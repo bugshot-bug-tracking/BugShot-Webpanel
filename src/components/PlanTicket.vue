@@ -1,3 +1,7 @@
+<!-- Note: 
+	- if not in use delete
+ -->
+
 <template>
 	<Container class="wrapper">
 		<div class="pre-ticket" v-if="owned">

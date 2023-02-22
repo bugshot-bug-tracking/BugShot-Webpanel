@@ -103,7 +103,7 @@ const onChangeOrder = (value: number) => {
 	useSettingsStore().setOrganizationsOrder(value);
 };
 
-const organizations = computed(() => useMainStore().getOrganizations);
+const organizations = computed(() => useMainStore().getMyOrganizations);
 
 const user = computed(() => useAuthStore().getUser);
 

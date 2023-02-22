@@ -64,7 +64,11 @@
 			</a>
 		</div>
 
-		<Column class="column p-0 w-auto" v-if="newStatus.form">
+		<Column
+			class="column p-0 w-auto"
+			style="box-shadow: -20px 0px 30px -27px"
+			v-if="newStatus.form"
+		>
 			<div class="bs-input">
 				<label>
 					{{ $t("enter_column_name") }}
