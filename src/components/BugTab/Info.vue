@@ -45,7 +45,7 @@
 				<div class="content">{{ bug.attributes.ai_id }}</div>
 			</div>
 
-			<div class="creator">
+			<div class="grid1x2" style="grid-template-columns: 1fr 3fr; font-size: 0.875rem">
 				<label>{{ $t("creator") + ":" }}</label>
 
 				<div class="content" v-if="bug.attributes.creator">
@@ -54,17 +54,19 @@
 							`${bug.attributes.creator.attributes.first_name} ${bug.attributes.creator.attributes.last_name}`
 						}}
 					</div>
-
-					<div class="date">
-						{{ $d(new Date(dateFix(bug.attributes.created_at)), "short") }}
-					</div>
 				</div>
 
 				<div class="content" v-else>
 					<div class="name">
 						{{ `${bug.attributes.selector ?? t("anonymous")}` }}
 					</div>
+				</div>
+			</div>
 
+			<div class="grid1x2" style="grid-template-columns: 1fr 3fr; font-size: 0.875rem">
+				<label>{{ $t("created_at") + ":" }}</label>
+
+				<div class="content">
 					<div class="date">
 						{{ $d(new Date(dateFix(bug.attributes.created_at)), "short") }}
 					</div>
@@ -395,7 +397,7 @@ const assignees = computed(() => store.getAssignees);
 		font-weight: bold;
 		color: hsl(230, 40%, 20%);
 		font-size: 14px;
-		text-transform: capitalize;
+
 		margin-right: 5px;
 		align-self: start;
 	}

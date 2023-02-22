@@ -5,6 +5,5 @@ import { Company } from "./Company";
 export interface OrganizationUserRole {
 	user: User;
 	role: Role;
-	subscription: any;
 	companies?: { company: Company; role: Role }[];
 }

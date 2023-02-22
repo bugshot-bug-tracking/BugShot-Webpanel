@@ -343,5 +343,6 @@
 		"line_3": "but don't worry, we have a 14 day trial period for all of our available plans."
 	},
 	"customer_portal": "Customer portal",
-	"enter": "Enter"
+	"enter": "Enter",
+	"created_at": "Created at"
 }

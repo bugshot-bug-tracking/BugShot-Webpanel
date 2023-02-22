@@ -6,9 +6,9 @@
 	--bs-red: #f23838;
 	--bs-yellow: #ffb057;
 
-	--bs-light-green: #c4f8e5;
-	--bs-light-purple: #bb97f2;
-	--bs-light-blue: #18bed8;
+	--bs-green-light: #c4f8e5;
+	--bs-purple-light: #eee5fc;
+	--bs-blue-light: #18bed8;
 
 	--bs-dark: #1a2040;
 }
@@ -237,6 +237,9 @@
 	box-shadow: 0 0.125rem 0.25rem hsla(0, 0%, 0%, 0.16);
 }
 
+.bs-b {
+	border: 1px solid #eee5fc;
+}
 .bs-bt {
 	border-top: 1px solid #eee5fc;
 }
@@ -504,4 +507,18 @@
 			color: currentColor;
 		}
 	}
+}
+
+.disabled {
+	opacity: 0.5 !important;
+
+	&:hover {
+		opacity: 0.5 !important;
+		filter: none !important;
+	}
+}
+
+.default-form {
+	width: 100%;
+	padding: 0 1rem;
 }

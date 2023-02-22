@@ -42,7 +42,13 @@ export const useMainStore = defineStore("main", {
 		},
 
 		async initOrganizations() {
-			let response = (await axios.get(`organizations`)).data.data;
+			let response = (
+				await axios.get(`organizations`, {
+					headers: {
+						"include-organization-role": true,
+					},
+				})
+			).data.data;
 
 			this.organizations = response;
 
@@ -105,5 +111,8 @@ export const useMainStore = defineStore("main", {
 
 		getMyOrganization: (state) =>
 			state.organizations?.find((o) => o.attributes.creator.id === useAuthStore().user.id)!,
+
+		getMyOrganizations: (state) =>
+			state.organizations?.filter((o) => o.attributes.creator.id === useAuthStore().user.id),
 	},
 });

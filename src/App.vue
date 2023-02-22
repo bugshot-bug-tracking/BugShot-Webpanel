@@ -50,51 +50,17 @@ watch(user, async (newUser, oldUser) => {
 });
 </script>
 
+<style lang="scss">
+@import "./styles/global.scss";
+@import "./styles/custom.scss";
+@import "./styles/external.scss";
+</style>
+
 <style scoped>
 .main-loading {
 	height: 100vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-}
-</style>
-
-<style lang="scss">
-@import "./styles/global.scss";
-@import "./styles/custom.scss";
-@import "./styles/external.scss";
-
-@font-face {
-	font-family: "Open Sans";
-	src: url("~/assets/fonts/OpenSans/static/OpenSans/OpenSans-Regular.ttf");
-	font-style: normal;
-	font-weight: normal;
-}
-
-html {
-	font-family: "Open Sans", sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-#app {
-	text-align: center;
-	display: flex;
-}
-</style>
-
-<style lang="scss">
-.disabled {
-	opacity: 0.5 !important;
-
-	&:hover {
-		opacity: 0.5 !important;
-		filter: none !important;
-	}
-}
-
-.default-form {
-	width: 100%;
-	padding: 0 1rem;
 }
 </style>

@@ -7,7 +7,7 @@ export interface Organization {
 	attributes: {
 		designation: string;
 		creator: User;
-		role?: Role; // To be added in the API
+		role?: Role;
 		created_at: string;
 		updated_at: string;
 	};

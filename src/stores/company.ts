@@ -238,7 +238,13 @@ export const useCompanyStore = defineStore("company", {
 		addProject(project: Project) {
 			if (!this.projects) this.projects = [] as Project[];
 
-			return this.projects.push(project);
+			this.projects.push(project);
+
+			useOrganizationStore()
+				.companies?.find((c) => c.id === project.attributes.company.id)
+				?.attributes.projects?.push(project);
+
+			return true;
 		},
 
 		/**
@@ -272,11 +278,21 @@ export const useCompanyStore = defineStore("company", {
 
 			let index = this.projects?.findIndex((x) => x.id === id);
 
-			if (index === -1) return true;
+			if (index == undefined || index === -1) return true;
 
 			this.projects.splice(index, 1);
 
 			if (this.projects.length === 0) this.projects = undefined;
+
+			let up_index = useOrganizationStore()
+				.companies?.find((c) => c.id === this.company?.id)
+				?.attributes.projects?.findIndex((x) => x.id === id);
+
+			if (up_index == undefined || up_index === -1) return true;
+
+			useOrganizationStore()
+				.companies?.find((c) => c.id === this.company?.id)
+				?.attributes.projects?.splice(up_index, 1);
 
 			return true;
 		},
