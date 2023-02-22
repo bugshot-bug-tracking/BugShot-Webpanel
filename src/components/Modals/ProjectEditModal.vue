@@ -16,14 +16,16 @@
 		</slot>
 	</div>
 
-	<MyModal v-model="modal.show" :close="modal.close" z-100>
+	<MyModal :modelValue="modal.show" :close="modal.close" z-100>
 		<ModalTemplate @close="modal.close">
 			<template #header-text>{{ $t("edit.project") }}</template>
 
 			<form class="default-form" @submit.prevent="onSubmit">
-				<div class="label">{{ $t("project_name") }}</div>
-
 				<div class="bs-input my-3">
+					<label>
+						<b>{{ $t("project_name") }}</b>
+					</label>
+
 					<input
 						v-model="projectParams.name"
 						:placeholder="$t('enter_project_name')"
@@ -32,9 +34,9 @@
 					/>
 				</div>
 
-				<div class="label">URL</div>
-
 				<div class="bs-input my-3">
+					<label> <b>URL</b> </label>
+
 					<input
 						v-model="projectParams.url"
 						:placeholder="$t('enter_project_url')"
@@ -61,7 +63,10 @@
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
-		@close="loadingModal.clear"
+		@close="
+			loadingModal.clear();
+			modal.close();
+		"
 	/>
 </template>
 
@@ -140,13 +145,12 @@ const projectParams = reactive({
 
 	setImage: async (value: File | null) => {
 		// console.log("setImage", value);
-		if (value != null)
-			projectParams.image = (await toBase64(value)) as string;
+		if (value != null) projectParams.image = (await toBase64(value)) as string;
 		else projectParams.image = "";
 	},
 
 	setColor: (value: number) => {
-		// console.log("setImage", value);
+		// console.log("setColor", value);
 		projectParams.color = value;
 	},
 });
@@ -173,10 +177,7 @@ const onSubmit = async () => {
 		console.log(error);
 
 		loadingModal.state = 2;
-		loadingModal.message = error.response.data.data?.message.replace(
-			":",
-			""
-		);
+		loadingModal.message = error.response.data.data?.message.replace(":", "");
 	}
 };
 

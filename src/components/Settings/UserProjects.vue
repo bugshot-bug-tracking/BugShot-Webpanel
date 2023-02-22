@@ -5,8 +5,8 @@
 				<p font-bold>{{ t("company", 2) }}</p>
 
 				<p class="black-to-gray" style="font-size: 0.875rem">
-					<b>{{ t("assigned_to") }}</b> {{ projectsCount }} projects
-					for {{ companies.size }} clients
+					<b>{{ t("assigned_to") }}</b> {{ projectsCount }} projects for
+					{{ companies.size }} clients
 				</p>
 			</span>
 		</div>
@@ -34,15 +34,13 @@
 						<div
 							class="role"
 							:class="{
-								owner:
-									company.attributes.creator?.id === user.id,
+								owner: company.attributes.creator?.id === user.id,
 							}"
 						>
 							{{
 								company.attributes.creator?.id === user.id
 									? "Owner"
-									: company.attributes.role?.attributes
-											.designation
+									: company.attributes.role?.attributes.designation
 							}}
 						</div>
 					</div>
@@ -51,8 +49,9 @@
 						class="remove"
 						@click="deleteCompany(company)"
 						v-if="
-							!(company.attributes.creator?.id === user.id) &&
-							companyProjects(company.id).length === 0
+							force ??
+							(!(company.attributes.creator?.id === user.id) &&
+								companyProjects(company.id).length === 0)
 						"
 					>
 						<img
@@ -73,10 +72,7 @@
 					</span>
 
 					<div my4 gap-2 flex flex-wrap max-w-40vw>
-						<div
-							class="item"
-							v-for="project of companyProjects(company.id)"
-						>
+						<div class="item" v-for="project of companyProjects(company.id)">
 							<RouterLink
 								:to="{
 									name: 'project',
@@ -94,9 +90,7 @@
 								alt="x"
 								class="black-to-white"
 								@click="deleteProject(project)"
-								v-if="
-									project.attributes.creator?.id !== user.id
-								"
+								v-if="project.attributes.creator?.id !== user.id"
 							/>
 						</div>
 					</div>
@@ -108,12 +102,7 @@
 			<hr />
 
 			<a class="remove" @click="deleteModal.show = true">
-				<img
-					src="/src/assets/icons/delete.svg"
-					alt="delete"
-					class="black-to-red"
-					h-4
-				/>
+				<img src="/src/assets/icons/delete.svg" alt="delete" class="black-to-red" h-4 />
 				{{ t("remove_from_all_clients_and_projects") }}
 			</a>
 		</div>
@@ -171,9 +160,22 @@ const deleteProject = (project: Project) => {
 	deleteModal.show = true;
 	deleteModal.text = project.attributes.designation;
 	deleteModal.callback = async () => {
-		store.removeProjectUser(project.id, user.value.id);
+		await store.removeProjectUser(project.id, user.value.id);
 	};
 };
+
+const force = ref(false);
+const forceToggle = (event: KeyboardEvent) => {
+	if (event.altKey && event.key === "s") force.value = !force.value;
+};
+
+onMounted(() => {
+	window.addEventListener("keydown", forceToggle);
+});
+
+onUnmounted(() => {
+	window.removeEventListener("keypress", forceToggle);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -245,9 +247,8 @@ li {
 
 		&:hover {
 			color: #f23838;
-			filter: brightness(0) saturate(1) invert(46%) sepia(28%)
-				saturate(5216%) hue-rotate(331deg) brightness(87%)
-				contrast(121%);
+			filter: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%)
+				hue-rotate(331deg) brightness(87%) contrast(121%);
 		}
 	}
 

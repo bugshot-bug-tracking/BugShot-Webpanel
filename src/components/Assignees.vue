@@ -17,9 +17,12 @@
 </template>
 
 <script setup lang="ts">
+import { PropType } from "vue";
+import { User } from "~/models/User";
+
 defineProps({
 	list: {
-		type: Array,
+		type: Array as PropType<User[]>,
 		required: true,
 		default: [],
 	},
@@ -54,15 +57,15 @@ const emit = defineEmits(["add"]);
 		height: 2rem;
 
 		// color: #18d992;
-		filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
-			hue-rotate(104deg) brightness(96%) contrast(88%);
+		filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%) hue-rotate(104deg)
+			brightness(96%) contrast(88%);
 	}
 
 	&:hover {
 		img {
 			// color: #7a2ee6;
-			filter: brightness(0) saturate(1) invert(18%) sepia(72%)
-				saturate(5384%) hue-rotate(263deg) brightness(94%) contrast(92%);
+			filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+				hue-rotate(263deg) brightness(94%) contrast(92%);
 		}
 	}
 }

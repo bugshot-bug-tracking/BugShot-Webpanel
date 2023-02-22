@@ -1,7 +1,7 @@
 import { createI18n } from "vue-i18n";
 import datetimeFormats from "~/../locales/datetimeFormats";
 import { UserModule } from "~/types";
-import messages from "@intlify/vite-plugin-vue-i18n/messages";
+import messages from "@intlify/unplugin-vue-i18n/messages";
 
 /**
  *  Import i18n resources

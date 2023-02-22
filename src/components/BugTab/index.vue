@@ -1,6 +1,10 @@
 <template>
 	<div>
-		<div v-if="bug" class="bs-tab bs-scroll" gap-4>
+		<div v-if="loading" class="bs-tab loading" items-center justify-center>
+			<img src="/src/assets/animations/loading.svg" alt="loading circle" />
+		</div>
+
+		<div v-else class="bs-tab bs-scroll" gap-4>
 			<Info
 				:bug="bug"
 				:status="status"
@@ -9,7 +13,7 @@
 			>
 				<template #screenshot>
 					<Screenshot
-						:screenshots="bug.screenshots ?? []"
+						:screenshots="screenshots ?? []"
 						:priority="bug.attributes.priority.id"
 						:loading="loading"
 					/>
@@ -17,7 +21,7 @@
 			</Info>
 
 			<AttachmentsList
-				:list="bug.attachments ?? []"
+				:list="attachmentsList ?? []"
 				:error="attachments.error"
 				@update="attachments.update"
 				@upload="attachments.upload"
@@ -32,12 +36,9 @@
 				</template>
 			</AttachmentsList>
 
-			<Comments
-				:comments="bug.comments ? bug.comments : []"
-				:bug_id="id"
-			/>
+			<Comments :comments="comments ?? []" :bug_id="id" />
 
-			<a class="delete-bug-btn black-to-red" @click="deleteAsk">
+			<a class="delete-bug-btn black-to-red" @click="deleteModal.open">
 				<img src="/src/assets/icons/delete.svg" alt="delete" />
 
 				{{ $t("delete.bug") }}
@@ -55,6 +56,7 @@
 		:text="deleteModal.text"
 		@close="deleteModal.clear"
 		@delete="deleteBug"
+		:callback="deleteBug"
 	/>
 
 	<LoadingModal2
@@ -69,11 +71,12 @@
 </template>
 
 <script setup lang="ts">
-import { useProjectStore } from "~/stores/project";
+import { useReportsStore } from "~/stores/reports";
 import axios from "axios";
 import toBase64 from "~/util/toBase64";
 
 const emit = defineEmits(["close", "deleted"]);
+
 const props = defineProps({
 	id: {
 		required: true,
@@ -84,66 +87,53 @@ const props = defineProps({
 
 const { t } = useI18n();
 
-const store = useProjectStore();
-
-const bug = computed(() => store.getBugById(props.id));
-const status = computed(() =>
-	store.getStatusById(bug.value.attributes.status_id)
-);
+const store = useReportsStore();
 
 const loading = ref(true);
+const error = ref(false);
 
-const loadScreenshots = async () => {
-	loading.value = true;
-	await store.fetchScreenshots(props.id);
-	loading.value = false;
+const initStore = async () => {
+	try {
+		loading.value = true;
+		error.value = false;
+
+		await store.setBug(props.id);
+	} catch (err) {
+		console.log(err);
+		error.value = true;
+	} finally {
+		loading.value = false;
+	}
 };
 
-// called on mount
-loadScreenshots();
-store.fetchAttachments(props.id);
-store.fetchComments(props.id);
-store.fetchBugUsers(props.id);
+initStore();
+watch(props, initStore, { deep: true });
 
-// called on update
-watch(bug, () => {
-	if (!bug.value) return;
-	loadScreenshots();
-	store.fetchAttachments(props.id);
-	store.fetchComments(props.id);
-	store.fetchBugUsers(props.id);
+const bug = computed(() => {
+	let b = store.getBug;
+
+	if (b?.attributes.deleted_at != undefined) {
+		emit("close");
+		alert("The bug was deleted!");
+	}
+
+	return b;
 });
 
-const deleteAsk = async () => {
-	if (!status.value || !bug.value) return console.log("Strange error!");
+const status = computed(() => store.getStatusById(bug.value.attributes.status_id));
 
-	deleteModal.show = true;
-	deleteModal.text = bug.value.attributes.designation;
-};
+const screenshots = computed(() => store.getScreenshots);
+const attachmentsList = computed(() => store.getAttachments);
+const comments = computed(() =>
+	store.getComments?.sort((a, b) => {
+		if (a.attributes.crated_at < b.attributes.crated_at) return -1;
+		else if (a.attributes.crated_at > b.attributes.crated_at) return 1;
+		return 0;
+	})
+);
 
 const deleteBug = async () => {
-	if (!status.value || !bug.value) return console.log("Strange error!");
-
-	deleteModal.clear();
-
-	try {
-		loadingModal.show = true;
-
-		await axios.delete(`statuses/${status.value.id}/bugs/${bug.value.id}`);
-
-		status.value.attributes.bugs?.splice(
-			status.value.attributes.bugs.findIndex(
-				(x) => x.id === bug.value?.id
-			),
-			1
-		);
-
-		loadingModal.state = 1;
-	} catch (error) {
-		console.error(error);
-
-		loadingModal.state = 2;
-	}
+	await store.deleteBug();
 };
 
 const assignShow = ref(false);
@@ -155,7 +145,7 @@ const attachments = reactive({
 		if (files.length > 0) {
 			files.forEach(async (file) => {
 				try {
-					let base64 = btoa(await toBase64(file));
+					let base64 = btoa((await toBase64(file)) as string);
 
 					axios
 						.post(`bugs/${props.id}/attachments`, {
@@ -165,7 +155,7 @@ const attachments = reactive({
 						.then(() => {
 							attachments.update();
 						});
-				} catch (error: Error) {
+				} catch (error: any) {
 					attachments.error = error;
 					console.log(error);
 				}
@@ -183,10 +173,7 @@ const attachments = reactive({
 			.then((response) => {
 				const link = document.createElement("a");
 				link.href = atob(response.data.data.attributes.base64);
-				link.setAttribute(
-					"download",
-					response.data.data.attributes.designation
-				); //or any other extension
+				link.setAttribute("download", response.data.data.attributes.designation); //or any other extension
 				link.id = "downloadAttachmentA";
 				document.body.appendChild(link);
 				link.click();
@@ -209,7 +196,7 @@ const attachments = reactive({
 	},
 
 	update: () => {
-		store.fetchAttachments(props.id);
+		store.fetchAttachments();
 	},
 });
 
@@ -223,6 +210,10 @@ const deleteModal = reactive({
 		deleteModal.text = "";
 		deleteModal.callback = null;
 	},
+	open: () => {
+		deleteModal.show = true;
+		deleteModal.text = bug.value.attributes.designation;
+	},
 });
 
 const loadingModal = reactive({
@@ -234,6 +225,10 @@ const loadingModal = reactive({
 		loadingModal.state = 0;
 		loadingModal.message = "";
 	},
+});
+
+onUnmounted(() => {
+	store.setBug(undefined);
 });
 </script>
 

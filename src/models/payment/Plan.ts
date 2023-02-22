@@ -12,7 +12,7 @@ export interface Attributes {
 	description: string;
 	images: any[];
 	livemode: boolean;
-	metadata: { hidden?: string };
+	metadata: ProductMetadata;
 	name: string;
 	package_dimensions?: any;
 	shippable?: any;
@@ -39,11 +39,18 @@ export interface Attributes2 {
 	currency?: any;
 	custom_unit_amount?: any;
 	livemode: boolean;
-	metadata: any[];
+	metadata: PriceMetadata;
 	lookup_key?: any;
 	recurring: Recurring;
 	tax_behavior: string;
 	tiers_mode?: any;
+	tiers?: {
+		flat_amount: null | number;
+		flat_amount_decimal: null | string;
+		unit_amount: number;
+		unit_amount_decimal: string;
+		up_to: null | number;
+	}[];
 	transform_quantity?: any;
 	type: string;
 	unit_amount: number;
@@ -57,4 +64,14 @@ export interface Recurring {
 	interval_count: number;
 	trial_period_days?: any;
 	usage_type: string;
+}
+
+export interface ProductMetadata {
+	hidden?: string;
+	feature_list?: string;
+	image?: string;
+}
+
+export interface PriceMetadata {
+	label?: string;
 }

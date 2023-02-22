@@ -2,36 +2,39 @@ import { defineStore } from "pinia";
 
 import { useAuthStore } from "./auth";
 import axios from "axios";
+import { echo } from "~/composables/listeners";
+import { Invitation } from "~/models/Invitation";
 
 export const useNotificationStore = defineStore("notification", {
 	state: () => ({
-		notifications: [],
+		user: useAuthStore().user,
+
+		notifications: [] as Invitation[],
 	}),
 
 	actions: {
 		// fetch all notifications
 		async fetchInvitations() {
-			const auth = useAuthStore();
-
 			try {
-				let notifications = (
-					await axios.get(`users/${auth.getUser.id}/invitations`)
-				).data.data;
+				this.unhook();
+				let notifications = (await axios.get(`users/${this.user.id}/invitations`)).data
+					.data;
 
 				this.notifications = notifications;
+
+				this.hook();
 			} catch (error) {
 				console.log(error);
 			}
 		},
 
-		async accept(id: string) {
+		async accept(id: number) {
 			try {
-				let user = useAuthStore().getUser;
-				let response = await axios.get(
-					`users/${user.id}/invitations/${id}/accept`
-				);
+				let response = await axios.get(`users/${this.user.id}/invitations/${id}/accept`);
 
-				this.notifications.splice(this.notifications.indexOf(id), 1);
+				let index = this.notifications.findIndex((x) => x.id === id);
+
+				if (index !== -1) this.notifications.splice(index, 1);
 
 				return response.data;
 			} catch (error) {
@@ -41,14 +44,13 @@ export const useNotificationStore = defineStore("notification", {
 			}
 		},
 
-		async decline(id: string) {
+		async decline(id: number) {
 			try {
-				let user = useAuthStore().getUser;
-				let response = await axios.get(
-					`users/${user.id}/invitations/${id}/decline`
-				);
+				let response = await axios.get(`users/${this.user.id}/invitations/${id}/decline`);
 
-				this.notifications.splice(this.notifications.indexOf(id), 1);
+				let index = this.notifications.findIndex((x) => x.id === id);
+
+				if (index !== -1) this.notifications.splice(index, 1);
 
 				return response.data;
 			} catch (error) {
@@ -56,13 +58,34 @@ export const useNotificationStore = defineStore("notification", {
 
 				throw error;
 			}
+		},
+
+		async unhook() {
+			if (this.user === undefined) return;
+
+			const api_channel = `user.${this.user.id}`;
+
+			echo.leave(api_channel);
+		},
+
+		async hook() {
+			if (this.user === undefined) return;
+
+			const api_channel = `user.${this.user.id}`;
+
+			let channel = echo.private(api_channel);
+
+			channel.listen(".invitation.created", (data: any) => {
+				if (!(data && data.data.type === "Invitation")) return console.log(data);
+
+				this.fetchInvitations();
+			});
 		},
 	},
 
 	getters: {
 		getInvitations: (state) => state.notifications,
 
-		getInvitationById: (state) => (id: string) =>
-			state.notifications.find((x) => (x.id = id)),
+		getInvitationById: (state) => (id: number) => state.notifications.find((x) => (x.id = id)),
 	},
 });

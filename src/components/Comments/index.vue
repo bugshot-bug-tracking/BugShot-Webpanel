@@ -1,7 +1,7 @@
 <template>
 	<section class="bs-container">
 		<div class="header">
-			<h1 text-5 m-0>{{ $t("comment", 2) }}</h1>
+			<h1 text-5 m-0>{{ t("comment", 2) }}</h1>
 
 			<div flex items-center gap-2>
 				<img
@@ -33,11 +33,9 @@
 
 		<div class="comments-bottom">
 			<div class="comments-bottom-header">
-				<span>{{ $t("add.comment") }}</span>
+				<span>{{ t("add.comment") }}</span>
 
-				<div :class="{ 'over-limit': messageLength > 250 }">
-					{{ messageLength }} / 250
-				</div>
+				<div :class="{ 'over-limit': messageLength > 250 }">{{ messageLength }} / 250</div>
 			</div>
 
 			<vue-tribute :options="options" style="width: 100%">
@@ -54,14 +52,9 @@
 
 			<div
 				:hidden="messageLength <= 250"
-				style="
-					font-size: 0.875rem;
-					color: red;
-					align-self: start;
-					margin-top: -0.5rem;
-				"
+				style="font-size: 0.875rem; color: red; align-self: start; margin-top: -0.5rem"
 			>
-				{{ $t("limits.characters_exceeded") }}
+				{{ t("limits.characters_exceeded") }}
 			</div>
 
 			<div
@@ -70,7 +63,7 @@
 				@click="postComment"
 				self-end
 			>
-				{{ $t("add.comment") }}
+				{{ t("add.comment") }}
 			</div>
 		</div>
 	</section>
@@ -83,6 +76,7 @@ import { VueTribute } from "vue-tribute";
 import colors from "~/util/colors";
 import { maxlengthContentEditable } from "~/util/maxlength-contenteditable.js";
 import { useAuthStore } from "~/stores/auth";
+import { useReportsStore } from "~/stores/reports";
 
 const props = defineProps({
 	bug_id: {
@@ -109,10 +103,7 @@ const user = computed(() => {
 });
 
 const projectTeam = computed(() => {
-	return [
-		store.getProject.attributes.creator,
-		...store.getProjectUsers,
-	].filter((x) => x);
+	return [store.getProject!.attributes.creator, ...(store.getMembers ?? [])].filter((x) => x);
 });
 
 // tributejs options
@@ -145,17 +136,10 @@ const options = reactive({
 					]
 				};"
 			>
-				${
-					item.original.attributes.first_name[0] +
-					item.original.attributes.last_name[0]
-				}
+				${item.original.attributes.first_name[0] + item.original.attributes.last_name[0]}
 			</div>
 			<div class="name">
-				${
-					item.original.attributes.first_name +
-					" " +
-					item.original.attributes.last_name
-				}
+				${item.original.attributes.first_name + " " + item.original.attributes.last_name}
 			</div>
 		`;
 	},
@@ -174,9 +158,7 @@ const postComment = async () => {
 	lock.value = true;
 
 	try {
-		const tagNodes = message.value.querySelectorAll(
-			"span[value].comment-tag"
-		);
+		const tagNodes = message.value.querySelectorAll("span[value].comment-tag");
 
 		let taggedUsers = [];
 		tagNodes.forEach((node) => {
@@ -221,7 +203,7 @@ const setLength = (event) => {
 };
 
 const update = () => {
-	store.fetchComments(props.bug_id);
+	useReportsStore().fetchComments();
 };
 
 const scrollToBottom = () => {
@@ -264,8 +246,8 @@ section {
 
 		&:hover {
 			color: #7a2ee6;
-			filter: brightness(0) saturate(1) invert(18%) sepia(72%)
-				saturate(5384%) hue-rotate(263deg) brightness(94%) contrast(92%);
+			filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+				hue-rotate(263deg) brightness(94%) contrast(92%);
 		}
 	}
 
@@ -274,8 +256,8 @@ section {
 
 		&:hover {
 			color: #18d992;
-			filter: brightness(0) saturate(1) invert(63%) sepia(74%)
-				saturate(493%) hue-rotate(104deg) brightness(96%) contrast(88%);
+			filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
+				hue-rotate(104deg) brightness(96%) contrast(88%);
 		}
 	}
 }

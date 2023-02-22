@@ -1,19 +1,15 @@
 <template>
 	<a class="bs-btn green add-button" @click="tabOpen = true">
 		<img src="/src/assets/icons/add.svg" alt="add" class="black-to-white" />
-		{{ $t("add.bug") }}
+		{{ t("add.bug") }}
 	</a>
 
 	<div v-if="tabOpen" class="bs-tab bs-scroll">
 		<form @submit.prevent="submit" flex flex-col gap-4>
 			<div class="top">
-				<h4>{{ $t("new_bug_report") }}</h4>
+				<h4>{{ t("new_bug_report") }}</h4>
 
-				<img
-					src="/src/assets/icons/close_2.svg"
-					alt="close"
-					@click="tabOpen = false"
-				/>
+				<img src="/src/assets/icons/close_2.svg" alt="close" @click="tabOpen = false" />
 			</div>
 
 			<div class="bs-container">
@@ -21,22 +17,30 @@
 			</div>
 
 			<div class="bs-container" gap-4>
-				<div class="bs-input counted">
-					<span>{{ `${data.designation.length}/50` }}</span>
+				<div class="bs-input">
+					<label flex justify-between>
+						<p>{{ t("bug_name") }}</p>
+						<span>{{ `${data.designation.length}/70` }}</span>
+					</label>
+
 					<input
 						type="text"
-						:placeholder="$t('bug_name')"
+						:placeholder="t('bug_name')"
 						v-model="data.designation"
 						required
 						minlength="1"
-						maxlength="50"
+						maxlength="70"
 					/>
 				</div>
 
-				<div class="bs-input counted">
-					<span>{{ `${data.description.length}/1500` }}</span>
+				<div class="bs-input">
+					<label flex justify-between>
+						<p>{{ t("describe_problem") }}</p>
+						<span>{{ `${data.description.length}/1500` }}</span>
+					</label>
+
 					<textarea
-						:placeholder="$t('describe_problem')"
+						:placeholder="t('describe_problem')"
 						v-model="data.description"
 						rows="3"
 						maxlength="1500"
@@ -44,19 +48,19 @@
 				</div>
 
 				<div class="datepicker">
-					<div>{{ $t("pick_date") }}</div>
+					<div>{{ t("pick_date") }}</div>
 
 					<Datepicker
 						v-model="data.deadline"
-						:placeholder="$t('no_deadline')"
+						:placeholder="t('no_deadline')"
 						@cleared="clearDeadline"
-						:selectText="$t('select.select')"
-						:cancelText="$t('cancel')"
+						:selectText="t('select.select')"
+						:cancelText="t('cancel')"
 					/>
 				</div>
 
 				<div class="priority">
-					<div>{{ $t("set_priority") }}</div>
+					<div>{{ t("set_priority") }}</div>
 
 					<div class="options">
 						<div>
@@ -68,7 +72,7 @@
 								v-model="data.priority"
 							/>
 							<label for="i1" class="i i1">
-								<span> {{ $t("minor") }} </span>
+								<span> {{ t("minor") }} </span>
 							</label>
 						</div>
 						<div>
@@ -80,7 +84,7 @@
 								v-model="data.priority"
 							/>
 							<label for="i2" class="i i2">
-								<span> {{ $t("normal") }} </span>
+								<span> {{ t("normal") }} </span>
 							</label>
 						</div>
 						<div>
@@ -92,7 +96,7 @@
 								v-model="data.priority"
 							/>
 							<label for="i3" class="i i3">
-								<span> {{ $t("important") }} </span>
+								<span> {{ t("important") }} </span>
 							</label>
 						</div>
 						<div>
@@ -104,14 +108,14 @@
 								v-model="data.priority"
 							/>
 							<label for="i4" class="i i4">
-								<span> {{ $t("critical") }} </span>
+								<span> {{ t("critical") }} </span>
 							</label>
 						</div>
 					</div>
 				</div>
 
 				<div class="assign-to" v-if="false">
-					<div>Assign to</div>
+					<div>{{ t("assigned_to") }}</div>
 					<Assignees :list="[]" />
 				</div>
 			</div>
@@ -132,7 +136,7 @@
 			</AttachmentsList>
 
 			<button class="bs-btn green" type="submit">
-				{{ $t("report_bug") + "!" }}
+				{{ t("report_bug") + "!" }}
 			</button>
 		</form>
 	</div>
@@ -149,25 +153,18 @@
 
 <script setup lang="ts">
 import toBase64 from "~/util/toBase64";
-import axios from "axios";
-import { useProjectStore } from "~/stores/project";
+import { useReportsStore } from "~/stores/reports";
 
-const props = defineProps({
-	id: {
-		type: String,
-		required: true,
-		description: "Project id",
-	},
-});
+const store = useReportsStore();
 
-const store = useProjectStore();
+const { t } = useI18n();
 
 const tabOpen = ref(false);
 
 const data = reactive({
 	designation: "",
 	description: "",
-	deadline: null,
+	deadline: undefined as string | undefined,
 	priority: 2,
 	images: [] as File[],
 	attachments: [] as File[],
@@ -186,7 +183,7 @@ const attachments = reactive({
 });
 
 const clearDeadline = () => {
-	data.deadline = null;
+	data.deadline = undefined;
 };
 
 const imagesUpdate = (files: File[]) => {
@@ -197,44 +194,32 @@ const submit = async () => {
 	try {
 		loadingModal.show = true;
 
-		let status = store.getFirstStatus;
+		// convert all images from file to string
+		let images = await Promise.all(
+			data.attachments.map(async (i) => ({
+				base64: btoa((await toBase64(i)) as string),
+			}))
+		);
 
-		// send bug data and get bug object
-		let bug = await axios.post(`statuses/${status.id}/bugs`, {
+		// convert all attachments from file to string
+		let attachments = await Promise.all(
+			data.attachments.map(async (a) => ({
+				designation: a.name,
+				base64: btoa((await toBase64(a)) as string),
+			}))
+		);
+
+		await store.createBug({
 			designation: data.designation,
 			description: data.description,
 			priority_id: data.priority,
-			...(data.deadline
-				? {
-						deadline: new Date(data.deadline)
-							.toISOString()
-							.slice(0, -1),
-				  }
-				: {}),
+			deadline: data.deadline,
+			images: images,
+			attachments: attachments,
 		});
 
-		// get the data from response
-		bug = bug.data.data;
-
-		// using the bug id send screenshots one-by-one
-		for (const file of data.images) {
-			let screen = await axios.post(`bugs/${bug.id}/screenshots`, {
-				base64: btoa(await toBase64(file)),
-			});
-		}
-
-		// using the bug id send attachments one-by-one
-		for (const file of data.attachments) {
-			let screen = await axios.post(`bugs/${bug.id}/attachments`, {
-				designation: file.name,
-				base64: btoa(await toBase64(file)),
-			});
-		}
-
-		await store.refresh();
-
 		loadingModal.state = 1;
-		loadingModal.message = `Bug report created!`;
+		loadingModal.message = t("bug_created");
 
 		tabOpen.value = false;
 		resetData();
@@ -248,7 +233,7 @@ const submit = async () => {
 const resetData = () => {
 	data.designation = "";
 	data.description = "";
-	data.deadline = null;
+	data.deadline = undefined;
 	data.priority = 2;
 	data.images = [];
 	data.attachments = [];
@@ -354,16 +339,5 @@ const loadingModal = reactive({
 	justify-content: space-between;
 	font-weight: bold;
 	font-size: 14px;
-}
-
-.counted {
-	margin-top: 1rem;
-
-	span {
-		position: absolute;
-		top: -1.25rem;
-		right: 0.5rem;
-		font-size: 12px;
-	}
 }
 </style>

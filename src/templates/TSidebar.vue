@@ -10,7 +10,7 @@
 			</slot>
 		</div>
 
-		<div class="footer">
+		<div class="footer" v-if="$slots['footer']">
 			<slot name="footer" />
 		</div>
 
@@ -55,13 +55,13 @@ const sidebar = reactive({
 	.main {
 		grid-area: main;
 
-		border-bottom: 1px solid hsl(263, 79%, 94%);
 		overflow: auto;
 	}
 
 	.footer {
 		grid-area: footer;
 
+		border-top: 1px solid hsl(263, 79%, 94%);
 		min-height: 4rem;
 		display: flex;
 		flex-direction: column;
@@ -91,8 +91,8 @@ const sidebar = reactive({
 			width: 1.75rem;
 			height: 1.75rem;
 			color: #7a2ee6;
-			filter: brightness(0) saturate(1) invert(18%) sepia(72%)
-				saturate(5384%) hue-rotate(263deg) brightness(94%) contrast(92%);
+			filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+				hue-rotate(263deg) brightness(94%) contrast(92%);
 		}
 
 		&:hover {
@@ -100,9 +100,8 @@ const sidebar = reactive({
 			> img {
 				color: #18d992;
 
-				filter: brightness(0) saturate(1) invert(63%) sepia(74%)
-					saturate(493%) hue-rotate(104deg) brightness(96%)
-					contrast(88%);
+				filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
+					hue-rotate(104deg) brightness(96%) contrast(88%);
 			}
 		}
 	}

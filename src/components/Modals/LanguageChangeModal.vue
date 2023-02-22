@@ -1,28 +1,16 @@
 <template>
 	<a class="input-image" cursor-pointer @click="modal.open">
-		<img
-			src="/src/assets/icons/edit.svg"
-			alt="edit"
-			class="black-to-purple"
-		/>
+		<img src="/src/assets/icons/edit.svg" alt="edit" class="black-to-purple" />
 		<b> {{ t("change_language") }} </b>
 	</a>
 
-	<MyModal
-		v-model="modal.show"
-		:close="modal.close"
-		@before-enter="radio = locale"
-	>
+	<MyModal v-model="modal.show" :close="modal.close" @before-enter="radio = locale">
 		<ModalTemplate @close="modal.close" w-48>
 			<template #header-text>
 				{{ t("change_interface_language") }}
 			</template>
 
-			<form
-				@submit.prevent="submit"
-				@reset.prevent="cancel"
-				class="bs-form"
-			>
+			<form @submit.prevent="submit" @reset.prevent="cancel" class="bs-form">
 				<p>
 					{{ t("language_change_will_affect") }}
 				</p>
@@ -30,7 +18,7 @@
 				<div class="form-group">
 					<h5>{{ t("chose_desired_language") }}</h5>
 
-					<div class="bs-input2" v-for="loc of locales">
+					<div class="bs-input" v-for="loc of locales">
 						<label class="bs-radio">
 							<input
 								type="radio"

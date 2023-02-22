@@ -24,19 +24,31 @@
 			<ul @click.capture="menu.toggle">
 				<hr />
 				<RouterLink :to="{ name: 'settings' }">
+					<img src="/src/assets/icons/gear.svg" alt="gear" />
 					{{ $t("account_settings") }}
 				</RouterLink>
 
 				<hr v-if="false" />
-				<RouterLink to="/webhook" v-if="false">
-					My Webhooks
-				</RouterLink>
-
+				<RouterLink to="/webhook" v-if="false"> My Webhooks </RouterLink>
 				<hr />
-				<RouterLink to="/settings"> {{ $t("the_apps") }} </RouterLink>
+
+				<RouterLink :to="{ name: 'organization-index' }">
+					<img src="/src/assets/icons/organization.svg" alt="gear" />
+
+					{{ $t("organization", 2) }}
+				</RouterLink>
+				<hr />
+
+				<RouterLink to="/settings">
+					<img src="/src/assets/icons/apps.svg" alt="gear" />
+
+					{{ $t("the_apps") }}
+				</RouterLink>
 				<hr />
 
 				<a :style="{ color: '#5916b9' }" @click="logout">
+					<img src="/src/assets/icons/logout.svg" alt="logout" class="black-to-purple" />
+
 					{{ $t("log_out") }}
 				</a>
 			</ul>
@@ -94,7 +106,7 @@ onUnmounted(() => {
 	left: 4.5rem;
 	z-index: 20;
 	min-width: 16rem;
-	box-shadow: 0px 4px 8px #00000021;
+	box-shadow: 0 0.25rem 0.5rem #00000021;
 	border: 1px solid #eee5fc;
 	border-radius: 0.5rem;
 }
@@ -137,7 +149,7 @@ ul {
 	a {
 		text-decoration: none;
 		color: #1a2040;
-		padding: 0.5rem 1.5rem;
+		padding: 0.5rem 1.25rem;
 		font-weight: bold;
 		margin: 0.5rem 0;
 		transition: 0.3s;
@@ -150,15 +162,16 @@ ul {
 		&:hover {
 			background: #f8f8fc;
 		}
-
-		img {
-			width: 24px;
-			height: 24px;
-		}
 	}
 
 	hr {
 		margin: 0 1rem;
 	}
+}
+
+img {
+	width: 1.5rem;
+	height: 1.5rem;
+	margin-right: 0.5rem;
 }
 </style>

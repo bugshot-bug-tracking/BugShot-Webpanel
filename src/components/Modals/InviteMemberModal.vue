@@ -1,12 +1,12 @@
 <template>
-	<MyModal v-model="show" z-101>
+	<MyModal :modelValue="show" z-101>
 		<ModalTemplate @close="closeModal">
 			<template #header-text>
 				{{ editMode ? $t("edit.team_member") : $t("add.team_member") }}
 			</template>
 
 			<form @submit.prevent="modalSubmit" @reset="closeModal">
-				<div class="bs-input w-icon">
+				<div class="bs-input" :style="{ width: '100%' }">
 					<input
 						:placeholder="$t('email')"
 						:type="'email'"
@@ -14,10 +14,10 @@
 						required
 						maxlength="255"
 						autocomplete="email"
-						:disabled="disableSubmit"
+						:disabled="disableSubmit && user && Object.hasOwn(user, 'id')"
 					/>
 
-					<img src="/src/assets/icons/mail.svg" alt="at" />
+					<img class="input-image" src="/src/assets/icons/mail.svg" alt="at" />
 				</div>
 
 				<div class="roles">
@@ -36,6 +36,8 @@
 						</label>
 					</div>
 				</div>
+
+				<slot name="extra" />
 
 				<div flex justify-around style="width: 100%">
 					<button
@@ -56,6 +58,8 @@
 </template>
 
 <script setup lang="ts">
+import { PropType } from "vue";
+import { User } from "~/models/User";
 import { useMainStore } from "~/stores/main";
 
 const emit = defineEmits(["close", "submit", "change"]);
@@ -72,10 +76,9 @@ const props = defineProps({
 	},
 
 	user: {
-		type: Object,
+		type: Object as PropType<User | { email: string; role_id: number }>,
 		required: false,
 		default: undefined,
-
 	},
 });
 
@@ -112,21 +115,36 @@ const closeModal = () => {
 watch(
 	props,
 	() => {
-		if (props.editMode && props.user?.id) {
-			rolePicked.value = props.user.role.id;
-			email.value = props.user.attributes.email;
+		if (props.editMode && props.user) {
+			if (Object.hasOwn(props.user, "id")) {
+				let user = props.user as User;
+
+				rolePicked.value = user.role!.id;
+				email.value = user.attributes.email;
+			} else {
+				let user = props.user as { email: string; role_id: number };
+
+				rolePicked.value = user.role_id;
+				email.value = user.email;
+			}
 		}
 	},
 	{ deep: true }
 );
 
 const disableSubmit = computed(() => {
-	if (
-		props.editMode &&
-		props.user?.attributes.email === email.value &&
-		props.user?.role.id === rolePicked.value
-	)
-		return true;
+	if (!props.editMode) return false;
+
+	if (props.user && Object.hasOwn(props.user, "id")) {
+		let user = props.user as User;
+
+		if (rolePicked.value === user.role!.id && email.value === user.attributes.email)
+			return true;
+	} else {
+		let user = props.user as { email: string; role_id: number };
+
+		if (rolePicked.value === user.role_id && email.value === user.email) return true;
+	}
 
 	return false;
 });

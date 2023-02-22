@@ -43,7 +43,7 @@
 	.right {
 		display: inline-flex;
 		align-items: center;
-		gap: 20px;
+		gap: 1.25rem;
 	}
 }
 </style>

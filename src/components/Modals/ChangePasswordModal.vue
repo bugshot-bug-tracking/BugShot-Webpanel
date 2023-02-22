@@ -1,33 +1,20 @@
 <template>
 	<a class="input-image" cursor-pointer @click="modal.open">
-		<img
-			src="/src/assets/icons/edit.svg"
-			alt="edit"
-			class="black-to-purple"
-		/>
+		<img src="/src/assets/icons/edit.svg" alt="edit" class="black-to-purple" />
 		<b>{{ t("change_password") }}</b>
 	</a>
 
-	<MyModal v-model="modal.show" :close="modal.close">
+	<MyModal :modelValue="modal.show" :close="modal.close">
 		<ModalTemplate @close="modal.close">
 			<template #header-text> {{ t("change_password") }} </template>
 
-			<form
-				@submit.prevent="submit"
-				@reset.prevent="cancel"
-				class="bs-form"
-			>
+			<form @submit.prevent="submit" @reset.prevent="cancel" class="bs-form">
 				<p>{{ t("password_change_on") }} {{ user.attributes.email }}</p>
 
-				<input
-					type="email"
-					:value="user.attributes.email"
-					disabled
-					hidden
-				/>
+				<input type="email" :value="user.attributes.email" disabled hidden />
 
 				<div class="form-group">
-					<div class="bs-input2">
+					<div class="bs-input">
 						<label flex justify-between>
 							{{ t("current_password") }}
 						</label>
@@ -72,7 +59,7 @@
 				<div class="form-group" gap-0>
 					<h5>{{ t("chose_new_password") }}</h5>
 
-					<div class="bs-input2">
+					<div class="bs-input">
 						<label> {{ t("new_password") }} </label>
 
 						<input
@@ -86,8 +73,7 @@
 							class="!pr-12"
 							:class="{ error: newPassword.error }"
 							@focus.prevent="
-								(newPassword.showValidate = true),
-									(newPassword.error = false)
+								(newPassword.showValidate = true), (newPassword.error = false)
 							"
 							@blur.prevent="newPassword.showValidate = false"
 						/>
@@ -132,7 +118,7 @@
 						</ul>
 					</div>
 
-					<div class="bs-input2">
+					<div class="bs-input">
 						<label> {{ t("confirm_password") }} </label>
 
 						<input
@@ -149,9 +135,7 @@
 								(newPassword.showConfirmValidate = true),
 									(newPassword.confirmError = false)
 							"
-							@blur.prevent="
-								newPassword.showConfirmValidate = false
-							"
+							@blur.prevent="newPassword.showConfirmValidate = false"
 						/>
 
 						<img
@@ -273,15 +257,13 @@ const newPassword = reactive({
 	},
 	showValidate: false,
 	showConfirmValidate: false,
-	validate: computed(
-		(): { "min-chars": boolean; letters: boolean; numbers: boolean } => {
-			return {
-				"min-chars": newPassword.value.length >= 8,
-				letters: !!newPassword.value.match(/[a-zA-Z]/g),
-				numbers: !!newPassword.value.match(/[0-9]/g),
-			};
-		}
-	),
+	validate: computed((): { "min-chars": boolean; letters: boolean; numbers: boolean } => {
+		return {
+			"min-chars": newPassword.value.length >= 8,
+			letters: !!newPassword.value.match(/[a-zA-Z]/g),
+			numbers: !!newPassword.value.match(/[0-9]/g),
+		};
+	}),
 	confirmValidate: computed(
 		(): {
 			"min-chars": boolean;
@@ -310,17 +292,11 @@ const newPassword = reactive({
 
 const submit = async () => {
 	for (const rule of Object.entries(newPassword.validate))
-		if (!rule[1])
-			return (
-				(newPassword.error = true), (newPassword.showValidate = true)
-			);
+		if (!rule[1]) return (newPassword.error = true), (newPassword.showValidate = true);
 
 	for (const rule of Object.entries(newPassword.confirmValidate))
 		if (!rule[1])
-			return (
-				(newPassword.confirmError = true),
-				(newPassword.showConfirmValidate = true)
-			);
+			return (newPassword.confirmError = true), (newPassword.showConfirmValidate = true);
 
 	try {
 		loadingModal.show = true;

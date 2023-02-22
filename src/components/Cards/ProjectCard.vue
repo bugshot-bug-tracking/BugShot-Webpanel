@@ -10,7 +10,7 @@
 			}"
 			@click="emit('open')"
 		>
-			<img v-if="image" :src="image" class="dark-overlay" alt="image" />
+			<img v-if="c_image" :src="c_image" class="dark-overlay" alt="image" />
 
 			<div class="text">{{ title }}</div>
 
@@ -27,39 +27,24 @@
 				</div>
 			</div>
 
-			<div
-				class="right"
-				ref="popup"
-				@click="popupMenu.toggle"
-				v-if="actions"
-			>
-				<img src="/src/assets/icons/more_options.svg" />
-
-				<div class="popup-actions" v-if="popupMenu.visible">
-					<div class="actions">
-						<a class="edit" @click="emit('edit')">
-							<img src="/src/assets/icons/edit.svg" alt="edit" />
-							<div>{{ $t("edit.edit") }}</div>
-						</a>
-
-						<a class="delete" @click="emit('delete')">
-							<img
-								src="/src/assets/icons/delete.svg"
-								alt="delete"
-							/>
-							<div>{{ $t("delete.delete") }}</div>
-						</a>
-					</div>
-				</div>
+			<div class="right" v-if="actions">
+				<RouterLink :to="to_settings" v-if="to_settings">
+					<img
+						src="/src/assets/icons/gear.svg"
+						alt="settings"
+						:title="$t('setting', 2)"
+					/>
+				</RouterLink>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
+import { PropType } from "vue";
 import timeToText from "~/util/timeToText";
 
-defineProps({
+const props = defineProps({
 	title: {
 		required: true,
 		type: String,
@@ -75,6 +60,7 @@ defineProps({
 	image: {
 		required: false,
 		type: String,
+		default: "",
 	},
 
 	color: {
@@ -94,29 +80,16 @@ defineProps({
 		type: Boolean,
 		default: false,
 	},
+
+	to_settings: {
+		type: Object as PropType<{ name: string; params: { id: string } }>,
+		required: false,
+	},
 });
 
 const emit = defineEmits(["open", "edit", "delete"]);
 
-const popup = ref(null);
-const popupMenu = reactive({
-	visible: false,
-	toggle: () => {
-		popupMenu.visible = !popupMenu.visible;
-	},
-});
-
-const autoClose = (event: MouseEvent) => {
-	// event.path for chromium but composedPath is the standard method (ex. firefox)
-	let path: EventTarget[] = event.composedPath && event.composedPath();
-
-	// if clicking outside of this root close the popup
-	if (path.find((element) => element == popup.value) == null) {
-		popupMenu.visible = false;
-	}
-};
-document.addEventListener("click", autoClose);
-onUnmounted(() => document.removeEventListener("click", autoClose));
+const c_image = computed(() => (props.image !== "" ? atob(props.image) : undefined));
 </script>
 
 <style lang="scss" scoped>

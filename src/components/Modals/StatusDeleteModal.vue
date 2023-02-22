@@ -1,48 +1,37 @@
 <template>
-	<Modal :show="show" @close="close" z-100>
-		<div class="wrapper">
-			<div class="w-100">
-				<h3 class="mb-4"><b>Delete column?</b></h3>
-				<span class="text">
-					<p>
-						You are about to delete column <b>"{{ text }}"</b>.
-					</p>
-					<p v-if="bugs.length > 0">This column contains reports.</p>
+	<MyModal :modelValue="modal.show" :close="modal.close" z-101 v-if="status">
+		<ModalTemplate @close="modal.close" noCloseButton>
+			<template #header-text> {{ $t("delete.column") }}? </template>
+
+			<form class="default-form" @submit.prevent="onSubmit">
+				<span text-center>
+					<i18n-t keypath="about_to_delete_column_x" tag="p" scope="global">
+						<b>"{{ status.attributes.designation }}"</b>.
+					</i18n-t>
 				</span>
-			</div>
 
-			<form
-				class="move-form"
-				@submit.prevent="submit"
-				v-if="bugs.length > 0"
-			>
-				<h6>
-					<b>What do you want to happen with the existing reports?</b>
-				</h6>
+				<div v-if="bugs.length > 0">
+					<p text-center mb-8>{{ t("column_contains_reports") }}</p>
 
-				<div class="break" />
+					<b>{{ t("what_to_to_with_reports") }}</b>
 
-				<div class="options">
-					<p><b>I want them moved to:</b></p>
+					<hr my-2 />
 
-					<div class="select mb-4">
+					<b>{{ t("move_reports_to") }}</b>
+
+					<div class="select" mb-4>
 						<v-select
 							:options="statuses"
-							:placeholder="'Please choose....'"
-							:get-option-label="
-								(option) => option.attributes.designation
-							"
-							:reduce="(option) => option.id"
+							:placeholder="$t('please_choose') + '...'"
+							:get-option-label="(option:Status) => option.attributes.designation"
+							:reduce="(option:Status) => option.id"
 							:disabled="deleteAll"
 							v-model="statusOption"
 						>
 							<template #open-indicator="{ attributes }">
 								<img
 									class="black-to-purple"
-									style="
-										background-color: unset;
-										cursor: pointer;
-									"
+									style="background-color: unset; cursor: pointer"
 									v-bind="attributes"
 									src="/src/assets/icons/caret_down.svg"
 								/>
@@ -58,170 +47,136 @@
 						</v-select>
 					</div>
 
-					<div class="break" />
+					<hr my-2 />
 
-					<div class="delete-all mt-2 mb-4">
-						<label>
-							<input
-								type="checkbox"
-								class="form-check-input"
-								v-model="deleteAll"
-							/>
+					<div>
+						<label flex items-center gap-4>
+							<input type="checkbox" class="form-check-input" v-model="deleteAll" />
 
 							<div>
-								<b>Do nothing</b>
-								(this option will delete the reports)
+								<b>{{ t("do_nothing") }}</b>
+								({{ t("option_will_delete_reports") }})
 							</div>
 						</label>
 					</div>
 				</div>
 
 				<div class="actions">
-					<button class="bs-btn green" @click.prevent="close">
+					<button class="bs-btn green" @click.prevent="modal.close">
 						{{ $t("cancel") }}
 					</button>
 
 					<button
 						class="bs-btn red empty"
 						type="submit"
-						:disabled="
-							deleteAll || statusOption != null ? false : true
-						"
+						:class="{
+							disabled: bugs.length > 0 && !(deleteAll || statusOption),
+						}"
 					>
-						Continue with deletion
+						{{ t("continue_with_delete") }}
 					</button>
 				</div>
 			</form>
+		</ModalTemplate>
+	</MyModal>
 
-			<form @submit.prevent="submit" v-else>
-				<div class="actions">
-					<button class="bs-btn green" @click.prevent="close">
-						{{ $t("cancel") }}
-					</button>
-
-					<button class="bs-btn red empty" type="submit">
-						Continue with deletion
-					</button>
-				</div>
-			</form>
-		</div>
-	</Modal>
+	<LoadingModal2
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="
+			loadingModal.clear();
+			modal.close();
+		"
+	>
+		<template #success-img>
+			<img src="/src/assets/animations/delete.gif" alt="success" class="h-50 w-auto" />
+		</template>
+	</LoadingModal2>
 </template>
 
-<script setup>
-import { useProjectStore } from "~/stores/project";
+<script setup lang="ts">
+import { Status } from "~/models/Status";
+import { useReportsStore } from "~/stores/reports";
 
 const emit = defineEmits(["close", "delete"]);
 
 const props = defineProps({
-	show: {
-		type: Boolean,
-		required: true,
-	},
-
 	id: {
 		type: String,
 		required: true,
-	},
-
-	text: {
-		type: String,
-		required: true,
+		description: "Status ID",
 	},
 });
 
-const store = useProjectStore();
+const { t } = useI18n();
 
-const statuses = computed(() =>
-	store.getStatuses.filter((x) => x.id !== props.id)
-);
+const store = useReportsStore();
 
-const bugs = computed(() => store.getBugsByStatusId(props.id));
+const status = computed(() => store.getStatusById(props.id));
+
+// choices for moving bugs
+const statuses = computed(() => store.getStatuses?.filter((x) => x.id !== props.id));
+
+const bugs = computed(() => store.getBugsByStatusId(props.id) ?? []);
 
 const deleteAll = ref(false);
-const statusOption = ref(null);
+const statusOption = ref(undefined);
 
-const submit = () => {
-	// if delete all is checked emit delete with null target
-	if (deleteAll.value)
-		return emit("delete", {
-			id: props.id, // id of status to be deleted
-			move: null, // id of status to move reports to
-		});
-
-	// if not checked emit with status id
-	if (statusOption.value !== null)
-		return emit("delete", {
-			id: props.id, // id of status to be deleted
-			move: statusOption.value, // id of status to move reports to
-		});
-
-	// if there are no reports emit delete with null target
-	if (bugs.value.length < 1)
-		return emit("delete", {
-			id: props.id, // id of status to be deleted
-			move: null, // id of status to move reports to
-		});
-};
-
-const close = () => {
-	emit("close");
-};
-
-watch(props, () => {
+onMounted(() => {
 	deleteAll.value = false;
-	statusOption.value = null;
+	statusOption.value = undefined;
 });
+
+const modal = reactive({
+	show: true,
+	open: () => {
+		modal.show = true;
+	},
+	close: () => {
+		modal.show = false;
+		emit("close");
+	},
+});
+
+const loadingModal = reactive({
+	show: false,
+	state: 0,
+	message: "",
+	clear: () => {
+		loadingModal.show = false;
+		loadingModal.state = 0;
+		loadingModal.message = "";
+	},
+});
+
+const onSubmit = async () => {
+	try {
+		loadingModal.show = true;
+
+		await store.deleteStatus({
+			id: props.id,
+
+			// if delete all is checked or there are no reports delete with null target
+			move: deleteAll.value || bugs.value.length < 1 ? undefined : statusOption.value,
+		});
+
+		loadingModal.state = 1;
+		loadingModal.message = t("status_deleted_succ");
+	} catch (error) {
+		loadingModal.state = 2;
+
+		console.log(error);
+	}
+};
 </script>
 
 <style lang="scss" scoped>
-.wrapper {
+.actions {
 	display: flex;
-	flex-direction: column;
 	align-items: center;
-	width: 450px;
-	// height: 200px;
-	justify-content: center;
-	gap: 40px;
-	padding: 20px;
-
-	.actions {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		gap: 40px;
-	}
-
-	.text {
-		white-space: pre-line;
-		p {
-			margin: unset;
-		}
-	}
-}
-
-.break {
-	width: 100%;
-	height: 1px;
-	background-color: #f2ebfd;
-	margin: 8px 0;
-}
-
-h3 {
-	width: 100%;
-	padding: 8px 0;
-	border-bottom: 1px solid #f2ebfd;
-}
-
-.move-form {
-	text-align: left;
-}
-
-.options {
-	p {
-		font-size: 0.9rem;
-	}
+	justify-content: space-around;
+	margin-top: 2.5rem;
 }
 
 .select {
@@ -233,16 +188,6 @@ h3 {
 
 			box-shadow: none;
 		}
-	}
-}
-
-.delete-all label {
-	display: flex;
-	align-items: center;
-	gap: 1rem;
-
-	div {
-		font-size: 0.9rem;
 	}
 }
 

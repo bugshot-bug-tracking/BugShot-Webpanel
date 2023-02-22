@@ -1,28 +1,33 @@
+<!-- Note:
+	- maybe refactor to be more reusable
+ -->
+
 <template>
 	<div class="invite-members">
 		<span>{{ $t("add.team_member") }}</span>
 
-		<div class="user-list w-100 d-flex flex-column" v-if="displayList">
-			<div
-				class="user-item w-100"
-				v-for="(item, index) in invites"
-				:key="index"
-			>
+		<div class="user-list" v-if="displayList">
+			<div class="user-item" v-for="(item, index) in invites" :key="index">
 				<div class="user-email">{{ item.email }}</div>
 
-				<div class="user-role">
-					{{
-						roles.find((x) => x.id === item.role).attributes
-							.designation
-					}}
-				</div>
+				<Badge
+					:text="
+						$t(
+							'roles.' +
+								roles
+									.find((x) => x.id === item.role_id)
+									?.attributes.designation.toLocaleLowerCase()
+						)
+					"
+					preset="pf"
+				/>
 
 				<div class="actions">
 					<img
 						src="/src/assets/icons/edit.svg"
 						alt="edit"
 						class="edit black-to-gray"
-						@click="editInvite(index)"
+						@click="inviteModal.openEdit(item)"
 					/>
 
 					<img
@@ -40,148 +45,94 @@
 			alt="add"
 			class="black-to-green"
 			style="width: 2rem; height: 2rem"
-			@click="modalActive = true"
+			@click="inviteModal.open"
 		/>
 	</div>
 
-	<Modal :show="modalActive" @close="closeModal">
-		<div class="wrapper">
-			<div class="header mb-3">
-				<span>{{ $t("add.team_member") }}</span>
-			</div>
-
-			<form
-				@submit.prevent="modalSubmit"
-				class="d-flex flex-column align-items-center w-100 gap-4"
-			>
-				<div class="bs-input w-icon">
-					<input
-						:placeholder="$t('email')"
-						:type="'email'"
-						v-model="email"
-						required
-						maxlength="255"
-						autocomplete="email"
-					/>
-
-					<img src="/src/assets/icons/mail.svg" alt="at" />
-				</div>
-
-				<div class="roles">
-					<span>{{ $t("role") }}</span>
-
-					<div class="items">
-						<label class="role" v-for="role of roles">
-							<input
-								type="radio"
-								name="roleOptions"
-								:value="role.id"
-								v-model="rolePicked"
-							/>
-
-							<span>{{ role.attributes.designation }}</span>
-						</label>
-					</div>
-				</div>
-
-				<slot name="extra"> </slot>
-
-				<button type="submit" class="bs-btn green mt-4">
-					{{ $t("add.member") }}
-				</button>
-			</form>
-		</div>
-	</Modal>
+	<InviteMemberModal
+		:show="inviteModal.show"
+		@close="inviteModal.close"
+		@submit="inviteModal.submit"
+		@change="inviteModal.change"
+		:user="inviteModal.user"
+		:editMode="inviteModal.editMode"
+	>
+		<template #extra>
+			<slot name="extra" />
+		</template>
+	</InviteMemberModal>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { User } from "~/models/User";
 import { useMainStore } from "~/stores/main";
 
 const emit = defineEmits(["change", "submit"]);
-const props = defineProps({
+
+// const props =
+defineProps({
 	displayList: {
 		type: Boolean,
 		required: false,
 		default: true,
 	},
-	externalSubmit: {
-		type: Boolean,
-		required: false,
-		default: false,
+});
+
+const roles = computed(() => useMainStore().getRoles!);
+
+const invites = ref<{ email: string; role_id: number }[]>([]);
+
+const deleteInvite = (index: number) => {
+	if (invites.value.length <= index) return;
+
+	invites.value.splice(index, 1);
+
+	emit("change", invites.value);
+};
+
+const inviteModal = reactive({
+	show: false,
+	user: undefined as User | { email: string; role_id: number } | undefined,
+	editMode: false,
+
+	open: () => {
+		inviteModal.show = true;
+		inviteModal.user = undefined;
+		inviteModal.editMode = false;
 	},
-});
+	close: () => {
+		inviteModal.show = false;
+		inviteModal.user = undefined;
+		inviteModal.editMode = false;
+	},
+	openEdit: (user: { email: string; role_id: number }) => {
+		inviteModal.editMode = true;
+		inviteModal.user = user;
+		inviteModal.show = true;
+	},
 
-const invites = ref([]);
+	submit: async (user: { email: string; role_id: number }) => {
+		invites.value.push(user);
 
-const modalActive = ref(false);
+		emit("change", invites.value);
 
-const email = ref("");
-//! WIP treat the value taking the database roles into consideration
-const rolePicked = ref(2);
-const editMode = reactive({
-	on: false,
-	index: -1,
-});
-
-const modalSubmit = () => {
-	if (props.externalSubmit) {
-		emit(
-			"submit",
-			{
-				email: email.value,
-				role: rolePicked.value,
-			},
-			closeModal
+		inviteModal.close();
+	},
+	change: async (value: {
+		old: { email: string; role_id: number };
+		new: { email: string; role_id: number };
+	}) => {
+		const index = invites.value.findIndex(
+			(x) => x.email === (value.old as { email: string; role_id: number }).email
 		);
 
-		return;
-	}
+		invites.value[index] = value.new;
 
-	if (!editMode.on)
-		invites.value.push({
-			email: email.value,
-			role: rolePicked.value,
-		});
-	else
-		invites.value[editMode.index] = {
-			email: email.value,
-			role: rolePicked.value,
-		};
+		emit("change", invites.value);
 
-	emit("change", invites.value);
-
-	closeModal();
-};
-
-const editInvite = (value) => {
-	if (invites.value.length <= value) return;
-
-	email.value = invites.value[value].email;
-	rolePicked.value = invites.value[value].role;
-
-	editMode.on = true;
-	editMode.index = value;
-
-	modalActive.value = true;
-};
-
-const deleteInvite = (value) => {
-	if (invites.value.length <= value) return;
-
-	invites.value.splice(value, 1);
-
-	emit("change", invites.value);
-};
-
-const closeModal = () => {
-	modalActive.value = false;
-	email.value = "";
-	rolePicked.value = 4;
-	editMode.on = false;
-	editMode.index = -1;
-};
-
-const roles = computed(() => useMainStore().getRoles);
+		inviteModal.close();
+	},
+});
 </script>
 
 <style lang="scss" scoped>
@@ -192,8 +143,8 @@ const roles = computed(() => useMainStore().getRoles);
 	align-items: center;
 	justify-content: center;
 	gap: 1rem;
-	margin: 20px 0;
-	padding: 20px 0;
+	margin: 1.5rem 0;
+	padding: 1.5rem 0;
 
 	> span {
 		font-weight: bold;
@@ -203,59 +154,8 @@ const roles = computed(() => useMainStore().getRoles);
 		cursor: pointer;
 
 		&:hover {
-			filter: brightness(0) saturate(1) invert(18%) sepia(72%)
-				saturate(5384%) hue-rotate(263deg) brightness(94%) contrast(92%);
-		}
-	}
-}
-
-.wrapper {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 25px 50px;
-
-	.header {
-		span {
-			font-weight: bold;
-			font-size: 24px;
-		}
-	}
-
-	.roles {
-		display: flex;
-		gap: 8px;
-		justify-content: space-between;
-		user-select: none;
-
-		> span {
-			font-weight: bold;
-			font-size: 18px;
-		}
-		.items {
-			display: grid;
-			justify-items: center;
-			grid-template-columns: 1fr 1fr 1fr;
-			align-items: center;
-			gap: 8px;
-		}
-		.role {
-			span {
-				border: 1px solid #7a2ee6;
-				border-radius: 8px;
-				padding: 4px;
-				color: #7a2ee6;
-			}
-
-			input:checked + span {
-				border-radius: 8px;
-				background: #7a2ee6;
-				color: white;
-			}
-
-			input {
-				display: none;
-			}
+			filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+				hue-rotate(263deg) brightness(94%) contrast(92%);
 		}
 	}
 }
@@ -263,46 +163,36 @@ const roles = computed(() => useMainStore().getRoles);
 .user-list {
 	display: flex;
 	flex-direction: column;
-	gap: 14px;
+	gap: 0.875rem;
 
 	.user-item {
 		display: grid;
-		grid-template-columns: 4fr 1fr 1fr;
+		grid-template-columns: 3fr 1fr 1fr;
 		align-items: center;
-		gap: 16px;
+		gap: 1rem;
 
 		> .actions {
 			display: grid;
 			grid-template-columns: 1fr 1fr;
 			align-items: center;
 			justify-items: center;
-			gap: 16px;
+			gap: 1rem;
 
 			img {
 				width: 1.5rem;
 				cursor: pointer;
 
 				&.edit:hover {
-					filter: brightness(0) saturate(1) invert(18%) sepia(72%)
-						saturate(5384%) hue-rotate(263deg) brightness(94%)
-						contrast(92%);
+					filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+						hue-rotate(263deg) brightness(94%) contrast(92%);
 				}
 
 				&.delete:hover {
-					filter: brightness(0) saturate(1) invert(46%) sepia(28%)
-						saturate(5216%) hue-rotate(331deg) brightness(87%)
-						contrast(121%);
+					filter: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%)
+						hue-rotate(331deg) brightness(87%) contrast(121%);
 				}
 			}
 		}
-	}
-
-	.user-role {
-		border-radius: 8px;
-		padding: 4px 8px;
-		background-color: #7a2ee6;
-		color: #fff;
-		font-size: 14px;
 	}
 
 	.user-email {

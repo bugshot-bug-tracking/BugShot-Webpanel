@@ -1,22 +1,16 @@
 <template>
-	<MyModal v-model="show" :close="close" z-200>
+	<MyModal :modelValue="show" :close="close" z-200>
 		<div class="process">
 			<div class="loading" v-if="state === 0">
 				<slot name="loading">
-					<img
-						src="/src/assets/animations/loading.svg"
-						alt="loading"
-					/>
+					<img src="/src/assets/animations/loading.svg" alt="loading" />
 				</slot>
 			</div>
 
 			<div class="success" v-if="state === 1">
 				<slot name="success">
 					<slot name="success-img">
-						<img
-							src="/src/assets/animations/bug_confirmation.gif"
-							alt="Success"
-						/>
+						<img src="/src/assets/animations/bug_confirmation.gif" alt="Success" />
 					</slot>
 					<slot name="success-header">
 						<div>{{ t("success") + "!" }}</div>
@@ -31,10 +25,7 @@
 			<div class="error" v-if="state === 2">
 				<slot name="error">
 					<slot name="error-img">
-						<img
-							src="/src/assets/animations/error_bug.gif"
-							alt="error"
-						/>
+						<img src="/src/assets/animations/error_bug.gif" alt="error" />
 					</slot>
 
 					<slot name="error-header">
