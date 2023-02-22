@@ -38,3 +38,28 @@
 .dp__select {
 	color: #18b984;
 }
+
+.n-button--tertiary-type {
+	--n-text-color: #8f809b !important;
+	--n-text-color-hover: #746581 !important;
+	--n-text-color-pressed: #746581 !important;
+	--n-text-color-focus: #746581 !important;
+
+	--n-border: 2px solid #8f809b !important;
+	--n-border-hover: 2px solid #746581 !important;
+	--n-border-pressed: 2px solid #746581 !important;
+	--n-border-focus: 2px solid #746581 !important;
+
+	--n-ripple-color: #8f809b !important;
+}
+
+.n-button--ghost .n-button__border {
+	border-width: 2px !important;
+}
+
+.n-step-splitor {
+	height: 2px !important;
+}
+svg {
+	vertical-align: initial;
+}
