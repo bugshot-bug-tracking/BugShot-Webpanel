@@ -395,5 +395,76 @@ export const useOrganizationStore = defineStore("organization", {
 		getLicense: (state) => (product_id: string, price_id: string) => {
 			return state.licenses?.find((x: any) => x.id === product_id && x.price.id === price_id);
 		},
+
+		getSubscriptions: (state) => {
+			return [
+				{
+					id: "1",
+					attributes: {
+						name: "Subscription #1",
+						quantity: 10,
+						price: 110,
+						type: "month",
+					},
+					features: ["item 1", "item 2", "item 3"],
+				},
+				{
+					id: "2",
+					attributes: {
+						name: "Subscription #2",
+						quantity: 6,
+						price: 120,
+						type: "month",
+					},
+					features: ["item 1", "item 2", "item 3"],
+				},
+
+				{
+					id: "4",
+					attributes: {
+						name: "Subscription #4",
+						quantity: 50,
+						price: 1100,
+						type: "year",
+					},
+					features: ["item 1", "item 2", "item 3"],
+				},
+				{
+					id: "5",
+					attributes: {
+						name: "Subscription #5",
+						quantity: 34,
+						price: 1200,
+						type: "year",
+					},
+					features: ["item 1", "item 2", "item 3"],
+				},
+			];
+		},
+
+		getLicenses: (state) => {
+			return [
+				{
+					id: "1",
+					attributes: {
+						name: "License #1",
+						quantity: 10,
+						price: 110,
+						type: "month",
+					},
+					features: ["item 1", "item 2", "item 3"],
+				},
+				{
+					id: "2",
+					attributes: {
+						name: "License #2",
+						quantity: 6,
+						price: 120,
+						type: "month",
+					},
+					features: ["item 1", "item 2", "item 3"],
+				},
+			];
+		},
 	},
 });

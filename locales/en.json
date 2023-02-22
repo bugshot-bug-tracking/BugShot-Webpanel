@@ -344,5 +344,52 @@
 	},
 	"customer_portal": "Customer portal",
 	"enter": "Enter",
-	"created_at": "Created at"
+
+	"created_at": "Created at",
+	"billing_and_payments": "Billing and payments",
+	"subscription": "Subscription | Subscriptions",
+	"paid_with": "Paid with",
+	"payment": "Payment | Payments",
+	"manage_subscription": "Manage subscription",
+	"view_billing_history": "View billing history",
+	"number_of_licenses_n": "Number of licenses: {n}",
+	"manage_licenses": "Manage licenses",
+	"you_are_using": "You are using",
+	"available_actions": "Available actions",
+	"want_to_change_subscription": "Want to change the subscription?",
+	"change_subscription": "Change subscription",
+	"change_subscription_text": "Find a more suitable subscription for you",
+	"change_subscription_subtext": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate et earum a sed at distinctio fuga officiis fugiat nihil deserunt soluta, facere quas architecto provident doloremque nemo doloribus molestias quo!",
+	"cancel_subscription": "Cancel subscription",
+	"cancel_subscription_text": "Cancel subscription",
+	"cancel_subscription_subtext": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+	"previous_step": "Previous step",
+	"continue_cancelation": "Continue cancelation",
+	"i_want_to_cancel": "I want to cancel",
+	"confirm_cancelation": "Confirm cancelation",
+	"cancel_headers": {
+		"static": "Sorry to see you go",
+		"feedback": "Why do you want to cancel?",
+		"options": "Before you cancel, consider the following:",
+		"review": "You need to know this if you cancel!"
+	},
+	"cancel_reasons": {
+		"1_project": "I needed the product for a project I've completed",
+		"technical_issues": "I'm having too many technical issues",
+		"too_complicated": "Product and features are to complicated for me",
+		"too_expensive": "It's too expensive",
+		"not_working": "The apps or services didn't work as expected",
+		"other": "Other (please specify)"
+	},
+	"need_help_with_bugshot": "Get help now",
+	"need_help_with_bugshot_text": "Need help with Bugshot?",
+	"need_help_with_bugshot_subtext": "Having trouble with our product? Having technical difficulties. \nGet help at Bugshot.de",
+	"cancel_review": {
+		"line_1": "After you cancel your plan you won't be able to create new groups, projects or bugs and the ones that you have now will enter a {0}.",
+		"line_1_bold": "read-only mode",
+		"line_2": "Invitations inside the organization will be restricted, editing/modifying of the resources will be prohibited, deletion/removal is allowed."
+	},
+
+	" ": "",
+	"": ""
 }
