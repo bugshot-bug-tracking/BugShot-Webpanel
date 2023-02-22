@@ -36,7 +36,6 @@
 import dateFix from "~/util/dateFixISO";
 import { useNotificationStore } from "~/stores/notifications";
 import { useMainStore } from "~/stores/main";
-import { useOrganizationStore } from "~/stores/organization";
 
 const props = defineProps({
 	record: {
@@ -51,8 +50,7 @@ const notifications = useNotificationStore();
 const accept = async () => {
 	try {
 		await notifications.accept(props.record.id);
-		await useMainStore().init();
-		await useOrganizationStore().refresh();
+		await useMainStore().initOrganizations();
 	} catch (error) {
 		console.log(error);
 	}
@@ -60,7 +58,7 @@ const accept = async () => {
 
 const decline = async () => {
 	try {
-		await notifications.accept(props.record.id);
+		await notifications.decline(props.record.id);
 	} catch (error) {
 		console.log(error);
 	}
