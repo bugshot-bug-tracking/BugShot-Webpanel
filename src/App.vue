@@ -5,8 +5,17 @@
 		<img src="/src/assets/animations/loading.svg" alt="loading circle" />
 	</main>
 
-	<RouterView v-else />
-
+	<n-config-provider
+		:locale="enUS"
+		:date-locale="dateEnUS"
+		:theme="theme"
+		:theme-overrides="overrides"
+		flex
+		style="width: 100vw; position: relative"
+		v-else
+	>
+		<RouterView />
+	</n-config-provider>
 	<Feedback />
 </template>
 
@@ -14,6 +23,10 @@
 import { useI18nStore } from "~/stores/i18n";
 import { useAuthStore } from "./stores/auth";
 import { useMainStore } from "./stores/main";
+import { useTheme } from "~/composables/useThemes";
+import { enUS, dateEnUS } from "naive-ui"; //TODO WIP sync with locale store
+
+const { theme, overrides } = useTheme();
 
 const user = computed(() => useAuthStore().getUser);
 
