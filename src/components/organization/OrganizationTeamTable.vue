@@ -90,6 +90,7 @@
 						}"
 						class="black-to-purple"
 						:style="{ 'font-size': '0.825rem' }"
+						v-if="false"
 					>
 						<img
 							src="/src/assets/icons/password_view.svg"
