@@ -196,7 +196,7 @@ const submit = async () => {
 
 		// convert all images from file to string
 		let images = await Promise.all(
-			data.attachments.map(async (i) => ({
+			data.images.map(async (i) => ({
 				base64: btoa((await toBase64(i)) as string),
 			}))
 		);

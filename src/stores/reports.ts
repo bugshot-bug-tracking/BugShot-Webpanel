@@ -28,6 +28,7 @@ export const useReportsStore = defineStore("reports", {
 		assignees: undefined as BugUserRole[] | undefined,
 
 		// ^^^---------------------------------------^^^
+		globalI18n: useI18n(),
 	}),
 
 	actions: {
@@ -470,8 +471,16 @@ export const useReportsStore = defineStore("reports", {
 				let sameStatus = newBug.attributes.status_id === oldBug.attributes.status_id;
 
 				// if no reorder was made just update the bug properties
-				if (newBug.attributes.order_number === oldBug.attributes.order_number && sameStatus)
-					return Object.assign(oldBug!.attributes, newBug.attributes);
+				if (
+					newBug.attributes.order_number === oldBug.attributes.order_number &&
+					sameStatus
+				) {
+					Object.assign(oldBug!.attributes, newBug.attributes);
+
+					if (this.bug?.id === newBug.id) this.bug = oldBug;
+
+					return;
+				}
 
 				let oldStatus = this.statuses?.find((x) => x.id === oldBug!.attributes.status_id);
 
