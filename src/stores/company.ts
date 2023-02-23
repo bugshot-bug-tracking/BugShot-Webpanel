@@ -312,6 +312,10 @@ export const useCompanyStore = defineStore("company", {
 
 			let channel = echo.private(api_channel);
 
+			channel.listen(".members.updated", async (data: any) => {
+				await this.fetchUsers();
+			});
+
 			channel.listen(".project.updated", (data: any) => {
 				if (!(data && data.data.type === "Project")) return console.log(data);
 
@@ -392,7 +396,7 @@ export const useCompanyStore = defineStore("company", {
 		async handleRemoteUpdate() {
 			let company = this.company;
 
-			alert(`Company ${company?.attributes.designation} was updated!`);
+			// alert(`Company ${company?.attributes.designation} was updated!`);
 
 			this.load();
 		},
@@ -400,7 +404,7 @@ export const useCompanyStore = defineStore("company", {
 		async handleRemoteDelete() {
 			let company = this.company;
 
-			alert(`Company ${company?.attributes.designation} was deleted!`);
+			// alert(`Company ${company?.attributes.designation} was deleted!`);
 
 			this.$reset();
 		},

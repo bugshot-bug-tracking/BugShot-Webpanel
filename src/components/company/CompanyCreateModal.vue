@@ -51,13 +51,21 @@ import { useCompanyStore } from "~/stores/company";
 import colors from "~/util/colors";
 import toBase64 from "~/util/toBase64";
 
-defineProps({
+const props = defineProps({
 	primary_button: {
 		type: Boolean,
 		required: false,
 		default: false,
 	},
+
+	redirect: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
 });
+
+const router = useRouter();
 
 const data = reactive({
 	designation: "",
@@ -109,5 +117,14 @@ const onSubmit = async () => {
 	}
 
 	reset();
+
+	if (props.redirect)
+		router.push({
+			name: "company",
+			params: {
+				organization_id: response.attributes.organization.id,
+				company_id: response.id,
+			},
+		});
 };
 </script>

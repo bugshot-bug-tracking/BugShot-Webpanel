@@ -141,7 +141,7 @@
 		</template>
 
 		<template #footer>
-			<CompanyCreateModal :primary_button="false" />
+			<CompanyCreateModal :primary_button="false" redirect />
 		</template>
 	</ResourceNavbar>
 </template>

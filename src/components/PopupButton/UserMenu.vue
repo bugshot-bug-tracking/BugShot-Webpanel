@@ -39,8 +39,8 @@
 				</RouterLink>
 				<hr />
 
-				<RouterLink to="/settings">
-					<img src="/src/assets/icons/apps.svg" alt="gear" />
+				<RouterLink :to="{ name: 'settings' }">
+					<img src="/src/assets/icons/apps.svg" alt="apps" />
 
 					{{ $t("the_apps") }}
 				</RouterLink>

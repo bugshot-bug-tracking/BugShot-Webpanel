@@ -198,7 +198,7 @@ export const useProjectStore = defineStore("project", {
 		async handleRemoteUpdate() {
 			let project = this.project;
 
-			alert(`Project ${project?.attributes.designation} was updated!`);
+			// alert(`Project ${project?.attributes.designation} was updated!`);
 
 			this.load();
 		},
@@ -206,7 +206,7 @@ export const useProjectStore = defineStore("project", {
 		async handleRemoteDelete() {
 			let project = this.project;
 
-			alert(`Project ${project?.attributes.designation} was deleted!`);
+			// alert(`Project ${project?.attributes.designation} was deleted!`);
 
 			this.$reset();
 		},
