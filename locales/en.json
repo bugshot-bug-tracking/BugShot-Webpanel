@@ -382,8 +382,8 @@
 		"other": "Other (please specify)"
 	},
 	"need_help_with_bugshot": "Get help now",
-	"need_help_with_bugshot_text": "Need help with Bugshot?",
-	"need_help_with_bugshot_subtext": "Having trouble with our product? Having technical difficulties. \nGet help at Bugshot.de",
+	"need_help_with_bugshot_text": "Need help with BugShot?",
+	"need_help_with_bugshot_subtext": "Having trouble with our product? Having technical difficulties. \nGet help at BugShot.de",
 	"cancel_review": {
 		"line_1": "After you cancel your plan you won't be able to create new groups, projects or bugs and the ones that you have now will enter a {0}.",
 		"line_1_bold": "read-only mode",
