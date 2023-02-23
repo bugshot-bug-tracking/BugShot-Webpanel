@@ -5,12 +5,7 @@
 		</div>
 
 		<div v-else class="bs-tab bs-scroll" gap-4>
-			<Info
-				:bug="bug"
-				:status="status"
-				@close="emit('close')"
-				@open_assign="assignShow = true"
-			>
+			<Info :status="status" @close="emit('close')" @open_assign="assignShow = true">
 				<template #screenshot>
 					<Screenshot
 						:screenshots="screenshots ?? []"
@@ -114,7 +109,7 @@ const bug = computed(() => {
 
 	if (b?.attributes.deleted_at != undefined) {
 		emit("close");
-		alert("The bug was deleted!");
+		// alert("The bug was deleted!");
 	}
 
 	return b;

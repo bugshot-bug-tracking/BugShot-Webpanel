@@ -23,7 +23,7 @@
 
 			<p>{{ $t("please_add_new_one") }}</p>
 
-			<CompanyCreateModal :primary_button="true" />
+			<CompanyCreateModal :primary_button="true" redirect />
 		</section>
 	</main>
 </template>

@@ -291,6 +291,10 @@ export const useOrganizationStore = defineStore("organization", {
 
 			let channel = echo.private(api_channel);
 
+			channel.listen(".members.updated", async (data: any) => {
+				await this.fetchUsers();
+			});
+
 			channel.listen(".company.updated", (data: any) => {
 				if (!(data && data.data.type === "Company")) return console.log(data);
 

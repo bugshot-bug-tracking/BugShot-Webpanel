@@ -266,11 +266,8 @@ import { Status } from "~/models/Status.js";
 
 const emit = defineEmits(["close", "open_assign"]);
 
-const props = defineProps({
-	bug: {
-		required: true,
-		type: Object,
-	},
+// const props =
+defineProps({
 	status: {
 		required: true,
 		type: Object,
@@ -278,6 +275,8 @@ const props = defineProps({
 });
 
 const store = useReportsStore();
+
+const bug = computed(() => store.getBug!);
 
 const { t } = useI18n();
 
@@ -308,7 +307,11 @@ const priorities = computed(() => [
 
 const open = ref(false);
 
-const datePicker = ref(dateFix(props.bug.attributes.deadline));
+const datePicker = ref(undefined as string | undefined);
+
+watchEffect(() => {
+	datePicker.value = dateFix(bug.value.attributes.deadline);
+});
 
 const bugData = reactive({
 	designation: "",
@@ -316,11 +319,11 @@ const bugData = reactive({
 	description: "",
 	flag2: false,
 	editDesignation: () => {
-		bugData.designation = props.bug.attributes.designation;
+		bugData.designation = bug.value.attributes.designation;
 		bugData.flag1 = true;
 	},
 	editDescription: () => {
-		bugData.description = props.bug.attributes.description;
+		bugData.description = bug.value.attributes.description;
 		bugData.flag2 = true;
 	},
 });
@@ -328,7 +331,7 @@ const bugData = reactive({
 const changeDesignation = () => {
 	bugData.flag1 = false;
 
-	props.bug.attributes.designation = bugData.designation;
+	bug.value.attributes.designation = bugData.designation;
 
 	store.updateBug({
 		designation: bugData.designation,
@@ -338,7 +341,7 @@ const changeDesignation = () => {
 const changeDescription = () => {
 	bugData.flag2 = false;
 
-	props.bug.attributes.description = bugData.description;
+	bug.value.attributes.description = bugData.description;
 
 	store.updateBug({
 		description: bugData.description,
@@ -367,8 +370,8 @@ const clearDeadline = () => {
 const changeDeadline = () => {
 	let newDate = datePicker.value ? new Date(datePicker.value).toISOString() : null;
 
-	if (props.bug.attributes.deadline != null) {
-		let bug_deadline = props.bug.attributes.deadline;
+	if (bug.value.attributes.deadline != null) {
+		let bug_deadline = bug.value.attributes.deadline;
 
 		if (bug_deadline.match(/[z]$/i) == null) bug_deadline += "Z";
 

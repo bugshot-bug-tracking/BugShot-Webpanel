@@ -23,7 +23,7 @@ export interface Bug {
 		selector: string;
 		status_id: string;
 		updated_at: string;
-		url: URL | string;
+		url: string;
 		deleted_at?: string;
 	};
 	users?: BugUserRole[];
