@@ -6,18 +6,24 @@
 			</template>
 
 			<form @submit.prevent="modalSubmit" @reset="closeModal">
-				<div class="bs-input" :style="{ width: '100%' }">
-					<input
+				<div :style="{ width: '100%' }">
+					<n-auto-complete
+						v-model:value="email"
+						:input-props="{
+							autocomplete: 'email',
+							required: true,
+							maxlength: 255,
+							type: 'email',
+						}"
 						:placeholder="$t('email')"
-						:type="'email'"
-						v-model="email"
-						required
-						maxlength="255"
-						autocomplete="email"
+						size="large"
 						:disabled="disableSubmit && user && Object.hasOwn(user, 'id')"
-					/>
-
-					<img class="input-image" src="/src/assets/icons/mail.svg" alt="at" />
+						:options="memberOptions"
+					>
+						<template #suffix>
+							<img class="input-image" src="/src/assets/icons/mail.svg" alt="at" />
+						</template>
+					</n-auto-complete>
 				</div>
 
 				<div class="roles">
@@ -79,6 +85,12 @@ const props = defineProps({
 		type: Object as PropType<User | { email: string; role_id: number }>,
 		required: false,
 		default: undefined,
+	},
+
+	suggestOptions: {
+		type: Array as PropType<string[]>,
+		required: false,
+		default: [],
 	},
 });
 
@@ -147,6 +159,12 @@ const disableSubmit = computed(() => {
 	}
 
 	return false;
+});
+
+const memberOptions = computed(() => {
+	let members = props.suggestOptions;
+
+	return members?.filter((m) => m.includes(email.value));
 });
 </script>
 

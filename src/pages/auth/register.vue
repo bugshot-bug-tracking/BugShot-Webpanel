@@ -199,17 +199,34 @@
 		<div class="success" v-if="stage === 1">
 			<img src="/src/assets/animations/bug_confirmation_not_white.gif" alt="Success" />
 
-			<div>{{ $t("success") + "!" }}</div>
+			<div>{{ $t("verification_email_sent") }}</div>
 
 			<span> {{ $t("please_confirm_email") + "!" }} </span>
+
+			<p class="black-to-gray" flex items-center gap-2>
+				{{ $t("email_not_received") }}
+
+				<n-button
+					:loading="resendLoading"
+					text
+					strong
+					type="tertiary"
+					size="large"
+					underline
+					@click="resendEmail"
+					flex-row-reverse
+					gap-2
+				>
+					{{ $t("resend_email") }}
+				</n-button>
+			</p>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
 import axios from "axios";
-
-const router = useRouter();
+import { User } from "~/models/User";
 
 const first_name = ref("");
 const last_name = ref("");
@@ -228,9 +245,12 @@ const tos = ref(false);
 const errMessage = ref(null);
 
 const errField = reactive({
-	email: false,
-	password: false,
+	email: false as boolean | null,
+	password: false as boolean | null,
 });
+
+const userResponse = ref(undefined as User | undefined);
+const resendLoading = ref(false);
 
 const resetError = () => {
 	errMessage.value = null;
@@ -269,15 +289,13 @@ const submit = () => {
 			stage.value = 1;
 
 			console.log(response.data);
+
+			userResponse.value = response.data.data as User;
 		})
-		.then(() => {
-			setTimeout(() => {
-				router.push({
-					name: "Login",
-				});
-			}, 5000);
-		})
+
 		.catch((error) => {
+			userResponse.value = undefined;
+
 			process.value = false;
 
 			console.dir(error);
@@ -328,6 +346,19 @@ const openTOS = () => {
 
 const openPP = () => {
 	window.open("https://www.bugshot.de/datenschutz");
+};
+
+const resendEmail = async () => {
+	try {
+		resendLoading.value = true;
+		await axios.post("/auth/email/verification-notification", {
+			user_id: userResponse.value?.id,
+		});
+	} catch (error) {
+		console.log(error);
+	} finally {
+		resendLoading.value = false;
+	}
 };
 </script>
 

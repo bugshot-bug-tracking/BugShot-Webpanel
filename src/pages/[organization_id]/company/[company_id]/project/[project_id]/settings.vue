@@ -46,6 +46,7 @@
 									:delete="deleteMember"
 									:deleteInvitation="deleteInvitation"
 									:preOpenCall="preCall"
+									:suggestOptions="suggestOptions"
 								>
 									<template #button="{ loading }">
 										<img
@@ -138,6 +139,7 @@
 import { User } from "~/models/User";
 import { useAuthStore } from "~/stores/auth";
 import { useCompanyStore } from "~/stores/company";
+import { useOrganizationStore } from "~/stores/organization";
 import { useProjectStore } from "~/stores/project";
 
 const props = defineProps({
@@ -239,6 +241,15 @@ const deleteModal = reactive({
 const manageableMembers = computed(() => store.getMembers);
 
 const pendingMembers = computed(() => store.getPendingInvitations);
+
+const suggestOptions = computed(() => {
+	const all = useOrganizationStore().getMembers ?? [];
+	const inside = store.getMembers ?? [];
+
+	const diffArray = all.filter((am) => !inside.some((im) => am.id === im.id));
+
+	return diffArray.map((m) => m.attributes.email);
+});
 </script>
 
 <style lang="scss" scoped>
