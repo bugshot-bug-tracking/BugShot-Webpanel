@@ -155,14 +155,22 @@ export const useProjectStore = defineStore("project", {
 
 		async editMember(payload: { user_id: number; role_id: number }) {
 			let response = (
-				await axios.put(`projects/${this.project_id}/users/${payload.user_id}`, {
+				await axios.put(
+					`projects/${this.project_id}/users/${payload.user_id}`,
+					{
 					role_id: payload.role_id,
-				})
+					},
+					{
+						headers: {
+							"include-users-project-role": true,
+						},
+					}
+				)
 			).data.data;
 
 			let user = this.members?.find((x) => x.user.id === payload.user_id);
 
-			if (user) user.role = response.role;
+			if (user) Object.assign(user.role, response.role);
 		},
 
 		async deleteMember(payload: { user_id: number }) {
