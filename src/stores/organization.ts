@@ -153,14 +153,22 @@ export const useOrganizationStore = defineStore("organization", {
 
 		async editMember(payload: { user_id: number; role_id: number }) {
 			let response = (
-				await axios.put(`organizations/${this.organization_id}/users/${payload.user_id}`, {
-					role_id: payload.role_id,
-				})
+				await axios.put(
+					`organizations/${this.organization_id}/users/${payload.user_id}`,
+					{
+						role_id: payload.role_id,
+					},
+					{
+						headers: {
+							"include-users-organization-role": true,
+						},
+					}
+				)
 			).data.data;
 
 			let user = this.members?.find((x) => x.user.id === payload.user_id);
 
-			if (user) user.role = response.role;
+			if (user) Object.assign(user.role, response.role);
 		},
 
 		async deleteMember(payload: { user_id: number }) {

@@ -45,6 +45,7 @@
 									:delete="deleteMember"
 									:deleteInvitation="deleteInvitation"
 									:preOpenCall="preCall"
+									:suggestOptions="suggestOptions"
 								>
 									<template #button="{ loading }">
 										<img
@@ -137,6 +138,7 @@
 import { User } from "~/models/User";
 import { useAuthStore } from "~/stores/auth";
 import { useCompanyStore } from "~/stores/company";
+import { useOrganizationStore } from "~/stores/organization";
 
 const props = defineProps({
 	organization_id: {
@@ -226,6 +228,15 @@ const deleteModal = reactive({
 		};
 		deleteModal.show = true;
 	},
+});
+
+const suggestOptions = computed(() => {
+	const all = useOrganizationStore().getMembers ?? [];
+	const inside = store.getMembers ?? [];
+
+	const diffArray = all.filter((am) => !inside.some((im) => am.id === im.id));
+
+	return diffArray.map((m) => m.attributes.email);
 });
 </script>
 

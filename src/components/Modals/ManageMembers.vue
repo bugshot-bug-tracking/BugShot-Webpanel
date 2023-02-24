@@ -46,6 +46,7 @@
 		@change="inviteModal.change"
 		:user="inviteModal.user"
 		:editMode="inviteModal.editMode"
+		:suggestOptions="suggestOptions"
 	>
 		<template #extra>
 			<slot name="extra" />
@@ -109,6 +110,12 @@ const props = defineProps({
 	postOpenCall: {
 		type: Function,
 		required: false,
+	},
+
+	suggestOptions: {
+		type: Array as PropType<string[]>,
+		required: false,
+		default: [],
 	},
 });
 
