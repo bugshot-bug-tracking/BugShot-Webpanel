@@ -390,6 +390,9 @@
 		"line_2": "Invitations inside the organization will be restricted, editing/modifying of the resources will be prohibited, deletion/removal is allowed."
 	},
 
+	"verification_email_sent": "Verification email sent!",
+	"email_not_received": "In case the email is not received:",
+	"resend_email": "resend email",
 	" ": "",
 	"": ""
 }

@@ -388,5 +388,8 @@
 		"line_1": "Nachdem Du deinen Plan gekündigt hast, kannst Du keine neuen Gruppen, Projekte oder Bugs mehr erstellen und die vorhanden werden in den {0} versetzt.",
 		"line_1_bold": "Read-Only-Modus",
 		"line_2": "Einladungen innerhalb der Organisation werden eingeschränkt, die Bearbeitung/Änderung der Ressourcen wird verboten, das Löschen/Entfernen ist erlaubt."
-	}
+	},
+	"verification_email_sent": "Verifizierungs-E-Mail wurde versandt!",
+	"email_not_received": "Falls Du die Mail nicht erhalten hast:",
+	"resend_email": "erneut verschicken"
 }
