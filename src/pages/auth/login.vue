@@ -2,7 +2,7 @@
 	<div class="title">{{ t("log_in") }}</div>
 
 	<form id="login-form" @submit.prevent="submit">
-		<div class="bs-input w-icon">
+		<div class="bs-input">
 			<input
 				type="email"
 				:placeholder="$t('email_address')"
@@ -14,10 +14,10 @@
 				:class="{ error: errMessage }"
 			/>
 
-			<img src="/src/assets/icons/mail.svg" alt="at" />
+			<img class="input-image" src="/src/assets/icons/mail.svg" alt="at" />
 		</div>
 
-		<div class="bs-input w-icon">
+		<div class="bs-input">
 			<input
 				:type="passwordOpt.type"
 				:placeholder="$t('password')"
@@ -34,14 +34,16 @@
 				v-show="passwordOpt.hidden"
 				@click="passwordOpt.toggle"
 				src="/src/assets/icons/password_hide.svg"
-				style="cursor: pointer"
+				cursor-pointer
+				class="input-image"
 			/>
 
 			<img
 				v-show="!passwordOpt.hidden"
 				@click="passwordOpt.toggle"
 				src="/src/assets/icons/password_view.svg"
-				style="cursor: pointer"
+				cursor-pointer
+				class="input-image"
 			/>
 		</div>
 
@@ -166,6 +168,10 @@ form {
 	> p {
 		margin: 0;
 	}
+}
+
+.bs-input {
+	width: 100%;
 }
 </style>
 

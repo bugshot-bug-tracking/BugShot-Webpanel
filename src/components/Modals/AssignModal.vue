@@ -26,28 +26,17 @@
 								:style="{
 									'background-color':
 										colors[
-											(user.attributes.first_name.charCodeAt(
-												0
-											) +
-												user.attributes.last_name.charCodeAt(
-													0
-												)) %
+											(user.attributes.first_name.charCodeAt(0) +
+												user.attributes.last_name.charCodeAt(0)) %
 												7
 										],
 								}"
 							>
-								{{
-									user.attributes.first_name[0] +
-									user.attributes.last_name[0]
-								}}
+								{{ user.attributes.first_name[0] + user.attributes.last_name[0] }}
 							</div>
 
 							<div class="name">
-								{{
-									user.attributes.first_name +
-									" " +
-									user.attributes.last_name
-								}}
+								{{ user.attributes.first_name + " " + user.attributes.last_name }}
 							</div>
 						</label>
 					</div>
@@ -64,9 +53,7 @@
 
 			<a class="close" @click="$emit('close')" />
 
-			<a class="bs-btn green add" @click="submit">{{
-				$t("add.member", 2)
-			}}</a>
+			<a class="bs-btn green add" @click="submit">{{ $t("add.member", 2) }}</a>
 		</div>
 	</div>
 
@@ -86,6 +73,7 @@ import { useProjectStore } from "~/stores/project";
 import colors from "~/util/colors";
 import axios from "axios";
 import { User } from "~/models/User";
+import { useReportsStore } from "~/stores/reports";
 
 const emit = defineEmits(["close"]);
 
@@ -97,11 +85,11 @@ const props = defineProps({
 	},
 });
 
-const store = useProjectStore();
+const store = useReportsStore();
 
 const { t } = useI18n();
 
-const list = ref(Array<{ user: User; original: boolean; checked: boolean }>());
+const list = ref<{ user: User; original: boolean; checked: boolean }[]>([]);
 
 const bug = computed(() => {
 	let bug = store.getBugById(props.id);
@@ -109,18 +97,18 @@ const bug = computed(() => {
 	if (!bug?.id) list.value = [];
 	else {
 		let project_users = [
-			store.getProject.attributes.creator,
-			...store.getProjectUsers,
+			useProjectStore().getProject!.attributes.creator,
+			...(useProjectStore().getMembers ?? []),
 		].filter((x) => x);
 
 		list.value = [];
 
 		project_users.forEach((user) => {
 			let checked = false;
-			if (bug?.users?.find((x) => x.id === user.id)) checked = true;
+			if (store.getAssignees?.find((x) => x.id === user?.id)) checked = true;
 
 			list.value.push({
-				user: user,
+				user: user!,
 				original: checked, // compare checked with this to know what operation to execute (add/remove)
 				checked: checked,
 			});
@@ -148,13 +136,10 @@ const submit = async () => {
 				await axios.post(`bugs/${bug.value.id}/assign-user`, {
 					user_id: item.user.id,
 				});
-			else
-				await axios.delete(
-					`bugs/${bug.value.id}/users/${item.user.id}`
-				);
+			else await axios.delete(`bugs/${bug.value.id}/users/${item.user.id}`);
 		}
 
-		await store.fetchBugUsers(props.id);
+		await store.fetchBugUsers();
 
 		loadingModal.state = 1;
 		loadingModal.message = t("members_updated");

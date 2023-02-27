@@ -14,6 +14,7 @@
 					cursor-pointer
 					class="black-to-purple"
 					@click="$emit('close')"
+					v-if="!noCloseButton"
 				/>
 			</slot>
 		</div>
@@ -25,6 +26,14 @@
 </template>
 
 <script setup lang="ts">
+defineProps({
+	noCloseButton: {
+		required: false,
+		type: Boolean,
+		default: false,
+	},
+});
+
 defineEmits(["close"]);
 </script>
 

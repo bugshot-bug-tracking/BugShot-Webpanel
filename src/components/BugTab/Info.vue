@@ -1,10 +1,7 @@
 <template>
-	<Container>
+	<div class="content-container">
 		<div id="info" class="d-flex flex-column no-wrap">
-			<div
-				class="justify-content-between mb-2 align-items-start"
-				v-if="!bugData.flag1"
-			>
+			<div class="justify-content-between mb-2 align-items-start" v-if="!bugData.flag1">
 				<div class="title" flex>
 					<div class="content">{{ bug.attributes.designation }}</div>
 					<img
@@ -18,19 +15,11 @@
 					/>
 				</div>
 
-				<div
-					class="close-button"
-					@click="$emit('close')"
-					cursor-pointer
-				/>
+				<div class="close-button" @click="$emit('close')" cursor-pointer />
 			</div>
 
 			<div flex gap-4 items-center v-else>
-				<input
-					type="text"
-					v-model="bugData.designation"
-					class="w-100"
-				/>
+				<input type="text" v-model="bugData.designation" class="w-100" />
 
 				<div class="flex gap-2 black-to-gray ms-2">
 					<img
@@ -56,7 +45,7 @@
 				<div class="content">{{ bug.attributes.ai_id }}</div>
 			</div>
 
-			<div class="creator">
+			<div class="grid1x2" style="grid-template-columns: 1fr 3fr; font-size: 0.875rem">
 				<label>{{ $t("creator") + ":" }}</label>
 
 				<div class="content" v-if="bug.attributes.creator">
@@ -65,29 +54,21 @@
 							`${bug.attributes.creator.attributes.first_name} ${bug.attributes.creator.attributes.last_name}`
 						}}
 					</div>
-
-					<div class="date">
-						{{
-							$d(
-								new Date(dateFix(bug.attributes.created_at)),
-								"short"
-							)
-						}}
-					</div>
 				</div>
 
 				<div class="content" v-else>
 					<div class="name">
 						{{ `${bug.attributes.selector ?? t("anonymous")}` }}
 					</div>
+				</div>
+			</div>
 
+			<div class="grid1x2" style="grid-template-columns: 1fr 3fr; font-size: 0.875rem">
+				<label>{{ $t("created_at") + ":" }}</label>
+
+				<div class="content">
 					<div class="date">
-						{{
-							$d(
-								new Date(dateFix(bug.attributes.created_at)),
-								"short"
-							)
-						}}
+						{{ $d(new Date(dateFix(bug.attributes.created_at)), "short") }}
 					</div>
 				</div>
 			</div>
@@ -126,10 +107,7 @@
 						/>
 					</label>
 
-					<div
-						class="flex gap-2 black-to-gray ms-2"
-						v-if="bugData.flag2"
-					>
+					<div class="flex gap-2 black-to-gray ms-2" v-if="bugData.flag2">
 						<img
 							src="/src/assets/icons/check.svg"
 							alt="save"
@@ -215,14 +193,10 @@
 					<DropdownButton
 						@select="changePriority"
 						:list="priorities"
-						:color="
-							priorities[bug.attributes.priority.id - 1].color
-						"
+						:color="priorities[bug.attributes.priority.id - 1].color"
 					>
 						<template #text>
-							{{
-								priorities[bug.attributes.priority.id - 1].text
-							}}
+							{{ priorities[bug.attributes.priority.id - 1].text }}
 						</template>
 
 						<template #item="{ item }">
@@ -277,33 +251,32 @@
 				<label>{{ $t("assigned_to") + ":" }}</label>
 
 				<div class="content">
-					<Assignees :list="bug.users" @add="emit('open_assign')" />
+					<Assignees :list="assignees" @add="emit('open_assign')" />
 				</div>
 			</div>
 		</div>
-	</Container>
+	</div>
 </template>
 
 <script setup lang="ts">
 import dateFix from "~/util/dateFixISO";
-import { useProjectStore } from "~/stores/project";
+import { useReportsStore } from "~/stores/reports";
 import { useI18nStore } from "~/stores/i18n";
 import { Status } from "~/models/Status.js";
 
 const emit = defineEmits(["close", "open_assign"]);
 
-const props = defineProps({
-	bug: {
-		required: true,
-		type: Object,
-	},
+// const props =
+defineProps({
 	status: {
 		required: true,
 		type: Object,
 	},
 });
 
-const store = useProjectStore();
+const store = useReportsStore();
+
+const bug = computed(() => store.getBug!);
 
 const { t } = useI18n();
 
@@ -334,7 +307,11 @@ const priorities = computed(() => [
 
 const open = ref(false);
 
-const datePicker = ref(dateFix(props.bug.attributes.deadline));
+const datePicker = ref(undefined as string | undefined);
+
+watchEffect(() => {
+	datePicker.value = dateFix(bug.value.attributes.deadline);
+});
 
 const bugData = reactive({
 	designation: "",
@@ -342,11 +319,11 @@ const bugData = reactive({
 	description: "",
 	flag2: false,
 	editDesignation: () => {
-		bugData.designation = props.bug.attributes.designation;
+		bugData.designation = bug.value.attributes.designation;
 		bugData.flag1 = true;
 	},
 	editDescription: () => {
-		bugData.description = props.bug.attributes.description;
+		bugData.description = bug.value.attributes.description;
 		bugData.flag2 = true;
 	},
 });
@@ -354,64 +331,47 @@ const bugData = reactive({
 const changeDesignation = () => {
 	bugData.flag1 = false;
 
-	props.bug.attributes.designation = bugData.designation;
+	bug.value.attributes.designation = bugData.designation;
 
-	store.syncBug({
-		id: props.bug.id,
-		changes: {
-			designation: bugData.designation,
-		},
+	store.updateBug({
+		designation: bugData.designation,
 	});
 };
 
 const changeDescription = () => {
 	bugData.flag2 = false;
 
-	props.bug.attributes.description = bugData.description;
+	bug.value.attributes.description = bugData.description;
 
-	store.syncBug({
-		id: props.bug.id,
-		changes: {
-			description: bugData.description,
-		},
+	store.updateBug({
+		description: bugData.description,
 	});
 };
 
 const changePriority = (value: { id: number; text: string; color: string }) => {
-	store.syncBug({
-		id: props.bug.id,
-		changes: {
-			priority_id: value.id,
-		},
+	store.updateBug({
+		priority_id: value.id,
 	});
 };
 
 const changeStatus = (item: Status) => {
-	store.syncBug({
-		id: props.bug.id,
-		changes: {
-			status_id: item.id,
-			order_number: 0,
-		},
+	store.updateBug({
+		status_id: item.id,
+		order_number: 0,
 	});
 };
 
 const clearDeadline = () => {
-	store.syncBug({
-		id: props.bug.id,
-		changes: {
-			deadline: null,
-		},
+	store.updateBug({
+		deadline: null,
 	});
 };
 
 const changeDeadline = () => {
-	let newDate = datePicker.value
-		? new Date(datePicker.value).toISOString()
-		: null;
+	let newDate = datePicker.value ? new Date(datePicker.value).toISOString() : null;
 
-	if (props.bug.attributes.deadline != null) {
-		let bug_deadline = props.bug.attributes.deadline;
+	if (bug.value.attributes.deadline != null) {
+		let bug_deadline = bug.value.attributes.deadline;
 
 		if (bug_deadline.match(/[z]$/i) == null) bug_deadline += "Z";
 
@@ -420,17 +380,16 @@ const changeDeadline = () => {
 		if (newDate && newDate === deadline) return;
 	}
 
-	store.syncBug({
-		id: props.bug.id,
-		changes: {
-			deadline: newDate,
-		},
+	store.updateBug({
+		deadline: newDate,
 	});
 };
 
 const { d } = useI18n({ useScope: "global" });
 const locale = computed(() => useI18nStore().getCurrentLocale);
 const format = (date: Date) => d(new Date(date).toISOString(), "short");
+
+const assignees = computed(() => store.getAssignees);
 </script>
 
 <style lang="scss" scoped>
@@ -441,7 +400,7 @@ const format = (date: Date) => d(new Date(date).toISOString(), "short");
 		font-weight: bold;
 		color: hsl(230, 40%, 20%);
 		font-size: 14px;
-		text-transform: capitalize;
+
 		margin-right: 5px;
 		align-self: start;
 	}
@@ -627,5 +586,18 @@ textarea {
 	&.error {
 		border-color: red;
 	}
+}
+
+.content-container {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	background: hsl(0, 0%, 100%) 0% 0% no-repeat padding-box;
+	border: 1px solid hsl(240, 100%, 95%);
+	border-radius: 16px;
+	padding: 20px;
+	box-shadow: hsla(0, 0%, 0%, 0.35) 10px 10px 10px -11px;
+	margin-bottom: 1.25em;
+	position: relative;
 }
 </style>

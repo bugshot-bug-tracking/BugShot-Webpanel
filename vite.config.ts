@@ -7,7 +7,8 @@ import Components from "unplugin-vue-components/vite";
 import Pages from "vite-plugin-pages";
 import Layouts from "vite-plugin-vue-layouts";
 import Unocss from "unocss/vite";
-import VueI18n from "@intlify/vite-plugin-vue-i18n";
+import VueI18n from "@intlify/unplugin-vue-i18n/vite";
+import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -42,6 +43,8 @@ export default defineConfig({
 			include: [/\.vue$/, /\.vue\?vue/],
 
 			dts: "src/components.d.ts",
+
+			resolvers: [NaiveUiResolver()],
 		}),
 
 		Pages({
@@ -62,6 +65,7 @@ export default defineConfig({
 					meta: { ...route.meta, requiresAuth: true },
 				};
 			},
+			exclude: ["**/components/**.vue"],
 		}),
 
 		Layouts(),

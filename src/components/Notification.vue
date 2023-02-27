@@ -22,28 +22,20 @@
 
 		<div class="buttons">
 			<a @click="accept">
-				<img
-					src="/src/assets/icons/check.svg"
-					alt="Accept"
-					class="accept"
-				/>
+				<img src="/src/assets/icons/check.svg" alt="Accept" class="accept" />
 			</a>
 
 			<a @click="decline">
-				<img
-					src="/src/assets/icons/close_2.svg"
-					alt="Decline"
-					class="decline"
-				/>
+				<img src="/src/assets/icons/close_2.svg" alt="Decline" class="decline" />
 			</a>
 		</div>
 	</div>
 </template>
 
-<script setup>
-import dateFix from "/src/util/dateFixISO";
-import { useNotificationStore } from "/src/stores/notifications";
-import { useMainStore } from "/src/stores/main";
+<script setup lang="ts">
+import dateFix from "~/util/dateFixISO";
+import { useNotificationStore } from "~/stores/notifications";
+import { useMainStore } from "~/stores/main";
 
 const props = defineProps({
 	record: {
@@ -58,7 +50,7 @@ const notifications = useNotificationStore();
 const accept = async () => {
 	try {
 		await notifications.accept(props.record.id);
-		useMainStore().init();
+		await useMainStore().initOrganizations();
 	} catch (error) {
 		console.log(error);
 	}
@@ -66,7 +58,7 @@ const accept = async () => {
 
 const decline = async () => {
 	try {
-		await notifications.accept(props.record.id);
+		await notifications.decline(props.record.id);
 	} catch (error) {
 		console.log(error);
 	}
@@ -122,16 +114,15 @@ const decline = async () => {
 			width: 1.5rem;
 			height: 1.5rem;
 			// color: #18D992;
-			filter: brightness(0) saturate(1) invert(63%) sepia(74%)
-				saturate(493%) hue-rotate(104deg) brightness(96%) contrast(88%);
+			filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
+				hue-rotate(104deg) brightness(96%) contrast(88%);
 		}
 		.decline {
 			width: 1.5rem;
 			height: 1.5rem;
 			// color: #F23838; red
-			filter: brightness(0) saturate(1) invert(46%) sepia(28%)
-				saturate(5216%) hue-rotate(331deg) brightness(87%)
-				contrast(121%);
+			filter: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%)
+				hue-rotate(331deg) brightness(87%) contrast(121%);
 		}
 	}
 }

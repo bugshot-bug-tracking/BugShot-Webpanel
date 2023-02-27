@@ -18,12 +18,16 @@ export const install: UserModule = ({ router }) => {
 			return response;
 		},
 		(error) => {
+			if (error.response?.status === 503) {
+				router.push({ name: "maintenance" });
+				throw error;
+			}
 			if (error.response?.status === 401) {
 				// ignore 401 on login route calls
 				if (error.config.url === "auth/login") throw error;
 
 				// clear the local storage then redirect
-				useAuthStore().destroy();
+				useAuthStore().$reset();
 
 				router.push({ name: "Login" });
 				return;

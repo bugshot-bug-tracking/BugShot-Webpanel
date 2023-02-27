@@ -1,40 +1,39 @@
-<template>
-	<div class="home-layout">
-		<section class="sidebar">
-			<CompanyNavbar />
-		</section>
-
-		<section class="page">
-			<RouterView />
-		</section>
-	</div>
-</template>
+<template></template>
 
 <script setup lang="ts">
 import { useMainStore } from "~/stores/main";
+import { useSettingsStore } from "~/stores/settings";
 
-useMainStore().init();
+const route = useRouter();
+const store = useMainStore();
+
+const organizations = computed(() => store.organizations);
+
+const redirect = () => {
+	if (organizations.value === undefined || organizations.value.length < 1) {
+		// redirect to new page
+	} else {
+		// redirect to first org page or the favorite org page
+
+		const preferredOrganization = useSettingsStore().getPreferredOrganization;
+
+		route.replace({
+			name: "organization-home",
+			params: {
+				organization_id:
+					preferredOrganization !== ""
+						? preferredOrganization
+						: store.getMyOrganization.id,
+			},
+		});
+	}
+};
+
+onMounted(redirect);
+
+watch(organizations, redirect);
 </script>
 
-<style lang="scss" scoped>
-.home-layout {
-	display: grid;
-	grid-template-columns: fit-content(22rem) 1.75fr;
-	grid-template-rows: 1fr;
-	gap: 0px 0px;
-	grid-auto-flow: row;
-	grid-template-areas: "sidebar page";
-	width: 100%;
-	height: 100vh;
-	max-height: 100vh;
-	overflow: hidden;
-}
-
-section.sidebar {
-	grid-area: sidebar;
-}
-
-section.page {
-	grid-area: page;
-}
-</style>
+<route lang="yaml">
+name: home
+</route>

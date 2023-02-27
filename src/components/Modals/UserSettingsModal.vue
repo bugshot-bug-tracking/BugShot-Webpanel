@@ -1,10 +1,6 @@
 <template>
 	<a class="input-image" cursor-pointer @click="modal.open" v-bind="$attrs">
-		<img
-			src="/src/assets/icons/edit.svg"
-			alt="edit"
-			class="black-to-purple"
-		/>
+		<img src="/src/assets/icons/edit.svg" alt="edit" class="black-to-purple" />
 		<b> {{ t("edit.profile") }}</b>
 	</a>
 
@@ -17,13 +13,9 @@
 		<ModalTemplate @close="modal.close">
 			<template #header-text> {{ t("edit.profile") }} </template>
 
-			<form
-				@submit.prevent="submit"
-				@reset.prevent="cancel"
-				class="bs-form"
-			>
+			<form @submit.prevent="submit" @reset.prevent="cancel" class="bs-form">
 				<div class="form-group">
-					<div class="bs-input2">
+					<div class="bs-input">
 						<label>
 							{{ t("first_name") }}
 						</label>
@@ -38,7 +30,7 @@
 						/>
 					</div>
 
-					<div class="bs-input2">
+					<div class="bs-input">
 						<label>
 							{{ t("last_name") }}
 						</label>
@@ -53,7 +45,7 @@
 						/>
 					</div>
 
-					<div class="bs-input2">
+					<div class="bs-input">
 						<label>
 							{{ t("email") }}
 						</label>
@@ -73,7 +65,7 @@
 						</a>
 					</div>
 
-					<div class="bs-input2" v-if="userData.phone != ''">
+					<div class="bs-input" v-if="userData.phone != ''">
 						<label>
 							{{ t("telephone_number") }}
 						</label>
@@ -95,7 +87,7 @@
 				<hr mt-2 />
 
 				<div class="form-group">
-					<div class="bs-input2">
+					<div class="bs-input">
 						<label flex justify-between>
 							{{ t("please_confirm_password") }}
 						</label>

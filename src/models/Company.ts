@@ -3,6 +3,7 @@ import { Project } from "./Project";
 import { Role } from "./Role";
 import { Invitation } from "./Invitation";
 import { Image } from "./Image";
+import { Organization } from "./Organization";
 
 export interface Company {
 	id: string;
@@ -17,6 +18,7 @@ export interface Company {
 		role?: Role;
 		users?: User[];
 		image?: Image;
+		organization: Organization;
 	};
 	pending?: Invitation[];
 }

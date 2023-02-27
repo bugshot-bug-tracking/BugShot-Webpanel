@@ -17,23 +17,13 @@
 
 				<div class="options">
 					<label>
-						<input
-							type="radio"
-							name="orderby"
-							value="0"
-							v-model="radio"
-						/>
+						<input type="radio" name="orderby" value="0" v-model="radio" />
 
 						<span>A-Z</span>
 					</label>
 
 					<label>
-						<input
-							type="radio"
-							name="orderby"
-							value="1"
-							v-model="radio"
-						/>
+						<input type="radio" name="orderby" value="1" v-model="radio" />
 
 						<span>Z-A</span>
 					</label>
@@ -45,23 +35,13 @@
 
 				<div class="options">
 					<label>
-						<input
-							type="radio"
-							name="orderby"
-							value="2"
-							v-model="radio"
-						/>
+						<input type="radio" name="orderby" value="2" v-model="radio" />
 
 						<span>{{ $t("newest_first") }}</span>
 					</label>
 
 					<label>
-						<input
-							type="radio"
-							name="orderby"
-							value="3"
-							v-model="radio"
-						/>
+						<input type="radio" name="orderby" value="3" v-model="radio" />
 
 						<span>{{ $t("oldest_first") }}</span>
 					</label>
@@ -73,23 +53,13 @@
 
 				<div class="options">
 					<label>
-						<input
-							type="radio"
-							name="orderby"
-							value="4"
-							v-model="radio"
-						/>
+						<input type="radio" name="orderby" value="4" v-model="radio" />
 
 						<span>{{ $t("ascending") }}</span>
 					</label>
 
 					<label>
-						<input
-							type="radio"
-							name="orderby"
-							value="5"
-							v-model="radio"
-						/>
+						<input type="radio" name="orderby" value="5" v-model="radio" />
 
 						<span>{{ $t("descending") }}</span>
 					</label>
@@ -169,6 +139,7 @@ const autoClose = (event: MouseEvent) => {
 	// if clicking outside of this root close the popup
 	if (path.find((element) => element == root.value) == null) {
 		popupMenu.open = false;
+		radio.value = props.selected;
 	}
 };
 
