@@ -391,5 +391,7 @@
 	},
 	"verification_email_sent": "Verifizierungs-E-Mail wurde versandt!",
 	"email_not_received": "Falls Du die Mail nicht erhalten hast:",
-	"resend_email": "erneut verschicken"
+	"resend_email": "erneut verschicken",
+	"maintenance_in_progress": "Wartungsarbeiten im Gange",
+	"maintenance_in_progress_subtext": "Hallo! Das ist kein Fehler. Im Moment befindet sich die Webseite im Wartungsmodus. BugShot ist in Kürze wieder verfügbar!"
 }
