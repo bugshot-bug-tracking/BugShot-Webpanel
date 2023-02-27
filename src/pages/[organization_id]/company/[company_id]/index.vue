@@ -19,6 +19,7 @@
 					:delete="deleteMember"
 					:deleteInvitation="deleteInvitation"
 					:preOpenCall="preCall"
+					:suggestOptions="suggestOptions"
 				/>
 
 				<ProjectCreateModal :primary_button="true" />
@@ -109,6 +110,7 @@
 <script setup lang="ts">
 import { useAuthStore } from "~/stores/auth";
 import { useCompanyStore } from "~/stores/company";
+import { useOrganizationStore } from "~/stores/organization";
 import timeToText from "~/util/timeToText";
 
 const props = defineProps({
@@ -178,6 +180,15 @@ const deleteMember = async (user_id: number) => {
 const manageableMembers = computed(() => store.getMembers);
 
 const pendingMembers = computed(() => store.getPendingInvitations);
+
+const suggestOptions = computed(() => {
+	const all = useOrganizationStore().getMembers ?? [];
+	const inside = useCompanyStore().getMembers ?? [];
+
+	const diffArray = all.filter((am) => !inside.some((im) => am.id === im.id));
+
+	return diffArray.map((m) => m.attributes.email);
+});
 </script>
 
 <route lang="yaml">
