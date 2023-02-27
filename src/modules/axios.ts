@@ -18,6 +18,9 @@ export const install: UserModule = ({ router }) => {
 			return response;
 		},
 		(error) => {
+			if (error.response?.status === 503) {
+				return router.push({ name: "maintenance" });
+			}
 			if (error.response?.status === 401) {
 				// ignore 401 on login route calls
 				if (error.config.url === "auth/login") throw error;
