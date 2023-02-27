@@ -393,6 +393,9 @@
 	"verification_email_sent": "Verification email sent!",
 	"email_not_received": "In case the email is not received:",
 	"resend_email": "resend email",
+	"maintenance_in_progress": "Maintenance in progress!",
+	"maintenance_in_progress_subtext": "Hello! This is not an error, at the moment the website is in maintenance mode, we will be back up shortly!",
+	" ": "",
 	" ": "",
 	"": ""
 }
