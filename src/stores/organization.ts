@@ -478,5 +478,22 @@ export const useOrganizationStore = defineStore("organization", {
 				},
 			];
 		},
+
+		getUserWithLicenses: (state) => {
+			// placeholder
+			return state.members?.map((x) => {
+				x.user.role = x.role;
+				x.user.subscription = x.subscription;
+				return x.user;
+			});
+		},
+		getUserWithoutLicenses: (state) => {
+			// placeholder
+			return state.members?.map((x) => {
+				x.user.role = x.role;
+				x.user.subscription = x.subscription;
+				return x.user;
+			});
+		},
 	},
 });

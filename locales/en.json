@@ -395,7 +395,17 @@
 	"resend_email": "resend email",
 	"maintenance_in_progress": "Maintenance in progress!",
 	"maintenance_in_progress_subtext": "Hello! This is not an error, at the moment the website is in maintenance mode, we will be back up shortly!",
-	" ": "",
+	"assigned_on": "Assigned on ",
+	"available_until": "Available until ",
+	"team_member_using_it": "Team member using it:",
+	"unassign_member": "Unassign member | Unassign members",
+	"used_license": "Used license | Used licenses",
+	"unused_license": "Unused license | Unused licenses",
+	"select_all": "Select all",
+	"unassigned": "Unassigned",
+	"assign_license": "Assign license",
+	"assignable_licenses": "Assignable licenses",
+	"assign_license_to_user": "Assign license to a user",
 	" ": "",
 	"": ""
 }

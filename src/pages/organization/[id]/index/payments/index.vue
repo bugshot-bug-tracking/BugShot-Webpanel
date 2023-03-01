@@ -213,16 +213,17 @@
 									</div>
 								</div>
 
-								<!-- <RouterLink
+								<RouterLink
 									:to="{
-										name: 'organization-payments-license-index',
+										name: 'organization-payments-subscription-licenses',
+										params: { subscription_id: '55gfg' },
 									}"
 									mt-8
-								> -->
-								<n-button strong ghost round type="success">
-									{{ t("manage_licenses") }}
-								</n-button>
-								<!-- </RouterLink> -->
+								>
+									<n-button strong ghost round type="success">
+										{{ t("manage_licenses") }}
+									</n-button>
+								</RouterLink>
 							</n-list-item>
 						</n-list>
 					</Container>
