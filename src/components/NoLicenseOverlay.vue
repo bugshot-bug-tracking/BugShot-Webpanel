@@ -38,6 +38,18 @@
 
 					<OrganizationSwitcher noLabel />
 				</div>
+
+				<RouterLink
+					:to="{
+						name: 'organization-payments',
+						params: { id: organization.id },
+					}"
+					v-if="organization?.attributes.creator.id === user.id"
+				>
+					<n-button strong round size="large" type="primary">
+						{{ $t("buy_a_subscription") }}
+					</n-button>
+				</RouterLink>
 			</div>
 		</ModalTemplate>
 	</div>
@@ -52,6 +64,7 @@ const store = useOrganizationStore();
 const authStore = useAuthStore();
 const organizations = computed(() => useMainStore().getOrganizations);
 const organization = computed(() => store.getOrganization);
+const user = computed(() => authStore.user);
 
 const hasLicense = computed(() => {
 	return authStore.getLicenses.length > 0;
