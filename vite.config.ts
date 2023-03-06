@@ -53,7 +53,8 @@ export default defineConfig({
 				if (
 					route.name === "all" ||
 					route.name === "payment-status" ||
-					String(route.path).match(/^\/auth/i)
+					String(route.path).match(/^\/auth/i) ||
+					route.name === "maintenance"
 				) {
 					// Index is unauthenticated.
 					return route;

@@ -70,7 +70,6 @@
 							'font-weight': 'bold',
 							width: 'auto',
 						}"
-						v-if="false"
 					>
 						<img
 							src="/src/assets/icons/euro.svg"

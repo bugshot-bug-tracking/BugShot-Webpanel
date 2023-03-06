@@ -6,10 +6,7 @@
 		</div>
 
 		<div class="container success" v-if="status === 1">
-			<img
-				src="/src/assets/animations/bug_confirmation.gif"
-				alt="loading"
-			/>
+			<img src="/src/assets/animations/bug_confirmation.gif" alt="loading" />
 			<div class="text">{{ $t("success") + "..." }}</div>
 		</div>
 
@@ -19,11 +16,7 @@
 		</div>
 	</div>
 
-	<img
-		src="/src/assets/images/plugin-trans.svg"
-		alt="half-logo"
-		class="decoration-right"
-	/>
+	<img src="/src/assets/images/plugin-trans.svg" alt="half-logo" class="decoration-right" />
 </template>
 
 <script setup lang="ts">
@@ -39,9 +32,23 @@ if (route.query.status === "success") {
 	status.value = 2;
 }
 
-setTimeout(() => {
-	router.push({ name: "home" });
-}, 3000);
+onMounted(() => {
+	if (route.query.status === "success") {
+		status.value = 1;
+	} else {
+		status.value = 2;
+	}
+
+	if (route.query.org_id) {
+		setTimeout(() => {
+			router.replace({ name: "organization-payments", params: { id: route.query.org_id } });
+		}, 4000);
+	} else {
+		setTimeout(() => {
+			router.replace({ name: "home" });
+		}, 4000);
+	}
+});
 </script>
 
 <style lang="scss" scoped>

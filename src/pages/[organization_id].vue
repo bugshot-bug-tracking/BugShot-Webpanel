@@ -11,6 +11,8 @@
 		<section class="grid-page">
 			<RouterView />
 		</section>
+
+		<NoLicenseOverlay />
 	</main>
 
 	<main class="main-empty" v-else>
@@ -21,10 +23,23 @@
 
 			<h1 w-88 text-6>{{ $t("no_companies") }}</h1>
 
-			<p>{{ $t("please_add_new_one") }}</p>
+			<div flex gap-2 items-center>
+				<p>{{ $t("please_add_new_one") }}</p>
+
+				<div>
+					<img
+						src="/src/assets/icons/info.svg"
+						alt=""
+						:title="$t('tooltips.groups_info')"
+						class="black-to-gray"
+					/>
+				</div>
+			</div>
 
 			<CompanyCreateModal :primary_button="true" redirect />
 		</section>
+
+		<NoLicenseOverlay />
 	</main>
 </template>
 

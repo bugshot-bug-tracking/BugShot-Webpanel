@@ -9,8 +9,8 @@
 			</span>
 		</header>
 
-		<div flex flex-col gap-4>
-			<n-card flex-row items-center :bordered="false" hoverable class="bs-b">
+		<div flex flex-col gap-4 style="width: 100%">
+			<n-card flex-row items-center :bordered="false" class="bs-b" v-if="false">
 				<template #header>
 					<img src="/src/assets/icons/starter.svg" alt="" w-14 h-14 />
 				</template>
@@ -27,7 +27,7 @@
 				</template>
 			</n-card>
 
-			<n-card flex-row items-center :bordered="false" hoverable class="bs-b">
+			<n-card flex-row items-center :bordered="false" class="bs-b">
 				<template #header>
 					<img src="/src/assets/icons/enterprise.svg" alt="" w-14 h-14 />
 				</template>
@@ -41,16 +41,15 @@
 				</p>
 
 				<template #footer>
-					<RouterLink
-						:to="{
-							name: 'organization-payments-subscription-cancel',
-							params: { subscription_id },
-						}"
+					<n-button
+						ghost
+						strong
+						type="tertiary"
+						:disabled="isSubscriptionCanceled()"
+						@click="redirectToCancel"
 					>
-						<n-button ghost strong type="tertiary">
-							{{ t("cancel_subscription") }}
-						</n-button>
-					</RouterLink>
+						{{ t("cancel_subscription") }}
+					</n-button>
 				</template>
 			</n-card>
 		</div>
@@ -58,11 +57,32 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
+import { useOrganizationStore } from "~/stores/organization";
+
+const props = defineProps({
+	id: String,
 	subscription_id: String,
 });
 
 const { t } = useI18n();
+
+const router = useRouter();
+
+const isSubscriptionCanceled = () => {
+	let subscription = useOrganizationStore().getSubscriptionById(props.subscription_id);
+
+	let canceled = subscription.attributes.cancel_at_period_end;
+
+	if (canceled) return true;
+	return false;
+};
+
+const redirectToCancel = () => {
+	router.push({
+		name: "organization-payments-subscription-cancel",
+		params: { id: props.id, subscription_id: props.subscription_id },
+	});
+};
 </script>
 
 <style scoped lang="scss">
@@ -72,6 +92,10 @@ h3 {
 
 h5 {
 	font-weight: bold;
+}
+
+section {
+	width: 100%;
 }
 
 :deep(.n-card) {

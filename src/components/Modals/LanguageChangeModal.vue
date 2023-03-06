@@ -53,7 +53,7 @@
 		:state="loadingModal.state"
 		:message="loadingModal.message"
 		@close="loadingModal.clear"
-		@onSuccess="modal.close()"
+		@onSuccess="modal.close"
 	/>
 </template>
 

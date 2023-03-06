@@ -1,6 +1,6 @@
 <template>
 	<div class="modal-wrapper2">
-		<div class="modal-header2">
+		<div class="modal-header2" v-if="$slots['header'] || $slots['header-text']">
 			<slot name="header">
 				<h4>
 					<slot name="header-text">[PH] Header</slot>

@@ -7,15 +7,28 @@ export const useAuthStore = defineStore("auth", {
 	state: () => ({
 		token: "",
 		user: <User>{},
+		new_user: undefined as undefined | boolean,
 	}),
 
 	actions: {
+		async refresh() {
+			let response = await axios.get("auth/user", {
+				headers: {
+					"include-subscriptions": true,
+				},
+			});
+
+			this.user = response.data.data;
+		},
+
 		async login(payload: { email: string; password: string }) {
 			try {
 				let response = await axios.post("auth/login", {
 					email: payload.email,
 					password: payload.password,
 				});
+
+				this.new_user = response.data.data.new_user;
 
 				return await this.attempt(response.data.data.token);
 			} catch (error) {
@@ -53,7 +66,11 @@ export const useAuthStore = defineStore("auth", {
 
 			try {
 				// test if the token is still valid
-				let response = await axios.get("auth/user");
+				let response = await axios.get("auth/user", {
+					headers: {
+						"include-subscriptions": true,
+					},
+				});
 
 				//if it is set the user and token
 				this.user = response.data.data;
@@ -94,5 +111,6 @@ export const useAuthStore = defineStore("auth", {
 	getters: {
 		getUser: (state) => state.user,
 		isAuthenticated: (state) => (state.token !== "" ? true : false),
+		getLicenses: (state) => state.user.attributes.subscriptions ?? [],
 	},
 });
