@@ -181,14 +181,25 @@
 							</n-list-item>
 						</n-list>
 
-						<div flex justify-center my-8>
+						<div flex justify-around my-8>
+							<n-button
+								type="success"
+								@click="startTrial"
+								strong
+								round
+								size="large"
+								v-if="user.attributes.trial_end_date == null"
+							>
+								{{ $t("start_trial") }}
+							</n-button>
+
 							<RouterLink
 								:to="{
 									name: 'organization-payments-plans',
 									params: { id: id },
 								}"
 							>
-								<n-button strong round type="success" size="large">
+								<n-button strong round type="primary" size="large">
 									{{ $t("buy_a_subscription") }}
 								</n-button>
 							</RouterLink>
@@ -201,8 +212,11 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from "~/stores/auth";
 import { useOrganizationStore } from "~/stores/organization";
 import { usePaymentsStore } from "~/stores/payments";
+
+const user = computed(() => useAuthStore().getUser);
 
 // const props =
 defineProps({
@@ -287,6 +301,12 @@ const isSubscriptionCanceled = (subscription: any) => {
 
 	if (canceled) return new Date(period_end * 1000);
 	return undefined;
+};
+
+const startTrial = async () => {
+	await usePaymentsStore().startTrial();
+
+	useOrganizationStore().refresh();
 };
 </script>
 
