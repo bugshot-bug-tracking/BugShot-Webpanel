@@ -9,7 +9,7 @@
 		items-center
 		justify-center
 		style="background: hsla(0, 0%, 0%, 0.45)"
-		v-if="!(isGuest || hasLicense)"
+		v-if="!(isGuest || hasLicense || inTrial)"
 	>
 		<ModalTemplate w-116>
 			<div flex flex-col gap-8>
@@ -39,17 +39,30 @@
 					<OrganizationSwitcher noLabel />
 				</div>
 
-				<RouterLink
-					:to="{
-						name: 'organization-payments',
-						params: { id: organization.id },
-					}"
-					v-if="organization?.attributes.creator.id === user.id"
-				>
-					<n-button strong round size="large" type="primary">
-						{{ $t("buy_a_subscription") }}
+				<div flex justify-around>
+					<n-button
+						type="success"
+						@click="startTrial"
+						strong
+						round
+						size="large"
+						v-if="user.attributes.trial_end_date == null"
+					>
+						{{ $t("start_trial") }}
 					</n-button>
-				</RouterLink>
+
+					<RouterLink
+						:to="{
+							name: 'organization-payments',
+							params: { id: organization.id },
+						}"
+						v-if="organization?.attributes.creator.id === user.id"
+					>
+						<n-button strong round size="large" type="primary">
+							{{ $t("buy_a_subscription") }}
+						</n-button>
+					</RouterLink>
+				</div>
 			</div>
 		</ModalTemplate>
 	</div>
@@ -59,6 +72,7 @@
 import { useAuthStore } from "~/stores/auth";
 import { useMainStore } from "~/stores/main";
 import { useOrganizationStore } from "~/stores/organization";
+import { usePaymentsStore } from "~/stores/payments";
 
 const store = useOrganizationStore();
 const authStore = useAuthStore();
@@ -73,6 +87,16 @@ const hasLicense = computed(() => {
 const isGuest = computed(() => {
 	return organization.value?.attributes.role?.id === 3;
 });
+const inTrial = computed(() => {
+	const d1 = Date.parse(user.value.attributes.trial_end_date);
+	const d2 = Date.parse(new Date(Date.now()).toLocaleDateString());
+
+	return d1 >= d2;
+});
+
+const startTrial = async () => {
+	await usePaymentsStore().startTrial();
+};
 </script>
 
 <style scoped></style>

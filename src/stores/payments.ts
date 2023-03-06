@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { Price, Product } from "~/models/payment/Plan";
 import axios from "axios";
 import { useOrganizationStore } from "./organization";
+import { useAuthStore } from "./auth";
 
 export const usePaymentsStore = defineStore("payments", {
 	state: () => ({
@@ -106,6 +107,19 @@ export const usePaymentsStore = defineStore("payments", {
 		},
 
 		async check(value: any) {},
+
+		async startTrial() {
+			let user = useAuthStore().user;
+
+			try {
+				let response = (await axios.get(`/users/${user.id}/start-trial`)).data.data;
+				console.log(response);
+
+				await useAuthStore().refresh();
+			} catch (error) {
+				console.log(error);
+			}
+		},
 	},
 
 	getters: {

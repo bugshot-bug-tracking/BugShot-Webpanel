@@ -416,7 +416,7 @@
 	"buy_a_subscription": "Starte ein Abonnement",
 	"no_license_overlay": {
 		"title": "Hallo!",
-		"line_1": "Wie es aussieht wurde deinem Account leider noch keine lizenz zugeordnet und Du bist auch kein Gast dieser Organisation.",
+		"line_1": "Wie es aussieht wurde deinem Account leider noch keine Lizenz zugeordnet und Du bist auch kein Gast dieser Organisation.",
 		"line_2": "Bitte frage den Besitzer nach einer Lizenz oder einer Einladung als Gast!",
 		"option": "Organisation wechseln:"
 	},
@@ -424,6 +424,8 @@
 	"tooltips": {
 		"groups_info": "Mit einer Gruppe kannst Du Deine eigene Struktur aufbauen. \nEine Gruppe kann z.B. ein Kunde oder ein Team sein. \nInnerhalb einer Gruppe können zugehörige Projekte erstellt werden."
 	},
+
+	"start_trial": "14-tägige Testphase starten",
 
 	" ": "",
 	"": ""

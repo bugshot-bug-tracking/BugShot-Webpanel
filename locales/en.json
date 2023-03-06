@@ -437,6 +437,7 @@
 	"tooltips": {
 		"groups_info": "With a group you can build your own structure. \nA group can be, for example, a customer or a team. \nWithin a group, associated projects can be created."
 	},
+	"start_trial": "Start a 14 days trial",
 	" ": "",
 	"": ""
 }
