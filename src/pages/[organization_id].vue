@@ -28,7 +28,7 @@
 
 				<div>
 					<img
-						src="src/assets/icons/info.svg"
+						src="/src/assets/icons/info.svg"
 						alt=""
 						:title="$t('tooltips.groups_info')"
 						class="black-to-gray"
