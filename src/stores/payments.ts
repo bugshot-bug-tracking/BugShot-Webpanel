@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { Price, Product } from "~/models/payment/Plan";
 import axios from "axios";
-import { useAuthStore } from "./auth";
+import { useOrganizationStore } from "./organization";
 
 export const usePaymentsStore = defineStore("payments", {
 	state: () => ({
@@ -11,9 +11,9 @@ export const usePaymentsStore = defineStore("payments", {
 	actions: {
 		async init() {
 			try {
-			let response = await axios.get("stripe/products");
+				let response = await axios.get("stripe/products");
 
-			this.products = response.data.data;
+				this.products = response.data.data;
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -21,6 +21,21 @@ export const usePaymentsStore = defineStore("payments", {
 		},
 
 		async createCheckout({ price, quantity }: { price: Price; quantity: number }) {
+			/**
+			 * 1. create the customer -
+			 * 2. get the customer id and add it to the checkout session -
+			 * 	2.1. include data collection and full agreement in the checkout (auto accept payment method collection) -
+			 * 3. the success link should contain the org to be redirected to it -
+			 * 4. check if the subscription was created ( idea: check using the subs route)
+			 * 5. redirect to the org overview page
+			 *
+			 */
+			let customer = await this.getOrSetCustomer();
+
+			let successUrl = `${window.location.origin}/payment?status=success&org_id=${
+				useOrganizationStore().getOrganization!.id
+			}`;
+
 			let response = await axios.post("/stripe/checkout/create-session", {
 				line_items: [
 					{
@@ -30,58 +45,25 @@ export const usePaymentsStore = defineStore("payments", {
 				],
 				mode: "subscription",
 
-				success_url: "http://localhost:8080/payment?status=success",
+				success_url: successUrl,
 				cancel_url: window.location.href,
 
-				subscription_data: {
-					trial_settings: { end_behavior: { missing_payment_method: "create_invoice" } },
-					trial_period_days: 14,
-				},
+				customer: customer.attributes.stripe_customer_id,
 
-				payment_method_collection: "if_required",
-
-				customer_email: useAuthStore().user.attributes.email,
-
-				// consent_collection: {
-				// 	terms_of_service: "required",
-				// },
-			});
-
-			console.log(response);
-
-			window.location.href = response.data.checkout_session.url;
-		},
-
-		async stripe() {},
-
-		async check(value: any) {
-			console.log(value);
-
-			let customer = await this.getCustomer();
-
-			let response = await axios.post("/stripe/checkout/create-session", {
-				line_items: [
-					{
-						price: value.id,
-						quantity: 1,
-					},
-				],
-				mode: "subscription",
-				// success_url: "https://app.bugshot.de?status=success",
-				success_url: "http://localhost:8080/payment?status=success",
-				cancel_url: "https://dev.bugshot.de",
-				customer: customer.id,
+				automatic_tax: { enabled: true },
 
 				billing_address_collection: "required",
+
+				consent_collection: { terms_of_service: "required" },
 
 				customer_update: {
 					address: "auto",
 					name: "auto",
 				},
 
-				// consent_collection: {
-				// 	terms_of_service: "required",
-				// },
+				payment_method_collection: "if_required",
+
+				tax_id_collection: { enabled: true },
 			});
 
 			console.log(response);
@@ -89,34 +71,41 @@ export const usePaymentsStore = defineStore("payments", {
 			window.location.href = response.data.checkout_session.url;
 		},
 
-		async getCustomer() {
-			let user = useAuthStore().getUser;
+		async getOrSetCustomer() {
+			let organization = useOrganizationStore().getOrganization;
 
-			let ba = await axios
-				.get(`/billing-addresses/user/${user.id}`)
-				.catch((error) => {
-					return undefined;
-				});
+			if (organization == undefined)
+				throw {
+					code: 0,
+					message: "Organization not initialized/found!",
+				};
 
-			if (!ba) {
-				ba = await axios.post(`/billing-addresses/user/${user.id}`, {
-					street: "string",
-					housenumber: "string",
-					city: "string",
-					state: "string",
-					zip: "string",
-					country: "string",
-					tax_id: "string",
-				});
+			let response = (
+				await axios.post(`/billing-addresses/organization/${organization.id}`, {
+					street: "0",
+					housenumber: "0",
+					city: "0",
+					state: "0",
+					zip: "0",
+					country: "0",
+					tax_id: "0",
+				})
+			).data.data;
+
+			if (response.attributes["stripe_customer_id"] == null) {
+				let response2 = (
+					await axios.post(`/billing-addresses/${response.id}/stripe/customer`)
+				).data.data;
+
+				console.log(response2);
+
+				response.attributes["stripe_customer_id"] = response2.id;
 			}
 
-			// get or create
-			let customer = await axios.post(
-				`/billing-addresses/${ba.data.data.id}/stripe/customer`
-			);
-
-			return customer.data.data;
+			return response;
 		},
+
+		async check(value: any) {},
 	},
 
 	getters: {

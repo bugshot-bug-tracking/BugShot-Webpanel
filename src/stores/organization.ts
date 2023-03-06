@@ -10,6 +10,7 @@ import { useSettingsStore } from "./settings";
 import { echo } from "~/composables/listeners";
 import { useCompanyStore } from "./company";
 import { useAuthStore } from "./auth";
+import { usePaymentsStore } from "./payments";
 
 export const useOrganizationStore = defineStore("organization", {
 	state: () => ({
@@ -23,13 +24,9 @@ export const useOrganizationStore = defineStore("organization", {
 
 		member: undefined as OrganizationUserRole | undefined,
 
-		licenses: [
-			{
-				id: "prod_MyQTiOJU9juzSO",
-				quantity: 5,
-				price: { id: "price_1METcRBvcGEa3FETbMcUxsym" },
-			},
-		] as any,
+		billing_address: undefined,
+
+		subscriptions: undefined as undefined | [],
 	}),
 
 	actions: {
@@ -47,12 +44,20 @@ export const useOrganizationStore = defineStore("organization", {
 
 				await this.fetchCompanies();
 
+				await this.fetchSubscriptions();
+
 				useSettingsStore().setPreferredOrganization(id);
 
 				this.hook();
 			} catch (error) {
 				console.log(error);
 				throw error;
+			}
+
+			try {
+				usePaymentsStore().getOrSetCustomer();
+			} catch (error) {
+				console.log(error);
 			}
 		},
 
@@ -63,6 +68,8 @@ export const useOrganizationStore = defineStore("organization", {
 				await this.fetchUsers();
 
 				await this.fetchCompanies();
+
+				await this.fetchSubscriptions();
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -74,6 +81,7 @@ export const useOrganizationStore = defineStore("organization", {
 				await axios.get(`organizations/${this.organization_id}`, {
 					headers: {
 						"include-organization-role": true,
+						"include-organization-subscription": true,
 					},
 				})
 			).data.data;
@@ -110,6 +118,7 @@ export const useOrganizationStore = defineStore("organization", {
 						"include-users-organization-role": true,
 						"include-users-companies": true,
 						"include-users-company-role": true,
+						"include-subscription-item": true,
 					},
 				})
 			).data.data;
@@ -127,6 +136,26 @@ export const useOrganizationStore = defineStore("organization", {
 			).data.data;
 
 			this.pendingInvitations = response;
+		},
+
+		async fetchSubscriptions() {
+			try {
+				let billing_address = (
+					await axios.get(`/billing-addresses/organization/${this.organization_id}`)
+				).data.data;
+
+				this.billing_address = billing_address;
+
+				let response = (
+					await axios.get(
+						`/billing-addresses/${this.billing_address.id}/stripe/subscriptions`
+					)
+				).data.data;
+
+				this.subscriptions = response;
+			} catch (error) {
+				this.subscriptions = undefined;
+			}
 		},
 
 		async sendInvitation(payload: { email: string; role_id: number }) {
@@ -350,7 +379,41 @@ export const useOrganizationStore = defineStore("organization", {
 
 					this.companies?.push(company);
 				});
+
+				admin_channel.listen(".subscription.created", (data: any) => {
+					console.log(data);
+				});
 			}
+		},
+
+		async assignUserLicense(user_id, subscription_item_id, subscription_id) {
+			await axios.post(
+				`/billing-addresses/${this.billing_address.id}/stripe/subscriptions/${subscription_id}/assign`,
+				{
+					subscription_item_id: subscription_item_id,
+					restricted_subscription_usage: true,
+					user_id: user_id,
+				}
+			);
+		},
+
+		async unassignUserLicense(user_id, subscription_item_id, subscription_id) {
+			await axios.post(
+				`/billing-addresses/${this.billing_address.id}/stripe/subscriptions/${subscription_id}/revoke`,
+				{
+					subscription_item_id: subscription_item_id,
+					user_id: user_id,
+				}
+			);
+		},
+
+		async cancelSubscription(subscription_id: any) {
+			let response = await axios.delete(
+				`/billing-addresses/${this.billing_address.id}/stripe/subscriptions/${subscription_id}`
+			);
+
+			this.refresh();
+			return response;
 		},
 	},
 
@@ -409,91 +472,43 @@ export const useOrganizationStore = defineStore("organization", {
 		},
 
 		getSubscriptions: (state) => {
-			return [
-				{
-					id: "1",
-					attributes: {
-						name: "Subscription #1",
-						quantity: 10,
-						price: 110,
-						type: "month",
-					},
-					features: ["item 1", "item 2", "item 3"],
-				},
-				{
-					id: "2",
-					attributes: {
-						name: "Subscription #2",
-						quantity: 6,
-						price: 120,
-						type: "month",
-					},
-					features: ["item 1", "item 2", "item 3"],
-				},
+			return state.subscriptions;
+		},
 
-				{
-					id: "4",
-					attributes: {
-						name: "Subscription #4",
-						quantity: 50,
-						price: 1100,
-						type: "year",
-					},
-					features: ["item 1", "item 2", "item 3"],
-				},
-				{
-					id: "5",
-					attributes: {
-						name: "Subscription #5",
-						quantity: 34,
-						price: 1200,
-						type: "year",
-					},
-					features: ["item 1", "item 2", "item 3"],
-				},
-			];
+		getSubscriptionById: (state) => (sub_id: string) => {
+			return state.subscriptions?.find((s) => s.id === sub_id);
 		},
 
 		getLicenses: (state) => {
-			return [
-				{
-					id: "1",
-					attributes: {
-						name: "License #1",
-						quantity: 10,
-						price: 110,
-						type: "month",
-					},
-					features: ["item 1", "item 2", "item 3"],
-				},
-				{
-					id: "2",
-					attributes: {
-						name: "License #2",
-						quantity: 6,
-						price: 120,
-						type: "month",
-					},
-					features: ["item 1", "item 2", "item 3"],
-				},
-			];
+			let sub = state.subscriptions?.map((s) => s.attributes.items.data);
+			return (sub?.length ?? 0) > 0 ? sub?.map((s) => s[0]) : [];
 		},
 
-		getUserWithLicenses: (state) => {
-			// placeholder
-			return state.members?.map((x) => {
-				x.user.role = x.role;
-				x.user.subscription = x.subscription;
-				return x.user;
-			});
+		getSubscriptionLicenses: (state) => (sub_id: string) => {
+			let sub = state.subscriptions?.find((s) => s.id === sub_id);
+
+			if (sub == undefined) return undefined;
+
+			return sub.attributes.items.data;
 		},
-		getUserWithoutLicenses: (state) => {
-			// placeholder
-			return state.members?.map((x) => {
-				x.user.role = x.role;
-				x.user.subscription = x.subscription;
-				return x.user;
-			});
+
+		getMembersWithLicenses: (state) => {
+			return state.members
+				?.filter((m) => m.subscription !== null)
+				.map((x) => {
+					x.user.role = x.role;
+					x.user.subscription = x.subscription;
+					return x.user;
+				});
+		},
+		getMembersWithoutLicenses: (state) => {
+			return state.members
+				?.filter((m) => m.subscription == null)
+				.map((x) => {
+					x.user.role = x.role;
+					x.user.subscription = x.subscription;
+					return x.user;
+				});
 		},
 	},
 });

@@ -13,7 +13,7 @@
 		</template>
 
 		<article class="bs-scroll" p-8 content-start flex gap-16>
-			<div class="component-group" min-w-128 max-w-128>
+			<div class="component-group" min-w-172 max-w-172>
 				<div class="group-content">
 					<Container text-left>
 						<template #title>
@@ -22,43 +22,29 @@
 							</h3>
 						</template>
 
-						<n-list class="bs-scroll" v-if="subscriptions">
-							<n-list-item
-								v-for="subscription in subscriptions"
-								:key="subscription.id"
-							>
+						<n-list class="bs-scroll" v-if="subscriptions" flex flex-col gap-4>
+							<n-list-item v-for="subscription of subscriptions">
 								<div class="plan-item">
 									<h4>
-										{{ subscription.attributes.name }}
+										{{ getSubscriptionName(subscription) }} -
+
+										{{
+											getSubscriptionPaymentType(subscription) === "month"
+												? t("monthly")
+												: t("yearly")
+										}}
 									</h4>
 
 									<div grid grid-cols-2 gap-4 mt-6>
-										<div>
-											<h6>{{ t("what_is_included") }}</h6>
-
-											<n-list :show-divider="false">
-												<n-space vertical>
-													<n-list-item
-														v-for="feature of subscription.features"
-													>
-														<template #prefix>
-															<div class="dot" />
-														</template>
-
-														{{ feature }}
-													</n-list-item>
-												</n-space>
-											</n-list>
-										</div>
-
-										<div>
+										<div flex flex-col>
 											<h6>{{ t("billing_and_payments") }}</h6>
+
 											<div grid grid-cols-2 gap-4>
 												<b>
 													{{ t("paid_with") }}
 												</b>
 
-												<p style="color: var(--bs-gray)">[PH] stripe</p>
+												<p style="color: var(--bs-gray)">Stripe</p>
 											</div>
 
 											<hr my-2 />
@@ -68,83 +54,79 @@
 													{{ t("payment", 2) }}
 												</b>
 												<div style="color: var(--bs-gray)">
-													<p>[PH] 12$</p>
+													<p>
+														<b
+															>{{
+																getSubscriptionPrice(subscription)
+															}}
+															€</b
+														>
+													</p>
 
-													<p>[PH] Next payment on 15.23</p>
+													<p v-if="!isSubscriptionCanceled(subscription)">
+														{{
+															$t("next_payment_on_s", [
+																getSubscriptionNextPayment(
+																	subscription
+																),
+															])
+														}}
+													</p>
 
-													<p>[PH] Monthly payment, prepaid</p>
+													<p v-else style="color: var(--bs-red)">
+														{{
+															$t("subscription_wil_end_at_s", [
+																getSubscriptionNextPayment(
+																	subscription
+																),
+															])
+														}}
+													</p>
+
+													<p>
+														{{
+															getSubscriptionPaymentType(
+																subscription
+															) === "month"
+																? $t("monthly_payment_prepaid")
+																: $t("yearly_payment_prepaid")
+														}}
+													</p>
 												</div>
 											</div>
+
+											<RouterLink
+												:to="{
+													name: 'organization-payments-subscription-index',
+													params: { subscription_id: subscription.id },
+												}"
+												mt-8
+												mx-a
+											>
+												<n-button strong ghost round type="success">
+													{{ t("manage_subscription") }}
+												</n-button>
+											</RouterLink>
 										</div>
-									</div>
-								</div>
 
-								<div flex justify-between items-center px-4>
-									<RouterLink
-										:to="{
-											name: 'organization-payments-subscription-index',
-											params: { subscription_id: '55gfg' },
-										}"
-										mt-8
-									>
-										<n-button strong ghost round type="success">
-											{{ t("manage_subscription") }}
-										</n-button>
-									</RouterLink>
-
-									<RouterLink
-										:to="{
-											name: 'organization-payments-subscription-index',
-											params: { subscription_id: '55gfg' },
-										}"
-										mt-8
-									>
-										<n-button text strong type="tertiary" underline>
-											{{ t("view_billing_history") }}
-										</n-button>
-									</RouterLink>
-								</div>
-							</n-list-item>
-						</n-list>
-					</Container>
-				</div>
-			</div>
-
-			<div class="component-group" min-w-128 max-w-128>
-				<div class="group-content">
-					<Container text-left>
-						<template #title>
-							<h3>
-								<b> {{ t("license", 2) }} </b>
-							</h3>
-						</template>
-
-						<n-list class="bs-scroll" v-if="licenses">
-							<n-list-item v-for="license in licenses" :key="license.id">
-								<div class="plan-item">
-									<h4>
-										{{ license.attributes.name }}
-									</h4>
-
-									<div grid grid-cols-2 gap-4 mt-6>
-										<div>
+										<div flex flex-col>
 											<h6>
 												{{
 													t(
 														"number_of_licenses_n",
-														license.attributes.quantity
+														getLicenseTotalQuantity(subscription)
 													)
 												}}
 											</h6>
 
 											<n-list show-divider>
-												<n-list-item my-4>
+												<n-list-item>
 													<div
 														grid
 														style="grid-template-columns: 1fr 2fr"
 													>
 														<p>
-															<b>{{ t("monthly") }}</b>
+															<b>{{ $t("license", 2) }} </b>
 														</p>
 
 														<div
@@ -154,78 +136,63 @@
 															mb-2
 															style="color: var(--bs-gray)"
 														>
-															<p><b>[PH] 10 used licenses </b></p>
-															<p>[PH] 5 unused</p>
-														</div>
-													</div>
-												</n-list-item>
-
-												<n-list-item my-4>
-													<div
-														grid
-														style="grid-template-columns: 1fr 2fr"
-													>
-														<p>
-															<b>{{ t("yearly") }}</b>
-														</p>
-
-														<div
-															flex
-															flex-col
-															gap-2
-															mb-2
-															style="color: var(--bs-gray)"
-														>
-															<p><b>[PH] 8 used licenses</b></p>
-
-															<p>[PH] 2 unused</p>
+															<p>
+																<b>
+																	{{
+																		t(
+																			"n_licenses_used",
+																			getLicenseStatistics(
+																				subscription
+																			).used
+																		)
+																	}}
+																</b>
+															</p>
+															<p>
+																{{
+																	t(
+																		"n_licenses_available",
+																		getLicenseStatistics(
+																			subscription
+																		).unused
+																	)
+																}}
+															</p>
 														</div>
 													</div>
 												</n-list-item>
 											</n-list>
-										</div>
 
-										<div>
-											<h6>{{ t("billing_and_payments") }}</h6>
-											<div grid grid-cols-2 gap-4>
-												<b>
-													{{ t("paid_with") }}
-												</b>
-
-												<p style="color: var(--bs-gray)">[PH] stripe</p>
-											</div>
-
-											<hr my-2 />
-
-											<div grid grid-cols-2 gap-4>
-												<b>
-													{{ t("payment", 2) }}
-												</b>
-												<div style="color: var(--bs-gray)">
-													<p>[PH] 12$</p>
-
-													<p>[PH] Next payment on 15.23</p>
-
-													<p>[PH] Monthly payment, prepaid</p>
-												</div>
-											</div>
+											<RouterLink
+												:to="{
+													name: 'organization-payments-subscription-licenses',
+													params: { subscription_id: subscription.id },
+												}"
+												mt-a
+												mx-a
+											>
+												<n-button strong ghost round type="success">
+													{{ t("manage_licenses") }}
+												</n-button>
+											</RouterLink>
 										</div>
 									</div>
 								</div>
-
-								<RouterLink
-									:to="{
-										name: 'organization-payments-subscription-licenses',
-										params: { subscription_id: '55gfg' },
-									}"
-									mt-8
-								>
-									<n-button strong ghost round type="success">
-										{{ t("manage_licenses") }}
-									</n-button>
-								</RouterLink>
 							</n-list-item>
 						</n-list>
+
+						<div flex justify-center my-8>
+							<RouterLink
+								:to="{
+									name: 'organization-payments-plans',
+									params: { id: id },
+								}"
+							>
+								<n-button strong round type="success" size="large">
+									{{ $t("buy_a_subscription") }}
+								</n-button>
+							</RouterLink>
+						</div>
 					</Container>
 				</div>
 			</div>
@@ -235,6 +202,7 @@
 
 <script setup lang="ts">
 import { useOrganizationStore } from "~/stores/organization";
+import { usePaymentsStore } from "~/stores/payments";
 
 // const props =
 defineProps({
@@ -251,9 +219,75 @@ const store = useOrganizationStore();
 
 const resource = computed(() => store.getOrganization!);
 
-const subscriptions = computed(() => store.getSubscriptions);
+const subscriptions = computed(() => {
+	let s = store.getSubscriptions;
+	console.log(s);
+	return s;
+});
 
-const licenses = computed(() => store.getLicenses);
+const getSubscriptionName = (subscription: any) => {
+	let id = subscription.attributes.plan.product;
+
+	let product = usePaymentsStore().products.find((p) => p.id === id);
+
+	return product?.attributes.name;
+};
+
+const getSubscriptionPrice = (subscription: any) => {
+	let id = subscription.attributes.plan.product;
+	let price_id = subscription.attributes.plan.id;
+	let quantity = subscription.attributes.quantity;
+
+	let product = usePaymentsStore().products.find((p) => p.id === id);
+
+	let price = product?.attributes.prices.find((price) => price.id === price_id);
+	let tiers = price?.attributes.tiers;
+
+	let total = 0;
+
+	tiers?.forEach((tier) => {
+		if (tier.up_to === 1) total += tier.unit_amount;
+		else total += tier.unit_amount * (quantity - 1);
+	});
+
+	return total / 100;
+};
+
+const getSubscriptionNextPayment = (subscription: any) => {
+	let end = subscription.attributes.current_period_end;
+
+	let date = new Date(end * 1000);
+
+	return date.toLocaleDateString();
+};
+
+const getSubscriptionPaymentType = (subscription: any) => {
+	let interval = subscription.attributes.plan.interval;
+
+	return interval;
+};
+
+const getLicenseTotalQuantity = (subscription: any) => {
+	return subscription.attributes.items.data[0].quantity;
+};
+
+const getLicenseStatistics = (subscription: any) => {
+	return {
+		used: subscription.attributes.items.data[0].assigned,
+		unused:
+			subscription.attributes.items.data[0].quantity -
+			subscription.attributes.items.data[0].assigned,
+	};
+};
+
+const isSubscriptionCanceled = (subscription: any) => {
+	let canceled = subscription.attributes.cancel_at_period_end;
+
+	let period_end = subscription.attributes.current_period_end;
+
+	if (canceled) return new Date(period_end * 1000);
+	return undefined;
+};
 </script>
 
 <style scoped lang="scss">
@@ -265,6 +299,7 @@ h6 {
 	background-color: var(--bs-purple-light);
 	font-weight: bold;
 	margin-bottom: 1rem;
+	padding: 0.25rem 0.125rem;
 }
 
 :deep(.bs-container) {

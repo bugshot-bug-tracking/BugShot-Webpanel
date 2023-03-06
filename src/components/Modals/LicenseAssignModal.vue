@@ -44,7 +44,10 @@
 											)
 										"
 										:preset="'pe'"
+										v-if="item.role"
 									/>
+
+									<Badge v-else :text="$t('owner')" :preset="'gf'" />
 								</div>
 
 								<p style="color: var(--bs-gray)">{{ item.attributes.email }}</p>
@@ -54,7 +57,15 @@
 				</div>
 
 				<div class="form-buttons">
-					<n-button strong type="success" round size="large" @click="submit">
+					<n-button
+						strong
+						type="success"
+						round
+						size="large"
+						@click="submit"
+						:loading="loading"
+						:disabled="loading"
+					>
 						{{ t("assign_license") }}
 					</n-button>
 				</div>
@@ -90,6 +101,8 @@ const props = defineProps({
 		required: false,
 		default: [],
 	},
+
+	loading: Boolean,
 });
 
 const emit = defineEmits(["update:modelValue", "submit"]);

@@ -117,7 +117,7 @@
 				<div v-if="item.subscription">
 					<img src="/src/assets/icons/starter.svg" alt="" w-5 h-5 mr-1 />
 
-					{{ item.subscription }}
+					{{ getUserSubscriptionName(item.subscription) }}
 				</div>
 
 				<div v-else>
@@ -133,6 +133,7 @@ import { User } from "~/models/User";
 
 import { useAuthStore } from "~/stores/auth";
 import { useOrganizationStore } from "~/stores/organization";
+import { usePaymentsStore } from "~/stores/payments";
 
 const store = useOrganizationStore();
 
@@ -175,6 +176,13 @@ const deleteMember = async (user_id: number) => {
 // const companies = computed(() => store.getCompanies);
 
 // const selectOption = ref(null);
+const getUserSubscriptionName = (subscription: any) => {
+	let product = usePaymentsStore().products.find(
+		(p) => p.id === subscription.attributes.stripe_product
+	);
+
+	return product?.attributes.name;
+};
 </script>
 
 <style lang="scss" scoped>

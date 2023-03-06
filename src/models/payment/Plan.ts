@@ -70,6 +70,7 @@ export interface ProductMetadata {
 	hidden?: string;
 	feature_list?: string;
 	image?: string;
+	description?: string;
 }
 
 export interface PriceMetadata {

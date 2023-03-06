@@ -48,7 +48,6 @@
 						"
 						@submit="onSubmit($event, product)"
 						:loading="cardLoading === product.id"
-						:disabled="cardLoading != ''"
 					>
 					</PlanCard>
 				</li>
@@ -64,9 +63,6 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "~/stores/auth";
-import { useMainStore } from "~/stores/main";
-import { useOrganizationStore } from "~/stores/organization";
 import { usePaymentsStore } from "~/stores/payments";
 
 let store = usePaymentsStore();
@@ -139,22 +135,15 @@ const processedProducts = computed(() =>
 		.sort((a, b) => (a.prices.monthly?.unit_amount ?? 0) - (b.prices.monthly?.unit_amount ?? 0))
 );
 
-const onSubmit = async (value: number, product: typeof processedProducts.value[0]) => {
+const onSubmit = (value: number, product: typeof processedProducts.value[0]) => {
 	cardLoading.value = product.id;
 
 	// just a safety measure
 	if (value < 1) value = 1;
 
-	let main = useMainStore();
-	let user = useAuthStore().user;
-
-	let org = main.organizations?.find((o) => o.attributes.creator.id === user.id)!;
-
-	await useOrganizationStore().init(org.id);
-
 	let mainPrice = isMonthly.value ? product.prices.monthly.price : product.prices.yearly.price;
 
-	await store.createCheckout({
+	store.createCheckout({
 		price: mainPrice!,
 		quantity: value,
 	});
@@ -251,5 +240,5 @@ header {
 </style>
 
 <route lang="yaml">
-name: new-plans
+name: organization-payments-plans
 </route>

@@ -16,8 +16,12 @@
 
 				<div>
 					<p>{{ $t("license") }}:</p>
-					<p text-6>
+					<p text-6 flex gap-4 items-center>
 						<b>{{ license_name }}</b>
+
+						<span style="color: var(--bs-purple)" v-if="external" text-5>
+							({{ $t("external") }})
+						</span>
 					</p>
 				</div>
 			</div>
@@ -66,30 +70,39 @@
 				</div>
 
 				<div>
-					<n-button strong text type="error" @click="emit('unassign')" v-if="assigned_on">
-						<template #icon>
-							<img
-								src="/src/assets/icons/delete.svg"
-								alt="trash can"
-								w-5
-								h-5
-								class="black-to-red"
-							/>
-						</template>
+					<slot name="button">
+						<n-button
+							strong
+							text
+							type="error"
+							@click="emit('unassign')"
+							v-if="assigned_on"
+						>
+							<template #icon>
+								<img
+									src="/src/assets/icons/delete.svg"
+									alt="trash can"
+									w-5
+									h-5
+									class="black-to-red"
+								/>
+							</template>
 
-						{{ $t("unassign_member") }}
-					</n-button>
+							{{ $t("unassign_member") }}
+						</n-button>
 
-					<n-button
-						v-else
-						strong
-						type="success"
-						round
-						size="large"
-						@click="emit('submit')"
-					>
-						{{ $t("assign_license") }}
-					</n-button>
+						<n-button
+							v-else
+							strong
+							type="success"
+							round
+							size="large"
+							@click="emit('submit')"
+							:disabled="quantity === 0"
+						>
+							{{ $t("assign_license") }}
+						</n-button>
+					</slot>
 				</div>
 			</div>
 		</template>
@@ -116,6 +129,8 @@ defineProps({
 		required: false,
 		default: true,
 	},
+
+	external: Boolean,
 });
 
 const emit = defineEmits(["update:checkbox", "unassign", "submit"]);
