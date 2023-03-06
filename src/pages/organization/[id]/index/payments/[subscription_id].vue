@@ -1,9 +1,9 @@
 <template>
-	<T2Page>
+	<T2Page v-if="subscription">
 		<template #header>
 			<T2Header>
 				<template #l-top>
-					{{ subscription.name }}
+					{{ getSubscriptionName() }}
 				</template>
 
 				<template #l-bottom>
@@ -16,13 +16,13 @@
 			<section name="info" p-8 class="bs-br" text-left>
 				<header flex flex-col items-start gap-2 mb-8>
 					<h3>
-						{{ subscription.name }}
+						{{ getSubscriptionName() }}
 					</h3>
 
 					<span order--1>{{ t("you_are_using") }}</span>
 				</header>
 
-				<div>
+				<div flex flex-col gap-12>
 					<div>
 						<h6 py-1 mb-4>
 							{{ t("billing_and_payments") }}
@@ -33,7 +33,7 @@
 								{{ t("paid_with") }}
 							</b>
 
-							<p style="color: var(--bs-gray)">[PH] Stripe</p>
+							<p style="color: var(--bs-gray)">Stripe</p>
 						</div>
 
 						<hr my-2 />
@@ -44,10 +44,51 @@
 							</b>
 
 							<div style="color: var(--bs-gray)">
-								<p><b>[PH] 12$</b></p>
+								<p>
+									<b> {{ getSubscriptionPrice() }} € </b>
+								</p>
 
-								<p>[PH] Next payment on 15.23</p>
-								<p>[PH] Monthly payment, prepaid</p>
+								<p v-if="!isSubscriptionCanceled()">
+									{{ $t("next_payment_on_s", [getSubscriptionNextPayment()]) }}
+								</p>
+
+								<p v-else style="color: var(--bs-red)">
+									{{
+										$t("subscription_wil_end_at_s", [
+											getSubscriptionNextPayment(),
+										])
+									}}
+								</p>
+								<p>
+									{{
+										getSubscriptionPaymentType() === "month"
+											? $t("monthly_payment_prepaid")
+											: $t("yearly_payment_prepaid")
+									}}
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<div>
+						<h6 py-1 mb-4>
+							{{ t("number_of_licenses_n", getLicenseTotalQuantity()) }}
+						</h6>
+
+						<div grid style="grid-template-columns: 1fr 2fr">
+							<p>
+								<b>{{ $t("license", 2) }} </b>
+							</p>
+
+							<div flex flex-col gap-2 mb-2 style="color: var(--bs-gray)">
+								<p>
+									<b>
+										{{ t("n_licenses_used", getLicenseStatistics().used) }}
+									</b>
+								</p>
+								<p>
+									{{ t("n_licenses_available", getLicenseStatistics().unused) }}
+								</p>
 							</div>
 						</div>
 					</div>
@@ -61,9 +102,13 @@
 
 <script setup lang="ts">
 import { useOrganizationStore } from "~/stores/organization";
+import { usePaymentsStore } from "~/stores/payments";
 
-defineProps({
-	subscription_id: String,
+const props = defineProps({
+	subscription_id: {
+		type: String,
+		required: true,
+	},
 });
 
 const { t } = useI18n();
@@ -72,8 +117,70 @@ const store = useOrganizationStore();
 
 const resource = computed(() => store.getOrganization!);
 
-const subscription = {
-	name: "[PH] subscription #1",
+const subscription = computed(() => store.getSubscriptionById(props.subscription_id!));
+
+const getSubscriptionName = () => {
+	let id = subscription.value.attributes.plan.product;
+
+	let product = usePaymentsStore().products.find((p) => p.id === id);
+
+	return product?.attributes.name;
+};
+
+const getSubscriptionPrice = () => {
+	let id = subscription.value.attributes.plan.product;
+	let price_id = subscription.value.attributes.plan.id;
+	let quantity = subscription.value.attributes.quantity;
+
+	let product = usePaymentsStore().products.find((p) => p.id === id);
+
+	let price = product?.attributes.prices.find((price) => price.id === price_id);
+	let tiers = price?.attributes.tiers;
+
+	let total = 0;
+
+	tiers?.forEach((tier) => {
+		if (tier.up_to === 1) total += tier.unit_amount;
+		else total += tier.unit_amount * (quantity - 1);
+	});
+
+	return total / 100;
+};
+
+const getSubscriptionNextPayment = () => {
+	let end = subscription.value.attributes.current_period_end;
+
+	let date = new Date(end * 1000);
+
+	return date.toLocaleDateString();
+};
+
+const getSubscriptionPaymentType = () => {
+	let interval = subscription.value.attributes.plan.interval;
+
+	return interval;
+};
+
+const isSubscriptionCanceled = () => {
+	let canceled = subscription.value.attributes.cancel_at_period_end;
+
+	let period_end = subscription.value.attributes.current_period_end;
+
+	if (canceled) return new Date(period_end * 1000);
+	return undefined;
+};
+
+const getLicenseStatistics = () => {
+	return {
+		used: subscription.value.attributes.items.data[0].assigned,
+		unused:
+			subscription.value.attributes.items.data[0].quantity -
+			subscription.value.attributes.items.data[0].assigned,
+	};
+};
+
+const getLicenseTotalQuantity = () => {
+	return subscription.value.attributes.items.data[0].quantity;
 };
 </script>
 

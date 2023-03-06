@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<header>
+		<header v-if="false">
 			<n-steps v-model:current="steps.current" :status="steps.status">
 				<n-step title="Feedback" />
 				<n-step title="Options" />
@@ -153,7 +153,7 @@
 					strong
 					type="success"
 					@click="steps.prev"
-					v-if="steps.current > 1"
+					v-if="steps.current > 1 && false"
 				>
 					{{ t("previous_step") }}
 				</n-button>
@@ -174,25 +174,82 @@
 					}}
 				</n-button>
 
-				<n-button strong size="large" type="error" v-else>
+				<n-button strong size="large" type="error" v-else @click="modal.open">
 					{{ t("confirm_cancelation") }}
 				</n-button>
 			</div>
 		</footer>
 	</section>
+
+	<MyModal v-model="modal.show">
+		<ModalTemplate noCloseButton>
+			<div flex flex-col items-center>
+				<img src="/src/assets/images/attention_message.png" h-70 />
+
+				<h2 style="color: var(--bs-purple)">
+					<b>
+						{{ $t("cancel_modal.title") }}
+					</b>
+				</h2>
+
+				<p max-w-88 text-center style="color: var(--bs-gray)">
+					{{ $t("cancel_modal.sub_title") }}
+				</p>
+
+				<div mt-8 flex flex-col items-center gap-4>
+					<p>{{ $t("cancel_modal.sub_sub_title") }}</p>
+
+					<div flex justify-around w-60>
+						<n-button
+							strong
+							type="success"
+							ghost
+							round
+							size="large"
+							@click="cancelSubscription"
+						>
+							{{ $t("yes").toUpperCase() }}
+						</n-button>
+						<n-button strong type="success" round size="large" @click="modal.close">
+							{{ $t("no").toUpperCase() }}
+						</n-button>
+					</div>
+				</div>
+			</div>
+		</ModalTemplate>
+	</MyModal>
+
+	<LoadingModal2
+		:show="loadingModal.show"
+		:state="loadingModal.state"
+		:message="loadingModal.message"
+		@close="loadingModal.clear"
+		@onSuccess="
+			modal.close();
+			redirect();
+		"
+	>
+		<template #success-img>
+			<img src="/src/assets/animations/deleted_items.gif" alt="Success" h-32 />
+		</template>
+	</LoadingModal2>
 </template>
 
 <script setup lang="ts">
 import { StepsProps } from "naive-ui";
+import { useOrganizationStore } from "~/stores/organization";
 
-defineProps({
+const props = defineProps({
+	id: String,
 	subscription_id: String,
 });
 
 const { t } = useI18n();
 
+const router = useRouter();
+
 const steps = reactive({
-	current: 1 as number,
+	current: 3 as number,
 	status: "process" as StepsProps["status"],
 	next: () => {
 		if (steps.current < 3) steps.current++;
@@ -206,6 +263,51 @@ const feedback = reactive({
 	reasons: [],
 	comment: "",
 });
+
+const cancelSubscription = async () => {
+	try {
+		loadingModal.show = true;
+		loadingModal.state = 0;
+
+		let response = await useOrganizationStore().cancelSubscription(props.subscription_id);
+		console.log(response);
+
+		loadingModal.state = 1;
+		loadingModal.message = t("subscription_canceled");
+	} catch (error) {
+		console.log(error);
+
+		loadingModal.state = 2;
+	}
+};
+
+const modal = reactive({
+	show: false,
+	open: () => {
+		modal.show = true;
+	},
+	close: () => {
+		modal.show = false;
+	},
+});
+
+const loadingModal = reactive({
+	show: false,
+	state: 0,
+	message: "",
+	clear: () => {
+		loadingModal.show = false;
+		loadingModal.state = 0;
+		loadingModal.message = "";
+	},
+});
+
+const redirect = () => {
+	router.replace({
+		name: "organization-payments-subscription-index",
+		params: { id: props.id, subscription_id: props.subscription_id },
+	});
+};
 </script>
 
 <style scoped lang="scss">

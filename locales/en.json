@@ -362,7 +362,7 @@
 	"change_subscription_subtext": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate et earum a sed at distinctio fuga officiis fugiat nihil deserunt soluta, facere quas architecto provident doloremque nemo doloribus molestias quo!",
 	"cancel_subscription": "Cancel subscription",
 	"cancel_subscription_text": "Cancel subscription",
-	"cancel_subscription_subtext": "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+	"cancel_subscription_subtext": "",
 	"previous_step": "Previous step",
 	"continue_cancelation": "Continue cancelation",
 	"i_want_to_cancel": "I want to cancel",
@@ -395,7 +395,48 @@
 	"resend_email": "resend email",
 	"maintenance_in_progress": "Maintenance in progress!",
 	"maintenance_in_progress_subtext": "Hello! This is not an error, at the moment the website is in maintenance mode, we will be back up shortly!",
-	" ": "",
+	"assigned_on": "Assigned on ",
+	"available_until": "Available until ",
+	"team_member_using_it": "Team member using it:",
+	"unassign_member": "Unassign member | Unassign members",
+	"used_license": "Used license | Used licenses",
+	"unused_license": "Unused license | Unused licenses",
+	"select_all": "Select all",
+	"unassigned": "Unassigned",
+	"assign_license": "Assign license",
+	"assignable_licenses": "Assignable licenses",
+	"assign_license_to_user": "Assign license to a user",
+	"next_payment_on_s": "Next payment on {0}",
+	"monthly_payment_prepaid": "Monthly payment, prepaid",
+	"yearly_payment_prepaid": "Yearly payment, prepaid",
+	"n_licenses_used": "{n} licenses used",
+	"n_licenses_available": "{n} licenses available",
+	"want_to_remove_user_license": "Are you sure you want to remove the license from user: ",
+	"license_removed": "License removed",
+	"external": "External",
+	"products_descriptions": {
+		"premium": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio error magnam numquam corrupti! Optio autem ipsum veritatis quidem assumenda aut labore, laboriosam, iusto facere suscipit minus hic explicabo iure quis."
+	},
+
+	"cancel_modal": {
+		"title": "Attention!",
+		"sub_title": "Continue with this action will cancel your plan and you'll loose access to the projects.",
+		"sub_sub_title": "Are you sure you want to cancel?"
+	},
+	"subscription_canceled": "Subscription canceled!",
+	"subscription_wil_end_at_s": "Subscription will end at {0}",
+	"buy_a_subscription": "Buy a subscription",
+	"no_license_overlay": {
+		"title": "Hello there!",
+
+		"line_1": "It seems you do not have any license associated with your account and you are not a Client of this organization.",
+		"line_2": "Please ask the owner for a license or to make you a Client!",
+
+		"option": "Change organization:"
+	},
+	"tooltips": {
+		"groups_info": "With a group you can build your own structure. \nA group can be, for example, a customer or a team. \nWithin a group, associated projects can be created."
+	},
 	" ": "",
 	"": ""
 }

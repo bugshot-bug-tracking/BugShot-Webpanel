@@ -5,6 +5,7 @@ import nProgress from "nprogress";
 import { Role } from "~/models/Role";
 import { Organization } from "~/models/Organization";
 import { useAuthStore } from "./auth";
+import { usePaymentsStore } from "./payments";
 
 export const useMainStore = defineStore("main", {
 	state: () => ({
@@ -23,6 +24,8 @@ export const useMainStore = defineStore("main", {
 				await this.fetchRoles();
 
 				await this.initOrganizations();
+
+				await usePaymentsStore().init();
 
 				nProgress.done();
 			} catch (error) {
@@ -59,6 +62,7 @@ export const useMainStore = defineStore("main", {
 			let response = (await axios.post("organizations", { designation })).data.data;
 
 			this.addOrganization(response);
+			return response;
 		},
 
 		/**

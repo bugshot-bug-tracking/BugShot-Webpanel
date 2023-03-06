@@ -15,16 +15,16 @@
 			</p>
 
 			<p>
-				{{ description }}
+				{{ $t(description ?? "") }}
 			</p>
 
 			<div flex text-7>
 				<p font-bold>
-					€
 					{{ nicePrice(type === "month" ? subTotal : subTotal / 12).toLocaleString() }}
+					€
 				</p>
 
-				<p ml-2 lowercase>
+				<p ml-2>
 					{{ `/ ${$t("month")}` }}
 				</p>
 			</div>
@@ -59,16 +59,12 @@
 				</n-button>
 
 				<p text-4 style="color: var(--bs-gray)">
-					{{
-						type === "month"
-							? $t("s_billed_monthly", [subTotal.toLocaleString()])
-							: $t("s_billed_yearly", [subTotal.toLocaleString()])
-					}}
+					{{ type === "month" ? "" : $t("s_billed_yearly", [subTotal.toLocaleString()]) }}
 				</p>
 			</div>
 		</div>
 
-		<template #footer>
+		<template #footer v-if="features">
 			<b>{{ $t("what_is_included") }}</b>
 
 			<n-list>
