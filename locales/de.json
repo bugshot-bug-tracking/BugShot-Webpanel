@@ -395,6 +395,32 @@
 	"maintenance_in_progress": "Wartungsarbeiten im Gange",
 	"maintenance_in_progress_subtext": "Hallo! Das ist kein Fehler. Im Moment befindet sich die Webseite im Wartungsmodus. BugShot ist in Kürze wieder verfügbar!",
 
+	"next_payment_on_s": "Nächste Zahlung fällig am {0}",
+	"monthly_payment_prepaid": "Monatliche Zahlung, Zahlung",
+	"yearly_payment_prepaid": "Jährliche Zahlung, Zahlung",
+	"n_licenses_used": "{n} Lizenzen in Nutzung",
+	"n_licenses_available": "{n} Lizenzen verfügbar",
+	"want_to_remove_user_license": "Willst Du wirklich die Lizenz folgenden Nutzers entfernen: ",
+	"license_removed": "Lizenz entfernt",
+	"external": "Extern",
+	"products_descriptions": {
+		"premium": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio error magnam numquam corrupti! Optio autem ipsum veritatis quidem assumenda aut labore, laboriosam, iusto facere suscipit minus hic explicabo iure quis."
+	},
+	"cancel_modal": {
+		"title": "Achtung!",
+		"sub_title": "Wenn du fortfährst wird dein Abonnement gekündigt und Du verlierst den Zugriff auf die Projekte.",
+		"sub_sub_title": "Willst Du dein Abonnement wirklich kündigen?"
+	},
+	"subscription_canceled": "Abonnement gekündigt!",
+	"subscription_wil_end_at_s": "Abonnement läuft aus am {0}",
+	"buy_a_subscription": "Starte ein Abonnement",
+	"no_license_overlay": {
+		"title": "Hallo!",
+		"line_1": "Wie es aussieht wurde deinem Account leider noch keine lizenz zugeordnet und Du bist auch kein Gast dieser Organisation.",
+		"line_2": "Bitte frage den Besitzer nach einer Lizenz oder einer Einladung als Gast!",
+		"option": "Organisation wechseln:"
+	},
+
 	"tooltips": {
 		"groups_info": "Mit einer Gruppe kannst Du Deine eigene Struktur aufbauen. \nEine Gruppe kann z.B. ein Kunde oder ein Team sein. \nInnerhalb einer Gruppe können zugehörige Projekte erstellt werden."
 	},
