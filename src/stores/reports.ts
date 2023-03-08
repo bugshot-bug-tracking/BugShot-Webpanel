@@ -299,6 +299,8 @@ export const useReportsStore = defineStore("reports", {
 			if (index == undefined || index === -1) return;
 
 			status.attributes.bugs?.splice(index, 1);
+
+			this.bug!.attributes.deleted_at = new Date().toString();
 		},
 
 		async fetchScreenshots() {

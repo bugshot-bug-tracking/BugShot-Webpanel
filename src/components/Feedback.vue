@@ -1,7 +1,7 @@
 <template>
 	<section class="bugshot-feedback" z-1>
 		<div class="feedback-button" @click="form.toggle" :class="{ open: form.show }">
-			<img src="/src/assets/icons/bugshot.svg" alt="bugshot" />
+			<img src="/src/assets/icons/help.svg" alt="help" />
 
 			<p>{{ t("feedback") }}</p>
 		</div>
