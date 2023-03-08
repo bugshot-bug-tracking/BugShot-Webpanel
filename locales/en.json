@@ -415,7 +415,7 @@
 	"license_removed": "License removed",
 	"external": "External",
 	"products_descriptions": {
-		"premium": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio error magnam numquam corrupti! Optio autem ipsum veritatis quidem assumenda aut labore, laboriosam, iusto facere suscipit minus hic explicabo iure quis."
+		"premium": ""
 	},
 
 	"cancel_modal": {
@@ -439,7 +439,8 @@
 	},
 	"start_trial": "Start a 14 days trial",
 
-	"trial_expires_in_n_days": "Your trial will expire in {n} days.",
+	"trial_expires_in_n_days": "Your trial will expire tomorrow. | Your trial will expire in {n} days.",
+
 	"upgrade_now": "Upgrade now",
 	"upgrade_now_modal": {
 		"title": "Hello again!",

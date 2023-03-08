@@ -1,5 +1,10 @@
 <template>
-	<div m-4 p-2 style="background: #ffc400; border-radius: 0.5rem">
+	<div
+		m-4
+		p-2
+		style="background: #ffc400; border-radius: 0.5rem"
+		v-if="!hasLicense && timeLeft > 0"
+	>
 		<p>
 			{{ t("trial_expires_in_n_days", timeLeft) }}
 			<span underline cursor-pointer @click="modal.open">
@@ -103,6 +108,10 @@ const modal = reactive({
 const otherOrganizations = computed(() =>
 	organizations.value?.some((o) => o.attributes.creator.id !== user.value.id)
 );
+
+const hasLicense = computed(() => {
+	return authStore.getLicenses.length > 0;
+});
 </script>
 
 <style scoped lang="scss">

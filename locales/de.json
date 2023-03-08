@@ -404,7 +404,7 @@
 	"license_removed": "Lizenz entfernt",
 	"external": "Extern",
 	"products_descriptions": {
-		"premium": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odio error magnam numquam corrupti! Optio autem ipsum veritatis quidem assumenda aut labore, laboriosam, iusto facere suscipit minus hic explicabo iure quis."
+		"premium": ""
 	},
 	"cancel_modal": {
 		"title": "Achtung!",
@@ -426,6 +426,18 @@
 	},
 
 	"start_trial": "14-tägige Testphase starten",
+
+	"trial_expires_in_n_days": "Deine Testphase läuft morgen aus. | Deine Testphase läuft in {n} Tagen aus.",
+
+	"upgrade_now": "Jetzt Upgraden",
+	"upgrade_now_modal": {
+		"title": "Hallo nochmal!",
+		"line_1": "Brauchst du eine BugShot Lizenz?",
+		"line_2": "Es ist ganz leicht! Du musst nur ein Abonnement für deine Organisation abschließen und dir eine Lizenz zuordnen.",
+		"line_3": "Oder Du fragst eine andere Authoritätsperson der Organisation dir eine zuzuweisen."
+	},
+	"trial": "Probephase",
+	"info": "Info",
 
 	" ": "",
 	"": ""
