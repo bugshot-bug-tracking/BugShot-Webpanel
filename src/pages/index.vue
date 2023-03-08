@@ -7,6 +7,7 @@ import { useSettingsStore } from "~/stores/settings";
 
 const route = useRouter();
 const store = useMainStore();
+const authStore = useAuthStore();
 
 const organizations = computed(() => store.organizations);
 
@@ -14,7 +15,11 @@ const redirect = () => {
 	if (organizations.value === undefined) {
 		// redirect to new page
 	} else {
-		if (useAuthStore().new_user === true) {
+		if (
+			authStore.new_user === true &&
+			authStore.user.attributes.trial_end_date == null &&
+			(authStore.user.attributes.subscriptions?.length ?? 0) === 0
+		) {
 			return route.replace({
 				name: "new",
 			});
