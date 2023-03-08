@@ -8,6 +8,7 @@ export interface User {
 		first_name: string;
 		last_name: string;
 		phone?: string;
+		trial_end_date?: string;
 	};
 	role?: Role;
 }

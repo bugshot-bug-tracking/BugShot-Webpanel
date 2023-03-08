@@ -88,7 +88,7 @@ const isGuest = computed(() => {
 	return organization.value?.attributes.role?.id === 3;
 });
 const inTrial = computed(() => {
-	const d1 = new Date(user.value.attributes.trial_end_date);
+	const d1 = new Date(user.value.attributes.trial_end_date ?? 0);
 	const d2 = new Date();
 
 	return d1 >= d2;

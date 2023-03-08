@@ -111,6 +111,7 @@ declare module '@vue/runtime-core' {
     StatusTableHeader: typeof import('./components/StatusTableHeader.vue')['default']
     T2Header: typeof import('./templates/T2Header.vue')['default']
     T2Page: typeof import('./templates/T2Page.vue')['default']
+    TrialBanner: typeof import('./components/TrialBanner.vue')['default']
     TSidebar: typeof import('./templates/TSidebar.vue')['default']
     UserCard: typeof import('./components/Cards/UserCard.vue')['default']
     UserHeader: typeof import('./components/AssignmentTable/UserHeader.vue')['default']

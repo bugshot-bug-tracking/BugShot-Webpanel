@@ -5,6 +5,8 @@
 		</template>
 
 		<div class="groups bs-scroll">
+			<TrialBanner />
+
 			<GroupContainer v-for="company of companies" :key="company.id">
 				<template #top-left>
 					<RouterLink
