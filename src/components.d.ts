@@ -68,8 +68,6 @@ declare module '@vue/runtime-core' {
     NLayoutContent: typeof import('naive-ui')['NLayoutContent']
     NList: typeof import('naive-ui')['NList']
     NListItem: typeof import('naive-ui')['NListItem']
-    NMessageProvider: typeof import('naive-ui')['NMessageProvider']
-    NModal: typeof import('naive-ui')['NModal']
     NoLicenseOverlay: typeof import('./components/NoLicenseOverlay.vue')['default']
     Notification: typeof import('./components/Notification.vue')['default']
     Notifications: typeof import('./components/Notifications.vue')['default']
