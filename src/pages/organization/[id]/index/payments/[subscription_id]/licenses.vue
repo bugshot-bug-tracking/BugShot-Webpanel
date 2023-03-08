@@ -5,7 +5,6 @@
 				strong
 				:ghost="showUsed ? false : true"
 				:type="showUsed ? 'primary' : 'tertiary'"
-				size="large"
 				@click="showUsed = true"
 			>
 				{{ $t("used_license", 2) }}
@@ -15,7 +14,6 @@
 				strong
 				:ghost="showUsed ? true : false"
 				:type="!showUsed ? 'primary' : 'tertiary'"
-				size="large"
 				@click="showUsed = false"
 			>
 				{{ $t("unused_license", 2) }}

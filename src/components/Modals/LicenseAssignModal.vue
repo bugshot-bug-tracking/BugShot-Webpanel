@@ -61,7 +61,6 @@
 						strong
 						type="success"
 						round
-						size="large"
 						@click="submit"
 						:loading="loading"
 						:disabled="loading"

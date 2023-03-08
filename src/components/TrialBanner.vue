@@ -46,7 +46,7 @@
 						}"
 						v-if="organization?.attributes.creator.id === user.id"
 					>
-						<n-button strong round size="large" type="primary">
+						<n-button strong round type="primary">
 							{{ $t("buy_a_subscription") }}
 						</n-button>
 					</RouterLink>
@@ -57,7 +57,7 @@
 						}"
 						v-else
 					>
-						<n-button strong round size="large" type="primary">
+						<n-button strong round type="primary">
 							{{ $t("buy_a_subscription") }}
 						</n-button>
 					</RouterLink>
