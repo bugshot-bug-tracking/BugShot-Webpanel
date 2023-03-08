@@ -48,13 +48,7 @@
 			</div>
 
 			<div flex justify-between items-end>
-				<n-button
-					@click="onSubmit"
-					:type="'primary'"
-					size="large"
-					strong
-					:loading="loading"
-				>
+				<n-button @click="onSubmit" :type="'primary'" strong :loading="loading">
 					{{ $t("checkout") }}
 				</n-button>
 

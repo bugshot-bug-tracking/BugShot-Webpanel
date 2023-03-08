@@ -27,6 +27,8 @@ export const useOrganizationStore = defineStore("organization", {
 		billing_address: undefined,
 
 		subscriptions: undefined as undefined | [],
+
+		invoices: undefined as undefined | [],
 	}),
 
 	actions: {
@@ -415,6 +417,16 @@ export const useOrganizationStore = defineStore("organization", {
 			this.refresh();
 			return response;
 		},
+
+		async fetchInvoices() {
+			if (this.billing_address?.id == undefined) return (this.invoices = []);
+
+			let response = (
+				await axios.get(`/billing-addresses/${this.billing_address.id}/stripe/invoices`)
+			).data.data;
+
+			this.invoices = response.invoices;
+		},
 	},
 
 	getters: {
@@ -509,6 +521,10 @@ export const useOrganizationStore = defineStore("organization", {
 					x.user.subscription = x.subscription;
 					return x.user;
 				});
+		},
+
+		getInvoices: (state) => {
+			return state.invoices;
 		},
 	},
 });

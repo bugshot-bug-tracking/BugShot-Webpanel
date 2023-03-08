@@ -206,7 +206,11 @@ const setOpen = () => {
 setOpen();
 
 const companyProjects = (company_id: string) => {
-	return useOrganizationStore().getCompanyProjects(company_id) ?? [];
+	return (
+		useOrganizationStore()
+			.getCompanyProjects(company_id)
+			?.sort((a, b) => a.attributes.designation.localeCompare(b.attributes.designation)) ?? []
+	);
 };
 
 const organization = computed(() => useOrganizationStore().getOrganization);

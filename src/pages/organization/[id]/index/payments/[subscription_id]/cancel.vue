@@ -141,7 +141,7 @@
 					params: { subscription_id },
 				}"
 			>
-				<n-button ghost strong size="large" type="tertiary">
+				<n-button ghost strong type="tertiary">
 					{{ t("cancel") }}
 				</n-button>
 			</RouterLink>
@@ -149,7 +149,6 @@
 			<div flex gap-8>
 				<n-button
 					ghost
-					size="large"
 					strong
 					type="success"
 					@click="steps.prev"
@@ -158,13 +157,7 @@
 					{{ t("previous_step") }}
 				</n-button>
 
-				<n-button
-					strong
-					size="large"
-					type="primary"
-					@click="steps.next"
-					v-if="steps.current < 3"
-				>
+				<n-button strong type="primary" @click="steps.next" v-if="steps.current < 3">
 					{{
 						steps.current === 1
 							? t("continue_cancelation")
@@ -174,7 +167,7 @@
 					}}
 				</n-button>
 
-				<n-button strong size="large" type="error" v-else @click="modal.open">
+				<n-button strong type="error" v-else @click="modal.open">
 					{{ t("confirm_cancelation") }}
 				</n-button>
 			</div>
@@ -200,17 +193,10 @@
 					<p>{{ $t("cancel_modal.sub_sub_title") }}</p>
 
 					<div flex justify-around w-60>
-						<n-button
-							strong
-							type="success"
-							ghost
-							round
-							size="large"
-							@click="cancelSubscription"
-						>
+						<n-button strong type="success" ghost round @click="cancelSubscription">
 							{{ $t("yes").toUpperCase() }}
 						</n-button>
-						<n-button strong type="success" round size="large" @click="modal.close">
+						<n-button strong type="success" round @click="modal.close">
 							{{ $t("no").toUpperCase() }}
 						</n-button>
 					</div>
