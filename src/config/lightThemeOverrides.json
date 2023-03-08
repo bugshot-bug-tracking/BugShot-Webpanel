@@ -152,5 +152,14 @@
 	},
 	"Form": {
 		"labelFontWeight": "500"
+	},
+	"common": {
+		"fontSize": "1rem",
+		"fontSizeSmall": "1rem",
+		"fontSizeMedium": "1rem",
+		"fontSizeLarge": "1.125rem",
+		"fontSizeHuge": "1.25rem",
+		"fontSizeTiny": "0.875rem",
+		"fontSizeMini": "0.75rem"
 	}
 }

@@ -45,7 +45,6 @@
 						@click="startTrial"
 						strong
 						round
-						size="large"
 						v-if="user.attributes.trial_end_date == null"
 					>
 						{{ $t("start_trial") }}
@@ -58,7 +57,7 @@
 						}"
 						v-if="organization?.attributes.creator.id === user.id"
 					>
-						<n-button strong round size="large" type="primary">
+						<n-button strong round type="primary">
 							{{ $t("buy_a_subscription") }}
 						</n-button>
 					</RouterLink>

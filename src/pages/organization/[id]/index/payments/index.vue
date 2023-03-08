@@ -187,7 +187,6 @@
 								@click="startTrial"
 								strong
 								round
-								size="large"
 								v-if="user.attributes.trial_end_date == null"
 							>
 								{{ $t("start_trial") }}
@@ -199,7 +198,7 @@
 									params: { id: id },
 								}"
 							>
-								<n-button strong round type="primary" size="large">
+								<n-button strong round type="primary">
 									{{ $t("buy_a_subscription") }}
 								</n-button>
 							</RouterLink>

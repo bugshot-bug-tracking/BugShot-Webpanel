@@ -96,7 +96,6 @@
 							strong
 							type="success"
 							round
-							size="large"
 							@click="emit('submit')"
 							:disabled="quantity === 0"
 						>

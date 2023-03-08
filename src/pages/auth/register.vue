@@ -211,7 +211,6 @@
 					text
 					strong
 					type="tertiary"
-					size="large"
 					underline
 					@click="resendEmail"
 					flex-row-reverse

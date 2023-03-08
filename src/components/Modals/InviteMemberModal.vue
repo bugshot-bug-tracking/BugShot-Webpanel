@@ -16,7 +16,6 @@
 							type: 'email',
 						}"
 						:placeholder="$t('email')"
-						size="large"
 						:disabled="disableSubmit && user && Object.hasOwn(user, 'id')"
 						:options="memberOptions"
 					>
