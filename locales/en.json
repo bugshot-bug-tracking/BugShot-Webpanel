@@ -451,6 +451,9 @@
 	"trial": "Trial",
 	"info": "Info",
 
+	"no_invoices": "No invoices",
+	"download_invoice": "Download invoice",
+
 	" ": "",
 	"": ""
 }

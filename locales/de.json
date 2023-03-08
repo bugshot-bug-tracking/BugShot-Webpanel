@@ -439,6 +439,9 @@
 	"trial": "Probephase",
 	"info": "Info",
 
+	"no_invoices": "Keine Rechnungen verfügbar",
+	"download_invoice": "Rechnung herunterladen",
+
 	" ": "",
 	"": ""
 }

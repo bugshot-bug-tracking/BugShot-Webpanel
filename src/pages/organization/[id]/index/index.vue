@@ -24,6 +24,16 @@
 
 			<div class="component-group" max-w-128>
 				<div class="group-header">
+					{{ t("invoice", 2) }}
+				</div>
+
+				<div class="group-content">
+					<InvoiceList />
+				</div>
+			</div>
+
+			<div class="component-group" max-w-128>
+				<div class="group-header">
 					{{ t("actions") }}
 				</div>
 
