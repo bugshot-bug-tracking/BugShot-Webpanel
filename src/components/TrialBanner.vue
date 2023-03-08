@@ -16,7 +16,7 @@
 	</div>
 
 	<MyModal :modelValue="modal.show" :close="modal.close" z-2>
-		<ModalTemplate>
+		<ModalTemplate @close="modal.close">
 			<template #header-text> {{ t("info") }} </template>
 
 			<div flex flex-col gap-8 items-center max-w-128 text-center>
