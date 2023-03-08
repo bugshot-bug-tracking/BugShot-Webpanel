@@ -419,7 +419,7 @@ export const useOrganizationStore = defineStore("organization", {
 		},
 
 		async fetchInvoices() {
-			if (this.billing_address?.id === undefined) return;
+			if (this.billing_address?.id == undefined) return (this.invoices = []);
 
 			let response = (
 				await axios.get(`/billing-addresses/${this.billing_address.id}/stripe/invoices`)
