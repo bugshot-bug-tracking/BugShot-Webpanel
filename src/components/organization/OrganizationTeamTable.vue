@@ -111,13 +111,53 @@
 				my-2
 			/>
 
-			<div flex gap-4 class="black-to-purple" mb-2>
+			<div flex gap-4 mb-2 style="color: var(--bs-purple)">
 				<b>{{ $t("member_plan") }}:</b>
 
-				<div v-if="item.subscription">
-					<img src="/src/assets/icons/starter.svg" alt="" w-5 h-5 mr-1 />
+				<div v-if="resource.attributes.creator.id === item.id">
+					<div
+						flex
+						gap-2
+						items-center
+						v-if="getCreatorSubscription(user.attributes.subscriptions)"
+					>
+						<img
+							src="/src/assets/icons/starter.svg"
+							alt=""
+							w-5
+							h-5
+							mr-1
+							class="black-to-purple"
+						/>
+						<p>
+							{{ getCreatorSubscription(user.attributes.subscriptions) }}
+						</p>
+					</div>
+
+					<p v-else-if="hasTrial(user.attributes.trial_end_date)" style="color: #ffc400">
+						<b>{{ $t("trial") }}</b>
+					</p>
+
+					<p v-else>
+						{{ $t("no_plan") }}
+					</p>
+				</div>
+
+				<div v-else-if="item.subscription">
+					<img
+						src="/src/assets/icons/starter.svg"
+						alt=""
+						w-5
+						h-5
+						mr-1
+						class="black-to-purple"
+					/>
 
 					{{ getUserSubscriptionName(item.subscription) }}
+				</div>
+
+				<div v-else-if="hasTrial(item.attributes.trial_end_date)" style="color: #ffc400">
+					<b>{{ $t("trial") }}</b>
 				</div>
 
 				<div v-else>
@@ -179,6 +219,36 @@ const deleteMember = async (user_id: number) => {
 const getUserSubscriptionName = (subscription: any) => {
 	let product = usePaymentsStore().products.find(
 		(p) => p.id === subscription.attributes.stripe_product
+	);
+
+	return product?.attributes.name;
+};
+
+const hasTrial = (date?: string) => {
+	if (date == undefined) return false;
+
+	let now = new Date();
+	let then = new Date(date);
+
+	if (then > now) return true;
+	else return false;
+};
+
+const getCreatorSubscription = (subscriptions: any[]) => {
+	console.log(subscriptions);
+
+	if (subscriptions == null || subscriptions.length < 1) return undefined;
+
+	let sub = subscriptions.find(
+		(s) =>
+			s.subscription.attributes.subscription.attributes.billable.billing_addressable_id ===
+			resource.value.id
+	);
+
+	if (sub == undefined) sub = subscriptions[0];
+
+	let product = usePaymentsStore().products.find(
+		(p) => p.id === sub.subscription.attributes.stripe_product
 	);
 
 	return product?.attributes.name;

@@ -81,17 +81,24 @@ export const usePaymentsStore = defineStore("payments", {
 					message: "Organization not initialized/found!",
 				};
 
-			let response = (
-				await axios.post(`/billing-addresses/organization/${organization.id}`, {
-					street: "0",
-					housenumber: "0",
-					city: "0",
-					state: "0",
-					zip: "0",
-					country: "0",
-					tax_id: "0",
-				})
-			).data.data;
+			let response = undefined;
+
+			try {
+				response = (await axios.get(`/billing-addresses/organization/${organization.id}`))
+					.data.data;
+			} catch (error) {
+				response = (
+					await axios.post(`/billing-addresses/organization/${organization.id}`, {
+						street: "0",
+						housenumber: "0",
+						city: "0",
+						state: "0",
+						zip: "0",
+						country: "0",
+						tax_id: "0",
+					})
+				).data.data;
+			}
 
 			if (response.attributes["stripe_customer_id"] == null) {
 				let response2 = (

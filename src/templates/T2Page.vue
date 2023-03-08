@@ -37,6 +37,8 @@
 		grid-area: main;
 
 		overflow: auto;
+		display: flex;
+		flex-direction: column;
 	}
 }
 </style>

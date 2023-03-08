@@ -12,7 +12,7 @@
 		<div flex flex-col gap-4 style="width: 100%">
 			<n-card flex-row items-center :bordered="false" class="bs-b" v-if="false">
 				<template #header>
-					<img src="/src/assets/icons/starter.svg" alt="" w-14 h-14 />
+					<img src="/src/assets/icons/star_search.svg" alt="" w-14 h-14 />
 				</template>
 
 				<h5>
@@ -29,7 +29,7 @@
 
 			<n-card flex-row items-center :bordered="false" class="bs-b">
 				<template #header>
-					<img src="/src/assets/icons/enterprise.svg" alt="" w-14 h-14 />
+					<img src="/src/assets/icons/do_not_disturb.svg" alt="" w-14 h-14 />
 				</template>
 
 				<h5>
