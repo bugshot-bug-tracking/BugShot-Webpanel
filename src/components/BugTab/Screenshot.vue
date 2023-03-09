@@ -1,22 +1,13 @@
 <template>
-	<div
-		class="screenshot"
-		:class="{ loading: loading }"
-		v-if="loading || screenshots.length > 0"
-	>
+	<div class="screenshot" :class="{ loading: loading }" v-if="loading || screenshots.length > 0">
 		<div class="thumbnail-wraper" @click="toggleModal" v-if="!loading">
 			<img class="thumbnail" :src="thumbnail" alt="Screenshots" />
 			<div class="enlarge" />
 		</div>
 
 		<Modal :show="modal" @close="modal = !modal">
-			<img
-				:src="showImage"
-				alt="Screenshots"
-				class="screen"
-				ref="bigScreen"
-			/>
-			
+			<img :src="showImage" alt="Screenshots" class="screen" ref="bigScreen" />
+
 			<div
 				v-show="mark.show"
 				class="marker"
@@ -26,15 +17,15 @@
 					top: mark.y + '%',
 				}"
 			/>
-			
+
 			<template v-slot:extra>
 				<div class="controls-bottom">
 					<div class="controls">
-					<div class="btn-hide-mark" @click="mark.show = !mark.show">
+						<div class="btn-hide-mark" @click="mark.show = !mark.show">
 							{{ mark.show ? $t("hide_mark") : $t("show_mark") }}
 						</div>
 
-					<div class="images-counter" v-if="screenshots.length > 1">
+						<div class="images-counter" v-if="screenshots.length > 1">
 							{{
 								$t("member_out_of", {
 									x: counter + 1,
@@ -46,11 +37,7 @@
 				</div>
 
 				<div class="controls-side" v-if="screenshots.length > 1">
-					<div
-						class="btn-side-arrow arrow-left"
-						v-if="counter > 0"
-						@click="previous"
-					/>
+					<div class="btn-side-arrow arrow-left" v-if="counter > 0" @click="previous" />
 					<div v-else />
 
 					<div
@@ -109,8 +96,7 @@ const next = () => {
 };
 
 let thumbnail = computed(() => {
-	if (props.screenshots.length > 0)
-		return props.screenshots[0].attributes.base64;
+	if (props.screenshots.length > 0) return props.screenshots[0].attributes.base64;
 	return "/";
 });
 
@@ -119,7 +105,7 @@ const showImage = computed(() => {
 
 	let img = props.screenshots[counter.value];
 
-	// wait untill rendered to get image sizes
+	// wait until rendered to get image sizes
 	nextTick(() => {
 		// get points relative to the original image to put the marker
 
@@ -127,13 +113,15 @@ const showImage = computed(() => {
 			img.attributes.position_x <= 0 && bigScreen.value.naturalWidth <= 0
 				? 0
 				: (img.attributes.position_x / bigScreen.value.naturalWidth) *
-				  100;
+				  100 *
+				  (img.attributes.device_pixel_ratio ?? 1);
 
 		mark.y =
 			img.attributes.position_y <= 0 && bigScreen.value.naturalHeight <= 0
 				? 0
 				: (img.attributes.position_y / bigScreen.value.naturalHeight) *
-				  100;
+				  100 *
+				  (img.attributes.device_pixel_ratio ?? 1);
 	});
 
 	return img.attributes.base64;
