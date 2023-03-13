@@ -58,7 +58,7 @@
 			</div>
 		</div>
 
-		<template #footer v-if="features">
+		<template #footer>
 			<b>{{ $t("what_is_included") }}</b>
 
 			<n-list>
@@ -68,7 +68,7 @@
 							<div class="dot" style="width: 0.375rem; height: 0.375rem" />
 						</template>
 
-						{{ feature }}
+						{{ feature ? $t(feature.trim()) : "" }}
 					</n-list-item>
 				</n-space>
 			</n-list>
@@ -95,7 +95,10 @@ const props = defineProps({
 		required: true,
 	},
 	type: String as PropType<"month" | "year">,
-	features: Array,
+	features: {
+		type: Array as PropType<string[] | undefined>,
+		required: false,
+	},
 	loading: Boolean,
 });
 
