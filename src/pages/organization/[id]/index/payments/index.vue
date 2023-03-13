@@ -318,7 +318,7 @@ h6 {
 	background-color: var(--bs-purple-light);
 	font-weight: bold;
 	margin-bottom: 1rem;
-	padding: 0.25rem 0.125rem;
+	padding: 0.25rem 0.25rem;
 }
 
 :deep(.bs-container) {
