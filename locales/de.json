@@ -404,8 +404,15 @@
 	"license_removed": "Lizenz entfernt",
 	"external": "Extern",
 	"products_descriptions": {
-		"premium": ""
+		"premium": "Genießen Sie allein oder im Team alle Vorteile von BugShot."
 	},
+	"product_features": {
+		"item_1": "Komplettes BugShot-Paket",
+		"item_2": "Zugriff auf alle Funktionen",
+		"item_3": "Melden Sie Fehler mit der Extension",
+		"item_4": "Regelmäßige kostenlose Upgrades"
+	},
+
 	"cancel_modal": {
 		"title": "Achtung!",
 		"sub_title": "Wenn du fortfährst wird dein Abonnement gekündigt und Du verlierst den Zugriff auf die Projekte.",
