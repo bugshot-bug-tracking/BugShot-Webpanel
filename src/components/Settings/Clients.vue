@@ -11,18 +11,32 @@
 				{{ $t("extension.install_browser_extension") }}
 			</p>
 
-			<div flex mt-8>
+			<div flex mt-8 justify-evenly>
 				<img src="/src/assets/icons/chrome.svg" alt="Chrome Icon" w-16 m4 />
 				<a class="bs-btn green" :href="links.chrome" target="_blank" uppercase>
 					{{ $t("extension.install_plugin") }}
 				</a>
 			</div>
 
-			<div flex>
+			<div flex justify-evenly>
 				<img src="/src/assets/icons/firefox.svg" alt="Firefox Icon" w-16 m4 />
 
 				<a class="bs-btn green" :href="links.firefox" target="_blank" uppercase>
 					{{ $t("extension.install_plugin") }}
+				</a>
+			</div>
+		</span>
+
+		<span flex flex-col items-center>
+			<p class="bs-bb" font-bold p2 style="font-size: 1.125rem; width: 100%">
+				{{ $t("extension.download_client_app") }}
+			</p>
+
+			<div flex justify-evenly>
+				<img src="/src/assets/icons/windows.svg" alt="Windows Icon" w-16 m4 />
+
+				<a class="bs-btn green" :href="links.windows" uppercase>
+					{{ $t("download") }}
 				</a>
 			</div>
 		</span>
@@ -59,6 +73,8 @@
 const links = {
 	chrome: "https://chrome.google.com/webstore/detail/bugshot/dioobkjdnepaibmmhlniiolocpmdbblh",
 	firefox: "https://addons.mozilla.org/en-US/firefox/addon/bugshot",
+
+	windows: "https://dev-api.bugshot.de/api/v1/downloads/desktop-client",
 };
 
 const chromeStore = () => {
@@ -78,5 +94,9 @@ const windowsStore = () => {};
 	> img {
 		width: 10rem;
 	}
+}
+
+span > div {
+	width: 100%;
 }
 </style>
