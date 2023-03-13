@@ -58,7 +58,7 @@
 			</div>
 		</div>
 
-		<template #footer>
+		<template #footer v-if="features">
 			<b>{{ $t("what_is_included") }}</b>
 
 			<n-list>
