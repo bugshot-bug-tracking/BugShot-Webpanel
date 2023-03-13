@@ -415,7 +415,13 @@
 	"license_removed": "License removed",
 	"external": "External",
 	"products_descriptions": {
-		"premium": ""
+		"premium": "Enjoy all the benefits of BugShot alone or as a team."
+	},
+	"product_features": {
+		"item_1": "Complete BugShot package",
+		"item_2": "Access to all features",
+		"item_3": "Report bugs using the extension",
+		"item_4": "Regular free upgrades"
 	},
 
 	"cancel_modal": {
