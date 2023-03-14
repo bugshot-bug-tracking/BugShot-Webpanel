@@ -6,9 +6,7 @@ import { CompanyUserRole } from "~/models/CompanyUserRole";
 import { Invitation } from "~/models/Invitation";
 import { Project } from "~/models/Project";
 import { useOrganizationStore } from "./organization";
-import { echo } from "~/composables/listeners";
-import { useProjectStore } from "./project";
-import { useAuthStore } from "./auth";
+import { useHookStore } from "./hooks";
 
 export const useCompanyStore = defineStore("company", {
 	state: () => ({
@@ -26,8 +24,6 @@ export const useCompanyStore = defineStore("company", {
 	actions: {
 		async init(organization_id: string, company_id: string) {
 			try {
-				this.unhook();
-
 				this.$reset();
 
 				this.company_id = company_id;
@@ -38,11 +34,14 @@ export const useCompanyStore = defineStore("company", {
 				await this.fetchUsers();
 
 				await this.fetchProjects();
-
-				this.hook();
 			} catch (error) {
+				this.$reset();
+
 				console.log(error);
 				throw error;
+			} finally {
+				// add the hooks when the load was a success or remove existing ones (if any) in case of error
+				useHookStore().hookCompany();
 			}
 		},
 
@@ -303,104 +302,10 @@ export const useCompanyStore = defineStore("company", {
 			return true;
 		},
 
-		async unhook() {
-			if (this.company === undefined) return;
-
-			const api_channel = `company.${this.company.id}`;
-
-			echo.leave(api_channel);
-		},
-
-		async hook() {
-			if (this.company === undefined) return;
-
-			const api_channel = `company.${this.company.id}`;
-
-			let channel = echo.private(api_channel);
-
-			channel.listen(".members.updated", async (data: any) => {
-				await this.fetchUsers();
-			});
-
-			channel.listen(".project.updated", (data: any) => {
-				if (!(data && data.data.type === "Project")) return console.log(data);
-
-				let project = data.data as Project;
-
-				let oldProject = this.projects?.find((x) => x.id === project.id);
-
-				if (oldProject == undefined) return;
-
-				Object.assign(oldProject.attributes, project.attributes);
-
-				if (useProjectStore().project_id === project.id)
-					useProjectStore().handleRemoteUpdate();
-
-				let up_oldProject = useOrganizationStore()
-					?.companies?.find((c) => c.id === project.attributes.company.id)
-					?.attributes.projects?.find((p) => p.id === project.id);
-
-				if (up_oldProject == undefined) return;
-
-				Object.assign(up_oldProject.attributes, project.attributes);
-			});
-
-			channel.listen(".project.deleted", (data: any) => {
-				if (!(data && data.data.type === "Project")) return console.log(data);
-
-				let project = data.data as Project;
-
-				let index = this.projects?.findIndex((x) => x.id === project.id);
-
-				if (index === undefined || index === -1)
-					return console.log(
-						`project.deleted: Project not found in company projects list!`
-					);
-
-				this.projects?.splice(index, 1);
-
-				if (useProjectStore().project_id === project.id)
-					useProjectStore().handleRemoteDelete();
-
-				let up_index = useOrganizationStore()
-					?.companies?.find((c) => c.id === project.attributes.company.id)
-					?.attributes.projects?.findIndex((p) => p.id === project.id);
-
-				if (up_index === undefined || up_index === -1)
-					return console.log(
-						`project.deleted: Project not found in organization company projects list!`
-					);
-
-				useOrganizationStore()
-					?.companies?.find((c) => c.id === project.attributes.company.id)
-					?.attributes.projects?.splice(up_index, 1);
-			});
-
-			const user = useAuthStore().user;
-			if (
-				user.id === this.company?.attributes.creator?.id ||
-				this.company?.attributes.role?.id === 1
-			) {
-				const admin_channel = echo.private(api_channel + ".admin");
-
-				admin_channel.listen(".project.created", (data: any) => {
-					if (!(data && data.data.type === "Project")) return console.log(data);
-
-					let project = data.data as Project;
-
-					this.projects?.push(project);
-
-					useOrganizationStore()
-						?.companies?.find((c) => c.id === project.attributes.company.id)
-						?.attributes.projects?.push(project);
-				});
-			}
-		},
-
 		//TODO maybe update with better logic.
 
 		async handleRemoteUpdate() {
-			let company = this.company;
+			// let company = this.company;
 
 			// alert(`Company ${company?.attributes.designation} was updated!`);
 
@@ -408,7 +313,7 @@ export const useCompanyStore = defineStore("company", {
 		},
 
 		async handleRemoteDelete() {
-			let company = this.company;
+			// let company = this.company;
 
 			// alert(`Company ${company?.attributes.designation} was deleted!`);
 
