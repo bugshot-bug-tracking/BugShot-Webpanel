@@ -19,6 +19,10 @@
 					{{ project.attributes.company.attributes.designation }}
 				</template>
 
+				<template #center>
+					<SearchBar w-160 />
+				</template>
+
 				<ManageMembers
 					v-if="isAuthorized"
 					:list="manageableMembers"

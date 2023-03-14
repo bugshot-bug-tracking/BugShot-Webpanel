@@ -9,6 +9,10 @@
 				<template #l-bottom>
 					{{ resource.attributes.designation }}
 				</template>
+
+				<template #center>
+					<SearchBar w-160 />
+				</template>
 			</T2Header>
 		</template>
 

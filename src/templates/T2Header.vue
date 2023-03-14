@@ -12,6 +12,8 @@
 			</slot>
 		</div>
 
+		<slot name="center" />
+
 		<div class="right">
 			<slot />
 		</div>

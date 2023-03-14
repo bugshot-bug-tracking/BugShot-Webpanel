@@ -104,6 +104,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Screenshot: typeof import('./components/BugTab/Screenshot.vue')['default']
+    SearchBar: typeof import('./components/SearchBar.vue')['default']
     SettingsNavbar: typeof import('./components/Navigation/SettingsNavbar.vue')['default']
     SideTab: typeof import('./components/SideTab.vue')['default']
     StatusDeleteModal: typeof import('./components/Modals/StatusDeleteModal.vue')['default']
