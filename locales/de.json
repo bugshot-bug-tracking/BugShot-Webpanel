@@ -173,6 +173,18 @@
 		"the_apps": "Die Anwendungen",
 		"download_client_app": "Anwendungen herunterladen"
 	},
+	"interface": {
+		"interface": "Schnittstelle | Schnittstellen",
+		"create_zaps": "Erstelle Zaps",
+		"zaps_desc": "Erstelle \"Zaps\" in Zapier, um dein Projekt mit sämtlichen verfügbaren Anwendungen zu verknüpfen und Arbeitsschritte zu automatisieren!",
+		"go_to_zapier": "Zapier aufrufen",
+		"work_steps": "Benötigte Schritte",
+		"first_step": " Anlegen eines Nutzerkontos in Zapier",
+		"second_step": " Anlegen eines \"Zaps\"",
+		"third_step": " Erstellung eines API-Keys für das gewünschte Projekt in dessen Einstellungen",
+		"fourth_step": " Auswahl eines Auslösers (\"Triggers\") von BugShot oder einer Anwendung deiner Wahl",
+		"fifth_step": " Auswahl einer nachfolgend auszuführenden Aktion"
+	},
 	"limits": {
 		"min_chars": "Minimum von {x} Zeichen",
 		"letters": "Buchstaben enthalten",
