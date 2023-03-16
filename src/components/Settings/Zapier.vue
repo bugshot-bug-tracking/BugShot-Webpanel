@@ -50,8 +50,10 @@ const links = {
 	}
 }
 
-.bs-container>img {
+.bs-container img {
 	max-height: 56px;
+    max-width: 295px;
+    width: 100%;
 }
 
 .stepsHeader {
