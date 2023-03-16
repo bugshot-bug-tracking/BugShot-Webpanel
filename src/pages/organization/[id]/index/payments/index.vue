@@ -233,7 +233,11 @@
 								:to="{
 									name: 'organization-payments-plans',
 									params: { id: id },
+									query: {
+										...(isMonthly ? {} : { t: 'y' }),
+									},
 								}"
+								v-if="subscriptionsAvailable"
 							>
 								<n-button strong round type="primary">
 									{{ $t("buy_a_subscription") }}
@@ -347,6 +351,24 @@ const startTrial = async () => {
 
 	useOrganizationStore().refresh();
 };
+
+const subscriptionsAvailable = computed(() => {
+	let monthly = 0;
+	let yearly = 0;
+
+	usePaymentsStore().products.forEach((product) => {
+		if (
+			!subscriptions.value?.some(
+				(s) =>
+					s.attributes.plan.product === product.id &&
+					s.attributes.plan.interval === (isMonthly.value ? "month" : "year")
+			)
+		)
+			isMonthly.value ? monthly++ : yearly++;
+	});
+
+	return isMonthly.value ? monthly > 0 : yearly > 0;
+});
 </script>
 
 <style scoped lang="scss">

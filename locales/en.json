@@ -476,6 +476,11 @@
 
 	"no_monthly_subscriptions": "No monthly subscriptions",
 	"no_yearly_subscriptions": "No yearly subscriptions",
+
+	"all_available_monthly_plans_purchased": "All available monthly plans have been purchased",
+	"all_available_yearly_plans_purchased": "All available yearly plans have been purchased",
+	"check_monthly_plans": "Check the monthly plans",
+	"check_yearly_plans": "Check the yearly plans",
 	" ": "",
 	"": ""
 }

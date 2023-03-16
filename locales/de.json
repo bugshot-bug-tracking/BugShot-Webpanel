@@ -466,6 +466,11 @@
 	"no_monthly_subscriptions": "Keine monatlichen Abonnements verfügbar",
 	"no_yearly_subscriptions": "Keine jährlichen Abonnements verfügbar",
 
+	"all_available_monthly_plans_purchased": "Alle verfügbaren, monatlichen Abonnements wurden gekauft",
+	"all_available_yearly_plans_purchased": "Alle verfügbaren, jährlichen Abonnements wurden gekauft",
+	"check_monthly_plans": "Monatliche Abonnements ansehen",
+	"check_yearly_plans": "Jährliche Abonnements ansehen",
+
 	" ": "",
 	"": ""
 }
