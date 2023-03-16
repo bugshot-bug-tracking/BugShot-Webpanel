@@ -34,7 +34,7 @@
 			</div>
 		</div>
 
-		<div class="component-group" w-24rem max-h-37rem>
+		<div class="component-group" w-24rem>
 			<div class="group-header">
 				{{ $t("extension.extension") }}
 			</div>
@@ -43,7 +43,7 @@
 			</div>
 		</div>
 
-		<div class="component-group" w-24rem max-h-37rem>
+		<div class="component-group" w-24rem>
 			<div class="group-header">
 				{{ $t("interface.interface") }}
 			</div>
