@@ -44,8 +44,10 @@ const links = {
 </script>
 
 <style lang="scss" scoped>
-.bs-container > img {
+.bs-container img {
 	max-height: 3.5rem;
+	max-width: 18.5rem;
+	width: 100%;
 }
 
 .steps {
