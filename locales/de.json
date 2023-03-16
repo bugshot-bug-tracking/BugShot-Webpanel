@@ -451,6 +451,9 @@
 
 	"download": "Download",
 
+	"no_monthly_subscriptions": "Keine monatlichen Abonnements verfügbar",
+	"no_yearly_subscriptions": "Keine jährlichen Abonnements verfügbar",
+
 	" ": "",
 	"": ""
 }

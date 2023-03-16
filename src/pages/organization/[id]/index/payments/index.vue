@@ -25,18 +25,43 @@
 								<b>{{ t("subscription", 2) }}</b>
 							</h3>
 						</template>
+						<template #after-title>
+							<p text-5 flex gap-1 items-baseline ml-a>
+								<b
+									class="month-opt"
+									:class="{ 'selected-opt': isMonthly }"
+									@click="isMonthly = true"
+								>
+									{{ $t("monthly") }}
+								</b>
 
-						<n-list class="bs-scroll" v-if="subscriptions" flex flex-col gap-4>
+								<n-switch
+									size="small"
+									@click="isMonthly = !isMonthly"
+									:value="!isMonthly"
+								/>
+
+								<b
+									class="year-opt"
+									:class="{ 'selected-opt': !isMonthly }"
+									@click="isMonthly = false"
+								>
+									{{ $t("yearly") }}
+								</b>
+							</p>
+						</template>
+
+						<n-list
+							class="bs-scroll"
+							v-if="(subscriptions?.length ?? 0) > 0"
+							flex
+							flex-col
+							gap-4
+						>
 							<n-list-item v-for="subscription of subscriptions">
 								<div class="plan-item">
 									<h4>
-										{{ getSubscriptionName(subscription) }} -
-
-										{{
-											getSubscriptionPaymentType(subscription) === "month"
-												? t("monthly")
-												: t("yearly")
-										}}
+										{{ getSubscriptionName(subscription) }}
 									</h4>
 
 									<div grid grid-cols-2 gap-4 mt-6>
@@ -185,6 +210,15 @@
 							</n-list-item>
 						</n-list>
 
+						<n-empty
+							v-else
+							:description="
+								isMonthly
+									? $t('no_monthly_subscriptions')
+									: $t('no_yearly_subscriptions')
+							"
+						/>
+
 						<div flex justify-around my-8>
 							<n-button
 								type="success"
@@ -236,10 +270,13 @@ const store = useOrganizationStore();
 
 const resource = computed(() => store.getOrganization!);
 
+const isMonthly = ref(true);
+
 const subscriptions = computed(() => {
 	let s = store.getSubscriptions;
 	console.log(s);
-	return s;
+
+	return s?.filter((s) => s.attributes.plan.interval === (isMonthly.value ? "month" : "year"));
 });
 
 const getSubscriptionName = (subscription: any) => {
