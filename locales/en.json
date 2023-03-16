@@ -173,6 +173,18 @@
 		"the_apps": "The applications",
 		"download_client_app": "Download client applications"
 	},
+	"interface": {
+		"interface": "Interface | Interfaces",
+		"create_zaps": "Create Zaps",
+		"zaps_desc": "Create \"Zaps\" in Zapier to link your project to all available applications and automate work steps!",
+		"go_to_zapier": "GO TO ZAPIER",
+		"work_steps": "Needed Steps",
+		"first_step": " Create an account in Zapier",
+		"second_step": " Create a \"Zap\"",
+		"third_step": " Create an API-Key for the desired project in its settings",
+		"fourth_step": " Select a \"Trigger\" of BugShot or any other application of your choice",
+		"fifth_step": " Select a corresponding Action that gets executed afterwards"
+	},
 	"limits": {
 		"min_chars": "Minimum {x} characters",
 		"letters": "Contain letters",

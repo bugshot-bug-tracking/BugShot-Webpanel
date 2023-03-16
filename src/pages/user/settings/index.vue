@@ -34,12 +34,21 @@
 			</div>
 		</div>
 
-		<div class="component-group" w-24rem max-h-37rem>
+		<div class="component-group" w-24rem>
 			<div class="group-header">
 				{{ $t("extension.extension") }}
 			</div>
 			<div class="group-content">
 				<Clients />
+			</div>
+		</div>
+
+		<div class="component-group" w-24rem>
+			<div class="group-header">
+				{{ $t("interface.interface") }}
+			</div>
+			<div class="group-content">
+				<Zapier />
 			</div>
 		</div>
 	</article>
