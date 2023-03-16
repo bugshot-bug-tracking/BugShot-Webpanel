@@ -25,6 +25,7 @@
 								<b>{{ t("subscription", 2) }}</b>
 							</h3>
 						</template>
+
 						<template #after-title>
 							<p text-5 flex gap-1 items-baseline ml-a>
 								<b
@@ -84,12 +85,10 @@
 												</b>
 												<div style="color: var(--bs-gray)">
 													<p>
-														<b
-															>{{
-																getSubscriptionPrice(subscription)
-															}}
-															€</b
-														>
+														<b>
+															{{ getSubscriptionPrice(subscription) }}
+															€
+														</b>
 													</p>
 
 													<p v-if="!isSubscriptionCanceled(subscription)">
@@ -384,6 +383,43 @@ h6 {
 .dot {
 	width: 0.375rem;
 	height: 0.375rem;
+}
+
+.month-opt {
+	cursor: pointer;
+}
+
+.year-opt {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	cursor: pointer;
+
+	span {
+		font-size: 1.125rem;
+		color: white;
+		background: #18d992;
+		padding: 0.25rem;
+		border-radius: 0.5rem;
+		position: relative;
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: calc(50% - 0.25rem);
+			left: -0.25rem;
+			width: 0.5rem;
+			height: 0.5rem;
+			transform: rotate(45deg);
+			background-color: #18d992;
+			border: 1px solid #18d992;
+			z-index: -1;
+		}
+	}
+}
+
+.selected-opt {
+	color: var(--bs-purple);
 }
 </style>
 
