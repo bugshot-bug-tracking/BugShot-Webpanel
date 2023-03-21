@@ -5,7 +5,7 @@ import { useAuthStore } from "~/stores/auth";
 import { useMainStore } from "~/stores/main";
 import { useSettingsStore } from "~/stores/settings";
 
-const route = useRouter();
+const router = useRouter();
 const store = useMainStore();
 const authStore = useAuthStore();
 
@@ -21,7 +21,7 @@ const redirect = () => {
 			(authStore.user.attributes.subscriptions?.length ?? 0) === 0 &&
 			(store.organizations?.length ?? 0) <= 1
 		) {
-			return route.replace({
+			return router.replace({
 				name: "new",
 			});
 		}
@@ -32,7 +32,7 @@ const redirect = () => {
 
 		const isPrefAvailable = organizations.value.find((o) => o.id == preferredOrganization);
 
-		route.replace({
+		router.replace({
 			name: "organization-home",
 			params: {
 				organization_id:

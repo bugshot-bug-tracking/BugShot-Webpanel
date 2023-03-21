@@ -51,7 +51,7 @@
 				<div flex gap-4 items-center text-start>
 					<n-checkbox opacity-0 v-if="show_checkbox" />
 
-					<div flex gap-4 text-4 v-if="!quantity">
+					<div flex gap-4 text-4 v-if="quantity === undefined">
 						<p>
 							{{ $t("team_member_using_it") }}
 						</p>
@@ -69,7 +69,9 @@
 					</div>
 				</div>
 
-				<div>
+				<div flex gap-4>
+					<slot name="pre-button-extra" />
+
 					<slot name="button">
 						<n-button
 							strong
@@ -102,6 +104,8 @@
 							{{ $t("assign_license") }}
 						</n-button>
 					</slot>
+
+					<slot name="button-extra" />
 				</div>
 			</div>
 		</template>

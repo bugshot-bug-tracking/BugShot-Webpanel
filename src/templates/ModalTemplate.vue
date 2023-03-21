@@ -22,6 +22,10 @@
 		<div class="modal-content2">
 			<slot />
 		</div>
+
+		<footer v-if="$slots['footer']">
+			<slot name="footer" />
+		</footer>
 	</div>
 </template>
 

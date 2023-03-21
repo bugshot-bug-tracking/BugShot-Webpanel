@@ -1,12 +1,14 @@
 <template>
-	<MyModal v-model="modal.show" :close="modal.close">
+	<MyModal v-model="modal.show" :close="modal.close" v-bind="$attrs">
 		<ModalTemplate @close="modal.close" w-48>
 			<template #header-text>
-				{{ t("assign_license_to_user") }}
+				<slot name="header-text">
+					{{ t("assign_license_to_user") }}
+				</slot>
 			</template>
 
 			<form class="bs-form">
-				<div>
+				<div v-if="license_name">
 					<p text-4>{{ t("license") }}:</p>
 					<p text-6>
 						<b>{{ license_name }}</b>
