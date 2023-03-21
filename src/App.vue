@@ -28,8 +28,6 @@ import { enUS, dateEnUS } from "naive-ui"; //TODO WIP sync with locale store
 
 const { theme, overrides } = useTheme();
 
-const route = useRoute();
-
 const user = computed(() => useAuthStore().getUser);
 
 const loading = ref(true);
@@ -62,16 +60,6 @@ watch(user, async (newUser, oldUser) => {
 		} finally {
 			loading.value = false;
 		}
-});
-
-watchEffect(() => {
-	if (
-		route.query.lang != undefined &&
-		typeof route.query.lang === "string" &&
-		["auto", "en", "de"].includes(route.query.lang)
-	) {
-		useI18nStore().setLocale(route.query.lang);
-	}
 });
 </script>
 
