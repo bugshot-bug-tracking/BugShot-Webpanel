@@ -24,6 +24,8 @@ export const useI18nStore = defineStore("i18n", {
 		},
 
 		setLocale(payload: string) {
+			if (payload.toLowerCase() === this.locale) return;
+
 			let locale = payload;
 
 			if (payload.toLowerCase() === "auto") {
@@ -51,9 +53,7 @@ export const useI18nStore = defineStore("i18n", {
 				// if the language detected does not have a translation file return null to indicate use of default
 				if (
 					!this.supportedLocales.find(
-						(x) =>
-							x.toLowerCase() ===
-							navigator.language.trim().split(/-|_/)[0]
+						(x) => x.toLowerCase() === navigator.language.trim().split(/-|_/)[0]
 					)
 				)
 					return null;
@@ -66,8 +66,7 @@ export const useI18nStore = defineStore("i18n", {
 			for (const language of navigator.languages) {
 				if (
 					this.supportedLocales.find(
-						(x) =>
-							x.toLowerCase() === language.trim().split(/-|_/)[0]
+						(x) => x.toLowerCase() === language.trim().split(/-|_/)[0]
 					)
 				)
 					return language.trim().split(/-|_/)[0];

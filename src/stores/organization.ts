@@ -7,9 +7,7 @@ import { Invitation } from "~/models/Invitation";
 import { OrganizationUserRole } from "~/models/OrganizationUserRole";
 import { Company } from "~/models/Company";
 import { useSettingsStore } from "./settings";
-import { echo } from "~/composables/listeners";
-import { useCompanyStore } from "./company";
-import { useAuthStore } from "./auth";
+import { useHookStore } from "./hooks";
 import { usePaymentsStore } from "./payments";
 
 export const useOrganizationStore = defineStore("organization", {
@@ -34,8 +32,6 @@ export const useOrganizationStore = defineStore("organization", {
 	actions: {
 		async init(id: string) {
 			try {
-				this.unhook();
-
 				this.$reset();
 
 				this.organization_id = id;
@@ -49,11 +45,14 @@ export const useOrganizationStore = defineStore("organization", {
 				await this.fetchSubscriptions();
 
 				useSettingsStore().setPreferredOrganization(id);
-
-				this.hook();
 			} catch (error) {
+				this.$reset();
+
 				console.log(error);
 				throw error;
+			} finally {
+				// add the hooks when the load was a success or remove existing ones (if any) in case of error
+				useHookStore().hookOrganization();
 			}
 
 			try {
@@ -313,79 +312,6 @@ export const useOrganizationStore = defineStore("organization", {
 			).data.data;
 
 			this.member = response;
-		},
-
-		async unhook() {
-			if (this.organization === undefined) return;
-
-			const api_channel = `organization.${this.organization.id}`;
-
-			echo.leave(api_channel);
-		},
-
-		async hook() {
-			if (this.organization === undefined) return;
-
-			const api_channel = `organization.${this.organization.id}`;
-
-			let channel = echo.private(api_channel);
-
-			channel.listen(".members.updated", async (data: any) => {
-				await this.fetchUsers();
-			});
-
-			channel.listen(".company.updated", (data: any) => {
-				if (!(data && data.data.type === "Company")) return console.log(data);
-
-				let company = data.data as Company;
-
-				let oldCompany = this.companies?.find((x) => x.id === company.id);
-
-				if (oldCompany == undefined) return;
-
-				Object.assign(oldCompany.attributes, company.attributes);
-
-				if (useCompanyStore().company_id === company.id)
-					useCompanyStore().handleRemoteUpdate();
-			});
-
-			channel.listen(".company.deleted", (data: any) => {
-				if (!(data && data.data.type === "Company")) return console.log(data);
-
-				let company = data.data as Company;
-
-				let index = this.companies?.findIndex((x) => x.id === company.id);
-
-				if (index === undefined || index === -1)
-					return console.log(
-						`company.deleted: Company not found in organization companies list!`
-					);
-
-				this.companies?.splice(index, 1);
-
-				if (useCompanyStore().company_id === company.id)
-					useCompanyStore().handleRemoteDelete();
-			});
-
-			const user = useAuthStore().user;
-			if (
-				user.id === this.organization?.attributes.creator?.id ||
-				this.organization?.attributes.role?.id === 1
-			) {
-				const admin_channel = echo.private(api_channel + ".admin");
-
-				admin_channel.listen(".company.created", (data: any) => {
-					if (!(data && data.data.type === "Company")) return console.log(data);
-
-					let company = data.data as Company;
-
-					this.companies?.push(company);
-				});
-
-				admin_channel.listen(".subscription.created", (data: any) => {
-					console.log(data);
-				});
-			}
 		},
 
 		async assignUserLicense(user_id, subscription_item_id, subscription_id) {

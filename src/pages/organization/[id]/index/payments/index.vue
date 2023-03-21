@@ -9,6 +9,10 @@
 				<template #l-bottom>
 					{{ resource.attributes.designation }}
 				</template>
+
+				<template #center>
+					<SearchBar w-160 />
+				</template>
 			</T2Header>
 		</template>
 
@@ -22,17 +26,43 @@
 							</h3>
 						</template>
 
-						<n-list class="bs-scroll" v-if="subscriptions" flex flex-col gap-4>
+						<template #after-title>
+							<p text-5 flex gap-1 items-baseline ml-a>
+								<b
+									class="month-opt"
+									:class="{ 'selected-opt': isMonthly }"
+									@click="isMonthly = true"
+								>
+									{{ $t("monthly") }}
+								</b>
+
+								<n-switch
+									size="small"
+									@click="isMonthly = !isMonthly"
+									:value="!isMonthly"
+								/>
+
+								<b
+									class="year-opt"
+									:class="{ 'selected-opt': !isMonthly }"
+									@click="isMonthly = false"
+								>
+									{{ $t("yearly") }}
+								</b>
+							</p>
+						</template>
+
+						<n-list
+							class="bs-scroll"
+							v-if="(subscriptions?.length ?? 0) > 0"
+							flex
+							flex-col
+							gap-4
+						>
 							<n-list-item v-for="subscription of subscriptions">
 								<div class="plan-item">
 									<h4>
-										{{ getSubscriptionName(subscription) }} -
-
-										{{
-											getSubscriptionPaymentType(subscription) === "month"
-												? t("monthly")
-												: t("yearly")
-										}}
+										{{ getSubscriptionName(subscription) }}
 									</h4>
 
 									<div grid grid-cols-2 gap-4 mt-6>
@@ -55,12 +85,10 @@
 												</b>
 												<div style="color: var(--bs-gray)">
 													<p>
-														<b
-															>{{
-																getSubscriptionPrice(subscription)
-															}}
-															€</b
-														>
+														<b>
+															{{ getSubscriptionPrice(subscription) }}
+															€
+														</b>
 													</p>
 
 													<p v-if="!isSubscriptionCanceled(subscription)">
@@ -181,6 +209,15 @@
 							</n-list-item>
 						</n-list>
 
+						<n-empty
+							v-else
+							:description="
+								isMonthly
+									? $t('no_monthly_subscriptions')
+									: $t('no_yearly_subscriptions')
+							"
+						/>
+
 						<div flex justify-around my-8>
 							<n-button
 								type="success"
@@ -196,7 +233,11 @@
 								:to="{
 									name: 'organization-payments-plans',
 									params: { id: id },
+									query: {
+										...(isMonthly ? {} : { t: 'y' }),
+									},
 								}"
+								v-if="subscriptionsAvailable"
 							>
 								<n-button strong round type="primary">
 									{{ $t("buy_a_subscription") }}
@@ -232,10 +273,13 @@ const store = useOrganizationStore();
 
 const resource = computed(() => store.getOrganization!);
 
+const isMonthly = ref(true);
+
 const subscriptions = computed(() => {
 	let s = store.getSubscriptions;
 	console.log(s);
-	return s;
+
+	return s?.filter((s) => s.attributes.plan.interval === (isMonthly.value ? "month" : "year"));
 });
 
 const getSubscriptionName = (subscription: any) => {
@@ -307,6 +351,24 @@ const startTrial = async () => {
 
 	useOrganizationStore().refresh();
 };
+
+const subscriptionsAvailable = computed(() => {
+	let monthly = 0;
+	let yearly = 0;
+
+	usePaymentsStore().products.forEach((product) => {
+		if (
+			!subscriptions.value?.some(
+				(s) =>
+					s.attributes.plan.product === product.id &&
+					s.attributes.plan.interval === (isMonthly.value ? "month" : "year")
+			)
+		)
+			isMonthly.value ? monthly++ : yearly++;
+	});
+
+	return isMonthly.value ? monthly > 0 : yearly > 0;
+});
 </script>
 
 <style scoped lang="scss">
@@ -318,7 +380,7 @@ h6 {
 	background-color: var(--bs-purple-light);
 	font-weight: bold;
 	margin-bottom: 1rem;
-	padding: 0.25rem 0.125rem;
+	padding: 0.25rem 0.25rem;
 }
 
 :deep(.bs-container) {
@@ -343,6 +405,43 @@ h6 {
 .dot {
 	width: 0.375rem;
 	height: 0.375rem;
+}
+
+.month-opt {
+	cursor: pointer;
+}
+
+.year-opt {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	cursor: pointer;
+
+	span {
+		font-size: 1.125rem;
+		color: white;
+		background: #18d992;
+		padding: 0.25rem;
+		border-radius: 0.5rem;
+		position: relative;
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: calc(50% - 0.25rem);
+			left: -0.25rem;
+			width: 0.5rem;
+			height: 0.5rem;
+			transform: rotate(45deg);
+			background-color: #18d992;
+			border: 1px solid #18d992;
+			z-index: -1;
+		}
+	}
+}
+
+.selected-opt {
+	color: var(--bs-purple);
 }
 </style>
 
