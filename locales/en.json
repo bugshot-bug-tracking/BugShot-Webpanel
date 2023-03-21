@@ -173,6 +173,18 @@
 		"the_apps": "The applications",
 		"download_client_app": "Download client applications"
 	},
+	"interface": {
+		"interface": "Interface | Interfaces",
+		"create_zaps": "Create Zaps",
+		"zaps_desc": "Create \"Zaps\" in Zapier to link your project to all available applications and automate work steps!",
+		"go_to_zapier": "GO TO ZAPIER",
+		"work_steps": "Needed Steps",
+		"first_step": " Create an account in Zapier",
+		"second_step": " Create a \"Zap\"",
+		"third_step": " Create an API-Key for the desired project in its settings",
+		"fourth_step": " Select a \"Trigger\" of BugShot or any other application of your choice",
+		"fifth_step": " Select a corresponding Action that gets executed afterwards"
+	},
 	"limits": {
 		"min_chars": "Minimum {x} characters",
 		"letters": "Contain letters",
@@ -409,8 +421,8 @@
 	"next_payment_on_s": "Next payment on {0}",
 	"monthly_payment_prepaid": "Monthly payment, prepaid",
 	"yearly_payment_prepaid": "Yearly payment, prepaid",
-	"n_licenses_used": "{n} licenses used",
-	"n_licenses_available": "{n} licenses available",
+	"n_licenses_used": "{n} license used | {n} licenses used",
+	"n_licenses_available": "{n} license available | {n} licenses available",
 	"want_to_remove_user_license": "Are you sure you want to remove the license from user: ",
 	"license_removed": "License removed",
 	"external": "External",
@@ -462,6 +474,13 @@
 
 	"download": "Download",
 
+	"no_monthly_subscriptions": "No monthly subscriptions",
+	"no_yearly_subscriptions": "No yearly subscriptions",
+
+	"all_available_monthly_plans_purchased": "All available monthly plans have been purchased",
+	"all_available_yearly_plans_purchased": "All available yearly plans have been purchased",
+	"check_monthly_plans": "Check the monthly plans",
+	"check_yearly_plans": "Check the yearly plans",
 	" ": "",
 	"": ""
 }

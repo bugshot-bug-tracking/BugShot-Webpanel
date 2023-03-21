@@ -20,8 +20,7 @@
 
 			<div flex text-7>
 				<p font-bold>
-					{{ nicePrice(type === "month" ? subTotal : subTotal / 12).toLocaleString() }}
-					€
+					{{ nicePrice(type === "month" ? subTotal : subTotal / 12).toLocaleString() }}€
 				</p>
 
 				<p ml-2>

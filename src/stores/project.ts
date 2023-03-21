@@ -5,7 +5,7 @@ import { Project } from "~/models/Project";
 import { Invitation } from "~/models/Invitation";
 import { ProjectUserRole } from "~/models/ProjectUserRole";
 import { useCompanyStore } from "./company";
-import { echo } from "~/composables/listeners";
+import { useHookStore } from "./hooks";
 
 export const useProjectStore = defineStore("project", {
 	state: () => ({
@@ -22,8 +22,6 @@ export const useProjectStore = defineStore("project", {
 	actions: {
 		async init(company_id: string, project_id: string) {
 			try {
-				this.unhook();
-
 				this.$reset();
 
 				this.project_id = project_id;
@@ -31,11 +29,14 @@ export const useProjectStore = defineStore("project", {
 
 				await this.load();
 				await this.fetchUsers();
-
-				this.hook();
 			} catch (error) {
+				this.$reset();
+
 				console.log(error);
 				throw error;
+			} finally {
+				// add the hooks when the load was a success or remove existing ones (if any) in case of error
+				useHookStore().hookProject();
 			}
 		},
 
@@ -158,7 +159,7 @@ export const useProjectStore = defineStore("project", {
 				await axios.put(
 					`projects/${this.project_id}/users/${payload.user_id}`,
 					{
-					role_id: payload.role_id,
+						role_id: payload.role_id,
 					},
 					{
 						headers: {
@@ -181,30 +182,10 @@ export const useProjectStore = defineStore("project", {
 			if (index !== undefined && index !== -1) this.members!.splice(index, 1);
 		},
 
-		async unhook() {
-			if (this.project === undefined) return;
-
-			const api_channel = `project.${this.project.id}`;
-
-			echo.leave(api_channel);
-		},
-
-		async hook() {
-			if (this.project === undefined) return;
-
-			const api_channel = `project.${this.project.id}`;
-
-			let channel = echo.private(api_channel);
-
-			channel.listen(".members.updated", async (data: any) => {
-				await this.fetchUsers();
-			});
-		},
-
 		//TODO maybe update with better logic.
 
 		async handleRemoteUpdate() {
-			let project = this.project;
+			// let project = this.project;
 
 			// alert(`Project ${project?.attributes.designation} was updated!`);
 
@@ -212,7 +193,7 @@ export const useProjectStore = defineStore("project", {
 		},
 
 		async handleRemoteDelete() {
-			let project = this.project;
+			// let project = this.project;
 
 			// alert(`Project ${project?.attributes.designation} was deleted!`);
 

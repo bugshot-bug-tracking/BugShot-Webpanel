@@ -1,7 +1,19 @@
 <template>
 	<T2Page>
 		<template #header>
-			<h3>{{ $t("all_projects") }}</h3>
+			<T2Header>
+				<template #l-top>
+					{{ $t("all_projects") }}
+				</template>
+
+				<template #l-bottom>
+					{{ resource?.attributes.designation }}
+				</template>
+
+				<template #center>
+					<SearchBar w-160 />
+				</template>
+			</T2Header>
 		</template>
 
 		<div class="groups bs-scroll">
@@ -68,6 +80,8 @@ const props = defineProps({
 
 const store = useOrganizationStore();
 const router = useRouter();
+
+const resource = computed(() => store.getOrganization);
 
 const companies = computed(() => {
 	return [...(store.getCompanies ?? [])]

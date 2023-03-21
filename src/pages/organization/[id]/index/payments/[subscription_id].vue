@@ -24,7 +24,7 @@
 
 				<div flex flex-col gap-12>
 					<div>
-						<h6 py-1 mb-4>
+						<h6 p-1 mb-4>
 							{{ t("billing_and_payments") }}
 						</h6>
 
@@ -71,7 +71,7 @@
 					</div>
 
 					<div>
-						<h6 py-1 mb-4>
+						<h6 p-1 mb-4>
 							{{ t("number_of_licenses_n", getLicenseTotalQuantity()) }}
 						</h6>
 

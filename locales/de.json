@@ -173,6 +173,18 @@
 		"the_apps": "Die Anwendungen",
 		"download_client_app": "Anwendungen herunterladen"
 	},
+	"interface": {
+		"interface": "Schnittstelle | Schnittstellen",
+		"create_zaps": "Erstelle Zaps",
+		"zaps_desc": "Erstelle \"Zaps\" in Zapier, um dein Projekt mit sämtlichen verfügbaren Anwendungen zu verknüpfen und Arbeitsschritte zu automatisieren!",
+		"go_to_zapier": "ZAPIER AUFRUFEN",
+		"work_steps": "Benötigte Schritte",
+		"first_step": " Anlegen eines Nutzerkontos in Zapier",
+		"second_step": " Anlegen eines \"Zaps\"",
+		"third_step": " Erstellung eines API-Keys für das gewünschte Projekt in dessen Einstellungen",
+		"fourth_step": " Auswahl eines Auslösers (\"Triggers\") von BugShot oder einer Anwendung deiner Wahl",
+		"fifth_step": " Auswahl einer nachfolgend auszuführenden Aktion"
+	},
 	"limits": {
 		"min_chars": "Minimum von {x} Zeichen",
 		"letters": "Buchstaben enthalten",
@@ -398,8 +410,8 @@
 	"next_payment_on_s": "Nächste Zahlung fällig am {0}",
 	"monthly_payment_prepaid": "Monatliche Zahlung, Zahlung",
 	"yearly_payment_prepaid": "Jährliche Zahlung, Zahlung",
-	"n_licenses_used": "{n} Lizenzen in Nutzung",
-	"n_licenses_available": "{n} Lizenzen verfügbar",
+	"n_licenses_used": "{n} Lizenz in Nutzung | {n} Lizenzen in Nutzung",
+	"n_licenses_available": "{n} Lizenz verfügbar | {n} Lizenzen verfügbar",
 	"want_to_remove_user_license": "Willst Du wirklich die Lizenz folgenden Nutzers entfernen: ",
 	"license_removed": "Lizenz entfernt",
 	"external": "Extern",
@@ -450,6 +462,14 @@
 	"download_invoice": "Rechnung herunterladen",
 
 	"download": "Download",
+
+	"no_monthly_subscriptions": "Keine monatlichen Abonnements verfügbar",
+	"no_yearly_subscriptions": "Keine jährlichen Abonnements verfügbar",
+
+	"all_available_monthly_plans_purchased": "Alle verfügbaren, monatlichen Abonnements wurden gekauft",
+	"all_available_yearly_plans_purchased": "Alle verfügbaren, jährlichen Abonnements wurden gekauft",
+	"check_monthly_plans": "Monatliche Abonnements ansehen",
+	"check_yearly_plans": "Jährliche Abonnements ansehen",
 
 	" ": "",
 	"": ""
