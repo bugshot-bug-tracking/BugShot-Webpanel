@@ -347,7 +347,6 @@
 	"checkout": "Checkout",
 	"what_is_included": "What is included",
 	"continue": "Continue",
-
 	"first_page": {
 		"welcome": "Welcome!",
 		"line_1": "Thank you for giving BugShot a chance.",
@@ -356,7 +355,6 @@
 	},
 	"customer_portal": "Customer portal",
 	"enter": "Enter",
-
 	"created_at": "Created at",
 	"billing_and_payments": "Billing and payments",
 	"subscription": "Subscription | Subscriptions",
@@ -401,7 +399,6 @@
 		"line_1_bold": "read-only mode",
 		"line_2": "Invitations inside the organization will be restricted, editing/modifying of the resources will be prohibited, deletion/removal is allowed."
 	},
-
 	"verification_email_sent": "Verification email sent!",
 	"email_not_received": "In case the email is not received:",
 	"resend_email": "resend email",
@@ -435,7 +432,6 @@
 		"item_3": "Report bugs using the extension",
 		"item_4": "Regular free upgrades"
 	},
-
 	"cancel_modal": {
 		"title": "Attention!",
 		"sub_title": "Continue with this action will cancel your plan and you'll loose access to the projects.",
@@ -446,19 +442,15 @@
 	"buy_a_subscription": "Buy a subscription",
 	"no_license_overlay": {
 		"title": "Hello there!",
-
 		"line_1": "It seems you do not have any license associated with your account and you are not a Client of this organization.",
 		"line_2": "Please ask the owner for a license or to make you a Client!",
-
 		"option": "Change organization:"
 	},
 	"tooltips": {
 		"groups_info": "With a group you can build your own structure. \nA group can be, for example, a customer or a team. \nWithin a group, associated projects can be created."
 	},
 	"start_trial": "Start a 14 days trial",
-
 	"trial_expires_in_n_days": "Your trial will expire tomorrow. | Your trial will expire in {n} days.",
-
 	"upgrade_now": "Upgrade now",
 	"upgrade_now_modal": {
 		"title": "Hello again!",
@@ -468,15 +460,11 @@
 	},
 	"trial": "Trial",
 	"info": "Info",
-
 	"no_invoices": "No invoices",
 	"download_invoice": "Download invoice",
-
 	"download": "Download",
-
 	"no_monthly_subscriptions": "No monthly subscriptions",
 	"no_yearly_subscriptions": "No yearly subscriptions",
-
 	"all_available_monthly_plans_purchased": "All available monthly plans have been purchased",
 	"all_available_yearly_plans_purchased": "All available yearly plans have been purchased",
 	"check_monthly_plans": "Check the monthly plans",
