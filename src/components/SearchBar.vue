@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-if="false">
 		<n-input
 			placeholder="Search"
 			round
