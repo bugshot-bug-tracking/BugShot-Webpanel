@@ -469,6 +469,23 @@
 	"all_available_yearly_plans_purchased": "All available yearly plans have been purchased",
 	"check_monthly_plans": "Check the monthly plans",
 	"check_yearly_plans": "Check the yearly plans",
+
+	"no licenses_assigned": "No licenses assigned",
+	"revoke_license_from_user": "Revoke license from user | Revoke license from users",
+	"revoke_license": "Revoke license | Revoke licenses",
+	"select_n_to_revoke_licenses": "Please select {n} users to revoke licenses from",
+	"next_step": "Next step",
+	"license_updated": "License updated | Licenses updated",
+	"available_licenses": "Available licenses",
+	"total_licenses": "Total licenses",
+	"update_quantity_by": "update_quantity_by",
+	"summary": "Summary",
+	"licenses_after_update": "Licenses after update",
+	"price_for_extra_licenses": "Price for extra licenses",
+	"updated_monthly_cost": "Updated monthly cost",
+	"updated_yearly_cost": "Updated yearly cost",
+	"change_quantity": "Change quantity",
+
 	" ": "",
 	"": ""
 }
