@@ -1,7 +1,7 @@
 <template>
 	<T2Page>
 		<template #header>
-			<T2Header>
+			<T3Header>
 				<template #l-top>
 					{{ $t("project", 2) }}
 				</template>
@@ -11,7 +11,7 @@
 				</template>
 
 				<template #center>
-					<SearchBar w-160 />
+					<SearchBar />
 				</template>
 
 				<ManageMembers
@@ -48,7 +48,7 @@
 						{{ $t("company_settings") }}
 					</div>
 				</RouterLink>
-			</T2Header>
+			</T3Header>
 		</template>
 
 		<div class="main-empty" v-if="projects.length < 1">

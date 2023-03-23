@@ -12,6 +12,10 @@
 			</slot>
 		</div>
 
+		<div class="center">
+			<slot name="center" />
+		</div>
+
 		<div class="right">
 			<slot />
 		</div>
@@ -20,10 +24,13 @@
 
 <style scoped lang="scss">
 .wrapper {
-	display: flex;
+	display: grid;
+	grid-template-columns: 2fr 3fr 3fr;
 	align-items: center;
 	justify-content: space-between;
 	height: 100%;
+	width: 100%;
+	gap: 2rem;
 
 	.left {
 		text-align: left;
@@ -43,6 +50,7 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 1.25rem;
+		justify-content: flex-end;
 	}
 }
 </style>

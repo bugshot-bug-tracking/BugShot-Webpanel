@@ -1,7 +1,7 @@
 <template>
 	<T2Page>
 		<template #header>
-			<T2Header>
+			<T3Header>
 				<template #l-top>
 					<a :href="project.attributes.url" target="_blank">
 						{{ project.attributes.designation }}
@@ -20,7 +20,7 @@
 				</template>
 
 				<template #center>
-					<SearchBar w-160 />
+					<SearchBar />
 				</template>
 
 				<ManageMembers
@@ -78,7 +78,7 @@
 						{{ $t("project_settings") }}
 					</div>
 				</div>
-			</T2Header>
+			</T3Header>
 		</template>
 
 		<TrialBanner mb-0 />
