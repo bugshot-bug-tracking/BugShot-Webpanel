@@ -471,6 +471,25 @@
 	"check_monthly_plans": "Monatliche Abonnements ansehen",
 	"check_yearly_plans": "Jährliche Abonnements ansehen",
 
+	"no licenses_assigned": "Keine Lizensen zugewiesen",
+	"revoke_license_from_user": "Lizenz vom Nutzer widerrufen | Lizenz von Nutzern widerrufen",
+	"revoke_license": "Lizenz widerrufen | Lizensen widerrufen",
+	"select_n_to_revoke_licenses": "Bitte wähle {n} um Lizenz zu widerrufen",
+	"next_step": "Nächster Schritt",
+	"license_updated": "Lizenz aktualisiert | Lizenzen aktualisiert",
+	"available_licenses": "Verfügbare Lizenzen",
+	"total_licenses": "Lizensen gesamt",
+	"update_quantity_by": "Anzahl erhöhen um",
+	"summary": "Gesamt",
+	"licenses_after_update": "Lizensen nach Update",
+	"price_for_extra_licenses": "Preis für extra Lizenz",
+	"updated_monthly_cost": " Aktualisierte monatliche Kosten",
+	"updated_yearly_cost": "Aktualisierte jährliche Kosten",
+	"change_quantity": "Anzahl ändern",
+	"load_more": "Mehr laden",
+	"no_results": "Kein Ergebnis",
+	"search_for_stuff": "Suche nach Bugs, Projekten oder Gruppen",
+
 	" ": "",
 	"": ""
 }
