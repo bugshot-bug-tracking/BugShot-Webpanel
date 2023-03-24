@@ -111,6 +111,8 @@ import { Bug } from "~/models/Bug";
 
 const store = useReportsStore();
 
+const route = useRoute();
+
 const statuses = computed(() => store.getStatuses);
 
 const bugs = (id: string) => store.getBugsByStatusId(id);
@@ -212,6 +214,27 @@ const deleteModal = reactive({
 		deleteModal.id = undefined;
 	},
 });
+
+const openQueryBug = () => {
+	try {
+		console.log("b:", route.query.b);
+
+		// if no bug queried exit
+		if (route.query.b == undefined) return;
+
+		const bug = store.getBugById(route.query.b as string);
+
+		console.log("bug:", bug);
+
+		if (bug?.id != undefined) {
+			infoTab.open(bug.id);
+		}
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+watchEffect(openQueryBug);
 </script>
 
 <style lang="scss" scoped>
