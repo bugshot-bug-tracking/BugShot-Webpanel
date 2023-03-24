@@ -40,7 +40,7 @@
 		</template>
 
 		<template #modal-submit_button>
-			<span capitalize>{{ $t("create.company") }}</span>
+			<span>{{ $t("create.company") }}</span>
 		</template>
 	</CreateResourceModal>
 </template>

@@ -19,7 +19,7 @@
 			<div class="bs-container" gap-4>
 				<div class="bs-input">
 					<label flex justify-between>
-						<p>{{ t("bug_name") }}</p>
+						<p>{{ t("bug") }}</p>
 						<span>{{ `${data.designation.length}/70` }}</span>
 					</label>
 

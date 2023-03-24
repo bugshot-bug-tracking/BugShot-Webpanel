@@ -439,6 +439,8 @@ const assignees = computed(() => store.getAssignees);
 		display: block;
 		text-align: left;
 		word-break: normal;
+		white-space: pre-line;
+		line-break: anywhere;
 	}
 
 	#technical {

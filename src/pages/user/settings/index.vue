@@ -36,7 +36,7 @@
 
 		<div class="component-group" w-24rem>
 			<div class="group-header">
-				{{ $t("extension.extension") }}
+				{{ $t("extension.extension", 2) }}
 			</div>
 			<div class="group-content">
 				<Clients />

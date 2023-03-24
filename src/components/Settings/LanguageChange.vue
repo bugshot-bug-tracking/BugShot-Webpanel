@@ -4,7 +4,7 @@
 			<div text-left>
 				<p>
 					<span class="black-to-gray">{{ $t("language_for") }}</span>
-					App and web extension*
+					{{ $t("language_for_app_and_web") }}
 				</p>
 
 				<b>{{ $t(`location.${locale}`) }}</b>
