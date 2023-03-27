@@ -46,7 +46,7 @@
 							project_id: project_id,
 						},
 					}"
-					class="bs-btn green empty text-capitalize"
+					class="bs-btn green empty"
 					v-if="isAuthorized"
 				>
 					<div flex items-center gap-2>
@@ -61,11 +61,7 @@
 						{{ $t("project_settings") }}
 					</div>
 				</RouterLink>
-				<div
-					v-else
-					class="bs-btn green empty text-capitalize disabled"
-					:title="$t('unauthorized')"
-				>
+				<div v-else class="bs-btn green empty disabled" :title="$t('unauthorized')">
 					<div flex items-center gap-2>
 						<img
 							src="/src/assets/icons/gear.svg"

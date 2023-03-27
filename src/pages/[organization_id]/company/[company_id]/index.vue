@@ -33,7 +33,7 @@
 						name: 'company-settings',
 						params: { organization_id: organization_id, company_id: company.id },
 					}"
-					class="bs-btn green empty text-capitalize"
+					class="bs-btn green empty"
 					v-if="isAuthorized"
 				>
 					<div flex items-center gap-2>

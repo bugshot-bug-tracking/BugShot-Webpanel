@@ -5,7 +5,7 @@
 				flex
 				items-center
 				gap-2
-				class="bs-btn green text-capitalize"
+				class="bs-btn green"
 				:class="{ empty: !primary_button, loading: modal.loading }"
 			>
 				<slot name="button-image">
@@ -39,7 +39,7 @@
 			<form class="default-form bs-scroll" @submit.prevent="onSubmit">
 				<slot name="modal-form"> </slot>
 
-				<button class="bs-btn green m-a text-capitalize" type="submit">
+				<button class="bs-btn green m-a" type="submit">
 					<slot name="modal-submit_button">
 						{{ t("create") }}
 					</slot>

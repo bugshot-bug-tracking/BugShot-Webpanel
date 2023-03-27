@@ -155,7 +155,6 @@ const c_image = computed(() => (props.image !== "" ? atob(props.image) : undefin
 		justify-content: space-between;
 		padding: 0.5rem;
 		font-weight: bold;
-		text-transform: capitalize;
 		font-size: 1.125rem;
 		width: 100%;
 	}
@@ -207,7 +206,6 @@ const c_image = computed(() => (props.image !== "" ? atob(props.image) : undefin
 		gap: 0.5rem;
 		padding: 0.25rem 0;
 		background-color: #f8f8fc;
-		text-transform: capitalize;
 		border-radius: 0.5rem;
 	}
 
