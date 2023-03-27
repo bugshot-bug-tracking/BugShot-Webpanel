@@ -35,7 +35,7 @@
 
 				<div class="bs-input">
 					<label flex justify-between>
-						<p>{{ t("describe_problem") }}</p>
+						<p>{{ t("bug_desc") }}</p>
 						<span>{{ `${data.description.length}/1500` }}</span>
 					</label>
 
@@ -136,7 +136,7 @@
 			</AttachmentsList>
 
 			<button class="bs-btn green" type="submit">
-				{{ t("report_bug") + "!" }}
+				{{ t("report_bug") }}
 			</button>
 		</form>
 	</div>
