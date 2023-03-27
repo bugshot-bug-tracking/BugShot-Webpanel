@@ -1,15 +1,7 @@
 <template>
 	<div class="notifications" ref="root">
-		<a
-			class="bell-button"
-			:class="{ active: active }"
-			@click="active = !active"
-		>
-			<img
-				src="/src/assets/icons/notification.svg"
-				alt="bell"
-				class="black-to-white"
-			/>
+		<a class="bell-button" :class="{ active: active }" @click="active = !active" flex>
+			<img src="/src/assets/icons/notification.svg" alt="bell" class="black-to-white" />
 
 			<div class="badge" v-if="invitations.length > 0">
 				{{ invitations.length }}

@@ -1,6 +1,6 @@
 <template>
 	<div class="bs-container">
-		<div flex justify-between items-center>
+		<div flex justify-between items-center gap-4>
 			<div text-left>
 				<p>
 					<span class="black-to-gray">{{ $t("language_for") }}</span>

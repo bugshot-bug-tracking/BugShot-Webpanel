@@ -63,7 +63,7 @@ article {
 	flex-wrap: wrap;
 	flex-direction: column;
 	max-height: 100vh;
-	column-gap: 1rem;
+	column-gap: 2rem;
 	align-content: flex-start;
 }
 </style>
