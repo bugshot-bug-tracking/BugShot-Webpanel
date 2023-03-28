@@ -118,5 +118,8 @@ export const useMainStore = defineStore("main", {
 
 		getMyOrganizations: (state) =>
 			state.organizations?.filter((o) => o.attributes.creator?.id === useAuthStore().user.id),
+
+		getExternalOrganizations: (state) =>
+			state.organizations?.filter((o) => o.attributes.creator?.id !== useAuthStore().user.id),
 	},
 });
