@@ -24,7 +24,7 @@ dependencies:
     version: 0.2.0
   pinia:
     specifier: ^2.0.33
-    version: 2.0.33(typescript@4.9.5)(vue@3.2.47)
+    version: 2.0.33(typescript@5.0.2)(vue@3.2.47)
   pusher-js:
     specifier: ^8.0.2
     version: 8.0.2
@@ -79,8 +79,8 @@ devDependencies:
     specifier: ^2.34.3
     version: 2.34.3(vue@3.2.47)
   pnpm:
-    specifier: ^7.30.3
-    version: 7.30.3
+    specifier: ^8.0.0
+    version: 8.0.0
   sass:
     specifier: ^1.60.0
     version: 1.60.0
@@ -88,8 +88,8 @@ devDependencies:
     specifier: ^5.16.8
     version: 5.16.8
   typescript:
-    specifier: ^4.9.5
-    version: 4.9.5
+    specifier: ^5.0.2
+    version: 5.0.2
   unocss:
     specifier: ^0.50.6
     version: 0.50.6(postcss@8.4.21)(vite@4.2.1)
@@ -110,7 +110,7 @@ devDependencies:
     version: 0.8.0(vite@4.2.1)(vue-router@4.1.6)(vue@3.2.47)
   vue-tsc:
     specifier: ^1.2.0
-    version: 1.2.0(typescript@4.9.5)
+    version: 1.2.0(typescript@5.0.2)
 
 packages:
 
@@ -618,17 +618,17 @@ packages:
   /@types/lodash-es@4.17.7:
     resolution: {integrity: sha512-z0ptr6UI10VlU6l5MYhGwS4mC8DZyYer2mCoyysZtSF7p26zOX8UpbrV0YpNYLGS8K4PUFIyEr62IMFFjveSiQ==}
     dependencies:
-      '@types/lodash': 4.14.191
+      '@types/lodash': 4.14.192
     dev: true
 
   /@types/lodash.debounce@4.0.7:
     resolution: {integrity: sha512-X1T4wMZ+gT000M2/91SYj0d/7JfeNZ9PeeOldSNoE/lunLeQXKvkmIumI29IaKMotU/ln/McOIvgzZcQ/3TrSA==}
     dependencies:
-      '@types/lodash': 4.14.191
+      '@types/lodash': 4.14.192
     dev: true
 
-  /@types/lodash@4.14.191:
-    resolution: {integrity: sha512-BdZ5BCCvho3EIXw6wUCXHe7rS53AIDPLE+JzwgT+OsJk53oBfbSmZZ7CX4VaRoN78N+TJpFi9QPlfIVNmJYWxQ==}
+  /@types/lodash@4.14.192:
+    resolution: {integrity: sha512-km+Vyn3BYm5ytMO13k9KTp27O75rbQ0NFw+U//g+PX7VZyjCioXaRFisqSIJRECljcTv73G3i6BpglNGHgUQ5A==}
     dev: true
 
   /@types/ms@0.7.31:
@@ -1890,7 +1890,7 @@ packages:
       '@css-render/plugin-bem': 0.15.12(css-render@0.15.12)
       '@css-render/vue3-ssr': 0.15.12(vue@3.2.47)
       '@types/katex': 0.14.0
-      '@types/lodash': 4.14.191
+      '@types/lodash': 4.14.192
       '@types/lodash-es': 4.17.7
       async-validator: 4.2.5
       css-render: 0.15.12
@@ -2024,7 +2024,7 @@ packages:
     engines: {node: '>=8.6'}
     dev: true
 
-  /pinia@2.0.33(typescript@4.9.5)(vue@3.2.47):
+  /pinia@2.0.33(typescript@5.0.2)(vue@3.2.47):
     resolution: {integrity: sha512-HOj1yVV2itw6rNIrR2f7+MirGNxhORjrULL8GWgRwXsGSvEqIQ+SE0MYt6cwtpegzCda3i+rVTZM+AM7CG+kRg==}
     peerDependencies:
       '@vue/composition-api': ^1.4.0
@@ -2037,7 +2037,7 @@ packages:
         optional: true
     dependencies:
       '@vue/devtools-api': 6.5.0
-      typescript: 4.9.5
+      typescript: 5.0.2
       vue: 3.2.47
       vue-demi: 0.13.11(vue@3.2.47)
     dev: false
@@ -2050,9 +2050,9 @@ packages:
       pathe: 1.1.0
     dev: true
 
-  /pnpm@7.30.3:
-    resolution: {integrity: sha512-Z/pNEfZF45OwdZSUAeSTYySs27UW+GG4AQ2iXz4u127QVtkCMCeyrMNZmb/17BazaZTtvXqk/+jxTVkyh8apIA==}
-    engines: {node: '>=14.6'}
+  /pnpm@8.0.0:
+    resolution: {integrity: sha512-Crsvd8LKb+SoEB/bQxRZrtSt5Ri8g9jmPg6MKyexMTI1pdLd44gPwVV6cZLq2jYYPv5q+gADPkYTbYr8SeFCeA==}
+    engines: {node: '>=16.14'}
     hasBin: true
     dev: true
 
@@ -2265,9 +2265,9 @@ packages:
     resolution: {integrity: sha512-6rt+RN7aOi1nGMyC4Xa5DdYiukl2UWCbcJft7YhxReBGQD7OAM8Pbxw6YMo4r2diNEA8FEmu32YOn9rhaiE5yw==}
     dev: false
 
-  /typescript@4.9.5:
-    resolution: {integrity: sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==}
-    engines: {node: '>=4.2.0'}
+  /typescript@5.0.2:
+    resolution: {integrity: sha512-wVORMBGO/FAs/++blGNeAVdbNKtIh1rbBL2EyQ1+J9lClJ93KiiKe8PmFIVdXhHcyv44SL9oglmfeSsndo0jRw==}
+    engines: {node: '>=12.20'}
     hasBin: true
 
   /ufo@1.1.1:
@@ -2560,7 +2560,7 @@ packages:
       tributejs: 5.1.3
     dev: false
 
-  /vue-tsc@1.2.0(typescript@4.9.5):
+  /vue-tsc@1.2.0(typescript@5.0.2):
     resolution: {integrity: sha512-rIlzqdrhyPYyLG9zxsVRa+JEseeS9s8F2BbVVVWRRsTZvJO2BbhLEb2HW3MY+DFma0378tnIqs+vfTzbcQtRFw==}
     hasBin: true
     peerDependencies:
@@ -2568,7 +2568,7 @@ packages:
     dependencies:
       '@volar/vue-language-core': 1.2.0
       '@volar/vue-typescript': 1.2.0
-      typescript: 4.9.5
+      typescript: 5.0.2
     dev: true
 
   /vue-universal-modal@1.1.4:
