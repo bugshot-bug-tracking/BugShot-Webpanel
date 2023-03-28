@@ -20,7 +20,7 @@
 			</div>
 		</div>
 
-		<div class="buttons">
+		<div class="buttons" v-if="record.status == undefined">
 			<a @click="accept">
 				<img src="/src/assets/icons/check.svg" alt="Accept" class="accept" />
 			</a>
@@ -29,6 +29,14 @@
 				<img src="/src/assets/icons/close_2.svg" alt="Decline" class="decline" />
 			</a>
 		</div>
+
+		<div v-else>
+			<n-tag v-if="record.status === 'accepted'" type="success" round>
+				{{ $t("accepted") }}
+			</n-tag>
+
+			<n-tag v-else type="error" round> {{ $t("declined") }} </n-tag>
+		</div>
 	</div>
 </template>
 
@@ -36,21 +44,68 @@
 import dateFix from "~/util/dateFixISO";
 import { useNotificationStore } from "~/stores/notifications";
 import { useMainStore } from "~/stores/main";
+import { Invitation } from "~/models/Invitation";
+import { Project } from "~/models/Project";
+import { Company } from "~/models/Company";
+import { Organization } from "~/models/Organization";
 
 const props = defineProps({
 	record: {
 		required: true,
-		type: Object,
+		type: Object as PropType<Invitation>,
 		desc: "Notification data",
 	},
 });
 
 const notifications = useNotificationStore();
 
+const router = useRouter();
+
 const accept = async () => {
 	try {
 		await notifications.accept(props.record.id);
 		await useMainStore().initOrganizations();
+
+		switch (props.record.attributes.invitable.type) {
+			case "Project":
+				router.push({
+					name: "project",
+					params: {
+						organization_id: (props.record.attributes.invitable as Project).attributes
+							.company.attributes.organization_id,
+						company_id: (props.record.attributes.invitable as Project).attributes
+							.company.id,
+						project_id: (props.record.attributes.invitable as Project).id,
+					},
+				});
+
+				break;
+
+			case "Company":
+				router.push({
+					name: "company",
+					params: {
+						organization_id: (props.record.attributes.invitable as Company).attributes
+							.organization.id,
+						company_id: (props.record.attributes.invitable as Company).id,
+					},
+				});
+
+				break;
+
+			case "Organization":
+				router.push({
+					name: "organization-home",
+					params: {
+						organization_id: (props.record.attributes.invitable as Organization).id,
+					},
+				});
+
+				break;
+
+			default:
+				break;
+		}
 	} catch (error) {
 		console.log(error);
 	}

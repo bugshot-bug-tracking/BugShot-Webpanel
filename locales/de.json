@@ -348,7 +348,6 @@
 	"checkout": "Checkout",
 	"what_is_included": "Was ist inkludiert",
 	"continue": "Weiter",
-
 	"first_page": {
 		"welcome": "Willkommen!",
 		"line_1": "Danke das Du BugShot eine Chance gibst.",
@@ -357,7 +356,6 @@
 	},
 	"customer_portal": "Kundenportal",
 	"enter": "Enter",
-
 	"created_at": "Erstellt am",
 	"billing_and_payments": "Rechnungen und Zahlungen",
 	"subscription": "Plan | Pläne",
@@ -407,7 +405,6 @@
 	"resend_email": "erneut verschicken",
 	"maintenance_in_progress": "Wartungsarbeiten im Gange",
 	"maintenance_in_progress_subtext": "Hallo! Das ist kein Fehler. Im Moment befindet sich die Webseite im Wartungsmodus. BugShot ist in Kürze wieder verfügbar!",
-
 	"next_payment_on_s": "Nächste Zahlung fällig am {0}",
 	"monthly_payment_prepaid": "Monatliche Zahlung, Zahlung",
 	"yearly_payment_prepaid": "Jährliche Zahlung, Zahlung",
@@ -425,7 +422,6 @@
 		"item_3": "Melden Sie Fehler mit der Extension",
 		"item_4": "Regelmäßige kostenlose Upgrades"
 	},
-
 	"cancel_modal": {
 		"title": "Achtung!",
 		"sub_title": "Wenn du fortfährst wird dein Abonnement gekündigt und Du verlierst den Zugriff auf die Projekte.",
@@ -440,15 +436,11 @@
 		"line_2": "Bitte frage den Besitzer nach einer Lizenz oder einer Einladung als Gast!",
 		"option": "Organisation wechseln:"
 	},
-
 	"tooltips": {
 		"groups_info": "Mit einer Gruppe kannst Du Deine eigene Struktur aufbauen. \nEine Gruppe kann z.B. ein Kunde oder ein Team sein. \nInnerhalb einer Gruppe können zugehörige Projekte erstellt werden."
 	},
-
 	"start_trial": "14-tägige Testphase starten",
-
 	"trial_expires_in_n_days": "Deine Testphase läuft morgen aus. | Deine Testphase läuft in {n} Tagen aus.",
-
 	"upgrade_now": "Jetzt Upgraden",
 	"upgrade_now_modal": {
 		"title": "Hallo nochmal!",
@@ -458,20 +450,15 @@
 	},
 	"trial": "Probephase",
 	"info": "Info",
-
 	"no_invoices": "Keine Rechnungen verfügbar",
 	"download_invoice": "Rechnung herunterladen",
-
 	"download": "Download",
-
 	"no_monthly_subscriptions": "Keine monatlichen Abonnements verfügbar",
 	"no_yearly_subscriptions": "Keine jährlichen Abonnements verfügbar",
-
 	"all_available_monthly_plans_purchased": "Alle verfügbaren, monatlichen Abonnements wurden gekauft",
 	"all_available_yearly_plans_purchased": "Alle verfügbaren, jährlichen Abonnements wurden gekauft",
 	"check_monthly_plans": "Monatliche Abonnements ansehen",
 	"check_yearly_plans": "Jährliche Abonnements ansehen",
-
 	"no licenses_assigned": "Keine Lizensen zugewiesen",
 	"revoke_license_from_user": "Lizenz vom Nutzer widerrufen | Lizenz von Nutzern widerrufen",
 	"revoke_license": "Lizenz widerrufen | Lizensen widerrufen",
@@ -491,6 +478,8 @@
 	"no_results": "Kein Ergebnis",
 	"search_for_stuff": "Suche nach Bugs, Projekten oder Gruppen",
 	"other": "Andere",
+	"accepted": "Akzeptiert",
+	"declined": "Abgelehnt",
 
 	" ": "",
 	"": ""

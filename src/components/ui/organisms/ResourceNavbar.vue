@@ -137,7 +137,7 @@ const orderedList = computed(() => {
 header {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: flex-start;
 	text-align: left;
 	padding: 1rem;
 

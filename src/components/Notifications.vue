@@ -3,8 +3,8 @@
 		<a class="bell-button" :class="{ active: active }" @click="active = !active" flex>
 			<img src="/src/assets/icons/notification.svg" alt="bell" class="black-to-white" />
 
-			<div class="badge" v-if="invitations.length > 0">
-				{{ invitations.length }}
+			<div class="badge" v-if="store.getPendingInvitations.length > 0">
+				{{ store.getPendingInvitations.length }}
 			</div>
 		</a>
 

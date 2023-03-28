@@ -82,6 +82,7 @@ declare module '@vue/runtime-core' {
     NStep: typeof import('naive-ui')['NStep']
     NSteps: typeof import('naive-ui')['NSteps']
     NSwitch: typeof import('naive-ui')['NSwitch']
+    NTag: typeof import('naive-ui')['NTag']
     NumberInput: typeof import('./components/ui/molecules/NumberInput.vue')['default']
     OrderButton: typeof import('./components/PopupButton/OrderButton.vue')['default']
     OrganizationCompaniesTable: typeof import('./components/organization/OrganizationCompaniesTable.vue')['default']
