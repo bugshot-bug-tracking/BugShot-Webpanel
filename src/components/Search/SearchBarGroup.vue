@@ -5,16 +5,16 @@
 				<b>{{ $t(type, 2) }}</b>
 			</h6>
 
-			<n-statistic text-4>
+			<n-statistic text-4 v-if="modelValue">
 				<template #default>
 					{{ modelValue.data.length }}
 				</template>
 
-				<template #suffix> / {{ modelValue.total }} </template>
+				<template #suffix> / {{ modelValue.meta.total }} </template>
 			</n-statistic>
 		</div>
 
-		<div>
+		<div v-if="modelValue">
 			<n-list
 				v-if="(modelValue.data.length ?? 0) > 0"
 				:show-divider="false"
@@ -37,7 +37,7 @@
 		</div>
 
 		<n-button
-			v-if="modelValue.next_page_url != undefined"
+			v-if="modelValue && modelValue.links.next != undefined"
 			@click="loadMore"
 			:loading="loading"
 			:disabled="loading"
@@ -61,11 +61,13 @@ import { ProjectsSearchResult } from "~/models/search/ProjectsSearchResult";
 
 const props = defineProps({
 	modelValue: {
-		type: Object as PropType<BugsSearchResult | ProjectsSearchResult | CompaniesSearchResult>,
+		type: Object as PropType<
+			undefined | BugsSearchResult | ProjectsSearchResult | CompaniesSearchResult
+		>,
 		required: true,
 	},
 	type: {
-		type: String as PropType<undefined | "bug" | "project" | "company">,
+		type: String as PropType<"bug" | "project" | "company">,
 		required: true,
 	},
 	searchString: {
@@ -78,12 +80,12 @@ const loading = ref(false);
 const bottom = ref(null as null | HTMLDivElement);
 
 const loadMore = async () => {
+	if (props.modelValue == undefined || props.modelValue.links.next == undefined) return;
+
 	loading.value = true;
 
-	if (props.modelValue.next_page_url == undefined) return;
-
 	let response = (
-		await axios.get(props.modelValue.next_page_url, {
+		await axios.get(props.modelValue.links.next, {
 			headers: {
 				"search-string": props.searchString,
 				resource:
@@ -94,11 +96,12 @@ const loadMore = async () => {
 						: "companies",
 			},
 		})
-	).data.data;
+	).data;
 
 	console.log(response);
 
-	props.modelValue.next_page_url = response.next_page_url;
+	props.modelValue.links = response.links;
+	props.modelValue.meta = response.meta;
 	props.modelValue.data.push(...response.data);
 
 	loading.value = false;

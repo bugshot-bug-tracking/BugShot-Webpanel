@@ -69,16 +69,16 @@ const highlightMatch = computed(() => {
 		url_match: false as boolean,
 	};
 
-	if ("designation" in props.data) {
-		matches.designation_match = !!props.data.designation?.match(regex);
+	if ("designation" in props.data.attributes) {
+		matches.designation_match = !!props.data.attributes.designation?.match(regex);
 	}
 
-	if ("description" in props.data) {
-		matches.description_match = !!props.data.description?.match(regex);
+	if ("description" in props.data.attributes) {
+		matches.description_match = !!props.data.attributes.description?.match(regex);
 	}
 
-	if ("url" in props.data) {
-		matches.url_match = !!props.data.url?.match(regex);
+	if ("url" in props.data.attributes) {
+		matches.url_match = !!props.data.attributes.url?.match(regex);
 	}
 
 	return matches;
@@ -91,16 +91,16 @@ const highlightedTexts = computed(() => {
 		url: undefined as undefined | string,
 	};
 
-	if ("designation" in props.data) {
-		texts.designation = highlightText(props.data.designation);
+	if ("designation" in props.data.attributes) {
+		texts.designation = highlightText(props.data.attributes.designation);
 	}
 
-	if ("description" in props.data) {
-		texts.description = highlightText(props.data.description);
+	if ("description" in props.data.attributes) {
+		texts.description = highlightText(props.data.attributes.description);
 	}
 
-	if ("url" in props.data) {
-		texts.url = highlightText(props.data.url);
+	if ("url" in props.data.attributes) {
+		texts.url = highlightText(props.data.attributes.url);
 	}
 
 	return texts;
@@ -114,9 +114,9 @@ const redirectObject = computed((): RouteLocationRaw => {
 			return {
 				name: "project",
 				params: {
-					organization_id: item.organization_id ?? "a",
-					company_id: item.company_id ?? "a",
-					project_id: item.project_id,
+					organization_id: item.attributes.organization_id,
+					company_id: item.attributes.company_id,
+					project_id: item.attributes.project_id,
 				},
 				query: {
 					b: item.id,
@@ -129,8 +129,8 @@ const redirectObject = computed((): RouteLocationRaw => {
 			return {
 				name: "project",
 				params: {
-					organization_id: item2.organization_id ?? "a",
-					company_id: item2.company_id,
+					organization_id: item2.attributes.organization_id,
+					company_id: item2.attributes.company_id,
 					project_id: item2.id,
 				},
 			};
@@ -141,7 +141,7 @@ const redirectObject = computed((): RouteLocationRaw => {
 			return {
 				name: "company",
 				params: {
-					organization_id: item3.organization_id,
+					organization_id: item3.attributes.organization_id,
 					company_id: item3.id,
 				},
 			};

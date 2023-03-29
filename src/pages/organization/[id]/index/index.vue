@@ -11,7 +11,7 @@
 				</template>
 
 				<template #center>
-					<SearchBar />
+					<SearchBar :order="'cpb'" />
 				</template>
 			</T3Header>
 		</template>

@@ -11,7 +11,7 @@
 				</template>
 
 				<template #center>
-					<SearchBar />
+					<SearchBar :order="'pcb'" />
 				</template>
 
 				<ManageMembers
