@@ -48,7 +48,7 @@
 										: $t('no_deadline')
 								"
 								:priority="element.attributes.priority.id"
-								:active="infoTab.id === element.id"
+								:active="store.getBug?.id === element.id"
 								@info="infoTab.open(element.id)"
 							/>
 						</template>
@@ -242,7 +242,6 @@ watchEffect(openQueryBug);
 	width: 100%;
 	height: 100%;
 	position: relative;
-	padding: 2rem;
 	display: flex;
 	justify-content: space-between;
 }

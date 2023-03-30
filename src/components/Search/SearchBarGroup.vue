@@ -64,7 +64,6 @@ const props = defineProps({
 		type: Object as PropType<
 			undefined | BugsSearchResult | ProjectsSearchResult | CompaniesSearchResult
 		>,
-		required: true,
 	},
 	type: {
 		type: String as PropType<"bug" | "project" | "company">,

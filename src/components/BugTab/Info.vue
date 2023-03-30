@@ -310,7 +310,7 @@ const open = ref(false);
 const datePicker = ref(undefined as string | undefined);
 
 watchEffect(() => {
-	datePicker.value = dateFix(bug.value.attributes.deadline);
+	datePicker.value = dateFix(bug.value?.attributes.deadline);
 });
 
 const bugData = reactive({
@@ -522,6 +522,7 @@ const assignees = computed(() => store.getAssignees);
 
 	.url {
 		line-height: 2em;
+		white-space: nowrap;
 
 		> .content {
 			overflow: hidden;
@@ -548,6 +549,8 @@ const assignees = computed(() => store.getAssignees);
 	}
 
 	.deadline {
+		white-space: nowrap;
+
 		> label {
 			margin: auto;
 			margin-right: 10px;
@@ -599,7 +602,6 @@ textarea {
 	border-radius: 16px;
 	padding: 20px;
 	box-shadow: hsla(0, 0%, 0%, 0.35) 10px 10px 10px -11px;
-	margin-bottom: 1.25em;
 	position: relative;
 }
 </style>

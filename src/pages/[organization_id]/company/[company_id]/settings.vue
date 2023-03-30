@@ -11,7 +11,7 @@
 				</template>
 
 				<template #center>
-					<SearchBar :order="'pcb'"/>
+					<SearchBar />
 				</template>
 			</T3Header>
 		</template>
