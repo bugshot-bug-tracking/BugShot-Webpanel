@@ -491,7 +491,8 @@
 	"other": "Other | Others",
 	"accepted": "Accepted",
 	"declined": "Declined",
-
 	" ": "",
-	"": ""
+	"": "",
+	"archive": "Archive",
+	"kanban": "Kanban"
 }

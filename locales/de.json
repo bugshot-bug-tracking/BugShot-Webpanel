@@ -480,7 +480,8 @@
 	"other": "Andere",
 	"accepted": "Akzeptiert",
 	"declined": "Abgelehnt",
-
 	" ": "",
-	"": ""
+	"": "",
+	"archive": "Archiv",
+	"kanban": "Kanban"
 }
