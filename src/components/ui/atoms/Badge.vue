@@ -1,10 +1,5 @@
 <template>
-	<div
-		class="bs-badge"
-		:style="{ color: config.color }"
-		:class="{ empty: config.empty }"
-		capitalize
-	>
+	<div class="bs-badge" :style="{ color: config.color }" :class="{ empty: config.empty }">
 		<slot name="image" />
 
 		<span v-if="text">

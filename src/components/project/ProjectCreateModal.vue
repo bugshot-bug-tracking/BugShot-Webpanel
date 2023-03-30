@@ -10,7 +10,7 @@
 		</template>
 
 		<template #modal-header>
-			<span capitalize>{{ $t("create.project") }}</span>
+			<span>{{ $t("create.project") }}</span>
 		</template>
 
 		<template #modal-form>
@@ -53,7 +53,7 @@
 		</template>
 
 		<template #modal-submit_button>
-			<span capitalize>{{ $t("create.project") }}</span>
+			<span>{{ $t("create.project") }}</span>
 		</template>
 	</CreateResourceModal>
 </template>

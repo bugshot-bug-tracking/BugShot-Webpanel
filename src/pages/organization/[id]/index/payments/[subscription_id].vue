@@ -1,7 +1,7 @@
 <template>
 	<T2Page v-if="subscription">
 		<template #header>
-			<T2Header>
+			<T3Header>
 				<template #l-top>
 					{{ getSubscriptionName() }}
 				</template>
@@ -9,7 +9,11 @@
 				<template #l-bottom>
 					{{ resource.attributes.designation }}
 				</template>
-			</T2Header>
+
+				<template #center>
+					<SearchBar />
+				</template>
+			</T3Header>
 		</template>
 
 		<article class="bs-scroll">

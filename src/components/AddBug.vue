@@ -19,7 +19,7 @@
 			<div class="bs-container" gap-4>
 				<div class="bs-input">
 					<label flex justify-between>
-						<p>{{ t("bug_name") }}</p>
+						<p>{{ t("bug") }}</p>
 						<span>{{ `${data.designation.length}/70` }}</span>
 					</label>
 
@@ -35,7 +35,7 @@
 
 				<div class="bs-input">
 					<label flex justify-between>
-						<p>{{ t("describe_problem") }}</p>
+						<p>{{ t("bug_desc") }}</p>
 						<span>{{ `${data.description.length}/1500` }}</span>
 					</label>
 
@@ -136,7 +136,7 @@
 			</AttachmentsList>
 
 			<button class="bs-btn green" type="submit">
-				{{ t("report_bug") + "!" }}
+				{{ t("report_bug") }}
 			</button>
 		</form>
 	</div>
@@ -310,7 +310,6 @@ const loadingModal = reactive({
 		padding: 3px 10px;
 		user-select: none;
 		border: 2px solid;
-		text-transform: capitalize;
 		cursor: pointer;
 
 		&.i1 {

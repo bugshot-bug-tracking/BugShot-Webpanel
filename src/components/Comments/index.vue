@@ -13,7 +13,7 @@
 			</div>
 		</div>
 
-		<ul class="bs-scroll s-green" mt-2>
+		<ul class="bs-scroll s-green" mt-2 flex-1>
 			<li class="content" ref="msgs" v-if="comments.length > 0">
 				<Message
 					v-for="comment of comments"

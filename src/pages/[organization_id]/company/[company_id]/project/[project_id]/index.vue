@@ -1,7 +1,7 @@
 <template>
 	<T2Page>
 		<template #header>
-			<T2Header>
+			<T3Header>
 				<template #l-top>
 					<a :href="project.attributes.url" target="_blank">
 						{{ project.attributes.designation }}
@@ -20,7 +20,7 @@
 				</template>
 
 				<template #center>
-					<SearchBar w-160 />
+					<SearchBar />
 				</template>
 
 				<ManageMembers
@@ -46,7 +46,7 @@
 							project_id: project_id,
 						},
 					}"
-					class="bs-btn green empty text-capitalize"
+					class="bs-btn green empty"
 					v-if="isAuthorized"
 				>
 					<div flex items-center gap-2>
@@ -61,11 +61,7 @@
 						{{ $t("project_settings") }}
 					</div>
 				</RouterLink>
-				<div
-					v-else
-					class="bs-btn green empty text-capitalize disabled"
-					:title="$t('unauthorized')"
-				>
+				<div v-else class="bs-btn green empty disabled" :title="$t('unauthorized')">
 					<div flex items-center gap-2>
 						<img
 							src="/src/assets/icons/gear.svg"
@@ -78,7 +74,7 @@
 						{{ $t("project_settings") }}
 					</div>
 				</div>
-			</T2Header>
+			</T3Header>
 		</template>
 
 		<TrialBanner mb-0 />
@@ -87,7 +83,29 @@
 			<img src="/src/assets/animations/loading.svg" alt="loading circle" />
 		</div>
 
-		<ProjectKanbanBoard v-else />
+		<n-tabs v-else type="bar" animated style="max-height: 100%" px-8 py-4 flex-1>
+			<n-tab-pane name="kanban">
+				<template #tab>
+					<img src="/src/assets/icons/board.svg" w-5 mr-1 class="tab-image" />
+					{{ $t("kanban") }}
+				</template>
+
+				<ProjectKanbanBoard />
+			</n-tab-pane>
+
+			<n-tab-pane name="kanbanboard" tab="KanbanBoard" v-if="false">
+				<Kanban />
+			</n-tab-pane>
+
+			<n-tab-pane name="archive" display-directive="if">
+				<template #tab>
+					<img src="/src/assets/icons/archive.svg" w-5 mr-1 class="tab-image" />
+					{{ $t("archive") }}
+				</template>
+
+				<BugsArchive />
+			</n-tab-pane>
+		</n-tabs>
 	</T2Page>
 </template>
 
@@ -204,6 +222,23 @@ const suggestOptions = computed(() => {
 	height: 100%;
 	justify-content: center;
 	align-items: center;
+}
+
+:deep(.n-tabs-pane-wrapper) {
+	display: flex;
+	height: 100%;
+
+	.n-tab-pane {
+		display: flex;
+	}
+}
+
+:deep(.n-tabs-tab--active) {
+	.tab-image {
+		color: #7a2ee6;
+		filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%) hue-rotate(263deg)
+			brightness(94%) contrast(92%);
+	}
 }
 </style>
 

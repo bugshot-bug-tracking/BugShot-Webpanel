@@ -22,4 +22,8 @@ export interface Invitation {
 		created_at: Date;
 		updated_at: Date;
 	};
+
+	// present in the FRONT-END ONLY
+
+	status?: undefined | "accepted" | "declined";
 }

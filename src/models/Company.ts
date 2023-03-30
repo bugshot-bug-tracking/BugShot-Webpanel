@@ -19,6 +19,9 @@ export interface Company {
 		users?: User[];
 		image?: Image;
 		organization: Organization;
+
+		// received using header
+		organization_id?: string;
 	};
 	pending?: Invitation[];
 }

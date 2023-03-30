@@ -28,6 +28,8 @@ export const useReportsStore = defineStore("reports", {
 		assignees: undefined as BugUserRole[] | undefined,
 
 		// ^^^---------------------------------------^^^
+
+		archived: undefined as Bug[] | undefined,
 	}),
 
 	actions: {
@@ -337,6 +339,14 @@ export const useReportsStore = defineStore("reports", {
 
 			this.assignees = users;
 		},
+
+		async fetchArchivedBugs() {
+			if (!this.project?.id) throw new Error("No active project!");
+
+			let response = (await axios.get(`projects/${this.project.id}/archived-bugs`)).data.data;
+
+			this.archived = response;
+		},
 	},
 
 	getters: {
@@ -384,5 +394,7 @@ export const useReportsStore = defineStore("reports", {
 
 			return state.statuses?.find((x) => x.attributes.order_number === 0);
 		},
+
+		getArchivedBugs: (state) => state.archived,
 	},
 });

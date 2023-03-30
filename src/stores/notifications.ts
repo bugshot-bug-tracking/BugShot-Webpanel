@@ -17,8 +17,13 @@ export const useNotificationStore = defineStore("notification", {
 		async fetchInvitations() {
 			try {
 				this.unhook();
-				let notifications = (await axios.get(`users/${this.user.id}/invitations`)).data
-					.data;
+				let notifications = (
+					await axios.get(`users/${this.user.id}/invitations`, {
+						headers: {
+							"include-organization-id": true,
+						},
+					})
+				).data.data;
 
 				this.notifications = notifications;
 
@@ -32,9 +37,9 @@ export const useNotificationStore = defineStore("notification", {
 			try {
 				let response = await axios.get(`users/${this.user.id}/invitations/${id}/accept`);
 
-				let index = this.notifications.findIndex((x) => x.id === id);
+				let item = this.notifications.find((x) => x.id === id);
 
-				if (index !== -1) this.notifications.splice(index, 1);
+				if (item) item.status = "accepted";
 
 				return response.data;
 			} catch (error) {
@@ -48,9 +53,9 @@ export const useNotificationStore = defineStore("notification", {
 			try {
 				let response = await axios.get(`users/${this.user.id}/invitations/${id}/decline`);
 
-				let index = this.notifications.findIndex((x) => x.id === id);
+				let item = this.notifications.find((x) => x.id === id);
 
-				if (index !== -1) this.notifications.splice(index, 1);
+				if (item) item.status = "declined";
 
 				return response.data;
 			} catch (error) {
@@ -87,5 +92,7 @@ export const useNotificationStore = defineStore("notification", {
 		getInvitations: (state) => state.notifications,
 
 		getInvitationById: (state) => (id: number) => state.notifications.find((x) => (x.id = id)),
+
+		getPendingInvitations: (state) => state.notifications.filter((i) => i.status == undefined),
 	},
 });

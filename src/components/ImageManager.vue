@@ -14,10 +14,7 @@
 				<div class="text">{{ $t("screenshot.drag_and_drop") }}</div>
 			</div>
 
-			<label
-				for="image-upload"
-				class="bs-btn green empty text-capitalize"
-			>
+			<label for="image-upload" class="bs-btn green empty">
 				{{ $t("picker.upload_image") }}
 			</label>
 
@@ -39,10 +36,7 @@
 				<div class="buttons">
 					<div class="left">
 						<a v-if="counter > 0" @click="counterDecrease">
-							<img
-								src="/src/assets/icons/arrow_down.svg"
-								alt="previous"
-							/>
+							<img src="/src/assets/icons/arrow_down.svg" alt="previous" />
 						</a>
 
 						<div v-else style="width: 24px" />
@@ -51,31 +45,19 @@
 					<div class="center d-flex gap-3">
 						<a @change="addImage">
 							<label for="image-upload2" class="add">
-								<img
-									src="/src/assets/icons/add.svg"
-									alt="add"
-								/>
+								<img src="/src/assets/icons/add.svg" alt="add" />
 							</label>
 							<input type="file" id="image-upload2" multiple />
 						</a>
 
 						<a class="delete" @click="removeImage">
-							<img
-								src="/src/assets/icons/delete.svg"
-								alt="delete"
-							/>
+							<img src="/src/assets/icons/delete.svg" alt="delete" />
 						</a>
 					</div>
 
 					<div class="right">
-						<a
-							v-if="counter < images.length - 1"
-							@click="counterIncrease"
-						>
-							<img
-								src="/src/assets/icons/arrow_down.svg"
-								alt="next"
-							/>
+						<a v-if="counter < images.length - 1" @click="counterIncrease">
+							<img src="/src/assets/icons/arrow_down.svg" alt="next" />
 						</a>
 
 						<div v-else style="width: 24px" />
@@ -269,9 +251,8 @@ const removeImage = () => {
 
 				&:hover {
 					color: #18d992;
-					filter: brightness(0) saturate(1) brightness(0) saturate(1)
-						invert(63%) sepia(74%) saturate(493%) hue-rotate(104deg)
-						brightness(96%) contrast(88%);
+					filter: brightness(0) saturate(1) brightness(0) saturate(1) invert(63%)
+						sepia(74%) saturate(493%) hue-rotate(104deg) brightness(96%) contrast(88%);
 				}
 			}
 
@@ -280,9 +261,8 @@ const removeImage = () => {
 
 				&:hover {
 					color: #f23838;
-					filter: brightness(0) saturate(1) invert(46%) sepia(28%)
-						saturate(5216%) hue-rotate(331deg) brightness(87%)
-						contrast(121%);
+					filter: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%)
+						hue-rotate(331deg) brightness(87%) contrast(121%);
 				}
 			}
 		}

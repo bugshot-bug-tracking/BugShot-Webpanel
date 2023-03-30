@@ -48,7 +48,7 @@
 										: $t('no_deadline')
 								"
 								:priority="element.attributes.priority.id"
-								:active="infoTab.id === element.id"
+								:active="store.getBug?.id === element.id"
 								@info="infoTab.open(element.id)"
 							/>
 						</template>
@@ -110,6 +110,8 @@ import { Status } from "~/models/Status";
 import { Bug } from "~/models/Bug";
 
 const store = useReportsStore();
+
+const route = useRoute();
 
 const statuses = computed(() => store.getStatuses);
 
@@ -212,6 +214,27 @@ const deleteModal = reactive({
 		deleteModal.id = undefined;
 	},
 });
+
+const openQueryBug = () => {
+	try {
+		console.log("b:", route.query.b);
+
+		// if no bug queried exit
+		if (route.query.b == undefined) return;
+
+		const bug = store.getBugById(route.query.b as string);
+
+		console.log("bug:", bug);
+
+		if (bug?.id != undefined) {
+			infoTab.open(bug.id);
+		}
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+watchEffect(openQueryBug);
 </script>
 
 <style lang="scss" scoped>
@@ -219,7 +242,6 @@ const deleteModal = reactive({
 	width: 100%;
 	height: 100%;
 	position: relative;
-	padding: 2rem;
 	display: flex;
 	justify-content: space-between;
 }

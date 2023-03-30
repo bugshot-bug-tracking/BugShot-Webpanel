@@ -10,9 +10,7 @@
 /* eslint no-use-before-define:0 */
 
 function maxlengthContentEditable() {
-	const editableElements = document.querySelectorAll(
-		'div[contenteditable="true"]'
-	);
+	const editableElements = document.querySelectorAll('div[contenteditable="true"]');
 
 	const clipboardEvents = ["copy", "paste", "cut"];
 	const keyboardEvents = ["keyup", "keypress", "keydown", "blur", "change"];
@@ -37,8 +35,7 @@ function maxlengthContentEditable() {
 		// IE
 		if (window.clipboardData) {
 			if (
-				window.clipboardData.getData("Text").length +
-					this.textContent.length >
+				window.clipboardData.getData("Text").length + this.textContent.length >
 				this.dataset.maxLength
 			) {
 				event.preventDefault();
@@ -47,8 +44,7 @@ function maxlengthContentEditable() {
 		// Chrome , Firefox
 		if (event.clipboardData) {
 			if (
-				event.clipboardData.getData("Text").length +
-					this.textContent.length >
+				event.clipboardData.getData("Text").length + this.textContent.length >
 					this.dataset.maxLength &&
 				event.keyCode !== 8
 			) {
@@ -91,6 +87,7 @@ function maxlengthContentEditable() {
 			event.keyCode === 39 ||
 			event.keyCode === 37 ||
 			event.keyCode === 40 ||
+			event.keyCode === 46 ||
 			event.ctrlKey ||
 			event.metaKey
 		);
