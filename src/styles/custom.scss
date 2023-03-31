@@ -9,8 +9,17 @@
 	--bs-green-light: #c4f8e5;
 	--bs-purple-light: #eee5fc;
 	--bs-blue-light: #18bed8;
+	--bs-gray-light: #f8f8fc;
 
-	--bs-dark: #1a2040;
+	--bs-purple-dark: #5b15bc;
+	--bs-green-dark: #15bc7f;
+
+	--bs-black: #1a2040;
+
+	--bs-filter-purple: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+		hue-rotate(263deg) brightness(94%) contrast(92%);
+	--bs-filter-red: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%)
+		hue-rotate(331deg) brightness(87%) contrast(121%);
 }
 
 .black-to-green {
@@ -40,6 +49,12 @@
 .black-to-white {
 	color: #ffffff;
 	filter: brightness(0) invert(1);
+}
+
+.black-to-blue-light {
+	color: #18bed8;
+	filter: brightness(0) saturate(1) invert(66%) sepia(63%) saturate(529%) hue-rotate(140deg)
+		brightness(82%) contrast(109%);
 }
 
 .text-to-green {
@@ -427,7 +442,7 @@
 	max-width: 30rem;
 	overflow: auto;
 	padding: 1rem;
-	position: absolute;
+	position: fixed;
 	z-index: 20;
 	top: 0;
 	right: 0;

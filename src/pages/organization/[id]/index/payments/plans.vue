@@ -217,10 +217,10 @@ h3 {
 
 article {
 	display: flex;
-	width: calc(100% - 5rem);
+	width: 100%;
 	height: 100%;
 	padding: 2.5rem;
-	flex-wrap: wrap;
+
 	flex-direction: column;
 	max-height: 100vh;
 	column-gap: 1rem;

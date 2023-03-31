@@ -12,8 +12,6 @@
 			</slot>
 		</div>
 
-		<slot name="center" />
-
 		<div class="right">
 			<slot />
 		</div>
@@ -25,7 +23,6 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	overflow: hidden;
 	height: 100%;
 
 	.left {

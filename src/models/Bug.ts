@@ -24,7 +24,9 @@ export interface Bug {
 		status_id: string;
 		updated_at: string;
 		url: string;
-		deleted_at?: string;
+		done_at: string;
+		archived_at: string;
+		deleted_at: string;
 	};
 	users?: BugUserRole[];
 	screenshots?: Screenshot[];

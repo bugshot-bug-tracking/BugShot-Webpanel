@@ -127,6 +127,72 @@ export const usePaymentsStore = defineStore("payments", {
 				console.log(error);
 			}
 		},
+
+		async decreaseLicenses({
+			quantity,
+			subscription_item,
+			price_id,
+			subscription_id,
+		}: {
+			quantity: number;
+			subscription_item: string;
+			price_id: string;
+			subscription_id: string;
+		}) {
+			let billing_address = useOrganizationStore().billing_address;
+
+			if (billing_address === undefined)
+				throw new Error("billing address not set for the active organization");
+
+			let response = (
+				await axios.post(
+					`/billing-addresses/${billing_address.id}/stripe/subscription/${subscription_id}/change-quantity`,
+					{
+						price_api_id: price_id,
+						subscription_item_id: subscription_item,
+						type: "decrement",
+						quantity: quantity,
+					}
+				)
+			).data;
+
+			await useOrganizationStore().fetchSubscriptions();
+
+			console.log(response);
+		},
+
+		async increaseLicenses({
+			quantity,
+			subscription_item,
+			price_id,
+			subscription_id,
+		}: {
+			quantity: number;
+			subscription_item: string;
+			price_id: string;
+			subscription_id: string;
+		}) {
+			let billing_address = useOrganizationStore().billing_address;
+
+			if (billing_address === undefined)
+				throw new Error("billing address not set for the active organization");
+
+			let response = (
+				await axios.post(
+					`/billing-addresses/${billing_address.id}/stripe/subscription/${subscription_id}/change-quantity`,
+					{
+						price_api_id: price_id,
+						subscription_item_id: subscription_item,
+						type: "increment",
+						quantity: quantity,
+					}
+				)
+			).data;
+
+			await useOrganizationStore().fetchSubscriptions();
+
+			console.log(response);
+		},
 	},
 
 	getters: {

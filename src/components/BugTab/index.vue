@@ -33,7 +33,7 @@
 
 			<Comments :comments="comments ?? []" :bug_id="id" />
 
-			<a class="delete-bug-btn black-to-red" @click="deleteModal.open">
+			<a class="delete-bug-btn black-to-red" @click="deleteModal.open" v-if="!noActions">
 				<img src="/src/assets/icons/delete.svg" alt="delete" />
 
 				{{ $t("delete.bug") }}
@@ -77,6 +77,11 @@ const props = defineProps({
 		required: true,
 		type: String,
 		description: "Bug ID",
+	},
+	noActions: {
+		type: Boolean,
+		required: false,
+		default: false,
 	},
 });
 

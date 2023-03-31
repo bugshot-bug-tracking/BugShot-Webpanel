@@ -100,7 +100,15 @@
 					:id="lic.id"
 					@submit="modal.open(lic)"
 					:show_checkbox="false"
+				>
+					<template #button-extra>
+						<ChangeLicenseModal
+							:total_licenses="lic.quantity"
+							:used_licenses="lic.assigned ?? 0"
+							:license="lic"
 						/>
+					</template>
+				</LicenseCard>
 			</n-list-item>
 		</n-list>
 
