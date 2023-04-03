@@ -1,5 +1,5 @@
 <template>
-	<MyModal :modelValue="modal.show" :close="modal.close" z-101>
+	<MyModal :modelValue="modal.show" :close="modal.close" z-101 v-bind="$attrs">
 		<div class="wrapper">
 			<span class="text">
 				<p v-if="header === ''">{{ $t("want_to_delete") }}</p>

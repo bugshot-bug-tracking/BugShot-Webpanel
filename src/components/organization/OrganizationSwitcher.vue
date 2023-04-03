@@ -70,7 +70,8 @@ const externalGroup = computed(
 	})
 );
 
-const options = [ownedGroup.value, externalGroup.value];
+const options = [ownedGroup.value];
+if ((externalGroup.value.children?.length ?? 0) < 0) options[1] = externalGroup.value;
 
 // this code is to make the options reactive ---vvvvv
 let key = ref(Math.random());
@@ -89,7 +90,8 @@ watch(
 watch(
 	externalGroup,
 	() => {
-		options[1] = externalGroup.value;
+		if ((externalGroup.value.children?.length ?? 0) < 0) options.splice(1, 1);
+		else options[1] = externalGroup.value;
 
 		// this forces the rerender of the component
 		key.value = Math.random();
