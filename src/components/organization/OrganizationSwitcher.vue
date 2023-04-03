@@ -70,34 +70,25 @@ const externalGroup = computed(
 	})
 );
 
-const options = [ownedGroup.value];
-if ((externalGroup.value.children?.length ?? 0) < 0) options[1] = externalGroup.value;
+const options: SelectGroupOption[] = [];
 
 // this code is to make the options reactive ---vvvvv
 let key = ref(Math.random());
 
-watch(
-	ownedGroup,
-	() => {
-		options[0] = ownedGroup.value;
+watchEffect(() => {
+	options[0] = ownedGroup.value;
 
-		// this forces the rerender of the component
-		key.value = Math.random();
-	},
-	{ deep: true }
-);
+	// this forces the rerender of the component
+	key.value = Math.random();
+});
 
-watch(
-	externalGroup,
-	() => {
-		if ((externalGroup.value.children?.length ?? 0) < 0) options.splice(1, 1);
-		else options[1] = externalGroup.value;
+watchEffect(() => {
+	if ((externalGroup.value.children?.length ?? 0) < 0) options.splice(1, 1);
+	else options[1] = externalGroup.value;
 
-		// this forces the rerender of the component
-		key.value = Math.random();
-	},
-	{ deep: true }
-);
+	// this forces the rerender of the component
+	key.value = Math.random();
+});
 // -------------------------------------------------
 </script>
 
