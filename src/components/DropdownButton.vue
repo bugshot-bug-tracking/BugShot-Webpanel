@@ -21,11 +21,7 @@
 			/>
 		</div>
 
-		<div
-			v-if="!dumb"
-			class="dropdown-container"
-			:class="{ open: active.value }"
-		>
+		<div v-if="!dumb" class="dropdown-container" :class="{ open: active.value }">
 			<div class="dropdown-wrapper bs-scroll">
 				<p p-4 v-if="list.length < 1">{{ $t("empty") }}</p>
 
@@ -72,7 +68,7 @@ const props = defineProps({
 		type: Boolean,
 		required: false,
 		default: false,
-		desctiption: "Switch for enabling dropdown menu",
+		description: "Switch for enabling dropdown menu",
 	},
 });
 

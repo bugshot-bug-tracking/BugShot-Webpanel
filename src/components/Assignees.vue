@@ -9,7 +9,7 @@
 				/>
 			</div>
 
-			<a class="add" @click="emit('add')">
+			<a class="add" @click="emit('add')" v-if="!disableAdd">
 				<img src="/src/assets/icons/add.svg" alt="Add button" />
 			</a>
 		</div>
@@ -25,6 +25,12 @@ defineProps({
 		type: Array as PropType<User[]>,
 		required: true,
 		default: [],
+	},
+
+	disableAdd: {
+		type: Boolean,
+		required: false,
+		default: false,
 	},
 });
 

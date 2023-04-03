@@ -32,7 +32,7 @@
 		<n-pagination v-model:page="page" :page-count="100" mx-a my-4 size="large" v-if="false" />
 	</article>
 
-	<BugTab v-if="infoTab.show" :id="infoTab.id" @close="infoTab.close" noActions />
+	<BugDrawer />
 </template>
 
 <script setup lang="ts">
@@ -74,6 +74,7 @@ const infoTab = reactive({
 	open: (value: string) => {
 		infoTab.show = true;
 		infoTab.id = value;
+		store.setArchivedBug(value);
 	},
 	close: () => {
 		infoTab.show = false;

@@ -159,6 +159,38 @@ export const useReportsStore = defineStore("reports", {
 			await useHookStore().hookBug();
 		},
 
+		async setArchivedBug(id: string | undefined) {
+			this.bug = undefined;
+			this.screenshots = undefined;
+			this.attachments = undefined;
+			this.comments = undefined;
+			this.assignees = undefined;
+
+			if (id === undefined) {
+				// unsubscribe from old bug
+				return await useHookStore().hookBug();
+			}
+
+			let bug = this.getArchivedBugById(id);
+
+			if (!bug) throw `Bug (${id}) could not be found!`;
+
+			this.bug = bug;
+
+			await this.fetchScreenshots().catch((e) => {
+				this.screenshots = [];
+			});
+			await this.fetchAttachments().catch((e) => {
+				this.attachments = [];
+			});
+			await this.fetchComments().catch((e) => {
+				this.comments = [];
+			});
+			await this.fetchBugUsers().catch((e) => {
+				this.assignees = [];
+			});
+		},
+
 		async createBug({
 			designation,
 			description,
@@ -396,5 +428,6 @@ export const useReportsStore = defineStore("reports", {
 		},
 
 		getArchivedBugs: (state) => state.archived,
+		getArchivedBugById: (state) => (id: string) => state.archived?.find((b) => b.id === id),
 	},
 });
