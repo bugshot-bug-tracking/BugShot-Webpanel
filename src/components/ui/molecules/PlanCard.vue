@@ -19,9 +19,7 @@
 			</p>
 
 			<div flex text-7>
-				<p font-bold>
-					{{ nicePrice(type === "month" ? subTotal : subTotal / 12).toLocaleString() }}€
-				</p>
+				<p font-bold>{{ $n(nicePrice(type === "month" ? subTotal : subTotal / 12)) }}€</p>
 
 				<p ml-2>
 					{{ `/ ${$t("month")}` }}
@@ -30,10 +28,9 @@
 
 			<p>
 				({{
-					$t(
-						"extra_for_n_each",
-						nicePrice(type === "month" ? extra_price : extra_price / 12)
-					)
+					$t("extra_for_s_each", [
+						$n(nicePrice(type === "month" ? extra_price : extra_price / 12)),
+					])
 				}})
 			</p>
 
@@ -52,7 +49,7 @@
 				</n-button>
 
 				<p text-4 style="color: var(--bs-gray)">
-					{{ type === "month" ? "" : $t("s_billed_yearly", [subTotal.toLocaleString()]) }}
+					{{ type === "month" ? "" : $t("s_billed_yearly", [$n(subTotal)]) }}
 				</p>
 			</div>
 		</div>

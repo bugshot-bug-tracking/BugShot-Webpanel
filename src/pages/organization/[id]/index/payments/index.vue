@@ -88,7 +88,13 @@
 												<div style="color: var(--bs-gray)">
 													<p>
 														<b>
-															{{ getSubscriptionPrice(subscription) }}
+															{{
+																n(
+																	getSubscriptionPrice(
+																		subscription
+																	)
+																)
+															}}
 															€
 														</b>
 													</p>
@@ -269,7 +275,7 @@ defineProps({
 	},
 });
 
-const { t } = useI18n();
+const { t, d, n } = useI18n();
 
 const store = useOrganizationStore();
 
@@ -317,7 +323,7 @@ const getSubscriptionNextPayment = (subscription: any) => {
 
 	let date = new Date(end * 1000);
 
-	return date.toLocaleDateString();
+	return d(date);
 };
 
 const getSubscriptionPaymentType = (subscription: any) => {
