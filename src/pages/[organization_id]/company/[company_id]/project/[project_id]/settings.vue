@@ -185,13 +185,7 @@ const isAuthorized = computed(() => {
 	);
 });
 
-const members = computed(() => {
-	let users = [...(store.getMembers ?? [])];
-
-	if (store.getCreator) users.unshift(store.getCreator);
-
-	return users;
-});
+const members = computed(() => store.getMembers);
 
 const preCall = async () => {
 	await store.fetchUsers();

@@ -360,11 +360,13 @@ export const useOrganizationStore = defineStore("organization", {
 		getOrganization: (state) => state.organization,
 
 		getMembers: (state) =>
-			state.members?.map((x) => {
-				x.user.role = x.role;
-				x.user.subscription = x.subscription;
-				return x.user;
-			}),
+			state.members
+				?.map((x) => {
+					x.user.role = x.role;
+					x.user.subscription = x.subscription;
+					return x.user;
+				})
+				.sort((a, b) => (a.role?.id ?? 0) - (b.role?.id ?? 0)),
 
 		getCreator: (state) => state.organization?.attributes?.creator,
 

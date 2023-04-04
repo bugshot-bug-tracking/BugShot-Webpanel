@@ -178,13 +178,7 @@ const isAuthorized = computed(() => {
 
 const company = computed(() => store.getCompany!);
 
-const members = computed(() => {
-	let users = [...(store.getMembers ?? [])];
-
-	if (store.getCreator) users.unshift(store.getCreator);
-
-	return users;
-});
+const members = computed(() => store.getMembers);
 
 const pendingMembers = computed(() => store.getPendingInvitations);
 

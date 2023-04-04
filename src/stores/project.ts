@@ -207,10 +207,12 @@ export const useProjectStore = defineStore("project", {
 		getProject: (state) => state.project,
 
 		getMembers: (state) =>
-			state.members?.map((x) => {
-				x.user.role = x.role;
-				return x.user;
-			}),
+			state.members
+				?.map((x) => {
+					x.user.role = x.role;
+					return x.user;
+				})
+				.sort((a, b) => (a.role?.id ?? 0) - (b.role?.id ?? 0)) ?? [],
 
 		getCreator: (state) => state.project?.attributes?.creator,
 
