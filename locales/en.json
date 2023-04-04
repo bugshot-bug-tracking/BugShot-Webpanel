@@ -38,7 +38,7 @@
 	"first_name": "First name",
 	"middle_name": "Middle name",
 	"last_name": "Last name",
-	"contact_info": "Contact information's",
+	"contact_info": "Contact information",
 	"password": "Password",
 	"current_password": "Current password",
 	"confirm_password": "Confirm password",
@@ -53,7 +53,7 @@
 	"creator": "Creator",
 	"url": "URL",
 	"description": "Description",
-	"technical_info": "Technical information's",
+	"technical_info": "Technical information",
 	"os": "Operating system",
 	"browser": "Browser",
 	"selector": "Selector",
@@ -222,7 +222,7 @@
 	"my_account": "My Account",
 	"advanced_settings": "Advanced settings and notifications",
 	"language_options": "Language options",
-	"profile_informations": "Profile information's",
+	"profile_informations": "Profile information",
 	"notify_me_on": "Notify me on",
 	"show_ui_elements": "Show UI elements",
 	"telephone_number": "Telephone number",
@@ -448,7 +448,12 @@
 		"option": "Change organization:"
 	},
 	"tooltips": {
-		"groups_info": "With a group you can build your own structure. \nA group can be, for example, a customer or a team. \nWithin a group, associated projects can be created."
+		"organization": "Organization for which I am doing the project: company, agency, association etc.",
+		"company": "In a group you can gather your team and your projects.",
+
+		"organization_roles": "Manager - has access to everything including settings and member invite.\nTeam - can view and add a group.\nClient - can view some group.",
+		"company_roles": "Manager - has access to everything including settings and member invite.\nTeam - can view the group and add projects.\nClient - can view the group.",
+		"project_roles": "Manager - has access to everything including settings and member invite.\nTeam - can view the project and add/update statuses and bugs.\nClient - can view the project and add bugs."
 	},
 	"start_trial": "Start a 14 days trial",
 	"trial_expires_in_n_days": "Your trial will expire tomorrow. | Your trial will expire in {n} days.",
@@ -491,8 +496,11 @@
 	"other": "Other | Others",
 	"accepted": "Accepted",
 	"declined": "Declined",
-	" ": "",
-	"": "",
 	"archive": "Archive",
-	"kanban": "Kanban"
+	"kanban": "Kanban",
+	"please_add_new_project": "Please create a new Project",
+	"please_add_new_group": "Please create a new Group.",
+
+	" ": "",
+	"": ""
 }

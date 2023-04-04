@@ -24,6 +24,7 @@
 					:deleteInvitation="deleteInvitation"
 					:preOpenCall="preCall"
 					:suggestOptions="suggestOptions"
+					infoKey="tooltips.company_roles"
 				/>
 
 				<ProjectCreateModal :primary_button="true" />

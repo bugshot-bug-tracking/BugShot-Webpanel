@@ -81,7 +81,7 @@
 	"team_members": "Teammitglieder",
 	"assign_team_member": "Teammitglieder hinzufügen",
 	"save_changes": "Änderungen speichern",
-	"tos_and_pp": "Ich akzeptiere BugShot's {tos} und {pp}",
+	"tos_and_pp": "Ich akzeptiere BugShot {tos} und {pp}",
 	"want_to_delete": "Willst du das wirklich löschen",
 	"please_confirm_email": "Bitte bestätige Deine Email bevor du dich anmeldest",
 	"company_edit_success": "Gruppe erfolgreich bearbeitet",
@@ -437,7 +437,12 @@
 		"option": "Organisation wechseln:"
 	},
 	"tooltips": {
-		"groups_info": "Mit einer Gruppe kannst Du Deine eigene Struktur aufbauen. \nEine Gruppe kann z.B. ein Kunde oder ein Team sein. \nInnerhalb einer Gruppe können zugehörige Projekte erstellt werden."
+		"organization": "Organisation, für die ich das Projekt mache: Unternehmen, Agentur, Verein etc.",
+		"company": "In der Gruppe kannst du dein Team und deine Projekte sammlen.",
+
+		"organization_roles": "",
+		"company_roles": "",
+		"project_roles": ""
 	},
 	"start_trial": "14-tägige Testphase starten",
 	"trial_expires_in_n_days": "Deine Testphase läuft morgen aus. | Deine Testphase läuft in {n} Tagen aus.",
@@ -480,8 +485,11 @@
 	"other": "Andere",
 	"accepted": "Akzeptiert",
 	"declined": "Abgelehnt",
-	" ": "",
-	"": "",
 	"archive": "Archiv",
-	"kanban": "Kanban"
+	"kanban": "Kanban",
+	"please_add_new_project": "Bitte starte ein Projekt.",
+	"please_add_new_group": "Bitte starte ein Gruppe.",
+
+	" ": "",
+	"": ""
 }
