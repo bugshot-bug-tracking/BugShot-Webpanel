@@ -24,9 +24,13 @@
 					:deleteInvitation="deleteInvitation"
 					:preOpenCall="preCall"
 					:suggestOptions="suggestOptions"
+					infoKey="tooltips.company_roles"
 				/>
 
-				<ProjectCreateModal :primary_button="true" />
+				<ProjectCreateModal
+					:primary_button="true"
+					v-if="isAuthorized || (company.attributes.role?.id ?? 9) < 3"
+				/>
 
 				<RouterLink
 					:to="{
@@ -59,7 +63,7 @@
 
 				<h1 w-88 text-6>{{ $t("no_projects") }}</h1>
 
-				<p>{{ $t("please_add_new_one") }}</p>
+				<p>{{ $t("please_add_new_project") }}</p>
 
 				<ProjectCreateModal :primary_button="true" />
 			</section>
@@ -99,7 +103,7 @@
 						done: project.attributes.bugsDone,
 						total: project.attributes.bugsTotal,
 					}"
-					actions
+					:actions="isAuthorized || (project.attributes.role?.id ?? 9) < 2"
 					@open="goToProject(project.attributes.company.id, project.id)"
 					:to_settings="{
 						name: 'project-settings',
@@ -116,7 +120,6 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "~/stores/auth";
 import { useCompanyStore } from "~/stores/company";
 import { useOrganizationStore } from "~/stores/organization";
 import timeToText from "~/util/timeToText";
@@ -146,8 +149,8 @@ const projects = computed(() => store.getProjects ?? []);
 const isAuthorized = computed(() => {
 	//TODO temp code replace with proper ?global? logic
 	return (
-		company.value?.attributes.role?.id === 1 ||
-		company.value?.attributes.creator?.id === useAuthStore().getUser.id
+		(useOrganizationStore().getUserRole?.id ?? 9) < 2 ||
+		(company.value?.attributes.role?.id ?? 9) < 2
 	);
 });
 

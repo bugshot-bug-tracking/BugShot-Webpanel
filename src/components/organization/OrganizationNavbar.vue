@@ -4,6 +4,7 @@
 
 		<template #header-text>
 			{{ $t("organization", 2) }}
+			<InfoPopover :message="$t('tooltips.organization')" />
 		</template>
 
 		<template #order-text>

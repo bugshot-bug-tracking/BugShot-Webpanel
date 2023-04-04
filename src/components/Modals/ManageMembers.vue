@@ -47,6 +47,7 @@
 		:user="inviteModal.user"
 		:editMode="inviteModal.editMode"
 		:suggestOptions="suggestOptions"
+		:infoKey="infoKey"
 	>
 		<template #extra>
 			<slot name="extra" />
@@ -116,6 +117,14 @@ const props = defineProps({
 		type: Array as PropType<string[]>,
 		required: false,
 		default: [],
+	},
+
+	infoKey: {
+		type: String,
+		required: false,
+		default: undefined,
+		description:
+			"Key used to get the information text for the roles from the translation files",
 	},
 });
 

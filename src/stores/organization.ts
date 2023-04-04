@@ -217,6 +217,7 @@ export const useOrganizationStore = defineStore("organization", {
 						"include-company-image": "true",
 						"include-projects": "true",
 						"include-project-image": "true",
+						"include-project-role": "true",
 					},
 				})
 			).data.data;
@@ -359,11 +360,13 @@ export const useOrganizationStore = defineStore("organization", {
 		getOrganization: (state) => state.organization,
 
 		getMembers: (state) =>
-			state.members?.map((x) => {
-				x.user.role = x.role;
-				x.user.subscription = x.subscription;
-				return x.user;
-			}),
+			state.members
+				?.map((x) => {
+					x.user.role = x.role;
+					x.user.subscription = x.subscription;
+					return x.user;
+				})
+				.sort((a, b) => (a.role?.id ?? 0) - (b.role?.id ?? 0)),
 
 		getCreator: (state) => state.organization?.attributes?.creator,
 
@@ -452,5 +455,7 @@ export const useOrganizationStore = defineStore("organization", {
 		getInvoices: (state) => {
 			return state.invoices;
 		},
+
+		getUserRole: (state) => state.organization?.attributes.role,
 	},
 });

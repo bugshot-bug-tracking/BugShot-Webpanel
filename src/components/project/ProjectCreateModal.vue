@@ -49,7 +49,11 @@
 				@setColor="data.setColor"
 			/>
 
-			<AddMembers @change="data.setInviteMembers" />
+			<AddMembers @change="data.setInviteMembers" infoKey="tooltips.project_roles" />
+		</template>
+
+		<template #button v-if="$slots['button']">
+			<slot name="button" />
 		</template>
 
 		<template #modal-submit_button>
@@ -59,16 +63,23 @@
 </template>
 
 <script setup lang="ts">
+import { Company } from "~/models/Company";
 import { useCompanyStore } from "~/stores/company";
 import { useProjectStore } from "~/stores/project";
 import colors from "~/util/colors";
 import toBase64 from "~/util/toBase64";
 
-defineProps({
+const props = defineProps({
 	primary_button: {
 		type: Boolean,
 		required: false,
 		default: false,
+	},
+
+	company: {
+		type: Object as PropType<Company>,
+		required: false,
+		default: undefined,
 	},
 });
 
@@ -110,6 +121,7 @@ const onSubmit = async () => {
 		url: data.url,
 		color_hex: colors[data.color],
 		base64: image,
+		company_id: props.company?.id,
 	});
 
 	if (data.memberList) {

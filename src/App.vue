@@ -50,11 +50,11 @@ onMounted(async () => {
 
 // when there is a user (auth on), fetch main data
 watch(user, async (newUser, oldUser) => {
-	if ((oldUser.id == undefined && newUser.id != undefined) || oldUser.id !== newUser.id)
+	if ((oldUser?.id == undefined && newUser?.id != undefined) || oldUser?.id !== newUser?.id)
 		try {
 			loading.value = true;
 
-			if (user.value.id) await useMainStore().init();
+			if (user.value?.id) await useMainStore().init();
 		} catch (error) {
 			console.log(error);
 		} finally {

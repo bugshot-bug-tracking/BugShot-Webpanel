@@ -33,6 +33,7 @@
 					:deleteInvitation="deleteInvitation"
 					:preOpenCall="preCall"
 					:suggestOptions="suggestOptions"
+					infoKey="tooltips.project_roles"
 				/>
 
 				<AddBug />
@@ -61,19 +62,6 @@
 						{{ $t("project_settings") }}
 					</div>
 				</RouterLink>
-				<div v-else class="bs-btn green empty disabled" :title="$t('unauthorized')">
-					<div flex items-center gap-2>
-						<img
-							src="/src/assets/icons/gear.svg"
-							alt="project"
-							class="black-to-green"
-							w-5
-							h-5
-						/>
-
-						{{ $t("project_settings") }}
-					</div>
-				</div>
 			</T3Header>
 		</template>
 
@@ -143,9 +131,9 @@ const project = computed(() => store.getProject!);
 const isAuthorized = computed(() => {
 	// temp code replace with proper ?global? logic
 	return (
-		project.value?.attributes.role?.id === 1 ||
-		project.value.attributes.creator?.id === useAuthStore().getUser.id ||
-		useCompanyStore().getCompany!.attributes.role?.id === 1
+		(useOrganizationStore().getUserRole?.id ?? 9) < 2 ||
+		(useCompanyStore().getUserRole?.id ?? 9) < 2 ||
+		(project.value?.attributes.role?.id ?? 9) < 2
 	);
 });
 

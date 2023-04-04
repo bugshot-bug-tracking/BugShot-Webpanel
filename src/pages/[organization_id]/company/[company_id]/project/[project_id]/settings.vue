@@ -51,6 +51,7 @@
 									:deleteInvitation="deleteInvitation"
 									:preOpenCall="preCall"
 									:suggestOptions="suggestOptions"
+									infoKey="tooltips.project_roles"
 								>
 									<template #button="{ loading }">
 										<img
@@ -184,13 +185,7 @@ const isAuthorized = computed(() => {
 	);
 });
 
-const members = computed(() => {
-	let users = [...(store.getMembers ?? [])];
-
-	if (store.getCreator) users.unshift(store.getCreator);
-
-	return users;
-});
+const members = computed(() => store.getMembers);
 
 const preCall = async () => {
 	await store.fetchUsers();

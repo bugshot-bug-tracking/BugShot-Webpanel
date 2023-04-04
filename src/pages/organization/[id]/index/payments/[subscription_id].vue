@@ -49,7 +49,7 @@
 
 							<div style="color: var(--bs-gray)">
 								<p>
-									<b> {{ getSubscriptionPrice() }} € </b>
+									<b> {{ n(getSubscriptionPrice()) }} € </b>
 								</p>
 
 								<p v-if="!isSubscriptionCanceled()">
@@ -76,7 +76,7 @@
 
 					<div>
 						<h6 p-1 mb-4>
-							{{ t("number_of_licenses_n", getLicenseTotalQuantity()) }}
+							{{ t("number_of_licenses_n", [getLicenseTotalQuantity()]) }}
 						</h6>
 
 						<div grid style="grid-template-columns: 1fr 2fr">
@@ -115,7 +115,7 @@ const props = defineProps({
 	},
 });
 
-const { t } = useI18n();
+const { t, d, n } = useI18n();
 
 const store = useOrganizationStore();
 
@@ -156,7 +156,7 @@ const getSubscriptionNextPayment = () => {
 
 	let date = new Date(end * 1000);
 
-	return date.toLocaleDateString();
+	return d(date);
 };
 
 const getSubscriptionPaymentType = () => {
