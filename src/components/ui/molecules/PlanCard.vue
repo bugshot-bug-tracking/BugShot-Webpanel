@@ -58,8 +58,6 @@
 		</div>
 
 		<template #footer v-if="features">
-			<b>{{ $t("what_is_included") }}</b>
-
 			<n-list>
 				<n-space vertical>
 					<n-list-item v-for="feature of features" p-0>

@@ -16,6 +16,8 @@
 			</T3Header>
 		</template>
 
+		<TrialBanner />
+
 		<article class="bs-scroll" p-8 content-start flex gap-16>
 			<div class="component-group" min-w-172 max-w-172>
 				<div class="group-content">

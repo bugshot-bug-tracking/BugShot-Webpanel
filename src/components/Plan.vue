@@ -22,7 +22,7 @@
 					</span>
 					<span text-6> €</span>
 					<br />
-					<span lowercase class="black-to-purple">
+					<span class="black-to-purple">
 						/
 						{{ type === "month" ? $t("month") : $t("year") }}
 					</span>
@@ -38,13 +38,9 @@
 			</ul>
 		</div>
 
-		<p my-8 lowercase class="black-to-gray" font-bold>
+		<p my-8 class="black-to-gray" font-bold>
 			<b>
-				{{
-					type === "month"
-						? $t("monthly_payment")
-						: $t("yearly_payment")
-				}}
+				{{ type === "month" ? $t("monthly_payment") : $t("yearly_payment") }}
 			</b>
 		</p>
 
@@ -111,7 +107,6 @@ const props = defineProps({
 
 .price {
 	line-height: 1;
-	text-transform: lowercase;
 	font-weight: bold;
 	margin: 2rem 0;
 }

@@ -14,7 +14,7 @@
 			<button @click="incrementValue">+</button>
 		</div>
 
-		<b ml-3>{{ labelText?.toLocaleLowerCase() }}</b>
+		<b ml-3>{{ labelText }}</b>
 	</div>
 </template>
 
