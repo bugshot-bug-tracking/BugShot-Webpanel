@@ -215,5 +215,7 @@ export const useProjectStore = defineStore("project", {
 		getCreator: (state) => state.project?.attributes?.creator,
 
 		getPendingInvitations: (state) => state.pendingInvitations,
+
+		getUserRole: (state) => state.project?.attributes.role,
 	},
 });

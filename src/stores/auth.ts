@@ -6,7 +6,7 @@ import { User } from "~/models/User";
 export const useAuthStore = defineStore("auth", {
 	state: () => ({
 		token: "",
-		user: <User>{},
+		user: undefined as User | undefined,
 		new_user: undefined as undefined | boolean,
 	}),
 
@@ -111,6 +111,6 @@ export const useAuthStore = defineStore("auth", {
 	getters: {
 		getUser: (state) => state.user,
 		isAuthenticated: (state) => (state.token !== "" ? true : false),
-		getLicenses: (state) => state.user.attributes.subscriptions ?? [],
+		getLicenses: (state) => state.user?.attributes.subscriptions ?? [],
 	},
 });

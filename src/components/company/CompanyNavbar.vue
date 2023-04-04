@@ -39,11 +39,12 @@
 						: false
 				"
 				:authorized="
-					item.attributes.role?.id === 1 || organization?.attributes.role?.id === 1
+					(item.attributes.role?.id ?? 9) < 2 ||
+					(organization?.attributes.role?.id ?? 9) < 2
 				"
 			>
 				<template #list>
-					<ul v-if="companyProjects(item.id).length > 0">
+					<ul>
 						<li
 							v-for="project of companyProjects(item.id)"
 							flex
@@ -72,15 +73,6 @@
 										v-if="false"
 									/>
 
-									<img
-										v-if="user?.id === project.attributes.creator?.id"
-										src="/src/assets/icons/my_projects.svg"
-										alt="owner"
-										w-6
-										h-6
-										:title="$t('owner')"
-									/>
-
 									<span>
 										{{ project.attributes.designation }}
 									</span>
@@ -89,8 +81,8 @@
 								<RouterLink
 									v-if="
 										user.id === item.attributes.creator?.id ||
-										item.attributes.role?.id === 1 ||
-										project.attributes.role?.id === 1
+										(item.attributes.role?.id ?? 9) < 2 ||
+										(project.attributes.role?.id ?? 9) < 2
 									"
 									:to="{
 										name: 'project-settings',
@@ -115,32 +107,49 @@
 										:title="$t('project_settings')"
 									/>
 								</RouterLink>
-								<div
-									v-else
-									class="route settings"
-									:style="{
-										'font-weight': 'bold',
-										width: 'auto',
-										opacity: '0.25',
-										padding: 0,
-									}"
-								>
-									<img
-										src="/src/assets/icons/gear.svg"
-										alt="settings"
-										w-6
-										h-6
-										:title="$t('unauthorized')"
-									/>
-								</div>
 							</RouterLink>
+						</li>
+
+						<li
+							v-if="
+								(item.attributes.role?.id ?? 9) < 3 ||
+								(organization?.attributes.role?.id ?? 9) < 2
+							"
+							flex
+							items-center
+							justify-center
+						>
+							<ProjectCreateModal :primary_button="false" :company="item">
+								<template #button>
+									<n-button
+										type="success"
+										quaternary
+										round
+										strong
+										p-4
+										class="quaternary"
+									>
+										<template #icon>
+											<img
+												src="/src/assets/icons/add.svg"
+												alt="project"
+												w-5
+												h-5
+												class="black-to-green"
+											/>
+										</template>
+
+										{{ $t("create.project") }}
+									</n-button>
+								</template>
+							</ProjectCreateModal>
 						</li>
 					</ul>
 				</template>
 			</ResourceNavbarItem>
 		</template>
 
-		<template #footer>
+		<template #footer v-if="(useOrganizationStore().getUserRole?.id ?? 9) < 3">
 			<CompanyCreateModal :primary_button="false" redirect />
 		</template>
 	</ResourceNavbar>

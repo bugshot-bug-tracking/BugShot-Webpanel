@@ -1,5 +1,5 @@
 <template>
-	<a @click="modal.open">
+	<a @click.capture="modal.open" :class="{ disabled: disabled }">
 		<slot name="button" v-bind="{ loading: modal.loading }">
 			<button
 				flex
@@ -85,6 +85,12 @@ const props = defineProps({
 		type: Function,
 		required: false,
 	},
+
+	disabled: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
 });
 
 const emit = defineEmits(["close"]);
@@ -95,6 +101,8 @@ const modal = reactive({
 	show: false,
 	loading: false,
 	open: async () => {
+		if (props.disabled === true) return;
+
 		if (modal.loading === true) return;
 		modal.loading = true;
 		if (props.preOpenCall) await props.preOpenCall();

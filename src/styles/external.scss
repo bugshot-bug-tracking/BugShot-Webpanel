@@ -39,6 +39,10 @@
 	color: #18b984;
 }
 
+.n-button--success-type.quaternary {
+	--n-color-hover: #ccf7e780 !important;
+}
+
 .n-button--tertiary-type {
 	--n-text-color: #8f809b !important;
 	--n-text-color-hover: #746581 !important;

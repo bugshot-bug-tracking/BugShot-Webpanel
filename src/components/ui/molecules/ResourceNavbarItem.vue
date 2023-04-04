@@ -1,15 +1,6 @@
 <template>
 	<RouterLink :to="to_resource" class="route-header" :class="{ open: open }">
 		<div flex gap-2>
-			<img
-				v-if="owner"
-				src="/src/assets/icons/my_projects.svg"
-				alt="owner"
-				w-6
-				h-6
-				:title="$t('owner')"
-			/>
-
 			{{ text }}
 		</div>
 
@@ -32,26 +23,6 @@
 					:title="$t('setting', 2)"
 				/>
 			</RouterLink>
-
-			<div
-				v-else-if="!authorized && to_settings"
-				class="route settings"
-				:style="{
-					'font-weight': 'bold',
-					width: 'auto',
-					padding: 0,
-					opacity: '0.25',
-				}"
-				@click.prevent=""
-			>
-				<img
-					src="/src/assets/icons/gear.svg"
-					alt="settings"
-					w-6
-					h-6
-					:title="$t('unauthorized')"
-				/>
-			</div>
 
 			<img
 				src="/src/assets/icons/arrow_down.svg"

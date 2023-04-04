@@ -50,7 +50,11 @@
 						done: project.attributes.bugsDone,
 						total: project.attributes.bugsTotal,
 					}"
-					actions
+					:actions="
+						(useOrganizationStore().getUserRole?.id ?? 9) < 2 ||
+						(company.attributes.role?.id ?? 9) < 2 ||
+						(project.attributes.role?.id ?? 9) < 2
+					"
 					@open="goToProject(company.id, project.id)"
 					:to_settings="{
 						name: 'project-settings',

@@ -217,6 +217,7 @@ export const useOrganizationStore = defineStore("organization", {
 						"include-company-image": "true",
 						"include-projects": "true",
 						"include-project-image": "true",
+						"include-project-role": "true",
 					},
 				})
 			).data.data;
@@ -452,5 +453,7 @@ export const useOrganizationStore = defineStore("organization", {
 		getInvoices: (state) => {
 			return state.invoices;
 		},
+
+		getUserRole: (state) => state.organization?.attributes.role,
 	},
 });

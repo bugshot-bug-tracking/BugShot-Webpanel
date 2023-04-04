@@ -7,7 +7,7 @@
 		<template #item="item: Company">
 			<ResourceHeader
 				:name="item.attributes.designation"
-				:owner="user.id === item.attributes.creator?.id"
+				:owner="user?.id === item.attributes.creator?.id"
 				:color="item.attributes.color_hex"
 			>
 				<template #text>
@@ -65,7 +65,28 @@
 
 		<template #footer>
 			<div mx-a w-fit>
-				<CompanyCreateModal />
+				<n-popover trigger="hover" :disabled="userHasSubscriptionOrTrial">
+					<template #trigger>
+						<div>
+							<CompanyCreateModal :disabled="!userHasSubscriptionOrTrial" />
+						</div>
+					</template>
+
+					<n-text type="warning">
+						<i18n-t keypath="unauthorized_without_license_or_trial" scope="global">
+							<RouterLink
+								:to="{
+									name: 'organization-payments',
+									params: { id: organization.id },
+								}"
+							>
+								<n-text type="info" underline>
+									{{ $t("unauthorized_without_license_or_trial_0") }}
+								</n-text>
+							</RouterLink>
+						</i18n-t>
+					</n-text>
+				</n-popover>
 			</div>
 		</template>
 	</AssignmentTable>
@@ -85,4 +106,21 @@ const user = computed(() => useAuthStore().getUser);
 const companies = computed(() => store.getCompanies);
 
 const organization = computed(() => store.getOrganization!);
+
+const userHasSubscriptionOrTrial = computed(() => {
+	return (
+		user.value?.attributes?.subscriptions?.length > 0 ||
+		hasTrial(user.value?.attributes.trial_end_date)
+	);
+});
+
+const hasTrial = (date?: string) => {
+	if (date == undefined) return false;
+
+	let now = new Date();
+	let then = new Date(date);
+
+	if (then > now) return true;
+	else return false;
+};
 </script>

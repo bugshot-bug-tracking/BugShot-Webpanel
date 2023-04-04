@@ -4,6 +4,7 @@
 		:success_message="$t('company_succ_created')"
 		:primary_button="primary_button"
 		@close="reset"
+		:disabled="disabled"
 	>
 		<template #button-text>
 			<span uppercase font-bold>{{ $t("create.company") }}</span>
@@ -59,6 +60,12 @@ const props = defineProps({
 	},
 
 	redirect: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+
+	disabled: {
 		type: Boolean,
 		required: false,
 		default: false,

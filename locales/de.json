@@ -440,9 +440,9 @@
 		"organization": "Organisation, für die ich das Projekt mache: Unternehmen, Agentur, Verein etc.",
 		"company": "In der Gruppe kannst du dein Team und deine Projekte sammlen.",
 
-		"organization_roles": "",
-		"company_roles": "",
-		"project_roles": ""
+		"organization_roles": "Manager - hat Zugriff zu allem, einschließlich Einstellungen und Einladung von Mitgliedern\nTeam - kann Gruppe einsehen.\nClient - kann Gruppe einsehen.",
+		"company_roles": "Manager - hat Zugriff zu allem, einschließlich Einstellungen und Einladung von Mitgliedern\nTeam - kann Gruppe einsehen.\nClient - kann Gruppe einsehen.",
+		"project_roles": "Manager - hat Zugriff zu allem, einschließlich Einstellungen und Einladung von Mitgliedern.\nTeam - kann das Projekt einsehen und Status und Bugs hinzufügen/aktualisieren.\nClient - kann das Projekt einsehen und Bugs hinzufügen."
 	},
 	"start_trial": "14-tägige Testphase starten",
 	"trial_expires_in_n_days": "Deine Testphase läuft morgen aus. | Deine Testphase läuft in {n} Tagen aus.",
@@ -489,6 +489,8 @@
 	"kanban": "Kanban",
 	"please_add_new_project": "Bitte starte ein Projekt.",
 	"please_add_new_group": "Bitte starte ein Gruppe.",
+	"unauthorized_without_license_or_trial": "Die ausgeführte Aktion ist ohne eine Lizenz oder aktive Probephase nicht zulässig. Bitte {0}.",
+	"unauthorized_without_license_or_trial_0": "erwirb eine Lizenz",
 
 	" ": "",
 	"": ""
