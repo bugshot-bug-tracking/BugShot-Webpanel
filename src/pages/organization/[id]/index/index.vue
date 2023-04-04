@@ -16,6 +16,8 @@
 			</T3Header>
 		</template>
 
+		<TrialBanner />
+
 		<article class="bs-scroll" p-8 content-start>
 			<div class="component-group" max-w-128>
 				<div class="group-header">

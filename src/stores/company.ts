@@ -208,15 +208,17 @@ export const useCompanyStore = defineStore("company", {
 			url,
 			base64,
 			color_hex,
+			company_id,
 		}: {
 			designation: string;
 			url: string | undefined;
 			base64: string | undefined;
 			color_hex: string;
+			company_id?: string;
 		}) {
 			let response = (
 				await axios.post(
-					`companies/${this.company!.id}/projects`,
+					`companies/${company_id ?? this.company!.id}/projects`,
 					{
 						designation,
 						url,
@@ -241,9 +243,11 @@ export const useCompanyStore = defineStore("company", {
 		 * Add an project to local store
 		 */
 		addProject(project: Project) {
-			if (!this.projects) this.projects = [] as Project[];
+			if (project.attributes.company.id === this.company?.id) {
+				if (!this.projects) this.projects = [] as Project[];
 
-			this.projects.push(project);
+				this.projects.push(project);
+			}
 
 			useOrganizationStore()
 				.companies?.find((c) => c.id === project.attributes.company.id)
@@ -327,10 +331,12 @@ export const useCompanyStore = defineStore("company", {
 		getCompany: (state) => state.company,
 
 		getMembers: (state) =>
-			state.members?.map((x) => {
-				x.user.role = x.role;
-				return x.user;
-			}),
+			state.members
+				?.map((x) => {
+					x.user.role = x.role;
+					return x.user;
+				})
+				.sort((a, b) => (a.role?.id ?? 0) - (b.role?.id ?? 0)),
 
 		getCreator: (state) => state.company?.attributes?.creator,
 
@@ -339,5 +345,7 @@ export const useCompanyStore = defineStore("company", {
 		getProjects: (state) => state.projects,
 
 		getProjectById: (state) => (id: string) => state.projects?.find((x) => x.id === id),
+
+		getUserRole: (state) => state.company?.attributes.role,
 	},
 });

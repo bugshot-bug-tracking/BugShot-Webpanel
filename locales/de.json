@@ -81,7 +81,7 @@
 	"team_members": "Teammitglieder",
 	"assign_team_member": "Teammitglieder hinzufügen",
 	"save_changes": "Änderungen speichern",
-	"tos_and_pp": "Ich akzeptiere BugShot's {tos} und {pp}",
+	"tos_and_pp": "Ich akzeptiere BugShot {tos} und {pp}",
 	"want_to_delete": "Willst du das wirklich löschen",
 	"please_confirm_email": "Bitte bestätige Deine Email bevor du dich anmeldest",
 	"company_edit_success": "Gruppe erfolgreich bearbeitet",
@@ -342,7 +342,7 @@
 	"quantity": "Anzahl",
 	"perks": "Perks",
 	"n_months_free": "{n} Monate kostenlos",
-	"extra_for_n_each": "{n}€ je weitere Lizenz",
+	"extra_for_s_each": "{0}€ je weitere Lizenz",
 	"s_billed_monthly": "{0}€ pro Monat",
 	"s_billed_yearly": "{0}€ pro Jahr",
 	"checkout": "Checkout",
@@ -363,7 +363,7 @@
 	"payment": "Zahlung | Zahlungen",
 	"manage_subscription": "Pläne verwalten",
 	"view_billing_history": "Zahlungshistorie anzeigen",
-	"number_of_licenses_n": "Anzahl der Lizenzen: {n}",
+	"number_of_licenses_n": "Anzahl der Lizenzen: {0}",
 	"manage_licenses": "Lizenzen verwalten",
 	"you_are_using": "Du benutzt",
 	"available_actions": "Verfügbare Aktionen",
@@ -405,6 +405,17 @@
 	"resend_email": "erneut verschicken",
 	"maintenance_in_progress": "Wartungsarbeiten im Gange",
 	"maintenance_in_progress_subtext": "Hallo! Das ist kein Fehler. Im Moment befindet sich die Webseite im Wartungsmodus. BugShot ist in Kürze wieder verfügbar!",
+	"assigned_on": "ugewiesen am ",
+	"available_until": "Verfügbar bis ",
+	"team_member_using_it": "Im Team genutzt von:",
+	"unassign_member": "Zuweisung für Mitglied aufheben | Zuweisung für Mitglieder aufheben",
+	"used_license": "Genutzte Lizenz | Genutzte Lizenzen",
+	"unused_license": "Ungenutzte Lizenz | Ungenutzte Lizenzen",
+	"select_all": "Alle auswählen",
+	"unassigned": "Nicht zugewiesen",
+	"assign_license": "Lizenz zuweisen",
+	"assignable_licenses": "Zuweisbare Lizenzen",
+	"assign_license_to_user": "Lizenz NutzerIn zuweisen",
 	"next_payment_on_s": "Nächste Zahlung fällig am {0}",
 	"monthly_payment_prepaid": "Monatliche Zahlung, Zahlung",
 	"yearly_payment_prepaid": "Jährliche Zahlung, Zahlung",
@@ -437,7 +448,12 @@
 		"option": "Organisation wechseln:"
 	},
 	"tooltips": {
-		"groups_info": "Mit einer Gruppe kannst Du Deine eigene Struktur aufbauen. \nEine Gruppe kann z.B. ein Kunde oder ein Team sein. \nInnerhalb einer Gruppe können zugehörige Projekte erstellt werden."
+		"organization": "Organisation, für die ich das Projekt mache: Unternehmen, Agentur, Verein etc.",
+		"company": "In der Gruppe kannst du dein Team und deine Projekte sammlen.",
+
+		"organization_roles": "Manager - hat Zugriff zu allem, einschließlich Einstellungen und Einladung von Mitgliedern\nTeam - kann Gruppe einsehen.\nClient - kann Gruppe einsehen.",
+		"company_roles": "Manager - hat Zugriff zu allem, einschließlich Einstellungen und Einladung von Mitgliedern\nTeam - kann Gruppe einsehen.\nClient - kann Gruppe einsehen.",
+		"project_roles": "Manager - hat Zugriff zu allem, einschließlich Einstellungen und Einladung von Mitgliedern.\nTeam - kann das Projekt einsehen und Status und Bugs hinzufügen/aktualisieren.\nClient - kann das Projekt einsehen und Bugs hinzufügen."
 	},
 	"start_trial": "14-tägige Testphase starten",
 	"trial_expires_in_n_days": "Deine Testphase läuft morgen aus. | Deine Testphase läuft in {n} Tagen aus.",
@@ -480,8 +496,13 @@
 	"other": "Andere",
 	"accepted": "Akzeptiert",
 	"declined": "Abgelehnt",
-	" ": "",
-	"": "",
 	"archive": "Archiv",
-	"kanban": "Kanban"
+	"kanban": "Kanban",
+	"please_add_new_project": "Bitte starte ein Projekt.",
+	"please_add_new_group": "Bitte starte ein Gruppe.",
+	"unauthorized_without_license_or_trial": "Die ausgeführte Aktion ist ohne eine Lizenz oder aktive Probephase nicht zulässig. Bitte {0}.",
+	"unauthorized_without_license_or_trial_0": "erwirb eine Lizenz",
+
+	" ": "",
+	"": ""
 }

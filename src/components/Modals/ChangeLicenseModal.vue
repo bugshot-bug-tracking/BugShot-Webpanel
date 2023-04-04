@@ -11,19 +11,19 @@
 				<div flex gap-4>
 					<p>{{ t("total_licenses") }}:</p>
 
-					<p>{{ total_licenses }}</p>
+					<p>{{ n(total_licenses) }}</p>
 				</div>
 
 				<div flex gap-4>
 					<p>{{ t("used_license", 2) }}:</p>
 
-					<p>{{ used_licenses }}</p>
+					<p>{{ n(used_licenses) }}</p>
 				</div>
 
 				<div flex gap-4>
 					<p>{{ t("available_licenses") }}:</p>
 
-					<p>{{ total_licenses - used_licenses }}</p>
+					<p>{{ n(total_licenses - used_licenses) }}</p>
 				</div>
 
 				<div my-4>
@@ -59,7 +59,7 @@
 				<div flex gap-4>
 					<p>{{ t("licenses_after_update") }}:</p>
 
-					<p>{{ total_licenses + quantity }}</p>
+					<p>{{ n(total_licenses + quantity) }}</p>
 				</div>
 
 				<div flex gap-4>
@@ -67,8 +67,10 @@
 
 					<p>
 						{{
-							(quantity > 0 ? quantity * 8 : 0) *
-							(licenseInterval === "month" ? 10 : 1)
+							n(
+								(quantity > 0 ? quantity * 8 : 0) *
+									(licenseInterval === "month" ? 1 : 10)
+							)
 						}}€
 					</p>
 				</div>
@@ -84,8 +86,11 @@
 
 					<p>
 						{{
-							quantity * 8 +
-							((total_licenses - 1) * 8 + 12) * (licenseInterval === "year" ? 10 : 1)
+							n(
+								quantity * 8 +
+									((total_licenses - 1) * 8 + 12) *
+										(licenseInterval === "year" ? 10 : 1)
+							)
 						}}€
 					</p>
 				</div>
@@ -152,7 +157,7 @@ const props = defineProps({
 });
 
 const store = usePaymentsStore();
-const { t } = useI18n();
+const { t, n } = useI18n();
 
 const modal = reactive({
 	show: false,

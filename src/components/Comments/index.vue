@@ -102,9 +102,7 @@ const user = computed(() => {
 	return useAuthStore().getUser;
 });
 
-const projectTeam = computed(() => {
-	return [store.getProject!.attributes.creator, ...(store.getMembers ?? [])].filter((x) => x);
-});
+const projectTeam = computed(() => store.getMembers);
 
 // tributejs options
 const options = reactive({
