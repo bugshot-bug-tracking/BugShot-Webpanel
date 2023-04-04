@@ -56,6 +56,7 @@
 		@change="inviteModal.change"
 		:user="inviteModal.user"
 		:editMode="inviteModal.editMode"
+		:infoKey="infoKey"
 	>
 		<template #extra>
 			<slot name="extra" />
@@ -75,6 +76,14 @@ defineProps({
 		type: Boolean,
 		required: false,
 		default: true,
+	},
+
+	infoKey: {
+		type: String,
+		required: false,
+		default: undefined,
+		description:
+			"Key used to get the information text for the roles from the translation files",
 	},
 });
 

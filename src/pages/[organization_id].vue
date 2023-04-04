@@ -26,15 +26,10 @@
 			<h1 w-88 text-6>{{ $t("no_companies") }}</h1>
 
 			<div flex gap-2 items-center>
-				<p>{{ $t("please_add_new_one") }}</p>
+				<p>{{ $t("please_add_new_group") }}</p>
 
 				<div>
-					<img
-						src="/src/assets/icons/info.svg"
-						alt=""
-						:title="$t('tooltips.groups_info')"
-						class="black-to-gray"
-					/>
+					<InfoPopover :message="$t('tooltips.company')" ml-a my-a />
 				</div>
 			</div>
 

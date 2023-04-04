@@ -33,6 +33,7 @@
 					:deleteInvitation="deleteInvitation"
 					:preOpenCall="preCall"
 					:suggestOptions="suggestOptions"
+					infoKey="tooltips.project_roles"
 				/>
 
 				<AddBug />

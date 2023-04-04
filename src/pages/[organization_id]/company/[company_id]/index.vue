@@ -59,7 +59,7 @@
 
 				<h1 w-88 text-6>{{ $t("no_projects") }}</h1>
 
-				<p>{{ $t("please_add_new_one") }}</p>
+				<p>{{ $t("please_add_new_project") }}</p>
 
 				<ProjectCreateModal :primary_button="true" />
 			</section>

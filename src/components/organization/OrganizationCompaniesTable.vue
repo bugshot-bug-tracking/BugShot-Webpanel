@@ -1,16 +1,7 @@
 <template>
 	<AssignmentTable :title="$t('company', 2)" :list="companies">
 		<template #after-title>
-			<img
-				src="/src/assets/icons/info.svg"
-				alt=""
-				:title="$t('tooltips.groups_info')"
-				class="black-to-gray"
-				w-4
-				h-4
-				ml-4
-				my-a
-			/>
+			<InfoPopover :message="$t('tooltips.company')" ml-2 />
 		</template>
 
 		<template #item="item: Company">

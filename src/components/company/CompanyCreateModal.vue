@@ -36,7 +36,7 @@
 				@setColor="data.setColor"
 			/>
 
-			<AddMembers @change="data.setInviteMembers" />
+			<AddMembers @change="data.setInviteMembers" infoKey="tooltips.company_roles" />
 		</template>
 
 		<template #modal-submit_button>

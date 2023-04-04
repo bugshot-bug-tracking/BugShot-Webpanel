@@ -10,6 +10,7 @@
 					:delete="deleteMember"
 					:deleteInvitation="deleteInvitation"
 					:preOpenCall="preCall"
+					infoKey="tooltips.organization_roles"
 				>
 					<template #button="{ loading }">
 						<img

@@ -50,6 +50,7 @@
 									:deleteInvitation="deleteInvitation"
 									:preOpenCall="preCall"
 									:suggestOptions="suggestOptions"
+									infoKey="tooltips.company_roles"
 								>
 									<template #button="{ loading }">
 										<img

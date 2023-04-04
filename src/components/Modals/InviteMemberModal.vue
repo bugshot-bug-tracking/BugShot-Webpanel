@@ -26,7 +26,11 @@
 				</div>
 
 				<div class="roles">
-					<span>{{ $t("role") }}</span>
+					<span flex>
+						{{ $t("role") }}
+
+						<InfoPopover :message="infoKey ? $t(infoKey) : undefined" ml-1 my-a />
+					</span>
 
 					<div class="items">
 						<label class="role" v-for="role of roles">
@@ -90,6 +94,14 @@ const props = defineProps({
 		type: Array as PropType<string[]>,
 		required: false,
 		default: [],
+	},
+
+	infoKey: {
+		type: String,
+		required: false,
+		default: undefined,
+		description:
+			"Key used to get the information text for the roles from the translation files",
 	},
 });
 
@@ -173,14 +185,16 @@ form {
 	flex-direction: column;
 	align-items: center;
 	width: 100%;
-	gap: 1rem;
+	gap: 1.5rem;
 	padding: 1.5rem 3rem;
 
 	.roles {
 		display: flex;
-		gap: 1rem;
+		gap: 1.5rem;
 		justify-content: space-between;
 		user-select: none;
+		width: 100%;
+		align-items: center;
 
 		> span {
 			font-weight: bold;
@@ -192,17 +206,21 @@ form {
 			justify-items: center;
 			grid-template-columns: 1fr 1fr 1fr;
 			align-items: center;
-			gap: 0.5rem;
+			gap: 1rem;
+			width: 100%;
 		}
 
 		.role {
 			cursor: pointer;
+			display: flex;
 
 			span {
 				border: 1px solid #7a2ee6;
 				border-radius: 0.5rem;
 				padding: 0.25rem;
 				color: #7a2ee6;
+				width: 5rem;
+				text-align: center;
 			}
 
 			input:checked + span {
