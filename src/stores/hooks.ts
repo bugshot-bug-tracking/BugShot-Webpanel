@@ -89,7 +89,7 @@ export const useHookStore = defineStore("hooks", {
 			 *	- Manager role in the said resource
 			 */
 			if (
-				this.authStore.user.id ===
+				this.authStore.user?.id ===
 					this.organizationStore.organization?.attributes.creator?.id ||
 				this.organizationStore.organization?.attributes.role?.id === 1
 			) {
@@ -184,7 +184,7 @@ export const useHookStore = defineStore("hooks", {
 			});
 
 			if (
-				this.authStore.user.id === this.companyStore.company?.attributes.creator?.id ||
+				this.authStore.user?.id === this.companyStore.company?.attributes.creator?.id ||
 				this.companyStore.company?.attributes.role?.id === 1
 			) {
 				let existing_admin = this.channels.get("company_admin");

@@ -126,8 +126,8 @@ const screenshots = computed(() => store.getScreenshots);
 const attachmentsList = computed(() => store.getAttachments);
 const comments = computed(() =>
 	store.getComments?.sort((a, b) => {
-		if (a.attributes.crated_at < b.attributes.crated_at) return -1;
-		else if (a.attributes.crated_at > b.attributes.crated_at) return 1;
+		if (a.attributes.created_at < b.attributes.created_at) return -1;
+		else if (a.attributes.created_at > b.attributes.created_at) return 1;
 		return 0;
 	})
 );

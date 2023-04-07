@@ -24,7 +24,7 @@
 						first_name: comment.attributes.user.first_name,
 						last_name: comment.attributes.user.last_name,
 					}"
-					:owner="user.id === comment.attributes.user.id"
+					:owner="user?.id === comment.attributes.user.id"
 				/>
 
 				<div />
@@ -76,7 +76,7 @@ import { VueTribute } from "vue-tribute";
 import colors from "~/util/colors";
 import { maxlengthContentEditable } from "~/util/maxlength-contenteditable.js";
 import { useAuthStore } from "~/stores/auth";
-import { useReportsStore } from "~/stores/reports";
+import { Comment } from "~/models/Comment";
 
 const props = defineProps({
 	bug_id: {
@@ -85,7 +85,7 @@ const props = defineProps({
 	},
 	comments: {
 		required: true,
-		type: Array,
+		type: Array as PropType<Comment[]>,
 	},
 });
 

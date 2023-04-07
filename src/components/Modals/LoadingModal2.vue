@@ -1,5 +1,5 @@
 <template>
-	<MyModal :modelValue="show" :close="close" z-200>
+	<MyModal :modelValue="show" :close="close" :class="`z-${z_index ?? 200}`">
 		<div class="process">
 			<div class="loading" v-if="state === 0">
 				<slot name="loading">
@@ -62,6 +62,8 @@ const props = defineProps({
 		default: "",
 		description: "Message shown in the success/error state",
 	},
+
+	z_index: Number,
 });
 
 const emit = defineEmits(["close", "onSuccess", "onError"]);

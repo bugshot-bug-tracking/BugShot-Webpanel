@@ -118,5 +118,6 @@ const background_color = computed(() => {
 	text-transform: uppercase;
 	color: white;
 	padding: 0.5rem;
+	word-break: keep-all;
 }
 </style>
