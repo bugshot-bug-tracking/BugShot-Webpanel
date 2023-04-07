@@ -1,21 +1,13 @@
 <template>
 	<n-drawer v-model:show="active" :width="'30rem'" placement="right">
 		<n-drawer-content>
-			<n-scrollbar v-if="bug">
+			<n-scrollbar>
 				<div p-2 mr-2 flex flex-col gap-4>
-					<InfoStatic @close="active = false" :bug="bug">
-						<template #screenshot>
-							<Screenshot
-								:screenshots="screenshots ?? []"
-								:priority="bug.attributes.priority.id"
-								tab-1
-								:loading="store.screenshots == undefined"
-							/>
-						</template>
-					</InfoStatic>
+					<BugInfo @close="active = false" />
 
 					<AttachmentsList
-						:list="attachmentsList ?? []"
+						v-if="store.bug"
+						:list="store.getAttachments"
 						:error="attachments.error"
 						@update="attachments.update"
 						@upload="attachments.upload"
@@ -30,76 +22,80 @@
 						</template>
 					</AttachmentsList>
 
-					<Comments :comments="comments ?? []" :bug_id="bug.id" />
+					<Comments
+						v-if="store.bug"
+						:comments="store.getComments"
+						:bug_id="store.bug.id"
+					/>
 				</div>
 			</n-scrollbar>
 
-			<template #footer v-if="false">
-				<n-button text type="error" strong @click="deleteModal.open">
-					<img
-						src="/src/assets/icons/delete.svg"
-						alt="delete"
-						class="black-to-red"
-						size="large"
-					/>
-					{{ $t("delete.bug") }}
-				</n-button>
+			<template #footer>
+				<n-popconfirm v-model:show="popover.value" :show-icon="false" m-4>
+					<template #trigger>
+						<n-button text type="error" strong :disabled="store.loading_delete_bug">
+							<img
+								src="/src/assets/icons/delete.svg"
+								alt="delete"
+								class="black-to-red"
+								size="large"
+							/>
+
+							{{ $t("delete.bug") }}
+						</n-button>
+					</template>
+
+					<div m-4>{{ t("want_to_delete_this_bug") }}</div>
+
+					<template #action>
+						<div flex gap-2 my-2 mx-4>
+							<n-button
+								type="success"
+								ghost
+								strong
+								@click="popover.close"
+								:disabled="store.loading_delete_bug"
+							>
+								{{ $t("cancel") }}
+							</n-button>
+
+							<n-button
+								type="error"
+								@click="deleteBug"
+								:disabled="store.loading_delete_bug"
+								:loading="store.loading_delete_bug"
+							>
+								{{ $t("delete.delete") }}
+							</n-button>
+						</div>
+					</template>
+				</n-popconfirm>
 			</template>
 		</n-drawer-content>
-
-		<DeleteModal2
-			:show="deleteModal.show"
-			:header="deleteModal.header"
-			:text="deleteModal.text"
-			@close="deleteModal.clear"
-			@delete="deleteBug"
-			:callback="deleteBug"
-			z-10000
-		/>
-
-		<LoadingModal2
-			:show="loadingModal.show"
-			:state="loadingModal.state"
-			:message="loadingModal.message"
-			@close="loadingModal.clear()"
-		/>
 	</n-drawer>
 </template>
 
 <script setup lang="ts">
 import axios from "axios";
-import { useReportsStore } from "~/stores/reports";
+import { useBugStore } from "~/stores/bug";
+import toBase64 from "~/util/toBase64";
 
-let store = useReportsStore();
+let store = useBugStore();
 
 const { t } = useI18n();
 
-let bug = computed(() => {
-	return store.getBug;
-});
-
 let active = computed({
 	get: () => {
-		return bug.value?.id ? true : false;
+		return store.bug?.id ? true : false;
 	},
 	set: async () => {
 		try {
-			await store.setBug(undefined);
+			await store.init(undefined, "");
 		} catch (error) {
 			console.log(error);
 		}
 	},
 });
-
-const screenshots = computed(() => store.getScreenshots);
-const attachmentsList = computed(() => store.getAttachments);
-const comments = computed(() =>
-	store.getComments?.sort((a, b) => {
-		if (a.attributes.crated_at < b.attributes.crated_at) return -1;
-		else if (a.attributes.crated_at > b.attributes.crated_at) return 1;
-		return 0;
-	})
-);
 
 const attachments = reactive({
 	error: "",
@@ -111,7 +107,7 @@ const attachments = reactive({
 					let base64 = btoa((await toBase64(file)) as string);
 
 					axios
-						.post(`bugs/${bug.value.id}/attachments`, {
+						.post(`bugs/${store.bug!.id}/attachments`, {
 							designation: file.name,
 							base64: base64,
 						})
@@ -128,7 +124,7 @@ const attachments = reactive({
 
 	download: (id: string) => {
 		axios
-			.get(`bugs/${bug.value.id}/attachments/${id}`, {
+			.get(`bugs/${store.bug!.id}/attachments/${id}`, {
 				headers: {
 					"include-attachment-base64": "true",
 				},
@@ -149,7 +145,7 @@ const attachments = reactive({
 
 	delete: (id: string) => {
 		axios
-			.delete(`bugs/${bug.value.id}/attachments/${id}`)
+			.delete(`bugs/${store.bug!.id}/attachments/${id}`)
 			.then(() => {
 				attachments.update();
 			})
@@ -163,40 +159,17 @@ const attachments = reactive({
 	},
 });
 
-const assignShow = ref(false);
-
-const deleteModal = reactive({
-	show: false,
-	text: "test",
-	header: t("want_to_delete"),
-	callback: null,
-	clear: () => {
-		deleteModal.show = false;
-		deleteModal.text = "";
-		deleteModal.callback = null;
-	},
-	open: () => {
-		deleteModal.show = true;
-		deleteModal.text = bug.value.attributes.designation;
-	},
-});
-
-const loadingModal = reactive({
-	show: false,
-	state: 0,
-	message: "",
-	clear: () => {
-		loadingModal.show = false;
-		loadingModal.state = 0;
-		loadingModal.message = "";
+const popover = reactive({
+	value: false,
+	close: () => {
+		popover.value = false;
 	},
 });
 
 const deleteBug = async () => {
 	await store.deleteBug();
+	popover.close();
 };
-
-const loading = ref(true);
 </script>
 
 <style scoped></style>

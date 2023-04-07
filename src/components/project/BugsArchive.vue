@@ -22,8 +22,8 @@
 						"
 						:priority="bug.attributes.priority.id"
 						:badge="bug.attributes.deleted_at != undefined ? 'delete' : 'archive'"
-						:active="store.getBug?.id === bug.id"
-						@info="infoTab.open(bug.id)"
+						:active="useBugStore().bug?.id === bug.id"
+						@info="infoTab.open(bug.id, bug.attributes.status_id)"
 					/>
 				</li>
 			</ul>
@@ -31,11 +31,10 @@
 
 		<n-pagination v-model:page="page" :page-count="100" mx-a my-4 size="large" v-if="false" />
 	</article>
-
-	<BugDrawer />
 </template>
 
 <script setup lang="ts">
+import { useBugStore } from "~/stores/bug";
 import { useReportsStore } from "~/stores/reports";
 import dateFix from "~/util/dateFixISO";
 
@@ -71,10 +70,10 @@ onMounted(init);
 const infoTab = reactive({
 	show: false,
 	id: undefined as string | undefined,
-	open: (value: string) => {
+	open: (bug_id: string, status_id: string) => {
 		infoTab.show = true;
-		infoTab.id = value;
-		store.setArchivedBug(value);
+		infoTab.id = bug_id;
+		useBugStore().init(bug_id, status_id);
 	},
 	close: () => {
 		infoTab.show = false;

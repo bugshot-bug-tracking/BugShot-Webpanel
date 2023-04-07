@@ -9,11 +9,13 @@
 				/>
 			</div>
 
-			<a class="add" @click="emit('add')" v-if="!disableAdd">
+			<a v-if="!disableAdd" class="add" @click="showAssign = true">
 				<img src="/src/assets/icons/add.svg" alt="Add button" />
 			</a>
 		</div>
 	</div>
+
+	<AssignModal v-if="showAssign" @close="showAssign = false" />
 </template>
 
 <script setup lang="ts">
@@ -34,7 +36,7 @@ defineProps({
 	},
 });
 
-const emit = defineEmits(["add"]);
+const showAssign = ref(false);
 </script>
 
 <style lang="scss" scoped>

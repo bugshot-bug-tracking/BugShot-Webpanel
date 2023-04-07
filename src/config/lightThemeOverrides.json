@@ -52,7 +52,15 @@
 		"textColorGhostDisabledSuccess": "#15BE80FF",
 		"borderDisabledSuccess": "1px solid #18d992",
 		"textColorTextDisabledSuccess": "rgba(255, 255, 255, 0.82)",
-		"colorTertiary": "rgba(255, 255, 255, .08)"
+		"colorTertiary": "rgba(46, 51, 56, .05)",
+		"colorTertiaryHover": "rgba(46, 51, 56, .09)",
+		"colorTertiaryPressed": "rgba(46, 51, 56, .13)",
+		"textColorTertiary": "rgb(118, 124, 130)",
+		"colorQuaternaryHover": "rgba(46, 51, 56, .09)",
+		"borderRadiusMedium": "0.25rem",
+		"borderRadiusLarge": "0.25rem",
+		"borderRadiusSmall": "0.25rem",
+		"borderRadiusTiny": "0.25rem"
 	},
 	"Switch": {
 		"buttonHeightSmall": "0.625rem",
@@ -235,5 +243,8 @@
 		"footerBorderTop": "1px solid #eee5fc",
 		"closeBorderRadius": "0.25rem",
 		"resizableTriggerColorHover": "#15bc7fFF"
+	},
+	"Popover": {
+		"borderRadius": "0.5rem"
 	}
 }

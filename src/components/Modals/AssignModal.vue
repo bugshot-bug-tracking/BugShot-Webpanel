@@ -1,3 +1,4 @@
+<!-- this component needs to be refactored -->
 <template>
 	<div class="align-items-center d-flex justify-content-center modal">
 		<div class="wrapper" v-if="bug">
@@ -65,6 +66,7 @@
 			loadingModal.clear();
 			emit('close');
 		"
+		:z_index="10000"
 	/>
 </template>
 
@@ -73,26 +75,18 @@ import { useProjectStore } from "~/stores/project";
 import colors from "~/util/colors";
 import axios from "axios";
 import { User } from "~/models/User";
-import { useReportsStore } from "~/stores/reports";
+import { useBugStore } from "~/stores/bug";
 
 const emit = defineEmits(["close"]);
 
-const props = defineProps({
-	id: {
-		required: true,
-		type: String,
-		desc: "The bug ID",
-	},
-});
-
-const store = useReportsStore();
+const store = useBugStore();
 
 const { t } = useI18n();
 
 const list = ref<{ user: User; original: boolean; checked: boolean }[]>([]);
 
 const bug = computed(() => {
-	let bug = store.getBugById(props.id);
+	let bug = store.bug;
 
 	if (!bug?.id) list.value = [];
 	else {
@@ -275,6 +269,7 @@ const loadingModal = reactive({
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		word-break: keep-all;
 	}
 
 	&:hover {

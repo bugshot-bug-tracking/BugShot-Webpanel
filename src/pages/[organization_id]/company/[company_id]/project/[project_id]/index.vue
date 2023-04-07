@@ -71,17 +71,22 @@
 			<img src="/src/assets/animations/loading.svg" alt="loading circle" />
 		</div>
 
-		<n-tabs v-else type="bar" animated style="max-height: 100%" px-8 py-4 flex-1>
+		<n-tabs
+			v-else
+			type="bar"
+			v-model:value="tab"
+			animated
+			style="max-height: 100%"
+			px-8
+			py-4
+			flex-1
+		>
 			<n-tab-pane name="kanban">
 				<template #tab>
 					<img src="/src/assets/icons/board.svg" w-5 mr-1 class="tab-image" />
 					{{ $t("kanban") }}
 				</template>
 
-				<ProjectKanbanBoard />
-			</n-tab-pane>
-
-			<n-tab-pane name="kanbanboard" tab="KanbanBoard" v-if="false">
 				<Kanban />
 			</n-tab-pane>
 
@@ -93,12 +98,18 @@
 
 				<BugsArchive />
 			</n-tab-pane>
+
+			<template #suffix v-if="tab === 'kanban'">
+				<KanbanActions />
+			</template>
 		</n-tabs>
 	</T2Page>
+
+	<BugDrawer />
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "~/stores/auth";
+import { useBugStore } from "~/stores/bug";
 import { useCompanyStore } from "~/stores/company";
 import { useOrganizationStore } from "~/stores/organization";
 import { useProjectStore } from "~/stores/project";
@@ -123,6 +134,8 @@ const props = defineProps({
 		description: "Project ID",
 	},
 });
+
+const route = useRoute();
 
 const store = useProjectStore();
 
@@ -201,6 +214,31 @@ const suggestOptions = computed(() => {
 	const diffArray = all.filter((am) => !inside.some((im) => am.id === im.id));
 
 	return diffArray.map((m) => m.attributes.email);
+});
+
+const tabValue = ref("kanban");
+const tab = computed({
+	get: () => {
+		return tabValue.value;
+	},
+	set: (value: string) => {
+		tabValue.value = value;
+	},
+});
+
+watchEffect(() => {
+	try {
+		// if no bug queried exit
+		if (route.query.b == undefined) return;
+
+		const bug = reportsStore.getBugById(route.query.b as string);
+
+		if (bug?.id != undefined) {
+			useBugStore().init(bug.id, bug.attributes.status_id);
+		}
+	} catch (error) {
+		console.log(error);
+	}
 });
 </script>
 
