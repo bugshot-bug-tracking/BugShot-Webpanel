@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 
 import axios from "axios";
-import nProgress from "nprogress";
 import { Role } from "~/models/Role";
 import { Organization } from "~/models/Organization";
 import { useAuthStore } from "./auth";
@@ -17,8 +16,6 @@ export const useMainStore = defineStore("main", {
 	actions: {
 		async init() {
 			try {
-				nProgress.start();
-
 				this.$reset();
 
 				await this.fetchRoles();
@@ -26,8 +23,6 @@ export const useMainStore = defineStore("main", {
 				await this.initOrganizations();
 
 				await usePaymentsStore().init();
-
-				nProgress.done();
 			} catch (error) {
 				console.log(error);
 				throw error;
