@@ -88,6 +88,8 @@
 				</template>
 
 				<Kanban />
+
+				<BugDrawer />
 			</n-tab-pane>
 
 			<n-tab-pane name="archive" display-directive="if">
@@ -97,6 +99,8 @@
 				</template>
 
 				<BugsArchive />
+
+				<ArchiveBugDrawer />
 			</n-tab-pane>
 
 			<template #suffix v-if="tab === 'kanban'">
@@ -104,8 +108,6 @@
 			</template>
 		</n-tabs>
 	</T2Page>
-
-	<BugDrawer />
 </template>
 
 <script setup lang="ts">

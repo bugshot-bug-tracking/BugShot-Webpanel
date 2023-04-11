@@ -1,8 +1,8 @@
 <template>
 	<n-card
 		class="bug-card"
-		:class="{ active: active, loading: loading && store.loading_bug }"
-		@click="openBugInfo"
+		:class="{ active: active, loading: loading }"
+		@click="emit('open', bug.id, bug.attributes.status_id)"
 		cursor-pointer
 	>
 		<template #header>
@@ -61,7 +61,6 @@
 
 <script setup lang="ts">
 import { Bug } from "~/models/Bug";
-import { useBugStore } from "~/stores/bug";
 import timeToText from "~/util/timeToText";
 
 const props = defineProps({
@@ -75,13 +74,17 @@ const props = defineProps({
 		type: Boolean,
 		default: false,
 	},
+
+	loading: {
+		required: false,
+		type: Boolean,
+		default: false,
+	},
 });
 
+const emit = defineEmits<{ (event: "open", bug_id: string, status_id: string): void }>();
+
 const { t, d } = useI18n();
-
-const store = useBugStore();
-
-const loading = ref(false);
 
 const body = computed(() => {
 	if (props.bug.attributes.done_at != undefined) {
@@ -111,22 +114,6 @@ const body = computed(() => {
 		text: t("no_deadline"),
 	};
 });
-
-const openBugInfo = async () => {
-	console.log(props.bug);
-	if (loading.value === true) return;
-
-	try {
-		loading.value = true;
-
-		let r = await store.init(props.bug.id, props.bug.attributes.status_id);
-		console.log(r);
-	} catch (error: any) {
-		console.log(error);
-	} finally {
-		loading.value = false;
-	}
-};
 </script>
 
 <style scoped lang="scss">

@@ -13,7 +13,13 @@
 		<n-scrollbar>
 			<ul>
 				<li v-for="bug in bugs" :key="bug.id">
-					<BugCard :bug="bug" />
+					<BugCard
+						:bug="bug"
+						:active="bug.id === bugStore.bug?.id"
+						:key="bug.id"
+						@open="openBugInfo"
+						:loading="cardLoading === bug.id && bugStore.loading_bug"
+					/>
 				</li>
 			</ul>
 		</n-scrollbar>
@@ -23,10 +29,12 @@
 </template>
 
 <script setup lang="ts">
+import { useArchivedBugStore } from "~/stores/archivedBug";
 import { useBugStore } from "~/stores/bug";
 import { useReportsStore } from "~/stores/reports";
 
 const store = useReportsStore();
+const bugStore = useArchivedBugStore();
 
 const bugs = computed(() =>
 	store.getArchivedBugs?.sort((a, b) =>
@@ -68,6 +76,22 @@ const infoTab = reactive({
 		infoTab.id = undefined;
 	},
 });
+
+const cardLoading = ref(undefined as string | undefined);
+const openBugInfo = async (bug_id: string, status_id: string) => {
+	if (cardLoading.value != undefined) return;
+
+	try {
+		cardLoading.value = bug_id;
+
+		let r = await bugStore.init(bug_id, status_id);
+		console.log(r);
+	} catch (error: any) {
+		console.log(error);
+	} finally {
+		cardLoading.value = undefined;
+	}
+};
 </script>
 
 <style scoped lang="scss">

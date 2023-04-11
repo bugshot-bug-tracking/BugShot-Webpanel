@@ -12,6 +12,8 @@ declare module '@vue/runtime-core' {
     AddBug: typeof import('./components/AddBug.vue')['default']
     AddMembers: typeof import('./components/AddMembers.vue')['default']
     AdvancedSettings: typeof import('./components/Settings/AdvancedSettings.vue')['default']
+    ArchiveBugDrawer: typeof import('./components/project/ArchiveBugDrawer.vue')['default']
+    ArchiveBugInfo: typeof import('./components/project/ArchiveBugInfo.vue')['default']
     AssignedToList: typeof import('./components/AssignmentTable/AssignedToList.vue')['default']
     Assignees: typeof import('./components/Assignees.vue')['default']
     AssignmentTable: typeof import('./components/AssignmentTable/index.vue')['default']

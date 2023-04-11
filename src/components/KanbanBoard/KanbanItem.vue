@@ -85,8 +85,10 @@
 				<template #item="{ element }: { element: Bug }">
 					<BugCard
 						:bug="element"
-						:active="element.id === useBugStore().bug?.id"
+						:active="element.id === bugStore.bug?.id"
 						:key="element.id"
+						@open="openBugInfo"
+						:loading="cardLoading === element.id && bugStore.loading_bug"
 					/>
 				</template>
 			</draggable>
@@ -100,7 +102,6 @@ import { Bug } from "~/models/Bug";
 import { Status } from "~/models/Status";
 import { useBugStore } from "~/stores/bug";
 import { useReportsStore } from "~/stores/reports";
-import dateFix from "~/util/dateFixISO";
 
 const props = defineProps({
 	status: {
@@ -112,6 +113,7 @@ const props = defineProps({
 const emit = defineEmits(["delete"]);
 
 const store = useReportsStore();
+const bugStore = useBugStore();
 
 const loading = ref(false);
 
@@ -174,6 +176,22 @@ const bugMove = async (event: any) => {
 		});
 	} catch (error) {
 		console.log(error);
+	}
+};
+
+const cardLoading = ref(undefined as string | undefined);
+const openBugInfo = async (bug_id: string, status_id: string) => {
+	if (cardLoading.value != undefined) return;
+
+	try {
+		cardLoading.value = bug_id;
+
+		let r = await bugStore.init(bug_id, status_id);
+		console.log(r);
+	} catch (error: any) {
+		console.log(error);
+	} finally {
+		cardLoading.value = undefined;
 	}
 };
 </script>
