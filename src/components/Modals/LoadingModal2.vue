@@ -1,5 +1,5 @@
 <template>
-	<MyModal :modelValue="show" :close="close" :class="`z-${z_index ?? 200}`">
+	<MyModal :modelValue="show" :close="close" :style="{ 'z-index': z_index ?? 200 }">
 		<div class="process">
 			<div class="loading" v-if="state === 0">
 				<slot name="loading">
