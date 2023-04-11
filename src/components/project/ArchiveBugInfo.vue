@@ -202,9 +202,10 @@
 					</template>
 				</DropdownButton>
 
-				<n-h4>{{ $t("status") + ":" }}</n-h4>
+				<n-h4 v-if="store.getStatus">{{ $t("status") + ":" }}</n-h4>
 
 				<DropdownButton
+					v-if="store.getStatus"
 					dumb
 					:list="store.statuses"
 					:text="store.getStatus?.attributes.designation"
