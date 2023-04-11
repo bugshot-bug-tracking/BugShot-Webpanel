@@ -6,6 +6,8 @@ import { Invitation } from "~/models/Invitation";
 import { ProjectUserRole } from "~/models/ProjectUserRole";
 import { useCompanyStore } from "./company";
 import { useHookStore } from "./hooks";
+import { useDiscreteApi } from "~/composables/DiscreteApi";
+import { useGlobalI18n } from "~/composables/GlobalI18n";
 
 export const useProjectStore = defineStore("project", {
 	state: () => ({
@@ -79,6 +81,12 @@ export const useProjectStore = defineStore("project", {
 
 			useCompanyStore().updateProject(response);
 
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.success(t("messages.project_updated"));
+
 			await this.refresh();
 		},
 
@@ -89,6 +97,12 @@ export const useProjectStore = defineStore("project", {
 			await axios.delete(`companies/${this.company_id}/projects/${this.project_id}`);
 
 			useCompanyStore().removeProject(this.project_id);
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.info(t("messages.project_deleted"));
 		},
 
 		async fetchUsers() {
@@ -126,6 +140,12 @@ export const useProjectStore = defineStore("project", {
 
 			if (!this.pendingInvitations) this.pendingInvitations = [] as Invitation[];
 			this.pendingInvitations.push(response);
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.info(t("messages.invitation_sent"));
 		},
 
 		/**
@@ -140,6 +160,11 @@ export const useProjectStore = defineStore("project", {
 					role_id: payload.role_id,
 				})
 			).data.data;
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.info(t("messages.invitation_sent"));
 
 			return response;
 		},
@@ -152,6 +177,11 @@ export const useProjectStore = defineStore("project", {
 			);
 
 			if (index !== undefined && index !== -1) this.pendingInvitations!.splice(index, 1);
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.info(t("messages.invitation_deleted"));
 		},
 
 		async editMember(payload: { user_id: number; role_id: number }) {
@@ -172,6 +202,12 @@ export const useProjectStore = defineStore("project", {
 			let user = this.members?.find((x) => x.user.id === payload.user_id);
 
 			if (user) Object.assign(user.role, response.role);
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.success(t("messages.member_updated"));
 		},
 
 		async deleteMember(payload: { user_id: number }) {
@@ -180,6 +216,12 @@ export const useProjectStore = defineStore("project", {
 			let index = this.members?.findIndex((x) => x.user.id === payload.user_id);
 
 			if (index !== undefined && index !== -1) this.members!.splice(index, 1);
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.info(t("messages.member_removed"));
 		},
 
 		//TODO maybe update with better logic.

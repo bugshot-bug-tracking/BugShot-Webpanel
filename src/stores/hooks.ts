@@ -13,6 +13,7 @@ import { usePaymentsStore } from "./payments";
 import { useProjectStore } from "./project";
 import { useReportsStore } from "./reports";
 import { useSettingsStore } from "./settings";
+import { useBugStore } from "./bug";
 
 export const useHookStore = defineStore("hooks", {
 	state: () => ({
@@ -26,6 +27,7 @@ export const useHookStore = defineStore("hooks", {
 		projectStore: useProjectStore(),
 
 		reportsStore: useReportsStore(),
+		bugStore: useBugStore(),
 
 		paymentsStore: usePaymentsStore(),
 
@@ -89,7 +91,7 @@ export const useHookStore = defineStore("hooks", {
 			 *	- Manager role in the said resource
 			 */
 			if (
-				this.authStore.user.id ===
+				this.authStore.user?.id ===
 					this.organizationStore.organization?.attributes.creator?.id ||
 				this.organizationStore.organization?.attributes.role?.id === 1
 			) {
@@ -184,7 +186,7 @@ export const useHookStore = defineStore("hooks", {
 			});
 
 			if (
-				this.authStore.user.id === this.companyStore.company?.attributes.creator?.id ||
+				this.authStore.user?.id === this.companyStore.company?.attributes.creator?.id ||
 				this.companyStore.company?.attributes.role?.id === 1
 			) {
 				let existing_admin = this.channels.get("company_admin");
@@ -229,53 +231,53 @@ export const useHookStore = defineStore("hooks", {
 			let existing = this.channels.get("bug");
 			if (existing != undefined) echo.leave(existing);
 
-			if (this.reportsStore.bug === undefined) return;
+			if (this.bugStore.bug === undefined) return;
 
-			const api_channel = `bug.${this.reportsStore.bug.id}`;
+			const api_channel = `bug.${this.bugStore.bug.id}`;
 			let channel = echo.private(api_channel);
 
 			this.channels.set("bug", api_channel);
 
 			channel.listen(".members.updated", async () => {
-				await this.reportsStore.fetchBugUsers();
+				await this.bugStore.fetchBugUsers();
 			});
 
 			channel.listen(".screenshot.created", (data: any) => {
 				if (!(data && data.data.type === "Screenshot")) return console.log(data);
 
-				this.reportsStore.fetchScreenshots();
+				this.bugStore.fetchScreenshots();
 			});
 
 			channel.listen(".screenshot.deleted", (data: any) => {
 				if (!(data && data.data.type === "Screenshot")) return console.log(data);
 
-				let index = this.reportsStore.screenshots?.findIndex((x) => x.id === data.data.id);
+				let index = this.bugStore.screenshots?.findIndex((x) => x.id === data.data.id);
 
 				if (index == undefined || index === -1) return;
 
-				this.reportsStore.screenshots?.splice(index, 1);
+				this.bugStore.screenshots?.splice(index, 1);
 			});
 
 			channel.listen(".attachment.created", (data: any) => {
 				if (!(data && data.data.type === "Attachment")) return console.log(data);
 
-				this.reportsStore.attachments?.push(data.data);
+				this.bugStore.attachments?.push(data.data);
 			});
 
 			channel.listen(".attachment.deleted", (data: any) => {
 				if (!(data && data.data.type === "Attachment")) return console.log(data);
 
-				let index = this.reportsStore.attachments?.findIndex((x) => x.id === data.data.id);
+				let index = this.bugStore.attachments?.findIndex((x) => x.id === data.data.id);
 
 				if (index == undefined || index === -1) return;
 
-				this.reportsStore.attachments?.splice(index, 1);
+				this.bugStore.attachments?.splice(index, 1);
 			});
 
 			channel.listen(".comment.created", (data: any) => {
 				if (!(data && data.data.type === "Comment")) return console.log(data);
 
-				this.reportsStore.comments?.push(data.data);
+				this.bugStore.comments?.push(data.data);
 			});
 		},
 
@@ -364,7 +366,7 @@ export const useHookStore = defineStore("hooks", {
 				) {
 					Object.assign(oldBug!.attributes, newBug.attributes);
 
-					if (this.reportsStore.bug?.id === newBug.id) this.reportsStore.bug = oldBug;
+					if (this.bugStore.bug?.id === newBug.id) this.bugStore.refreshBug();
 
 					return;
 				}
@@ -420,10 +422,7 @@ export const useHookStore = defineStore("hooks", {
 
 					newStatus?.attributes.bugs?.push(newBug);
 
-					if (this.reportsStore.bug?.id === newBug.id)
-						this.reportsStore.bug = newStatus?.attributes.bugs?.find(
-							(x) => x.id === newBug.id
-						);
+					if (this.bugStore.bug?.id === newBug.id) this.bugStore.refreshBug();
 				}
 			});
 
@@ -443,8 +442,8 @@ export const useHookStore = defineStore("hooks", {
 				status.attributes.bugs?.splice(index, 1);
 
 				// helps to close the bug info tab without errors
-				if (this.reportsStore.bug?.id === (data.data as Bug).id)
-					this.reportsStore.bug!.attributes.deleted_at = new Date().toString();
+				if (this.bugStore.bug?.id === (data.data as Bug).id)
+					this.bugStore.init(undefined, "");
 			});
 
 			channel.listen(".bug.created", async (data: any) => {

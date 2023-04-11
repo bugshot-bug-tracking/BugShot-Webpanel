@@ -1,14 +1,19 @@
 <template>
 	<div class="bs-btn-dropdown" ref="root">
-		<div @click="active.toggle">
+		<div @click="active.toggle" flex>
 			<a
 				:style="{
 					background: color,
 					cursor: dumb ? 'unset' : 'pointer',
 				}"
 				:class="{ open: active.value }"
+				flex
 			>
-				<slot name="text">{{ text }}</slot>
+				<slot name="text">
+					<n-ellipsis line-clamp="1">
+						{{ text }}
+					</n-ellipsis>
+				</slot>
 			</a>
 			<img
 				v-if="!dumb"
@@ -30,6 +35,7 @@
 						v-for="[index, item] of list.entries()"
 						:key="index"
 						@click="emitSelect(item)"
+						style="word-break: keep-all; white-space: nowrap"
 					>
 						<slot name="item" v-bind="{ item }">
 							{{ item }}

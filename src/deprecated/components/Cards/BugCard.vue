@@ -11,25 +11,13 @@
 				{{ deadline }}
 			</p>
 
-			<div class="bs-priority" :class="`priority-` + priority" justify-self-end>
+			<div
+				class="bs-priority"
+				:class="`priority-` + priority"
+				justify-self-end
+			>
 				{{ priorities[priority - 1].text }}
 			</div>
-		</div>
-
-		<div v-if="badge" class="card-badge" :class="{ 'delete-badge': badge === 'delete' }">
-			<img
-				v-if="badge === 'archive'"
-				src="/src/assets/icons/archive.svg"
-				alt=""
-				class="black-to-white"
-			/>
-
-			<img
-				v-else-if="badge === 'delete'"
-				src="/src/assets/icons/delete.svg"
-				alt=""
-				class="black-to-white"
-			/>
 		</div>
 	</section>
 </template>
@@ -57,12 +45,6 @@ defineProps({
 		required: false,
 		type: Boolean,
 		default: false,
-	},
-
-	badge: {
-		required: false,
-		type: String as PropType<undefined | "archive" | "delete">,
-		default: undefined,
 	},
 });
 
@@ -92,7 +74,6 @@ const priorities = computed(() => [
 section {
 	padding: 0.5rem 1rem;
 	border-width: 2px;
-	position: relative;
 
 	h1 {
 		font-size: 1rem;
@@ -126,27 +107,6 @@ section {
 
 	div {
 		font-size: 0.75rem;
-	}
-}
-
-.card-badge {
-	position: absolute;
-	top: -0.75rem;
-	right: -0.75rem;
-	background: var(--bs-blue);
-	border-radius: 3.5rem;
-	padding: 0.25rem;
-	width: 1.5rem;
-	height: 1.5rem;
-	display: flex;
-
-	img {
-		width: 1rem;
-		height: 1rem;
-	}
-
-	&.delete-badge {
-		background: var(--bs-red);
 	}
 }
 </style>

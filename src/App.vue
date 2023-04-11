@@ -6,8 +6,8 @@
 	</main>
 
 	<n-config-provider
-		:locale="enUS"
-		:date-locale="dateEnUS"
+		:locale="locale"
+		:date-locale="dateLocale"
 		:theme="theme"
 		:theme-overrides="overrides"
 		flex
@@ -16,6 +16,7 @@
 	>
 		<RouterView />
 	</n-config-provider>
+
 	<Feedback />
 </template>
 
@@ -24,7 +25,7 @@ import { useI18nStore } from "~/stores/i18n";
 import { useAuthStore } from "./stores/auth";
 import { useMainStore } from "./stores/main";
 import { useTheme } from "~/composables/useThemes";
-import { enUS, dateEnUS } from "naive-ui"; //TODO WIP sync with locale store
+import { enUS, dateEnUS, deDE, dateDeDE } from "naive-ui";
 
 const { theme, overrides } = useTheme();
 
@@ -60,6 +61,27 @@ watch(user, async (newUser, oldUser) => {
 		} finally {
 			loading.value = false;
 		}
+});
+
+const locale = computed(() => {
+	switch (useI18nStore().getCurrentLocale) {
+		default:
+		case "en":
+			return enUS;
+
+		case "de":
+			return deDE;
+	}
+});
+const dateLocale = computed(() => {
+	switch (useI18nStore().getCurrentLocale) {
+		default:
+		case "en":
+			return dateEnUS;
+
+		case "de":
+			return dateDeDE;
+	}
 });
 </script>
 

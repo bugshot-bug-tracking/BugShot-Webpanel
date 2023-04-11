@@ -13,17 +13,12 @@
 		<n-scrollbar>
 			<ul>
 				<li v-for="bug in bugs" :key="bug.id">
-					<NewBugCard
-						:title="bug.attributes.designation"
-						:deadline="
-							bug.attributes.deadline
-								? $d(new Date(dateFix(bug.attributes.deadline)), 'short')
-								: $t('no_deadline')
-						"
-						:priority="bug.attributes.priority.id"
-						:badge="bug.attributes.deleted_at != undefined ? 'delete' : 'archive'"
-						:active="store.getBug?.id === bug.id"
-						@info="infoTab.open(bug.id)"
+					<BugCard
+						:bug="bug"
+						:active="bug.id === bugStore.bug?.id"
+						:key="bug.id"
+						@open="openBugInfo"
+						:loading="cardLoading === bug.id && bugStore.loading_bug"
 					/>
 				</li>
 			</ul>
@@ -31,15 +26,15 @@
 
 		<n-pagination v-model:page="page" :page-count="100" mx-a my-4 size="large" v-if="false" />
 	</article>
-
-	<BugDrawer />
 </template>
 
 <script setup lang="ts">
+import { useArchivedBugStore } from "~/stores/archivedBug";
+import { useBugStore } from "~/stores/bug";
 import { useReportsStore } from "~/stores/reports";
-import dateFix from "~/util/dateFixISO";
 
 const store = useReportsStore();
+const bugStore = useArchivedBugStore();
 
 const bugs = computed(() =>
 	store.getArchivedBugs?.sort((a, b) =>
@@ -71,16 +66,32 @@ onMounted(init);
 const infoTab = reactive({
 	show: false,
 	id: undefined as string | undefined,
-	open: (value: string) => {
+	open: (bug_id: string, status_id: string) => {
 		infoTab.show = true;
-		infoTab.id = value;
-		store.setArchivedBug(value);
+		infoTab.id = bug_id;
+		useBugStore().init(bug_id, status_id);
 	},
 	close: () => {
 		infoTab.show = false;
 		infoTab.id = undefined;
 	},
 });
+
+const cardLoading = ref(undefined as string | undefined);
+const openBugInfo = async (bug_id: string, status_id: string) => {
+	if (cardLoading.value != undefined) return;
+
+	try {
+		cardLoading.value = bug_id;
+
+		let r = await bugStore.init(bug_id, status_id);
+		console.log(r);
+	} catch (error: any) {
+		console.log(error);
+	} finally {
+		cardLoading.value = undefined;
+	}
+};
 </script>
 
 <style scoped lang="scss">

@@ -156,8 +156,8 @@ const hasMarker = computed(() => {
 .screenshot {
 	position: relative;
 	width: 100%;
-	height: 170px;
-	margin: 0.4em 0;
+	height: 10rem;
+
 	background-color: hsl(0, 0%, 50%);
 	border: 2px solid hsl(240, 100%, 95%);
 	overflow: hidden;

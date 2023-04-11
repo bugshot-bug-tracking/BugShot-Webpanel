@@ -1,7 +1,7 @@
 :root {
 	--bs-green: #18d992;
 	--bs-purple: #7a2ee6;
-	--bs-blue: #1849cf;
+	--bs-blue: #185ed8;
 	--bs-gray: #9ba5d7;
 	--bs-red: #f23838;
 	--bs-yellow: #ffb057;
@@ -230,7 +230,7 @@
 		text-align: left;
 		color: #9ba5d7;
 		text-transform: uppercase;
-		border-bottom: 1px solid #eee5fc;
+		border-bottom: 1px solid var(--bs-purple-light);
 		padding: 0.5rem;
 	}
 
@@ -246,26 +246,26 @@
 	flex-direction: column;
 	align-items: stretch;
 	background: #ffffff;
-	border: 1px solid #e5e5ff;
+	border: 1px solid var(--bs-purple-light);
 	border-radius: 1rem;
 	padding: 1.25rem;
 	box-shadow: 0 0.125rem 0.25rem hsla(0, 0%, 0%, 0.16);
 }
 
 .bs-b {
-	border: 1px solid #eee5fc;
+	border: 1px solid var(--bs-purple-light);
 }
 .bs-bt {
-	border-top: 1px solid #eee5fc;
+	border-top: 1px solid var(--bs-purple-light);
 }
 .bs-br {
-	border-right: 1px solid #eee5fc;
+	border-right: 1px solid var(--bs-purple-light);
 }
 .bs-bb {
-	border-bottom: 1px solid #eee5fc;
+	border-bottom: 1px solid var(--bs-purple-light);
 }
 .bs-bl {
-	border-left: 1px solid #eee5fc;
+	border-left: 1px solid var(--bs-purple-light);
 }
 
 .dot {
@@ -419,7 +419,7 @@
 		h5 {
 			font-weight: bold;
 			padding-bottom: 0.5rem;
-			border-bottom: 0.125rem solid #eee5fc;
+			border-bottom: 0.125rem solid var(--bs-purple-light);
 		}
 	}
 
@@ -467,34 +467,6 @@
 	top: 0;
 	left: 0;
 	background-color: white;
-}
-
-.bs-priority {
-	font-weight: normal;
-	font-size: 0.75rem;
-	line-height: 1rem;
-	color: #ffffff;
-	border-radius: 1rem;
-	width: fit-content;
-	height: fit-content;
-	padding: 0.25rem 0.5rem;
-	user-select: none;
-
-	&.priority-1 {
-		background-color: hsl(188, 80%, 47%);
-	}
-
-	&.priority-2 {
-		background-color: hsl(218, 80%, 47%);
-	}
-
-	&.priority-3 {
-		background-color: hsl(32, 100%, 67%);
-	}
-
-	&.priority-4 {
-		background-color: hsl(0, 90%, 60%);
-	}
 }
 
 .bs-badge {
