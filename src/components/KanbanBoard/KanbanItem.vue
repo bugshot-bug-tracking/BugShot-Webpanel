@@ -3,7 +3,11 @@
 		<div flex>
 			<div v-if="!flags.editMode" class="status-view">
 				<div flex gap-2 items-center>
-					<h6>{{ status.attributes.designation }}</h6>
+					<n-h4>
+						<n-ellipsis line-clamp="2" style="line-height: 1.4">
+							{{ status.attributes.designation }}
+						</n-ellipsis>
+					</n-h4>
 
 					<img
 						src="/src/assets/icons/edit.svg"
@@ -80,15 +84,9 @@
 			>
 				<template #item="{ element }: { element: Bug }">
 					<BugCard
-						:title="element.attributes.designation"
-						:deadline="
-							element.attributes.deadline
-								? $d(new Date(dateFix(element.attributes.deadline)), 'short')
-								: $t('no_deadline')
-						"
-						:priority="element.attributes.priority.id"
-						:active="useBugStore().bug?.id === element.id"
-						@info="openbug(element.id)"
+						:bug="element"
+						:active="element.id === useBugStore().bug?.id"
+						:key="element.id"
 					/>
 				</template>
 			</draggable>
@@ -178,17 +176,6 @@ const bugMove = async (event: any) => {
 		console.log(error);
 	}
 };
-
-const openbug = async (bug_id: string) => {
-	console.log(props.status.id, bug_id);
-
-	try {
-		let r = await useBugStore().init(bug_id, props.status.id);
-		console.log(r);
-	} catch (error: any) {
-		console.log(error);
-	}
-};
 </script>
 
 <style scoped lang="scss">
@@ -203,7 +190,7 @@ const openbug = async (bug_id: string) => {
 	}
 }
 
-h6 {
+h4 {
 	word-break: break-word;
 	margin: unset;
 	text-align: left;

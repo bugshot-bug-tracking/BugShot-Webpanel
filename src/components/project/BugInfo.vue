@@ -37,7 +37,7 @@
 
 	<n-card class="bug-info-card" v-else>
 		<template #header>
-			<div v-if="!bugData.flag1" flex justify-between h-8>
+			<div v-if="!bugData.flag1" flex justify-between min-h-8>
 				<div flex items-center>
 					<n-h2>
 						{{ store.bug.attributes.designation }}
@@ -99,7 +99,7 @@
 		<div flex flex-col gap-4>
 			<div grid style="grid-template-columns: 1fr 4fr 2fr">
 				<div>
-					<n-h4>{{ $t("id") }}</n-h4>
+					<n-h4> {{ $t("id") }}</n-h4>
 					<p style="font-size: 0.875rem">
 						{{ store.bug.attributes.ai_id }}
 					</p>

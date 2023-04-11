@@ -86,7 +86,7 @@ const { t } = useI18n();
 
 let active = computed({
 	get: () => {
-		return store.bug?.id ? true : false;
+		return store.active;
 	},
 	set: async () => {
 		try {
@@ -171,5 +171,3 @@ const deleteBug = async () => {
 	popover.close();
 };
 </script>
-
-<style scoped></style>

@@ -13,18 +13,7 @@
 		<n-scrollbar>
 			<ul>
 				<li v-for="bug in bugs" :key="bug.id">
-					<NewBugCard
-						:title="bug.attributes.designation"
-						:deadline="
-							bug.attributes.deadline
-								? $d(new Date(dateFix(bug.attributes.deadline)), 'short')
-								: $t('no_deadline')
-						"
-						:priority="bug.attributes.priority.id"
-						:badge="bug.attributes.deleted_at != undefined ? 'delete' : 'archive'"
-						:active="useBugStore().bug?.id === bug.id"
-						@info="infoTab.open(bug.id, bug.attributes.status_id)"
-					/>
+					<BugCard :bug="bug" />
 				</li>
 			</ul>
 		</n-scrollbar>
@@ -36,7 +25,6 @@
 <script setup lang="ts">
 import { useBugStore } from "~/stores/bug";
 import { useReportsStore } from "~/stores/reports";
-import dateFix from "~/util/dateFixISO";
 
 const store = useReportsStore();
 

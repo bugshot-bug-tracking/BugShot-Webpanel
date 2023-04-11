@@ -81,7 +81,7 @@
 			py-4
 			flex-1
 		>
-			<n-tab-pane name="kanban">
+			<n-tab-pane name="kanban" display-directive="show">
 				<template #tab>
 					<img src="/src/assets/icons/board.svg" w-5 mr-1 class="tab-image" />
 					{{ $t("kanban") }}

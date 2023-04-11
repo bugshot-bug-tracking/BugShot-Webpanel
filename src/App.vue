@@ -16,6 +16,7 @@
 	>
 		<RouterView />
 	</n-config-provider>
+
 	<Feedback />
 </template>
 
@@ -24,7 +25,7 @@ import { useI18nStore } from "~/stores/i18n";
 import { useAuthStore } from "./stores/auth";
 import { useMainStore } from "./stores/main";
 import { useTheme } from "~/composables/useThemes";
-import { enUS, dateEnUS, deDE, dateDeDE } from "naive-ui"; //TODO WIP sync with locale store
+import { enUS, dateEnUS, deDE, dateDeDE } from "naive-ui";
 
 const { theme, overrides } = useTheme();
 

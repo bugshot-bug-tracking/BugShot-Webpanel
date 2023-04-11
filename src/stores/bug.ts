@@ -13,8 +13,14 @@ import { useReportsStore } from "./reports";
 
 export const useBugStore = defineStore("bug", {
 	state: () => ({
+		// used for canceling fetch requests if the store was re-initialized
+		controller: new AbortController(),
+
 		project: useProjectStore().project,
 		statuses: useReportsStore().statuses,
+
+		// used as a flag for the BugDrawer
+		active: false,
 
 		loading: false,
 		loading_bug: false,
@@ -36,6 +42,7 @@ export const useBugStore = defineStore("bug", {
 	actions: {
 		async init(bug_id: string | undefined, status_id: string) {
 			try {
+				this.controller.abort("New initialization");
 				this.$reset();
 
 				if (bug_id === undefined) {
@@ -44,6 +51,8 @@ export const useBugStore = defineStore("bug", {
 				}
 
 				this.loading = true;
+
+				this.active = true;
 
 				await this.fetchBug(bug_id, status_id);
 
@@ -77,8 +86,11 @@ export const useBugStore = defineStore("bug", {
 		async fetchBug(id: string, status_id: string) {
 			try {
 				this.loading_bug = true;
-				let response = (await axios.get(`statuses/${status_id}/bugs/${id}`)).data
-					.data as Bug;
+				let response = (
+					await axios.get(`statuses/${status_id}/bugs/${id}`, {
+						signal: this.controller.signal,
+					})
+				).data.data as Bug;
 
 				this.bug = response;
 			} catch (error: any) {
@@ -95,8 +107,11 @@ export const useBugStore = defineStore("bug", {
 			try {
 				this.loading_screenshots = true;
 
-				let screenshots = (await axios.get(`bugs/${this.bug.id}/screenshots`)).data
-					.data as Screenshot[];
+				let screenshots = (
+					await axios.get(`bugs/${this.bug.id}/screenshots`, {
+						signal: this.controller.signal,
+					})
+				).data.data as Screenshot[];
 
 				screenshots.forEach((x) => (x.attributes.base64 = atob(x.attributes.base64)));
 
@@ -115,8 +130,11 @@ export const useBugStore = defineStore("bug", {
 			try {
 				this.loading_attachments = true;
 
-				let attachments = (await axios.get(`bugs/${this.bug.id}/attachments`)).data
-					.data as Attachment[];
+				let attachments = (
+					await axios.get(`bugs/${this.bug.id}/attachments`, {
+						signal: this.controller.signal,
+					})
+				).data.data as Attachment[];
 
 				this.attachments = attachments;
 			} catch (error: any) {
@@ -133,8 +151,11 @@ export const useBugStore = defineStore("bug", {
 			try {
 				this.loading_comments = true;
 
-				let comments = (await axios.get(`bugs/${this.bug.id}/comments`)).data
-					.data as Comment[];
+				let comments = (
+					await axios.get(`bugs/${this.bug.id}/comments`, {
+						signal: this.controller.signal,
+					})
+				).data.data as Comment[];
 
 				this.comments = comments;
 			} catch (error: any) {
@@ -151,8 +172,11 @@ export const useBugStore = defineStore("bug", {
 			try {
 				this.loading_assignees = true;
 
-				let users = (await axios.get(`bugs/${this.bug.id}/users`)).data
-					.data as BugUserRole[];
+				let users = (
+					await axios.get(`bugs/${this.bug.id}/users`, {
+						signal: this.controller.signal,
+					})
+				).data.data as BugUserRole[];
 
 				this.assignees = users;
 			} catch (error: any) {
@@ -218,7 +242,9 @@ export const useBugStore = defineStore("bug", {
 
 					...{ priority_id: changes.priority_id ?? this.bug.attributes.priority.id },
 
-					...{ order_number: changes.order_number ?? this.bug.attributes.order_number },
+					...{
+						order_number: changes.order_number ?? this.bug.attributes.order_number,
+					},
 
 					// if undefined it means that no change was made; if null it means resetting the deadline;
 					...{

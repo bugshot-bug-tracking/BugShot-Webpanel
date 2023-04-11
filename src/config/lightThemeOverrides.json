@@ -246,5 +246,10 @@
 	},
 	"Popover": {
 		"borderRadius": "0.5rem"
+	},
+	"Tag": {
+		"heightTiny": "1.5rem",
+		"closeIconSizeTiny": "0.75rem",
+		"closeSizeTiny": "1rem"
 	}
 }
