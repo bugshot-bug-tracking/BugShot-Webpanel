@@ -21,7 +21,6 @@ declare module '@vue/runtime-core' {
     Avatar: typeof import('./components/Avatar.vue')['default']
     Badge: typeof import('./components/ui/atoms/Badge.vue')['default']
     Banner: typeof import('./components/Banner.vue')['default']
-    BugCard: typeof import('./components/Cards/BugCard.vue')['default']
     BugDrawer: typeof import('./components/project/BugDrawer.vue')['default']
     BugInfo: typeof import('./components/project/BugInfo.vue')['default']
     BugsArchive: typeof import('./components/project/BugsArchive.vue')['default']
