@@ -5,6 +5,8 @@ import { Role } from "~/models/Role";
 import { Organization } from "~/models/Organization";
 import { useAuthStore } from "./auth";
 import { usePaymentsStore } from "./payments";
+import { useDiscreteApi } from "~/composables/DiscreteApi";
+import { useGlobalI18n } from "~/composables/GlobalI18n";
 
 export const useMainStore = defineStore("main", {
 	state: () => ({
@@ -57,6 +59,12 @@ export const useMainStore = defineStore("main", {
 			let response = (await axios.post("organizations", { designation })).data.data;
 
 			this.addOrganization(response);
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.success(t("messages.organization_created"));
 			return response;
 		},
 

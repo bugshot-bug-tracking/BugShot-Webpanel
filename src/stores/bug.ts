@@ -10,6 +10,8 @@ import { BugUserRole } from "~/models/BugUserRole";
 import { useHookStore } from "./hooks";
 import { Comment } from "~/models/Comment";
 import { useReportsStore } from "./reports";
+import { useDiscreteApi } from "~/composables/DiscreteApi";
+import { useGlobalI18n } from "~/composables/GlobalI18n";
 
 export const useBugStore = defineStore("bug", {
 	state: () => ({
@@ -206,6 +208,12 @@ export const useBugStore = defineStore("bug", {
 				status.attributes.bugs?.splice(index, 1);
 
 				this.$reset();
+
+				const { message } = useDiscreteApi();
+				// @ts-ignore
+				const { t } = useGlobalI18n();
+
+				message.info(t("messages.bug_deleted"));
 			} catch (error: any) {
 				console.log(error);
 				throw error;
@@ -324,6 +332,12 @@ export const useBugStore = defineStore("bug", {
 			// update the bug in the status list also
 			let externalBug = useReportsStore().getBugById(this.bug.id);
 			if (externalBug) Object.assign(externalBug.attributes, newBug.attributes);
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.success(t("messages.bug_updated"));
 		},
 	},
 

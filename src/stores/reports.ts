@@ -7,6 +7,8 @@ import { Bug } from "~/models/Bug";
 import { useProjectStore } from "./project";
 import { useHookStore } from "./hooks";
 import { useBugStore } from "./bug";
+import { useDiscreteApi } from "~/composables/DiscreteApi";
+import { useGlobalI18n } from "~/composables/GlobalI18n";
 
 export const useReportsStore = defineStore("reports", {
 	state: () => ({
@@ -67,7 +69,13 @@ export const useReportsStore = defineStore("reports", {
 				order_number: order_number,
 			});
 
-			this.refresh();
+			await this.refresh();
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.success(t("messages.status_created"));
 		},
 
 		async updateStatus({
@@ -95,6 +103,12 @@ export const useReportsStore = defineStore("reports", {
 			).data.data as Status;
 
 			const oldStatus = status;
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.success(t("messages.status_updated"));
 
 			if (oldStatus.attributes.order_number === newStatus.attributes.order_number)
 				return Object.assign(oldStatus.attributes, newStatus.attributes);
@@ -131,6 +145,12 @@ export const useReportsStore = defineStore("reports", {
 			});
 
 			this.refresh();
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.info(t("messages.status_deleted"));
 		},
 
 		async createBug({
@@ -176,6 +196,12 @@ export const useReportsStore = defineStore("reports", {
 				}
 
 			this.refresh();
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.success(t("messages.bug_created"));
 		},
 
 		async moveBug({
@@ -279,6 +305,12 @@ export const useReportsStore = defineStore("reports", {
 			// update the bug in the status list also
 			let activeBug = useBugStore().bug;
 			if (activeBug && activeBug.id === newBug.id) useBugStore().refreshBug();
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.info(t("messages.bug_moved"));
 		},
 
 		async fetchArchivedBugs() {
