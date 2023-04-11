@@ -7,6 +7,8 @@ import { Invitation } from "~/models/Invitation";
 import { Project } from "~/models/Project";
 import { useOrganizationStore } from "./organization";
 import { useHookStore } from "./hooks";
+import { useDiscreteApi } from "~/composables/DiscreteApi";
+import { useGlobalI18n } from "~/composables/GlobalI18n";
 
 export const useCompanyStore = defineStore("company", {
 	state: () => ({
@@ -87,6 +89,12 @@ export const useCompanyStore = defineStore("company", {
 
 			useOrganizationStore().updateCompany(response);
 
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.success(t("messages.company_updated"));
+
 			await this.refresh();
 		},
 
@@ -99,6 +107,12 @@ export const useCompanyStore = defineStore("company", {
 			);
 
 			useOrganizationStore().removeCompany(this.company_id);
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.info(t("messages.company_deleted"));
 		},
 
 		async fetchUsers() {
@@ -136,6 +150,12 @@ export const useCompanyStore = defineStore("company", {
 
 			if (!this.pendingInvitations) this.pendingInvitations = [] as Invitation[];
 			this.pendingInvitations.push(response);
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.info(t("messages.invitation_sent"));
 		},
 
 		/**
@@ -150,6 +170,11 @@ export const useCompanyStore = defineStore("company", {
 					role_id: payload.role_id,
 				})
 			).data.data;
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.info(t("messages.invitation_sent"));
 
 			return response;
 		},
@@ -162,6 +187,12 @@ export const useCompanyStore = defineStore("company", {
 			);
 
 			if (index !== undefined && index !== -1) this.pendingInvitations!.splice(index, 1);
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.info(t("messages.invitation_deleted"));
 		},
 
 		async editMember(payload: { user_id: number; role_id: number }) {
@@ -180,6 +211,12 @@ export const useCompanyStore = defineStore("company", {
 			let user = this.members?.find((x) => x.user.id === payload.user_id);
 
 			if (user) Object.assign(user.role, response.role);
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.success(t("messages.member_updated"));
 		},
 
 		async deleteMember(payload: { user_id: number }) {
@@ -188,6 +225,12 @@ export const useCompanyStore = defineStore("company", {
 			let index = this.members?.findIndex((x) => x.user.id === payload.user_id);
 
 			if (index !== undefined && index !== -1) this.members!.splice(index, 1);
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.info(t("messages.member_removed"));
 		},
 
 		async fetchProjects() {
@@ -235,6 +278,12 @@ export const useCompanyStore = defineStore("company", {
 			).data.data;
 
 			this.addProject(response);
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.success(t("messages.project_created"));
 
 			return response;
 		},

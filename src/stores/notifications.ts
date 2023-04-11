@@ -4,6 +4,8 @@ import { useAuthStore } from "./auth";
 import axios from "axios";
 import { echo } from "~/composables/listeners";
 import { Invitation } from "~/models/Invitation";
+import { useDiscreteApi } from "~/composables/DiscreteApi";
+import { useGlobalI18n } from "~/composables/GlobalI18n";
 
 export const useNotificationStore = defineStore("notification", {
 	state: () => ({
@@ -18,7 +20,7 @@ export const useNotificationStore = defineStore("notification", {
 			try {
 				this.unhook();
 				let notifications = (
-					await axios.get(`users/${this.user.id}/invitations`, {
+					await axios.get(`users/${this.user?.id}/invitations`, {
 						headers: {
 							"include-organization-id": true,
 						},
@@ -35,11 +37,17 @@ export const useNotificationStore = defineStore("notification", {
 
 		async accept(id: number) {
 			try {
-				let response = await axios.get(`users/${this.user.id}/invitations/${id}/accept`);
+				let response = await axios.get(`users/${this.user?.id}/invitations/${id}/accept`);
 
 				let item = this.notifications.find((x) => x.id === id);
 
 				if (item) item.status = "accepted";
+
+				const { message } = useDiscreteApi();
+				// @ts-ignore
+				const { t } = useGlobalI18n();
+
+				message.info(t("messages.invitation_accepted"));
 
 				return response.data;
 			} catch (error) {
@@ -51,11 +59,17 @@ export const useNotificationStore = defineStore("notification", {
 
 		async decline(id: number) {
 			try {
-				let response = await axios.get(`users/${this.user.id}/invitations/${id}/decline`);
+				let response = await axios.get(`users/${this.user?.id}/invitations/${id}/decline`);
 
 				let item = this.notifications.find((x) => x.id === id);
 
 				if (item) item.status = "declined";
+
+				const { message } = useDiscreteApi();
+				// @ts-ignore
+				const { t } = useGlobalI18n();
+
+				message.info(t("messages.invitation_declined"));
 
 				return response.data;
 			} catch (error) {

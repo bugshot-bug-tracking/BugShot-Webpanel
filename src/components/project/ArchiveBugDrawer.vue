@@ -3,86 +3,49 @@
 		<n-drawer-content>
 			<n-scrollbar>
 				<div p-2 mr-2 flex flex-col gap-4>
-					<BugInfo @close="active = false" />
+					<ArchiveBugInfo @close="active = false" />
 
-					<AttachmentsList
-						v-if="store.bug"
-						:list="store.getAttachments"
-						:error="attachments.error"
-						@update="attachments.update"
-						@upload="attachments.upload"
-					>
-						<template #item="{ item }">
-							<AttachmentsItem
-								:name="item.attributes.designation"
-								:id="item.id"
-								@download="attachments.download"
-								@delete="attachments.delete"
-							/>
-						</template>
-					</AttachmentsList>
+					<div @click.capture.prevent="" style="opacity: 0.5" relative>
+						<div absolute style="inset: 0; width: 100%; height: 100%; z-index: 1" />
+						<AttachmentsList
+							v-if="store.bug"
+							:list="store.getAttachments"
+							:error="attachments.error"
+							@update="attachments.update"
+							@upload="attachments.upload"
+						>
+							<template #item="{ item }">
+								<AttachmentsItem
+									:name="item.attributes.designation"
+									:id="item.id"
+									@download="attachments.download"
+									@delete="attachments.delete"
+								/>
+							</template>
+						</AttachmentsList>
+					</div>
 
-					<Comments
-						v-if="store.bug"
-						:comments="store.getComments"
-						:bug_id="store.bug.id"
-					/>
+					<div @click.capture.prevent="" style="opacity: 0.5" relative>
+						<div absolute style="inset: 0; width: 100%; height: 100%; z-index: 1" />
+
+						<Comments
+							v-if="store.bug"
+							:comments="store.getComments"
+							:bug_id="store.bug.id"
+						/>
+					</div>
 				</div>
 			</n-scrollbar>
-
-			<template #footer>
-				<n-popconfirm v-model:show="popover.value" :show-icon="false" m-4>
-					<template #trigger>
-						<n-button text type="error" strong :disabled="store.loading_delete_bug">
-							<img
-								src="/src/assets/icons/delete.svg"
-								alt="delete"
-								class="black-to-red"
-								size="large"
-							/>
-
-							{{ $t("delete.bug") }}
-						</n-button>
-					</template>
-
-					<div m-4>{{ t("want_to_delete_this_bug") }}</div>
-
-					<template #action>
-						<div flex gap-2 my-2 mx-4>
-							<n-button
-								type="success"
-								ghost
-								strong
-								@click="popover.close"
-								:disabled="store.loading_delete_bug"
-							>
-								{{ $t("cancel") }}
-							</n-button>
-
-							<n-button
-								type="error"
-								@click="deleteBug"
-								:disabled="store.loading_delete_bug"
-								:loading="store.loading_delete_bug"
-							>
-								{{ $t("delete.delete") }}
-							</n-button>
-						</div>
-					</template>
-				</n-popconfirm>
-			</template>
 		</n-drawer-content>
 	</n-drawer>
 </template>
 
 <script setup lang="ts">
 import axios from "axios";
-import { useBugStore } from "~/stores/bug";
+import { useArchivedBugStore } from "~/stores/archivedBug";
 import toBase64 from "~/util/toBase64";
 
-let store = useBugStore();
-
-const { t } = useI18n();
+let store = useArchivedBugStore();
 
 let active = computed({
 	get: () => {
@@ -165,9 +128,4 @@ const popover = reactive({
 		popover.value = false;
 	},
 });
-
-const deleteBug = async () => {
-	await store.deleteBug();
-	popover.close();
-};
 </script>

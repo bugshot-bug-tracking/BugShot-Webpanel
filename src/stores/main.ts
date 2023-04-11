@@ -1,11 +1,12 @@
 import { defineStore } from "pinia";
 
 import axios from "axios";
-import nProgress from "nprogress";
 import { Role } from "~/models/Role";
 import { Organization } from "~/models/Organization";
 import { useAuthStore } from "./auth";
 import { usePaymentsStore } from "./payments";
+import { useDiscreteApi } from "~/composables/DiscreteApi";
+import { useGlobalI18n } from "~/composables/GlobalI18n";
 
 export const useMainStore = defineStore("main", {
 	state: () => ({
@@ -17,8 +18,6 @@ export const useMainStore = defineStore("main", {
 	actions: {
 		async init() {
 			try {
-				nProgress.start();
-
 				this.$reset();
 
 				await this.fetchRoles();
@@ -26,8 +25,6 @@ export const useMainStore = defineStore("main", {
 				await this.initOrganizations();
 
 				await usePaymentsStore().init();
-
-				nProgress.done();
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -62,6 +59,12 @@ export const useMainStore = defineStore("main", {
 			let response = (await axios.post("organizations", { designation })).data.data;
 
 			this.addOrganization(response);
+
+			const { message } = useDiscreteApi();
+			// @ts-ignore
+			const { t } = useGlobalI18n();
+
+			message.success(t("messages.organization_created"));
 			return response;
 		},
 

@@ -1,5 +1,6 @@
 import { Attachment } from "./Attachment";
 import { BugUserRole } from "./BugUserRole";
+import { Comment } from "./Comment";
 import { Priority } from "./Priority";
 import { Screenshot } from "./Screenshot";
 import { User } from "./User";
@@ -27,9 +28,10 @@ export interface Bug {
 		done_at: string;
 		archived_at: string;
 		deleted_at: string;
+
+		users?: BugUserRole[];
+		screenshots?: Screenshot[];
+		attachments?: Attachment[];
+		comments?: Comment[];
 	};
-	users?: BugUserRole[];
-	screenshots?: Screenshot[];
-	attachments?: Attachment[];
-	comments?: Comment[];
 }
