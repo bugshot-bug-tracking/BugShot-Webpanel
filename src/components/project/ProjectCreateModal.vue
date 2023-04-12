@@ -6,7 +6,7 @@
 		@close="reset"
 	>
 		<template #button-text>
-			<span font-bold>{{ $t("create.project") }}</span>
+			<span>{{ $t("create.project") }}</span>
 		</template>
 
 		<template #modal-header>

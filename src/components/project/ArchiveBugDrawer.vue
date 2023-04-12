@@ -25,15 +25,11 @@
 						</AttachmentsList>
 					</div>
 
-					<div @click.capture.prevent="" style="opacity: 0.5" relative>
-						<div absolute style="inset: 0; width: 100%; height: 100%; z-index: 1" />
-
-						<Comments
-							v-if="store.bug"
-							:comments="store.getComments"
-							:bug_id="store.bug.id"
-						/>
-					</div>
+					<BugComments
+						:list="store.getComments"
+						:loading="store.loading && store.loading_comments"
+						:disabled="true"
+					/>
 				</div>
 			</n-scrollbar>
 		</n-drawer-content>
