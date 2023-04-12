@@ -10,7 +10,7 @@ import { BugUserRole } from "~/models/BugUserRole";
 import { Comment } from "~/models/Comment";
 import { useReportsStore } from "./reports";
 
-export const useArchivedBugStore = defineStore("archived-bug", {
+export const useArchivedBugStore = defineStore("archivedBug", {
 	state: () => ({
 		// used for canceling fetch requests if the store was re-initialized
 		controller: new AbortController(),
