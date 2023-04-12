@@ -7,7 +7,7 @@
 		:disabled="disabled"
 	>
 		<template #button-text>
-			<span uppercase font-bold>{{ $t("create.company") }}</span>
+			<span>{{ $t("create.company") }}</span>
 		</template>
 
 		<template #modal-header>
