@@ -1,8 +1,10 @@
 <template>
-	<a class="bs-btn green add-button" @click="tabOpen = true">
-		<img src="/src/assets/icons/add.svg" alt="add" class="black-to-white" />
+	<n-button type="success" round size="large" @click="tabOpen = true">
+		<template #icon>
+			<img src="/src/assets/icons/add.svg" alt="add" class="black-to-white" />
+		</template>
 		{{ t("add.bug") }}
-	</a>
+	</n-button>
 
 	<div v-if="tabOpen" class="bs-tab bs-scroll">
 		<form @submit.prevent="submit" flex flex-col gap-4>

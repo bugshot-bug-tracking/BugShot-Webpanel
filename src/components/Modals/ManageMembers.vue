@@ -1,18 +1,13 @@
 <template>
 	<div @click="modal.open">
 		<slot name="button" v-bind="{ loading: modal.loading }">
-			<a class="bs-btn purple" :class="{ loading: modal.loading }">
-				<div flex items-center gap-2>
-					<img
-						src="/src/assets/icons/people.svg"
-						alt="peoples"
-						class="black-to-white"
-						w-5
-						h-5
-					/>
-					{{ $t("member", 2) }}
-				</div>
-			</a>
+			<n-button type="primary" round size="large" :loading="modal.loading">
+				<template #icon>
+					<img src="/src/assets/icons/people.svg" alt="peoples" class="black-to-white" />
+				</template>
+
+				{{ $t("member", 2) }}
+			</n-button>
 		</slot>
 	</div>
 

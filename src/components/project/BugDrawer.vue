@@ -22,10 +22,10 @@
 						</template>
 					</AttachmentsList>
 
-					<Comments
-						v-if="store.bug"
-						:comments="store.getComments"
-						:bug_id="store.bug.id"
+					<BugComments
+						:list="store.getComments"
+						:loading="store.loading && store.loading_comments"
+						:submit="submitComment"
 					/>
 				</div>
 			</n-scrollbar>
@@ -169,5 +169,9 @@ const popover = reactive({
 const deleteBug = async () => {
 	await store.deleteBug();
 	popover.close();
+};
+
+const submitComment = async (message: string, users: number[]) => {
+	await store.createComment({ message: message, users: users.map((u) => ({ user_id: u })) });
 };
 </script>

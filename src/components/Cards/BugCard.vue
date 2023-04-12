@@ -6,11 +6,11 @@
 		cursor-pointer
 	>
 		<template #header>
-			<n-h4 class="bs-bb" pb-2>
+			<n-h6 class="bs-bb" pb-2>
 				<n-ellipsis style="word-break: break-all; max-width: 20rem; line-height: 1.4">
 					{{ bug.attributes.designation }}
 				</n-ellipsis>
-			</n-h4>
+			</n-h6>
 		</template>
 
 		<div grid style="grid-template-columns: 4fr 1fr; column-gap: 0.5rem">
@@ -122,7 +122,7 @@ span {
 	margin: unset;
 }
 
-h4 {
+h6 {
 	margin: unset;
 	border-width: 2px;
 }

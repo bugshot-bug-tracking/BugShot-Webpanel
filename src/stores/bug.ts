@@ -339,6 +339,18 @@ export const useBugStore = defineStore("bug", {
 
 			message.success(t("messages.bug_updated"));
 		},
+
+		async createComment({ message, users }: { message: string; users: { user_id: number }[] }) {
+			if (!this.bug) throw "Bug not set";
+
+			await axios.post(`bugs/${this.bug.id}/comments`, {
+				bug_id: this.bug.id,
+				content: message,
+				tagged: users,
+			});
+
+			this.fetchComments();
+		},
 	},
 
 	getters: {

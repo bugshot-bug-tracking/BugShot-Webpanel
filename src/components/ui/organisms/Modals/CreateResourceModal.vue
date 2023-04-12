@@ -1,30 +1,33 @@
 <template>
-	<a @click.capture="modal.open" :class="{ disabled: disabled }">
+	<a @click.capture="modal.open">
 		<slot name="button" v-bind="{ loading: modal.loading }">
-			<button
-				flex
-				items-center
-				gap-2
-				class="bs-btn green"
-				:class="{ empty: !primary_button, loading: modal.loading }"
+			<n-button
+				type="success"
+				:ghost="!primary_button"
+				round
+				size="large"
+				:loading="modal.loading"
+				:disabled="disabled"
 			>
-				<slot name="button-image">
-					<img
-						src="/src/assets/icons/add.svg"
-						alt="project"
-						w-6
-						h-6
-						:class="{
-							'black-to-white': primary_button,
-							'black-to-green': !primary_button,
-						}"
-					/>
-				</slot>
+				<template #icon>
+					<slot name="button-image">
+						<img
+							src="/src/assets/icons/add.svg"
+							alt="project"
+							w-6
+							h-6
+							:class="{
+								'black-to-white': primary_button,
+								'black-to-green': !primary_button,
+							}"
+						/>
+					</slot>
+				</template>
 
 				<slot name="button-text">
 					{{ t("create") }}
 				</slot>
-			</button>
+			</n-button>
 		</slot>
 	</a>
 

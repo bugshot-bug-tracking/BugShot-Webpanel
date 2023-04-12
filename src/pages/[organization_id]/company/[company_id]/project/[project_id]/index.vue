@@ -47,20 +47,19 @@
 							project_id: project_id,
 						},
 					}"
-					class="bs-btn green empty"
 					v-if="isAuthorized"
 				>
-					<div flex items-center gap-2>
-						<img
-							src="/src/assets/icons/gear.svg"
-							alt="project"
-							class="black-to-green"
-							w-5
-							h-5
-						/>
+					<n-button type="success" ghost round size="large">
+						<template #icon>
+							<img
+								src="/src/assets/icons/gear.svg"
+								alt="project"
+								class="black-to-green"
+							/>
+						</template>
 
 						{{ $t("project_settings") }}
-					</div>
+					</n-button>
 				</RouterLink>
 			</T3Header>
 		</template>
