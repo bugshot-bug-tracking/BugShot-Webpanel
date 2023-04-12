@@ -3,11 +3,11 @@
 		<div flex>
 			<div v-if="!flags.editMode" class="status-view">
 				<div flex gap-2 items-center>
-					<n-h4>
+					<n-h6>
 						<n-ellipsis line-clamp="2" style="line-height: 1.4">
 							{{ status.attributes.designation }}
 						</n-ellipsis>
-					</n-h4>
+					</n-h6>
 
 					<img
 						src="/src/assets/icons/edit.svg"
@@ -208,7 +208,7 @@ const openBugInfo = async (bug_id: string, status_id: string) => {
 	}
 }
 
-h4 {
+h6 {
 	word-break: break-word;
 	margin: unset;
 	text-align: left;

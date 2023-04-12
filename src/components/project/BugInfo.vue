@@ -1,5 +1,5 @@
 <template>
-	<n-card class="bug-info-card" v-if="!store.bug || store.loading_bug">
+	<n-card class="n-card-container" v-if="!store.bug || store.loading_bug">
 		<template #header v-if="store.loading_bug">
 			<n-skeleton text height="2rem" />
 		</template>
@@ -35,13 +35,13 @@
 		</div>
 	</n-card>
 
-	<n-card class="bug-info-card" v-else>
+	<n-card class="n-card-container" v-else>
 		<template #header>
 			<div v-if="!bugData.flag1" flex justify-between min-h-8>
 				<div flex items-center>
-					<n-h2>
+					<n-h3>
 						{{ store.bug.attributes.designation }}
-					</n-h2>
+					</n-h3>
 
 					<img
 						w-4
@@ -99,14 +99,14 @@
 		<div flex flex-col gap-4>
 			<div grid style="grid-template-columns: 1fr 4fr 2fr">
 				<div>
-					<n-h4> {{ $t("id") }}</n-h4>
+					<n-h6> {{ $t("id") }}</n-h6>
 					<p style="font-size: 0.875rem">
 						{{ store.bug.attributes.ai_id }}
 					</p>
 				</div>
 
 				<div>
-					<n-h4>{{ $t("creator") }}</n-h4>
+					<n-h6>{{ $t("creator") }}</n-h6>
 
 					<p style="font-size: 0.875rem">
 						<template v-if="store.bug.attributes.creator">
@@ -122,7 +122,7 @@
 				</div>
 
 				<div>
-					<n-h4>{{ $t("created_at") }}</n-h4>
+					<n-h6>{{ $t("created_at") }}</n-h6>
 
 					<p style="font-size: 0.875rem">
 						{{ $d(new Date(dateFix(store.bug.attributes.created_at)), "short") }}
@@ -138,7 +138,7 @@
 			/>
 
 			<div flex gap-2 v-if="store.bug.attributes.url" h-6>
-				<n-h4>{{ $t("url") }}:</n-h4>
+				<n-h6>{{ $t("url") }}:</n-h6>
 
 				<a
 					:href="store.bug.attributes.url"
@@ -154,7 +154,7 @@
 			<div flex flex-col gap-2>
 				<div flex items-center justify-between h-6>
 					<div flex items-center>
-						<n-h4>{{ $t("description") }}:</n-h4>
+						<n-h6>{{ $t("description") }}:</n-h6>
 
 						<img
 							v-if="!bugData.flag2"
@@ -222,43 +222,43 @@
 			>
 				<n-collapse-item class="technical-collapse bs-bb">
 					<template #header>
-						<n-h4>{{ $t("technical_info") }}</n-h4>
+						<n-h6>{{ $t("technical_info") }}</n-h6>
 					</template>
 
 					<div grid style="grid-template-columns: auto 1fr; gap: 0.25rem 1rem">
-						<n-h5>
+						<n-p>
 							{{ $t("os") + ":" }}
-						</n-h5>
+						</n-p>
 
-						<p>
+						<n-text>
 							{{ store.bug.attributes.operating_system }}
-						</p>
+						</n-text>
 
-						<n-h5> {{ $t("browser") + ":" }} </n-h5>
+						<n-p> {{ $t("browser") + ":" }} </n-p>
 
-						<p>
+						<n-text>
 							{{ store.bug.attributes.browser }}
-						</p>
+						</n-text>
 
-						<n-h5> {{ $t("resolution") + ":" }} </n-h5>
+						<n-p> {{ $t("resolution") + ":" }} </n-p>
 
-						<p>
+						<n-text>
 							{{ store.bug.attributes.resolution }}
-						</p>
+						</n-text>
 
-						<n-h5> {{ $t("selector") + ":" }} </n-h5>
+						<n-p> {{ $t("selector") + ":" }} </n-p>
 
-						<p>
+						<n-text>
 							<n-ellipsis line-clamp="2" expand-trigger="click" :tooltip="false">
 								{{ store.bug.attributes.selector }}
 							</n-ellipsis>
-						</p>
+						</n-text>
 					</div>
 				</n-collapse-item>
 			</n-collapse>
 
 			<div grid style="grid-template-columns: 1fr 2fr 1fr 2fr">
-				<n-h4>{{ $t("priority") + ":" }}</n-h4>
+				<n-h6>{{ $t("priority") + ":" }}</n-h6>
 
 				<DropdownButton
 					@select="changePriority"
@@ -284,7 +284,7 @@
 					</template>
 				</DropdownButton>
 
-				<n-h4>{{ $t("status") + ":" }}</n-h4>
+				<n-h6>{{ $t("status") + ":" }}</n-h6>
 
 				<DropdownButton
 					@select="changeStatus"
@@ -301,9 +301,9 @@
 			</div>
 
 			<div flex items-center gap-2>
-				<n-h4>
+				<n-h6>
 					{{ $t("deadline") + ":" }}
-				</n-h4>
+				</n-h6>
 
 				<n-date-picker
 					v-model:value="timestamp"
@@ -317,9 +317,9 @@
 			</div>
 
 			<div flex items-center gap-2>
-				<n-h4>
+				<n-h6>
 					{{ $t("assigned_to") + ":" }}
-				</n-h4>
+				</n-h6>
 
 				<Assignees :list="store.getAssignees" />
 			</div>
@@ -443,29 +443,25 @@ const changeDeadline = (value: number) => {
 </script>
 
 <style scoped lang="scss">
-.bug-info-card {
-	box-shadow: 0 0.125rem 0.25rem hsla(0, 0%, 0%, 0.15);
-	border-radius: 1rem;
-}
-
-h2,
-h4,
-h5 {
+h3,
+h6 {
 	margin: unset;
 	word-break: keep-all;
 }
 
-h5 {
-	font-weight: 500;
-	font-size: 0.875rem;
-
-	& + p {
-		font-size: 0.875rem;
-	}
-}
 .technical-collapse {
 	:deep(.n-collapse-item-arrow) {
 		margin-left: auto !important;
+	}
+
+	p {
+		margin: unset;
+		font-size: 0.875rem;
+		font-weight: 500;
+
+		& + span {
+			font-size: 0.875rem;
+		}
 	}
 }
 
