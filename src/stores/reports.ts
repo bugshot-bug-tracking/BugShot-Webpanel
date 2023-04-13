@@ -114,6 +114,8 @@ export const useReportsStore = defineStore("reports", {
 				return Object.assign(oldStatus.attributes, newStatus.attributes);
 
 			this.statuses?.forEach((status) => {
+				if (status.id === oldStatus.id) return;
+
 				// if the move was to the right (ex. status 1 was moved after 4), all the statuses in interval (1, 4] or [2, 4] should be -1
 				if (oldStatus!.attributes.order_number < newStatus.attributes.order_number) {
 					if (
