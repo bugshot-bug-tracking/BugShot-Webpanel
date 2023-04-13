@@ -40,7 +40,9 @@ import { useReportsStore } from "~/stores/reports";
 
 const store = useReportsStore();
 
-const statuses = computed(() => store.statuses?.filter((s) => s.attributes.permanent == undefined));
+const statuses = computed(() =>
+	store.getStatuses?.filter((s) => s.attributes.permanent == undefined)
+);
 
 const statusMove = (event: any) => {
 	try {
