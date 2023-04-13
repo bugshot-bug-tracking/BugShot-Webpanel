@@ -227,15 +227,18 @@ const tab = computed({
 	},
 });
 
-watchEffect(() => {
+const BugWasOpened = ref(false);
+
+watchEffect(async () => {
 	try {
 		// if no bug queried exit
-		if (route.query.b == undefined) return;
+		if (route.query.b == undefined || BugWasOpened.value === true) return;
 
 		const bug = reportsStore.getBugById(route.query.b as string);
 
 		if (bug?.id != undefined) {
-			useBugStore().init(bug.id, bug.attributes.status_id);
+			await useBugStore().init(bug.id, bug.attributes.status_id);
+			BugWasOpened.value = true;
 		}
 	} catch (error) {
 		console.log(error);
