@@ -79,6 +79,7 @@
 			px-8
 			py-4
 			flex-1
+			min-h-0
 		>
 			<n-tab-pane name="kanban" display-directive="show">
 				<template #tab>
