@@ -33,9 +33,13 @@ export const usePaymentsStore = defineStore("payments", {
 			 */
 			let customer = await this.getOrSetCustomer();
 
-			let successUrl = `${window.location.origin}/payment?status=success&org_id=${
-				useOrganizationStore().getOrganization!.id
-			}`;
+			let successUrl = new URL("/payment", window.location.origin);
+			successUrl.searchParams.append("status", "success");
+			successUrl.searchParams.append("org_id", useOrganizationStore().getOrganization!.id);
+			successUrl.searchParams.append(
+				"t",
+				price.attributes.recurring.interval === "month" ? "m" : "y"
+			);
 
 			let response = await axios.post("/stripe/checkout/create-session", {
 				line_items: [
@@ -46,7 +50,7 @@ export const usePaymentsStore = defineStore("payments", {
 				],
 				mode: "subscription",
 
-				success_url: successUrl,
+				success_url: successUrl.href,
 				cancel_url: window.location.href,
 
 				customer: customer.attributes.stripe_customer_id,

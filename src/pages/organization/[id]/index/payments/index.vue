@@ -275,6 +275,8 @@ defineProps({
 	},
 });
 
+const route = useRoute();
+
 const { t, d, n } = useI18n();
 
 const store = useOrganizationStore();
@@ -376,6 +378,10 @@ const subscriptionsAvailable = computed(() => {
 	});
 
 	return isMonthly.value ? monthly > 0 : yearly > 0;
+});
+
+onMounted(() => {
+	if (route.query.t === "y") isMonthly.value = false;
 });
 </script>
 
