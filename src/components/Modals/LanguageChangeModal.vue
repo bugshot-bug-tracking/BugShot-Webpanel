@@ -16,7 +16,9 @@
 				</p>
 
 				<div class="form-group">
-					<h5>{{ t("chose_desired_language") }}</h5>
+					<n-h4 m-0 class="bs-bb" style="border-width: 2px">
+						{{ t("chose_desired_language") }}
+					</n-h4>
 
 					<div class="bs-input" v-for="loc of locales">
 						<label class="bs-radio">
@@ -112,5 +114,3 @@ const loadingModal = reactive({
 	},
 });
 </script>
-
-<style scoped lang="scss"></style>

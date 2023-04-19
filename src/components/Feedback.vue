@@ -10,7 +10,8 @@
 			<div z--1 class="full-overlay"></div>
 			<form @submit.prevent="submit" @reset.prevent="cancel" class="bs-form bs-scroll">
 				<div flex justify-between px-2 style="width: 100%">
-					<h1 text-6 text-left>{{ t("feedback_form") }}</h1>
+					<n-h2 m-0 text-left font-bold>{{ t("feedback_form") }}</n-h2>
+
 					<img
 						src="/src/assets/icons/close_2.svg"
 						alt="close"

@@ -115,7 +115,7 @@
 		"column": "Spalte hinzufügen"
 	},
 	"create": {
-		"": "Erstellen",
+		"create": "Erstellen",
 		"company": "Gruppe anlegen | Gruppen anlegen",
 		"project": "Projekt erstellen | Projekte erstellen",
 		"bug": "Bug erstellen | Bugs erstellen",

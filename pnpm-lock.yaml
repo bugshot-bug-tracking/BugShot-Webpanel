@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@unocss/reset':
+    specifier: ^0.51.4
+    version: 0.51.4
   '@vue-stripe/vue-stripe':
     specifier: ^4.5.0
     version: 4.5.0
@@ -820,7 +823,6 @@ packages:
 
   /@unocss/reset@0.51.4:
     resolution: {integrity: sha512-3FnajZSOrQ4qSbpkY1IGRIFYw8I9E98SBXvjMnHqSl8k4YPbBP29W3YrgSVBMOnPNRL67hRcTaMF3nmbnBuWtQ==}
-    dev: true
 
   /@unocss/scope@0.51.4:
     resolution: {integrity: sha512-EIp1AHyTQhzNiIK/jM3Gg1m4MctuvZGSHVsEgBDisAi//Lxpn0rBx0BHczTgakcx2aUq1R2I6h9xjSHwDJhhVw==}
