@@ -3,7 +3,13 @@
 		<slot name="button" v-bind="{ loading: modal.loading }">
 			<n-button type="primary" round size="large" :loading="modal.loading">
 				<template #icon>
-					<img src="/src/assets/icons/people.svg" alt="peoples" class="black-to-white" />
+					<img
+						src="/src/assets/icons/people.svg"
+						alt="peoples"
+						class="black-to-white"
+						w-5
+						h-5
+					/>
 				</template>
 
 				{{ $t("member", 2) }}

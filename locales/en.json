@@ -115,7 +115,7 @@
 		"column": "Add column"
 	},
 	"create": {
-		"": "Create",
+		"create": "Create",
 		"company": "Create group | Create groups",
 		"project": "Create project | Create projects",
 		"bug": "Create bug | Create bugs",

@@ -45,7 +45,7 @@
 
 				<div class="group-content">
 					<div class="delete-project" flex flex-col gap-2 p-6 py-8>
-						<a class="text-to-red" underline @click="deleteModal.open">
+						<a style="color: var(--bs-red)" underline @click="deleteModal.open">
 							{{ t("delete_organization_and_projects") }}?
 						</a>
 

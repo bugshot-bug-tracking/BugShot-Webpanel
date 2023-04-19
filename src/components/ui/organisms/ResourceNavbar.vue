@@ -5,9 +5,9 @@
 
 			<header>
 				<div>
-					<h3>
+					<n-h2 m-0 mb-2>
 						<slot name="header-text"> [PH] resource </slot>
-					</h3>
+					</n-h2>
 
 					<RouterLink
 						:to="{ name: 'home' }"
