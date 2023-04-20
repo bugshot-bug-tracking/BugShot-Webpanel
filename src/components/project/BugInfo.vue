@@ -97,7 +97,7 @@
 		</template>
 
 		<div flex flex-col gap-4>
-			<div grid style="grid-template-columns: 1fr 4fr 3fr">
+			<div grid style="grid-template-columns: 1fr 4fr 2fr">
 				<div>
 					<n-h6> {{ $t("id") }}</n-h6>
 					<p style="font-size: 0.875rem">
@@ -365,7 +365,7 @@ const timestamp = ref(undefined as undefined | number);
 
 watchEffect(() => {
 	if (store.bug?.attributes.deadline)
-		timestamp.value = new Date(dateFix(store.bug!.attributes.deadline)).valueOf();
+		timestamp.value = new Date(store.bug!.attributes.deadline).valueOf();
 });
 
 const bugData = reactive({
@@ -427,7 +427,11 @@ const changeDeadline = (value: number) => {
 	let newDate = value ? new Date(value).toISOString() : null;
 
 	if (store.bug!.attributes.deadline != null) {
-		let deadline = dateFix(store.bug!.attributes.deadline);
+		let bug_deadline = store.bug!.attributes.deadline;
+
+		if (bug_deadline.match(/[z]$/i) == null) bug_deadline += "Z";
+
+		let deadline = new Date(bug_deadline).toISOString();
 
 		if (newDate && newDate === deadline) return;
 	}

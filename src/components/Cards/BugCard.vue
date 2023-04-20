@@ -61,7 +61,6 @@
 
 <script setup lang="ts">
 import { Bug } from "~/models/Bug";
-import dateFix from "~/util/dateFixISO";
 import timeToText from "~/util/timeToText";
 
 const props = defineProps({
@@ -107,7 +106,7 @@ const body = computed(() => {
 	if ((props.bug.attributes.deadline?.length ?? 0) > 2)
 		return {
 			type: "deadline",
-			text: d(new Date(dateFix(props.bug.attributes.deadline))),
+			text: d(new Date(props.bug.attributes.deadline)),
 		};
 
 	return {

@@ -12,7 +12,6 @@ import { Comment } from "~/models/Comment";
 import { useReportsStore } from "./reports";
 import { useDiscreteApi } from "~/composables/DiscreteApi";
 import { useGlobalI18n } from "~/composables/GlobalI18n";
-import dateFix from "~/util/dateFixISO";
 
 export const useBugStore = defineStore("bug", {
 	state: () => ({
@@ -259,7 +258,7 @@ export const useBugStore = defineStore("bug", {
 					...{
 						deadline:
 							changes.deadline === undefined
-								? dateFix(this.bug.attributes.deadline)?.slice(0, -1)
+								? this.bug.attributes.deadline?.slice(0, -1)
 								: changes.deadline === null
 								? null
 								: changes.deadline?.slice(0, -1),
