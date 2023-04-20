@@ -1,172 +1,165 @@
 <template>
-	<n-button type="success" round size="large" @click="tabOpen = true">
+	<n-button type="success" round size="large" @click="active = true">
 		<template #icon>
 			<img src="/src/assets/icons/add.svg" alt="add" class="black-to-white" />
 		</template>
 		{{ t("add.bug") }}
 	</n-button>
 
-	<div v-if="tabOpen" class="bs-tab bs-scroll">
-		<form @submit.prevent="submit" flex flex-col gap-4>
-			<div class="top">
-				<n-h3 m-0>{{ t("new_bug_report") }}</n-h3>
-
-				<img src="/src/assets/icons/close_2.svg" alt="close" @click="tabOpen = false" />
-			</div>
-
-			<div class="bs-container">
-				<ImageManager @update="imagesUpdate" />
-			</div>
-
-			<div class="bs-container" gap-4>
-				<div class="bs-input">
-					<label flex justify-between>
-						<p>{{ t("bug") }}</p>
-						<span>{{ `${data.designation.length}/70` }}</span>
-					</label>
-
-					<input
-						type="text"
-						:placeholder="t('bug_name')"
-						v-model="data.designation"
-						required
-						minlength="1"
-						maxlength="70"
-					/>
+	<n-drawer v-model:show="active" :width="'30rem'" placement="right">
+		<n-drawer-content>
+			<template #header>
+				<div flex items-center justify-between flex-1>
+					<n-h3 m-0>{{ t("new_bug_report") }}</n-h3>
+					<img src="/src/assets/icons/close_2.svg" alt="close" />
 				</div>
+			</template>
 
-				<div class="bs-input">
-					<label flex justify-between>
-						<p>{{ t("bug_desc") }}</p>
-						<span>{{ `${data.description.length}/1500` }}</span>
-					</label>
-
-					<textarea
-						:placeholder="t('describe_problem')"
-						v-model="data.description"
-						rows="3"
-						maxlength="1500"
-					/>
-				</div>
-
-				<div class="datepicker">
-					<div>{{ t("pick_date") }}</div>
-
-					<Datepicker
-						v-model="data.deadline"
-						:placeholder="t('no_deadline')"
-						@cleared="clearDeadline"
-						:selectText="t('select.select')"
-						:cancelText="t('cancel')"
-					/>
-				</div>
-
-				<div class="priority">
-					<div>{{ t("set_priority") }}</div>
-
-					<div class="options">
-						<div>
-							<input
-								type="radio"
-								name="priority-radio"
-								value="1"
-								id="i1"
-								v-model="data.priority"
-							/>
-							<label for="i1" class="i i1">
-								<span> {{ t("minor") }} </span>
-							</label>
-						</div>
-						<div>
-							<input
-								type="radio"
-								name="priority-radio"
-								value="2"
-								id="i2"
-								v-model="data.priority"
-							/>
-							<label for="i2" class="i i2">
-								<span> {{ t("normal") }} </span>
-							</label>
-						</div>
-						<div>
-							<input
-								type="radio"
-								name="priority-radio"
-								value="3"
-								id="i3"
-								v-model="data.priority"
-							/>
-							<label for="i3" class="i i3">
-								<span> {{ t("important") }} </span>
-							</label>
-						</div>
-						<div>
-							<input
-								type="radio"
-								name="priority-radio"
-								value="4"
-								id="i4"
-								v-model="data.priority"
-							/>
-							<label for="i4" class="i i4">
-								<span> {{ t("critical") }} </span>
-							</label>
-						</div>
+			<n-scrollbar>
+				<n-form
+					ref="formRef"
+					flex
+					flex-col
+					gap-4
+					pr-4
+					@submit.prevent="submit"
+					:rules="rules"
+					:model="data"
+				>
+					<div class="bs-container">
+						<ImageManager @update="imagesUpdate" :disabled="loading" />
 					</div>
-				</div>
 
-				<div class="assign-to" v-if="false">
-					<div>{{ t("assigned_to") }}</div>
-					<Assignees :list="[]" />
-				</div>
-			</div>
+					<div class="bs-container">
+						<n-form-item :label="t('bug_name')" path="designation">
+							<n-input
+								type="text"
+								:minlength="1"
+								:maxlength="70"
+								:show-count="true"
+								:placeholder="t('bug_name')"
+								v-model:value="data.designation"
+								:disabled="loading"
+								required
+							/>
+						</n-form-item>
 
-			<AttachmentsList
-				:list="data.attachments"
-				:error="attachments.error"
-				@upload="attachments.upload"
-			>
-				<template #item="{ item, index }">
-					<AttachmentsItem
-						:name="item.name"
-						:id="index"
-						@delete="attachments.delete"
-						:download="false"
-					/>
-				</template>
-			</AttachmentsList>
+						<n-form-item :label="t('bug_desc')" path="description">
+							<n-input
+								type="textarea"
+								:maxlength="1500"
+								:show-count="true"
+								:placeholder="t('describe_problem')"
+								v-model:value="data.description"
+								:disabled="loading"
+							/>
+						</n-form-item>
 
-			<button class="bs-btn green" type="submit">
-				{{ t("report_bug") }}
-			</button>
-		</form>
-	</div>
+						<n-form-item :label="t('deadline')" path="deadline">
+							<n-date-picker
+								v-model:value="data.deadline"
+								type="datetime"
+								clearable
+								:placeholder="$t('no_deadline')"
+								:disabled="loading"
+								flex-1
+							/>
+						</n-form-item>
+
+						<n-form-item :label="t('set_priority')" path="priority">
+							<div grid grid-cols-4 gap-4 flex-1>
+								<PriorityTag
+									:priority="1"
+									checkable
+									:checked="data.priority === 1"
+									@click="data.priority = 1"
+									:disabled="loading"
+								/>
+								<PriorityTag
+									:priority="2"
+									checkable
+									:checked="data.priority === 2"
+									@click="data.priority = 2"
+									:disabled="loading"
+								/>
+								<PriorityTag
+									:priority="3"
+									checkable
+									:checked="data.priority === 3"
+									@click="data.priority = 3"
+									:disabled="loading"
+								/>
+								<PriorityTag
+									:priority="4"
+									checkable
+									:checked="data.priority === 4"
+									@click="data.priority = 4"
+									:disabled="loading"
+								/>
+							</div>
+						</n-form-item>
+					</div>
+
+					<AttachmentsList
+						:list="data.attachments"
+						:error="attachments.error"
+						@upload="attachments.upload"
+						:disabled="loading"
+						local
+					>
+						<template #item="{ item, index }">
+							<AttachmentsItem
+								:name="item.name"
+								:id="index"
+								@delete="attachments.delete"
+								:download="false"
+							/>
+						</template>
+					</AttachmentsList>
+
+					<n-button
+						type="success"
+						strong
+						round
+						mx-a
+						size="large"
+						:disabled="loading"
+						:loading="loading"
+						attr-type="submit"
+					>
+						{{ $t("report_bug") }}
+					</n-button>
+				</n-form>
+			</n-scrollbar>
+		</n-drawer-content>
+	</n-drawer>
 
 	<LoadingModal2
 		:show="loadingModal.show"
 		:state="loadingModal.state"
 		:message="loadingModal.message"
 		@close="loadingModal.clear"
+		:z_index="100000"
 	/>
-
-	<div class="full-overlay" v-if="tabOpen" @click="tabOpen = false" />
 </template>
 
 <script setup lang="ts">
 import toBase64 from "~/util/toBase64";
 import { useReportsStore } from "~/stores/reports";
+import { FormInst, FormRules } from "naive-ui";
 
 const store = useReportsStore();
 
 const { t } = useI18n();
 
-const tabOpen = ref(false);
+const active = ref(false);
+
+const loading = ref(false);
 
 const data = reactive({
 	designation: "",
 	description: "",
-	deadline: undefined as string | undefined,
+	deadline: undefined as number | undefined,
 	priority: 2,
 	images: [] as File[],
 	attachments: [] as File[],
@@ -176,7 +169,7 @@ const attachments = reactive({
 	error: "",
 
 	upload: (files: File[]) => {
-		data.attachments = files;
+		data.attachments.push(...files);
 	},
 
 	delete: (index: number) => {
@@ -184,16 +177,16 @@ const attachments = reactive({
 	},
 });
 
-const clearDeadline = () => {
-	data.deadline = undefined;
-};
-
 const imagesUpdate = (files: File[]) => {
 	data.images = files;
 };
 
 const submit = async () => {
 	try {
+		// if this throws an error it will go straight to catch
+		await formRef.value?.validate();
+
+		loading.value = true;
 		loadingModal.show = true;
 
 		// convert all images from file to string
@@ -223,12 +216,15 @@ const submit = async () => {
 		loadingModal.state = 1;
 		loadingModal.message = t("bug_created");
 
-		tabOpen.value = false;
+		active.value = false;
+
 		resetData();
 	} catch (error) {
-		loadingModal.state = 2;
+		if (loading.value === true) loadingModal.state = 2;
 
 		console.log(error);
+	} finally {
+		loading.value = false;
 	}
 };
 
@@ -251,94 +247,21 @@ const loadingModal = reactive({
 		loadingModal.message = "";
 	},
 });
+
+const formRef = ref<FormInst | null>(null);
+
+const rules: FormRules = reactive({
+	designation: {
+		required: true,
+		min: 1,
+		renderMessage: () => t("rules.designation_required"),
+	},
+});
 </script>
 
-<style lang="scss" scoped>
-.add-button {
+<style scoped lang="scss">
+:deep(.n-drawer-header__main) {
 	display: flex;
-	align-items: center;
-	gap: 6px;
-
-	> img {
-		height: 1.5rem;
-	}
-}
-
-.top {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	padding: 0.25rem 1rem;
-
-	font-size: 1.4rem;
-
-	img {
-		width: 20px;
-		height: 20px;
-		cursor: pointer;
-	}
-}
-
-.priority {
-	text-align: start;
-	font-weight: bold;
-	font-size: 14px;
-
-	input {
-		display: none;
-
-		&:checked + label {
-			background-color: currentcolor;
-
-			span {
-				color: white;
-			}
-		}
-	}
-
-	.options {
-		display: flex;
-		justify-content: space-around;
-	}
-
-	.i {
-		font-weight: normal;
-		font-size: 12px;
-		line-height: 16px;
-		border-radius: 30px;
-		width: fit-content;
-		height: fit-content;
-
-		padding: 3px 10px;
-		user-select: none;
-		border: 2px solid;
-		cursor: pointer;
-
-		&.i1 {
-			color: hsl(188, 80%, 47%);
-		}
-		&.i2 {
-			color: hsl(218, 80%, 47%);
-		}
-		&.i3 {
-			color: hsl(32, 100%, 67%);
-		}
-		&.i4 {
-			color: hsl(0, 90%, 60%);
-		}
-	}
-}
-.datepicker {
-	text-align: start;
-	font-weight: bold;
-	font-size: 14px;
-}
-
-.assign-to {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	font-weight: bold;
-	font-size: 14px;
+	flex: 1;
 }
 </style>

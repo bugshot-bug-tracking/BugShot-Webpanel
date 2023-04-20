@@ -1,5 +1,5 @@
 <template>
-	<div class="main-container" v-if="uploadMode">
+	<div class="main-container" v-if="uploadMode" :class="{ 'disabled-overlay': disabled }">
 		<div
 			class="upload-mode"
 			@drop.prevent="drop"
@@ -9,9 +9,9 @@
 			:class="{ active: active }"
 			@change="change"
 		>
-			<div>
-				<img src="/src/assets/icons/image.svg" class="black-to-gray" />
-				<div class="text">{{ $t("screenshot.drag_and_drop") }}</div>
+			<div flex flex-col items-center>
+				<img src="/src/assets/icons/image.svg" class="black-to-gray" m-a />
+				<div class="text" text-center>{{ $t("screenshot.drag_and_drop") }}</div>
 			</div>
 
 			<label for="image-upload" class="bs-btn green empty">
@@ -22,14 +22,14 @@
 		</div>
 	</div>
 
-	<div class="main-container" v-else>
+	<div class="main-container" v-else :class="{ 'disabled-overlay': disabled }">
 		<div class="preview-mode">
 			<div class="main">
 				<img :src="images[counter]" alt="image" />
 			</div>
 
 			<div class="bottom">
-				<div class="slides mb-2">
+				<div class="slides mb-2" text-center>
 					{{ counter + 1 + "/" + images.length }}
 				</div>
 
@@ -42,7 +42,7 @@
 						<div v-else style="width: 24px" />
 					</div>
 
-					<div class="center d-flex gap-3">
+					<div class="center flex gap-3">
 						<a @change="addImage">
 							<label for="image-upload2" class="add">
 								<img src="/src/assets/icons/add.svg" alt="add" />
@@ -70,6 +70,13 @@
 
 <script setup>
 import toBase64 from "../util/toBase64";
+const props = defineProps({
+	disabled: {
+		required: false,
+		type: Boolean,
+		default: false,
+	},
+});
 
 const emit = defineEmits(["update"]);
 

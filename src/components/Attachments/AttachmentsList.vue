@@ -1,5 +1,5 @@
 <template>
-	<section class="bs-container">
+	<section class="bs-container" :class="{ 'disabled-overlay': disabled }">
 		<div class="header">
 			<n-h4 m-0>{{ t("attachment", 2) }}</n-h4>
 
@@ -51,6 +51,11 @@ const props = defineProps({
 		type: Boolean,
 		default: false,
 		description: "Hide refresh button when set to true",
+	},
+	disabled: {
+		required: false,
+		type: Boolean,
+		default: false,
 	},
 });
 
