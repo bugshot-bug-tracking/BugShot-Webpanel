@@ -165,7 +165,7 @@ export const useReportsStore = defineStore("reports", {
 		}: {
 			designation: string;
 			description: string;
-			deadline?: string | number;
+			deadline?: string;
 			priority_id: number;
 			images?: { base64: string }[];
 			attachments?: { designation: string; base64: string }[];

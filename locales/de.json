@@ -450,6 +450,7 @@
 	"tooltips": {
 		"organization": "Organisation, für die ich das Projekt mache: Unternehmen, Agentur, Verein etc.",
 		"company": "In der Gruppe kannst du dein Team und deine Projekte sammlen.",
+
 		"organization_roles": "Manager - hat Zugriff zu allem, einschließlich Einstellungen und Einladung von Mitgliedern\nTeam - kann Gruppe einsehen.\nClient - kann Gruppe einsehen.",
 		"company_roles": "Manager - hat Zugriff zu allem, einschließlich Einstellungen und Einladung von Mitgliedern\nTeam - kann Gruppe einsehen.\nClient - kann Gruppe einsehen.",
 		"project_roles": "Manager - hat Zugriff zu allem, einschließlich Einstellungen und Einladung von Mitgliedern.\nTeam - kann das Projekt einsehen und Status und Bugs hinzufügen/aktualisieren.\nClient - kann das Projekt einsehen und Bugs hinzufügen."
@@ -522,19 +523,18 @@
 		"bug_updated": "Bug aktualisiert!",
 		"bug_deleted": "Bug gelöscht!",
 		"bug_moved": "Bug verschoben!",
+
 		"invitation_sent": "Einladung geschickt!",
 		"invitation_deleted": "Einladung gelöscht!",
 		"invitation_accepted": "Einladung angenommen!",
 		"invitation_declined": "Einladung abgelehnt!",
+
 		"member_updated": "Mitglied aktualisiert!",
 		"member_removed": "Mitglied gelöscht!",
 		"license_assigned": "Lizenz zugewiesen!",
 		"license_revoked": "Lizenz entzogen!",
 		"subscription_canceled": "Abonnement gestrichen!",
 		"user_updated": "Nutzer aktualisiert!"
-	},
-	"rules": {
-		"designation_required": "Fehlername erforderlich!"
 	},
 
 	" ": "",

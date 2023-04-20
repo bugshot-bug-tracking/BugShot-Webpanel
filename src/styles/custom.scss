@@ -442,15 +442,3 @@
 	width: 100%;
 	padding: 0 1rem;
 }
-
-.disabled-overlay {
-	opacity: 0.5;
-	position: relative;
-
-	&::before {
-		content: "";
-		z-index: 1;
-		position: absolute;
-		inset: 0;
-	}
-}
