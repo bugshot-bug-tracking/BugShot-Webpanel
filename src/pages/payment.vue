@@ -41,11 +41,7 @@ onMounted(() => {
 
 	if (route.query.org_id) {
 		setTimeout(() => {
-			router.replace({
-				name: "organization-payments",
-				params: { id: route.query.org_id },
-				query: { t: route.query.t ?? "m" },
-			});
+			router.replace({ name: "organization-payments", params: { id: route.query.org_id } });
 		}, 4000);
 	} else {
 		setTimeout(() => {
