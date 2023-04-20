@@ -4,7 +4,7 @@
 	font-family: "Open Sans";
 	src: url("~/assets/fonts/OpenSans/OpenSans-VariableFont_wdth,wght.woff2")
 			format("woff2-variations"),
-		url("~/assets/fonts/OpenSans/static/OpenSans-Regular.ttf") format("ttf"); /* for older browsers */
+		url("~/assets/fonts/OpenSans/static/OpenSans/OpenSans-Regular.ttf") format("ttf"); /* for older browsers */
 	font-weight: 100, 200, 300, 400, 500, 600, 700, 800, 900, normal;
 	font-style: normal;
 	font-display: swap;
@@ -14,7 +14,7 @@
 	font-family: "Open Sans";
 	src: url("~/assets/fonts/OpenSans/OpenSans-Italic-VariableFont_wdth,wght.woff2")
 			format("woff2-variations"),
-		url("~/assets/fonts/OpenSans/static/OpenSans-Italic.ttf") format("ttf"); /* for older browsers */
+		url("~/assets/fonts/OpenSans/static/OpenSans/OpenSans-Italic.ttf") format("ttf"); /* for older browsers */
 	font-weight: 100, 200, 300, 400, 500, 600, 700, 800, 900, normal;
 	font-style: italic;
 	font-display: swap;
