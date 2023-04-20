@@ -537,6 +537,10 @@
 		"user_updated": "User updated!"
 	},
 
+	"rules": {
+		"designation_required": "Bug name required!"
+	},
+
 	" ": "",
 	"": ""
 }
