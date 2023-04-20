@@ -10,7 +10,6 @@
 		"dev-build": "vite build --mode=development"
 	},
 	"dependencies": {
-		"@unocss/reset": "^0.51.4",
 		"@vue-stripe/vue-stripe": "^4.5.0",
 		"@vuepic/vue-datepicker": "^4.4.0",
 		"@vueuse/core": "^10.0.2",

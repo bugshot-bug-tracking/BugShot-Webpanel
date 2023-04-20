@@ -19,18 +19,18 @@
 		<article class="bs-scroll">
 			<section name="info" p-8 class="bs-br" text-left>
 				<header flex flex-col items-start gap-2 mb-8>
-					<n-h2 m-0 font-bold>
+					<h3>
 						{{ getSubscriptionName() }}
-					</n-h2>
+					</h3>
 
 					<span order--1>{{ t("you_are_using") }}</span>
 				</header>
 
 				<div flex flex-col gap-12>
 					<div>
-						<n-h6 p-1 mb-4>
+						<h6 p-1 mb-4>
 							{{ t("billing_and_payments") }}
-						</n-h6>
+						</h6>
 
 						<div grid gap-4 style="grid-template-columns: 1fr 2fr">
 							<b>
@@ -75,9 +75,9 @@
 					</div>
 
 					<div>
-						<n-h6 p-1 mb-4>
+						<h6 p-1 mb-4>
 							{{ t("number_of_licenses_n", [getLicenseTotalQuantity()]) }}
-						</n-h6>
+						</h6>
 
 						<div grid style="grid-template-columns: 1fr 2fr">
 							<p>
@@ -198,6 +198,10 @@ article {
 
 section[name="info"] {
 	width: 30rem;
+}
+
+h3 {
+	font-weight: bold;
 }
 
 h6 {

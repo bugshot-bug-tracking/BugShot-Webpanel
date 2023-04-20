@@ -1,6 +1,6 @@
 <template>
 	<main flex flex-col items-center justify-around>
-		<n-h1 m-0>{{ $t("maintenance_in_progress") }}</n-h1>
+		<h1>{{ $t("maintenance_in_progress") }}</h1>
 
 		<p>
 			{{ $t("maintenance_in_progress_subtext") }}

@@ -57,9 +57,7 @@
 				</div>
 
 				<div class="form-group" gap-0>
-					<n-h4 m-0 class="bs-bb" style="border-width: 2px">
-						{{ t("chose_new_password") }}
-					</n-h4>
+					<h5>{{ t("chose_new_password") }}</h5>
 
 					<div class="bs-input">
 						<label> {{ t("new_password") }} </label>
@@ -350,66 +348,4 @@ const loadingModal = reactive({
 });
 </script>
 
-<style scoped lang="scss">
-.password-rules {
-	ul {
-		max-height: 0;
-		overflow: hidden;
-		transition: max-height 0.3s ease-in-out 0s;
-		margin: unset;
-
-		&.open {
-			max-height: 100vh;
-		}
-
-		&.min-chars > li.min-chars {
-			color: var(--bs-green);
-			filter: var(--bs-filter-green);
-			&::before {
-				background-image: url("/src/assets/icons/check.svg");
-			}
-		}
-		&.letters > li.letters {
-			color: var(--bs-green);
-			filter: var(--bs-filter-green);
-			&::before {
-				background-image: url("/src/assets/icons/check.svg");
-			}
-		}
-		&.numbers > li.numbers {
-			color: var(--bs-green);
-			filter: var(--bs-filter-green);
-			&::before {
-				background-image: url("/src/assets/icons/check.svg");
-			}
-		}
-		&.same > li.same {
-			color: var(--bs-green);
-			filter: var(--bs-filter-green);
-			&::before {
-				background-image: url("/src/assets/icons/check.svg");
-			}
-		}
-	}
-
-	li {
-		color: var(--bs-red);
-		filter: var(--bs-filter-red);
-
-		position: relative;
-		display: flex;
-		align-items: center;
-
-		&::before {
-			content: "";
-			background-image: url("/src/assets/icons/close_2.svg");
-			background-position: 0 0;
-			background-size: auto;
-			background-repeat: no-repeat;
-			width: 1.5rem;
-			height: 1.5rem;
-			left: -1.5rem;
-		}
-	}
-}
-</style>
+<style scoped lang="scss"></style>

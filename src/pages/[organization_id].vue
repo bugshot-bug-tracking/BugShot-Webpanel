@@ -23,7 +23,7 @@
 
 			<img src="/src/assets/images/nothing_to_show.svg" alt="empty boxes" w-88 h-88 />
 
-			<n-h2 m-0 style="color: var(--bs-purple)">{{ $t("no_companies") }}</n-h2>
+			<h1 w-88 text-6>{{ $t("no_companies") }}</h1>
 
 			<div flex gap-2 items-center>
 				<p>{{ $t("please_add_new_group") }}</p>

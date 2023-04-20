@@ -60,7 +60,7 @@
 			<section>
 				<img src="/src/assets/images/nothing_to_show.svg" alt="empty boxes" w-88 h-88 />
 
-				<n-h2 m-0 style="color: var(--bs-purple)">{{ $t("no_projects") }}</n-h2>
+				<h1 w-88 text-6>{{ $t("no_projects") }}</h1>
 
 				<p>{{ $t("please_add_new_project") }}</p>
 
@@ -68,7 +68,7 @@
 			</section>
 		</div>
 
-		<n-scrollbar flex-1 v-else>
+		<div class="bs-scroll s-green w-100 h-100" v-else>
 			<TrialBanner />
 
 			<GroupContainer>
@@ -114,7 +114,7 @@
 					}"
 				/>
 			</GroupContainer>
-		</n-scrollbar>
+		</div>
 	</T2Page>
 </template>
 

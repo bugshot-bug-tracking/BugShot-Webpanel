@@ -23,9 +23,9 @@
 				<div class="group-content">
 					<Container text-left>
 						<template #title>
-							<n-h2 m-0 font-bold>
-								{{ t("subscription", 2) }}
-							</n-h2>
+							<h3>
+								<b>{{ t("subscription", 2) }}</b>
+							</h3>
 						</template>
 
 						<template #after-title>
@@ -63,13 +63,13 @@
 						>
 							<n-list-item v-for="subscription of subscriptions">
 								<div class="plan-item">
-									<n-h3 m-0>
+									<h4>
 										{{ getSubscriptionName(subscription) }}
-									</n-h3>
+									</h4>
 
 									<div grid grid-cols-2 gap-4 mt-6>
 										<div flex flex-col>
-											<n-h6 m-0>{{ t("billing_and_payments") }}</n-h6>
+											<h6>{{ t("billing_and_payments") }}</h6>
 
 											<div grid grid-cols-2 gap-4>
 												<b>
@@ -146,14 +146,14 @@
 										</div>
 
 										<div flex flex-col>
-											<n-h6 m-0>
+											<h6>
 												{{
 													t(
 														"number_of_licenses_n",
 														getLicenseTotalQuantity(subscription)
 													)
 												}}
-											</n-h6>
+											</h6>
 
 											<n-list show-divider>
 												<n-list-item>

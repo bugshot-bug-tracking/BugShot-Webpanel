@@ -1,5 +1,5 @@
 <template>
-	<div @click.capture="modal.open">
+	<a @click.capture="modal.open">
 		<slot name="button" v-bind="{ loading: modal.loading }">
 			<n-button
 				type="success"
@@ -25,11 +25,11 @@
 				</template>
 
 				<slot name="button-text">
-					{{ t("create.create") }}
+					{{ t("create") }}
 				</slot>
 			</n-button>
 		</slot>
-	</div>
+	</a>
 
 	<MyModal :modelValue="modal.show" :close="modal.close" z-100>
 		<ModalTemplate @close="modal.close">
@@ -42,11 +42,11 @@
 			<form class="default-form bs-scroll" @submit.prevent="onSubmit">
 				<slot name="modal-form"> </slot>
 
-				<n-button type="success" round :loading="modal.loading" m-a attr-type="submit">
+				<button class="bs-btn green m-a" type="submit">
 					<slot name="modal-submit_button">
 						{{ t("create") }}
 					</slot>
-				</n-button>
+				</button>
 			</form>
 		</ModalTemplate>
 	</MyModal>

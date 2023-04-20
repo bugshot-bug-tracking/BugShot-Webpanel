@@ -2,9 +2,9 @@
 	<div class="modal-wrapper2">
 		<div class="modal-header2" v-if="$slots['header'] || $slots['header-text']">
 			<slot name="header">
-				<n-h3>
+				<h4>
 					<slot name="header-text">[PH] Header</slot>
-				</n-h3>
+				</h4>
 
 				<img
 					src="/src/assets/icons/close_1.svg"
@@ -55,10 +55,11 @@ defineEmits(["close"]);
 	padding-bottom: 1rem;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: baseline;
 }
 
-h3 {
+h4 {
+	font-weight: bold;
 	margin: unset;
 }
 

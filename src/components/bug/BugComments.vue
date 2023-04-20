@@ -22,9 +22,9 @@
 
 	<n-card v-else class="n-card-container">
 		<template #header>
-			<n-h4 m-0>
+			<n-h3>
 				{{ t("comment", 2) }}
-			</n-h4>
+			</n-h3>
 		</template>
 
 		<n-scrollbar flex-1 h-88>
@@ -147,6 +147,10 @@ const taggedUsers = ref([]);
 </script>
 
 <style scoped lang="scss">
+h3 {
+	margin: unset;
+}
+
 ul {
 	padding-right: 1rem;
 }

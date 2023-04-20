@@ -1,9 +1,9 @@
 <template>
 	<section name="actions" p-8 class="" text-left>
 		<header flex flex-col items-start gap-2 mb-8>
-			<n-h2 m-0>
+			<h3>
 				{{ t("available_actions") }}
-			</n-h2>
+			</h3>
 			<span order--1>
 				{{ t("want_to_change_subscription") }}
 			</span>
@@ -15,9 +15,9 @@
 					<img src="/src/assets/icons/star_search.svg" alt="" w-14 h-14 />
 				</template>
 
-				<n-h4 m-0>
+				<h5>
 					{{ t("change_subscription_text") }}
-				</n-h4>
+				</h5>
 
 				<p>
 					{{ t("change_subscription_subtext") }}
@@ -32,9 +32,9 @@
 					<img src="/src/assets/icons/do_not_disturb.svg" alt="" w-14 h-14 />
 				</template>
 
-				<n-h4 m-0>
+				<h5>
 					{{ t("cancel_subscription_text") }}
-				</n-h4>
+				</h5>
 
 				<p>
 					{{ t("cancel_subscription_subtext") }}
@@ -86,11 +86,11 @@ const redirectToCancel = () => {
 </script>
 
 <style scoped lang="scss">
-h2 {
+h3 {
 	font-weight: bold;
 }
 
-h4 {
+h5 {
 	font-weight: bold;
 }
 

@@ -1,70 +1,80 @@
 :root {
-	--bs-purple-light: #eee5fc;
-	--bs-purple-middle: #bb96f3;
+	--bs-green: #18d992;
 	--bs-purple: #7a2ee6;
-	--bs-purple-dark: #5916b9;
-	--bs-filter-purple: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
-		hue-rotate(263deg) brightness(94%) contrast(92%);
-
-	--bs-green-light: #c3f8e5;
-	--bs-green-middle: #68eebd;
-	--bs-green: #18d891;
-	--bs-green-dark: #13aa72;
-	--bs-filter-green: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%)
-		hue-rotate(104deg) brightness(96%) contrast(88%);
-
-	--bs-blue-light: #e3ecfc;
-	--bs-blue-middle: #188ed8;
 	--bs-blue: #185ed8;
-	--bs-blue-dark: #134aaa;
-
-	--bs-red-light: #fbc5c5;
-	--bs-red-middle: #ff6e6e;
-	--bs-red: #f23636;
-	--bs-red-dark: #e60f0f;
-	--bs-filter-red: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%)
-		hue-rotate(331deg) brightness(87%) contrast(121%);
-
-	--bs-gray-light: #f8f8fc;
 	--bs-gray: #9ba5d7;
-	--bs-filter-gray: brightness(0) saturate(1) invert(73%) sepia(14%) saturate(897%)
-		hue-rotate(194deg) brightness(90%) contrast(86%);
-
-	--bs-yellow-light: #ffe0bd;
-	--bs-yellow-middle: #ffc88a;
+	--bs-red: #f23838;
 	--bs-yellow: #ffb057;
-	--bs-yellow-dark: #f08000;
 
-	--bs-black-light: #afb6de;
-	--bs-black-middle: #6774c1;
+	--bs-green-light: #c4f8e5;
+	--bs-purple-light: #eee5fc;
+	--bs-blue-light: #18bed8;
+	--bs-gray-light: #f8f8fc;
+
+	--bs-purple-dark: #5b15bc;
+	--bs-green-dark: #15bc7f;
 
 	--bs-black: #1a2040;
-	--bs-light-blue: #18bed8;
+
+	--bs-filter-purple: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+		hue-rotate(263deg) brightness(94%) contrast(92%);
+	--bs-filter-red: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%)
+		hue-rotate(331deg) brightness(87%) contrast(121%);
 }
 
 .black-to-green {
-	color: var(--bs-green);
-	filter: var(--bs-filter-green);
+	color: #18d992;
+	filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%) hue-rotate(104deg)
+		brightness(96%) contrast(88%);
 }
 
 .black-to-purple {
-	color: var(--bs-purple);
-	filter: var(--bs-filter-purple);
+	color: #7a2ee6;
+	filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%) hue-rotate(263deg)
+		brightness(94%) contrast(92%);
 }
 
 .black-to-red {
-	color: var(--bs-red);
-	filter: var(--bs-filter-red);
+	color: #f23838;
+	filter: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%) hue-rotate(331deg)
+		brightness(87%) contrast(121%);
 }
 
 .black-to-gray {
-	color: var(--bs-gray);
-	filter: var(--bs-filter-gray);
+	color: #9ba5d7;
+	filter: brightness(0) saturate(1) invert(73%) sepia(14%) saturate(897%) hue-rotate(194deg)
+		brightness(90%) contrast(86%);
 }
 
 .black-to-white {
 	color: #ffffff;
 	filter: brightness(0) invert(1);
+}
+
+.black-to-blue-light {
+	color: #18bed8;
+	filter: brightness(0) saturate(1) invert(66%) sepia(63%) saturate(529%) hue-rotate(140deg)
+		brightness(82%) contrast(109%);
+}
+
+.text-to-green {
+	color: #18d992;
+}
+
+.text-to-purple {
+	color: #7a2ee6;
+}
+
+.text-to-red {
+	color: #f23838;
+}
+
+.text-to-gray {
+	color: #9ba5d7;
+}
+
+.text-to-white {
+	color: #ffffff;
 }
 
 .bs-btn {
@@ -333,6 +343,63 @@
 			border-radius: 100%;
 			background-color: #ffffff;
 			border: 0.125rem solid #7a2ee6;
+		}
+	}
+}
+
+.password-rules {
+	ul {
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.3s ease-in-out 0s;
+		margin: unset;
+
+		&.open {
+			max-height: 100vh;
+		}
+
+		&.min-chars > li.min-chars {
+			@extend .black-to-green;
+			&::before {
+				background-image: url("/src/assets/icons/check.svg");
+			}
+		}
+		&.letters > li.letters {
+			@extend .black-to-green;
+			&::before {
+				background-image: url("/src/assets/icons/check.svg");
+			}
+		}
+		&.numbers > li.numbers {
+			@extend .black-to-green;
+			&::before {
+				background-image: url("/src/assets/icons/check.svg");
+			}
+		}
+		&.same > li.same {
+			@extend .black-to-green;
+			&::before {
+				background-image: url("/src/assets/icons/check.svg");
+			}
+		}
+	}
+
+	li {
+		@extend .black-to-red;
+
+		position: relative;
+		display: flex;
+		align-items: center;
+
+		&::before {
+			content: "";
+			background-image: url("/src/assets/icons/close_2.svg");
+			background-position: 0 0;
+			background-size: auto;
+			background-repeat: no-repeat;
+			width: 1.5rem;
+			height: 1.5rem;
+			left: -1.5rem;
 		}
 	}
 }

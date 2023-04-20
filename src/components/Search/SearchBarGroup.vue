@@ -1,9 +1,9 @@
 <template>
 	<div text-left flex flex-col>
 		<div v-if="type" flex items-center justify-between mx-4 py-2 class="bs-bb">
-			<n-h6 m-0>
-				{{ $t(type, 2) }}
-			</n-h6>
+			<h6 m-0>
+				<b>{{ $t(type, 2) }}</b>
+			</h6>
 
 			<n-statistic text-4 v-if="modelValue">
 				<template #default>

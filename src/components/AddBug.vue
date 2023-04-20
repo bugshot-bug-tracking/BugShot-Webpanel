@@ -9,7 +9,7 @@
 	<div v-if="tabOpen" class="bs-tab bs-scroll">
 		<form @submit.prevent="submit" flex flex-col gap-4>
 			<div class="top">
-				<n-h3 m-0>{{ t("new_bug_report") }}</n-h3>
+				<h4>{{ t("new_bug_report") }}</h4>
 
 				<img src="/src/assets/icons/close_2.svg" alt="close" @click="tabOpen = false" />
 			</div>

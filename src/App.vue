@@ -12,12 +12,8 @@
 		:theme-overrides="overrides"
 		flex
 		style="width: 100vw; position: relative"
-		:inline-theme-disabled="true"
-		:preflight-style-disabled="true"
 		v-else
 	>
-		<n-global-style />
-
 		<RouterView />
 	</n-config-provider>
 

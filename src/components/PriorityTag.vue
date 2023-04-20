@@ -60,7 +60,7 @@ const priorityData = computed(() => {
 	word-break: keep-all;
 
 	&.priority-1 {
-		background-color: var(--bs-light-blue);
+		background-color: var(--bs-blue-light);
 	}
 
 	&.priority-2 {
