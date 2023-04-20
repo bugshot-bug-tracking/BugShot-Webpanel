@@ -43,11 +43,6 @@
 		justify-content: center;
 		gap: 1rem;
 		height: 100%;
-
-		h1 {
-			font-weight: bold;
-			color: #7a2ee6;
-		}
 	}
 }
 </style>
