@@ -2,15 +2,11 @@
 	<TSidebar @minimize="toggle">
 		<template #header>
 			<header>
-				<h3>{{ $t("my_account") }}</h3>
+				<n-h2 m-0 mb-2>{{ $t("my_account") }}</n-h2>
 
 				<RouterLink
 					:to="{ name: 'home' }"
-					style="
-						text-decoration: underline;
-						color: #7a2ee6;
-						font-size: 0.875rem;
-					"
+					style="text-decoration: underline; color: #7a2ee6; font-size: 0.875rem"
 				>
 					{{ $t("back_to_al_projects") }}
 				</RouterLink>
@@ -27,9 +23,9 @@
 				>
 			</div>
 			<div class="account">
-				<h4>
+				<n-h3>
 					{{ $t("setting", 2) }}
-				</h4>
+				</n-h3>
 
 				<ul>
 					<router-link
@@ -56,10 +52,7 @@
 
 		<template #footer>
 			<a class="log-out bs-btn purple empty" @click="logout">
-				<img
-					src="/src/assets/icons/logout.svg"
-					class="black-to-purple"
-				/>
+				<img src="/src/assets/icons/logout.svg" class="black-to-purple" />
 				{{ $t("log_out") }}
 			</a>
 		</template>
@@ -96,7 +89,7 @@ header {
 }
 
 .account {
-	h4 {
+	h3 {
 		text-align: left;
 		padding: 0.5rem 1.25rem;
 		color: #9ba5d7;

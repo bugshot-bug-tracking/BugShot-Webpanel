@@ -20,11 +20,11 @@
 				<template #header-text> {{ t("info") }} </template>
 
 				<div flex flex-col gap-8 items-center max-w-128 text-center>
-					<h3 style="color: var(--bs-purple)">
+					<n-h1 style="color: var(--bs-purple)">
 						<b>
 							{{ $t("upgrade_now_modal.title") }}
 						</b>
-					</h3>
+					</n-h1>
 
 					<div flex flex-col gap-4>
 						<p>
@@ -106,9 +106,7 @@ const modal = reactive({
 	},
 });
 
-const otherOrganizations = computed(() =>
-	organizations.value?.some((o) => o.attributes.creator.id !== user.value.id)
-);
+const otherOrganizations = computed(() => useMainStore().getExternalOrganizations);
 
 const hasLicense = computed(() => {
 	return authStore.getLicenses.length > 0;

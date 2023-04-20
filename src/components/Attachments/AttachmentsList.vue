@@ -1,7 +1,7 @@
 <template>
-	<section class="bs-container">
+	<section class="bs-container" :class="{ 'disabled-overlay': disabled }">
 		<div class="header">
-			<h1 text-5 m-0>{{ t("attachment", 2) }}</h1>
+			<n-h4 m-0>{{ t("attachment", 2) }}</n-h4>
 
 			<div flex items-center gap-2>
 				<img
@@ -51,6 +51,11 @@ const props = defineProps({
 		type: Boolean,
 		default: false,
 		description: "Hide refresh button when set to true",
+	},
+	disabled: {
+		required: false,
+		type: Boolean,
+		default: false,
 	},
 });
 
@@ -115,9 +120,8 @@ section {
 		}
 
 		&:hover {
-			color: #7a2ee6;
-			filter: brightness(0) saturate(1) invert(18%) sepia(72%)
-				saturate(5384%) hue-rotate(263deg) brightness(94%) contrast(92%);
+			color: var(--bs-purple);
+			filter: var(--bs-filter-purple);
 		}
 	}
 
@@ -125,9 +129,8 @@ section {
 		cursor: pointer;
 
 		&:hover {
-			color: #18d992;
-			filter: brightness(0) saturate(1) invert(63%) sepia(74%)
-				saturate(493%) hue-rotate(104deg) brightness(96%) contrast(88%);
+			color: var(--bs-green);
+			filter: var(--bs-filter-green);
 		}
 	}
 }

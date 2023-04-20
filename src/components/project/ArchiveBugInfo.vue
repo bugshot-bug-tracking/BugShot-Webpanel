@@ -56,7 +56,7 @@
 		</template>
 
 		<div flex flex-col gap-4>
-			<div grid style="grid-template-columns: 1fr 4fr 2fr">
+			<div grid style="grid-template-columns: 1fr 4fr 3fr">
 				<div>
 					<n-h6> {{ $t("id") }}</n-h6>
 					<p style="font-size: 0.875rem">
@@ -282,7 +282,7 @@ const timestamp = ref(undefined as undefined | number);
 
 watchEffect(() => {
 	if (store.bug?.attributes.deadline)
-		timestamp.value = new Date(store.bug!.attributes.deadline).valueOf();
+		timestamp.value = new Date(dateFix(store.bug!.attributes.deadline)).valueOf();
 });
 </script>
 

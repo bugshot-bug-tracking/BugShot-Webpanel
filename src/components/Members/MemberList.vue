@@ -1,8 +1,8 @@
 <template>
 	<section class="member-list">
-		<h1 style="width: 100%">
+		<n-h4 style="width: 100%" m-o>
 			{{ invitationMode ? $t("pending_invitations") : $t("member_list") }}
-		</h1>
+		</n-h4>
 
 		<ul class="user-list">
 			<li class="user-item" v-for="(item, index) in list" :key="index">
@@ -123,15 +123,13 @@ h1 {
 				cursor: pointer;
 
 				&.edit:hover {
-					filter: brightness(0) saturate(1) invert(18%) sepia(72%)
-						saturate(5384%) hue-rotate(263deg) brightness(94%)
-						contrast(92%);
+					filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
+						hue-rotate(263deg) brightness(94%) contrast(92%);
 				}
 
 				&.delete:hover {
-					filter: brightness(0) saturate(1) invert(46%) sepia(28%)
-						saturate(5216%) hue-rotate(331deg) brightness(87%)
-						contrast(121%);
+					filter: brightness(0) saturate(1) invert(46%) sepia(28%) saturate(5216%)
+						hue-rotate(331deg) brightness(87%) contrast(121%);
 				}
 			}
 		}
@@ -157,8 +155,8 @@ a {
 	cursor: pointer;
 
 	&:hover {
-		filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
-			hue-rotate(263deg) brightness(94%) contrast(92%);
+		filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%) hue-rotate(263deg)
+			brightness(94%) contrast(92%);
 	}
 }
 </style>

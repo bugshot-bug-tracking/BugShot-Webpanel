@@ -16,7 +16,7 @@
 			</T3Header>
 		</template>
 
-		<div class="groups bs-scroll">
+		<n-scrollbar flex-1>
 			<TrialBanner />
 
 			<GroupContainer v-for="company of companies" :key="company.id">
@@ -66,7 +66,7 @@
 					}"
 				/>
 			</GroupContainer>
-		</div>
+		</n-scrollbar>
 	</T2Page>
 </template>
 

@@ -115,7 +115,7 @@
 		"column": "Add column"
 	},
 	"create": {
-		"": "Create",
+		"create": "Create",
 		"company": "Create group | Create groups",
 		"project": "Create project | Create projects",
 		"bug": "Create bug | Create bugs",
@@ -535,6 +535,10 @@
 		"license_revoked": "License revoked!",
 		"subscription_canceled": "Subscription canceled!",
 		"user_updated": "User updated!"
+	},
+
+	"rules": {
+		"designation_required": "Bug name required!"
 	},
 
 	" ": "",

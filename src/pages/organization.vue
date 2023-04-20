@@ -17,7 +17,7 @@
 		<section>
 			<img src="/src/assets/images/nothing_to_show.svg" alt="empty boxes" w-88 h-88 />
 
-			<h1 w-88 text-6>{{ $t("no_organizations") }}</h1>
+			<n-h2 m-0 style="color: var(--bs-purple)">{{ $t("no_organizations") }}</n-h2>
 
 			<p>{{ $t("please_add_new_one") }}</p>
 
