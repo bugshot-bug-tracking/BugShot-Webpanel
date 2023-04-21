@@ -1,6 +1,6 @@
 <!-- this component needs to be refactored -->
 <template>
-	<div class="align-items-center d-flex justify-content-center modal">
+	<div class="items-center flex justify-center modal">
 		<div class="wrapper" v-if="bug">
 			<div class="header">
 				<span>{{ $t("assign_team_member") }}</span>
@@ -12,7 +12,7 @@
 					v-for="[index, { user, checked }] of list.entries()"
 					:key="user.id"
 				>
-					<div class="d-flex align-items-center">
+					<div class="flex items-center">
 						<input
 							type="checkbox"
 							:id="'cp' + user.id"

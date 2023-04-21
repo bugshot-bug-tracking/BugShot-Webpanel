@@ -27,9 +27,9 @@
 				</div>
 
 				<div my-4>
-					<h5>
-						<b> {{ t("actions") }} </b>
-					</h5>
+					<n-h4 m-0>
+						{{ t("actions") }}
+					</n-h4>
 
 					<hr />
 				</div>
@@ -50,9 +50,9 @@
 				</div>
 
 				<div my-4>
-					<h5>
-						<b> {{ t("summary") }} </b>
-					</h5>
+					<n-h4 m-0>
+						{{ t("summary") }}
+					</n-h4>
 
 					<hr />
 				</div>

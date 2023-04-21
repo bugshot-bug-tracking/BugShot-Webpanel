@@ -73,6 +73,7 @@ onUnmounted(() => {
 
 	.badge {
 		position: absolute;
+		color: #ffffff;
 		background-color: red;
 		width: 1rem;
 		height: 1rem;
@@ -83,6 +84,7 @@ onUnmounted(() => {
 		justify-content: center;
 		top: -0.1rem;
 		right: -0.1rem;
+		font-size: 0.75rem;
 	}
 
 	&::before {

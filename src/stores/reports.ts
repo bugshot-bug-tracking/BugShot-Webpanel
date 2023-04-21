@@ -9,6 +9,7 @@ import { useHookStore } from "./hooks";
 import { useBugStore } from "./bug";
 import { useDiscreteApi } from "~/composables/DiscreteApi";
 import { useGlobalI18n } from "~/composables/GlobalI18n";
+import dateFix from "~/util/dateFixISO";
 
 export const useReportsStore = defineStore("reports", {
 	state: () => ({
@@ -165,7 +166,7 @@ export const useReportsStore = defineStore("reports", {
 		}: {
 			designation: string;
 			description: string;
-			deadline?: string;
+			deadline?: string | number;
 			priority_id: number;
 			images?: { base64: string }[];
 			attachments?: { designation: string; base64: string }[];
@@ -238,7 +239,7 @@ export const useReportsStore = defineStore("reports", {
 						order_number: changes.order_number ?? bug.attributes.order_number,
 					},
 
-					deadline: bug.attributes.deadline?.slice(0, -1),
+					deadline: dateFix(bug.attributes.deadline)?.slice(0, -1),
 				})
 			).data.data;
 

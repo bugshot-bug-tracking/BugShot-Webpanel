@@ -28,7 +28,7 @@
 		</div>
 	</form>
 
-	<div v-if="message" class="d-flex flex-column gap-4 align-items-center">
+	<div v-if="message" class="flex flex-col gap-4 items-center">
 		<div class="message">{{ message }}</div>
 	</div>
 
