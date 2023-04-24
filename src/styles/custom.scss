@@ -5,6 +5,8 @@
 	--bs-purple-dark: #5916b9;
 	--bs-filter-purple: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%)
 		hue-rotate(263deg) brightness(94%) contrast(92%);
+	--bs-filter-purple-middle: invert(68%) sepia(52%) saturate(1285%) hue-rotate(206deg)
+		brightness(95%) contrast(100%);
 
 	--bs-green-light: #c3f8e5;
 	--bs-green-middle: #68eebd;
@@ -50,6 +52,10 @@
 .black-to-purple {
 	color: var(--bs-purple);
 	filter: var(--bs-filter-purple);
+}
+.black-to-purple-middle {
+	color: var(--bs-purple-middle);
+	filter: var(--bs-filter-purple-middle);
 }
 
 .black-to-red {

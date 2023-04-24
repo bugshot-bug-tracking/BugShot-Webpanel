@@ -252,12 +252,14 @@ export const useCompanyStore = defineStore("company", {
 			base64,
 			color_hex,
 			company_id,
+			urlList,
 		}: {
 			designation: string;
 			url: string | undefined;
 			base64: string | undefined;
 			color_hex: string;
 			company_id?: string;
+			urlList?: string[] | undefined;
 		}) {
 			let response = (
 				await axios.post(
@@ -276,6 +278,18 @@ export const useCompanyStore = defineStore("company", {
 					}
 				)
 			).data.data;
+
+			if (urlList && (urlList.length ?? 0) > 0) {
+				const urlResponses = await Promise.allSettled(
+					urlList.map(async (url) => {
+						return await axios.post(`projects/${response.id}/urls`, {
+							url: url,
+						});
+					})
+				);
+
+				console.log(urlResponses);
+			}
 
 			this.addProject(response);
 

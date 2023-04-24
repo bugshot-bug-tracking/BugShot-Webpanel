@@ -537,6 +537,10 @@
 		"designation_required": "Fehlername erforderlich!"
 	},
 
+	"enter_main_project_url": "Gib eine Hauptprojekt-URL ein (optional)",
+
+	"other_project_url_optional": "Andere Project-URL (optional)",
+
 	" ": "",
 	"": ""
 }

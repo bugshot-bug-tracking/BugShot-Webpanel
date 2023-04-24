@@ -39,22 +39,15 @@
 				</slot>
 			</template>
 
-			<form class="default-form bs-scroll" @submit.prevent="onSubmit">
-				<slot name="modal-form"> </slot>
+			<n-form ref="formRef" @submit.prevent="onSubmit" :rules="rules" flex flex-col p-4>
+				<slot name="modal-form" />
 
-				<n-button
-					type="success"
-					round
-					:loading="modal.loading"
-					:disabled="modal.loading"
-					m-a
-					attr-type="submit"
-				>
+				<n-button type="success" round :loading="modal.loading" m-a attr-type="submit">
 					<slot name="modal-submit_button">
 						{{ t("create") }}
 					</slot>
 				</n-button>
-			</form>
+			</n-form>
 		</ModalTemplate>
 	</MyModal>
 
@@ -68,6 +61,8 @@
 </template>
 
 <script setup lang="ts">
+import { FormInst } from "naive-ui";
+
 const props = defineProps({
 	primary_button: {
 		type: Boolean,
@@ -101,6 +96,12 @@ const props = defineProps({
 		required: false,
 		default: false,
 	},
+
+	rules: {
+		type: Object,
+		required: false,
+		default: {},
+	},
 });
 
 const emit = defineEmits(["close"]);
@@ -128,6 +129,8 @@ const modal = reactive({
 		emit("close");
 	},
 });
+
+const formRef = ref<FormInst | null>(null);
 
 const onSubmit = async () => {
 	try {
