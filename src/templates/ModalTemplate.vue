@@ -19,9 +19,11 @@
 			</slot>
 		</div>
 
-		<div class="modal-content2">
-			<slot />
-		</div>
+		<n-scrollbar max-h-80vh>
+			<div class="modal-content2" pr-2>
+				<slot />
+			</div>
+		</n-scrollbar>
 
 		<footer v-if="$slots['footer']">
 			<slot name="footer" />
@@ -47,7 +49,9 @@ defineEmits(["close"]);
 	border-radius: 0.5rem;
 	padding: 1rem;
 	min-width: 28rem;
+	max-height: 90vh;
 	box-shadow: 0 0.125rem 0.25rem hsla(0, 0%, 0%, 0.161);
+	overflow: hidden;
 }
 
 .modal-header2 {

@@ -194,7 +194,7 @@
 					expand-trigger="click"
 					line-clamp="5"
 					:tooltip="false"
-					style="font-size: 0.875rem"
+					style="font-size: 0.875rem; white-space: pre-line"
 				>
 					{{ store.bug.attributes.description }}
 				</n-ellipsis>

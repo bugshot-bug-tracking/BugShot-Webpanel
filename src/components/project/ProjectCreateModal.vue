@@ -1,9 +1,10 @@
 <template>
-	<CreateResourceModal
+	<ResourceCreateModal
 		:submit="onSubmit"
 		:success_message="$t('project_succ_created')"
 		:primary_button="primary_button"
 		@close="reset"
+		:rules="rules"
 	>
 		<template #button-text>
 			<span>{{ $t("create.project") }}</span>
@@ -14,39 +15,58 @@
 		</template>
 
 		<template #modal-form>
-			<div class="bs-input">
-				<label>
-					{{ $t("project_name") }}
-				</label>
-
-				<input
+			<n-form-item :label="t('project_name')" path="designation">
+				<n-input
+					v-model:value="data.designation"
 					type="text"
-					:placeholder="$t('project_name')"
+					:minlength="1"
+					:maxlength="255"
+					:placeholder="t('project_name')"
+					:disabled="loading"
 					required
-					minlength="1"
-					maxlength="255"
-					v-model="data.designation"
 				/>
-			</div>
+			</n-form-item>
 
-			<div class="bs-input">
-				<label>
-					{{ $t("project_url") }}
-				</label>
-
-				<input
-					type="text"
-					:placeholder="$t('enter_project_url')"
-					maxlength="65000"
+			<n-form-item :label="t('project_url')" path="url">
+				<UrlInput
 					v-model="data.url"
+					:disabled="loading"
+					:placeholder="t('enter_main_project_url')"
+					@click:suffix="data.urlList.push('')"
+					noWildcard
+					onlyOrigin
+					noActions
 				/>
+			</n-form-item>
+
+			<div v-if="multipleURL">
+				<n-form-item
+					v-for="(item, index) in data.urlList"
+					:label="t('other_project_url_optional')"
+				>
+					<UrlInput
+						:placeholder="t('enter_project_url')"
+						v-model="data.urlList[index]"
+						:disabled="loading"
+						@click:suffix="data.urlList.splice(index, 1)"
+						noWildcard
+					>
+						<template #suffix>
+							<img
+								src="/src/assets/icons/remove.svg"
+								alt=""
+								class="black-to-purple-middle"
+							/>
+						</template>
+					</UrlInput>
+				</n-form-item>
 			</div>
 
 			<Picker
-				class="my-2"
 				:colorPicked="data.color"
 				@setImage="data.setImage"
 				@setColor="data.setColor"
+				my-2
 			/>
 
 			<AddMembers @change="data.setInviteMembers" infoKey="tooltips.project_roles" />
@@ -59,10 +79,11 @@
 		<template #modal-submit_button>
 			<span>{{ $t("create.project") }}</span>
 		</template>
-	</CreateResourceModal>
+	</ResourceCreateModal>
 </template>
 
 <script setup lang="ts">
+import { FormRules } from "naive-ui";
 import { Company } from "~/models/Company";
 import { useCompanyStore } from "~/stores/company";
 import { useProjectStore } from "~/stores/project";
@@ -81,7 +102,15 @@ const props = defineProps({
 		required: false,
 		default: undefined,
 	},
+
+	multipleURL: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
 });
+
+const { t } = useI18n();
 
 const data = reactive({
 	designation: "",
@@ -89,6 +118,7 @@ const data = reactive({
 	image: undefined as File | undefined,
 	color: 3,
 	memberList: [] as { email: string; role_id: number }[],
+	urlList: [] as string[],
 
 	setColor: (value: number) => {
 		data.color = value;
@@ -107,6 +137,7 @@ const reset = () => {
 	data.url = undefined;
 	data.image = undefined;
 	data.color = 3;
+	data.urlList = [];
 };
 
 const onSubmit = async () => {
@@ -122,6 +153,7 @@ const onSubmit = async () => {
 		color_hex: colors[data.color],
 		base64: image,
 		company_id: props.company?.id,
+		urlList: data.urlList,
 	});
 
 	if (data.memberList) {
@@ -137,4 +169,14 @@ const onSubmit = async () => {
 
 	reset();
 };
+
+const loading = ref(false);
+
+const rules: FormRules = reactive({
+	designation: {
+		required: true,
+		min: 1,
+		renderMessage: () => t("rules.designation_required"),
+	},
+});
 </script>
