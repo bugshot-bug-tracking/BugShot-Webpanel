@@ -73,7 +73,7 @@
 		<n-tabs
 			v-else
 			type="bar"
-			v-model:value="tab"
+			v-model:value="currentTab"
 			animated
 			style="max-height: 100%"
 			px-8
@@ -103,7 +103,7 @@
 				<ArchiveBugDrawer />
 			</n-tab-pane>
 
-			<template #suffix v-if="tab === 'kanban'">
+			<template #suffix v-if="currentTab === 'kanban'">
 				<KanbanActions />
 			</template>
 		</n-tabs>
@@ -218,15 +218,7 @@ const suggestOptions = computed(() => {
 	return diffArray.map((m) => m.attributes.email);
 });
 
-const tabValue = ref("kanban");
-const tab = computed({
-	get: () => {
-		return tabValue.value;
-	},
-	set: (value: string) => {
-		tabValue.value = value;
-	},
-});
+const currentTab = ref("kanban");
 
 const BugWasOpened = ref(false);
 
