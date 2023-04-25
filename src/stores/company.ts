@@ -282,8 +282,9 @@ export const useCompanyStore = defineStore("company", {
 			if (urlList && (urlList.length ?? 0) > 0) {
 				const urlResponses = await Promise.allSettled(
 					urlList.map(async (url) => {
-						return await axios.post(`projects/${response.id}/urls`, {
+						return await axios.post(`project/${response.id}/urls`, {
 							url: url,
+							https: url.match(/^(https):\/\//) == null ? false : true,
 						});
 					})
 				);
