@@ -6,7 +6,6 @@
 					<n-h6>
 						<n-ellipsis line-clamp="2" style="line-height: 1.4">
 							{{ status.attributes.designation }}
-							{{ status.attributes.designation }}
 
 							<n-text type="primary">
 								{{
