@@ -35,7 +35,7 @@
 					@click:suffix="data.urlList.push('')"
 					noWildcard
 					onlyOrigin
-					noActions
+					:noActions="!multipleURL"
 				/>
 			</n-form-item>
 
