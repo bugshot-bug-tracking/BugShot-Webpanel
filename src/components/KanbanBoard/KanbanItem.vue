@@ -6,6 +6,15 @@
 					<n-h6>
 						<n-ellipsis line-clamp="2" style="line-height: 1.4">
 							{{ status.attributes.designation }}
+							{{ status.attributes.designation }}
+
+							<n-text type="primary">
+								{{
+									(status.attributes.bugs?.length ?? 0) > 0
+										? `(${status.attributes.bugs?.length})`
+										: ""
+								}}
+							</n-text>
 						</n-ellipsis>
 					</n-h6>
 
