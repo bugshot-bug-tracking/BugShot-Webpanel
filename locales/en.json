@@ -541,6 +541,10 @@
 		"designation_required": "Bug name required!"
 	},
 
+	"enter_main_project_url": "Enter main project URL (Optional)",
+
+	"other_project_url_optional": "Other Project URL (optional)",
+
 	" ": "",
 	"": ""
 }
