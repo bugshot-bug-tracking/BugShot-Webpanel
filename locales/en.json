@@ -536,14 +536,18 @@
 		"subscription_canceled": "Subscription canceled!",
 		"user_updated": "User updated!"
 	},
-
 	"rules": {
 		"designation_required": "Bug name required!"
 	},
-
 	"enter_main_project_url": "Enter main project URL (Optional)",
-
 	"other_project_url_optional": "Other Project URL (optional)",
+
+	"request_approval": "Request approval | Request approvals",
+	"n_bug_selected": "no bugs selected | {0} bug selected | {0} bugs selected",
+	"send_request": "Send request",
+	"request_approvals_for_s": "Request approvals for {0}",
+	"select_all_bugs": "Select all bugs",
+	"deselect_all_bugs": "Deselect all bugs",
 
 	" ": "",
 	"": ""

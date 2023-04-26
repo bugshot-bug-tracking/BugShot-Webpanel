@@ -76,3 +76,24 @@ svg {
 .n-input-group > *:not(:first-child) {
 	margin-left: unset !important;
 }
+
+.n-checkbox.checkbox-round-inverted {
+	--n-border-radius: 1rem;
+	--n-check-mark-color: var(--bs-purple);
+
+	.n-checkbox-box {
+		background-color: transparent;
+
+		.n-checkbox-icon {
+			inset: 2px;
+		}
+
+		svg {
+			fill: var(--bs-purple) !important;
+		}
+
+		.n-checkbox-box__border {
+			border-width: 2px;
+		}
+	}
+}
