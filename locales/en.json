@@ -105,6 +105,7 @@
 	"x_minute": "{x} minute | {x} minutes",
 	"x_second": "{x} second | {x} seconds",
 	"add": {
+		"add": "Add",
 		"company": "Add group | Add groups",
 		"project": "Add project | Add projects",
 		"bug": "Add bug | Add bugs",
@@ -548,6 +549,11 @@
 	"request_approvals_for_s": "Request approvals for {0}",
 	"select_all_bugs": "Select all bugs",
 	"deselect_all_bugs": "Deselect all bugs",
+
+	"select_the_form_recipients": "Please select the recipients for the form:",
+	"someone_not_in_list": "Someone not in the list? ",
+	"someone_not_in_list2": "Add him bellow:",
+	"send_form": "Send form to recipients",
 
 	" ": "",
 	"": ""

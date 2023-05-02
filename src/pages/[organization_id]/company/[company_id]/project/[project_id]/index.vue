@@ -89,7 +89,7 @@
 
 				<n-divider :vertical="true" min-h-8 />
 
-				<RequestApprovalModal />
+				<RequestApprovalModal :disabled="kanbanState.checkList.length < 1" />
 
 				<template #actions v-if="more.options.some((o) => o.show)">
 					<n-button text @click="kanbanState.cancelChecker">

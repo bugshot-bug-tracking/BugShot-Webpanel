@@ -1,5 +1,5 @@
 <template>
-	<n-button type="success" size="large" round @click="modal.open">
+	<n-button type="success" size="large" round @click="modal.open" v-bind="$attrs">
 		<template #icon>
 			<Icon-Send />
 		</template>
@@ -12,7 +12,7 @@
 			<template #header-text>{{ $t("request_approval") }}</template>
 
 			<div flex flex-col>
-				<n-text> Please select the recipients of the report: </n-text>
+				<n-text> {{ t("select_the_form_recipients") }} </n-text>
 
 				<n-checkbox-group :disabled="loading">
 					<n-list :show-divider="false">
@@ -29,7 +29,9 @@
 				<n-divider style="margin-top: 1rem; margin-bottom: 1rem" />
 
 				<div flex flex-col gap-4>
-					<n-text> Someone not in the list? <b>Add him bellow:</b> </n-text>
+					<n-text>
+						{{ t("someone_not_in_list") }} <b>{{ t("someone_not_in_list2") }}</b>
+					</n-text>
 
 					<n-input
 						type="text"
@@ -38,6 +40,7 @@
 						v-model:value="newRecipient.name"
 						size="large"
 						:disabled="loading"
+						:status="fieldsState.name"
 					/>
 
 					<div flex items-center gap-4>
@@ -48,6 +51,7 @@
 							v-model:value="newRecipient.email"
 							size="large"
 							:disabled="loading"
+							:status="fieldsState.email"
 						>
 							<template #suffix>
 								<Icon-Email />
@@ -61,7 +65,7 @@
 							@click="addNewRecipient"
 							:disabled="loading"
 						>
-							Add
+							{{ t("add.add") }}
 						</n-button>
 					</div>
 				</div>
@@ -75,7 +79,7 @@
 					:loading="loading"
 					@click="onSubmit"
 				>
-					Send report to recipients
+					{{ t("send_form") }}
 				</n-button>
 			</div>
 		</ModalTemplate>
@@ -83,6 +87,8 @@
 </template>
 
 <script setup lang="ts">
+import { FormValidationStatus } from "naive-ui/es/form/src/interface";
+
 const { t } = useI18n();
 
 const modal = reactive({
@@ -117,7 +123,21 @@ const newRecipient = reactive({
 	email: "",
 });
 
+const fieldsState = reactive({
+	name: undefined as FormValidationStatus | undefined,
+	email: undefined as FormValidationStatus | undefined,
+	clear: () => {
+		fieldsState.name = undefined;
+		fieldsState.email = undefined;
+	},
+});
+
 const addNewRecipient = () => {
+	fieldsState.clear();
+
+	if (newRecipient.name.length < 1) return (fieldsState.name = "error");
+	if (newRecipient.email.length < 3) return (fieldsState.email = "error");
+
 	recipientsList.value.push({
 		name: newRecipient.name,
 		email: newRecipient.email,
