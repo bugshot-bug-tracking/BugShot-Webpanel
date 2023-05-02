@@ -450,7 +450,6 @@
 	"tooltips": {
 		"organization": "Organization for which I am doing the project: company, agency, association etc.",
 		"company": "In a group you can gather your team and your projects.",
-
 		"organization_roles": "Manager - has access to everything including settings and member invite.\nTeam - can view and add a group.\nClient - can view some group.",
 		"company_roles": "Manager - has access to everything including settings and member invite.\nTeam - can view the group and add projects.\nClient - can view the group.",
 		"project_roles": "Manager - has access to everything including settings and member invite.\nTeam - can view the project and add/update statuses and bugs.\nClient - can view the project and add bugs."
@@ -523,12 +522,10 @@
 		"bug_updated": "Bug updated!",
 		"bug_deleted": "Bug deleted!",
 		"bug_moved": "Bug moved!",
-
 		"invitation_sent": "Invitation sent!",
 		"invitation_deleted": "Invitation deleted!",
 		"invitation_accepted": "Invitation accepted!",
 		"invitation_declined": "Invitation declined!",
-
 		"member_updated": "Member updated!",
 		"member_removed": "Member removed!",
 		"license_assigned": "License assigned!",

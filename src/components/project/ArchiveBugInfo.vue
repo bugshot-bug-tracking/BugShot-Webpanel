@@ -239,7 +239,7 @@
 					{{ $t("assigned_to") + ":" }}
 				</n-h6>
 
-				<Assignees :list="store.getAssignees" disableAdd />
+				<AssignModal :assignedList="store.getAssignees" disableAdd />
 			</div>
 		</div>
 	</n-card>

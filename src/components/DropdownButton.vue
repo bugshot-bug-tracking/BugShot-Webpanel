@@ -10,7 +10,7 @@
 				flex
 			>
 				<slot name="text">
-					<n-ellipsis line-clamp="1">
+					<n-ellipsis line-clamp="1" style="word-break: break-all">
 						{{ text }}
 					</n-ellipsis>
 				</slot>
