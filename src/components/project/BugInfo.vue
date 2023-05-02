@@ -316,12 +316,23 @@
 				/>
 			</div>
 
+			<div flex items-center gap-2 class="bs-bb bs-bt" py-4>
+				<n-h6 style="white-space: nowrap">
+					{{ $t("time_estimate") + ":" }}
+				</n-h6>
+
+				<n-input-group>
+					<n-input-number clearable />
+					<n-input-group-label>hours</n-input-group-label>
+				</n-input-group>
+			</div>
+
 			<div flex items-center gap-2>
 				<n-h6>
 					{{ $t("assigned_to") + ":" }}
 				</n-h6>
 
-				<Assignees :list="store.getAssignees" />
+				<AssignModal :assignedList="store.getAssignees" />
 			</div>
 		</div>
 	</n-card>
