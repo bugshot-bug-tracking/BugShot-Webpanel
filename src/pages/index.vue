@@ -17,8 +17,8 @@ const redirect = () => {
 	} else {
 		if (
 			authStore.new_user === true &&
-			authStore.user.attributes.trial_end_date == null &&
-			(authStore.user.attributes.subscriptions?.length ?? 0) === 0 &&
+			authStore.user?.attributes.trial_end_date == null &&
+			(authStore.user?.attributes.subscriptions?.length ?? 0) === 0 &&
 			(store.organizations?.length ?? 0) <= 1
 		) {
 			return router.replace({
