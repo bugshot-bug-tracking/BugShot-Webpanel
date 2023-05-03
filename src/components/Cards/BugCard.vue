@@ -6,8 +6,8 @@
 		cursor-pointer
 	>
 		<template #header>
-			<n-h6 class="bs-bb" pb-2>
-				<n-ellipsis style="word-break: break-all; max-width: 20rem; line-height: 1.4">
+			<n-h6 class="bs-bb" pb-2 max-w-80>
+				<n-ellipsis style="word-break: break-all; line-height: 1.4">
 					{{ bug.attributes.designation }}
 				</n-ellipsis>
 			</n-h6>
