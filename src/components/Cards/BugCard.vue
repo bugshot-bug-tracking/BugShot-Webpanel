@@ -20,7 +20,11 @@
 				/>
 
 				<n-h6>
-					<n-ellipsis style="word-break: break-all" line-clamp="1">
+					<n-ellipsis
+						style="word-break: break-all"
+						line-clamp="1"
+						:tooltip="{ scrollable: true }"
+					>
 						{{ bug.attributes.designation }}
 					</n-ellipsis>
 				</n-h6>

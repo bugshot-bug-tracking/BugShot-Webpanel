@@ -1,19 +1,3 @@
 <template>
-	<main>
-		<RouterView />
-	</main>
+	<RouterView />
 </template>
-
-<style lang="scss" scoped>
-main {
-	grid-area: main;
-	position: relative;
-	padding: 2rem;
-
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	justify-content: center;
-	align-items: center;
-}
-</style>

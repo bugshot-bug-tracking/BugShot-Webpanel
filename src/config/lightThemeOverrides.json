@@ -229,5 +229,9 @@
 		"heightTiny": "1.5rem",
 		"closeIconSizeTiny": "0.75rem",
 		"closeSizeTiny": "1rem"
+	},
+	"Tooltip": {
+		"color": "rgba(255, 255, 255, 1)",
+		"textColor": "#1a2040FF"
 	}
 }
