@@ -97,3 +97,15 @@ svg {
 		}
 	}
 }
+
+.n-popover {
+	max-width: 50vw;
+	max-height: 3.5rem;
+}
+
+.n-image-preview-toolbar {
+	gap: 1rem;
+	.n-base-icon {
+		padding: 0;
+	}
+}

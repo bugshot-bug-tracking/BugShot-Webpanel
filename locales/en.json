@@ -451,7 +451,6 @@
 	"tooltips": {
 		"organization": "Organization for which I am doing the project: company, agency, association etc.",
 		"company": "In a group you can gather your team and your projects.",
-
 		"organization_roles": "Manager - has access to everything including settings and member invite.\nTeam - can view and add a group.\nClient - can view some group.",
 		"company_roles": "Manager - has access to everything including settings and member invite.\nTeam - can view the group and add projects.\nClient - can view the group.",
 		"project_roles": "Manager - has access to everything including settings and member invite.\nTeam - can view the project and add/update statuses and bugs.\nClient - can view the project and add bugs."
@@ -524,12 +523,10 @@
 		"bug_updated": "Bug updated!",
 		"bug_deleted": "Bug deleted!",
 		"bug_moved": "Bug moved!",
-
 		"invitation_sent": "Invitation sent!",
 		"invitation_deleted": "Invitation deleted!",
 		"invitation_accepted": "Invitation accepted!",
 		"invitation_declined": "Invitation declined!",
-
 		"member_updated": "Member updated!",
 		"member_removed": "Member removed!",
 		"license_assigned": "License assigned!",
@@ -541,20 +538,35 @@
 		"designation_required": "Bug name required!"
 	},
 	"enter_main_project_url": "Enter main project URL (Optional)",
-	"other_project_url_optional": "Other Project URL (optional)",
-
+	"other_project_url_optional": "Other Project URL (Optional)",
 	"request_approval": "Request approval | Request approvals",
 	"n_bug_selected": "no bugs selected | {0} bug selected | {0} bugs selected",
 	"send_request": "Send request",
 	"request_approvals_for_s": "Request approvals for {0}",
 	"select_all_bugs": "Select all bugs",
 	"deselect_all_bugs": "Deselect all bugs",
-
 	"select_the_form_recipients": "Please select the recipients for the form:",
 	"someone_not_in_list": "Someone not in the list? ",
 	"someone_not_in_list2": "Add him bellow:",
 	"send_form": "Send form to recipients",
-
+	"send_response": "Send response",
+	"time_estimate": "Time estimate",
+	"total_time_estimate_s": "Total estimated time: {0}",
 	" ": "",
-	"": ""
+	"": "",
+	"bug_report_approvals": "Bug report approvals",
+	"Bug reports approvals_subtext": "Before we start working on your reports, please approve the time estimate for them.",
+	"deselect_all": "Deselect all",
+	"approved_x_out_of_y_bugs": "Approved: {0} out of {1} Bugs",
+	"sort_bugs_by": "Sort bugs by:",
+	"approval_status": {
+		"pending": "Pending approval",
+		"approved": "Approved",
+		"rejected": "Rejected"
+	},
+	"due_date": "Due date",
+	"approve_bug": "Approve Bug",
+	"reject_bug": "Reject Bug",
+	"approve_selected": "Approve selected",
+	"reject_selected": "Reject selected"
 }
