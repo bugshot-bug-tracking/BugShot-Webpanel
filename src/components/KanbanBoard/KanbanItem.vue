@@ -4,7 +4,11 @@
 			<div v-if="!flags.editMode" class="status-view">
 				<div flex gap-2 items-center>
 					<n-h6>
-						<n-ellipsis line-clamp="2" style="line-height: 1.4">
+						<n-ellipsis
+							line-clamp="2"
+							style="line-height: 1.4"
+							:tooltip="{ scrollable: true }"
+						>
 							{{ status.attributes.designation }}
 
 							<n-text type="primary">

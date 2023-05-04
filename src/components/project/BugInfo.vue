@@ -145,7 +145,7 @@
 					target="_blank"
 					style="font-size: 0.875rem; color: var(--bs-gray)"
 				>
-					<n-ellipsis :line-clamp="1">
+					<n-ellipsis :line-clamp="1" :tooltip="{ scrollable: true }">
 						{{ store.bug.attributes.url }}
 					</n-ellipsis>
 				</a>
@@ -293,7 +293,7 @@
 					m-a
 				>
 					<template #item="{ item }">
-						<n-ellipsis style="max-width: 7rem">
+						<n-ellipsis style="max-width: 7rem" :tooltip="{ scrollable: true }">
 							{{ item.attributes.designation }}
 						</n-ellipsis>
 					</template>
