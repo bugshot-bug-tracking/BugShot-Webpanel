@@ -37,8 +37,8 @@
 
 	<n-card class="n-card-container" v-else>
 		<template #header>
-			<div v-if="!bugData.flag1" flex justify-between min-h-8>
-				<div flex items-center>
+			<div v-if="!bugData.flag1" flex justify-between min-h-8 items-baseline>
+				<div flex items-baseline>
 					<n-h3>
 						{{ store.bug.attributes.designation }}
 					</n-h3>
@@ -321,7 +321,7 @@
 					{{ $t("assigned_to") + ":" }}
 				</n-h6>
 
-				<Assignees :list="store.getAssignees" />
+				<AssignModal :assignedList="store.getAssignees" :submit="onSubmit" />
 			</div>
 		</div>
 	</n-card>
@@ -331,6 +331,8 @@
 import dateFix from "~/util/dateFixISO";
 import { Status } from "~/models/Status.js";
 import { useBugStore } from "~/stores/bug";
+import axios from "axios";
+import { User } from "~/models/User";
 
 const emit = defineEmits(["close"]);
 
@@ -435,6 +437,21 @@ const changeDeadline = (value: number) => {
 	store.updateBug({
 		deadline: newDate,
 	});
+};
+
+const onSubmit = async (list: { user: User; original: boolean; checked: boolean }[]) => {
+	for (const item of list) {
+		// if no change was made skip over the item
+		if (item.original === item.checked) continue;
+
+		if (item.checked === true)
+			await axios.post(`bugs/${store.bug?.id}/assign-user`, {
+				user_id: item.user.id,
+			});
+		else await axios.delete(`bugs/${store.bug?.id}/users/${item.user.id}`);
+	}
+
+	await store.fetchBugUsers();
 };
 </script>
 

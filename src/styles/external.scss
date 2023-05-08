@@ -1,18 +1,3 @@
-@import "@vuepic/vue-datepicker/src/VueDatePicker/style/main.scss";
-
-.v-select {
-	--vs-controls-color: #7a2de6;
-	--vs-border-color: #7a2de6;
-
-	--vs-dropdown-option--active-bg: #eee5fc;
-	--vs-dropdown-option--active-color: #1a2040;
-	--vs-dropdown-max-height: 8rem;
-
-	.vs__dropdown-menu {
-		@extend .bs-scroll;
-	}
-}
-
 .vue-universal-modal {
 	z-index: 1;
 }
@@ -42,6 +27,7 @@
 .n-step-splitor {
 	height: 2px !important;
 }
+
 svg {
 	vertical-align: initial;
 }
@@ -98,7 +84,7 @@ svg {
 	}
 }
 
-.n-popover {
+.n-popover.n-tooltip.n-popover--scrollable {
 	max-width: 50vw;
 	max-height: 3.5rem;
 }

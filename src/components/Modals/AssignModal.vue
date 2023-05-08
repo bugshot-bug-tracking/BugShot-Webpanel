@@ -1,62 +1,77 @@
-<!-- this component needs to be refactored -->
 <template>
-	<div class="items-center flex justify-center modal">
-		<div class="wrapper" v-if="bug">
-			<div class="header">
-				<span>{{ $t("assign_team_member") }}</span>
-			</div>
+	<div flex items-center justify-start gap-2 flex-wrap>
+		<Avatar
+			v-for="item in assignedList"
+			:key="item.id"
+			:size="'XS'"
+			:first_name="item.attributes.first_name"
+			:last_name="item.attributes.last_name"
+		/>
 
-			<div class="options" v-if="list.length > 0">
-				<div
-					class="item"
-					v-for="[index, { user, checked }] of list.entries()"
-					:key="user.id"
-				>
-					<div class="flex items-center">
-						<input
-							type="checkbox"
-							:id="'cp' + user.id"
-							:value="user.id"
-							:checked="checked"
-							@change="changeUser(user, checked, index)"
-						/>
-						<div class="check-state" />
-						<label :for="'cp' + user.id" class="lab">
-							<div
-								class="avatar"
-								:style="{
-									'background-color':
-										colors[
-											(user.attributes.first_name.charCodeAt(0) +
-												user.attributes.last_name.charCodeAt(0)) %
-												7
-										],
-								}"
-							>
-								{{ user.attributes.first_name[0] + user.attributes.last_name[0] }}
-							</div>
-
-							<div class="name">
-								{{ user.attributes.first_name + " " + user.attributes.last_name }}
-							</div>
-						</label>
-					</div>
-
-					<img
-						src="/src/assets/icons/close_2.svg"
-						class="remove-user black-to-gray"
-						alt=""
-						v-if="checked"
-						@click="changeUser(user, true, index)"
-					/>
-				</div>
-			</div>
-
-			<a class="close" @click="$emit('close')" />
-
-			<a class="bs-btn green add" @click="submit">{{ $t("add.member", 2) }}</a>
-		</div>
+		<n-button text @click="modal.open" v-if="!disableAdd">
+			<Icon-Add color="var(--bs-green)" size="32" />
+		</n-button>
 	</div>
+
+	<MyModal v-model="modal.show" :close="modal.close" z-10000>
+		<ModalTemplate @close="modal.close" style="min-width: 22rem">
+			<template #header-text>
+				{{ $t("assign_team_member") }}
+			</template>
+
+			<template #content>
+				<div class="options" v-if="list.length > 0" mt-4>
+					<div
+						class="item"
+						v-for="[index, { user, checked }] of list.entries()"
+						:key="user.id"
+					>
+						<div flex items-center>
+							<input
+								type="checkbox"
+								:id="'cp' + user.id"
+								:value="user.id"
+								:checked="checked"
+								@change="changeUser(user, checked, index)"
+							/>
+
+							<div class="check-state" />
+
+							<label :for="'cp' + user.id" class="lab">
+								<Avatar
+									:size="'XS'"
+									:first_name="user.attributes.first_name"
+									:last_name="user.attributes.last_name"
+								/>
+								<div class="name">
+									{{
+										user.attributes.first_name + " " + user.attributes.last_name
+									}}
+								</div>
+							</label>
+						</div>
+
+						<Icon-X
+							size="16"
+							color="var(--bs-gray)"
+							v-if="checked"
+							@click="changeUser(user, true, index)"
+							mr-4
+							cursor-pointer
+						/>
+					</div>
+				</div>
+			</template>
+
+			<template #footer>
+				<div flex justify-end mt-4>
+					<n-button type="success" round @click="submit" ml-a>
+						{{ $t("save") }}
+					</n-button>
+				</div>
+			</template>
+		</ModalTemplate>
+	</MyModal>
 
 	<LoadingModal2
 		:show="loadingModal.show"
@@ -64,49 +79,66 @@
 		:message="loadingModal.message"
 		@close="
 			loadingModal.clear();
-			emit('close');
+			modal.close();
 		"
 		:z_index="10000"
 	/>
 </template>
 
 <script setup lang="ts">
-import { useProjectStore } from "~/stores/project";
-import colors from "~/util/colors";
-import axios from "axios";
 import { User } from "~/models/User";
-import { useBugStore } from "~/stores/bug";
+import { useProjectStore } from "~/stores/project";
 
-const emit = defineEmits(["close"]);
+const props = defineProps({
+	assignedList: {
+		type: Array as PropType<User[]>,
+		required: true,
+		default: [],
+	},
 
-const store = useBugStore();
+	disableAdd: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+
+	submit: {
+		type: Function,
+		required: false,
+		default: undefined,
+	},
+});
+
+const emit = defineEmits(["close", "submit"]);
 
 const { t } = useI18n();
 
+const modal = reactive({
+	show: false,
+	open: () => {
+		modal.show = true;
+	},
+	close: () => {
+		modal.show = false;
+		emit("close");
+	},
+});
+
 const list = ref<{ user: User; original: boolean; checked: boolean }[]>([]);
 
-const bug = computed(() => {
-	let bug = store.bug;
+watchEffect(() => {
+	list.value = [];
 
-	if (!bug?.id) list.value = [];
-	else {
-		let project_users = useProjectStore().getMembers;
+	useProjectStore().getMembers.forEach((user) => {
+		let checked = false;
+		if (props.assignedList.some((x) => x.id === user?.id)) checked = true;
 
-		list.value = [];
-
-		project_users.forEach((user) => {
-			let checked = false;
-			if (store.getAssignees?.find((x) => x.id === user?.id)) checked = true;
-
-			list.value.push({
-				user: user!,
-				original: checked, // compare checked with this to know what operation to execute (add/remove)
-				checked: checked,
-			});
+		list.value.push({
+			user: user!,
+			original: checked, // compare checked with this to know what operation to execute (add/remove)
+			checked: checked,
 		});
-	}
-
-	return bug;
+	});
 });
 
 const changeUser = (user: User, checked: boolean, index: number) => {
@@ -114,23 +146,15 @@ const changeUser = (user: User, checked: boolean, index: number) => {
 };
 
 const submit = async () => {
-	if (!bug.value) return;
+	if (!props.submit) {
+		emit("submit", list.value);
+		return modal.close();
+	}
 
 	try {
 		loadingModal.show = true;
 
-		for (const item of list.value) {
-			// if no change was made skip over the item
-			if (item.original === item.checked) continue;
-
-			if (item.checked === true)
-				await axios.post(`bugs/${bug.value.id}/assign-user`, {
-					user_id: item.user.id,
-				});
-			else await axios.delete(`bugs/${bug.value.id}/users/${item.user.id}`);
-		}
-
-		await store.fetchBugUsers();
+		await props.submit(list.value);
 
 		loadingModal.state = 1;
 		loadingModal.message = t("members_updated");
@@ -155,57 +179,13 @@ const loadingModal = reactive({
 </script>
 
 <style lang="scss" scoped>
-.modal {
-	background-color: hsla(0, 0%, 0%, 0.5);
-	z-index: 15;
-}
-.close {
-	position: absolute;
-	top: -0.75rem;
-	right: -0.75rem;
-	background-image: url("/src/assets/icons/close_2.svg");
-	background-repeat: no-repeat;
-	width: 1rem;
-	height: 1rem;
-	background-color: hsl(0, 0%, 100%) !important;
-	padding: 0.75rem !important;
-	border-radius: 100% !important;
-	background-position: center;
-	z-index: 1;
-	box-shadow: -1px 0.125rem 0.625rem hsla(0, 0%, 0%, 0.5);
-	background-size: 60%;
-	cursor: pointer;
-}
-
-.add {
-	align-self: end;
-	padding: 0.375rem 0.75rem;
-	margin-top: 0.75rem;
-}
-
-.wrapper {
-	width: 19rem;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	padding: 1rem;
-	gap: 0.5rem;
-	background-color: white;
-	position: relative;
-	border-radius: 0.5rem;
-
-	.header {
-		font-weight: bold;
-		font-size: 1.125rem;
-	}
-}
-
 .options {
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
-	width: 19rem;
+	width: calc(100% + 2rem);
 	margin-left: -1rem;
+	margin-right: -1rem;
 }
 
 .item {
@@ -254,24 +234,6 @@ const loadingModal = reactive({
 		border-right: 0.875rem solid hsl(158, 80%, 47%);
 	}
 
-	.avatar {
-		color: hsl(0, 0%, 100%);
-		background-color: hsl(265, 80%, 50%);
-		font-size: 0.75rem;
-		padding: 0.5rem;
-		border-radius: 1.5rem;
-		height: 2rem;
-		width: 2rem;
-
-		text-align: center;
-		text-transform: uppercase;
-
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		word-break: keep-all;
-	}
-
 	&:hover {
 		background: hsl(158, 79%, 87%);
 
@@ -279,17 +241,6 @@ const loadingModal = reactive({
 			padding-left: 0.5rem;
 			padding-right: 0;
 		}
-	}
-}
-
-.remove-user {
-	height: 1rem;
-	width: 1rem;
-	margin-right: 1rem;
-	cursor: pointer;
-
-	&:hover {
-		filter: none;
 	}
 }
 </style>

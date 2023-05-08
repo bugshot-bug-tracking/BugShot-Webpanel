@@ -19,11 +19,13 @@
 			</slot>
 		</div>
 
-		<n-scrollbar max-h-80vh>
-			<div class="modal-content2" p-1 pr-2>
-				<slot />
-			</div>
-		</n-scrollbar>
+		<slot name="content">
+			<n-scrollbar max-h-80vh>
+				<div class="modal-content2" p-1 pr-2>
+					<slot />
+				</div>
+			</n-scrollbar>
+		</slot>
 
 		<footer v-if="$slots['footer']">
 			<slot name="footer" />

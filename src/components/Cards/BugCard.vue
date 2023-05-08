@@ -19,7 +19,16 @@
 					size="large"
 				/>
 
-				<n-h6>
+				<n-h6 flex items-baseline>
+					<n-text
+						style="font-size: 0.875rem; word-break: keep-all; margin-right: 0.25rem"
+						type="primary"
+						class="bs-br"
+						pr-1
+					>
+						#{{ bug.attributes.ai_id }}
+					</n-text>
+
 					<n-ellipsis
 						style="word-break: break-all"
 						line-clamp="1"

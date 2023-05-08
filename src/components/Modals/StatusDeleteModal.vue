@@ -20,31 +20,14 @@
 					<b>{{ t("move_reports_to") }}</b>
 
 					<div class="select" mb-4>
-						<v-select
-							:options="statuses"
+						<n-select
+							v-model:value="statusOption"
+							:options="statusOptions"
 							:placeholder="$t('please_choose') + '...'"
-							:get-option-label="(option:Status) => option.attributes.designation"
-							:reduce="(option:Status) => option.id"
 							:disabled="deleteAll"
-							v-model="statusOption"
+							filterable
 						>
-							<template #open-indicator="{ attributes }">
-								<img
-									class="black-to-purple"
-									style="background-color: unset; cursor: pointer"
-									v-bind="attributes"
-									src="/src/assets/icons/caret_down.svg"
-								/>
-							</template>
-
-							<template v-slot:option="option">
-								{{ option.attributes.designation }}
-							</template>
-
-							<template v-slot:selected-option="option">
-								{{ option.attributes.designation }}
-							</template>
-						</v-select>
+						</n-select>
 					</div>
 
 					<hr my-2 />
@@ -96,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import { Status } from "~/models/Status";
+import { SelectOption } from "naive-ui";
 import { useReportsStore } from "~/stores/reports";
 
 const emit = defineEmits(["close", "delete"]);
@@ -117,6 +100,14 @@ const status = computed(() => store.getStatusById(props.id));
 
 // choices for moving bugs
 const statuses = computed(() => store.getStatuses?.filter((x) => x.id !== props.id));
+const statusOptions = computed(() => {
+	return statuses.value?.map(
+		(status): SelectOption => ({
+			label: status.attributes.designation,
+			value: status.id,
+		})
+	);
+});
 
 const bugs = computed(() => store.getBugsByStatusId(props.id) ?? []);
 

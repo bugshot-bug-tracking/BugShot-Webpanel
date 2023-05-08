@@ -98,6 +98,10 @@
 								/>
 							</div>
 						</n-form-item>
+
+						<n-form-item :label="t('assigned_to')" path="assignees">
+							<AssignModal :assignedList="data.assignees" @submit="assigneesSubmit" />
+						</n-form-item>
 					</div>
 
 					<AttachmentsList
@@ -147,6 +151,8 @@
 import toBase64 from "~/util/toBase64";
 import { useReportsStore } from "~/stores/reports";
 import { FormInst, FormRules } from "naive-ui";
+import { User } from "~/models/User";
+import axios from "axios";
 
 const store = useReportsStore();
 
@@ -163,6 +169,7 @@ const data = reactive({
 	priority: 2,
 	images: [] as File[],
 	attachments: [] as File[],
+	assignees: [] as User[],
 });
 
 const attachments = reactive({
@@ -204,7 +211,7 @@ const submit = async () => {
 			}))
 		);
 
-		await store.createBug({
+		let response = await store.createBug({
 			designation: data.designation,
 			description: data.description,
 			priority_id: data.priority,
@@ -212,6 +219,14 @@ const submit = async () => {
 			images: images,
 			attachments: attachments,
 		});
+
+		await Promise.allSettled(
+			data.assignees.map(async (user) => {
+				return await axios.post(`bugs/${response.id}/assign-user`, {
+					user_id: user.id,
+				});
+			})
+		);
 
 		loadingModal.state = 1;
 		loadingModal.message = t("bug_created");
@@ -235,6 +250,7 @@ const resetData = () => {
 	data.priority = 2;
 	data.images = [];
 	data.attachments = [];
+	data.assignees = [];
 };
 
 const loadingModal = reactive({
@@ -257,6 +273,13 @@ const rules: FormRules = reactive({
 		renderMessage: () => t("rules.designation_required"),
 	},
 });
+
+const assigneesSubmit = (list: { user: User; original: boolean; checked: boolean }[]) => {
+	list.forEach((element) => {
+		data.assignees = [];
+		if (element.checked === true) data.assignees.push(element.user);
+	});
+};
 </script>
 
 <style scoped lang="scss">

@@ -205,6 +205,8 @@ export const useReportsStore = defineStore("reports", {
 			const { t } = useGlobalI18n();
 
 			message.success(t("messages.bug_created"));
+
+			return response;
 		},
 
 		async moveBug({
