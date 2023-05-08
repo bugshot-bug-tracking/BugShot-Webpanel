@@ -41,8 +41,8 @@
 
 			<div inline-flex gap-12 my-4 items-center>
 				<n-text strong>
-					<i18n-t keypath="approved_x_out_of_y_bugs" scope="global">
-						<n-text>{{ approvedCount }}</n-text>
+					<i18n-t keypath="pending_x_out_of_y_bugs" scope="global">
+						<n-text>{{ resolvedCount }}</n-text>
 						<n-text>{{ list.length }}</n-text>
 					</i18n-t>
 				</n-text>
@@ -120,7 +120,7 @@ const sorting = reactive({
 			value: "estimate",
 		},
 		{
-			label: t("due_date"),
+			label: t("deadline"),
 			value: "date",
 		},
 	] as DropdownOption[],
@@ -178,18 +178,22 @@ const approveSelected = () => {
 	selectionList.value.forEach((item) => {
 		bugResponses.value.set(item, "approved");
 	});
+
+	selectionList.value = [];
 };
 
 const rejectSelected = () => {
 	selectionList.value.forEach((item) => {
 		bugResponses.value.set(item, "rejected");
 	});
+
+	selectionList.value = [];
 };
 
-const approvedCount = computed(() => {
-	let count = 0;
+const resolvedCount = computed(() => {
+	let count = props.list.length;
 	bugResponses.value.forEach((v) => {
-		if (v === "approved") count++;
+		if (v !== "pending") count--;
 	});
 
 	return count;

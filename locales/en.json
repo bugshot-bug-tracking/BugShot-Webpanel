@@ -572,5 +572,6 @@
 	"share_internally": "Share internally",
 	"share": "Share",
 	"only_internally_accesible": "Only accessible for the people with access to the project",
-	"share_link_coppied_clipboard": "Share link copied to clipboard"
+	"share_link_coppied_clipboard": "Share link copied to clipboard",
+	"pending_x_out_of_y_bugs": "Pending: {0} out of {1} Bugs"
 }
