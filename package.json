@@ -30,7 +30,6 @@
 		"@intlify/unplugin-vue-i18n": "^0.8.2",
 		"@types/lodash.debounce": "^4.0.7",
 		"@types/node": "^18.16.5",
-		"@types/vue-select": "^3.16.2",
 		"@vitejs/plugin-vue": "^4.2.1",
 		"laravel-echo": "^1.15.1",
 		"naive-ui": "^2.34.3",
