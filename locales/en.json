@@ -533,15 +533,15 @@
 		"subscription_canceled": "Subscription canceled!",
 		"user_updated": "User updated!"
 	},
-
 	"rules": {
 		"designation_required": "Bug name required!"
 	},
-
 	"enter_main_project_url": "Enter main project URL (Optional)",
-
 	"other_project_url_optional": "Other Project URL (optional)",
-
 	" ": "",
-	"": ""
+	"": "",
+	"share_internally": "Share internally",
+	"share": "Share",
+	"only_internally_accesible": "Only accessible for the people with access to the project",
+	"share_link_coppied_clipboard": "Share link copied to clipboard"
 }

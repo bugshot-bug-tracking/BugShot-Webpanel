@@ -210,7 +210,10 @@ const openBugInfo = async (bug_id: string, status_id: string) => {
 
 <style scoped lang="scss">
 .status-column {
-	width: 25rem;
+	min-width: 22rem;
+	width: auto;
+	max-width: 25rem;
+
 	display: flex;
 	flex-direction: column;
 

@@ -37,8 +37,8 @@
 
 	<n-card class="n-card-container" v-else>
 		<template #header>
-			<div v-if="!bugData.flag1" flex justify-between min-h-8>
-				<div flex items-center>
+			<div v-if="!bugData.flag1" flex justify-between min-h-8 items-baseline>
+				<div flex items-baseline>
 					<n-h3>
 						{{ store.bug.attributes.designation }}
 					</n-h3>
