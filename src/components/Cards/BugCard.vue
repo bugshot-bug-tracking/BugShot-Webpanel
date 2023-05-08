@@ -4,6 +4,7 @@
 		:class="{ active: active, loading: loading }"
 		@click="emit('open', bug.id, bug.attributes.status_id)"
 		cursor-pointer
+		:segmented="{ footer: true }"
 	>
 		<template #header>
 			<n-h6 class="bs-bb" pb-2>
@@ -60,6 +61,10 @@
 				class="black-to-white"
 			/>
 		</div>
+
+		<template #footer>
+			<BugDynamicTags />
+		</template>
 	</n-card>
 </template>
 
@@ -142,6 +147,9 @@ h6 {
 	}
 	:deep(.n-card__content) {
 		padding: 0.5rem 1rem 1rem 1rem;
+	}
+	:deep(.n-card__footer) {
+		padding: 0.5rem 1rem;
 	}
 
 	&.active {
