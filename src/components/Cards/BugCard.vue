@@ -63,7 +63,7 @@
 		</div>
 
 		<template #footer>
-			<BugDynamicTags />
+			<BugDynamicTags v-model:list="bug.attributes.tags" @update:list="updateTags" />
 		</template>
 	</n-card>
 </template>
@@ -124,6 +124,12 @@ const body = computed(() => {
 		text: t("no_deadline"),
 	};
 });
+
+const updateTags = (value: string[]) => {
+	// ..... axios call
+
+	props.bug.attributes.tags = value;
+};
 </script>
 
 <style scoped lang="scss">

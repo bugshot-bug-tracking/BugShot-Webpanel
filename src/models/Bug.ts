@@ -33,5 +33,6 @@ export interface Bug {
 		screenshots?: Screenshot[];
 		attachments?: Attachment[];
 		comments?: Comment[];
+		tags?: string[];
 	};
 }
