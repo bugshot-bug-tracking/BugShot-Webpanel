@@ -6,7 +6,7 @@
 					<BugInfo @close="active = false" />
 
 					<AttachmentsList
-						v-if="store.bug"
+						:loading="store.loading || store.loading_attachments"
 						:list="store.getAttachments"
 						:error="attachments.error"
 						@update="attachments.update"
@@ -24,7 +24,7 @@
 
 					<BugComments
 						:list="store.getComments"
-						:loading="store.loading && store.loading_comments"
+						:loading="store.loading || store.loading_comments"
 						:submit="submitComment"
 					/>
 				</div>
