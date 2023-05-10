@@ -1,6 +1,6 @@
 <template>
 	<section class="status-column">
-		<div flex relative>
+		<div flex>
 			<div v-if="!flags.editMode" class="status-view">
 				<div flex gap-2 items-center>
 					<n-h6>
@@ -10,6 +10,14 @@
 							:tooltip="{ scrollable: true }"
 						>
 							{{ status.attributes.designation }}
+
+							<n-text type="primary">
+								{{
+									(status.attributes.bugs?.length ?? 0) > 0
+										? `(${status.attributes.bugs?.length})`
+										: "(0)"
+								}}
+							</n-text>
 						</n-ellipsis>
 					</n-h6>
 
@@ -71,16 +79,6 @@
 					class="black-to-gray"
 					:class="{ 'opacity-50': loading, 'cursor-pointer': !loading }"
 				/>
-			</div>
-
-			<div class="status-count">
-				<n-text type="primary">
-					{{
-						(status.attributes.bugs?.length ?? 0) > 0
-							? `(${status.attributes.bugs?.length})`
-							: "(0)"
-					}}
-				</n-text>
 			</div>
 		</div>
 
@@ -241,19 +239,6 @@ h6 {
 	flex: 1;
 	margin: 0 1rem;
 	border-bottom: 1px solid var(--bs-purple-light);
-	position: relative;
-}
-
-.status-count {
-	position: absolute;
-	bottom: -0.6rem;
-	left: 0;
-	right: 0;
-	font-size: 0.875rem;
-
-	> * {
-		background-color: var(--bs-gray-light);
-	}
 }
 
 .drag-zone {
