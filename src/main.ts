@@ -1,7 +1,6 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import "vue-select/dist/vue-select.css";
 import "uno.css";
 import { UserModule } from "./types";
 

@@ -45,6 +45,7 @@ declare module '@vue/runtime-core' {
     I18nSwitcher: typeof import('./components/PopupButton/i18nSwitcher.vue')['default']
     IconAdd: typeof import('./components/icons/Icon-Add.vue')['default']
     IconLoading: typeof import('./components/icons/Icon-Loading.vue')['default']
+    IconShare: typeof import('./components/icons/Icon-Share.vue')['default']
     ImageManager: typeof import('./components/ImageManager.vue')['default']
     InfoPopover: typeof import('./components/InfoPopover.vue')['default']
     InviteMemberModal: typeof import('./components/Modals/InviteMemberModal.vue')['default']

@@ -86,12 +86,10 @@
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
 import { User } from "~/models/User";
-import { useBugStore } from "~/stores/bug";
 import { useProjectStore } from "~/stores/project";
 
-defineProps({
+const props = defineProps({
 	assignedList: {
 		type: Array as PropType<User[]>,
 		required: true,
@@ -103,11 +101,15 @@ defineProps({
 		required: false,
 		default: false,
 	},
+
+	submit: {
+		type: Function,
+		required: false,
+		default: undefined,
+	},
 });
 
-const emit = defineEmits(["close"]);
-
-const store = useBugStore();
+const emit = defineEmits(["close", "submit"]);
 
 const { t } = useI18n();
 
@@ -129,7 +131,7 @@ watchEffect(() => {
 
 	useProjectStore().getMembers.forEach((user) => {
 		let checked = false;
-		if (store.getAssignees?.some((x) => x.id === user?.id)) checked = true;
+		if (props.assignedList.some((x) => x.id === user?.id)) checked = true;
 
 		list.value.push({
 			user: user!,
@@ -144,23 +146,15 @@ const changeUser = (user: User, checked: boolean, index: number) => {
 };
 
 const submit = async () => {
-	if (!store.bug) return;
+	if (!props.submit) {
+		emit("submit", list.value);
+		return modal.close();
+	}
 
 	try {
 		loadingModal.show = true;
 
-		for (const item of list.value) {
-			// if no change was made skip over the item
-			if (item.original === item.checked) continue;
-
-			if (item.checked === true)
-				await axios.post(`bugs/${store.bug.id}/assign-user`, {
-					user_id: item.user.id,
-				});
-			else await axios.delete(`bugs/${store.bug.id}/users/${item.user.id}`);
-		}
-
-		await store.fetchBugUsers();
+		await props.submit(list.value);
 
 		loadingModal.state = 1;
 		loadingModal.message = t("members_updated");

@@ -5,7 +5,7 @@
 		<div v-if="highlightMatch.url_match" style="color: var(--bs-gray)" flex gap-2 text-3>
 			<b style="white-space: nowrap">{{ $t("url") }}: </b>
 
-			<n-ellipsis :line-clamp="1">
+			<n-ellipsis :line-clamp="1" :tooltip="{ scrollable: true }">
 				<p v-html="highlightedTexts.url" />
 
 				<template #tooltip>
@@ -23,7 +23,7 @@
 		>
 			<b style="white-space: nowrap">{{ $t("description") }}: </b>
 
-			<n-ellipsis :line-clamp="1">
+			<n-ellipsis :line-clamp="1" :tooltip="{ scrollable: true }">
 				<p v-html="highlightedTexts.description" />
 
 				<template #tooltip>
