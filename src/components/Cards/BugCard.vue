@@ -105,7 +105,7 @@ const body = computed(() => {
 		let date = new Date(props.bug.attributes.done_at);
 		date.setDate(date.getDate() + 30);
 
-		if (date.getTime() < new Date().getTime())
+		if (date.getTime() > Date.now())
 			return {
 				type: "archiving_in",
 				text: timeToText(date),
