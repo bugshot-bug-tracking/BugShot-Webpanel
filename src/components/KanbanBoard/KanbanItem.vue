@@ -15,7 +15,7 @@
 								{{
 									(status.attributes.bugs?.length ?? 0) > 0
 										? `(${status.attributes.bugs?.length})`
-										: ""
+										: "(0)"
 								}}
 							</n-text>
 						</n-ellipsis>
