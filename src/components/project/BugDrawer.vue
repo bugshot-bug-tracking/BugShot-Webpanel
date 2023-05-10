@@ -31,45 +31,61 @@
 			</n-scrollbar>
 
 			<template #footer>
-				<n-popconfirm v-model:show="popover.value" :show-icon="false" m-4>
-					<template #trigger>
-						<n-button text type="error" strong :disabled="store.loading_delete_bug">
-							<img
-								src="/src/assets/icons/delete.svg"
-								alt="delete"
-								class="black-to-red"
-								size="large"
-							/>
-
-							{{ $t("delete.bug") }}
-						</n-button>
-					</template>
-
-					<div m-4>{{ t("want_to_delete_this_bug") }}</div>
-
-					<template #action>
-						<div flex gap-2 my-2 mx-4>
-							<n-button
-								type="success"
-								ghost
-								strong
-								@click="popover.close"
-								:disabled="store.loading_delete_bug"
-							>
-								{{ $t("cancel") }}
+				<div flex-1 flex items-center justify-between>
+					<n-tooltip>
+						<template #trigger>
+							<n-button text style="font-size: 0.875rem" @click="clipboardCopy">
+								<template #icon>
+									<Icon-Share />
+								</template>
+								{{ $t("share") }}
 							</n-button>
+						</template>
+						{{ $t("only_internally_accesible") }}
+					</n-tooltip>
 
-							<n-button
-								type="error"
-								@click="deleteBug"
-								:disabled="store.loading_delete_bug"
-								:loading="store.loading_delete_bug"
-							>
-								{{ $t("delete.delete") }}
+					<n-popconfirm v-model:show="popover.value" :show-icon="false" m-4>
+						<template #trigger>
+							<n-button text type="error" strong :disabled="store.loading_delete_bug">
+								<template #icon>
+									<img
+										src="/src/assets/icons/delete.svg"
+										alt="delete"
+										class="black-to-red"
+										size="large"
+									/>
+								</template>
+
+								{{ $t("delete.bug") }}
 							</n-button>
-						</div>
-					</template>
-				</n-popconfirm>
+						</template>
+
+						<div m-4>{{ t("want_to_delete_this_bug") }}</div>
+
+						<template #action>
+							<div flex gap-2 my-2 mx-4>
+								<n-button
+									type="success"
+									ghost
+									strong
+									@click="popover.close"
+									:disabled="store.loading_delete_bug"
+								>
+									{{ $t("cancel") }}
+								</n-button>
+
+								<n-button
+									type="error"
+									@click="deleteBug"
+									:disabled="store.loading_delete_bug"
+									:loading="store.loading_delete_bug"
+								>
+									{{ $t("delete.delete") }}
+								</n-button>
+							</div>
+						</template>
+					</n-popconfirm>
+				</div>
 			</template>
 		</n-drawer-content>
 	</n-drawer>
@@ -77,7 +93,11 @@
 
 <script setup lang="ts">
 import axios from "axios";
+import { useDiscreteApi } from "~/composables/DiscreteApi";
 import { useBugStore } from "~/stores/bug";
+import { useCompanyStore } from "~/stores/company";
+import { useOrganizationStore } from "~/stores/organization";
+import { useProjectStore } from "~/stores/project";
 import toBase64 from "~/util/toBase64";
 
 let store = useBugStore();
@@ -173,5 +193,25 @@ const deleteBug = async () => {
 
 const submitComment = async (message: string, users: number[]) => {
 	await store.createComment({ message: message, users: users.map((u) => ({ user_id: u })) });
+};
+
+const clipboardCopy = async () => {
+	try {
+		let successUrl = new URL(
+			`/${useOrganizationStore().organization!.id}/company/${
+				useCompanyStore().company!.id
+			}/project/${useProjectStore().project!.id}`,
+			window.location.origin
+		);
+		successUrl.searchParams.append("b", store.bug!.id);
+
+		await navigator.clipboard.writeText(successUrl.toString());
+	} catch (error) {
+		console.log(error);
+	} finally {
+		const { message } = useDiscreteApi();
+
+		message.success(t("share_link_coppied_clipboard"));
+	}
 };
 </script>
