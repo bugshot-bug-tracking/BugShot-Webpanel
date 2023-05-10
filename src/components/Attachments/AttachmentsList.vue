@@ -1,5 +1,18 @@
 <template>
-	<section class="bs-container" :class="{ 'disabled-overlay': disabled }">
+	<section class="bs-container" v-if="loading">
+		<div flex justify-between>
+			<n-skeleton text height="2rem" width="40%" />
+			<n-skeleton text height="2rem" width="2rem" rounded />
+		</div>
+
+		<div flex flex-col mt-4 gap-4>
+			<n-skeleton text height="1.5rem" />
+			<n-skeleton text height="1.5rem" />
+			<n-skeleton text height="1.5rem" />
+		</div>
+	</section>
+
+	<section v-else class="bs-container" :class="{ 'disabled-overlay': disabled }">
 		<div class="header">
 			<n-h4 m-0>{{ t("attachment", 2) }}</n-h4>
 
@@ -53,6 +66,11 @@ const props = defineProps({
 		description: "Hide refresh button when set to true",
 	},
 	disabled: {
+		required: false,
+		type: Boolean,
+		default: false,
+	},
+	loading: {
 		required: false,
 		type: Boolean,
 		default: false,
