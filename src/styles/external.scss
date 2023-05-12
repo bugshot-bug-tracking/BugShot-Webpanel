@@ -62,3 +62,7 @@ svg {
 .n-input-group > *:not(:first-child) {
 	margin-left: unset !important;
 }
+
+.n-input__eye {
+	display: flex;
+}

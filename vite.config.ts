@@ -79,4 +79,12 @@ export default defineConfig({
 			include: [path.resolve(__dirname, "locales/**")],
 		}),
 	],
+
+	css: {
+		preprocessorOptions: {
+			scss: {
+				additionalData: `@import "~/styles/variables.scss";`,
+			},
+		},
+	},
 });
