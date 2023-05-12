@@ -18,6 +18,8 @@
 			<n-step title="Password">
 				<template #icon> <div /></template>
 			</n-step>
+
+			<template #finish-icon> <div /></template>
 		</n-steps>
 	</div>
 </template>
@@ -36,10 +38,26 @@ const steps = reactive({
 </script>
 
 <style scoped lang="scss">
+:deep(.n-step--process-status) {
+	.n-step-indicator {
+		background-color: var(--bs-gray);
+	}
+}
+
+:deep(.n-step--wait-status) {
+	.n-step-indicator {
+		background-color: var(--bs-gray);
+		opacity: 0.5;
+	}
+}
+:deep(.n-step--finish-status) {
+	.n-step-indicator {
+		background-color: var(--bs-green);
+	}
+}
 :deep(.n-step-indicator) {
 	width: 0.5rem;
 	height: 0.5rem;
-	background-color: var(--bs-gray);
 	box-shadow: unset;
 	margin: auto;
 }

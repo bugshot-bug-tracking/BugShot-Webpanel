@@ -54,8 +54,12 @@
 			height: auto;
 			background-image: unset;
 
-			a img {
-				height: 4rem;
+			a {
+				height: 50%;
+
+				img {
+					height: 100%;
+				}
 			}
 		}
 
