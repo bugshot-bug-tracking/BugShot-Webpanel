@@ -11,20 +11,28 @@
 				class="status-list"
 				handle=".status-handle"
 				@change="statusMove"
+				:disabled="mode === 'checker'"
 			>
 				<template #header v-if="store.getBacklogStatus">
-					<KanbanItem :status="store.getBacklogStatus" />
+					<KanbanItem
+						:status="store.getBacklogStatus"
+						:childrenCheckable="mode === 'checker'"
+					/>
 				</template>
 
 				<template #item="status: { element: Status }">
 					<KanbanItem
 						:status="status.element"
 						@delete="deleteModal.open(status.element.id)"
+						:childrenDisabled="mode === 'checker'"
 					/>
 				</template>
 
 				<template #footer v-if="store.getDoneStatus">
-					<KanbanItem :status="store.getDoneStatus" />
+					<KanbanItem
+						:status="store.getDoneStatus"
+						:childrenDisabled="mode === 'checker'"
+					/>
 				</template>
 			</draggable>
 		</n-scrollbar>
@@ -37,6 +45,15 @@
 import draggable from "vuedraggable";
 import { Status } from "~/models/Status";
 import { useReportsStore } from "~/stores/reports";
+
+defineProps({
+	mode: {
+		type: String as PropType<undefined | "checker">,
+		required: false,
+		default: undefined,
+		description: "Operational mode of the kanban; 'undefined' is the normal mode.",
+	},
+});
 
 const store = useReportsStore();
 
