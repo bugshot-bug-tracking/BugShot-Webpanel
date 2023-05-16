@@ -26,7 +26,7 @@
 						:project_name="project.attributes.designation"
 						:company_name="project.attributes.company.attributes.designation"
 						:url="project.attributes.url ?? ''"
-						:image="project.attributes.image?.attributes.base64"
+						:image="project.attributes.image?.url"
 						:color="project.attributes.color_hex"
 					/>
 				</div>
@@ -120,7 +120,7 @@
 				</div>
 				<div class="group-content">
 					<div class="delete-project" flex flex-col gap-2 p-6 py-8>
-						<a style="color:var(--bs-red)" underline @click="deleteModal.open">
+						<a style="color: var(--bs-red)" underline @click="deleteModal.open">
 							{{ t("delete_project_and_bugs") }}?
 						</a>
 
