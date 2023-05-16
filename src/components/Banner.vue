@@ -1,7 +1,3 @@
-<!-- Notes:
-	- update this component to show when there is a major/minor version and ignore fixes
- -->
-
 <template>
 	<div class="announcement-wrapper">
 		<div class="announcement" v-if="visible">
@@ -29,9 +25,12 @@ let local = useLocalStorage("new_version", version);
 let visibility = useLocalStorage("new_version_visibility", true);
 
 onMounted(() => {
-	if (local.value !== version) {
+	let splitLocalVersion = local.value.split(".");
+	let splitVersion = version.split(".");
+
+	// ignore the patch version changes but notify for the major and minor
+	if (splitVersion[0] !== splitLocalVersion[0] || splitVersion[1] !== splitLocalVersion[1])
 		visibility.value = true;
-	}
 });
 
 const visible = computed(() => visibility.value);
