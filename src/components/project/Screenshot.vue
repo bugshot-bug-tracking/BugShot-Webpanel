@@ -155,11 +155,10 @@ const hasMarker = computed(() => {
 <style lang="scss" scoped>
 .screenshot {
 	position: relative;
-	width: 100%;
+	width: fit-content;
 	height: 10rem;
+	margin: auto;
 
-	background-color: hsl(0, 0%, 50%);
-	border: 2px solid hsl(240, 100%, 95%);
 	overflow: hidden;
 
 	&.loading {
@@ -179,9 +178,12 @@ const hasMarker = computed(() => {
 
 .thumbnail-wraper {
 	cursor: pointer;
+	width: 100%;
+	height: 100%;
 
 	.thumbnail {
-		width: 100%;
+		max-width: 100%;
+		max-height: 100%;
 	}
 
 	.enlarge {

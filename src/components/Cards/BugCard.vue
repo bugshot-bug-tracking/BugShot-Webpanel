@@ -1,29 +1,43 @@
 <template>
 	<n-card
 		class="bug-card"
-		:class="{ active: active, loading: loading }"
-		@click="emit('open', bug.id, bug.attributes.status_id)"
-		cursor-pointer
+		:class="{
+			active: active,
+			loading: loading,
+			'cursor-pointer': !disabled || checkable,
+			'disabled-overlay': disabled,
+		}"
+		@click="onClick"
 	>
 		<template #header>
-			<n-h6 flex items-baseline pb-2 class="bs-bb">
-				<n-text
-					style="font-size: 0.875rem; word-break: keep-all; margin-right: 0.25rem"
-					type="primary"
-					class="bs-br"
-					pr-1
-				>
-					#{{ bug.attributes.ai_id }}
-				</n-text>
+			<div class="bs-bb" flex gap-2 pb-1>
+				<n-checkbox
+					v-if="checkable"
+					:value="bug.id"
+					:focusable="false"
+					class="checkbox-round-inverted"
+					size="large"
+				/>
 
-				<n-ellipsis
-					style="word-break: break-all"
-					line-clamp="1"
-					:tooltip="{ scrollable: true }"
-				>
-					{{ bug.attributes.designation }}
-				</n-ellipsis>
-			</n-h6>
+				<n-h6 flex items-baseline>
+					<n-text
+						style="font-size: 0.875rem; word-break: keep-all; margin-right: 0.25rem"
+						type="primary"
+						class="bs-br"
+						pr-1
+					>
+						#{{ bug.attributes.ai_id }}
+					</n-text>
+
+					<n-ellipsis
+						style="word-break: break-all"
+						line-clamp="1"
+						:tooltip="{ scrollable: true }"
+					>
+						{{ bug.attributes.designation }}
+					</n-ellipsis>
+				</n-h6>
+			</div>
 		</template>
 
 		<div grid style="grid-template-columns: 4fr 1fr; column-gap: 0.5rem">
@@ -94,6 +108,18 @@ const props = defineProps({
 		type: Boolean,
 		default: false,
 	},
+
+	disabled: {
+		required: false,
+		type: Boolean,
+		default: false,
+	},
+
+	checkable: {
+		required: false,
+		type: Boolean,
+		default: false,
+	},
 });
 
 const emit = defineEmits<{ (event: "open", bug_id: string, status_id: string): void }>();
@@ -129,6 +155,16 @@ const body = computed(() => {
 		text: t("no_deadline"),
 	};
 });
+
+const onClick = () => {
+	// if the card is disabled don't do anything
+	if (props.disabled) return;
+
+	// if the card is used for checking don't do anything here
+	if (props.checkable) return;
+
+	emit("open", props.bug.id, props.bug.attributes.status_id);
+};
 </script>
 
 <style scoped lang="scss">
