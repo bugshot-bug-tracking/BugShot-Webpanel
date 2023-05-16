@@ -34,6 +34,8 @@ const initStore = async () => {
 
 		await store.init(props.id);
 		await usePaymentsStore().init();
+		await store.fetchUsers();
+		await store.fetchSubscriptions();
 	} catch (err) {
 		console.log(err);
 		error.value = true;
