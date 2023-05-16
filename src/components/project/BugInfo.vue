@@ -328,15 +328,42 @@
 					{{ $t("time_estimate") + ":" }}
 				</n-h6>
 
-				<n-input-group>
+				<n-input-group v-if="estimate.editMode">
 					<n-input-number
 						clearable
 						:min="0"
-						v-model:value="estimate"
-						@update:value="changeEstimate"
+						v-model:value="estimate.value"
+						@update:value="estimate.onChange"
+						ref="inputNumberInst"
+						@blur="estimate.stopEdit"
 					/>
 					<n-input-group-label>{{ t("minutes") }}</n-input-group-label>
 				</n-input-group>
+
+				<div v-else flex items-center>
+					<n-text depth="3">
+						{{ estimate.value ? t("x_minutes", [estimate.value]) : "-" }}
+					</n-text>
+
+					<img
+						w-4
+						ml-2
+						class="black-to-gray"
+						src="/src/assets/icons/edit.svg"
+						alt="edit"
+						cursor-pointer
+						@click="estimate.startEdit"
+					/>
+
+					<n-text
+						v-if="estimate.status"
+						:type="estimate.status.type"
+						ml-4
+						style="font-size: 0.875rem"
+					>
+						{{ estimate.status.text }}
+					</n-text>
+				</div>
 			</div>
 
 			<div flex items-center gap-2>
@@ -358,6 +385,7 @@ import axios from "axios";
 import { User } from "~/models/User";
 import debounce from "lodash.debounce";
 import { useFeatureFlagsStore } from "~/stores/featureFlags";
+import { InputNumberInst } from "naive-ui";
 
 const emit = defineEmits(["close"]);
 
@@ -464,26 +492,60 @@ const changeDeadline = (value: number) => {
 	});
 };
 
-const estimate = ref<number | undefined>(undefined);
+const inputNumberInst = ref<InputNumberInst | null>(null);
+
+const estimate = reactive({
+	value: undefined as undefined | number,
+
+	onChange: debounce(async () => {
+		console.log("here");
+		await store.updateBug({
+			time_estimation: estimate.value,
+		});
+	}, 1000),
+
+	editMode: false,
+
+	startEdit: () => {
+		estimate.editMode = true;
+		nextTick(() => inputNumberInst.value?.focus());
+	},
+	stopEdit: () => {
+		estimate.editMode = false;
+	},
+
+	status: computed(() => {
+		let approval_status = store.bug?.attributes.approval_status;
+
+		if (approval_status?.id == undefined) return undefined;
+
+		switch (approval_status.designation) {
+			case "pending":
+				return {
+					text: t("approval_status.pending"),
+					type: "warning",
+				};
+
+			case "approved":
+				return {
+					text: t("approval_status.approved"),
+					type: "success",
+				};
+
+			case "declined":
+				return {
+					text: t("approval_status.rejected"),
+					type: "error",
+				};
+		}
+	}),
+});
 
 watchEffect(() => {
 	estimate.value = store.bug?.attributes.time_estimation
 		? Number(store.bug?.attributes.time_estimation)
 		: undefined;
 });
-
-const changeEstimate = (value: number | null) => {
-	console.log(value);
-
-	executeEstimateChange();
-};
-
-const executeEstimateChange = debounce(async () => {
-	console.log("here");
-	await store.updateBug({
-		time_estimation: estimate.value,
-	});
-}, 1000);
 
 const onSubmit = async (list: { user: User; original: boolean; checked: boolean }[]) => {
 	for (const item of list) {
