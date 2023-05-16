@@ -40,11 +40,7 @@ export const useOrganizationStore = defineStore("organization", {
 
 				await this.load();
 
-				await this.fetchUsers();
-
 				await this.fetchCompanies();
-
-				await this.fetchSubscriptions();
 
 				useSettingsStore().setPreferredOrganization(id);
 			} catch (error) {
