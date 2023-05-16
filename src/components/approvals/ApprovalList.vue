@@ -1,5 +1,5 @@
 <template>
-	<div style="width: 75%" flex flex-col mx-a overflow-auto>
+	<div style="width: 65%" flex flex-col mx-a overflow-auto>
 		<div flex-1 flex items-center justify-between px-6 style="white-space: nowrap">
 			<div flex items-center gap-4>
 				<n-checkbox
