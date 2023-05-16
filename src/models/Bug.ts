@@ -33,5 +33,12 @@ export interface Bug {
 		screenshots?: Screenshot[];
 		attachments?: Attachment[];
 		comments?: Comment[];
+
+		time_estimation?: number;
+
+		approval_status: {
+			id: string;
+			designation?: "approved" | "declined" | "pending";
+		};
 	};
 }

@@ -316,14 +316,26 @@
 				/>
 			</div>
 
-			<div flex items-center gap-2 class="bs-bb bs-bt" py-4 v-if="false">
+			<div
+				flex
+				items-center
+				gap-2
+				class="bs-bb bs-bt"
+				py-4
+				v-if="useFeatureFlagsStore().canSeeEverything"
+			>
 				<n-h6 style="white-space: nowrap">
 					{{ $t("time_estimate") + ":" }}
 				</n-h6>
 
 				<n-input-group>
-					<n-input-number clearable />
-					<n-input-group-label>hours</n-input-group-label>
+					<n-input-number
+						clearable
+						:min="0"
+						v-model:value="estimate"
+						@update:value="changeEstimate"
+					/>
+					<n-input-group-label>{{ t("minutes") }}</n-input-group-label>
 				</n-input-group>
 			</div>
 
@@ -344,6 +356,8 @@ import { Status } from "~/models/Status.js";
 import { useBugStore } from "~/stores/bug";
 import axios from "axios";
 import { User } from "~/models/User";
+import debounce from "lodash.debounce";
+import { useFeatureFlagsStore } from "~/stores/featureFlags";
 
 const emit = defineEmits(["close"]);
 
@@ -449,6 +463,27 @@ const changeDeadline = (value: number) => {
 		deadline: newDate,
 	});
 };
+
+const estimate = ref<number | undefined>(undefined);
+
+watchEffect(() => {
+	estimate.value = store.bug?.attributes.time_estimation
+		? Number(store.bug?.attributes.time_estimation)
+		: undefined;
+});
+
+const changeEstimate = (value: number | null) => {
+	console.log(value);
+
+	executeEstimateChange();
+};
+
+const executeEstimateChange = debounce(async () => {
+	console.log("here");
+	await store.updateBug({
+		time_estimation: estimate.value,
+	});
+}, 1000);
 
 const onSubmit = async (list: { user: User; original: boolean; checked: boolean }[]) => {
 	for (const item of list) {

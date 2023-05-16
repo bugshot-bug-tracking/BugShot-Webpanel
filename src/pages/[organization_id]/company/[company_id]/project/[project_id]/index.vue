@@ -1,7 +1,7 @@
 <template>
 	<T2Page>
 		<template #header>
-			<T3Header>
+			<T3Header v-if="kanbanState.mode == undefined">
 				<template #l-top>
 					<a :href="project.attributes.url" target="_blank">
 						{{ project.attributes.designation }}
@@ -23,6 +23,8 @@
 					<SearchBar />
 				</template>
 
+				<AddBug />
+
 				<ManageMembers
 					v-if="isAuthorized"
 					:list="manageableMembers"
@@ -36,32 +38,69 @@
 					infoKey="tooltips.project_roles"
 				/>
 
-				<AddBug />
-
-				<RouterLink
-					:to="{
-						name: 'project-settings',
-						params: {
-							organization_id: organization_id,
-							company_id: company_id,
-							project_id: project_id,
-						},
-					}"
-					v-if="isAuthorized"
-				>
-					<n-button type="success" ghost round size="large">
-						<template #icon>
-							<img
-								src="/src/assets/icons/gear.svg"
-								alt="project"
-								class="black-to-green"
-							/>
-						</template>
-
-						{{ $t("project_settings") }}
-					</n-button>
-				</RouterLink>
+				<template #actions v-if="more.options.some((o) => o.show)">
+					<n-dropdown trigger="click" :options="more.options">
+						<n-button text>
+							<Icon-VerticalDots />
+						</n-button>
+					</n-dropdown>
+				</template>
 			</T3Header>
+
+			<T2Header v-else>
+				<template #l-top>
+					<n-h2 m-0>
+						<i18n-t keypath="request_approvals_for_s" scope="global">
+							{{ project.attributes.designation }}
+						</i18n-t>
+					</n-h2>
+				</template>
+
+				<template #l-bottom>
+					{{ project.attributes.company.attributes.designation }}
+				</template>
+
+				<n-text type="primary">
+					<i18n-t
+						keypath="n_bug_selected"
+						tag="span"
+						scope="global"
+						:plural="kanbanState.checkList.length"
+					>
+						<b>
+							{{ kanbanState.checkList.length }}
+						</b>
+					</i18n-t>
+				</n-text>
+
+				<n-button
+					type="primary"
+					:ghost="!allBugsSelected"
+					size="large"
+					round
+					@click="toggleSelectAll"
+				>
+					<template #icon>
+						<Icon-SelectAll />
+					</template>
+
+					{{ allBugsSelected ? t("deselect_all_bugs") : t("select_all_bugs") }}
+				</n-button>
+
+				<n-divider :vertical="true" min-h-8 />
+
+				<RequestApprovalModal
+					:list="store.getMembers"
+					:disabled="kanbanState.checkList.length < 1"
+					:submit="onSubmitApprovals"
+				/>
+
+				<template #actions v-if="more.options.some((o) => o.show)">
+					<n-button text @click="kanbanState.cancelChecker">
+						<Icon-X />
+					</n-button>
+				</template>
+			</T2Header>
 		</template>
 
 		<TrialBanner mb-0 />
@@ -83,18 +122,22 @@
 		>
 			<n-tab-pane name="kanban" display-directive="show">
 				<template #tab>
-					<img src="/src/assets/icons/board.svg" w-5 mr-1 class="tab-image" />
+					<Icon-Board mr-1 />
+
 					{{ $t("kanban") }}
 				</template>
 
-				<Kanban />
+				<n-checkbox-group v-model:value="kanbanState.checkList" overflow-auto>
+					<Kanban :mode="kanbanState.mode" />
+				</n-checkbox-group>
 
 				<BugDrawer />
 			</n-tab-pane>
 
 			<n-tab-pane name="archive" display-directive="if">
 				<template #tab>
-					<img src="/src/assets/icons/archive.svg" w-5 mr-1 class="tab-image" />
+					<Icon-Archive mr-1 />
+
 					{{ $t("archive") }}
 				</template>
 
@@ -111,11 +154,15 @@
 </template>
 
 <script setup lang="ts">
+import { DropdownOption } from "naive-ui";
 import { useBugStore } from "~/stores/bug";
 import { useCompanyStore } from "~/stores/company";
 import { useOrganizationStore } from "~/stores/organization";
 import { useProjectStore } from "~/stores/project";
 import { useReportsStore } from "~/stores/reports";
+import IconSettings from "~/components/icons/Icon-Settings.vue";
+import IconTabular from "~/components/icons/Icon-Tabular.vue";
+import { useFeatureFlagsStore } from "~/stores/featureFlags";
 
 const props = defineProps({
 	organization_id: {
@@ -137,7 +184,10 @@ const props = defineProps({
 	},
 });
 
+const { t } = useI18n();
+
 const route = useRoute();
+const router = useRouter();
 
 const store = useProjectStore();
 
@@ -237,6 +287,78 @@ watchEffect(async () => {
 		console.log(error);
 	}
 });
+
+const more = computed(() => ({
+	options: [
+		{
+			label: t("project_settings"),
+			key: "settings",
+			icon: () => h(IconSettings),
+			show: isAuthorized.value,
+			props: {
+				onClick: () => {
+					router.push({
+						name: "project-settings",
+						params: {
+							organization_id: props.organization_id,
+							company_id: props.company_id,
+							project_id: props.project_id,
+						},
+					});
+				},
+			},
+		},
+		{
+			label: t("request_approval", 2),
+			key: "approvals",
+			icon: () => h(IconTabular),
+			show: currentTab.value === "kanban" && useFeatureFlagsStore().canSeeEverything,
+			props: {
+				onClick: () => {
+					kanbanState.startChecker();
+				},
+			},
+		},
+	] as DropdownOption[],
+}));
+
+const kanbanState = reactive({
+	mode: undefined as undefined | "checker",
+	checkList: [] as string[],
+
+	startChecker: () => {
+		kanbanState.mode = "checker";
+		kanbanState.checkList = [];
+	},
+
+	cancelChecker: () => {
+		kanbanState.mode = undefined;
+		kanbanState.checkList = [];
+	},
+});
+
+const allBugsSelected = computed(
+	() => kanbanState.checkList.length === reportsStore.getBacklogStatus?.attributes.bugs?.length
+);
+
+const toggleSelectAll = () => {
+	// if it's a deselect action empty the list and return
+	if (allBugsSelected.value === true) return (kanbanState.checkList = []);
+
+	let bugs = reportsStore.getBacklogStatus?.attributes.bugs;
+
+	if (bugs == undefined) return;
+
+	bugs.forEach((bug) => {
+		if (!kanbanState.checkList.some((bId) => bId === bug.id))
+			kanbanState.checkList.push(bug.id);
+	});
+};
+
+const onSubmitApprovals = async (recipients: { name: string; email: string }[]) => {
+	await store.requestApprovals(kanbanState.checkList, recipients);
+	kanbanState.cancelChecker();
+};
 </script>
 
 <style lang="scss" scoped>
@@ -253,14 +375,6 @@ watchEffect(async () => {
 
 	.n-tab-pane {
 		display: flex;
-	}
-}
-
-:deep(.n-tabs-tab--active) {
-	.tab-image {
-		color: #7a2ee6;
-		filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%) hue-rotate(263deg)
-			brightness(94%) contrast(92%);
 	}
 }
 </style>
