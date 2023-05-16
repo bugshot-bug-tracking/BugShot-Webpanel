@@ -12,6 +12,7 @@
 
 <script setup lang="ts">
 import { useOrganizationStore } from "~/stores/organization";
+import { usePaymentsStore } from "~/stores/payments";
 
 const props = defineProps({
 	id: {
@@ -32,6 +33,7 @@ const initStore = async () => {
 		error.value = false;
 
 		await store.init(props.id);
+		await usePaymentsStore().init();
 	} catch (err) {
 		console.log(err);
 		error.value = true;

@@ -4,7 +4,6 @@ import axios from "axios";
 import { Role } from "~/models/Role";
 import { Organization } from "~/models/Organization";
 import { useAuthStore } from "./auth";
-import { usePaymentsStore } from "./payments";
 import { useDiscreteApi } from "~/composables/DiscreteApi";
 import { useGlobalI18n } from "~/composables/GlobalI18n";
 
@@ -23,8 +22,6 @@ export const useMainStore = defineStore("main", {
 				await this.fetchRoles();
 
 				await this.initOrganizations();
-
-				await usePaymentsStore().init();
 			} catch (error) {
 				console.log(error);
 				throw error;
