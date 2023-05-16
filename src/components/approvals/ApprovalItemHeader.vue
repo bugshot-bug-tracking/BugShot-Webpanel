@@ -5,9 +5,16 @@
 		flex-1
 		p-2
 		style="grid-template-columns: 1fr 8rem 13rem 5rem; column-gap: 1rem; word-break: keep-all"
+		:class="{ 'disabled-overlay': locked }"
 	>
 		<div flex items-center gap-2>
-			<n-checkbox class="checkbox-round-inverted" @click.stop :value="bug.id" />
+			<n-checkbox
+				class="checkbox-round-inverted"
+				@click.stop
+				:value="bug.id"
+				v-if="locked === false"
+			/>
+			<Icon-Lock v-else />
 
 			<n-ellipsis line-clamp="1" :tooltip="{ scrollable: true }">
 				<n-text strong>
@@ -23,7 +30,11 @@
 		<div flex items-center gap-2 style="font-size: 0.875rem">
 			<n-text strong> {{ t("time_estimate") }}</n-text>
 			<n-p style="color: var(--bs-gray)" m-0>
-				{{ bug.attributes.time_estimate ?? "-" }}
+				{{
+					bug.attributes.time_estimation
+						? t("x_minutes", [bug.attributes.time_estimation])
+						: "-"
+				}}
 			</n-p>
 		</div>
 
@@ -42,16 +53,26 @@ const props = defineProps({
 		type: Object as PropType<Bug>,
 	},
 	status: {
-		type: String as PropType<"pending" | "approved" | "rejected">,
+		type: String as PropType<"pending" | "approved" | "declined">,
 		required: false,
 		default: "pending",
+	},
+	defaultStatus: {
+		type: String as PropType<"pending" | "approved" | "declined" | undefined>,
+		required: false,
+		default: undefined,
 	},
 });
 
 const { t } = useI18n();
 
 const statusData = computed(() => {
-	switch (props.status) {
+	let val = props.status;
+
+	if (props.defaultStatus !== undefined && props.defaultStatus !== "pending")
+		val = props.defaultStatus;
+
+	switch (val) {
 		default:
 		case "pending":
 			return {
@@ -64,11 +85,16 @@ const statusData = computed(() => {
 				text: t("approval_status.approved"),
 			};
 
-		case "rejected":
+		case "declined":
 			return {
 				type: "error",
 				text: t("approval_status.rejected"),
 			};
 	}
+});
+
+const locked = computed(() => {
+	if (props.defaultStatus === undefined || props.defaultStatus === "pending") return false;
+	return true;
 });
 </script>

@@ -33,12 +33,10 @@
 		</div>
 
 		<div my-4 h-80>
-			<!-- <n-skeleton height="20rem" style="border-radius: 0.25rem" /> -->
-			<n-image
-				src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-				style="max-width: 100%; max-height: 100%"
-				object-fit="contain"
-				show-toolbar-tooltip
+			<Screenshot
+				:screenshots="bug.attributes.screenshots"
+				:priority="bug.attributes.priority.id"
+				:style="{ height: '100%' }"
 			/>
 		</div>
 
@@ -131,7 +129,11 @@
 			<div inline-flex gap-4>
 				<n-h6>{{ $t("time_estimate") + ":" }}</n-h6>
 				<n-text style="color: var(--bs-gray)">
-					{{ bug.attributes.time_estimate ?? "-" }}
+					{{
+						bug.attributes.time_estimation
+							? $t("x_minutes", [bug.attributes.time_estimation])
+							: "-"
+					}}
 				</n-text>
 			</div>
 			<div inline-flex gap-4>
@@ -141,11 +143,17 @@
 		</div>
 
 		<div flex-1 flex gap-8 justify-center mt-8>
-			<n-button type="success" round @click="emit('approve', bug.id)">
+			<n-button type="success" round @click="emit('approve', bug.id)" :disabled="disabled">
 				{{ $t("approve_bug") }}
 			</n-button>
 
-			<n-button type="success" ghost round @click="emit('reject', bug.id)">
+			<n-button
+				type="success"
+				ghost
+				round
+				@click="emit('reject', bug.id)"
+				:disabled="disabled"
+			>
 				{{ $t("reject_bug") }}
 			</n-button>
 		</div>
@@ -160,6 +168,11 @@ defineProps({
 	bug: {
 		required: true,
 		type: Object as PropType<Bug>,
+	},
+	disabled: {
+		type: Boolean,
+		required: false,
+		default: false,
 	},
 });
 

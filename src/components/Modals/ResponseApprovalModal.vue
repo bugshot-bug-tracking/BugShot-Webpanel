@@ -4,18 +4,18 @@
 			<Icon-Send />
 		</template>
 
-		{{ t("send_request") }}
+		{{ $t("send_response") }}
 	</n-button>
 
 	<MyModal :modelValue="modal.show" :close="modal.close" z-100>
 		<ModalTemplate @close="modal.close">
-			<template #header-text>{{ $t("request_approval") }}</template>
+			<template #header-text>{{ $t("send_responses") }}</template>
 
 			<div flex flex-col>
-				<n-text> {{ t("select_the_form_recipients") }} </n-text>
+				<n-text style="white-space: pre"> {{ t("optional_send_summary_to") }} </n-text>
 
 				<n-scrollbar trigger="none" pr-4 max-h-80>
-					<n-checkbox-group v-model:value="userList" :disabled="loading" :max="1">
+					<n-checkbox-group v-model:value="userList" :disabled="loading">
 						<n-list :show-divider="false">
 							<n-list-item v-for="user in recipientsList" style="padding: 0" my-4>
 								<div flex items-center gap-2>
@@ -37,7 +37,7 @@
 
 					<n-input
 						type="text"
-						:placeholder="'Name'"
+						:placeholder="t('name')"
 						style="width: 80%"
 						v-model:value="newRecipient.name"
 						size="large"
@@ -48,7 +48,7 @@
 					<div flex items-center gap-4>
 						<n-input
 							type="text"
-							:placeholder="'Email'"
+							:placeholder="t('email')"
 							style="width: 80%"
 							v-model:value="newRecipient.email"
 							size="large"
@@ -77,11 +77,11 @@
 					round
 					mx-a
 					mt-4
-					:disabled="loading || disableSubmit"
+					:disabled="loading"
 					:loading="loading"
 					@click="onSubmit"
 				>
-					{{ t("send_form") }}
+					{{ t("confirm") }}
 				</n-button>
 			</div>
 		</ModalTemplate>
@@ -139,16 +139,23 @@ const onSubmit = async () => {
 
 		let users = recipientsList.value.filter((u) => userList.value.some((e) => e === u.email));
 
-		if (props.submit != undefined) await props.submit(users);
+		if (props.submit === undefined) return;
 
-		message.success(t("approval_form_sent"));
+		let response = await props.submit(users);
+
+		message.success(t("bugs_approved_successfully"));
 		modal.close();
+
+		setTimeout(() => {
+			window.location.href = response["pdf-download-path"];
+		}, 1500);
 	} catch (error: any) {
 		console.log(error);
 	} finally {
 		loading.value = false;
 	}
 };
+
 const recipientsList = ref<{ name: string; email: string }[]>([]);
 
 const newRecipient = reactive({
@@ -181,11 +188,6 @@ const addNewRecipient = () => {
 };
 
 const loading = ref(false);
-
-const disableSubmit = computed(() => {
-	if (userList.value.length < 1) return true;
-	return false;
-});
 
 const userList = ref<string[]>([]);
 </script>

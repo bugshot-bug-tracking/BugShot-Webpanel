@@ -34,6 +34,11 @@ export interface Bug {
 		attachments?: Attachment[];
 		comments?: Comment[];
 
-		time_estimate?: number;
+		time_estimation?: number;
+
+		approval_status: {
+			id: string;
+			designation?: "approved" | "declined" | "pending";
+		};
 	};
 }

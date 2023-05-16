@@ -4,12 +4,12 @@
 			<div flex items-center gap-4>
 				<n-checkbox
 					class="checkbox-round-inverted"
-					:checked="list.length === selectionList.length"
+					:checked="pendingList.length === selectionList.length"
 					@update:checked="selectAll"
 				>
 					<n-text type="primary" strong>
 						{{
-							!(list.length === selectionList.length)
+							!(pendingList.length === selectionList.length)
 								? $t("select_all")
 								: $t("deselect_all")
 						}}
@@ -67,18 +67,28 @@
 			<n-checkbox-group p-2 v-model:value="selectionList">
 				<n-collapse arrow-placement="right" class="collapse" accordion>
 					<n-collapse-item
-						v-for="bug in sortedList"
-						:key="bug.id"
+						v-for="bugExport in sortedList"
+						:key="bugExport.attributes.bug.id"
 						class="collapse-item bs-b"
 					>
 						<template #header>
-							<ApprovalItemHeader :bug="bug" :status="bugResponses.get(bug.id)" />
+							<ApprovalItemHeader
+								:bug="bugExport.attributes.bug"
+								:status="bugResponses.get(bugExport.attributes.bug.id)"
+								:defaultStatus="
+									bugExport.attributes.bug.attributes.approval_status.designation
+								"
+							/>
 						</template>
 
 						<ApprovalItem
-							:bug="bug"
-							@approve="bugResponses.set(bug.id, 'approved')"
-							@reject="bugResponses.set(bug.id, 'rejected')"
+							:bug="bugExport.attributes.bug"
+							@approve="bugResponses.set(bugExport.attributes.bug.id, 'approved')"
+							@reject="bugResponses.set(bugExport.attributes.bug.id, 'declined')"
+							:disabled="
+								(bugExport?.attributes?.bug.attributes.approval_status
+									?.designation ?? 'pending') !== 'pending'
+							"
 						/>
 					</n-collapse-item>
 				</n-collapse>
@@ -89,17 +99,17 @@
 
 <script setup lang="ts">
 import { DropdownOption } from "naive-ui";
-import { Bug } from "~/models/Bug";
+import { BugExport } from "~/models/BugExport";
 
 const props = defineProps({
 	list: {
 		required: false,
-		type: Array as PropType<Bug[]>,
+		type: Array as PropType<BugExport[]>,
 		default: [],
 	},
 });
 
-const emit = defineEmits(["totalTime"]);
+const emit = defineEmits(["totalTime", "update:responses"]);
 
 const { t } = useI18n();
 
@@ -133,27 +143,36 @@ const sorting = reactive({
 	},
 });
 
+// only the pending bugs
+const pendingList = computed(() =>
+	props.list.filter((bx) => bx.attributes.bug.attributes.approval_status.id === "1")
+);
+const respondedList = computed(() =>
+	props.list.filter((bx) => bx.attributes.bug.attributes.approval_status.id !== "1")
+);
+
 const sortedList = computed(() => {
 	switch (sorting.value) {
 		case "priority":
 			return props.list.sort(
 				(a, b) =>
-					(a.attributes.priority.id - b.attributes.priority.id) *
+					(a.attributes.bug.attributes.priority.id -
+						b.attributes.bug.attributes.priority.id) *
 					(sorting.order === "asc" ? 1 : -1)
 			);
 
 		case "date":
 			return props.list.sort(
 				(a, b) =>
-					(new Date(a.attributes.deadline ?? 0).getTime() -
-						new Date(b.attributes.deadline ?? 0).getTime()) *
+					(new Date(a.attributes.bug.attributes.deadline ?? 0).getTime() -
+						new Date(b.attributes.bug.attributes.deadline ?? 0).getTime()) *
 					(sorting.order === "asc" ? 1 : -1)
 			);
 		case "estimate":
 			return props.list.sort(
 				(a, b) =>
-					(new Date(a.attributes.time_estimate ?? 0).getTime() -
-						new Date(b.attributes.time_estimate ?? 0).getTime()) *
+					(new Date(a.attributes.bug.attributes.time_estimation ?? 0).getTime() -
+						new Date(b.attributes.bug.attributes.time_estimation ?? 0).getTime()) *
 					(sorting.order === "asc" ? 1 : -1)
 			);
 
@@ -166,13 +185,16 @@ const selectionList = ref<string[]>([]);
 
 const selectAll = (value: boolean) => {
 	if (value === true)
-		props.list.forEach((b) =>
-			!selectionList.value.some((i) => i === b.id) ? selectionList.value.push(b.id) : ""
+		pendingList.value.forEach((b) =>
+			!selectionList.value.some((i) => i === b.attributes.bug.id)
+				? selectionList.value.push(b.attributes.bug.id)
+				: ""
 		);
 	else selectionList.value = [];
 };
 
-const bugResponses = ref(new Map<string, "pending" | "approved" | "rejected">());
+const bugResponses = ref(new Map<string, "pending" | "approved" | "declined">());
+watch(bugResponses.value, () => emit("update:responses", bugResponses.value));
 
 const approveSelected = () => {
 	selectionList.value.forEach((item) => {
@@ -184,14 +206,14 @@ const approveSelected = () => {
 
 const rejectSelected = () => {
 	selectionList.value.forEach((item) => {
-		bugResponses.value.set(item, "rejected");
+		bugResponses.value.set(item, "declined");
 	});
 
 	selectionList.value = [];
 };
 
 const resolvedCount = computed(() => {
-	let count = props.list.length;
+	let count = props.list.length - respondedList.value.length;
 	bugResponses.value.forEach((v) => {
 		if (v !== "pending") count--;
 	});
@@ -206,7 +228,7 @@ watchEffect(() => {
 		if (value !== "approved") continue;
 
 		let bug = props.list.find((x) => x.id === key);
-		time += bug?.attributes.time_estimate ?? 0;
+		time += Number(bug?.attributes.bug.attributes.time_estimation ?? 0);
 	}
 
 	emit("totalTime", time);

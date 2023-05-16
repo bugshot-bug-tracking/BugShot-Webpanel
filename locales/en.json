@@ -551,7 +551,7 @@
 	"send_form": "Send form to recipients",
 	"send_response": "Send response",
 	"time_estimate": "Time estimate",
-	"total_time_estimate_s": "Total estimated time: {0}",
+	"total_time_estimate_s": "Total estimated time: {0} minutes",
 	" ": "",
 	"": "",
 	"bug_report_approvals": "Bug report approvals",
@@ -573,5 +573,13 @@
 	"share": "Share",
 	"only_internally_accesible": "Only accessible for the people with access to the project",
 	"share_link_coppied_clipboard": "Share link copied to clipboard",
-	"pending_x_out_of_y_bugs": "Pending: {0} out of {1} Bugs"
+	"pending_x_out_of_y_bugs": "Pending: {0} out of {1} Bugs",
+	"optional_send_summary_to": "(Optional) You can send a summary of your choices\n to someone from bellow:",
+	"send_responses": "Send responses",
+	"confirm": "Confirm",
+	"name": "Name",
+	"bugs_approved_successfully": "Bugs approved successfully",
+	"x_minutes": "{0} minutes",
+	"approval_form_sent": "Approval form sent!",
+	"minutes": "minutes"
 }

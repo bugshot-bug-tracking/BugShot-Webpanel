@@ -89,7 +89,11 @@
 
 				<n-divider :vertical="true" min-h-8 />
 
-				<RequestApprovalModal :disabled="kanbanState.checkList.length < 1" />
+				<RequestApprovalModal
+					:list="store.getMembers"
+					:disabled="kanbanState.checkList.length < 1"
+					:submit="onSubmitApprovals"
+				/>
 
 				<template #actions v-if="more.options.some((o) => o.show)">
 					<n-button text @click="kanbanState.cancelChecker">
@@ -158,6 +162,7 @@ import { useProjectStore } from "~/stores/project";
 import { useReportsStore } from "~/stores/reports";
 import IconSettings from "~/components/icons/Icon-Settings.vue";
 import IconTabular from "~/components/icons/Icon-Tabular.vue";
+import { useFeatureFlagsStore } from "~/stores/featureFlags";
 
 const props = defineProps({
 	organization_id: {
@@ -307,7 +312,7 @@ const more = computed(() => ({
 			label: t("request_approval", 2),
 			key: "approvals",
 			icon: () => h(IconTabular),
-			show: currentTab.value === "kanban",
+			show: currentTab.value === "kanban" && useFeatureFlagsStore().canSeeEverything,
 			props: {
 				onClick: () => {
 					kanbanState.startChecker();
@@ -348,6 +353,11 @@ const toggleSelectAll = () => {
 		if (!kanbanState.checkList.some((bId) => bId === bug.id))
 			kanbanState.checkList.push(bug.id);
 	});
+};
+
+const onSubmitApprovals = async (recipients: { name: string; email: string }[]) => {
+	await store.requestApprovals(kanbanState.checkList, recipients);
+	kanbanState.cancelChecker();
 };
 </script>
 
