@@ -584,5 +584,19 @@
 	"minutes": "minutes",
 	"please_input_a_valid_email": "Please input a valid email",
 	"please_input_a_valid_password": "Please input a valid password",
-	"bugshot_registration": "BugShot Registration"
+	"bugshot_registration": "BugShot Registration",
+	"what_is_your_mail": "What's your email address",
+	"what_is_your_mail_subtext": "Please verify your email address after creating the account.",
+	"account": "Account",
+	"personal_data": "Personal data",
+	"please_accept_tos_and_pp": "Please accept the terms of service and privacy policy",
+	"please_tell_us_your_first_name": "Please tell us your first name",
+	"please_tell_us_your_last_name": "Please tell us your last name",
+	"whats_your_name": "What's your name?",
+	"whats_your_name_subtext": "Enter your name in the fields below",
+	"lets_create_password": "Let's create your password",
+	"lets_create_password_subtext": "To be sure your password is strong enough please follow our tips",
+	"submit": "Submit",
+	"yay_account_created": "Yay! Your account is created.",
+	"yay_account_created_subtext": "All that's left is to verify the account using the link send to your email."
 }

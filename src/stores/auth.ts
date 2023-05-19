@@ -114,6 +114,46 @@ export const useAuthStore = defineStore("auth", {
 
 			message.success(t("messages.user_updated"));
 		},
+
+		async register({
+			email,
+			first_name,
+			last_name,
+			password,
+			confirm_password,
+		}: {
+			email: string;
+			first_name: string;
+			last_name: string;
+			password: string;
+			confirm_password: string;
+		}) {
+			let response = (
+				await axios.post("auth/register", {
+					first_name: first_name,
+					last_name: last_name,
+					email: email,
+					password: password,
+					password_confirmation: confirm_password,
+				})
+			).data.data;
+
+			console.log(response);
+
+			return response;
+		},
+
+		async resendVerification(id: number) {
+			let response = (
+				await axios.post("/auth/email/verification-notification", {
+					user_id: id,
+				})
+			).data;
+
+			console.log(response);
+
+			return response;
+		},
 	},
 
 	getters: {
