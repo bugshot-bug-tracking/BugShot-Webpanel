@@ -18,6 +18,12 @@
 
 		<div class="right">
 			<slot />
+
+			<div v-if="$slots['actions']" flex gap-4 items-center>
+				<n-divider :vertical="true" min-h-8 />
+
+				<slot name="actions" />
+			</div>
 		</div>
 	</div>
 </template>

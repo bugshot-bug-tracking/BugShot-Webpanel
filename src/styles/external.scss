@@ -66,3 +66,36 @@ svg {
 .n-input__eye {
 	display: flex;
 }
+
+.n-checkbox.checkbox-round-inverted {
+	--n-border-radius: 1rem;
+	--n-check-mark-color: var(--bs-purple);
+
+	.n-checkbox-box {
+		background-color: transparent;
+
+		.n-checkbox-icon {
+			inset: 2px;
+		}
+
+		svg {
+			fill: var(--bs-purple) !important;
+		}
+
+		.n-checkbox-box__border {
+			border-width: 2px;
+		}
+	}
+}
+
+.n-popover.n-tooltip.n-popover--scrollable {
+	max-width: 50vw;
+	max-height: 3.5rem;
+}
+
+.n-image-preview-toolbar {
+	gap: 1rem;
+	.n-base-icon {
+		padding: 0;
+	}
+}

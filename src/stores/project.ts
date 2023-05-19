@@ -243,6 +243,22 @@ export const useProjectStore = defineStore("project", {
 		},
 
 		// ---
+
+		async requestApprovals(bugs: string[], recipients: { name: string; email: string }[]) {
+			console.log(bugs);
+			console.log(recipients);
+
+			let response = (
+				await axios.post(`projects/${this.project?.id}/exports`, {
+					bugs: bugs.map((b) => ({ id: b })),
+
+					recipients: recipients,
+				})
+			).data.data;
+
+			console.log(response);
+			return response;
+		},
 	},
 
 	getters: {
