@@ -1,5 +1,5 @@
 <template>
-	<section class="status-column">
+	<section class="status-column" :class="{ 'disabled-overlay': disabled }">
 		<div flex>
 			<div v-if="!flags.editMode" class="status-view">
 				<div flex gap-2 items-center>
@@ -15,7 +15,7 @@
 								{{
 									(status.attributes.bugs?.length ?? 0) > 0
 										? `(${status.attributes.bugs?.length})`
-										: ""
+										: "(0)"
 								}}
 							</n-text>
 						</n-ellipsis>
@@ -93,6 +93,7 @@
 				group="tasks"
 				class="drag-zone"
 				ghost-class="ghost-card"
+				:disabled="disabled || childrenDisabled || childrenCheckable"
 			>
 				<template #item="{ element }: { element: Bug }">
 					<BugCard
@@ -101,6 +102,8 @@
 						:key="element.id"
 						@open="openBugInfo"
 						:loading="cardLoading === element.id && bugStore.loading_bug"
+						:disabled="childrenDisabled"
+						:checkable="childrenCheckable"
 					/>
 				</template>
 			</draggable>
@@ -119,6 +122,21 @@ const props = defineProps({
 	status: {
 		type: Object as PropType<Status>,
 		required: true,
+	},
+	disabled: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+	childrenDisabled: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+	childrenCheckable: {
+		type: Boolean,
+		required: false,
+		default: false,
 	},
 });
 
@@ -210,7 +228,10 @@ const openBugInfo = async (bug_id: string, status_id: string) => {
 
 <style scoped lang="scss">
 .status-column {
-	width: 25rem;
+	min-width: 22rem;
+	width: auto;
+	max-width: 25rem;
+
 	display: flex;
 	flex-direction: column;
 

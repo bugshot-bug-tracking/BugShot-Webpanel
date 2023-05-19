@@ -44,7 +44,7 @@
 					:key="project.id"
 					:title="project.attributes.designation"
 					:lastEdit="project.attributes.updated_at"
-					:image="project.attributes.image?.attributes.base64"
+					:image="project.attributes.image?.url"
 					:color="project.attributes.color_hex"
 					:progress="{
 						done: project.attributes.bugsDone,

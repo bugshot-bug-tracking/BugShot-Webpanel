@@ -139,7 +139,7 @@ const projectParams = reactive({
 	set: () => {
 		projectParams.name = props.name ?? "";
 		projectParams.color = colors.indexOf(props.color) ?? 3;
-		projectParams.image = props.image !== "" ? atob(props.image) : "";
+		projectParams.image = props.image !== "" ? props.image : "";
 		projectParams.url = props.url ?? "";
 	},
 

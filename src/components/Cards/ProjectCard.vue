@@ -7,7 +7,7 @@
 			}"
 			@click="emit('open')"
 		>
-			<img v-if="c_image" :src="c_image" class="dark-overlay" alt="image" />
+			<img v-if="image" :src="image" class="dark-overlay" alt="image" loading="lazy" />
 
 			<div class="text">{{ title }}</div>
 
@@ -85,8 +85,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["open", "edit", "delete"]);
-
-const c_image = computed(() => (props.image !== "" ? atob(props.image) : undefined));
 </script>
 
 <style lang="scss" scoped>

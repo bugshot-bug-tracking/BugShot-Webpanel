@@ -37,8 +37,8 @@
 
 	<n-card class="n-card-container" v-else>
 		<template #header>
-			<div v-if="!bugData.flag1" flex justify-between min-h-8>
-				<div flex items-center>
+			<div v-if="!bugData.flag1" flex justify-between min-h-8 items-baseline>
+				<div flex items-baseline>
 					<n-h3>
 						{{ store.bug.attributes.designation }}
 					</n-h3>
@@ -316,15 +316,54 @@
 				/>
 			</div>
 
-			<div flex items-center gap-2 class="bs-bb bs-bt" py-4 v-if="false">
+			<div
+				flex
+				items-center
+				gap-2
+				class="bs-bb bs-bt"
+				py-4
+				v-if="useFeatureFlagsStore().canSeeEverything"
+			>
 				<n-h6 style="white-space: nowrap">
 					{{ $t("time_estimate") + ":" }}
 				</n-h6>
 
-				<n-input-group>
-					<n-input-number clearable />
-					<n-input-group-label>hours</n-input-group-label>
+				<n-input-group v-if="estimate.editMode">
+					<n-input-number
+						clearable
+						:min="0"
+						v-model:value="estimate.value"
+						@update:value="estimate.onChange"
+						ref="inputNumberInst"
+						@blur="estimate.stopEdit"
+					/>
+					<n-input-group-label>{{ t("minutes") }}</n-input-group-label>
 				</n-input-group>
+
+				<div v-else flex items-center>
+					<n-text depth="3">
+						{{ estimate.value ? t("x_minutes", [estimate.value]) : "-" }}
+					</n-text>
+
+					<img
+						w-4
+						ml-2
+						class="black-to-gray"
+						src="/src/assets/icons/edit.svg"
+						alt="edit"
+						cursor-pointer
+						@click="estimate.startEdit"
+					/>
+
+					<n-text
+						v-if="estimate.status"
+						:type="estimate.status.type"
+						ml-4
+						style="font-size: 0.875rem"
+					>
+						{{ estimate.status.text }}
+					</n-text>
+				</div>
 			</div>
 
 			<div flex items-center gap-2>
@@ -344,6 +383,9 @@ import { Status } from "~/models/Status.js";
 import { useBugStore } from "~/stores/bug";
 import axios from "axios";
 import { User } from "~/models/User";
+import debounce from "lodash.debounce";
+import { useFeatureFlagsStore } from "~/stores/featureFlags";
+import { InputNumberInst } from "naive-ui";
 
 const emit = defineEmits(["close"]);
 
@@ -449,6 +491,61 @@ const changeDeadline = (value: number) => {
 		deadline: newDate,
 	});
 };
+
+const inputNumberInst = ref<InputNumberInst | null>(null);
+
+const estimate = reactive({
+	value: undefined as undefined | number,
+
+	onChange: debounce(async () => {
+		console.log("here");
+		await store.updateBug({
+			time_estimation: estimate.value,
+		});
+	}, 1000),
+
+	editMode: false,
+
+	startEdit: () => {
+		estimate.editMode = true;
+		nextTick(() => inputNumberInst.value?.focus());
+	},
+	stopEdit: () => {
+		estimate.editMode = false;
+	},
+
+	status: computed(() => {
+		let approval_status = store.bug?.attributes.approval_status;
+
+		if (approval_status?.id == undefined) return undefined;
+
+		switch (approval_status.designation) {
+			case "pending":
+				return {
+					text: t("approval_status.pending"),
+					type: "warning",
+				};
+
+			case "approved":
+				return {
+					text: t("approval_status.approved"),
+					type: "success",
+				};
+
+			case "declined":
+				return {
+					text: t("approval_status.rejected"),
+					type: "error",
+				};
+		}
+	}),
+});
+
+watchEffect(() => {
+	estimate.value = store.bug?.attributes.time_estimation
+		? Number(store.bug?.attributes.time_estimation)
+		: undefined;
+});
 
 const onSubmit = async (list: { user: User; original: boolean; checked: boolean }[]) => {
 	for (const item of list) {
