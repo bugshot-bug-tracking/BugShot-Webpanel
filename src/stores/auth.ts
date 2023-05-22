@@ -154,6 +154,45 @@ export const useAuthStore = defineStore("auth", {
 
 			return response;
 		},
+
+		async recover({ email }: { email: string }) {
+			let response = (
+				await axios.post(`auth/forgot-password`, {
+					email: email,
+				})
+			).data;
+
+			console.log(response);
+
+			return response;
+		},
+
+		async newPassword({
+			email,
+			token,
+
+			password,
+			confirm_password,
+		}: {
+			email: string;
+			token: string;
+
+			password: string;
+			confirm_password: string;
+		}) {
+			let response = (
+				await axios.post("auth/reset-password", {
+					email: atob(email),
+					token: token,
+					password: password,
+					password_confirmation: confirm_password,
+				})
+			).data.data;
+
+			console.log(response);
+
+			return response;
+		},
 	},
 
 	getters: {
