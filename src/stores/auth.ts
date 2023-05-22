@@ -155,6 +155,28 @@ export const useAuthStore = defineStore("auth", {
 			return response;
 		},
 
+		async verifyEmail({
+			id,
+			token,
+			expires,
+			signature,
+		}: {
+			id: number;
+			token: string;
+			expires: string;
+			signature: string;
+		}) {
+			let response = (
+				await axios.get(
+					`/auth/email/verify/${id}/${token}?expires=${expires}&signature=${signature}`
+				)
+			).data;
+
+			console.log(response);
+
+			return response;
+		},
+
 		async recover({ email }: { email: string }) {
 			let response = (
 				await axios.post(`auth/forgot-password`, {
