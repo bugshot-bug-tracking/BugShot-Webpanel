@@ -1,5 +1,5 @@
 <template>
-	<div w-132 text-left p-8>
+	<div min-w-100 text-left>
 		<n-h1 text-6>
 			<n-text style="font-weight: 700">
 				{{ t("bugshot_registration") }}
