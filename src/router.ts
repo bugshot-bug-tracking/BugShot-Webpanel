@@ -31,7 +31,7 @@ router.beforeEach((to, from, next) => {
 		// if the user is authenticated continue
 		if (localStorage.getItem("authToken")) next();
 		// else redirect to login
-		else next({ name: "Login" });
+		else next({ name: "login" });
 	} else {
 		next();
 	}

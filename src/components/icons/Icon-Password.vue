@@ -1,0 +1,80 @@
+<template>
+	<n-icon size="24">
+		<svg
+			id="password_view"
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			v-if="!hide"
+		>
+			<g id="Layer_3" data-name="Layer 3">
+				<rect
+					id="Rectangle_2897"
+					data-name="Rectangle 2897"
+					width="24"
+					height="24"
+					fill="none"
+				/>
+			</g>
+			<g id="Layer_2" data-name="Layer 2">
+				<path
+					id="Path_915"
+					data-name="Path 915"
+					d="M12,9.4A2.6,2.6,0,1,0,14.6,12,2.6,2.6,0,0,0,12,9.4Z"
+				/>
+				<path
+					id="Path_916"
+					data-name="Path 916"
+					d="M15,19H9L2,12,9,5h6l7,7ZM9.82,17h4.36l5-5-5-5H9.82l-5,5Z"
+				/>
+			</g>
+		</svg>
+		<svg
+			id="password_hide"
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			v-else
+		>
+			<g id="Layer_3" data-name="Layer 3">
+				<rect
+					id="Rectangle_2895"
+					data-name="Rectangle 2895"
+					width="24"
+					height="24"
+					fill="none"
+				/>
+			</g>
+			<g id="Layer_2" data-name="Layer 2">
+				<path
+					id="Path_913"
+					data-name="Path 913"
+					d="M12,9.4A2.6,2.6,0,1,0,14.6,12,2.6,2.6,0,0,0,12,9.4Z"
+				/>
+				<path
+					id="Path_914"
+					data-name="Path 914"
+					d="M15,19H9L2,12,9,5h6l7,7ZM9.82,17h4.36l5-5-5-5H9.82l-5,5Z"
+				/>
+				<rect
+					id="Rectangle_2896"
+					data-name="Rectangle 2896"
+					width="22.63"
+					height="1.95"
+					transform="translate(3.31 19.304) rotate(-45)"
+				/>
+			</g>
+		</svg>
+	</n-icon>
+</template>
+
+<script setup lang="ts">
+defineProps({
+	hide: {
+		type: Boolean,
+		default: false,
+	},
+});
+</script>

@@ -1,152 +1,146 @@
 <template>
-	<div class="title" v-if="!process">{{ $t("password_reset") }}</div>
+	<div w-100 text-left>
+		<n-h1 mb-8>
+			<n-text type="primary" style="font-weight: 700">
+				{{ t("password_reset") }}
+			</n-text>
+		</n-h1>
 
-	<form v-if="!message && !process" id="login-form" @submit.prevent="submit">
-		<div class="bs-input" :style="{ width: '100%' }">
-			<input
-				type="email"
-				:placeholder="$t('email_address')"
-				required
-				maxlength="255"
-				autocomplete="email"
-				v-model="email"
-				:class="{ error: errMessage }"
-				@focus="errMessage = null"
-			/>
+		<n-form
+			v-if="!goodResponse"
+			ref="formRef"
+			:model="form.data"
+			:rules="form.rules"
+			:show-require-mark="false"
+			:disabled="loading"
+		>
+			<n-form-item :label="t('email')" path="email" mt-4>
+				<n-input
+					v-model:value="form.data.email"
+					placeholder=""
+					size="large"
+					:input-props="{
+						type: 'email',
+					}"
+					:status="form.inputStates"
+					@input="form.clearState"
+				>
+					<template #suffix>
+						<Icon-Email size="1.5rem" color="var(--bs-black)" />
+					</template>
+				</n-input>
+			</n-form-item>
 
-			<img class="input-image" src="/src/assets/icons/mail.svg" alt="at" />
-		</div>
+			<div v-if="errMessage" class="error-message">
+				{{ errMessage }}
+			</div>
 
-		<div class="errors" v-if="errMessage != null">
-			{{ errMessage }}
-		</div>
+			<n-form-item>
+				<n-button
+					@click="submit"
+					type="success"
+					round
+					strong
+					ml-a
+					:loading="loading"
+					:disabled="loading"
+				>
+					{{ t("reset_password") }}
+				</n-button>
+			</n-form-item>
+		</n-form>
 
-		<div class="from-buttons">
-			<button id="form-submit" type="submit" class="bs-btn green">
-				{{ $t("reset_password") }}
-			</button>
-		</div>
-	</form>
-
-	<div v-if="message" class="flex flex-col gap-4 items-center">
-		<div class="message">{{ message }}</div>
-	</div>
-
-	<div class="process" v-if="process">
-		<div class="loading">
-			<img src="/src/assets/animations/loading.svg" alt="loading" />
+		<div class="submit-message" v-else>
+			<n-text style="color: white">
+				{{ t("recover_email_sent") }}
+			</n-text>
 		</div>
 	</div>
 </template>
 
-<script setup>
-import axios from "axios";
+<script setup lang="ts">
+import { FormInst, FormRules } from "naive-ui";
+import { useAuthStore } from "~/stores/auth";
 
 const router = useRouter();
+const store = useAuthStore();
+const { t } = useI18n();
 
-const email = ref("");
-const message = ref(null);
-const errMessage = ref(null);
+const formRef = ref<FormInst | null>(null);
 
-const submit = () => {
-	if (email.value && email.value.length > 4)
-		try {
-			process.value = true;
+const form = reactive({
+	data: {
+		email: "",
+	},
+	rules: {
+		email: {
+			required: true,
+			trigger: "blur",
+			type: "email",
+			message: t("please_input_a_valid_email"),
+		},
+	} as FormRules,
+	inputStates: undefined as "success" | "warning" | "error" | undefined,
+	clearState: () => {
+		form.inputStates = undefined;
+		errMessage.value = undefined;
+	},
+});
 
-			axios
-				.post(`auth/forgot-password`, {
-					email: email.value,
-				})
-				.then((response) => {
-					message.value = response.data;
-					process.value = false;
-				})
-				.then(() => {
-					setTimeout(() => {
-						router.push({ name: "Login" });
-					}, 4000);
-				});
-		} catch (error) {
-			console.log(error);
-			process.value = false;
-		}
+const errMessage = ref(undefined);
+
+const loading = ref(false);
+
+const submit = async () => {
+	let valid = true;
+	goodResponse.value = false;
+
+	try {
+		await formRef.value?.validate((errors) => {
+			if (errors && errors.length > 0) valid = false;
+		});
+
+		loading.value = true;
+
+		await store.recover({
+			email: form.data.email,
+		});
+
+		goodResponse.value = true;
+
+		setTimeout(() => {
+			router.push({ name: "login" });
+		}, 4000);
+	} catch (error: any) {
+		// comes from ValidateError naive-ui
+		if (!valid) return;
+
+		errMessage.value = error.response.data.errors.detail;
+		form.inputStates = "error";
+	} finally {
+		loading.value = false;
+	}
 };
 
-const process = ref(false);
+const goodResponse = ref(false);
 </script>
 
 <style scoped lang="scss">
-.title {
-	margin: 0 0 2rem 0 !important;
-	color: hsl(265, 79%, 41%);
-	font-weight: 700;
-	font-size: 32px;
-	text-align: left;
-	width: 400px;
+.error-message {
+	font-size: 0.875rem;
+	text-align: justify;
+	color: var(--bs-red);
+	font-weight: 600;
 }
 
-#login-form {
-	width: 400px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 1rem;
-
-	.from-buttons {
-		display: flex;
-		align-items: center;
-		width: 100%;
-		justify-content: flex-end;
-		align-content: center;
-		padding: 2% 0 10% 0%;
-	}
-
-	.error {
-		color: red;
-		border: 1px solid red;
-
-		&:focus,
-		&:focus-visible,
-		&:hover {
-			border-color: red;
-			outline-color: red;
-		}
-	}
-}
-
-.errors {
-	color: red;
-	font-weight: 500;
-	width: 85%;
-	text-align: right;
-	padding-bottom: 10px;
-}
-
-.message {
-	background: #7a2ee6 0% 0% no-repeat padding-box;
-	border-radius: 8px;
-	color: white;
-	width: 400px;
-	height: 88px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.process {
-	width: 400px;
-
-	img {
-		width: 300px;
-		height: 300px;
-	}
+.submit-message {
+	background-color: var(--bs-purple);
+	border-radius: 0.5rem;
+	padding: 1rem;
+	text-align: center;
 }
 </style>
 
 <route lang="yaml">
-name: Forgot
-
-meta:
-    layout: auth
+name: recover
 </route>

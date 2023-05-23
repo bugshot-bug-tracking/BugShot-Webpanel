@@ -202,7 +202,7 @@ const form = reactive({
 	toggle: () => {
 		if (form.show) form.close();
 		else {
-			if (user.value.id != undefined) formData.email = user.value.attributes.email;
+			if (user.value?.id != undefined) formData.email = user.value.attributes.email;
 			form.open();
 		}
 	},
