@@ -109,37 +109,34 @@ const props = defineProps({
 	},
 });
 
-const emit = defineEmits(["close", "submit"]);
+const emit = defineEmits(["submit"]);
 
 const { t } = useI18n();
 
 const modal = reactive({
 	show: false,
 	open: () => {
+		list.value = [];
+
+		useProjectStore().getMembers.forEach((user) => {
+			let checked = false;
+			if (props.assignedList.some((x) => x.id === user?.id)) checked = true;
+
+			list.value.push({
+				user: user!,
+				original: checked, // compare checked with this to know what operation to execute (add/remove)
+				checked: checked,
+			});
+		});
+
 		modal.show = true;
 	},
 	close: () => {
 		modal.show = false;
-		emit("close");
 	},
 });
 
 const list = ref<{ user: User; original: boolean; checked: boolean }[]>([]);
-
-watchEffect(() => {
-	list.value = [];
-
-	useProjectStore().getMembers.forEach((user) => {
-		let checked = false;
-		if (props.assignedList.some((x) => x.id === user?.id)) checked = true;
-
-		list.value.push({
-			user: user!,
-			original: checked, // compare checked with this to know what operation to execute (add/remove)
-			checked: checked,
-		});
-	});
-});
 
 const changeUser = (user: User, checked: boolean, index: number) => {
 	list.value[index].checked = !checked;
