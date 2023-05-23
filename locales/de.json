@@ -537,9 +537,7 @@
 	"rules": {
 		"designation_required": "Fehlername erforderlich!"
 	},
-
 	"enter_main_project_url": "Gib eine Hauptprojekt-URL ein (optional)",
-
 	"other_project_url_optional": "Weitere Projekt URL (Optional)",
 	"request_approval": "Umsetzungsfreigabe  | Umsetzungsfreigaben",
 	"n_bug_selected": "keine Bugs ausgewählt | {0} Bug ausgewählt | {0} Bugs ausgewählt",
@@ -569,7 +567,9 @@
 	"reject_bug": "Bug ablehnen",
 	"approve_selected": "Ausgewählte freigeben",
 	"reject_selected": "Ausgewählte ablehnen",
-	"share_link_coppied_clipboard": "Link zu Zwischenablage hinzugefügt",
+	"share": "Teilen",
+	"only_internally_accessible": "Nur für Nutzer mit Zugang zum Projekt zugänglich",
+	"share_link_copied_clipboard": "Link zu Zwischenablage hinzugefügt",
 	"pending_x_out_of_y_bugs": "Ausstehend: {0} von {1} Bugs",
 	"optional_send_summary_to": "(Optional) Du kannst eine Zusammenfassung deiner Evaluierungen an weitere Personen senden:",
 	"send_responses": "Absenden",
