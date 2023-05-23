@@ -1,358 +1,502 @@
 <template>
-	<div class="title" v-if="!process">{{ $t("register") }}</div>
+	<div min-w-100 text-left style="width: 40%">
+		<n-h1 text-6>
+			<n-text style="font-weight: 700">
+				{{ t("bugshot_registration") }}
+			</n-text>
+		</n-h1>
 
-	<div class="errors" v-if="errMessage != null">
-		{{ errMessage }}
-	</div>
+		<n-steps :current="steps.current" :status="steps.status" size="small">
+			<n-step :title="t('account')">
+				<template #icon><div /></template>
+			</n-step>
+			<n-step :title="t('personal_data')">
+				<template #icon><div /></template>
+			</n-step>
+			<n-step :title="t('password')">
+				<template #icon><div /></template>
+			</n-step>
+			<template #finish-icon><div /></template>
+		</n-steps>
 
-	<form id="login-form" @submit.prevent="submit" v-if="!process">
-		<div class="bs-input">
-			<input
-				type="text"
-				:placeholder="$t('first_name')"
-				required
-				maxlength="255"
-				autocomplete="given-name"
-				v-model="first_name"
-			/>
-		</div>
+		<n-form
+			ref="formRef"
+			:model="form.data"
+			:rules="form.rules"
+			:show-require-mark="false"
+			:disabled="loading"
+			my-4
+		>
+			<div v-show="steps.current === 1" flex flex-col gap-4>
+				<n-h2 m-0>
+					<n-text type="primary" style="font-weight: 700">
+						{{ t("what_is_your_mail") }}
+					</n-text>
+				</n-h2>
 
-		<div class="bs-input">
-			<input
-				type="text"
-				:placeholder="$t('last_name')"
-				required
-				maxlength="255"
-				autocomplete="family-name"
-				v-model="last_name"
-			/>
-		</div>
+				<n-p style="font-size: 0.875rem" m-0>
+					{{ t("what_is_your_mail_subtext") }}
+				</n-p>
 
-		<div class="bs-input">
-			<input
-				type="email"
-				:placeholder="$t('email_address')"
-				required
-				maxlength="255"
-				autocomplete="email"
-				v-model="email"
-				:class="{ error: errField.email }"
-				@focus="resetError"
-			/>
+				<n-form-item :label="t('email')" path="email">
+					<n-input
+						type="text"
+						:input-props="{ type: 'email' }"
+						size="large"
+						v-model:value="form.data.email"
+						:disabled="loading"
+						placeholder=""
+					>
+						<template #suffix>
+							<Icon-Email size="1.5rem" color="var(--bs-black)" />
+						</template>
+					</n-input>
+				</n-form-item>
 
-			<img class="input-image" src="/src/assets/icons/mail.svg" alt="at" />
-		</div>
+				<div flex items-center>
+					<n-form-item path="tos_pp" :show-label="false">
+						<n-checkbox mr-2 v-model:checked="form.data.tos_pp" :disabled="loading">
+							<i18n-t keypath="tos_and_pp" tag="p" scope="global">
+								<template v-slot:tos>
+									<n-button
+										type="primary"
+										text
+										tag="a"
+										href="https://www.bugshot.de/nutzungsbedingungen"
+										target="_blank"
+										@click.stop
+									>
+										{{ $t("terms_of_service") }}
+									</n-button>
+								</template>
 
-		<div class="requed">
-			<div class="bs-input">
-				<input
-					:type="passwordType"
-					:placeholder="$t('password')"
-					minlength="8"
-					required
-					maxlength="255"
-					v-model="password"
-					autocomplete="new-password"
-					:class="{ error: errField.password }"
-					@focus.prevent="
-						() => {
-							showValidate.pass = true;
-							resetError();
-						}
-					"
-					@click="showValidate.pass = true"
-					@blur.prevent="showValidate.pass = false"
-				/>
-
-				<img
-					v-if="showPassword"
-					@click="togglePassword"
-					src="/src/assets/icons/password_hide.svg"
-					style="cursor: pointer"
-					class="input-image"
-				/>
-
-				<img
-					v-if="!showPassword"
-					@click="togglePassword"
-					src="/src/assets/icons/password_view.svg"
-					style="cursor: pointer"
-					class="input-image"
-				/>
-			</div>
-
-			<ul v-show="showValidate.pass">
-				<li
-					:class="{
-						good: validate.minChars >= 8,
-						bad: validate.minChars < 8,
-					}"
-				>
-					{{ $t("limits.min_chars", { x: 8 }) }}
-				</li>
-
-				<li
-					:class="{
-						good: validate.letters,
-						bad: !validate.letters,
-					}"
-				>
-					{{ $t("limits.letters") }}
-				</li>
-
-				<li
-					:class="{
-						good: validate.numbers,
-						bad: !validate.numbers,
-					}"
-				>
-					{{ $t("limits.numbers") }}
-				</li>
-			</ul>
-		</div>
-
-		<div class="requed">
-			<div class="bs-input">
-				<input
-					:type="passwordTypeConfirm"
-					:placeholder="$t('confirm_password')"
-					minlength="8"
-					required
-					maxlength="255"
-					v-model="confirm_password"
-					autocomplete="new-password"
-					:class="{ error: errField.password }"
-					@focus.prevent="
-						() => {
-							showValidate.confirm = true;
-							resetError();
-						}
-					"
-					@blur.prevent="showValidate.confirm = false"
-				/>
-
-				<img
-					v-if="showPasswordConfirm"
-					@click="togglePasswordConfirm"
-					src="/src/assets/icons/password_hide.svg"
-					style="cursor: pointer"
-					class="input-image"
-				/>
-
-				<img
-					v-if="!showPasswordConfirm"
-					@click="togglePasswordConfirm"
-					src="/src/assets/icons/password_view.svg"
-					style="cursor: pointer"
-					class="input-image"
-				/>
-			</div>
-
-			<ul v-show="showValidate.confirm">
-				<li
-					:class="{
-						good: validate.same,
-						bad: !validate.same,
-					}"
-				>
-					{{ $t("limits.passwords_match") }}
-				</li>
-			</ul>
-		</div>
-
-		<div class="tos">
-			<input type="checkbox" v-model="tos" required />
-
-			<i18n-t keypath="tos_and_pp" tag="span" scope="global">
-				<template v-slot:tos>
-					<a class="linked" @click="openTOS">
-						{{ $t("terms_of_service") }}
-					</a>
-				</template>
-
-				<template v-slot:pp>
-					<a class="linked" @click="openPP">{{ $t("privacy_policy") }}</a>
-				</template>
-			</i18n-t>
-		</div>
-
-		<div class="from-buttons">
-			<div class="aLogin">
-				<div>{{ $t("already_registered") + "?" }}</div>
-
-				<router-link :to="{ name: 'Login' }">
-					{{ $t("log_in") }}
-				</router-link>
-			</div>
-
-			<button id="form-submit" type="submit" class="bs-btn green">
-				{{ $t("register") }}
-			</button>
-		</div>
-	</form>
-
-	<div class="process" v-if="process">
-		<div class="loading" v-if="stage === 0">
-			<img src="/src/assets/animations/loading.svg" alt="loading" />
-		</div>
-
-		<div class="success" v-if="stage === 1">
-			<img src="/src/assets/animations/bug_confirmation_not_white.gif" alt="Success" />
-
-			<div>{{ $t("verification_email_sent") }}</div>
-
-			<span> {{ $t("please_confirm_email") + "!" }} </span>
-
-			<p class="black-to-gray" flex items-center gap-2>
-				{{ $t("email_not_received") }}
+								<template v-slot:pp>
+									<n-button
+										type="primary"
+										text
+										tag="a"
+										href="https://www.bugshot.de/datenschutz"
+										target="_blank"
+										@click.stop
+									>
+										{{ $t("privacy_policy") }}
+									</n-button>
+								</template>
+							</i18n-t></n-checkbox
+						>
+					</n-form-item>
+				</div>
 
 				<n-button
-					:loading="resendLoading"
-					text
+					type="success"
+					round
 					strong
-					type="tertiary"
-					underline
-					@click="resendEmail"
-					flex-row-reverse
-					gap-2
+					my-4
+					mr-a
+					@click="steps.next"
+					:disabled="loading"
+					:loading="loading"
 				>
-					{{ $t("resend_email") }}
+					{{ t("next_step") }}
 				</n-button>
-			</p>
-		</div>
+			</div>
+
+			<div v-show="steps.current === 2" flex flex-col gap-4>
+				<n-button text @click="steps.prev" mr-a my-2>
+					<template #icon>
+						<Icon-Arrow color="var(--bs-purple)" />
+					</template>
+				</n-button>
+
+				<n-h2 m-0>
+					<n-text type="primary" style="font-weight: 700">
+						{{ t("whats_your_name") }}
+					</n-text>
+				</n-h2>
+
+				<n-p style="font-size: 0.875rem" m-0> {{ t("whats_your_name_subtext") }} </n-p>
+
+				<div>
+					<n-form-item :label="t('first_name')" path="first_name">
+						<n-input
+							type="text"
+							:input-props="{ autocomplete: 'given-name' }"
+							size="large"
+							placeholder=""
+							v-model:value="form.data.first_name"
+							:disabled="loading"
+						>
+						</n-input>
+					</n-form-item>
+
+					<n-form-item :label="t('last_name')" path="last_name">
+						<n-input
+							type="text"
+							:input-props="{ autocomplete: 'family-name' }"
+							size="large"
+							placeholder=""
+							v-model:value="form.data.last_name"
+							:disabled="loading"
+						>
+						</n-input>
+					</n-form-item>
+				</div>
+
+				<n-button
+					type="success"
+					round
+					strong
+					my-4
+					mr-a
+					@click="steps.next"
+					:disabled="loading"
+					:loading="loading"
+				>
+					{{ t("next_step") }}
+				</n-button>
+			</div>
+
+			<div v-show="steps.current === 3" flex flex-col gap-4>
+				<n-button text @click="steps.prev" mr-a my-2>
+					<template #icon>
+						<Icon-Arrow color="var(--bs-purple)" />
+					</template>
+				</n-button>
+
+				<n-h2 m-0>
+					<n-text type="primary" style="font-weight: 700">
+						{{ t("lets_create_password") }}
+					</n-text>
+				</n-h2>
+
+				<n-p style="font-size: 0.875rem" m-0>
+					{{ t("lets_create_password_subtext") }}
+				</n-p>
+
+				<div>
+					<n-form-item :label="t('password')" path="password" :show-feedback="false">
+						<n-input
+							type="password"
+							:input-props="{ autocomplete: 'new-password' }"
+							size="large"
+							show-password-on="click"
+							v-model:value="form.data.password"
+							:disabled="loading"
+							placeholder=""
+							@focus="passwordRulesActive = true"
+							@blur="passwordRulesActive = false"
+						>
+							<template #password-visible-icon>
+								<Icon-Password m-a color="var(--bs-black)" />
+							</template>
+							<template #password-invisible-icon>
+								<Icon-Password hide m-a color="var(--bs-black)" />
+							</template>
+						</n-input>
+					</n-form-item>
+
+					<PasswordRules :rules="passwordRules" :active="passwordRulesActive" />
+
+					<n-form-item
+						:label="t('confirm_password')"
+						path="confirm_password"
+						:show-feedback="false"
+					>
+						<n-input
+							type="password"
+							:input-props="{ autocomplete: 'new-password' }"
+							size="large"
+							show-password-on="click"
+							v-model:value="form.data.confirm_password"
+							:disabled="loading"
+							placeholder=""
+							@focus="confirmPasswordRulesActive = true"
+							@blur="confirmPasswordRulesActive = false"
+						>
+							<template #password-visible-icon>
+								<Icon-Password m-a color="var(--bs-black)" />
+							</template>
+							<template #password-invisible-icon>
+								<Icon-Password hide m-a color="var(--bs-black)" />
+							</template>
+						</n-input>
+					</n-form-item>
+
+					<PasswordRules
+						:rules="confirmPasswordRules"
+						:active="confirmPasswordRulesActive"
+					/>
+				</div>
+
+				<n-button
+					type="success"
+					round
+					strong
+					my-4
+					mr-a
+					@click="onSubmit"
+					:disabled="loading"
+					:loading="loading"
+				>
+					{{ t("submit") }}
+				</n-button>
+			</div>
+
+			<div v-show="steps.current === 10" flex flex-col gap-4>
+				<n-h2 m-0>
+					<n-text type="primary" style="font-weight: 700"> {{ t("success") }}! </n-text>
+				</n-h2>
+
+				<n-p style="font-size: 0.875rem" m-0> {{ t("yay_account_created") }} </n-p>
+				<n-p style="font-size: 0.875rem" m-0>
+					{{ t("yay_account_created_subtext") }}
+				</n-p>
+
+				<n-p style="font-size: 0.875rem; color: var(--bs-gray)" m-0 mt-2>
+					{{ t("email_not_received") }}
+
+					<n-button
+						:loading="resendLoading"
+						text
+						strong
+						type="tertiary"
+						underline
+						@click="resendEmail"
+						flex-row-reverse
+						gap-2
+						style="font-size: 0.875rem"
+					>
+						{{ t("resend_email") }}
+					</n-button>
+				</n-p>
+			</div>
+		</n-form>
 	</div>
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
+import { FormInst, FormItemRule, FormRules, FormValidationError, StepsProps } from "naive-ui";
+import { useDiscreteApi } from "~/composables/DiscreteApi";
 import { User } from "~/models/User";
+import { useAuthStore } from "~/stores/auth";
 
-const first_name = ref("");
-const last_name = ref("");
-const email = ref("");
-const password = ref("");
-const confirm_password = ref("");
+const { t } = useI18n();
 
-const showPassword = ref(false);
-const passwordType = ref("password");
+const { message } = useDiscreteApi();
 
-const showPasswordConfirm = ref(false);
-const passwordTypeConfirm = ref("password");
+const steps = reactive({
+	current: 1,
+	status: "process" as StepsProps["status"],
+	next: async () => {
+		loading.value = true;
+		if (await steps.verifyStep()) {
+			formRef.value?.restoreValidation();
 
-const tos = ref(false);
+			// improve UX by making the process slower so the animations have time to be visible
+			await new Promise((resolve) => setTimeout(resolve, 250));
 
-const errMessage = ref(null);
+			steps.current++;
+		}
+		loading.value = false;
+	},
+	prev: () => {
+		steps.current--;
+	},
 
-const errField = reactive({
-	email: false as boolean | null,
-	password: false as boolean | null,
+	verifyStep: async () => {
+		try {
+			await formRef.value?.validate();
+
+			return true;
+		} catch (error: any) {
+			console.log(error);
+
+			// restrict progression based on the step (there can be errors on future steps but we don't care about those until we reach em)
+			switch (steps.current) {
+				case 1:
+					// if there are no errors in this step return true to continue the progression
+					if (
+						(error as FormValidationError[]).some((arr) =>
+							arr.some((i) => i.field === "email" || i.field === "tos_pp")
+						)
+					) {
+						console.log("1");
+						return false;
+					}
+					break;
+
+				case 2:
+					// if there are no errors in this step return true to continue the progression
+					if (
+						(error as FormValidationError[]).some((arr) =>
+							arr.some((i) => i.field === "first_name" || i.field === "last_name")
+						)
+					) {
+						console.log("2");
+						return false;
+					}
+					break;
+
+				case 3:
+					// if there are no errors in this step return true to continue the progression
+					if (
+						(error as FormValidationError[]).some((arr) =>
+							arr.some(
+								(i) => i.field === "password" || i.field === "confirm_password"
+							)
+						)
+					) {
+						console.log("3");
+						return false;
+					}
+					break;
+
+				default:
+					break;
+			}
+
+			console.log("here");
+			return true;
+		}
+	},
+
+	success: () => {
+		steps.current = 10;
+	},
 });
 
-const userResponse = ref(undefined as User | undefined);
-const resendLoading = ref(false);
+const formRef = ref<FormInst | null>(null);
 
-const resetError = () => {
-	errMessage.value = null;
-	errField.email = null;
-	errField.password = null;
-};
+const form = reactive({
+	data: {
+		email: "",
+		first_name: "",
+		last_name: "",
+		password: "",
+		confirm_password: "",
 
-const togglePassword = () => {
-	showPassword.value = !showPassword.value;
-	if (showPassword.value) passwordType.value = "text";
-	else passwordType.value = "password";
-};
+		tos_pp: false,
+	},
+	rules: {
+		email: {
+			required: true,
+			trigger: "blur",
+			type: "email",
+			message: t("please_input_a_valid_email"),
+		},
 
-const togglePasswordConfirm = () => {
-	showPasswordConfirm.value = !showPasswordConfirm.value;
-	if (showPasswordConfirm.value) passwordTypeConfirm.value = "text";
-	else passwordTypeConfirm.value = "password";
-};
+		first_name: {
+			required: true,
+			trigger: "blur",
+			type: "string",
+			message: t("please_tell_us_your_first_name"),
+			min: 1,
+		},
+		last_name: {
+			required: true,
+			trigger: "blur",
+			type: "string",
+			message: t("please_tell_us_your_last_name"),
+			min: 1,
+		},
 
-const submit = () => {
-	stage.value = 0;
-	process.value = true;
-	errMessage.value = null;
-	errField.email = null;
-	errField.password = null;
+		password: {
+			required: true,
+			message: t("please_input_a_valid_password"),
+			min: 8,
+			trigger: ["blur"],
+			validator: (rule: FormItemRule, value: any): boolean | Error => {
+				if (passwordRules.value.some((r) => r.value === false)) return false;
+				return true;
+			},
+		},
+		confirm_password: {
+			required: true,
+			message: t("please_input_a_valid_password"),
+			min: 8,
+			trigger: ["blur"],
+			validator: (rule: FormItemRule, value: any): boolean | Error => {
+				if (confirmPasswordRules.value.some((r) => r.value === false)) return false;
+				return true;
+			},
+		},
 
-	axios
-		.post("auth/register", {
-			first_name: first_name.value,
-			last_name: last_name.value,
-			email: email.value,
-			password: password.value,
-			password_confirmation: confirm_password.value,
-		})
-		.then((response) => {
-			stage.value = 1;
+		tos_pp: {
+			required: true,
+			message: t("please_accept_tos_and_pp"),
+			trigger: ["change"],
+			validator: (rule: FormItemRule, value: any): boolean | Error => {
+				return value;
+			},
+		},
+	} as FormRules,
+	inputStates: undefined as "success" | "warning" | "error" | undefined,
+	clearState: () => {
+		form.inputStates = undefined;
+		// errMessage.value = undefined;
+	},
+});
 
-			console.log(response.data);
+const loading = ref(false);
 
-			userResponse.value = response.data.data as User;
-		})
+const passwordRules = computed(() => [
+	{ text: t("limits.min_chars", { x: 8 }), value: form.data.password.length > 8 },
+	{ text: t("limits.letters"), value: form.data.password.match(/[a-zA-Z]/g) },
+	{ text: t("limits.numbers"), value: form.data.password.match(/[0-9]/g) },
+]);
 
-		.catch((error) => {
-			userResponse.value = undefined;
+const confirmPasswordRules = computed(() => [
+	{ text: t("limits.min_chars", { x: 8 }), value: form.data.confirm_password.length > 8 },
+	{ text: t("limits.letters"), value: form.data.confirm_password.match(/[a-zA-Z]/g) },
+	{ text: t("limits.numbers"), value: form.data.confirm_password.match(/[0-9]/g) },
+	{ text: t("limits.passwords_match"), value: form.data.password === form.data.confirm_password },
+]);
 
-			process.value = false;
+const passwordRulesActive = ref(false);
+const confirmPasswordRulesActive = ref(false);
 
-			console.dir(error);
+const userResponse = ref<User | undefined>(undefined);
 
-			errMessage.value = null;
-			errField.email = null;
-			errField.password = null;
+const onSubmit = async () => {
+	try {
+		loading.value = true;
 
-			if (error.response.status !== 422) console.error(error.response.data.errors);
-
-			const resError = error.response.data.errors;
-
-			if (resError?.email) {
-				errMessage.value = resError.email[0];
-				errField.email = true;
-				return;
-			}
-
-			if (resError?.password) {
-				errMessage.value = resError.password[0];
-				errField.password = true;
-				return;
-			}
+		let response = await useAuthStore().register({
+			email: form.data.email,
+			first_name: form.data.first_name,
+			last_name: form.data.last_name,
+			password: form.data.password,
+			confirm_password: form.data.confirm_password,
 		});
+		userResponse.value = response;
+
+		steps.success();
+	} catch (error: any) {
+		console.log(error);
+		userResponse.value = undefined;
+
+		const resError = error.response.data.errors;
+
+		if (resError?.email) {
+			message.error(resError.email[0]);
+			steps.current = 1;
+			return;
+		}
+
+		if (resError?.password) {
+			message.error(resError.password[0]);
+			return;
+		}
+	} finally {
+		loading.value = false;
+	}
 };
 
-const process = ref(false);
-const stage = ref(0);
-
-const showValidate = reactive({
-	pass: false,
-	confirm: false,
-});
-
-// password validations
-const validate = computed(() => {
-	return {
-		minChars: password.value.length,
-		letters: password.value.match(/[a-zA-Z]/g),
-		numbers: password.value.match(/[0-9]/g),
-		same: password.value === confirm_password.value,
-	};
-});
-
-const openTOS = () => {
-	window.open("https://www.bugshot.de/nutzungsbedingungen");
-};
-
-const openPP = () => {
-	window.open("https://www.bugshot.de/datenschutz");
-};
-
+const resendLoading = ref(false);
 const resendEmail = async () => {
 	try {
 		resendLoading.value = true;
-		await axios.post("/auth/email/verification-notification", {
-			user_id: userResponse.value?.id,
-		});
+		if (userResponse.value) await useAuthStore().resendVerification(userResponse.value.id);
 	} catch (error) {
 		console.log(error);
 	} finally {
@@ -362,208 +506,34 @@ const resendEmail = async () => {
 </script>
 
 <style scoped lang="scss">
-.title {
-	margin: 0 0 2rem 0 !important;
-	color: hsl(265, 79%, 41%);
-	font-weight: 700;
-	font-size: 32px;
-	text-align: left;
-	width: 400px;
-}
-
-#login-form {
-	width: 400px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: flex-start;
-	height: 600px;
-	gap: 30px;
-
-	> * {
-		margin: 0 auto;
-		width: 100%;
-	}
-
-	.from-buttons {
-		display: flex;
-		align-items: flex-end;
-		width: 100%;
-		justify-content: space-between;
-		align-content: center;
-		padding: 4% 1%;
-
-		#remember {
-			filter: hue-rotate(40deg);
-		}
-
-		> label {
-			user-select: none;
-		}
-	}
-
-	.error {
-		color: red;
-		border: 1px solid red;
-
-		&:focus,
-		&:focus-visible,
-		&:hover {
-			border-color: red;
-			outline-color: red;
-		}
+:deep(.n-step--process-status) {
+	.n-step-indicator {
+		background-color: var(--bs-gray);
 	}
 }
 
-.requed {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-
-	> * {
-		margin: 0 auto;
-		width: 100%;
-	}
-
-	ul {
-		margin: 1rem 0 0 0;
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
+:deep(.n-step--wait-status) {
+	.n-step-indicator {
+		background-color: var(--bs-gray);
+		opacity: 0.5;
 	}
 }
-
-.errors {
-	color: red;
-	font-weight: 500;
-}
-
-.tos {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	font-size: 14px;
-	width: 100%;
-	justify-content: center;
-
-	input:checked {
-		color: #7a2de6;
-		accent-color: currentcolor;
-	}
-
-	> span {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 4px;
-	}
-
-	p {
-		margin: 0;
-	}
-
-	.linked {
-		color: hsl(265, 79%, 54%);
-		cursor: pointer;
-		text-decoration: none;
-
-		&:hover {
-			color: hsl(265, 79%, 44%);
-		}
+:deep(.n-step--finish-status) {
+	.n-step-indicator {
+		background-color: var(--bs-green);
 	}
 }
-
-.aLogin {
-	display: flex;
-	gap: 4px;
-	align-items: center;
-	font-size: 14px;
-
-	a {
-		text-decoration: underline;
-		color: hsl(158, 80%, 47%);
-		font-weight: bold;
-		text-transform: uppercase;
-		cursor: pointer;
-
-		&:hover {
-			color: hsl(158, 80%, 42%);
-		}
-	}
+:deep(.n-step-indicator) {
+	width: 0.5rem;
+	height: 0.5rem;
+	box-shadow: unset;
+	margin: auto;
 }
-
-.process {
-	width: 400px;
-
-	img {
-		width: 300px;
-		height: 300px;
-	}
-
-	.success {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 20px;
-
-		> div {
-			color: #5916b9;
-			font-weight: bold;
-			font-size: 32px;
-		}
-
-		> span {
-			font-size: 18px;
-		}
-	}
-}
-
-.good {
-	color: #1a2040;
-	// color: #18d891;
-	filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%) hue-rotate(104deg)
-		brightness(96%) contrast(88%);
-	position: relative;
-	display: flex;
-	align-items: center;
-
-	&::before {
-		content: "";
-		background-image: url("/src/assets/icons/check.svg");
-		background-position: 0 0;
-		background-size: contain;
-		background-repeat: no-repeat;
-		width: 1rem;
-		height: 1rem;
-		left: -1.5rem;
-	}
-}
-.bad {
-	color: #1a2040;
-	// color: #f23636;
-	filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%) hue-rotate(263deg)
-		brightness(94%) contrast(92%);
-	position: relative;
-	display: flex;
-	align-items: center;
-
-	&::before {
-		content: "";
-		background-image: url("/src/assets/icons/close_2.svg");
-		background-position: 0 0;
-		background-size: contain;
-		background-repeat: no-repeat;
-		width: 1rem;
-		height: 1rem;
-		left: -1.5rem;
-	}
+:deep(.n-step-content-header) {
+	margin-top: 0.125rem !important;
 }
 </style>
 
 <route lang="yaml">
-name: Register
-
-meta:
-    layout: auth
+name: register
 </route>

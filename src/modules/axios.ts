@@ -29,7 +29,7 @@ export const install: UserModule = ({ router }) => {
 				// clear the local storage then redirect
 				useAuthStore().$reset();
 
-				router.push({ name: "Login" });
+				router.push({ name: "login" });
 				return;
 			}
 
