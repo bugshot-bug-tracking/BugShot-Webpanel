@@ -63,6 +63,10 @@ svg {
 	margin-left: unset !important;
 }
 
+.n-input__eye {
+	display: flex;
+}
+
 .n-checkbox.checkbox-round-inverted {
 	--n-border-radius: 1rem;
 	--n-check-mark-color: var(--bs-purple);
