@@ -552,8 +552,6 @@
 	"send_response": "Send response",
 	"time_estimate": "Time estimate",
 	"total_time_estimate_s": "Total estimated time: {0} minutes",
-	" ": "",
-	"": "",
 	"bug_report_approvals": "Bug report approvals",
 	"Bug reports approvals_subtext": "Before we start working on your reports, please approve the time estimate for them.",
 	"deselect_all": "Deselect all",
@@ -589,7 +587,7 @@
 	"what_is_your_mail_subtext": "Please verify your email address after creating the account.",
 	"account": "Account",
 	"personal_data": "Personal data",
-	"please_accept_tos_and_pp": "Please accept the terms of service and privacy policy",
+	"please_accept_tos_and_pp": "Please accept the Terms of Service and Privacy Policy",
 	"please_tell_us_your_first_name": "Please tell us your first name",
 	"please_tell_us_your_last_name": "Please tell us your last name",
 	"whats_your_name": "What's your name?",
@@ -601,5 +599,8 @@
 	"yay_account_created_subtext": "All that's left is to verify the account using the link send to your email.",
 	"recover_email_sent": "We've sent you the reset password instruction over email. Thank you!",
 	"password_reset_success": "The password was changed successfully!",
-	"recover_link_invalid": "This recovery link is invalid. Please try the procedure again!"
+	"recover_link_invalid": "This recovery link is invalid. Please retry the procedure again!",
+
+	" ": "",
+	"": ""
 }
