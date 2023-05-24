@@ -8,6 +8,7 @@ export interface Organization {
 		designation: string;
 		creator: User;
 		role?: Role;
+		companyTerm?: string;
 		created_at: string;
 		updated_at: string;
 	};

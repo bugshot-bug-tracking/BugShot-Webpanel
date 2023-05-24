@@ -413,6 +413,29 @@ export const useOrganizationStore = defineStore("organization", {
 
 			this.invoices = response.invoices;
 		},
+
+		async changeCompanyTerm(value: string) {
+			const { t } = useGlobalI18n();
+			// @ts-ignore
+			const { message } = useDiscreteApi();
+
+			try {
+				let response = (
+					await axios.patch(`organizations/${this.organization_id}`, {
+						companyTerm: value,
+					})
+				).data.data;
+
+				useMainStore().updateOrganization(response);
+
+				message.success(t("messages.organization_term_updated"));
+
+				return response;
+			} catch (error) {
+				message.error(t("error") + "!");
+				throw error;
+			}
+		},
 	},
 
 	getters: {

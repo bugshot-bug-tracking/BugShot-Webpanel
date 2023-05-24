@@ -532,7 +532,8 @@
 		"license_assigned": "License assigned!",
 		"license_revoked": "License revoked!",
 		"subscription_canceled": "Subscription canceled!",
-		"user_updated": "User updated!"
+		"user_updated": "User updated!",
+		"organization_term_updated": "Term updated!"
 	},
 	"rules": {
 		"designation_required": "Bug name required!"
@@ -567,10 +568,9 @@
 	"reject_bug": "Reject Bug",
 	"approve_selected": "Approve selected",
 	"reject_selected": "Reject selected",
-	"share_internally": "Share internally",
 	"share": "Share",
-	"only_internally_accesible": "Only accessible for the people with access to the project",
-	"share_link_coppied_clipboard": "Share link copied to clipboard",
+	"only_internally_accessible": "Only accessible for the people with access to the project",
+	"share_link_copied_clipboard": "Share link copied to clipboard",
 	"pending_x_out_of_y_bugs": "Pending: {0} out of {1} Bugs",
 	"optional_send_summary_to": "(Optional) You can send a summary of your choices\n to someone from bellow:",
 	"send_responses": "Send responses",

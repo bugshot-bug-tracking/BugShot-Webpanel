@@ -4,11 +4,17 @@
 		@click.capture="onClick"
 		:class="{ 'custom_n-icon_button': button, 'custom_n-icon_button-disabled': disabled }"
 	>
-		<svg id="add" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+		<svg
+			id="edit"
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+		>
 			<g id="Layer_3" data-name="Layer 3">
 				<rect
-					id="Rectangle_2824"
-					data-name="Rectangle 2824"
+					id="Rectangle_2874"
+					data-name="Rectangle 2874"
 					width="24"
 					height="24"
 					fill="none"
@@ -16,23 +22,23 @@
 			</g>
 			<g id="Layer_2" data-name="Layer 2">
 				<path
-					id="Path_876"
-					data-name="Path 876"
-					d="M12,22A10,10,0,1,1,22,12,10,10,0,0,1,12,22ZM12,4a8,8,0,1,0,8,8A8,8,0,0,0,12,4Z"
+					id="Path_897"
+					data-name="Path 897"
+					d="M3.25,20.76l1.87-7.48L15.39,3H19l2,2V8.61L10.73,18.89ZM6.92,14.3,6,18l3.7-.92L19,7.78v-2L18.19,5h-2Z"
 				/>
 				<rect
-					id="Rectangle_2825"
-					data-name="Rectangle 2825"
+					id="Rectangle_2875"
+					data-name="Rectangle 2875"
 					width="2"
-					height="10.44"
-					transform="translate(11 6.78)"
+					height="5.93"
+					transform="matrix(0.707, -0.707, 0.707, 0.707, 13.003, 6.801)"
 				/>
 				<rect
-					id="Rectangle_2826"
-					data-name="Rectangle 2826"
-					width="10.44"
-					height="2"
-					transform="translate(6.78 11)"
+					id="Rectangle_2876"
+					data-name="Rectangle 2876"
+					width="2"
+					height="5.93"
+					transform="matrix(0.707, -0.707, 0.707, 0.707, 6.009, 13.796)"
 				/>
 			</g>
 		</svg>
