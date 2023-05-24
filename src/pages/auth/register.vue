@@ -13,7 +13,7 @@
 			<n-step :title="t('personal_data')">
 				<template #icon><div /></template>
 			</n-step>
-			<n-step :title="t('password')">
+			<n-step :title="t('password')" max-w-fit>
 				<template #icon><div /></template>
 			</n-step>
 			<template #finish-icon><div /></template>
@@ -25,251 +25,255 @@
 			:rules="form.rules"
 			:show-require-mark="false"
 			:disabled="loading"
-			my-4
+			my-8
 		>
-			<div v-show="steps.current === 1" flex flex-col gap-4>
-				<n-h2 m-0>
-					<n-text type="primary" style="font-weight: 700">
-						{{ t("what_is_your_mail") }}
-					</n-text>
-				</n-h2>
+			<Transition mode="out-in" :name="transitionDirection">
+				<div v-if="steps.current === 1" flex flex-col gap-4>
+					<n-h2 m-0>
+						<n-text type="primary" style="font-weight: 700">
+							{{ t("what_is_your_mail") }}
+						</n-text>
+					</n-h2>
 
-				<n-p style="font-size: 0.875rem" m-0>
-					{{ t("what_is_your_mail_subtext") }}
-				</n-p>
+					<n-p style="font-size: 0.875rem" m-0>
+						{{ t("what_is_your_mail_subtext") }}
+					</n-p>
 
-				<n-form-item :label="t('email')" path="email">
-					<n-input
-						type="text"
-						:input-props="{ type: 'email' }"
-						size="large"
-						v-model:value="form.data.email"
-						:disabled="loading"
-						placeholder=""
-					>
-						<template #suffix>
-							<Icon-Email size="1.5rem" color="var(--bs-black)" />
-						</template>
-					</n-input>
-				</n-form-item>
-
-				<div flex items-center>
-					<n-form-item path="tos_pp" :show-label="false">
-						<n-checkbox mr-2 v-model:checked="form.data.tos_pp" :disabled="loading">
-							<i18n-t keypath="tos_and_pp" tag="p" scope="global">
-								<template v-slot:tos>
-									<n-button
-										type="primary"
-										text
-										tag="a"
-										href="https://www.bugshot.de/nutzungsbedingungen"
-										target="_blank"
-										@click.stop
-									>
-										{{ $t("terms_of_service") }}
-									</n-button>
-								</template>
-
-								<template v-slot:pp>
-									<n-button
-										type="primary"
-										text
-										tag="a"
-										href="https://www.bugshot.de/datenschutz"
-										target="_blank"
-										@click.stop
-									>
-										{{ $t("privacy_policy") }}
-									</n-button>
-								</template>
-							</i18n-t></n-checkbox
-						>
-					</n-form-item>
-				</div>
-
-				<n-button
-					type="success"
-					round
-					strong
-					my-4
-					mr-a
-					@click="steps.next"
-					:disabled="loading"
-					:loading="loading"
-				>
-					{{ t("next_step") }}
-				</n-button>
-			</div>
-
-			<div v-show="steps.current === 2" flex flex-col gap-4>
-				<n-button text @click="steps.prev" mr-a my-2>
-					<template #icon>
-						<Icon-Arrow color="var(--bs-purple)" />
-					</template>
-				</n-button>
-
-				<n-h2 m-0>
-					<n-text type="primary" style="font-weight: 700">
-						{{ t("whats_your_name") }}
-					</n-text>
-				</n-h2>
-
-				<n-p style="font-size: 0.875rem" m-0> {{ t("whats_your_name_subtext") }} </n-p>
-
-				<div>
-					<n-form-item :label="t('first_name')" path="first_name">
+					<n-form-item :label="t('email')" path="email">
 						<n-input
 							type="text"
-							:input-props="{ autocomplete: 'given-name' }"
+							:input-props="{ type: 'email' }"
 							size="large"
-							placeholder=""
-							v-model:value="form.data.first_name"
-							:disabled="loading"
-						>
-						</n-input>
-					</n-form-item>
-
-					<n-form-item :label="t('last_name')" path="last_name">
-						<n-input
-							type="text"
-							:input-props="{ autocomplete: 'family-name' }"
-							size="large"
-							placeholder=""
-							v-model:value="form.data.last_name"
-							:disabled="loading"
-						>
-						</n-input>
-					</n-form-item>
-				</div>
-
-				<n-button
-					type="success"
-					round
-					strong
-					my-4
-					mr-a
-					@click="steps.next"
-					:disabled="loading"
-					:loading="loading"
-				>
-					{{ t("next_step") }}
-				</n-button>
-			</div>
-
-			<div v-show="steps.current === 3" flex flex-col gap-4>
-				<n-button text @click="steps.prev" mr-a my-2>
-					<template #icon>
-						<Icon-Arrow color="var(--bs-purple)" />
-					</template>
-				</n-button>
-
-				<n-h2 m-0>
-					<n-text type="primary" style="font-weight: 700">
-						{{ t("lets_create_password") }}
-					</n-text>
-				</n-h2>
-
-				<n-p style="font-size: 0.875rem" m-0>
-					{{ t("lets_create_password_subtext") }}
-				</n-p>
-
-				<div>
-					<n-form-item :label="t('password')" path="password" :show-feedback="false">
-						<n-input
-							type="password"
-							:input-props="{ autocomplete: 'new-password' }"
-							size="large"
-							show-password-on="click"
-							v-model:value="form.data.password"
+							v-model:value="form.data.email"
 							:disabled="loading"
 							placeholder=""
-							@focus="passwordRulesActive = true"
-							@blur="passwordRulesActive = false"
 						>
-							<template #password-visible-icon>
-								<Icon-Password m-a color="var(--bs-black)" />
-							</template>
-							<template #password-invisible-icon>
-								<Icon-Password hide m-a color="var(--bs-black)" />
+							<template #suffix>
+								<Icon-Email size="1.5rem" color="var(--bs-black)" />
 							</template>
 						</n-input>
 					</n-form-item>
 
-					<PasswordRules :rules="passwordRules" :active="passwordRulesActive" />
+					<div flex items-center>
+						<n-form-item path="tos_pp" :show-label="false">
+							<n-checkbox mr-2 v-model:checked="form.data.tos_pp" :disabled="loading">
+								<i18n-t keypath="tos_and_pp" tag="p" scope="global">
+									<template v-slot:tos>
+										<n-button
+											type="primary"
+											text
+											tag="a"
+											href="https://www.bugshot.de/nutzungsbedingungen"
+											target="_blank"
+											@click.stop
+										>
+											{{ $t("terms_of_service") }}
+										</n-button>
+									</template>
 
-					<n-form-item
-						:label="t('confirm_password')"
-						path="confirm_password"
-						:show-feedback="false"
-					>
-						<n-input
-							type="password"
-							:input-props="{ autocomplete: 'new-password' }"
-							size="large"
-							show-password-on="click"
-							v-model:value="form.data.confirm_password"
-							:disabled="loading"
-							placeholder=""
-							@focus="confirmPasswordRulesActive = true"
-							@blur="confirmPasswordRulesActive = false"
-						>
-							<template #password-visible-icon>
-								<Icon-Password m-a color="var(--bs-black)" />
-							</template>
-							<template #password-invisible-icon>
-								<Icon-Password hide m-a color="var(--bs-black)" />
-							</template>
-						</n-input>
-					</n-form-item>
-
-					<PasswordRules
-						:rules="confirmPasswordRules"
-						:active="confirmPasswordRulesActive"
-					/>
-				</div>
-
-				<n-button
-					type="success"
-					round
-					strong
-					my-4
-					mr-a
-					@click="onSubmit"
-					:disabled="loading"
-					:loading="loading"
-				>
-					{{ t("submit") }}
-				</n-button>
-			</div>
-
-			<div v-show="steps.current === 10" flex flex-col gap-4>
-				<n-h2 m-0>
-					<n-text type="primary" style="font-weight: 700"> {{ t("success") }}! </n-text>
-				</n-h2>
-
-				<n-p style="font-size: 0.875rem" m-0> {{ t("yay_account_created") }} </n-p>
-				<n-p style="font-size: 0.875rem" m-0>
-					{{ t("yay_account_created_subtext") }}
-				</n-p>
-
-				<n-p style="font-size: 0.875rem; color: var(--bs-gray)" m-0 mt-2>
-					{{ t("email_not_received") }}
+									<template v-slot:pp>
+										<n-button
+											type="primary"
+											text
+											tag="a"
+											href="https://www.bugshot.de/datenschutz"
+											target="_blank"
+											@click.stop
+										>
+											{{ $t("privacy_policy") }}
+										</n-button>
+									</template>
+								</i18n-t></n-checkbox
+							>
+						</n-form-item>
+					</div>
 
 					<n-button
-						:loading="resendLoading"
-						text
+						type="success"
+						round
 						strong
-						type="tertiary"
-						underline
-						@click="resendEmail"
-						flex-row-reverse
-						gap-2
-						style="font-size: 0.875rem"
+						my-4
+						mr-a
+						@click="steps.next"
+						:disabled="loading"
+						:loading="loading"
 					>
-						{{ t("resend_email") }}
+						{{ t("next_step") }}
 					</n-button>
-				</n-p>
-			</div>
+				</div>
+
+				<div v-else-if="steps.current === 2" flex flex-col gap-4>
+					<n-button text @click="steps.prev" mr-a my-2>
+						<template #icon>
+							<Icon-Arrow color="var(--bs-purple)" />
+						</template>
+					</n-button>
+
+					<n-h2 m-0>
+						<n-text type="primary" style="font-weight: 700">
+							{{ t("whats_your_name") }}
+						</n-text>
+					</n-h2>
+
+					<n-p style="font-size: 0.875rem" m-0> {{ t("whats_your_name_subtext") }} </n-p>
+
+					<div>
+						<n-form-item :label="t('first_name')" path="first_name">
+							<n-input
+								type="text"
+								:input-props="{ autocomplete: 'given-name' }"
+								size="large"
+								placeholder=""
+								v-model:value="form.data.first_name"
+								:disabled="loading"
+							>
+							</n-input>
+						</n-form-item>
+
+						<n-form-item :label="t('last_name')" path="last_name">
+							<n-input
+								type="text"
+								:input-props="{ autocomplete: 'family-name' }"
+								size="large"
+								placeholder=""
+								v-model:value="form.data.last_name"
+								:disabled="loading"
+							>
+							</n-input>
+						</n-form-item>
+					</div>
+
+					<n-button
+						type="success"
+						round
+						strong
+						my-4
+						mr-a
+						@click="steps.next"
+						:disabled="loading"
+						:loading="loading"
+					>
+						{{ t("next_step") }}
+					</n-button>
+				</div>
+
+				<div v-else-if="steps.current === 3" flex flex-col gap-4>
+					<n-button text @click="steps.prev" mr-a my-2>
+						<template #icon>
+							<Icon-Arrow color="var(--bs-purple)" />
+						</template>
+					</n-button>
+
+					<n-h2 m-0>
+						<n-text type="primary" style="font-weight: 700">
+							{{ t("lets_create_password") }}
+						</n-text>
+					</n-h2>
+
+					<n-p style="font-size: 0.875rem" m-0>
+						{{ t("lets_create_password_subtext") }}
+					</n-p>
+
+					<div>
+						<n-form-item :label="t('password')" path="password" :show-feedback="false">
+							<n-input
+								type="password"
+								:input-props="{ autocomplete: 'new-password' }"
+								size="large"
+								show-password-on="click"
+								v-model:value="form.data.password"
+								:disabled="loading"
+								placeholder=""
+								@focus="passwordRulesActive = true"
+								@blur="passwordRulesActive = false"
+							>
+								<template #password-visible-icon>
+									<Icon-Password m-a color="var(--bs-black)" />
+								</template>
+								<template #password-invisible-icon>
+									<Icon-Password hide m-a color="var(--bs-black)" />
+								</template>
+							</n-input>
+						</n-form-item>
+
+						<PasswordRules :rules="passwordRules" :active="passwordRulesActive" />
+
+						<n-form-item
+							:label="t('confirm_password')"
+							path="confirm_password"
+							:show-feedback="false"
+						>
+							<n-input
+								type="password"
+								:input-props="{ autocomplete: 'new-password' }"
+								size="large"
+								show-password-on="click"
+								v-model:value="form.data.confirm_password"
+								:disabled="loading"
+								placeholder=""
+								@focus="confirmPasswordRulesActive = true"
+								@blur="confirmPasswordRulesActive = false"
+							>
+								<template #password-visible-icon>
+									<Icon-Password m-a color="var(--bs-black)" />
+								</template>
+								<template #password-invisible-icon>
+									<Icon-Password hide m-a color="var(--bs-black)" />
+								</template>
+							</n-input>
+						</n-form-item>
+
+						<PasswordRules
+							:rules="confirmPasswordRules"
+							:active="confirmPasswordRulesActive"
+						/>
+					</div>
+
+					<n-button
+						type="success"
+						round
+						strong
+						my-4
+						mr-a
+						@click="onSubmit"
+						:disabled="loading"
+						:loading="loading"
+					>
+						{{ t("submit") }}
+					</n-button>
+				</div>
+
+				<div v-else-if="steps.current === 10" flex flex-col gap-4>
+					<n-h2 m-0>
+						<n-text type="primary" style="font-weight: 700">
+							{{ t("success") }}!
+						</n-text>
+					</n-h2>
+
+					<n-p style="font-size: 0.875rem" m-0> {{ t("yay_account_created") }} </n-p>
+					<n-p style="font-size: 0.875rem" m-0>
+						{{ t("yay_account_created_subtext") }}
+					</n-p>
+
+					<n-p style="font-size: 0.875rem; color: var(--bs-gray)" m-0 mt-2>
+						{{ t("email_not_received") }}
+
+						<n-button
+							:loading="resendLoading"
+							text
+							strong
+							type="tertiary"
+							underline
+							@click="resendEmail"
+							flex-row-reverse
+							gap-2
+							style="font-size: 0.875rem"
+						>
+							{{ t("resend_email") }}
+						</n-button>
+					</n-p>
+				</div>
+			</Transition>
 		</n-form>
 	</div>
 </template>
@@ -294,12 +298,14 @@ const steps = reactive({
 
 			// improve UX by making the process slower so the animations have time to be visible
 			await new Promise((resolve) => setTimeout(resolve, 250));
+			transitionDirection.value = "slide-up";
 
 			steps.current++;
 		}
 		loading.value = false;
 	},
 	prev: () => {
+		transitionDirection.value = "slide-down";
 		steps.current--;
 	},
 
@@ -503,6 +509,8 @@ const resendEmail = async () => {
 		resendLoading.value = false;
 	}
 };
+
+const transitionDirection = ref<"slide-up" | "slide-down">("slide-up");
 </script>
 
 <style scoped lang="scss">
@@ -530,7 +538,38 @@ const resendEmail = async () => {
 	margin: auto;
 }
 :deep(.n-step-content-header) {
-	margin-top: 0.125rem !important;
+	margin-top: 0 !important;
+}
+:deep(.n-step-splitor) {
+	margin-top: 0;
+	align-self: center;
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active,
+.slide-down-enter-active,
+.slide-down-leave-active {
+	transition: all 0.25s ease-out;
+}
+
+.slide-up-enter-from {
+	opacity: 0;
+	transform: translateY(30px);
+}
+
+.slide-up-leave-to {
+	opacity: 0;
+	transform: translateY(-30px);
+}
+
+.slide-down-enter-from {
+	opacity: 0;
+	transform: translateY(-30px);
+}
+
+.slide-down-leave-to {
+	opacity: 0;
+	transform: translateY(30px);
 }
 </style>
 
