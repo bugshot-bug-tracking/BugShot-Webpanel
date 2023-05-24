@@ -4,8 +4,34 @@
 			<OrganizationSwitcher noLabel p-2 />
 		</template>
 
-		<template #header-text>
-			{{ $t("company", 2) }}
+		<template #header-text v-if="!headerEdit">
+			{{ companyTerm }}
+
+			<Icon-Edit
+				size="0.875rem"
+				color="var(--bs-gray)"
+				v-if="useFlagsStore().canEditCompanyTerm"
+				@click="startEditTerm"
+				ml-1
+				button
+			/>
+		</template>
+
+		<template #header-content v-else>
+			<div flex items-center gap-2 mb-2>
+				<n-input
+					type="text"
+					size="large"
+					:placeholder="t('company', 2)"
+					:default-value="companyTerm"
+					v-model:value="termValue"
+					:disabled="updateTermLoading"
+					:loading="updateTermLoading"
+				/>
+
+				<Icon-Check button @click="saveEditTerm" :disabled="updateTermLoading" />
+				<Icon-X button @click="cancelEditTerm" :disabled="updateTermLoading" />
+			</div>
 		</template>
 
 		<template #order-text>
@@ -29,7 +55,7 @@
 						company_id: item.id,
 					},
 				}"
-				:owner="user.id === item.attributes.creator?.id"
+				:owner="user?.id === item.attributes.creator?.id"
 				@toggle="items_opened.toggle(item.id)"
 				:open="
 					items_opened.secondary === item.id
@@ -80,7 +106,7 @@
 
 								<RouterLink
 									v-if="
-										user.id === item.attributes.creator?.id ||
+										user?.id === item.attributes.creator?.id ||
 										(item.attributes.role?.id ?? 9) < 2 ||
 										(project.attributes.role?.id ?? 9) < 2
 									"
@@ -158,9 +184,12 @@
 <script setup lang="ts">
 import { useSettingsStore } from "~/stores/settings";
 import { useAuthStore } from "~/stores/auth";
+import { useFlagsStore } from "~/stores/flags";
 import { useOrganizationStore } from "~/stores/organization";
 import { Company } from "~/models/Company";
 import { COLOR } from "~/util/colors";
+
+const { t } = useI18n();
 
 const order = computed(() => useSettingsStore().getCompaniesOrder);
 
@@ -223,6 +252,40 @@ const companyProjects = (company_id: string) => {
 };
 
 const organization = computed(() => useOrganizationStore().getOrganization);
+
+const headerEdit = ref(false);
+const termValue = ref("");
+
+const companyTerm = computed(() => {
+	const orgTerm = useOrganizationStore().organization?.attributes.companyTerm;
+	if (orgTerm != undefined) return orgTerm;
+	else return t("company", 2);
+});
+
+const updateTermLoading = ref(false);
+
+const startEditTerm = () => {
+	headerEdit.value = true;
+	termValue.value = companyTerm.value;
+};
+
+const saveEditTerm = async () => {
+	try {
+		updateTermLoading.value = true;
+		await useOrganizationStore().changeCompanyTerm(termValue.value);
+
+		cancelEditTerm();
+	} catch (error) {
+		console.log(error);
+	} finally {
+		updateTermLoading.value = false;
+	}
+};
+
+const cancelEditTerm = () => {
+	headerEdit.value = false;
+	termValue.value = "";
+};
 </script>
 
 <style lang="scss" scoped>

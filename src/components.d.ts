@@ -51,6 +51,7 @@ declare module '@vue/runtime-core' {
     IconArrow: typeof import('./components/icons/Icon-Arrow.vue')['default']
     IconBoard: typeof import('./components/icons/Icon-Board.vue')['default']
     IconCheck: typeof import('./components/icons/Icon-Check.vue')['default']
+    IconEdit: typeof import('./components/icons/Icon-Edit.vue')['default']
     IconEmail: typeof import('./components/icons/Icon-Email.vue')['default']
     IconLoading: typeof import('./components/icons/Icon-Loading.vue')['default']
     IconLock: typeof import('./components/icons/Icon-Lock.vue')['default']

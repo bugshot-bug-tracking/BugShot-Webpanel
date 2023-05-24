@@ -532,7 +532,8 @@
 		"license_assigned": "License assigned!",
 		"license_revoked": "License revoked!",
 		"subscription_canceled": "Subscription canceled!",
-		"user_updated": "User updated!"
+		"user_updated": "User updated!",
+		"organization_term_updated": "Term updated!"
 	},
 	"rules": {
 		"designation_required": "Bug name required!"
