@@ -450,3 +450,21 @@
 		inset: 0;
 	}
 }
+
+.custom_n-icon_button {
+	cursor: pointer;
+	transition: color 0.25s ease-in-out;
+
+	&:hover {
+		color: var(--bs-purple);
+	}
+
+	&.custom_n-icon_button-disabled {
+		cursor: not-allowed;
+		color: var(--bs-gray) !important;
+
+		&:hover {
+			color: var(--bs-gray) !important;
+		}
+	}
+}

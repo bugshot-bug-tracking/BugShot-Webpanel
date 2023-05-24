@@ -162,7 +162,7 @@ import { useProjectStore } from "~/stores/project";
 import { useReportsStore } from "~/stores/reports";
 import IconSettings from "~/components/icons/Icon-Settings.vue";
 import IconTabular from "~/components/icons/Icon-Tabular.vue";
-import { useFeatureFlagsStore } from "~/stores/featureFlags";
+import { useFlagsStore } from "~/stores/flags";
 
 const props = defineProps({
 	organization_id: {
@@ -312,7 +312,7 @@ const more = computed(() => ({
 			label: t("request_approval", 2),
 			key: "approvals",
 			icon: () => h(IconTabular),
-			show: currentTab.value === "kanban" && useFeatureFlagsStore().canSeeEverything,
+			show: currentTab.value === "kanban" && useFlagsStore().canSeeEverything,
 			props: {
 				onClick: () => {
 					kanbanState.startChecker();

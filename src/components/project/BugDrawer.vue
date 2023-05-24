@@ -41,7 +41,7 @@
 								{{ $t("share") }}
 							</n-button>
 						</template>
-						{{ $t("only_internally_accesible") }}
+						{{ $t("only_internally_accessible") }}
 					</n-tooltip>
 
 					<n-popconfirm v-model:show="popover.value" :show-icon="false" m-4>
@@ -211,7 +211,7 @@ const clipboardCopy = async () => {
 	} finally {
 		const { message } = useDiscreteApi();
 
-		message.success(t("share_link_coppied_clipboard"));
+		message.success(t("share_link_copied_clipboard"));
 	}
 };
 </script>

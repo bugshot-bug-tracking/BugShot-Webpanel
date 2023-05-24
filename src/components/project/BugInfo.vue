@@ -322,7 +322,7 @@
 				gap-2
 				class="bs-bb bs-bt"
 				py-4
-				v-if="useFeatureFlagsStore().canSeeEverything"
+				v-if="useFlagsStore().canSeeEverything"
 			>
 				<n-h6 style="white-space: nowrap">
 					{{ $t("time_estimate") + ":" }}
@@ -384,7 +384,7 @@ import { useBugStore } from "~/stores/bug";
 import axios from "axios";
 import { User } from "~/models/User";
 import debounce from "lodash.debounce";
-import { useFeatureFlagsStore } from "~/stores/featureFlags";
+import { useFlagsStore } from "~/stores/flags";
 import { InputNumberInst } from "naive-ui";
 
 const emit = defineEmits(["close"]);
