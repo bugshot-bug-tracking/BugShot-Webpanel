@@ -104,35 +104,26 @@
 									</span>
 								</div>
 
-								<RouterLink
+								<div
+									class="item-options"
+									:class="{ open: optionsOpen === project.id }"
 									v-if="
 										user?.id === item.attributes.creator?.id ||
 										(item.attributes.role?.id ?? 9) < 2 ||
 										(project.attributes.role?.id ?? 9) < 2
 									"
-									:to="{
-										name: 'project-settings',
-										params: {
-											organization_id: organization!.id,
-											company_id: item.id,
-											project_id: project.id,
-										},
-									}"
-									class="route settings"
-									:style="{
-										'font-weight': 'bold',
-										width: 'auto',
-										padding: 0,
-									}"
 								>
-									<img
-										src="/src/assets/icons/gear.svg"
-										alt="settings"
-										w-6
-										h-6
-										:title="$t('project_settings')"
-									/>
-								</RouterLink>
+									<n-dropdown
+										trigger="click"
+										:options="more(organization!.id,item.id,project.id).options"
+										@click-outside="optionsOpen = undefined"
+										placement="bottom-end"
+									>
+										<n-button text @click.prevent="optionsOpen = project.id">
+											<Icon-VerticalDots size="1.25rem" />
+										</n-button>
+									</n-dropdown>
+								</div>
 							</RouterLink>
 						</li>
 
@@ -188,8 +179,11 @@ import { useFlagsStore } from "~/stores/flags";
 import { useOrganizationStore } from "~/stores/organization";
 import { Company } from "~/models/Company";
 import { COLOR } from "~/util/colors";
+import { DropdownOption } from "naive-ui";
+import IconSettings from "../icons/Icon-Settings.vue";
 
 const { t } = useI18n();
+const router = useRouter();
 
 const order = computed(() => useSettingsStore().getCompaniesOrder);
 
@@ -286,6 +280,31 @@ const cancelEditTerm = () => {
 	headerEdit.value = false;
 	termValue.value = "";
 };
+
+const more = (org_id: string, company_id: string, proj_id: string) => ({
+	options: [
+		{
+			label: t("project_settings"),
+			key: "project_settings",
+			icon: () => h(IconSettings),
+			show: true,
+			props: {
+				onClick: () => {
+					router.push({
+						name: "project-settings",
+						params: {
+							organization_id: org_id,
+							company_id: company_id,
+							project_id: proj_id,
+						},
+					});
+				},
+			},
+		},
+	] as DropdownOption[],
+});
+
+const optionsOpen = ref<string | undefined>(undefined);
 </script>
 
 <style lang="scss" scoped>
