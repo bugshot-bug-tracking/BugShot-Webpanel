@@ -13,7 +13,7 @@
 				<n-dropdown
 					trigger="click"
 					:options="more.options"
-					@click-outside="optionsOpen = false"
+					@clickoutside="optionsOpen = false"
 					placement="bottom-end"
 				>
 					<n-button text @click.prevent="optionsOpen = true">

@@ -116,7 +116,7 @@
 									<n-dropdown
 										trigger="click"
 										:options="more(organization!.id,item.id,project.id).options"
-										@click-outside="optionsOpen = undefined"
+										@clickoutside="optionsOpen = undefined"
 										placement="bottom-end"
 									>
 										<n-button text @click.prevent="optionsOpen = project.id">
