@@ -532,7 +532,8 @@
 		"license_assigned": "Lizenz zugewiesen!",
 		"license_revoked": "Lizenz entzogen!",
 		"subscription_canceled": "Abonnement gestrichen!",
-		"user_updated": "Nutzer aktualisiert!"
+		"user_updated": "Nutzer aktualisiert!",
+		"organization_term_updated": "Änderung erfolgreich!"
 	},
 	"rules": {
 		"designation_required": "Fehlername erforderlich!"
