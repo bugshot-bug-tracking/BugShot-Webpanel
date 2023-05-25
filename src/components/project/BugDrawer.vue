@@ -1,93 +1,152 @@
 <template>
 	<n-drawer v-model:show="active" :width="'30rem'" placement="right">
-		<n-drawer-content>
-			<n-scrollbar>
-				<div p-2 mr-2 flex flex-col gap-4>
-					<BugInfo @close="active = false" />
+		<Transition mode="out-in" :name="transitionDirection">
+			<n-drawer-content v-if="detailsEditMode === false">
+				<n-scrollbar>
+					<div p-2 mr-2 flex flex-col gap-4>
+						<BugDetails @close="active = false" />
 
-					<AttachmentsList
-						:loading="store.loading || store.loading_attachments"
-						:list="store.getAttachments"
-						:error="attachments.error"
-						@update="attachments.update"
-						@upload="attachments.upload"
-					>
-						<template #item="{ item }">
-							<AttachmentsItem
-								:name="item.attributes.designation"
-								:id="item.id"
-								@download="attachments.download"
-								@delete="attachments.delete"
-							/>
-						</template>
-					</AttachmentsList>
+						<AttachmentsList
+							:loading="store.loading || store.loading_attachments"
+							:list="store.getAttachments"
+							:error="attachments.error"
+							@update="attachments.update"
+							@upload="attachments.upload"
+						>
+							<template #item="{ item }">
+								<AttachmentsItem
+									:name="item.attributes.designation"
+									:id="item.id"
+									@download="attachments.download"
+									@delete="attachments.delete"
+								/>
+							</template>
+						</AttachmentsList>
 
-					<BugComments
-						:list="store.getComments"
-						:loading="store.loading || store.loading_comments"
-						:submit="submitComment"
-					/>
-				</div>
-			</n-scrollbar>
+						<BugComments
+							:list="store.getComments"
+							:loading="store.loading || store.loading_comments"
+							:submit="submitComment"
+						/>
+					</div>
+				</n-scrollbar>
 
-			<template #footer>
-				<div flex-1 flex items-center justify-between>
-					<n-tooltip>
-						<template #trigger>
-							<n-button text style="font-size: 0.875rem" @click="clipboardCopy">
-								<template #icon>
-									<Icon-Share />
-								</template>
-								{{ $t("share") }}
-							</n-button>
-						</template>
-						{{ $t("only_internally_accessible") }}
-					</n-tooltip>
+				<template #footer>
+					<div flex-1 flex items-center justify-between>
+						<n-button
+							text
+							strong
+							style="font-size: 0.875rem"
+							@click="startEditMode"
+							:disabled="store.bug === undefined"
+						>
+							<template #icon>
+								<Icon-Edit color="var(--bs-purple)" />
+							</template>
+							{{ t("edit_bug_details") }}
+						</n-button>
 
-					<n-popconfirm v-model:show="popover.value" :show-icon="false" m-4>
-						<template #trigger>
-							<n-button text type="error" strong :disabled="store.loading_delete_bug">
-								<template #icon>
-									<img
-										src="/src/assets/icons/delete.svg"
-										alt="delete"
-										class="black-to-red"
-										size="large"
-									/>
-								</template>
-
-								{{ $t("delete.bug") }}
-							</n-button>
-						</template>
-
-						<div m-4>{{ t("want_to_delete_this_bug") }}</div>
-
-						<template #action>
-							<div flex gap-2 my-2 mx-4>
-								<n-button
-									type="success"
-									ghost
-									strong
-									@click="popover.close"
-									:disabled="store.loading_delete_bug"
-								>
-									{{ $t("cancel") }}
+						<n-tooltip>
+							<template #trigger>
+								<n-button text style="font-size: 0.875rem" @click="clipboardCopy">
+									<template #icon>
+										<Icon-Share />
+									</template>
+									{{ t("share") }}
 								</n-button>
+							</template>
+							{{ t("only_internally_accessible") }}
+						</n-tooltip>
 
+						<n-popconfirm v-model:show="popover.value" :show-icon="false" m-4>
+							<template #trigger>
 								<n-button
+									text
 									type="error"
-									@click="deleteBug"
-									:disabled="store.loading_delete_bug"
-									:loading="store.loading_delete_bug"
+									strong
+									:disabled="store.bug === undefined || store.loading_delete_bug"
 								>
-									{{ $t("delete.delete") }}
+									<template #icon>
+										<img
+											src="/src/assets/icons/delete.svg"
+											alt="delete"
+											class="black-to-red"
+											size="large"
+										/>
+									</template>
+
+									{{ t("delete.bug") }}
 								</n-button>
-							</div>
-						</template>
-					</n-popconfirm>
-				</div>
-			</template>
-		</n-drawer-content>
+							</template>
+
+							<div m-4>{{ t("want_to_delete_this_bug") }}</div>
+
+							<template #action>
+								<div flex gap-2 my-2 mx-4>
+									<n-button
+										type="success"
+										ghost
+										strong
+										@click="popover.close"
+										:disabled="store.loading_delete_bug"
+									>
+										{{ t("cancel") }}
+									</n-button>
+
+									<n-button
+										type="error"
+										@click="deleteBug"
+										:disabled="store.loading_delete_bug"
+										:loading="store.loading_delete_bug"
+									>
+										{{ t("delete.delete") }}
+									</n-button>
+								</div>
+							</template>
+						</n-popconfirm>
+					</div>
+				</template>
+			</n-drawer-content>
+
+			<n-drawer-content v-else>
+				<n-scrollbar>
+					<div p-2 mr-2 flex flex-col gap-4>
+						<BugDetailsEdit
+							@close="active = false"
+							v-if="store.bug"
+							v-model:data="newBugData"
+							:loading="detailsEditModeLoading"
+						/>
+					</div>
+				</n-scrollbar>
+
+				<template #footer>
+					<div flex-1 flex items-center justify-around>
+						<n-button
+							type="success"
+							round
+							strong
+							@click="submitDetailChanges"
+							:disabled="detailsEditModeLoading"
+							:loading="detailsEditModeLoading"
+						>
+							{{ t("save_changes") }}
+						</n-button>
+
+						<n-button
+							type="success"
+							round
+							strong
+							ghost
+							@click="stopEditMode"
+							:disabled="detailsEditModeLoading"
+						>
+							{{ t("cancel") }}
+						</n-button>
+					</div>
+				</template>
+			</n-drawer-content>
+		</Transition>
 	</n-drawer>
 </template>
 
@@ -98,6 +157,7 @@ import { useBugStore } from "~/stores/bug";
 import { useCompanyStore } from "~/stores/company";
 import { useOrganizationStore } from "~/stores/organization";
 import { useProjectStore } from "~/stores/project";
+import dateFix from "~/util/dateFixISO";
 import toBase64 from "~/util/toBase64";
 
 let store = useBugStore();
@@ -115,6 +175,10 @@ let active = computed({
 			console.log(error);
 		}
 	},
+});
+
+watch(active, (newValue, oldValue) => {
+	if (newValue === true) detailsEditMode.value = false;
 });
 
 const attachments = reactive({
@@ -214,4 +278,69 @@ const clipboardCopy = async () => {
 		message.success(t("share_link_copied_clipboard"));
 	}
 };
+
+const detailsEditMode = ref(false);
+const detailsEditModeLoading = ref(false);
+
+const newBugData = reactive({
+	designation: "",
+	description: "",
+	url: "",
+	priority: 2,
+	status: "",
+	deadline: undefined as undefined | number,
+	time_estimation: undefined as undefined | number,
+});
+
+const startEditMode = () => {
+	if (store.bug === undefined) return;
+
+	newBugData.designation = store.bug.attributes.designation;
+	newBugData.description = store.bug.attributes.description;
+	newBugData.url = store.bug.attributes.url;
+	newBugData.priority = store.bug.attributes.priority.id;
+	newBugData.status = store.bug.attributes.status_id;
+	newBugData.deadline = store.bug.attributes.deadline
+		? new Date(dateFix(store.bug.attributes.deadline)).valueOf()
+		: undefined;
+	newBugData.time_estimation = store.bug?.attributes.time_estimation
+		? Number(store.bug?.attributes.time_estimation)
+		: undefined;
+
+	transitionDirection.value = "rotate-left";
+
+	detailsEditMode.value = true;
+};
+
+const stopEditMode = () => {
+	transitionDirection.value = "rotate-right";
+
+	detailsEditMode.value = false;
+};
+
+const submitDetailChanges = async () => {
+	try {
+		detailsEditModeLoading.value = true;
+
+		await store.updateBug({
+			designation: newBugData.designation,
+			description: newBugData.description,
+			url: newBugData.url,
+			priority_id: newBugData.priority,
+			status_id: newBugData.status,
+			deadline: newBugData.deadline ? new Date(newBugData.deadline).toISOString() : undefined,
+			time_estimation: newBugData.time_estimation,
+		});
+	} catch (error) {
+		console.log(error);
+	} finally {
+		detailsEditModeLoading.value = false;
+	}
+
+	stopEditMode();
+};
+
+const transitionDirection = ref<
+	"slide-up" | "slide-down" | "slide-left" | "slide-right" | "rotate-left" | "rotate-right"
+>("rotate-left");
 </script>

@@ -510,7 +510,9 @@ const resendEmail = async () => {
 	}
 };
 
-const transitionDirection = ref<"slide-up" | "slide-down">("slide-up");
+const transitionDirection = ref<
+	"slide-up" | "slide-down" | "slide-left" | "slide-right" | "rotate-left" | "rotate-right"
+>("slide-up");
 </script>
 
 <style scoped lang="scss">
@@ -543,33 +545,6 @@ const transitionDirection = ref<"slide-up" | "slide-down">("slide-up");
 :deep(.n-step-splitor) {
 	margin-top: 0;
 	align-self: center;
-}
-
-.slide-up-enter-active,
-.slide-up-leave-active,
-.slide-down-enter-active,
-.slide-down-leave-active {
-	transition: all 0.25s ease-out;
-}
-
-.slide-up-enter-from {
-	opacity: 0;
-	transform: translateY(30px);
-}
-
-.slide-up-leave-to {
-	opacity: 0;
-	transform: translateY(-30px);
-}
-
-.slide-down-enter-from {
-	opacity: 0;
-	transform: translateY(-30px);
-}
-
-.slide-down-leave-to {
-	opacity: 0;
-	transform: translateY(30px);
 }
 </style>
 

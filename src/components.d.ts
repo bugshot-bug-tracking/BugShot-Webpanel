@@ -28,6 +28,8 @@ declare module '@vue/runtime-core' {
     BugCard: typeof import('./components/Cards/BugCard.vue')['default']
     BugComments: typeof import('./components/bug/BugComments.vue')['default']
     BugCommentsItem: typeof import('./components/bug/BugCommentsItem.vue')['default']
+    BugDetails: typeof import('./components/bug/BugDetails.vue')['default']
+    BugDetailsEdit: typeof import('./components/bug/BugDetailsEdit.vue')['default']
     BugDrawer: typeof import('./components/project/BugDrawer.vue')['default']
     BugInfo: typeof import('./components/project/BugInfo.vue')['default']
     BugsArchive: typeof import('./components/project/BugsArchive.vue')['default']

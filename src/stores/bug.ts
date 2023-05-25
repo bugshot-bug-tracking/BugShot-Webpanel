@@ -226,6 +226,7 @@ export const useBugStore = defineStore("bug", {
 		async updateBug(changes: {
 			designation?: string;
 			description?: string;
+			url?: string;
 			status_id?: string;
 			priority_id?: number;
 			order_number?: number;
@@ -242,7 +243,8 @@ export const useBugStore = defineStore("bug", {
 
 					...{ description: changes.description ?? this.bug.attributes.description },
 
-					url: this.bug.attributes.url,
+					...{ url: changes.url ?? this.bug.attributes.url },
+
 					operating_system: this.bug.attributes.operating_system,
 					browser: this.bug.attributes.browser,
 					selector: this.bug.attributes.selector,
@@ -362,6 +364,7 @@ export const useBugStore = defineStore("bug", {
 
 	getters: {
 		getStatus: (state) => state.statuses?.find((s) => s.id === state.bug?.attributes.status_id),
+		getStatusByID: (state) => (id: string) => state.statuses?.find((s) => s.id === id),
 
 		getScreenshots: (state) => state.screenshots ?? [],
 		getAttachments: (state) => state.attachments ?? [],
