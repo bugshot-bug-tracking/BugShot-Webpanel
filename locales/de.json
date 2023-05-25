@@ -135,7 +135,11 @@
 		"team_member": "Teammitglied bearbeiten | Teammitglieder bearbeiten",
 		"settings": "Einstellungen bearbeiten",
 		"profile": "Profil bearbeiten",
-		"organization": "Organisation bearbeiten"
+		"organization": "Organisation bearbeiten",
+		"designation": "Titel anpassen",
+		"url": "URL anpassen",
+		"description": "Beschreibung anpassen",
+		"bug_details": "Bug-Eigenschaften ändern"
 	},
 	"delete": {
 		"delete": "Löschen",

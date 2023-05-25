@@ -135,7 +135,11 @@
 		"team_member": "Edit team member | Edit team members",
 		"settings": "Edit settings",
 		"profile": "Edit profile",
-		"organization": "Edit organization"
+		"organization": "Edit organization",
+		"designation": "Edit designation",
+		"url": "Edit URL",
+		"description": "Edit description",
+		"bug_details": "Edit bug details"
 	},
 	"delete": {
 		"delete": "Delete",

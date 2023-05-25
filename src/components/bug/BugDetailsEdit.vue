@@ -2,7 +2,7 @@
 	<n-card class="n-card-container">
 		<n-form :show-feedback="false" :disabled="loading">
 			<div flex flex-col gap-4>
-				<n-form-item :label="t('edit_designation')" flex-1>
+				<n-form-item :label="t('edit.designation')" flex-1>
 					<n-input
 						v-model:value="data.designation"
 						type="text"
@@ -12,11 +12,11 @@
 					/>
 				</n-form-item>
 
-				<n-form-item :label="t('edit_url')" flex-1>
+				<n-form-item :label="t('edit.url')" flex-1>
 					<n-input v-model:value="data.url" type="text" placeholder="" />
 				</n-form-item>
 
-				<n-form-item :label="t('edit_description')" flex-1>
+				<n-form-item :label="t('edit.description')" flex-1>
 					<n-input
 						v-model:value="data.description"
 						type="textarea"
