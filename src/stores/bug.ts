@@ -116,8 +116,6 @@ export const useBugStore = defineStore("bug", {
 					})
 				).data.data as Screenshot[];
 
-				screenshots.forEach((x) => (x.attributes.base64 = atob(x.attributes.base64)));
-
 				this.screenshots = screenshots;
 			} catch (error: any) {
 				console.log(error);
