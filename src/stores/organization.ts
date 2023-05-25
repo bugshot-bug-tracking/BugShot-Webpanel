@@ -421,8 +421,9 @@ export const useOrganizationStore = defineStore("organization", {
 
 			try {
 				let response = (
-					await axios.patch(`organizations/${this.organization_id}`, {
-						companyTerm: value,
+					await axios.put(`organizations/${this.organization_id}`, {
+						designation: this.organization?.attributes.designation,
+						groups_wording: value,
 					})
 				).data.data;
 
