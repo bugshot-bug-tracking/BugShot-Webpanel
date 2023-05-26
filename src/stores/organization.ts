@@ -431,6 +431,8 @@ export const useOrganizationStore = defineStore("organization", {
 
 				message.success(t("messages.organization_term_updated"));
 
+				Object.assign(this.organization!.attributes, response.attributes);
+
 				return response;
 			} catch (error) {
 				message.error(t("error") + "!");
