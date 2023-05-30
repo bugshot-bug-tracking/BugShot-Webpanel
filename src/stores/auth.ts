@@ -2,8 +2,6 @@ import { defineStore } from "pinia";
 
 import axios from "axios";
 import { User } from "~/models/User";
-import { useDiscreteApi } from "~/composables/DiscreteApi";
-import { useGlobalI18n } from "~/composables/GlobalI18n";
 
 export const useAuthStore = defineStore("auth", {
 	state: () => ({
@@ -108,11 +106,7 @@ export const useAuthStore = defineStore("auth", {
 
 			this.user = <User>response.data.data;
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.success(t("messages.user_updated"));
+			this.message.success(this.i18n.t("messages.user_updated"));
 		},
 
 		async register({

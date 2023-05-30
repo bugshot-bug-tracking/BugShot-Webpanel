@@ -9,8 +9,6 @@ import { Company } from "~/models/Company";
 import { useSettingsStore } from "./settings";
 import { useHookStore } from "./hooks";
 import { usePaymentsStore } from "./payments";
-import { useDiscreteApi } from "~/composables/DiscreteApi";
-import { useGlobalI18n } from "~/composables/GlobalI18n";
 
 export const useOrganizationStore = defineStore("organization", {
 	state: () => ({
@@ -99,11 +97,7 @@ export const useOrganizationStore = defineStore("organization", {
 
 			await this.refresh();
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.success(t("messages.organization_updated"));
+			this.message.success(this.i18n.t("messages.organization_updated"));
 		},
 
 		async deleteResource() {
@@ -114,11 +108,7 @@ export const useOrganizationStore = defineStore("organization", {
 
 			useMainStore().removeOrganization(this.organization_id);
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.info(t("messages.organization_deleted"));
+			this.message.info(this.i18n.t("messages.organization_deleted"));
 		},
 
 		async fetchUsers() {
@@ -180,11 +170,7 @@ export const useOrganizationStore = defineStore("organization", {
 			if (!this.pendingInvitations) this.pendingInvitations = [] as Invitation[];
 			this.pendingInvitations.push(response);
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.info(t("messages.invitation_sent"));
+			this.message.info(this.i18n.t("messages.invitation_sent"));
 		},
 
 		async deleteInvitation(payload: { invitation_id: string }) {
@@ -196,11 +182,7 @@ export const useOrganizationStore = defineStore("organization", {
 
 			if (index !== undefined && index !== -1) this.pendingInvitations!.splice(index, 1);
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.info(t("messages.invitation_deleted"));
+			this.message.info(this.i18n.t("messages.invitation_deleted"));
 		},
 
 		async editMember(payload: { user_id: number; role_id: number }) {
@@ -222,11 +204,7 @@ export const useOrganizationStore = defineStore("organization", {
 
 			if (user) Object.assign(user.role, response.role);
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.success(t("messages.member_updated"));
+			this.message.success(this.i18n.t("messages.member_updated"));
 		},
 
 		async deleteMember(payload: { user_id: number }) {
@@ -236,11 +214,7 @@ export const useOrganizationStore = defineStore("organization", {
 
 			if (index !== undefined && index !== -1) this.members!.splice(index, 1);
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.info(t("messages.member_removed"));
+			this.message.info(this.i18n.t("messages.member_removed"));
 		},
 
 		async fetchCompanies() {
@@ -289,11 +263,7 @@ export const useOrganizationStore = defineStore("organization", {
 
 			this.addCompany(response);
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.success(t("messages.company_created"));
+			this.message.success(this.i18n.t("messages.company_created"));
 
 			return response;
 		},
@@ -365,11 +335,7 @@ export const useOrganizationStore = defineStore("organization", {
 				}
 			);
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.info(t("messages.license_assigned"));
+			this.message.info(this.i18n.t("messages.license_assigned"));
 		},
 
 		async unassignUserLicense(user_id, subscription_item_id, subscription_id) {
@@ -381,11 +347,7 @@ export const useOrganizationStore = defineStore("organization", {
 				}
 			);
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.info(t("messages.license_revoked"));
+			this.message.info(this.i18n.t("messages.license_revoked"));
 		},
 
 		async cancelSubscription(subscription_id: any) {
@@ -395,11 +357,7 @@ export const useOrganizationStore = defineStore("organization", {
 
 			this.refresh();
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.info(t("messages.subscription_canceled"));
+			this.message.info(this.i18n.t("messages.subscription_canceled"));
 
 			return response;
 		},
@@ -415,10 +373,6 @@ export const useOrganizationStore = defineStore("organization", {
 		},
 
 		async changeCompanyTerm(value: string) {
-			const { t } = useGlobalI18n();
-			// @ts-ignore
-			const { message } = useDiscreteApi();
-
 			try {
 				let response = (
 					await axios.put(`organizations/${this.organization_id}`, {
@@ -429,13 +383,13 @@ export const useOrganizationStore = defineStore("organization", {
 
 				useMainStore().updateOrganization(response);
 
-				message.success(t("messages.organization_term_updated"));
+				this.message.success(this.i18n.t("messages.organization_term_updated"));
 
 				Object.assign(this.organization!.attributes, response.attributes);
 
 				return response;
 			} catch (error) {
-				message.error(t("error") + "!");
+				this.message.error(this.i18n.t("error") + "!");
 				throw error;
 			}
 		},
