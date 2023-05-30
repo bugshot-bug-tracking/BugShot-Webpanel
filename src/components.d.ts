@@ -32,7 +32,6 @@ declare module '@vue/runtime-core' {
     BugDetails: typeof import('./components/bug/BugDetails.vue')['default']
     BugDetailsEdit: typeof import('./components/bug/BugDetailsEdit.vue')['default']
     BugDrawer: typeof import('./components/project/BugDrawer.vue')['default']
-    BugInfo: typeof import('./components/project/BugInfo.vue')['default']
     BugsArchive: typeof import('./components/project/BugsArchive.vue')['default']
     ChangeLicenseModal: typeof import('./components/Modals/ChangeLicenseModal.vue')['default']
     ChangePasswordModal: typeof import('./components/Modals/ChangePasswordModal.vue')['default']
