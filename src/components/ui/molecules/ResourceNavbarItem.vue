@@ -204,6 +204,8 @@ const optionsOpen = ref(false);
 	overflow: hidden;
 	opacity: 0;
 	transition: all 0.25s ease-in-out;
+	display: flex;
+	align-self: center;
 
 	&.open {
 		max-width: 2rem;
