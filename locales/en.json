@@ -605,6 +605,13 @@
 	"password_reset_success": "The password was changed successfully!",
 	"recover_link_invalid": "This recovery link is invalid. Please retry the procedure again!",
 
+	"tagged_in_comment_by": "{0} tagged you in a comment.",
+	"go": "Go",
+	"new_approval_form_received": "{0} requests bug approvals for the project {1}.",
+	"approval_request_fulfilled": "{0} responded to an approval request!",
+	"view_comment": "View comment",
+	"view_pdf": "View PDF",
+
 	" ": "",
 	"": ""
 }
