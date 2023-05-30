@@ -93,7 +93,7 @@
 	"enter_project_url": "Gib eine Projekt-URL ein (optional)",
 	"problem_encountered": "Wir sind auf ein Problem gestoßen",
 	"no_new_notifications": "Sie haben im Moment keine Benachrichtigungen.",
-	"invited_to_join": "Du wurdest zum Betritt eingeladen ",
+	"invited_to_join": "Du wurdest eingeladen ",
 	"delete_company_and_projects": "Löschen von Gruppe und zugehörigen Projekten",
 	"cant_be_reverted": "kann nicht rückgängig gemacht werden",
 	"member_out_of": "{x} von {n}",
@@ -605,10 +605,10 @@
 	"password_reset_success": "Dein Passwort wurde erfolgreich geändert!",
 	"recover_link_invalid": "Dieser Wiederherstellungslink ist leider ungültig. Bitte versuche den Vorgang noch einmal!",
 
-	"tagged_in_comment_by": "{0} hat Dich in einem Kommentar markiert.",
+	"tagged_in_comment_by": "{0} hat dich in einem Kommentar erwähnt.",
 	"go": "Ansehen",
-	"new_approval_form_received": "{0} beantragt Bestätigungen für das Verschieben von Bugs des Projektes {1}.",
-	"approval_request_fulfilled": "{0} hat eine Bestätigungsanfrage bearbeitet!",
+	"new_approval_form_received": "{0} möchte deine Bestätigung für das Verschieben der Bugs im Projekt {1}.",
+	"approval_request_fulfilled": "{0} hat deine Bestätigungsanfrage bearbeitet.",
 	"view_comment": "Kommentar ansehen",
 	"view_pdf": "PDF ansehen",
 
