@@ -3,7 +3,7 @@
 		m-4
 		p-2
 		style="background: #ffc400; border-radius: 0.5rem"
-		v-if="!hasLicense && timeLeft > 0"
+		v-if="!hasLicense && timeLeft > 0 && timeLeft < 400"
 		v-bind="$attrs"
 	>
 		<p>
