@@ -303,6 +303,25 @@ export const useReportsStore = defineStore("reports", {
 
 			this.archived = response;
 		},
+
+		async moveBugs(list: string[], target: string) {
+			if (!this.project?.id) throw new Error("No active project!");
+
+			let response = (
+				await axios.post(`/projects/${this.project.id}/bugs/move-to-new-project`, {
+					target_project_id: target,
+					bugs: list.map((s) => ({ id: s })),
+				})
+			).data.data;
+
+			this.statuses?.forEach((s) => {
+				s.attributes.bugs = s.attributes.bugs?.filter((b) => !list.includes(b.id));
+			});
+
+			this.message.success(this.i18n.t("messages.bug_moved", 2));
+
+			return response;
+		},
 	},
 
 	getters: {

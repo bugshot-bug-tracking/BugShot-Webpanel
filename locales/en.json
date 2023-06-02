@@ -526,7 +526,7 @@
 		"bug_created": "Bug created!",
 		"bug_updated": "Bug updated!",
 		"bug_deleted": "Bug deleted!",
-		"bug_moved": "Bug moved!",
+		"bug_moved": "Bug moved! | Bugs moved!",
 		"invitation_sent": "Invitation sent!",
 		"invitation_deleted": "Invitation deleted!",
 		"invitation_accepted": "Invitation accepted!",
@@ -604,14 +604,17 @@
 	"recover_email_sent": "We've sent you the reset password instruction over email. Thank you!",
 	"password_reset_success": "The password was changed successfully!",
 	"recover_link_invalid": "This recovery link is invalid. Please retry the procedure again!",
-
 	"tagged_in_comment_by": "{0} tagged you in a comment.",
 	"go": "Go",
 	"new_approval_form_received": "{0} requests bug approvals for the project {1}.",
 	"approval_request_fulfilled": "{0} responded to an approval request!",
 	"view_comment": "View comment",
 	"view_pdf": "View PDF",
-
 	" ": "",
-	"": ""
+	"": "",
+
+	"move_bug": "Move bug | Move bugs",
+	"select_bugs_to_move": "Select the bugs to be moved:",
+	"select_target_project": "Select the target project:",
+	"select_a_project": "Select project"
 }
