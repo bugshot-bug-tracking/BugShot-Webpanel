@@ -132,6 +132,8 @@
 				</n-checkbox-group>
 
 				<BugDrawer />
+
+				<BugMoveModal v-model:show="bugMove.show" />
 			</n-tab-pane>
 
 			<n-tab-pane name="archive" display-directive="if">
@@ -163,6 +165,7 @@ import { useReportsStore } from "~/stores/reports";
 import IconSettings from "~/components/icons/Icon-Settings.vue";
 import IconTabular from "~/components/icons/Icon-Tabular.vue";
 import { useFlagsStore } from "~/stores/flags";
+import IconFolderMove from "~/components/icons/Icon-FolderMove.vue";
 
 const props = defineProps({
 	organization_id: {
@@ -319,6 +322,17 @@ const more = computed(() => ({
 				},
 			},
 		},
+		{
+			label: t("move_bug", 2),
+			key: "move_bugs",
+			icon: () => h(IconFolderMove),
+			show: currentTab.value === "kanban" && useFlagsStore().canSeeEverything,
+			props: {
+				onClick: () => {
+					bugMove.show = true;
+				},
+			},
+		},
 	] as DropdownOption[],
 }));
 
@@ -359,6 +373,10 @@ const onSubmitApprovals = async (recipients: { name: string; email: string }[]) 
 	await store.requestApprovals(kanbanState.checkList, recipients);
 	kanbanState.cancelChecker();
 };
+
+const bugMove = reactive({
+	show: false,
+});
 </script>
 
 <style lang="scss" scoped>
