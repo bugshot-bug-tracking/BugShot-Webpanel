@@ -16,6 +16,8 @@ export const useNotificationStore = defineStore("notification", {
 	actions: {
 		async fetchNotifications() {
 			try {
+				this.$reset();
+
 				let notifications = (await axios.get(`/users/${this.user?.id}/notifications`)).data
 					.data;
 
