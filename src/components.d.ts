@@ -125,7 +125,6 @@ declare module 'vue' {
     NList: typeof import('naive-ui')['NList']
     NListItem: typeof import('naive-ui')['NListItem']
     NoLicenseOverlay: typeof import('./components/NoLicenseOverlay.vue')['default']
-    Notification: typeof import('./components/Notification.vue')['default']
     NotificationItem: typeof import('./components/Notifications/NotificationItem.vue')['default']
     Notifications: typeof import('./components/Notifications/Notifications.vue')['default']
     NP: typeof import('naive-ui')['NP']
