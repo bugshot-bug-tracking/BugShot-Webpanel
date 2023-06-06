@@ -1,7 +1,7 @@
 <template>
 	<T2Page>
 		<template #header>
-			<T2Header>
+			<T3Header>
 				<template #l-top>
 					{{ $t("company_settings") }}
 				</template>
@@ -11,9 +11,9 @@
 				</template>
 
 				<template #center>
-					<SearchBar w-160 />
+					<SearchBar />
 				</template>
-			</T2Header>
+			</T3Header>
 		</template>
 
 		<article class="bs-scroll" p-8 content-start>
@@ -25,7 +25,7 @@
 					<CompanySettings
 						:company_name="company.attributes.designation"
 						:organization_name="company.attributes.organization.attributes.designation"
-						:image="company.attributes.image?.attributes.base64"
+						:image="company.attributes.image?.attributes.url"
 						:color="company.attributes.color_hex"
 					/>
 				</div>
@@ -50,6 +50,7 @@
 									:deleteInvitation="deleteInvitation"
 									:preOpenCall="preCall"
 									:suggestOptions="suggestOptions"
+									infoKey="tooltips.company_roles"
 								>
 									<template #button="{ loading }">
 										<img
@@ -118,7 +119,7 @@
 				</div>
 				<div class="group-content">
 					<div class="delete-project" flex flex-col gap-2 p-6 py-8>
-						<a class="text-to-red" underline @click="deleteModal.open">
+						<a style="color: var(--bs-red)" underline @click="deleteModal.open">
 							{{ t("delete_company_and_projects") }}?
 						</a>
 
@@ -171,19 +172,13 @@ const isAuthorized = computed(() => {
 	// temp code replace with proper ?global? logic
 	return (
 		company.value?.attributes.role?.id === 1 ||
-		company.value?.attributes.creator?.id === user.value.id
+		company.value?.attributes.creator?.id === user.value?.id
 	);
 });
 
 const company = computed(() => store.getCompany!);
 
-const members = computed(() => {
-	let users = [...(store.getMembers ?? [])];
-
-	if (store.getCreator) users.unshift(store.getCreator);
-
-	return users;
-});
+const members = computed(() => store.getMembers);
 
 const pendingMembers = computed(() => store.getPendingInvitations);
 

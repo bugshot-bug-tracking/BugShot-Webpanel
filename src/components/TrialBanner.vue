@@ -3,7 +3,8 @@
 		m-4
 		p-2
 		style="background: #ffc400; border-radius: 0.5rem"
-		v-if="!hasLicense && timeLeft > 0"
+		v-if="!hasLicense && timeLeft > 0 && timeLeft < 400"
+		v-bind="$attrs"
 	>
 		<p>
 			{{ t("trial_expires_in_n_days", timeLeft) }}
@@ -13,58 +14,58 @@
 				</b>
 			</span>
 		</p>
+
+		<MyModal :modelValue="modal.show" :close="modal.close" z-2>
+			<ModalTemplate @close="modal.close">
+				<template #header-text> {{ t("info") }} </template>
+
+				<div flex flex-col gap-8 items-center max-w-128 text-center>
+					<n-h1 style="color: var(--bs-purple)">
+						<b>
+							{{ $t("upgrade_now_modal.title") }}
+						</b>
+					</n-h1>
+
+					<div flex flex-col gap-4>
+						<p>
+							{{ $t("upgrade_now_modal.line_1") }}
+						</p>
+						<p>
+							{{ $t("upgrade_now_modal.line_2") }}
+						</p>
+						<p v-if="otherOrganizations">
+							{{ $t("upgrade_now_modal.line_3") }}
+						</p>
+					</div>
+
+					<div flex justify-around>
+						<RouterLink
+							:to="{
+								name: 'organization-payments',
+								params: { id: organization.id },
+							}"
+							v-if="organization?.attributes.creator.id === user.id"
+						>
+							<n-button strong round type="primary">
+								{{ $t("buy_a_subscription") }}
+							</n-button>
+						</RouterLink>
+
+						<RouterLink
+							:to="{
+								name: 'organization-index',
+							}"
+							v-else
+						>
+							<n-button strong round type="primary">
+								{{ $t("buy_a_subscription") }}
+							</n-button>
+						</RouterLink>
+					</div>
+				</div>
+			</ModalTemplate>
+		</MyModal>
 	</div>
-
-	<MyModal :modelValue="modal.show" :close="modal.close" z-2>
-		<ModalTemplate @close="modal.close">
-			<template #header-text> {{ t("info") }} </template>
-
-			<div flex flex-col gap-8 items-center max-w-128 text-center>
-				<h3 style="color: var(--bs-purple)">
-					<b>
-						{{ $t("upgrade_now_modal.title") }}
-					</b>
-				</h3>
-
-				<div flex flex-col gap-4>
-					<p>
-						{{ $t("upgrade_now_modal.line_1") }}
-					</p>
-					<p>
-						{{ $t("upgrade_now_modal.line_2") }}
-					</p>
-					<p v-if="otherOrganizations">
-						{{ $t("upgrade_now_modal.line_3") }}
-					</p>
-				</div>
-
-				<div flex justify-around>
-					<RouterLink
-						:to="{
-							name: 'organization-payments',
-							params: { id: organization.id },
-						}"
-						v-if="organization?.attributes.creator.id === user.id"
-					>
-						<n-button strong round type="primary">
-							{{ $t("buy_a_subscription") }}
-						</n-button>
-					</RouterLink>
-
-					<RouterLink
-						:to="{
-							name: 'organization-index',
-						}"
-						v-else
-					>
-						<n-button strong round type="primary">
-							{{ $t("buy_a_subscription") }}
-						</n-button>
-					</RouterLink>
-				</div>
-			</div>
-		</ModalTemplate>
-	</MyModal>
 </template>
 
 <script setup lang="ts">
@@ -105,9 +106,7 @@ const modal = reactive({
 	},
 });
 
-const otherOrganizations = computed(() =>
-	organizations.value?.some((o) => o.attributes.creator.id !== user.value.id)
-);
+const otherOrganizations = computed(() => useMainStore().getExternalOrganizations);
 
 const hasLicense = computed(() => {
 	return authStore.getLicenses.length > 0;

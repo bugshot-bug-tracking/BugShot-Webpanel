@@ -28,8 +28,8 @@
 			</p>
 		</header>
 
-		<div class="main bs-scroll">
-			<ul>
+		<div class="main bs-scroll" h-190 flex>
+			<ul v-if="(processedProducts.length ?? 0) > 0">
 				<li v-for="product in processedProducts" :key="product.id">
 					<PlanCard
 						:title="product.name"
@@ -52,6 +52,30 @@
 					</PlanCard>
 				</li>
 			</ul>
+			<n-empty
+				v-else
+				m-a
+				:description="
+					isMonthly
+						? $t('all_available_monthly_plans_purchased')
+						: $t('all_available_yearly_plans_purchased')
+				"
+				size="huge"
+			>
+				<template #extra>
+					<n-button
+						type="primary"
+						ghost
+						round
+						mt-4
+						strong
+						size="large"
+						@click="isMonthly = false"
+					>
+						{{ isMonthly ? $t("check_yearly_plans") : $t("check_monthly_plans") }}
+					</n-button>
+				</template>
+			</n-empty>
 		</div>
 
 		<div></div>
@@ -63,7 +87,10 @@
 </template>
 
 <script setup lang="ts">
+import { useOrganizationStore } from "~/stores/organization";
 import { usePaymentsStore } from "~/stores/payments";
+
+const route = useRoute();
 
 let store = usePaymentsStore();
 
@@ -74,6 +101,9 @@ onMounted(async () => {
 		loading.value = true;
 
 		await store.init();
+
+		// shortcut when redirecting to show the yearly plans first
+		if (route.query.t === "y") isMonthly.value = false;
 	} catch (error) {
 		console.log(error);
 	} finally {
@@ -83,11 +113,35 @@ onMounted(async () => {
 
 const isMonthly = ref(true);
 
-const products = computed(() => store.getActiveProducts);
+const subscriptions = computed(() => {
+	let s = useOrganizationStore().getSubscriptions;
+
+	return s?.filter((s) => s.attributes.plan.interval === (isMonthly.value ? "month" : "year"));
+});
+
+const products = computed(() => {
+	let products = store.getActiveProducts;
+
+	let monthly = [] as typeof products;
+	let yearly = [] as typeof products;
+
+	products.forEach((product) => {
+		if (
+			!subscriptions.value?.some(
+				(s) =>
+					s.attributes.plan.product === product.id &&
+					s.attributes.plan.interval === (isMonthly.value ? "month" : "year")
+			)
+		)
+			isMonthly.value ? monthly.push(product) : yearly.push(product);
+	});
+
+	return isMonthly.value ? monthly : yearly;
+});
 
 const processedProducts = computed(() =>
 	products.value
-		.map((prod) => ({
+		?.map((prod) => ({
 			value: prod,
 			id: prod.id,
 			name: prod.attributes.name,
@@ -163,10 +217,10 @@ h3 {
 
 article {
 	display: flex;
-	width: calc(100% - 5rem);
+	width: 100%;
 	height: 100%;
 	padding: 2.5rem;
-	flex-wrap: wrap;
+
 	flex-direction: column;
 	max-height: 100vh;
 	column-gap: 1rem;

@@ -79,6 +79,8 @@ export const useProjectStore = defineStore("project", {
 
 			useCompanyStore().updateProject(response);
 
+			this.message.success(this.i18n.t("messages.project_updated"));
+
 			await this.refresh();
 		},
 
@@ -89,6 +91,8 @@ export const useProjectStore = defineStore("project", {
 			await axios.delete(`companies/${this.company_id}/projects/${this.project_id}`);
 
 			useCompanyStore().removeProject(this.project_id);
+
+			this.message.info(this.i18n.t("messages.project_deleted"));
 		},
 
 		async fetchUsers() {
@@ -126,6 +130,8 @@ export const useProjectStore = defineStore("project", {
 
 			if (!this.pendingInvitations) this.pendingInvitations = [] as Invitation[];
 			this.pendingInvitations.push(response);
+
+			this.message.info(this.i18n.t("messages.invitation_sent"));
 		},
 
 		/**
@@ -141,6 +147,8 @@ export const useProjectStore = defineStore("project", {
 				})
 			).data.data;
 
+			this.message.info(this.i18n.t("messages.invitation_sent"));
+
 			return response;
 		},
 
@@ -152,6 +160,8 @@ export const useProjectStore = defineStore("project", {
 			);
 
 			if (index !== undefined && index !== -1) this.pendingInvitations!.splice(index, 1);
+
+			this.message.info(this.i18n.t("messages.invitation_deleted"));
 		},
 
 		async editMember(payload: { user_id: number; role_id: number }) {
@@ -172,6 +182,8 @@ export const useProjectStore = defineStore("project", {
 			let user = this.members?.find((x) => x.user.id === payload.user_id);
 
 			if (user) Object.assign(user.role, response.role);
+
+			this.message.success(this.i18n.t("messages.member_updated"));
 		},
 
 		async deleteMember(payload: { user_id: number }) {
@@ -180,6 +192,8 @@ export const useProjectStore = defineStore("project", {
 			let index = this.members?.findIndex((x) => x.user.id === payload.user_id);
 
 			if (index !== undefined && index !== -1) this.members!.splice(index, 1);
+
+			this.message.info(this.i18n.t("messages.member_removed"));
 		},
 
 		//TODO maybe update with better logic.
@@ -201,19 +215,39 @@ export const useProjectStore = defineStore("project", {
 		},
 
 		// ---
+
+		async requestApprovals(bugs: string[], recipients: { name: string; email: string }[]) {
+			console.log(bugs);
+			console.log(recipients);
+
+			let response = (
+				await axios.post(`projects/${this.project?.id}/exports`, {
+					bugs: bugs.map((b) => ({ id: b })),
+
+					recipients: recipients,
+				})
+			).data.data;
+
+			console.log(response);
+			return response;
+		},
 	},
 
 	getters: {
 		getProject: (state) => state.project,
 
 		getMembers: (state) =>
-			state.members?.map((x) => {
-				x.user.role = x.role;
-				return x.user;
-			}),
+			state.members
+				?.map((x) => {
+					x.user.role = x.role;
+					return x.user;
+				})
+				.sort((a, b) => (a.role?.id ?? 0) - (b.role?.id ?? 0)) ?? [],
 
 		getCreator: (state) => state.project?.attributes?.creator,
 
 		getPendingInvitations: (state) => state.pendingInvitations,
+
+		getUserRole: (state) => state.project?.attributes.role,
 	},
 });

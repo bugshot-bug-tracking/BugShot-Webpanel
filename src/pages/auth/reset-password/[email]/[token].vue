@@ -1,425 +1,229 @@
 <template>
-	<div class="title">{{ $t("new_password") }}</div>
+	<div w-100 text-left>
+		<div v-if="!goodResponse">
+			<n-h1 mb-8>
+				<n-text type="primary" style="font-weight: 700">
+					{{ t("password_reset") }}
+				</n-text>
+			</n-h1>
+			<n-form
+				ref="formRef"
+				:model="form.data"
+				:rules="form.rules"
+				:show-require-mark="false"
+				:disabled="loading"
+			>
+				<n-form-item :label="t('password')" path="password" :show-feedback="false">
+					<n-input
+						type="password"
+						:input-props="{ autocomplete: 'new-password' }"
+						size="large"
+						show-password-on="click"
+						v-model:value="form.data.password"
+						:disabled="loading"
+						placeholder=""
+						@focus="passwordRulesActive = true"
+						@blur="passwordRulesActive = false"
+					>
+						<template #password-visible-icon>
+							<Icon-Password m-a color="var(--bs-black)" />
+						</template>
+						<template #password-invisible-icon>
+							<Icon-Password hide m-a color="var(--bs-black)" />
+						</template>
+					</n-input>
+				</n-form-item>
+				<PasswordRules :rules="passwordRules" :active="passwordRulesActive" />
+				<n-form-item
+					:label="t('confirm_password')"
+					path="confirm_password"
+					:show-feedback="false"
+				>
+					<n-input
+						type="password"
+						:input-props="{ autocomplete: 'new-password' }"
+						size="large"
+						show-password-on="click"
+						v-model:value="form.data.confirm_password"
+						:disabled="loading"
+						placeholder=""
+						@focus="confirmPasswordRulesActive = true"
+						@blur="confirmPasswordRulesActive = false"
+					>
+						<template #password-visible-icon>
+							<Icon-Password m-a color="var(--bs-black)" />
+						</template>
+						<template #password-invisible-icon>
+							<Icon-Password hide m-a color="var(--bs-black)" />
+						</template>
+					</n-input>
+				</n-form-item>
+				<PasswordRules :rules="confirmPasswordRules" :active="confirmPasswordRulesActive" />
+				<div v-if="errMessage" class="error-message">
+					{{ errMessage }}
+				</div>
+				<n-form-item>
+					<n-button
+						@click="submit"
+						type="success"
+						round
+						strong
+						ml-a
+						:loading="loading"
+						:disabled="loading"
+					>
+						{{ t("confirm") }}
+					</n-button>
+				</n-form-item>
+			</n-form>
+		</div>
 
-	<div class="errors" v-if="errMessage != null">
-		{{ errMessage }}
+		<div class="submit-message" v-else>
+			<img
+				src="/src/assets/animations/bug_confirmation_not_white.gif"
+				alt="Success"
+				style="width: 19rem; height: 19rem"
+			/>
+
+			<n-text type="primary" strong>
+				{{ t("password_reset_success") }}
+			</n-text>
+		</div>
 	</div>
-
-	<form id="login-form" @submit.prevent="submit">
-		<div class="requed">
-			<div class="bs-input">
-				<input
-					:type="passwordType"
-					:placeholder="$t('password')"
-					minlength="8"
-					required
-					maxlength="255"
-					v-model="password"
-					autocomplete="new-password"
-					:class="{ error: errField.password }"
-					@focus.prevent="
-						() => {
-							showValidate.pass = true;
-							resetError();
-						}
-					"
-					@click="showValidate.pass = true"
-					@blur.prevent="showValidate.pass = false"
-				/>
-
-				<img
-					v-if="showPassword"
-					@click="togglePassword"
-					src="/src/assets/icons/password_hide.svg"
-					class="input-image"
-				/>
-
-				<img
-					v-if="!showPassword"
-					@click="togglePassword"
-					src="/src/assets/icons/password_view.svg"
-					class="input-image"
-				/>
-			</div>
-
-			<ul v-show="showValidate.pass">
-				<li
-					:class="{
-						good: validate.minChars >= 8,
-						bad: validate.minChars < 8,
-					}"
-				>
-					{{ $t("limits.min_chars", { x: 8 }) }}
-				</li>
-
-				<li
-					:class="{
-						good: validate.letters,
-						bad: !validate.letters,
-					}"
-				>
-					{{ $t("limits.letters") }}
-				</li>
-
-				<li
-					:class="{
-						good: validate.numbers,
-						bad: !validate.numbers,
-					}"
-				>
-					{{ $t("limits.numbers") }}
-				</li>
-			</ul>
-		</div>
-
-		<div class="requed">
-			<div class="bs-input">
-				<input
-					:type="passwordType"
-					:placeholder="$t('confirm_password')"
-					minlength="8"
-					required
-					maxlength="255"
-					v-model="confirm_password"
-					autocomplete="new-password"
-					:class="{ error: errField.password }"
-					@focus.prevent="
-						() => {
-							showValidate.confirm = true;
-							resetError();
-						}
-					"
-					@blur.prevent="showValidate.confirm = false"
-				/>
-
-				<img
-					v-if="showPassword"
-					@click="togglePassword"
-					src="/src/assets/icons/password_hide.svg"
-					class="input-image"
-				/>
-
-				<img
-					v-if="!showPassword"
-					@click="togglePassword"
-					src="/src/assets/icons/password_view.svg"
-					class="input-image"
-				/>
-			</div>
-
-			<ul v-show="showValidate.confirm">
-				<li
-					:class="{
-						good: validate.same,
-						bad: !validate.same,
-					}"
-				>
-					{{ $t("limits.passwords_match") }}
-				</li>
-			</ul>
-		</div>
-
-		<div class="from-buttons">
-			<button id="form-submit" type="submit" class="bs-btn green">
-				{{ $t("save_password") }}
-			</button>
-		</div>
-	</form>
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
-
-const router = useRouter();
+import { FormInst, FormItemRule, FormRules } from "naive-ui";
+import { useAuthStore } from "~/stores/auth";
 
 const props = defineProps({
 	email: {
-		required: true,
+		required: false,
 		type: String,
+		default: undefined,
 	},
 	token: {
-		required: true,
+		required: false,
 		type: String,
+		default: undefined,
 	},
 });
-const password = ref("");
-const confirm_password = ref("");
 
-const showPassword = ref(false);
-const passwordType = ref("password");
+const router = useRouter();
+const store = useAuthStore();
+const { t } = useI18n();
 
-const errMessage = ref(null);
+const formRef = ref<FormInst | null>(null);
 
-const errField = reactive({
-	password: false,
+const form = reactive({
+	data: {
+		password: "",
+		confirm_password: "",
+	},
+	rules: {
+		password: {
+			required: true,
+			message: t("please_input_a_valid_password"),
+			min: 8,
+			trigger: ["blur"],
+			validator: (rule: FormItemRule, value: any): boolean | Error => {
+				if (passwordRules.value.some((r) => r.value === false)) return false;
+				return true;
+			},
+		},
+		confirm_password: {
+			required: true,
+			message: t("please_input_a_valid_password"),
+			min: 8,
+			trigger: ["blur"],
+			validator: (rule: FormItemRule, value: any): boolean | Error => {
+				if (confirmPasswordRules.value.some((r) => r.value === false)) return false;
+				return true;
+			},
+		},
+	} as FormRules,
+	inputStates: undefined as "success" | "warning" | "error" | undefined,
+	clearState: () => {
+		form.inputStates = undefined;
+		// errMessage.value = undefined;
+	},
 });
 
-const resetError = () => {
-	errMessage.value = null;
-	errField.password = false;
-};
+const passwordRules = computed(() => [
+	{ text: t("limits.min_chars", { x: 8 }), value: form.data.password.length > 8 },
+	{ text: t("limits.letters"), value: form.data.password.match(/[a-zA-Z]/g) },
+	{ text: t("limits.numbers"), value: form.data.password.match(/[0-9]/g) },
+]);
 
-const togglePassword = () => {
-	showPassword.value = !showPassword.value;
-	if (showPassword.value) passwordType.value = "text";
-	else passwordType.value = "password";
-};
+const confirmPasswordRules = computed(() => [
+	{ text: t("limits.min_chars", { x: 8 }), value: form.data.confirm_password.length > 8 },
+	{ text: t("limits.letters"), value: form.data.confirm_password.match(/[a-zA-Z]/g) },
+	{ text: t("limits.numbers"), value: form.data.confirm_password.match(/[0-9]/g) },
+	{ text: t("limits.passwords_match"), value: form.data.password === form.data.confirm_password },
+]);
 
-const submit = () => {
-	axios
-		.post("auth/reset-password", {
-			email: atob(props.email),
-			token: props.token,
-			password: password.value,
-			password_confirmation: confirm_password.value,
-		})
-		.then((response) => {
-			console.log(response.data);
-		})
-		.then(() => {
-			router.push({ name: "Login" });
-		})
-		.catch((error) => {
-			errMessage.value = null;
-			errField.password = false;
+const passwordRulesActive = ref(false);
+const confirmPasswordRulesActive = ref(false);
 
-			if (error.response?.status !== 422) {
-				console.log(error);
-				errMessage.value = error.response ? error.response.data.errors.detail : "Error!";
-				return;
-			}
+const errMessage = ref<string | undefined>(undefined);
 
-			const resError = error.response ? error.response.data.errors : "Error!";
+const loading = ref(false);
 
-			if (resError?.password) {
-				errMessage.value = resError.password[0];
-				errField.password = true;
-				return;
-			}
+const submit = async () => {
+	let valid = true;
+	goodResponse.value = false;
+
+	if (props.email === undefined || props.token === undefined)
+		return (errMessage.value = t("recover_link_invalid"));
+
+	try {
+		await formRef.value?.validate((errors) => {
+			if (errors && errors.length > 0) valid = false;
 		});
+
+		loading.value = true;
+
+		await store.newPassword({
+			email: props.email,
+			token: props.token,
+			password: form.data.password,
+			confirm_password: form.data.confirm_password,
+		});
+
+		goodResponse.value = true;
+
+		setTimeout(() => {
+			router.push({ name: "login" });
+		}, 4000);
+	} catch (error: any) {
+		console.log(error);
+		// comes from ValidateError naive-ui
+		if (!valid) return;
+
+		errMessage.value = error.response.data.errors.detail;
+		form.inputStates = "error";
+	} finally {
+		loading.value = false;
+	}
 };
 
-const showValidate = reactive({
-	pass: false,
-	confirm: false,
-});
-
-// password validations
-const validate = computed(() => {
-	return {
-		minChars: password.value.length,
-		letters: password.value.match(/[a-zA-Z]/g),
-		numbers: password.value.match(/[0-9]/g),
-		same: password.value === confirm_password.value,
-	};
-});
+const goodResponse = ref(false);
 </script>
 
 <style scoped lang="scss">
-.title {
-	margin: 0 0 2rem 0 !important;
-	color: hsl(265, 79%, 41%);
-	font-weight: 700;
-	font-size: 32px;
-	text-align: left;
-	width: 400px;
+.error-message {
+	font-size: 0.875rem;
+	text-align: justify;
+	color: var(--bs-red);
+	font-weight: 600;
 }
 
-#login-form {
-	width: 400px;
+.submit-message {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: flex-start;
-	height: 300px;
-	gap: 30px;
-
-	> * {
-		margin: 0 auto;
-		width: 100%;
-	}
-
-	.from-buttons {
-		display: flex;
-		align-items: flex-end;
-		width: 100%;
-		justify-content: flex-end;
-		align-content: center;
-		padding: 4% 1%;
-
-		#remember {
-			filter: hue-rotate(40deg);
-		}
-
-		> label {
-			user-select: none;
-		}
-	}
-
-	.error {
-		color: red;
-		border: 1px solid red;
-
-		&:focus,
-		&:focus-visible,
-		&:hover {
-			border-color: red;
-			outline-color: red;
-		}
-	}
-}
-
-.requed {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-
-	> * {
-		margin: 0 auto;
-		width: 100%;
-	}
-
-	ul {
-		margin: 1rem 0 0 0;
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-	}
-}
-
-.errors {
-	color: red;
-	font-weight: 500;
-	margin: 1rem 0;
-}
-
-.tos {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	font-size: 14px;
-	width: 100%;
-	justify-content: center;
-
-	input:checked {
-		color: #7a2de6;
-		accent-color: currentcolor;
-	}
-
-	> span {
-		display: flex;
-		align-items: center;
-		gap: 4px;
-	}
-
-	p {
-		margin: 0;
-	}
-
-	.linked {
-		color: hsl(265, 79%, 54%);
-		cursor: pointer;
-		text-decoration: none;
-
-		&:hover {
-			color: hsl(265, 79%, 44%);
-		}
-	}
-}
-
-.aLogin {
-	display: flex;
-	gap: 4px;
-	align-items: center;
-	font-size: 14px;
-
-	a {
-		text-decoration: underline;
-		color: hsl(158, 80%, 47%);
-		font-weight: bold;
-		text-transform: uppercase;
-		cursor: pointer;
-
-		&:hover {
-			color: hsl(158, 80%, 42%);
-		}
-	}
-}
-
-.process {
-	width: 400px;
-
-	img {
-		width: 300px;
-		height: 300px;
-	}
-
-	.success {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 20px;
-
-		> div {
-			color: #5916b9;
-			font-weight: bold;
-			font-size: 32px;
-		}
-
-		> span {
-			font-size: 18px;
-		}
-	}
-}
-
-.good {
-	color: #1a2040;
-	// color: #18d891;
-	filter: brightness(0) saturate(1) invert(63%) sepia(74%) saturate(493%) hue-rotate(104deg)
-		brightness(96%) contrast(88%);
-	position: relative;
-	display: flex;
-	align-items: center;
-
-	&::before {
-		content: "";
-		background-image: url("/src/assets/icons/check.svg");
-		background-position: 0 0;
-		background-size: auto;
-		background-repeat: no-repeat;
-		width: 1rem;
-		height: 1rem;
-		position: absolute;
-		left: -1.5rem;
-	}
-}
-.bad {
-	color: #1a2040;
-	// color: #f23636;
-	filter: brightness(0) saturate(1) invert(18%) sepia(72%) saturate(5384%) hue-rotate(263deg)
-		brightness(94%) contrast(92%);
-	position: relative;
-	display: flex;
-	align-items: center;
-
-	&::before {
-		content: "";
-		background-image: url("/src/assets/icons/close_2.svg");
-		background-position: 0 0;
-		background-size: auto;
-		background-repeat: no-repeat;
-		width: 1rem;
-		height: 1rem;
-		position: absolute;
-		left: -1.5rem;
-	}
+	gap: 2rem;
+	font-size: 1.5rem;
+	text-align: center;
 }
 </style>
-
-<route lang="yaml">
-name: Reset
-
-meta:
-    layout: auth
-</route>

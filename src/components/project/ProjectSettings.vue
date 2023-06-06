@@ -1,7 +1,7 @@
 <template>
 	<div class="bs-container" flex flex-col gap-4>
 		<div h-52 class="image">
-			<img :src="c_image" alt="image" v-if="c_image" />
+			<img :src="image" alt="image" v-if="image" />
 			<div v-else :style="{ color: color ?? COLOR.PURPLE }" w-120>
 				<img src="/src/assets/icons/projects.svg" alt="project" />
 			</div>
@@ -54,7 +54,7 @@ import { COLOR } from "~/util/colors";
 
 const { t } = useI18n();
 
-const props = defineProps({
+defineProps({
 	project_name: {
 		required: true,
 		type: String,
@@ -82,8 +82,6 @@ const props = defineProps({
 		default: COLOR.PURPLE,
 	},
 });
-
-const c_image = computed(() => (props.image !== "" ? atob(props.image) : undefined));
 
 const editFunction = async (data: {
 	designation: string;

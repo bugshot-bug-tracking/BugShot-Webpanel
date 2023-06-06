@@ -1,36 +1,17 @@
 <template>
-	<div flex gap-4 items-center :style="{ width: '100%' }">
-		<label v-if="!noLabel" class="black-to-purple" text-6 m-0>{{ $t("organization") }}:</label>
+	<div flex items-center gap-4>
+		<p v-if="!noLabel" class="black-to-purple" text-6 m-0>{{ $t("organization") }}:</p>
 
-		<v-select
-			:options="organizations"
-			:placeholder="$t('please_choose') + '...'"
-			:get-option-label="(option:Organization) => option.attributes.designation"
-			:reduce="(option:Organization) => option.id"
-			v-model="organization"
-			:clearable="false"
-			:style="{ 'min-width': '100%' }"
-		>
-			<template #open-indicator="{ attributes }">
-				<img
-					class="black-to-purple"
-					style="background-color: unset; cursor: pointer"
-					v-bind="attributes"
-					src="/src/assets/icons/caret_down.svg"
-				/>
+		<n-select v-model:value="organization" filterable :options="options" :key="key" text-left>
+			<template #arrow>
+				<img class="black-to-purple" src="/src/assets/icons/caret_down.svg" />
 			</template>
-			<template v-slot:option="option">
-				{{ option.attributes.designation }}
-			</template>
-			<template v-slot:selected-option="option">
-				{{ option.attributes.designation }}
-			</template>
-		</v-select>
+		</n-select>
 	</div>
 </template>
 
 <script setup lang="ts">
-import { Organization } from "~/models/Organization";
+import { SelectGroupOption, SelectOption } from "naive-ui";
 import { useMainStore } from "~/stores/main";
 import { useOrganizationStore } from "~/stores/organization";
 
@@ -45,15 +26,89 @@ defineProps({
 const store = useMainStore();
 const router = useRouter();
 
-const organizations = computed(() => store.getOrganizations);
+const { t } = useI18n();
 
 // this should  be the active organization
 const organization = computed({
 	get() {
-		return useOrganizationStore().getOrganization;
+		return useOrganizationStore().getOrganization?.id ?? "";
 	},
 	set(id: string) {
 		router.push({ name: "organization-home", params: { organization_id: id } });
 	},
 });
+
+const ownedGroup = computed(
+	(): SelectGroupOption => ({
+		type: "group",
+		label: t("owned"),
+		key: "Owned Group",
+		children: store.getMyOrganizations?.map(
+			(org): SelectOption => ({
+				label: org.attributes.designation,
+				value: org.id,
+				disabled: false,
+				class: "select-option",
+			})
+		),
+	})
+);
+
+const externalGroup = computed(
+	(): SelectGroupOption => ({
+		type: "group",
+		label: t("other", 2),
+		key: "External Group",
+		children: store.getExternalOrganizations?.map(
+			(org): SelectOption => ({
+				label: org.attributes.designation,
+				value: org.id,
+				disabled: false,
+				class: "select-option",
+			})
+		),
+	})
+);
+
+const options: SelectGroupOption[] = [];
+
+// this code is to make the options reactive ---vvvvv
+let key = ref(Math.random());
+
+watchEffect(() => {
+	options[0] = ownedGroup.value;
+
+	// this forces the rerender of the component
+	key.value = Math.random();
+});
+
+watchEffect(() => {
+	if ((externalGroup.value.children?.length ?? 0) < 0) options.splice(1, 1);
+	else options[1] = externalGroup.value;
+
+	// this forces the rerender of the component
+	key.value = Math.random();
+});
+// -------------------------------------------------
 </script>
+
+<style scoped lang="scss">
+:deep(.n-base-icon) {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+img {
+	width: 1.5rem;
+	height: 1.5rem;
+}
+</style>
+
+<style lang="scss">
+.select-option {
+	.n-base-select-option__check {
+		display: none;
+	}
+}
+</style>

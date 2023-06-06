@@ -1,7 +1,7 @@
 <template>
 	<T2Page>
 		<template #header>
-			<T2Header>
+			<T3Header v-if="kanbanState.mode == undefined">
 				<template #l-top>
 					<a :href="project.attributes.url" target="_blank">
 						{{ project.attributes.designation }}
@@ -20,8 +20,10 @@
 				</template>
 
 				<template #center>
-					<SearchBar w-160 />
+					<SearchBar />
 				</template>
+
+				<AddBug />
 
 				<ManageMembers
 					v-if="isAuthorized"
@@ -33,51 +35,71 @@
 					:deleteInvitation="deleteInvitation"
 					:preOpenCall="preCall"
 					:suggestOptions="suggestOptions"
+					infoKey="tooltips.project_roles"
 				/>
 
-				<AddBug />
+				<template #actions v-if="more.options.some((o) => o.show)">
+					<n-dropdown trigger="click" :options="more.options">
+						<n-button text>
+							<Icon-VerticalDots />
+						</n-button>
+					</n-dropdown>
+				</template>
+			</T3Header>
 
-				<RouterLink
-					:to="{
-						name: 'project-settings',
-						params: {
-							organization_id: organization_id,
-							company_id: company_id,
-							project_id: project_id,
-						},
-					}"
-					class="bs-btn green empty text-capitalize"
-					v-if="isAuthorized"
+			<T2Header v-else>
+				<template #l-top>
+					<n-h2 m-0>
+						<i18n-t keypath="request_approvals_for_s" scope="global">
+							{{ project.attributes.designation }}
+						</i18n-t>
+					</n-h2>
+				</template>
+
+				<template #l-bottom>
+					{{ project.attributes.company.attributes.designation }}
+				</template>
+
+				<n-text type="primary">
+					<i18n-t
+						keypath="n_bug_selected"
+						tag="span"
+						scope="global"
+						:plural="kanbanState.checkList.length"
+					>
+						<b>
+							{{ kanbanState.checkList.length }}
+						</b>
+					</i18n-t>
+				</n-text>
+
+				<n-button
+					type="primary"
+					:ghost="!allBugsSelected"
+					size="large"
+					round
+					@click="toggleSelectAll"
 				>
-					<div flex items-center gap-2>
-						<img
-							src="/src/assets/icons/gear.svg"
-							alt="project"
-							class="black-to-green"
-							w-5
-							h-5
-						/>
+					<template #icon>
+						<Icon-SelectAll />
+					</template>
 
-						{{ $t("project_settings") }}
-					</div>
-				</RouterLink>
-				<div
-					v-else
-					class="bs-btn green empty text-capitalize disabled"
-					:title="$t('unauthorized')"
-				>
-					<div flex items-center gap-2>
-						<img
-							src="/src/assets/icons/gear.svg"
-							alt="project"
-							class="black-to-green"
-							w-5
-							h-5
-						/>
+					{{ allBugsSelected ? t("deselect_all_bugs") : t("select_all_bugs") }}
+				</n-button>
 
-						{{ $t("project_settings") }}
-					</div>
-				</div>
+				<n-divider :vertical="true" min-h-8 />
+
+				<RequestApprovalModal
+					:list="store.getMembers"
+					:disabled="kanbanState.checkList.length < 1"
+					:submit="onSubmitApprovals"
+				/>
+
+				<template #actions v-if="more.options.some((o) => o.show)">
+					<n-button text @click="kanbanState.cancelChecker">
+						<Icon-X />
+					</n-button>
+				</template>
 			</T2Header>
 		</template>
 
@@ -87,16 +109,63 @@
 			<img src="/src/assets/animations/loading.svg" alt="loading circle" />
 		</div>
 
-		<ProjectKanbanBoard v-else />
+		<n-tabs
+			v-else
+			type="bar"
+			v-model:value="currentTab"
+			animated
+			style="max-height: 100%"
+			px-8
+			py-4
+			flex-1
+			min-h-0
+		>
+			<n-tab-pane name="kanban" display-directive="show">
+				<template #tab>
+					<Icon-Board mr-1 />
+
+					{{ $t("kanban") }}
+				</template>
+
+				<n-checkbox-group v-model:value="kanbanState.checkList" overflow-auto>
+					<Kanban :mode="kanbanState.mode" />
+				</n-checkbox-group>
+
+				<BugDrawer />
+
+				<BugMoveModal v-model:show="bugMove.show" />
+			</n-tab-pane>
+
+			<n-tab-pane name="archive" display-directive="if">
+				<template #tab>
+					<Icon-Archive mr-1 />
+
+					{{ $t("archive") }}
+				</template>
+
+				<BugsArchive />
+
+				<ArchiveBugDrawer />
+			</n-tab-pane>
+
+			<template #suffix v-if="currentTab === 'kanban'">
+				<KanbanActions />
+			</template>
+		</n-tabs>
 	</T2Page>
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "~/stores/auth";
+import { DropdownOption } from "naive-ui";
+import { useBugStore } from "~/stores/bug";
 import { useCompanyStore } from "~/stores/company";
 import { useOrganizationStore } from "~/stores/organization";
 import { useProjectStore } from "~/stores/project";
 import { useReportsStore } from "~/stores/reports";
+import IconSettings from "~/components/icons/Icon-Settings.vue";
+import IconTabular from "~/components/icons/Icon-Tabular.vue";
+import { useFlagsStore } from "~/stores/flags";
+import IconFolderMove from "~/components/icons/Icon-FolderMove.vue";
 
 const props = defineProps({
 	organization_id: {
@@ -118,6 +187,11 @@ const props = defineProps({
 	},
 });
 
+const { t } = useI18n();
+
+const route = useRoute();
+const router = useRouter();
+
 const store = useProjectStore();
 
 const project = computed(() => store.getProject!);
@@ -125,9 +199,9 @@ const project = computed(() => store.getProject!);
 const isAuthorized = computed(() => {
 	// temp code replace with proper ?global? logic
 	return (
-		project.value?.attributes.role?.id === 1 ||
-		project.value.attributes.creator?.id === useAuthStore().getUser.id ||
-		useCompanyStore().getCompany!.attributes.role?.id === 1
+		(useOrganizationStore().getUserRole?.id ?? 9) < 2 ||
+		(useCompanyStore().getUserRole?.id ?? 9) < 2 ||
+		(project.value?.attributes.role?.id ?? 9) < 2
 	);
 });
 
@@ -196,6 +270,113 @@ const suggestOptions = computed(() => {
 
 	return diffArray.map((m) => m.attributes.email);
 });
+
+const currentTab = ref("kanban");
+
+const BugWasOpened = ref(false);
+
+watchEffect(async () => {
+	try {
+		// if no bug queried exit
+		if (route.query.b == undefined || BugWasOpened.value === true) return;
+
+		const bug = reportsStore.getBugById(route.query.b as string);
+
+		if (bug?.id != undefined) {
+			await useBugStore().init(bug.id, bug.attributes.status_id);
+			BugWasOpened.value = true;
+		}
+	} catch (error) {
+		console.log(error);
+	}
+});
+
+const more = computed(() => ({
+	options: [
+		{
+			label: t("project_settings"),
+			key: "settings",
+			icon: () => h(IconSettings),
+			show: isAuthorized.value,
+			props: {
+				onClick: () => {
+					router.push({
+						name: "project-settings",
+						params: {
+							organization_id: props.organization_id,
+							company_id: props.company_id,
+							project_id: props.project_id,
+						},
+					});
+				},
+			},
+		},
+		{
+			label: t("request_approval", 2),
+			key: "approvals",
+			icon: () => h(IconTabular),
+			show: currentTab.value === "kanban" && useFlagsStore().canSeeEverything,
+			props: {
+				onClick: () => {
+					kanbanState.startChecker();
+				},
+			},
+		},
+		{
+			label: t("move_bug", 2),
+			key: "move_bugs",
+			icon: () => h(IconFolderMove),
+			show: currentTab.value === "kanban" && useFlagsStore().canSeeEverything,
+			props: {
+				onClick: () => {
+					bugMove.show = true;
+				},
+			},
+		},
+	] as DropdownOption[],
+}));
+
+const kanbanState = reactive({
+	mode: undefined as undefined | "checker",
+	checkList: [] as string[],
+
+	startChecker: () => {
+		kanbanState.mode = "checker";
+		kanbanState.checkList = [];
+	},
+
+	cancelChecker: () => {
+		kanbanState.mode = undefined;
+		kanbanState.checkList = [];
+	},
+});
+
+const allBugsSelected = computed(
+	() => kanbanState.checkList.length === reportsStore.getBacklogStatus?.attributes.bugs?.length
+);
+
+const toggleSelectAll = () => {
+	// if it's a deselect action empty the list and return
+	if (allBugsSelected.value === true) return (kanbanState.checkList = []);
+
+	let bugs = reportsStore.getBacklogStatus?.attributes.bugs;
+
+	if (bugs == undefined) return;
+
+	bugs.forEach((bug) => {
+		if (!kanbanState.checkList.some((bId) => bId === bug.id))
+			kanbanState.checkList.push(bug.id);
+	});
+};
+
+const onSubmitApprovals = async (recipients: { name: string; email: string }[]) => {
+	await store.requestApprovals(kanbanState.checkList, recipients);
+	kanbanState.cancelChecker();
+};
+
+const bugMove = reactive({
+	show: false,
+});
 </script>
 
 <style lang="scss" scoped>
@@ -204,6 +385,15 @@ const suggestOptions = computed(() => {
 	height: 100%;
 	justify-content: center;
 	align-items: center;
+}
+
+:deep(.n-tabs-pane-wrapper) {
+	display: flex;
+	height: 100%;
+
+	.n-tab-pane {
+		display: flex;
+	}
 }
 </style>
 

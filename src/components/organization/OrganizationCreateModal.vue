@@ -6,11 +6,11 @@
 		@close="reset"
 	>
 		<template #button-text>
-			<span uppercase font-bold>{{ $t("create.organization") }}</span>
+			<span>{{ $t("create.organization") }}</span>
 		</template>
 
 		<template #modal-header>
-			<span capitalize>{{ $t("create.organization") }}</span>
+			<span>{{ $t("create.organization") }}</span>
 		</template>
 
 		<template #modal-form>
@@ -31,7 +31,7 @@
 		</template>
 
 		<template #modal-submit_button>
-			<span capitalize>{{ $t("create.organization") }}</span>
+			<span>{{ $t("create.organization") }}</span>
 		</template>
 	</CreateResourceModal>
 </template>

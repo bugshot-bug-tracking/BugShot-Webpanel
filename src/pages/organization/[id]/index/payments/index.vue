@@ -1,7 +1,7 @@
 <template>
 	<T2Page>
 		<template #header>
-			<T2Header>
+			<T3Header>
 				<template #l-top>
 					{{ t("payments_and_plans") }}
 				</template>
@@ -11,37 +11,65 @@
 				</template>
 
 				<template #center>
-					<SearchBar w-160 />
+					<SearchBar />
 				</template>
-			</T2Header>
+			</T3Header>
 		</template>
+
+		<TrialBanner />
 
 		<article class="bs-scroll" p-8 content-start flex gap-16>
 			<div class="component-group" min-w-172 max-w-172>
 				<div class="group-content">
 					<Container text-left>
 						<template #title>
-							<h3>
-								<b>{{ t("subscription", 2) }}</b>
-							</h3>
+							<n-h2 m-0 font-bold>
+								{{ t("subscription", 2) }}
+							</n-h2>
 						</template>
 
-						<n-list class="bs-scroll" v-if="subscriptions" flex flex-col gap-4>
+						<template #after-title>
+							<p text-5 flex gap-1 items-baseline ml-a>
+								<b
+									class="month-opt"
+									:class="{ 'selected-opt': isMonthly }"
+									@click="isMonthly = true"
+								>
+									{{ $t("monthly") }}
+								</b>
+
+								<n-switch
+									size="small"
+									@click="isMonthly = !isMonthly"
+									:value="!isMonthly"
+								/>
+
+								<b
+									class="year-opt"
+									:class="{ 'selected-opt': !isMonthly }"
+									@click="isMonthly = false"
+								>
+									{{ $t("yearly") }}
+								</b>
+							</p>
+						</template>
+
+						<n-list
+							class="bs-scroll"
+							v-if="(subscriptions?.length ?? 0) > 0"
+							flex
+							flex-col
+							gap-4
+						>
 							<n-list-item v-for="subscription of subscriptions">
 								<div class="plan-item">
-									<h4>
-										{{ getSubscriptionName(subscription) }} -
-
-										{{
-											getSubscriptionPaymentType(subscription) === "month"
-												? t("monthly")
-												: t("yearly")
-										}}
-									</h4>
+									<n-h3 m-0>
+										{{ getSubscriptionName(subscription) }}
+									</n-h3>
 
 									<div grid grid-cols-2 gap-4 mt-6>
 										<div flex flex-col>
-											<h6>{{ t("billing_and_payments") }}</h6>
+											<n-h6 m-0>{{ t("billing_and_payments") }}</n-h6>
 
 											<div grid grid-cols-2 gap-4>
 												<b>
@@ -59,12 +87,16 @@
 												</b>
 												<div style="color: var(--bs-gray)">
 													<p>
-														<b
-															>{{
-																getSubscriptionPrice(subscription)
+														<b>
+															{{
+																n(
+																	getSubscriptionPrice(
+																		subscription
+																	)
+																)
 															}}
-															€</b
-														>
+															€
+														</b>
 													</p>
 
 													<p v-if="!isSubscriptionCanceled(subscription)">
@@ -114,14 +146,14 @@
 										</div>
 
 										<div flex flex-col>
-											<h6>
+											<n-h6 m-0>
 												{{
 													t(
 														"number_of_licenses_n",
 														getLicenseTotalQuantity(subscription)
 													)
 												}}
-											</h6>
+											</n-h6>
 
 											<n-list show-divider>
 												<n-list-item>
@@ -185,6 +217,15 @@
 							</n-list-item>
 						</n-list>
 
+						<n-empty
+							v-else
+							:description="
+								isMonthly
+									? $t('no_monthly_subscriptions')
+									: $t('no_yearly_subscriptions')
+							"
+						/>
+
 						<div flex justify-around my-8>
 							<n-button
 								type="success"
@@ -200,7 +241,11 @@
 								:to="{
 									name: 'organization-payments-plans',
 									params: { id: id },
+									query: {
+										...(isMonthly ? {} : { t: 'y' }),
+									},
 								}"
+								v-if="subscriptionsAvailable"
 							>
 								<n-button strong round type="primary">
 									{{ $t("buy_a_subscription") }}
@@ -230,16 +275,21 @@ defineProps({
 	},
 });
 
-const { t } = useI18n();
+const route = useRoute();
+
+const { t, d, n } = useI18n();
 
 const store = useOrganizationStore();
 
 const resource = computed(() => store.getOrganization!);
 
+const isMonthly = ref(true);
+
 const subscriptions = computed(() => {
 	let s = store.getSubscriptions;
 	console.log(s);
-	return s;
+
+	return s?.filter((s) => s.attributes.plan.interval === (isMonthly.value ? "month" : "year"));
 });
 
 const getSubscriptionName = (subscription: any) => {
@@ -275,7 +325,7 @@ const getSubscriptionNextPayment = (subscription: any) => {
 
 	let date = new Date(end * 1000);
 
-	return date.toLocaleDateString();
+	return d(date);
 };
 
 const getSubscriptionPaymentType = (subscription: any) => {
@@ -311,6 +361,28 @@ const startTrial = async () => {
 
 	useOrganizationStore().refresh();
 };
+
+const subscriptionsAvailable = computed(() => {
+	let monthly = 0;
+	let yearly = 0;
+
+	usePaymentsStore().products.forEach((product) => {
+		if (
+			!subscriptions.value?.some(
+				(s) =>
+					s.attributes.plan.product === product.id &&
+					s.attributes.plan.interval === (isMonthly.value ? "month" : "year")
+			)
+		)
+			isMonthly.value ? monthly++ : yearly++;
+	});
+
+	return isMonthly.value ? monthly > 0 : yearly > 0;
+});
+
+onMounted(() => {
+	if (route.query.t === "y") isMonthly.value = false;
+});
 </script>
 
 <style scoped lang="scss">
@@ -347,6 +419,43 @@ h6 {
 .dot {
 	width: 0.375rem;
 	height: 0.375rem;
+}
+
+.month-opt {
+	cursor: pointer;
+}
+
+.year-opt {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	cursor: pointer;
+
+	span {
+		font-size: 1.125rem;
+		color: white;
+		background: #18d992;
+		padding: 0.25rem;
+		border-radius: 0.5rem;
+		position: relative;
+
+		&::before {
+			content: "";
+			position: absolute;
+			top: calc(50% - 0.25rem);
+			left: -0.25rem;
+			width: 0.5rem;
+			height: 0.5rem;
+			transform: rotate(45deg);
+			background-color: #18d992;
+			border: 1px solid #18d992;
+			z-index: -1;
+		}
+	}
+}
+
+.selected-opt {
+	color: var(--bs-purple);
 }
 </style>
 

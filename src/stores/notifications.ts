@@ -2,41 +2,73 @@ import { defineStore } from "pinia";
 
 import { useAuthStore } from "./auth";
 import axios from "axios";
-import { echo } from "~/composables/listeners";
-import { Invitation } from "~/models/Invitation";
+import { Notification } from "~/models/Notification";
+import { InvitationReceived } from "~/models/NotificationTypes/InvitationReceived";
+import { useMainStore } from "./main";
 
 export const useNotificationStore = defineStore("notification", {
 	state: () => ({
 		user: useAuthStore().user,
 
-		notifications: [] as Invitation[],
+		notifications: [] as Notification[],
 	}),
 
 	actions: {
-		// fetch all notifications
-		async fetchInvitations() {
+		async fetchNotifications() {
 			try {
-				this.unhook();
-				let notifications = (await axios.get(`users/${this.user.id}/invitations`)).data
+				let notifications = (await axios.get(`/users/${this.user?.id}/notifications`)).data
 					.data;
 
 				this.notifications = notifications;
-
-				this.hook();
 			} catch (error) {
 				console.log(error);
 			}
 		},
 
-		async accept(id: number) {
+		async acceptInvitation(invite: InvitationReceived) {
 			try {
-				let response = await axios.get(`users/${this.user.id}/invitations/${id}/accept`);
+				let response = (
+					await axios.get(`users/${this.user?.id}/invitations/${invite.data.id}/accept`)
+				).data.data;
 
-				let index = this.notifications.findIndex((x) => x.id === id);
+				this.message.info(this.i18n.t("messages.invitation_accepted"));
+				invite.status = "accepted";
 
-				if (index !== -1) this.notifications.splice(index, 1);
+				await useMainStore().initOrganizations();
 
-				return response.data;
+				switch (invite.data.invitable?.toLowerCase()) {
+					case "project":
+						this.router.push({
+							name: "project",
+							params: {
+								organization_id: invite.data.organization_id,
+								company_id: invite.data.company_id,
+								project_id: invite.data.project_id,
+							},
+						});
+						break;
+
+					case "company":
+						this.router.push({
+							name: "company",
+							params: {
+								organization_id: invite.data.organization_id,
+								company_id: invite.data.company_id,
+							},
+						});
+						break;
+
+					case "organization":
+						this.router.push({
+							name: "organization-home",
+							params: {
+								organization_id: invite.data.organization_id,
+							},
+						});
+						break;
+				}
+
+				return response;
 			} catch (error) {
 				console.log(error);
 
@@ -44,48 +76,25 @@ export const useNotificationStore = defineStore("notification", {
 			}
 		},
 
-		async decline(id: number) {
+		async declineInvitation(invite: InvitationReceived) {
 			try {
-				let response = await axios.get(`users/${this.user.id}/invitations/${id}/decline`);
+				let response = (
+					await axios.get(`users/${this.user?.id}/invitations/${invite.data.id}/decline`)
+				).data.data;
 
-				let index = this.notifications.findIndex((x) => x.id === id);
+				this.message.info(this.i18n.t("messages.invitation_declined"));
+				invite.status = "declined";
 
-				if (index !== -1) this.notifications.splice(index, 1);
-
-				return response.data;
+				return response;
 			} catch (error) {
 				console.log(error);
 
 				throw error;
 			}
-		},
-
-		async unhook() {
-			if (this.user === undefined) return;
-
-			const api_channel = `user.${this.user.id}`;
-
-			echo.leave(api_channel);
-		},
-
-		async hook() {
-			if (this.user === undefined) return;
-
-			const api_channel = `user.${this.user.id}`;
-
-			let channel = echo.private(api_channel);
-
-			channel.listen(".invitation.created", (data: any) => {
-				if (!(data && data.data.type === "Invitation")) return console.log(data);
-
-				this.fetchInvitations();
-			});
 		},
 	},
 
 	getters: {
-		getInvitations: (state) => state.notifications,
-
-		getInvitationById: (state) => (id: number) => state.notifications.find((x) => (x.id = id)),
+		getNotifications: (state) => state.notifications,
 	},
 });

@@ -6,16 +6,21 @@
 	</main>
 
 	<n-config-provider
-		:locale="enUS"
-		:date-locale="dateEnUS"
+		:locale="locale"
+		:date-locale="dateLocale"
 		:theme="theme"
 		:theme-overrides="overrides"
 		flex
 		style="width: 100vw; position: relative"
+		:inline-theme-disabled="true"
+		:preflight-style-disabled="true"
 		v-else
 	>
+		<n-global-style />
+
 		<RouterView />
 	</n-config-provider>
+
 	<Feedback />
 </template>
 
@@ -24,7 +29,7 @@ import { useI18nStore } from "~/stores/i18n";
 import { useAuthStore } from "./stores/auth";
 import { useMainStore } from "./stores/main";
 import { useTheme } from "~/composables/useThemes";
-import { enUS, dateEnUS } from "naive-ui"; //TODO WIP sync with locale store
+import { enUS, dateEnUS, deDE, dateDeDE } from "naive-ui";
 
 const { theme, overrides } = useTheme();
 
@@ -50,16 +55,37 @@ onMounted(async () => {
 
 // when there is a user (auth on), fetch main data
 watch(user, async (newUser, oldUser) => {
-	if ((oldUser.id == undefined && newUser.id != undefined) || oldUser.id !== newUser.id)
+	if ((oldUser?.id == undefined && newUser?.id != undefined) || oldUser?.id !== newUser?.id)
 		try {
 			loading.value = true;
 
-			if (user.value.id) await useMainStore().init();
+			if (user.value?.id) await useMainStore().init();
 		} catch (error) {
 			console.log(error);
 		} finally {
 			loading.value = false;
 		}
+});
+
+const locale = computed(() => {
+	switch (useI18nStore().getCurrentLocale) {
+		default:
+		case "en":
+			return enUS;
+
+		case "de":
+			return deDE;
+	}
+});
+const dateLocale = computed(() => {
+	switch (useI18nStore().getCurrentLocale) {
+		default:
+		case "en":
+			return dateEnUS;
+
+		case "de":
+			return dateDeDE;
+	}
 });
 </script>
 

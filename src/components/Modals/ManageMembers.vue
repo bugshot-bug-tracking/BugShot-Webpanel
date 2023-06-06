@@ -1,8 +1,8 @@
 <template>
 	<div @click="modal.open">
 		<slot name="button" v-bind="{ loading: modal.loading }">
-			<a class="bs-btn purple" :class="{ loading: modal.loading }">
-				<div flex items-center gap-2>
+			<n-button type="primary" round size="large" :loading="modal.loading">
+				<template #icon>
 					<img
 						src="/src/assets/icons/people.svg"
 						alt="peoples"
@@ -10,9 +10,10 @@
 						w-5
 						h-5
 					/>
-					{{ $t("member", 2) }}
-				</div>
-			</a>
+				</template>
+
+				{{ $t("member", 2) }}
+			</n-button>
 		</slot>
 	</div>
 
@@ -47,6 +48,7 @@
 		:user="inviteModal.user"
 		:editMode="inviteModal.editMode"
 		:suggestOptions="suggestOptions"
+		:infoKey="infoKey"
 	>
 		<template #extra>
 			<slot name="extra" />
@@ -116,6 +118,14 @@ const props = defineProps({
 		type: Array as PropType<string[]>,
 		required: false,
 		default: [],
+	},
+
+	infoKey: {
+		type: String,
+		required: false,
+		default: undefined,
+		description:
+			"Key used to get the information text for the roles from the translation files",
 	},
 });
 

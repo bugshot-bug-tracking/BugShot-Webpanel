@@ -33,9 +33,13 @@ export const usePaymentsStore = defineStore("payments", {
 			 */
 			let customer = await this.getOrSetCustomer();
 
-			let successUrl = `${window.location.origin}/payment?status=success&org_id=${
-				useOrganizationStore().getOrganization!.id
-			}`;
+			let successUrl = new URL("/payment", window.location.origin);
+			successUrl.searchParams.append("status", "success");
+			successUrl.searchParams.append("org_id", useOrganizationStore().getOrganization!.id);
+			successUrl.searchParams.append(
+				"t",
+				price.attributes.recurring.interval === "month" ? "m" : "y"
+			);
 
 			let response = await axios.post("/stripe/checkout/create-session", {
 				line_items: [
@@ -46,7 +50,7 @@ export const usePaymentsStore = defineStore("payments", {
 				],
 				mode: "subscription",
 
-				success_url: successUrl,
+				success_url: successUrl.href,
 				cancel_url: window.location.href,
 
 				customer: customer.attributes.stripe_customer_id,
@@ -126,6 +130,72 @@ export const usePaymentsStore = defineStore("payments", {
 			} catch (error) {
 				console.log(error);
 			}
+		},
+
+		async decreaseLicenses({
+			quantity,
+			subscription_item,
+			price_id,
+			subscription_id,
+		}: {
+			quantity: number;
+			subscription_item: string;
+			price_id: string;
+			subscription_id: string;
+		}) {
+			let billing_address = useOrganizationStore().billing_address;
+
+			if (billing_address === undefined)
+				throw new Error("billing address not set for the active organization");
+
+			let response = (
+				await axios.post(
+					`/billing-addresses/${billing_address.id}/stripe/subscription/${subscription_id}/change-quantity`,
+					{
+						price_api_id: price_id,
+						subscription_item_id: subscription_item,
+						type: "decrement",
+						quantity: quantity,
+					}
+				)
+			).data;
+
+			await useOrganizationStore().fetchSubscriptions();
+
+			console.log(response);
+		},
+
+		async increaseLicenses({
+			quantity,
+			subscription_item,
+			price_id,
+			subscription_id,
+		}: {
+			quantity: number;
+			subscription_item: string;
+			price_id: string;
+			subscription_id: string;
+		}) {
+			let billing_address = useOrganizationStore().billing_address;
+
+			if (billing_address === undefined)
+				throw new Error("billing address not set for the active organization");
+
+			let response = (
+				await axios.post(
+					`/billing-addresses/${billing_address.id}/stripe/subscription/${subscription_id}/change-quantity`,
+					{
+						price_api_id: price_id,
+						subscription_item_id: subscription_item,
+						type: "increment",
+						quantity: quantity,
+					}
+				)
+			).data;
+
+			await useOrganizationStore().fetchSubscriptions();
+
+			console.log(response);
 		},
 	},
 

@@ -87,6 +87,8 @@ export const useCompanyStore = defineStore("company", {
 
 			useOrganizationStore().updateCompany(response);
 
+			this.message.success(this.i18n.t("messages.company_updated"));
+
 			await this.refresh();
 		},
 
@@ -99,6 +101,8 @@ export const useCompanyStore = defineStore("company", {
 			);
 
 			useOrganizationStore().removeCompany(this.company_id);
+
+			this.message.info(this.i18n.t("messages.company_deleted"));
 		},
 
 		async fetchUsers() {
@@ -136,6 +140,8 @@ export const useCompanyStore = defineStore("company", {
 
 			if (!this.pendingInvitations) this.pendingInvitations = [] as Invitation[];
 			this.pendingInvitations.push(response);
+
+			this.message.info(this.i18n.t("messages.invitation_sent"));
 		},
 
 		/**
@@ -151,6 +157,8 @@ export const useCompanyStore = defineStore("company", {
 				})
 			).data.data;
 
+			this.message.info(this.i18n.t("messages.invitation_sent"));
+
 			return response;
 		},
 
@@ -162,6 +170,8 @@ export const useCompanyStore = defineStore("company", {
 			);
 
 			if (index !== undefined && index !== -1) this.pendingInvitations!.splice(index, 1);
+
+			this.message.info(this.i18n.t("messages.invitation_deleted"));
 		},
 
 		async editMember(payload: { user_id: number; role_id: number }) {
@@ -180,6 +190,8 @@ export const useCompanyStore = defineStore("company", {
 			let user = this.members?.find((x) => x.user.id === payload.user_id);
 
 			if (user) Object.assign(user.role, response.role);
+
+			this.message.success(this.i18n.t("messages.member_updated"));
 		},
 
 		async deleteMember(payload: { user_id: number }) {
@@ -188,6 +200,8 @@ export const useCompanyStore = defineStore("company", {
 			let index = this.members?.findIndex((x) => x.user.id === payload.user_id);
 
 			if (index !== undefined && index !== -1) this.members!.splice(index, 1);
+
+			this.message.info(this.i18n.t("messages.member_removed"));
 		},
 
 		async fetchProjects() {
@@ -208,15 +222,19 @@ export const useCompanyStore = defineStore("company", {
 			url,
 			base64,
 			color_hex,
+			company_id,
+			urlList,
 		}: {
 			designation: string;
 			url: string | undefined;
 			base64: string | undefined;
 			color_hex: string;
+			company_id?: string;
+			urlList?: string[] | undefined;
 		}) {
 			let response = (
 				await axios.post(
-					`companies/${this.company!.id}/projects`,
+					`companies/${company_id ?? this.company!.id}/projects`,
 					{
 						designation,
 						url,
@@ -232,7 +250,22 @@ export const useCompanyStore = defineStore("company", {
 				)
 			).data.data;
 
+			if (urlList && (urlList.length ?? 0) > 0) {
+				const urlResponses = await Promise.allSettled(
+					urlList.map(async (url) => {
+						return await axios.post(`project/${response.id}/urls`, {
+							url: url,
+							https: url.match(/^(https):\/\//) == null ? false : true,
+						});
+					})
+				);
+
+				console.log(urlResponses);
+			}
+
 			this.addProject(response);
+
+			this.message.success(this.i18n.t("messages.project_created"));
 
 			return response;
 		},
@@ -241,9 +274,11 @@ export const useCompanyStore = defineStore("company", {
 		 * Add an project to local store
 		 */
 		addProject(project: Project) {
-			if (!this.projects) this.projects = [] as Project[];
+			if (project.attributes.company.id === this.company?.id) {
+				if (!this.projects) this.projects = [] as Project[];
 
-			this.projects.push(project);
+				this.projects.push(project);
+			}
 
 			useOrganizationStore()
 				.companies?.find((c) => c.id === project.attributes.company.id)
@@ -327,10 +362,12 @@ export const useCompanyStore = defineStore("company", {
 		getCompany: (state) => state.company,
 
 		getMembers: (state) =>
-			state.members?.map((x) => {
-				x.user.role = x.role;
-				return x.user;
-			}),
+			state.members
+				?.map((x) => {
+					x.user.role = x.role;
+					return x.user;
+				})
+				.sort((a, b) => (a.role?.id ?? 0) - (b.role?.id ?? 0)),
 
 		getCreator: (state) => state.company?.attributes?.creator,
 
@@ -339,5 +376,7 @@ export const useCompanyStore = defineStore("company", {
 		getProjects: (state) => state.projects,
 
 		getProjectById: (state) => (id: string) => state.projects?.find((x) => x.id === id),
+
+		getUserRole: (state) => state.company?.attributes.role,
 	},
 });

@@ -123,7 +123,7 @@ const data = reactive({
 	set: () => {
 		data.name = props.name ?? "";
 		data.color = colors.indexOf(props.color) ?? 3;
-		data.image = props.image !== "" ? atob(props.image) : "";
+		data.image = props.image;
 	},
 
 	setImage: async (value: File | null) => {

@@ -4,13 +4,14 @@
 		:success_message="$t('company_succ_created')"
 		:primary_button="primary_button"
 		@close="reset"
+		:disabled="disabled"
 	>
 		<template #button-text>
-			<span uppercase font-bold>{{ $t("create.company") }}</span>
+			<span>{{ $t("create.company") }}</span>
 		</template>
 
 		<template #modal-header>
-			<span capitalize>{{ $t("create.company") }}</span>
+			<span>{{ $t("create.company") }}</span>
 		</template>
 
 		<template #modal-form>
@@ -36,11 +37,11 @@
 				@setColor="data.setColor"
 			/>
 
-			<AddMembers @change="data.setInviteMembers" />
+			<AddMembers @change="data.setInviteMembers" infoKey="tooltips.company_roles" />
 		</template>
 
 		<template #modal-submit_button>
-			<span capitalize>{{ $t("create.company") }}</span>
+			<span>{{ $t("create.company") }}</span>
 		</template>
 	</CreateResourceModal>
 </template>
@@ -59,6 +60,12 @@ const props = defineProps({
 	},
 
 	redirect: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+
+	disabled: {
 		type: Boolean,
 		required: false,
 		default: false,

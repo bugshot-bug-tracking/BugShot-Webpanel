@@ -1,7 +1,7 @@
 <template>
 	<T2Page>
 		<template #header>
-			<T2Header>
+			<T3Header>
 				<template #l-top>
 					{{ $t("all_projects") }}
 				</template>
@@ -11,12 +11,12 @@
 				</template>
 
 				<template #center>
-					<SearchBar w-160 />
+					<SearchBar />
 				</template>
-			</T2Header>
+			</T3Header>
 		</template>
 
-		<div class="groups bs-scroll">
+		<n-scrollbar flex-1>
 			<TrialBanner />
 
 			<GroupContainer v-for="company of companies" :key="company.id">
@@ -44,13 +44,17 @@
 					:key="project.id"
 					:title="project.attributes.designation"
 					:lastEdit="project.attributes.updated_at"
-					:image="project.attributes.image?.attributes.base64"
+					:image="project.attributes.image?.attributes.url"
 					:color="project.attributes.color_hex"
 					:progress="{
 						done: project.attributes.bugsDone,
 						total: project.attributes.bugsTotal,
 					}"
-					actions
+					:actions="
+						(useOrganizationStore().getUserRole?.id ?? 9) < 2 ||
+						(company.attributes.role?.id ?? 9) < 2 ||
+						(project.attributes.role?.id ?? 9) < 2
+					"
 					@open="goToProject(company.id, project.id)"
 					:to_settings="{
 						name: 'project-settings',
@@ -62,7 +66,7 @@
 					}"
 				/>
 			</GroupContainer>
-		</div>
+		</n-scrollbar>
 	</T2Page>
 </template>
 

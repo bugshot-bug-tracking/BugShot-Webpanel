@@ -1,5 +1,6 @@
 import { Attachment } from "./Attachment";
 import { BugUserRole } from "./BugUserRole";
+import { Comment } from "./Comment";
 import { Priority } from "./Priority";
 import { Screenshot } from "./Screenshot";
 import { User } from "./User";
@@ -24,10 +25,20 @@ export interface Bug {
 		status_id: string;
 		updated_at: string;
 		url: string;
-		deleted_at?: string;
+		done_at: string;
+		archived_at: string;
+		deleted_at: string;
+
+		users?: BugUserRole[];
+		screenshots?: Screenshot[];
+		attachments?: Attachment[];
+		comments?: Comment[];
+
+		time_estimation?: number;
+
+		approval_status: {
+			id: string;
+			designation?: "approved" | "declined" | "pending";
+		};
 	};
-	users?: BugUserRole[];
-	screenshots?: Screenshot[];
-	attachments?: Attachment[];
-	comments?: Comment[];
 }

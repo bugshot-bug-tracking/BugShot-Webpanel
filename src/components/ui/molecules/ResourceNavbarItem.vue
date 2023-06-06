@@ -1,56 +1,25 @@
 <template>
 	<RouterLink :to="to_resource" class="route-header" :class="{ open: open }">
 		<div flex gap-2>
-			<img
-				v-if="owner"
-				src="/src/assets/icons/my_projects.svg"
-				alt="owner"
-				w-6
-				h-6
-				:title="$t('owner')"
-			/>
-
 			{{ text }}
 		</div>
 
 		<div flex gap-2>
-			<RouterLink
-				v-if="(owner || authorized) && to_settings"
-				:to="to_settings"
-				class="route settings"
-				:style="{
-					'font-weight': 'bold',
-					width: 'auto',
-					padding: 0,
-				}"
-			>
-				<img
-					src="/src/assets/icons/gear.svg"
-					alt="settings"
-					w-6
-					h-6
-					:title="$t('setting', 2)"
-				/>
-			</RouterLink>
-
 			<div
-				v-else-if="!authorized && to_settings"
-				class="route settings"
-				:style="{
-					'font-weight': 'bold',
-					width: 'auto',
-					padding: 0,
-					opacity: '0.25',
-				}"
-				@click.prevent=""
+				class="item-options"
+				:class="{ open: optionsOpen || open }"
+				v-if="owner || authorized"
 			>
-				<img
-					src="/src/assets/icons/gear.svg"
-					alt="settings"
-					w-6
-					h-6
-					:title="$t('unauthorized')"
-				/>
+				<n-dropdown
+					trigger="click"
+					:options="more.options"
+					@clickoutside="optionsOpen = false"
+					placement="bottom-end"
+				>
+					<n-button text @click.prevent="optionsOpen = true">
+						<Icon-VerticalDots size="1.25rem" />
+					</n-button>
+				</n-dropdown>
 			</div>
 
 			<img
@@ -67,9 +36,11 @@
 </template>
 
 <script setup lang="ts">
+import { DropdownOption } from "naive-ui";
 import { PropType } from "vue";
+import IconSettings from "~/components/icons/Icon-Settings.vue";
 
-defineProps({
+const props = defineProps({
 	text: {
 		type: String,
 		required: true,
@@ -104,6 +75,28 @@ defineProps({
 });
 
 const emit = defineEmits(["toggle"]);
+
+const { t } = useI18n();
+
+const router = useRouter();
+
+const more = computed(() => ({
+	options: [
+		{
+			label: t("setting", 2),
+			key: "settings",
+			icon: () => h(IconSettings),
+			show: props.owner || props.authorized,
+			props: {
+				onClick: () => {
+					if (props.to_settings) router.push(props.to_settings);
+				},
+			},
+		},
+	] as DropdownOption[],
+}));
+
+const optionsOpen = ref(false);
 </script>
 
 <style lang="scss">
@@ -117,6 +110,18 @@ const emit = defineEmits(["toggle"]);
 
 	&:hover {
 		background-color: hsl(263, 79%, 94%);
+
+		.item-options {
+			max-width: 2rem;
+			opacity: 1;
+		}
+	}
+
+	&.router-link-active {
+		.item-options {
+			max-width: 2rem;
+			opacity: 1;
+		}
 	}
 
 	&.router-link-exact-active {
@@ -148,6 +153,11 @@ const emit = defineEmits(["toggle"]);
 
 	&:hover {
 		background-color: hsl(263, 79%, 94%);
+
+		.item-options {
+			max-width: 2rem;
+			opacity: 1;
+		}
 	}
 
 	.arrow {
@@ -186,6 +196,20 @@ const emit = defineEmits(["toggle"]);
 
 	ul {
 		padding: 0;
+	}
+}
+
+.item-options {
+	max-width: 0;
+	overflow: hidden;
+	opacity: 0;
+	transition: all 0.25s ease-in-out;
+	display: flex;
+	align-self: center;
+
+	&.open {
+		max-width: 2rem;
+		opacity: 1;
 	}
 }
 </style>

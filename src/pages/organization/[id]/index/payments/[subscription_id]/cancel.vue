@@ -14,9 +14,9 @@
 			</p>
 
 			<div v-if="steps.current === 1">
-				<h5 font-bold>
+				<n-h5>
 					{{ t("cancel_headers.feedback") }}
-				</h5>
+				</n-h5>
 
 				<n-form label-placement="top">
 					<n-checkbox-group v-model:value="feedback.reasons">
@@ -63,18 +63,19 @@
 			</div>
 
 			<div v-if="steps.current === 2">
-				<h5 font-bold>
+				<n-h5>
 					{{ t("cancel_headers.options") }}
-				</h5>
+				</n-h5>
+
 				<n-space vertical class="gap-4!" my-8>
 					<n-card flex-row items-center :bordered="false" hoverable class="bs-b">
 						<template #header>
 							<img src="/src/assets/icons/starter.svg" alt="" w-14 h-14 />
 						</template>
 
-						<h5>
+						<n-h6>
 							{{ t("change_subscription_text") }}
-						</h5>
+						</n-h6>
 
 						<p>
 							{{ t("change_subscription_subtext") }}
@@ -91,9 +92,9 @@
 							<img src="/src/assets/icons/enterprise.svg" alt="" w-14 h-14 />
 						</template>
 
-						<h5>
+						<n-h6>
 							{{ t("need_help_with_bugshot_text") }}
-						</h5>
+						</n-h6>
 
 						<p>
 							{{ t("need_help_with_bugshot_subtext") }}
@@ -116,9 +117,9 @@
 			</div>
 
 			<div v-if="steps.current === 3">
-				<h5 font-bold>
+				<n-h5>
 					{{ t("cancel_headers.review") }}
-				</h5>
+				</n-h5>
 
 				<br />
 
@@ -179,11 +180,11 @@
 			<div flex flex-col items-center>
 				<img src="/src/assets/images/attention_message.png" h-70 />
 
-				<h2 style="color: var(--bs-purple)">
+				<n-h3 style="color: var(--bs-purple)">
 					<b>
 						{{ $t("cancel_modal.title") }}
 					</b>
-				</h2>
+				</n-h3>
 
 				<p max-w-88 text-center style="color: var(--bs-gray)">
 					{{ $t("cancel_modal.sub_title") }}

@@ -13,13 +13,11 @@
 	>
 		<ModalTemplate w-116>
 			<div flex flex-col gap-8>
-				<h3 style="color: var(--bs-purple)">
+				<n-h2 m-0 style="color: var(--bs-purple)" class="bs-bb">
 					<b>
 						{{ $t("no_license_overlay.title") }}
 					</b>
-				</h3>
-
-				<hr />
+				</n-h2>
 
 				<p>
 					{{ $t("no_license_overlay.line_1") }}

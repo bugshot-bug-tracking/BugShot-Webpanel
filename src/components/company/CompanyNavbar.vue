@@ -4,8 +4,34 @@
 			<OrganizationSwitcher noLabel p-2 />
 		</template>
 
-		<template #header-text>
-			{{ $t("company", 2) }}
+		<template #header-text v-if="!headerEdit">
+			{{ companyTerm }}
+
+			<Icon-Edit
+				size="0.875rem"
+				color="var(--bs-gray)"
+				v-if="useFlagsStore().canEditCompanyTerm"
+				@click="startEditTerm"
+				ml-1
+				button
+			/>
+		</template>
+
+		<template #header-content v-else>
+			<div flex items-center gap-2 mb-2>
+				<n-input
+					type="text"
+					size="large"
+					:placeholder="t('company', 2)"
+					:default-value="companyTerm"
+					v-model:value="termValue"
+					:disabled="updateTermLoading"
+					:loading="updateTermLoading"
+				/>
+
+				<Icon-Check button @click="saveEditTerm" :disabled="updateTermLoading" />
+				<Icon-X button @click="cancelEditTerm" :disabled="updateTermLoading" />
+			</div>
 		</template>
 
 		<template #order-text>
@@ -29,7 +55,7 @@
 						company_id: item.id,
 					},
 				}"
-				:owner="user.id === item.attributes.creator?.id"
+				:owner="user?.id === item.attributes.creator?.id"
 				@toggle="items_opened.toggle(item.id)"
 				:open="
 					items_opened.secondary === item.id
@@ -39,11 +65,12 @@
 						: false
 				"
 				:authorized="
-					item.attributes.role?.id === 1 || organization?.attributes.role?.id === 1
+					(item.attributes.role?.id ?? 9) < 2 ||
+					(organization?.attributes.role?.id ?? 9) < 2
 				"
 			>
 				<template #list>
-					<ul v-if="companyProjects(item.id).length > 0">
+					<ul>
 						<li
 							v-for="project of companyProjects(item.id)"
 							flex
@@ -72,75 +99,74 @@
 										v-if="false"
 									/>
 
-									<img
-										v-if="user?.id === project.attributes.creator?.id"
-										src="/src/assets/icons/my_projects.svg"
-										alt="owner"
-										w-6
-										h-6
-										:title="$t('owner')"
-									/>
-
 									<span>
 										{{ project.attributes.designation }}
 									</span>
 								</div>
 
-								<RouterLink
-									v-if="
-										user.id === item.attributes.creator?.id ||
-										item.attributes.role?.id === 1 ||
-										project.attributes.role?.id === 1
-									"
-									:to="{
-										name: 'project-settings',
-										params: {
-											organization_id: organization!.id,
-											company_id: item.id,
-											project_id: project.id,
-										},
-									}"
-									class="route settings"
-									:style="{
-										'font-weight': 'bold',
-										width: 'auto',
-										padding: 0,
-									}"
-								>
-									<img
-										src="/src/assets/icons/gear.svg"
-										alt="settings"
-										w-6
-										h-6
-										:title="$t('project_settings')"
-									/>
-								</RouterLink>
 								<div
-									v-else
-									class="route settings"
-									:style="{
-										'font-weight': 'bold',
-										width: 'auto',
-										opacity: '0.25',
-										padding: 0,
-									}"
+									class="item-options"
+									:class="{ open: optionsOpen === project.id }"
+									v-if="
+										user?.id === item.attributes.creator?.id ||
+										(item.attributes.role?.id ?? 9) < 2 ||
+										(project.attributes.role?.id ?? 9) < 2
+									"
 								>
-									<img
-										src="/src/assets/icons/gear.svg"
-										alt="settings"
-										w-6
-										h-6
-										:title="$t('unauthorized')"
-									/>
+									<n-dropdown
+										trigger="click"
+										:options="more(organization!.id,item.id,project.id).options"
+										@clickoutside="optionsOpen = undefined"
+										placement="bottom-end"
+									>
+										<n-button text @click.prevent="optionsOpen = project.id">
+											<Icon-VerticalDots size="1.25rem" />
+										</n-button>
+									</n-dropdown>
 								</div>
 							</RouterLink>
+						</li>
+
+						<li
+							v-if="
+								(item.attributes.role?.id ?? 9) < 3 ||
+								(organization?.attributes.role?.id ?? 9) < 2
+							"
+							flex
+							items-center
+							justify-center
+						>
+							<ProjectCreateModal :primary_button="false" :company="item">
+								<template #button>
+									<n-button
+										type="success"
+										quaternary
+										round
+										strong
+										p-4
+										class="quaternary"
+									>
+										<template #icon>
+											<img
+												src="/src/assets/icons/add.svg"
+												alt="project"
+												w-5
+												h-5
+												class="black-to-green"
+											/>
+										</template>
+
+										{{ $t("create.project") }}
+									</n-button>
+								</template>
+							</ProjectCreateModal>
 						</li>
 					</ul>
 				</template>
 			</ResourceNavbarItem>
 		</template>
 
-		<template #footer>
+		<template #footer v-if="(useOrganizationStore().getUserRole?.id ?? 9) < 3">
 			<CompanyCreateModal :primary_button="false" redirect />
 		</template>
 	</ResourceNavbar>
@@ -149,9 +175,15 @@
 <script setup lang="ts">
 import { useSettingsStore } from "~/stores/settings";
 import { useAuthStore } from "~/stores/auth";
+import { useFlagsStore } from "~/stores/flags";
 import { useOrganizationStore } from "~/stores/organization";
 import { Company } from "~/models/Company";
 import { COLOR } from "~/util/colors";
+import { DropdownOption } from "naive-ui";
+import IconSettings from "../icons/Icon-Settings.vue";
+
+const { t } = useI18n();
+const router = useRouter();
 
 const order = computed(() => useSettingsStore().getCompaniesOrder);
 
@@ -214,6 +246,65 @@ const companyProjects = (company_id: string) => {
 };
 
 const organization = computed(() => useOrganizationStore().getOrganization);
+
+const headerEdit = ref(false);
+const termValue = ref("");
+
+const companyTerm = computed(() => {
+	const orgTerm = useOrganizationStore().organization?.attributes.groups_wording;
+	if (orgTerm != undefined) return orgTerm;
+	else return t("company", 2);
+});
+
+const updateTermLoading = ref(false);
+
+const startEditTerm = () => {
+	headerEdit.value = true;
+	termValue.value = companyTerm.value;
+};
+
+const saveEditTerm = async () => {
+	try {
+		updateTermLoading.value = true;
+		await useOrganizationStore().changeCompanyTerm(termValue.value);
+
+		cancelEditTerm();
+	} catch (error) {
+		console.log(error);
+	} finally {
+		updateTermLoading.value = false;
+	}
+};
+
+const cancelEditTerm = () => {
+	headerEdit.value = false;
+	termValue.value = "";
+};
+
+const more = (org_id: string, company_id: string, proj_id: string) => ({
+	options: [
+		{
+			label: t("project_settings"),
+			key: "project_settings",
+			icon: () => h(IconSettings),
+			show: true,
+			props: {
+				onClick: () => {
+					router.push({
+						name: "project-settings",
+						params: {
+							organization_id: org_id,
+							company_id: company_id,
+							project_id: proj_id,
+						},
+					});
+				},
+			},
+		},
+	] as DropdownOption[],
+});
+
+const optionsOpen = ref<string | undefined>(undefined);
 </script>
 
 <style lang="scss" scoped>

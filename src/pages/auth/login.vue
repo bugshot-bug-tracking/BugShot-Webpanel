@@ -1,183 +1,173 @@
 <template>
-	<div class="title">{{ t("log_in") }}</div>
+	<div w-100 text-left>
+		<n-h1>
+			<n-text type="primary" style="font-weight: 700">
+				{{ t("log_in") }}
+			</n-text>
+		</n-h1>
 
-	<form id="login-form" @submit.prevent="submit">
-		<div class="bs-input">
-			<input
-				type="email"
-				:placeholder="$t('email_address')"
-				required
-				maxlength="255"
-				autocomplete="email"
-				v-model="email"
-				@focus="errMessage = null"
-				:class="{ error: errMessage }"
-			/>
-
-			<img class="input-image" src="/src/assets/icons/mail.svg" alt="at" />
-		</div>
-
-		<div class="bs-input">
-			<input
-				:type="passwordOpt.type"
-				:placeholder="$t('password')"
-				minlength="8"
-				required
-				maxlength="255"
-				v-model="password"
-				autocomplete="current-password"
-				@focus="errMessage = null"
-				:class="{ error: errMessage }"
-			/>
-
-			<img
-				v-show="passwordOpt.hidden"
-				@click="passwordOpt.toggle"
-				src="/src/assets/icons/password_hide.svg"
-				cursor-pointer
-				class="input-image"
-			/>
-
-			<img
-				v-show="!passwordOpt.hidden"
-				@click="passwordOpt.toggle"
-				src="/src/assets/icons/password_view.svg"
-				cursor-pointer
-				class="input-image"
-			/>
-		</div>
-
-		<div class="errors" v-if="errMessage != null">
-			{{ errMessage }}
-		</div>
-
-		<div class="from-buttons">
-			<button type="submit" class="bs-btn green">
-				{{ $t("log_in") }}
-			</button>
-		</div>
-	</form>
-
-	<div class="bottom">
-		<RouterLink :to="{ name: 'Forgot' }" style="color: #7a2de6">
-			{{ t("forgot_password") + "?" }}
-		</RouterLink>
-
-		<RouterLink
-			:to="{ name: 'Register' }"
-			class="bs-btn purple empty"
-			style="text-decoration: none"
+		<n-form
+			ref="formRef"
+			:model="form.data"
+			:rules="form.rules"
+			:show-require-mark="false"
+			:disabled="loading"
 		>
-			{{ t("register") }}
-		</RouterLink>
+			<n-form-item :label="t('email')" path="email" my-4>
+				<n-input
+					v-model:value="form.data.email"
+					:placeholder="t('email_address')"
+					size="large"
+					:input-props="{
+						type: 'email',
+					}"
+					:status="form.inputStates"
+					@input="form.clearState"
+				>
+					<template #suffix>
+						<Icon-Email size="1.5rem" color="var(--bs-black)" />
+					</template>
+				</n-input>
+			</n-form-item>
+
+			<n-form-item :label="t('password')" path="password" my-4>
+				<n-input
+					v-model:value="form.data.password"
+					:placeholder="t('password')"
+					size="large"
+					type="password"
+					show-password-on="click"
+					:status="form.inputStates"
+					@input="form.clearState"
+				>
+					<template #password-visible-icon>
+						<Icon-Password m-a color="var(--bs-black)" />
+					</template>
+					<template #password-invisible-icon>
+						<Icon-Password hide m-a color="var(--bs-black)" />
+					</template>
+				</n-input>
+			</n-form-item>
+
+			<div v-if="errMessage" class="error-message">
+				{{ errMessage }}
+			</div>
+
+			<n-form-item>
+				<n-button
+					@click="submit"
+					type="success"
+					round
+					strong
+					ml-a
+					:loading="loading"
+					:disabled="loading"
+				>
+					{{ t("log_in") }}
+				</n-button>
+			</n-form-item>
+		</n-form>
+
+		<n-divider />
+
+		<div flex items-center justify-between>
+			<RouterLink :to="{ name: 'recover' }">
+				<n-button type="primary" text>
+					{{ t("forgot_password") + "?" }}
+				</n-button>
+			</RouterLink>
+
+			<RouterLink :to="{ name: 'register' }">
+				<n-button type="primary" round ghost strong>
+					{{ t("register") }}
+				</n-button>
+			</RouterLink>
+		</div>
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { FormInst, FormRules } from "naive-ui";
 import { useAuthStore } from "~/stores/auth";
 
 const router = useRouter();
-const auth = useAuthStore();
+const store = useAuthStore();
 const { t } = useI18n();
 
-const email = ref("");
-const password = ref("");
+const formRef = ref<FormInst | null>(null);
 
-const passwordOpt = reactive({
-	hidden: true,
-	type: "password",
-	toggle: () => {
-		passwordOpt.hidden = !passwordOpt.hidden;
-		passwordOpt.type = passwordOpt.hidden ? "password" : "text";
+const form = reactive({
+	data: {
+		email: "",
+		password: "",
+	},
+	rules: {
+		email: {
+			required: true,
+			trigger: "blur",
+			type: "email",
+			message: t("please_input_a_valid_email"),
+		},
+		password: {
+			required: true,
+			message: t("please_input_a_valid_password"),
+			min: 8,
+			trigger: ["blur"],
+		},
+	} as FormRules,
+	inputStates: undefined as "success" | "warning" | "error" | undefined,
+	clearState: () => {
+		form.inputStates = undefined;
+		errMessage.value = undefined;
 	},
 });
 
-const errMessage = ref(null);
+const errMessage = ref(undefined);
 
-const submit = () => {
-	useAuthStore()
-		.login({
-			email: email.value,
-			password: password.value,
-		})
-		.then((response) => {
-			router.push({ name: "home" });
-		})
-		.catch((error) => {
-			errMessage.value = error.response.data.message;
+const loading = ref(false);
+
+const submit = async () => {
+	let valid = true;
+
+	try {
+		await formRef.value?.validate((errors) => {
+			if (errors && errors.length > 0) valid = false;
 		});
+
+		loading.value = true;
+
+		await store.login({
+			email: form.data.email,
+			password: form.data.password,
+		});
+
+		router.push({ name: "home" });
+	} catch (error: any) {
+		// comes from ValidateError naive-ui
+		if (!valid) return;
+
+		errMessage.value = error.response.data.message;
+		form.inputStates = "error";
+	} finally {
+		loading.value = false;
+	}
 };
 </script>
 
 <style scoped lang="scss">
-.title {
-	margin: 0 0 2rem 0;
-	color: hsl(265, 79%, 41%);
-	font-weight: 700;
-	font-size: 2rem;
-	text-align: left;
-	width: 400px;
+:deep(.n-divider__line) {
+	height: 2px;
+	background-color: var(--bs-purple-middle) !important;
 }
 
-form {
-	width: 400px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	gap: 2rem;
-	margin-bottom: 3rem;
-
-	.from-buttons {
-		display: flex;
-		align-items: center;
-		width: 100%;
-		justify-content: flex-end;
-		align-content: center;
-	}
-
-	.error {
-		color: red;
-		border: 1px solid red;
-
-		&:focus,
-		&:focus-visible,
-		&:hover {
-			border-color: red;
-			outline-color: red;
-		}
-	}
-}
-
-.errors {
-	color: red;
-	font-weight: 500;
-	width: 85%;
-	text-align: right;
-	margin: -1.5rem 0 -1rem 0 !important;
-}
-
-.bottom {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	width: 400px;
-	padding: 1.5rem 0;
-	border-top: 2px solid hsl(264, 78%, 77%);
-
-	> p {
-		margin: 0;
-	}
-}
-
-.bs-input {
-	width: 100%;
+.error-message {
+	font-size: 0.875rem;
+	text-align: center;
+	color: var(--bs-red);
+	font-weight: 600;
 }
 </style>
 
 <route lang="yaml">
-name: Login
-
-meta:
-    layout: auth
+name: login
 </route>

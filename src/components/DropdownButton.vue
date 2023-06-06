@@ -1,14 +1,19 @@
 <template>
-	<div class="bs-btn-dropdown" ref="root">
-		<div @click="active.toggle">
+	<div class="bs-btn-dropdown" ref="root" :class="{ 'disabled-overlay': disabled }">
+		<div @click="active.toggle" flex>
 			<a
 				:style="{
 					background: color,
 					cursor: dumb ? 'unset' : 'pointer',
 				}"
 				:class="{ open: active.value }"
+				flex
 			>
-				<slot name="text">{{ text }}</slot>
+				<slot name="text">
+					<n-ellipsis line-clamp="1" style="word-break: break-all">
+						{{ text }}
+					</n-ellipsis>
+				</slot>
 			</a>
 			<img
 				v-if="!dumb"
@@ -21,11 +26,7 @@
 			/>
 		</div>
 
-		<div
-			v-if="!dumb"
-			class="dropdown-container"
-			:class="{ open: active.value }"
-		>
+		<div v-if="!dumb" class="dropdown-container" :class="{ open: active.value }">
 			<div class="dropdown-wrapper bs-scroll">
 				<p p-4 v-if="list.length < 1">{{ $t("empty") }}</p>
 
@@ -34,6 +35,7 @@
 						v-for="[index, item] of list.entries()"
 						:key="index"
 						@click="emitSelect(item)"
+						style="word-break: keep-all; white-space: nowrap"
 					>
 						<slot name="item" v-bind="{ item }">
 							{{ item }}
@@ -72,7 +74,14 @@ const props = defineProps({
 		type: Boolean,
 		required: false,
 		default: false,
-		desctiption: "Switch for enabling dropdown menu",
+		description: "Switch for enabling dropdown menu",
+	},
+
+	disabled: {
+		type: Boolean,
+		required: false,
+		default: false,
+		description: "Make the component look disabled",
 	},
 });
 

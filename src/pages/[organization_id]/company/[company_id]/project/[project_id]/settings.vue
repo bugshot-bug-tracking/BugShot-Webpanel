@@ -1,7 +1,7 @@
 <template>
 	<T2Page>
 		<template #header>
-			<T2Header>
+			<T3Header>
 				<template #l-top>
 					{{ $t("project_settings") }}
 				</template>
@@ -11,9 +11,9 @@
 				</template>
 
 				<template #center>
-					<SearchBar w-160 />
+					<SearchBar />
 				</template>
-			</T2Header>
+			</T3Header>
 		</template>
 
 		<article class="bs-scroll" p-8 content-start>
@@ -26,7 +26,7 @@
 						:project_name="project.attributes.designation"
 						:company_name="project.attributes.company.attributes.designation"
 						:url="project.attributes.url ?? ''"
-						:image="project.attributes.image?.attributes.base64"
+						:image="project.attributes.image?.attributes.url"
 						:color="project.attributes.color_hex"
 					/>
 				</div>
@@ -51,6 +51,7 @@
 									:deleteInvitation="deleteInvitation"
 									:preOpenCall="preCall"
 									:suggestOptions="suggestOptions"
+									infoKey="tooltips.project_roles"
 								>
 									<template #button="{ loading }">
 										<img
@@ -119,7 +120,7 @@
 				</div>
 				<div class="group-content">
 					<div class="delete-project" flex flex-col gap-2 p-6 py-8>
-						<a class="text-to-red" underline @click="deleteModal.open">
+						<a style="color: var(--bs-red)" underline @click="deleteModal.open">
 							{{ t("delete_project_and_bugs") }}?
 						</a>
 
@@ -179,18 +180,12 @@ const isAuthorized = computed(() => {
 	// temp code replace with proper ?global? logic
 	return (
 		project.value?.attributes.role?.id === 1 ||
-		project.value?.attributes.creator?.id === user.value.id ||
+		project.value?.attributes.creator?.id === user.value?.id ||
 		useCompanyStore().getCompany!.attributes.role?.id === 1
 	);
 });
 
-const members = computed(() => {
-	let users = [...(store.getMembers ?? [])];
-
-	if (store.getCreator) users.unshift(store.getCreator);
-
-	return users;
-});
+const members = computed(() => store.getMembers);
 
 const preCall = async () => {
 	await store.fetchUsers();

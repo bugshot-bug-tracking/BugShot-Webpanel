@@ -1,35 +1,39 @@
 <template>
-	<div class="wrapper">
-		<div class="container loading" v-if="status === 0">
-			<img src="/src/assets/animations/loading.svg" alt="loading" />
-			<div class="text">{{ $t("verifying") + "..." }}</div>
-		</div>
-
-		<div class="container success" v-if="status === 1">
+	<section w-100 text-left>
+		<div class="loading" v-if="status === 0">
 			<img
-				src="/src/assets/animations/bug_confirmation.gif"
+				src="/src/assets/animations/loading.svg"
 				alt="loading"
+				style="width: 15rem; height: 15rem"
 			/>
-			<div class="text">{{ $t("success") + "..." }}</div>
+			<n-text type="primary" strong>{{ t("verifying") + "..." }} </n-text>
 		</div>
 
-		<div class="container error" v-if="status === 2">
-			<img src="/src/assets/animations/error_bug.gif" alt="loading" />
-			<div class="text">{{ $t("error") + "..." }}</div>
-		</div>
-	</div>
+		<div class="success" v-if="status === 1">
+			<img
+				src="/src/assets/animations/bug_confirmation_not_white.gif"
+				alt="Success"
+				style="width: 19rem; height: 19rem"
+			/>
 
-	<img
-		src="/src/assets/images/plugin-trans.svg"
-		alt="half-logo"
-		class="decoration-right"
-	/>
+			<n-text type="success" strong>
+				{{ t("success") + "!" }}
+			</n-text>
+		</div>
+
+		<div class="error" v-if="status === 2">
+			<img
+				src="/src/assets/animations/error_bug.gif"
+				alt="error"
+				style="width: 19rem; height: 19rem"
+			/>
+			<n-text type="error" strong>{{ t("error") + "!" }} </n-text>
+		</div>
+	</section>
 </template>
 
 <script setup lang="ts">
-import axios from "axios";
-
-const router = useRouter();
+import { useAuthStore } from "~/stores/auth";
 
 const props = defineProps({
 	user_id: {
@@ -41,96 +45,48 @@ const props = defineProps({
 		type: String,
 	},
 });
-// 0 means loading, 1 means success, 2 means error
-const status = ref(0);
 
 const route = useRoute();
+const router = useRouter();
+const store = useAuthStore();
+const { t } = useI18n();
+
+// 0 means loading, 1 means success, 2 means error
+const status = ref(0);
 
 const verify = async () => {
 	status.value = 0;
 
 	try {
-		let response = await axios.get(
-			`/auth/email/verify/${props.user_id}/${props.token}?expires=${route.query.expires}&signature=${route.query.signature}`
-		);
+		await store.verifyEmail({
+			id: Number(props.user_id),
+			token: props.token,
+			expires: route.query.expires?.toString()!,
+			signature: route.query.signature?.toString()!,
+		});
 
 		status.value = 1;
+
+		setTimeout(() => {
+			router.push({ name: "login" });
+		}, 3000);
 	} catch (error) {
 		console.log(error);
 
 		status.value = 2;
-	} finally {
-		setTimeout(() => {
-			router.push({ name: "Login" });
-		}, 3000);
 	}
 };
 
 verify();
 </script>
 
-<style lang="scss" scoped>
-.wrapper {
+<style scoped lang="scss">
+section > div {
 	display: flex;
-	width: 100vw;
-	height: 100vh;
 	flex-direction: column;
-	justify-content: center;
 	align-items: center;
-
-	.container {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		width: 500px;
-		height: 400px;
-		background: #ffffff;
-		box-shadow: 0px 2px 4px #1a204029;
-		border: 1px solid #eee5fc;
-		border-radius: 8px;
-		gap: 40px;
-		padding: 10px;
-
-		.text {
-			font-size: 1.7rem;
-			font-weight: bold;
-		}
-
-		img {
-			width: 200px;
-			height: 200px;
-		}
-
-		&.loading {
-			color: #5916b9;
-		}
-
-		&.success {
-			color: #15be80;
-		}
-
-		&.error {
-			color: #f53d3d;
-
-			img {
-				width: 280px;
-			}
-		}
-	}
-}
-.decoration-right {
-	position: absolute;
-	right: 0;
-	top: 50vh;
-	transform: translate(0, -50%);
-	z-index: -100;
+	gap: 2rem;
+	font-size: 1.5rem;
+	text-align: center;
 }
 </style>
-
-<route lang="yaml">
-name: Verify
-
-meta:
-    layout: empty
-</route>

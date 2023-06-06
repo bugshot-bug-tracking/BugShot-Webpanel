@@ -38,11 +38,7 @@ export const useOrganizationStore = defineStore("organization", {
 
 				await this.load();
 
-				await this.fetchUsers();
-
 				await this.fetchCompanies();
-
-				await this.fetchSubscriptions();
 
 				useSettingsStore().setPreferredOrganization(id);
 			} catch (error) {
@@ -94,12 +90,15 @@ export const useOrganizationStore = defineStore("organization", {
 			let response = (
 				await axios.put(`organizations/${this.organization_id}`, {
 					designation: payload.designation,
+					groups_wording: this.organization?.attributes.groups_wording,
 				})
 			).data.data;
 
 			useMainStore().updateOrganization(response);
 
 			await this.refresh();
+
+			this.message.success(this.i18n.t("messages.organization_updated"));
 		},
 
 		async deleteResource() {
@@ -109,6 +108,8 @@ export const useOrganizationStore = defineStore("organization", {
 			await axios.delete(`organizations/${this.organization_id}`);
 
 			useMainStore().removeOrganization(this.organization_id);
+
+			this.message.info(this.i18n.t("messages.organization_deleted"));
 		},
 
 		async fetchUsers() {
@@ -169,6 +170,8 @@ export const useOrganizationStore = defineStore("organization", {
 
 			if (!this.pendingInvitations) this.pendingInvitations = [] as Invitation[];
 			this.pendingInvitations.push(response);
+
+			this.message.info(this.i18n.t("messages.invitation_sent"));
 		},
 
 		async deleteInvitation(payload: { invitation_id: string }) {
@@ -179,6 +182,8 @@ export const useOrganizationStore = defineStore("organization", {
 			);
 
 			if (index !== undefined && index !== -1) this.pendingInvitations!.splice(index, 1);
+
+			this.message.info(this.i18n.t("messages.invitation_deleted"));
 		},
 
 		async editMember(payload: { user_id: number; role_id: number }) {
@@ -199,6 +204,8 @@ export const useOrganizationStore = defineStore("organization", {
 			let user = this.members?.find((x) => x.user.id === payload.user_id);
 
 			if (user) Object.assign(user.role, response.role);
+
+			this.message.success(this.i18n.t("messages.member_updated"));
 		},
 
 		async deleteMember(payload: { user_id: number }) {
@@ -207,6 +214,8 @@ export const useOrganizationStore = defineStore("organization", {
 			let index = this.members?.findIndex((x) => x.user.id === payload.user_id);
 
 			if (index !== undefined && index !== -1) this.members!.splice(index, 1);
+
+			this.message.info(this.i18n.t("messages.member_removed"));
 		},
 
 		async fetchCompanies() {
@@ -217,6 +226,7 @@ export const useOrganizationStore = defineStore("organization", {
 						"include-company-image": "true",
 						"include-projects": "true",
 						"include-project-image": "true",
+						"include-project-role": "true",
 					},
 				})
 			).data.data;
@@ -253,6 +263,8 @@ export const useOrganizationStore = defineStore("organization", {
 			).data.data;
 
 			this.addCompany(response);
+
+			this.message.success(this.i18n.t("messages.company_created"));
 
 			return response;
 		},
@@ -323,6 +335,8 @@ export const useOrganizationStore = defineStore("organization", {
 					user_id: user_id,
 				}
 			);
+
+			this.message.info(this.i18n.t("messages.license_assigned"));
 		},
 
 		async unassignUserLicense(user_id, subscription_item_id, subscription_id) {
@@ -333,6 +347,8 @@ export const useOrganizationStore = defineStore("organization", {
 					user_id: user_id,
 				}
 			);
+
+			this.message.info(this.i18n.t("messages.license_revoked"));
 		},
 
 		async cancelSubscription(subscription_id: any) {
@@ -341,6 +357,9 @@ export const useOrganizationStore = defineStore("organization", {
 			);
 
 			this.refresh();
+
+			this.message.info(this.i18n.t("messages.subscription_canceled"));
+
 			return response;
 		},
 
@@ -353,17 +372,41 @@ export const useOrganizationStore = defineStore("organization", {
 
 			this.invoices = response.invoices;
 		},
+
+		async changeCompanyTerm(value: string) {
+			try {
+				let response = (
+					await axios.put(`organizations/${this.organization_id}`, {
+						designation: this.organization?.attributes.designation,
+						groups_wording: value,
+					})
+				).data.data;
+
+				useMainStore().updateOrganization(response);
+
+				this.message.success(this.i18n.t("messages.organization_term_updated"));
+
+				Object.assign(this.organization!.attributes, response.attributes);
+
+				return response;
+			} catch (error) {
+				this.message.error(this.i18n.t("error") + "!");
+				throw error;
+			}
+		},
 	},
 
 	getters: {
 		getOrganization: (state) => state.organization,
 
 		getMembers: (state) =>
-			state.members?.map((x) => {
-				x.user.role = x.role;
-				x.user.subscription = x.subscription;
-				return x.user;
-			}),
+			state.members
+				?.map((x) => {
+					x.user.role = x.role;
+					x.user.subscription = x.subscription;
+					return x.user;
+				})
+				.sort((a, b) => (a.role?.id ?? 0) - (b.role?.id ?? 0)),
 
 		getCreator: (state) => state.organization?.attributes?.creator,
 
@@ -452,5 +495,7 @@ export const useOrganizationStore = defineStore("organization", {
 		getInvoices: (state) => {
 			return state.invoices;
 		},
+
+		getUserRole: (state) => state.organization?.attributes.role,
 	},
 });

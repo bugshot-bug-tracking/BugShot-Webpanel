@@ -2,9 +2,9 @@
 	<div class="modal-wrapper2">
 		<div class="modal-header2" v-if="$slots['header'] || $slots['header-text']">
 			<slot name="header">
-				<h4>
+				<n-h3>
 					<slot name="header-text">[PH] Header</slot>
-				</h4>
+				</n-h3>
 
 				<img
 					src="/src/assets/icons/close_1.svg"
@@ -19,9 +19,17 @@
 			</slot>
 		</div>
 
-		<div class="modal-content2">
-			<slot />
-		</div>
+		<slot name="content">
+			<n-scrollbar max-h-80vh>
+				<div class="modal-content2" p-1 pr-2>
+					<slot />
+				</div>
+			</n-scrollbar>
+		</slot>
+
+		<footer v-if="$slots['footer']">
+			<slot name="footer" />
+		</footer>
 	</div>
 </template>
 
@@ -43,7 +51,9 @@ defineEmits(["close"]);
 	border-radius: 0.5rem;
 	padding: 1rem;
 	min-width: 28rem;
+	max-height: 90vh;
 	box-shadow: 0 0.125rem 0.25rem hsla(0, 0%, 0%, 0.161);
+	overflow: hidden;
 }
 
 .modal-header2 {
@@ -51,11 +61,10 @@ defineEmits(["close"]);
 	padding-bottom: 1rem;
 	display: flex;
 	justify-content: space-between;
-	align-items: baseline;
+	align-items: center;
 }
 
-h4 {
-	font-weight: bold;
+h3 {
 	margin: unset;
 }
 

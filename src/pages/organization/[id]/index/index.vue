@@ -1,7 +1,7 @@
 <template>
 	<T2Page>
 		<template #header>
-			<T2Header>
+			<T3Header>
 				<template #l-top>
 					{{ t("organization") }}
 				</template>
@@ -11,10 +11,12 @@
 				</template>
 
 				<template #center>
-					<SearchBar w-160 />
+					<SearchBar />
 				</template>
-			</T2Header>
+			</T3Header>
 		</template>
+
+		<TrialBanner />
 
 		<article class="bs-scroll" p-8 content-start>
 			<div class="component-group" max-w-128>
@@ -43,7 +45,7 @@
 
 				<div class="group-content">
 					<div class="delete-project" flex flex-col gap-2 p-6 py-8>
-						<a class="text-to-red" underline @click="deleteModal.open">
+						<a style="color: var(--bs-red)" underline @click="deleteModal.open">
 							{{ t("delete_organization_and_projects") }}?
 						</a>
 

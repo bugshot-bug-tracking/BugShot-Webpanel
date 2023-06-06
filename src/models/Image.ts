@@ -1,8 +1,6 @@
 export interface Image {
-	id: string;
-	type: string;
+	type: "Image";
 	attributes: {
-		base64: string;
 		url: string;
 	};
 }

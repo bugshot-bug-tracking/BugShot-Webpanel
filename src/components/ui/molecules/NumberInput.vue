@@ -14,7 +14,7 @@
 			<button @click="incrementValue">+</button>
 		</div>
 
-		<b ml-3>{{ labelText?.toLocaleLowerCase() }}</b>
+		<b ml-3>{{ labelText }}</b>
 	</div>
 </template>
 
@@ -59,7 +59,7 @@ const updateValue = (event: any) => {
 const incrementValue = (event: any) => {
 	if (props.modelValue == undefined) return;
 
-	if (props.upperLimit && props.modelValue + 1 > props.upperLimit) return;
+	if (props.upperLimit != undefined && props.modelValue + 1 > props.upperLimit) return;
 
 	emit("update:modelValue", props.modelValue + 1);
 };
@@ -67,7 +67,7 @@ const incrementValue = (event: any) => {
 const decrementValue = (event: any) => {
 	if (props.modelValue == undefined) return;
 
-	if (props.lowerLimit && props.modelValue - 1 < props.lowerLimit) return;
+	if (props.lowerLimit != undefined && props.modelValue - 1 < props.lowerLimit) return;
 
 	emit("update:modelValue", props.modelValue - 1);
 };
@@ -77,6 +77,8 @@ const decrementValue = (event: any) => {
 button {
 	font-weight: bold;
 	border: 2px solid var(--bs-purple);
+	line-height: 1;
+	outline: unset;
 
 	&:first-of-type {
 		border-radius: 0.25rem 0 0 0.25rem;

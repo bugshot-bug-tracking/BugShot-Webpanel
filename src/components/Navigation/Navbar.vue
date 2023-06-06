@@ -13,13 +13,36 @@
 
 			<I18nSwitcher />
 
-			<div class="version" title="BugShot version">v{{ version }}</div>
+			<n-button
+				text
+				type="success"
+				tag="a"
+				:href="targetURL"
+				target="_blank"
+				style="font-size: 0.875rem"
+				title="BugShot version"
+			>
+				v{{ version }}
+			</n-button>
 		</div>
 	</nav>
 </template>
 
 <script setup lang="ts">
 import { version } from "~/../package.json";
+import { useI18nStore } from "~/stores/i18n";
+
+const targetURL = computed(() => {
+	let locale = useI18nStore().getCurrentLocale;
+
+	switch (locale) {
+		default:
+		case "en":
+			return "https://www.bugshot.de/home-en";
+		case "de":
+			return "https://www.bugshot.de/home";
+	}
+});
 </script>
 
 <style lang="scss" scoped>
@@ -56,10 +79,5 @@ nav {
 	margin-bottom: 1rem;
 	align-items: center;
 	gap: 1rem;
-}
-
-.version {
-	color: #18d992;
-	font-size: 0.825rem;
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
-	<div class="user-menu" ref="root">
+	<div class="user-menu" ref="root" v-if="user">
 		<Avatar
-			:first_name="user.attributes.first_name"
-			:last_name="user.attributes.last_name"
+			:first_name="user?.attributes.first_name"
+			:last_name="user?.attributes.last_name"
 			@click="menu.toggle"
 			cursor-pointer
 		/>
@@ -11,13 +11,13 @@
 			<header>
 				<Avatar
 					class="avatar"
-					:first_name="user.attributes.first_name"
-					:last_name="user.attributes.last_name"
+					:first_name="user?.attributes.first_name"
+					:last_name="user?.attributes.last_name"
 				/>
 
 				<div class="user">
-					<span class="name">{{ user.attributes.first_name }}</span>
-					<span class="email">{{ user.attributes.email }}</span>
+					<span class="name">{{ user?.attributes.first_name }}</span>
+					<span class="email">{{ user?.attributes.email }}</span>
 				</div>
 			</header>
 
@@ -75,7 +75,7 @@ const menu = reactive({
 
 const logout = () => {
 	store.logout();
-	router.push({ name: "Login" });
+	router.push({ name: "logout" });
 };
 
 const autoClose = (event: MouseEvent) => {

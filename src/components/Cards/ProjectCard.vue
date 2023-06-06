@@ -1,6 +1,3 @@
-<!-- Note:
-	- Proposal: remove the popup options and replace them with a gear that redirects to the project settings page
--->
 <template>
 	<div class="project-card">
 		<div
@@ -10,7 +7,7 @@
 			}"
 			@click="emit('open')"
 		>
-			<img v-if="c_image" :src="c_image" class="dark-overlay" alt="image" />
+			<img v-if="image" :src="image" class="dark-overlay" alt="image" loading="lazy" />
 
 			<div class="text">{{ title }}</div>
 
@@ -88,8 +85,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["open", "edit", "delete"]);
-
-const c_image = computed(() => (props.image !== "" ? atob(props.image) : undefined));
 </script>
 
 <style lang="scss" scoped>
@@ -155,7 +150,6 @@ const c_image = computed(() => (props.image !== "" ? atob(props.image) : undefin
 		justify-content: space-between;
 		padding: 0.5rem;
 		font-weight: bold;
-		text-transform: capitalize;
 		font-size: 1.125rem;
 		width: 100%;
 	}
@@ -207,7 +201,6 @@ const c_image = computed(() => (props.image !== "" ? atob(props.image) : undefin
 		gap: 0.5rem;
 		padding: 0.25rem 0;
 		background-color: #f8f8fc;
-		text-transform: capitalize;
 		border-radius: 0.5rem;
 	}
 

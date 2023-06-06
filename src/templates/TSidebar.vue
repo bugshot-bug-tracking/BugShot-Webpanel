@@ -42,7 +42,7 @@ const sidebar = reactive({
 
 	border-right: 1px solid hsl(263, 79%, 94%);
 	position: relative;
-	min-width: 15rem;
+	min-width: 20rem;
 	max-width: 20vw;
 	height: 100%;
 	max-height: 100vh;

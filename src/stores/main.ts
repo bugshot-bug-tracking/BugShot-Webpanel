@@ -1,11 +1,9 @@
 import { defineStore } from "pinia";
 
 import axios from "axios";
-import nProgress from "nprogress";
 import { Role } from "~/models/Role";
 import { Organization } from "~/models/Organization";
 import { useAuthStore } from "./auth";
-import { usePaymentsStore } from "./payments";
 
 export const useMainStore = defineStore("main", {
 	state: () => ({
@@ -17,17 +15,11 @@ export const useMainStore = defineStore("main", {
 	actions: {
 		async init() {
 			try {
-				nProgress.start();
-
 				this.$reset();
 
 				await this.fetchRoles();
 
 				await this.initOrganizations();
-
-				await usePaymentsStore().init();
-
-				nProgress.done();
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -62,6 +54,8 @@ export const useMainStore = defineStore("main", {
 			let response = (await axios.post("organizations", { designation })).data.data;
 
 			this.addOrganization(response);
+
+			this.message.success(this.i18n.t("messages.organization_created"));
 			return response;
 		},
 
@@ -114,9 +108,16 @@ export const useMainStore = defineStore("main", {
 			state.organizations?.find((x) => x.id === id),
 
 		getMyOrganization: (state) =>
-			state.organizations?.find((o) => o.attributes.creator.id === useAuthStore().user.id)!,
+			state.organizations?.find((o) => o.attributes.creator?.id === useAuthStore().user?.id)!,
 
 		getMyOrganizations: (state) =>
-			state.organizations?.filter((o) => o.attributes.creator.id === useAuthStore().user.id),
+			state.organizations?.filter(
+				(o) => o.attributes.creator?.id === useAuthStore().user?.id
+			),
+
+		getExternalOrganizations: (state) =>
+			state.organizations?.filter(
+				(o) => o.attributes.creator?.id !== useAuthStore().user?.id
+			),
 	},
 });

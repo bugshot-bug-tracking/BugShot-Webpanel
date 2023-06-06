@@ -20,7 +20,7 @@
 			</n-button>
 		</header>
 
-		<n-list v-if="showUsed" class="bs-scroll s-purple" pr-2 :show-divider="false">
+		<n-list v-if="showUsed" class="bs-scroll s-purple" pr-2 :show-divider="false" flex flex-col>
 			<template #header v-if="false">
 				<div flex justify-between px-2>
 					<n-checkbox @update:checked="selectAll">
@@ -43,7 +43,10 @@
 				</div>
 			</template>
 
-			<n-checkbox-group v-model:value="checkbox">
+			<n-checkbox-group
+				v-model:value="checkbox"
+				v-if="(authUser.attributes.subscriptions?.length ?? 0) > 0"
+			>
 				<n-list-item v-for="sub in authUser.attributes.subscriptions" :key="sub.id">
 					<LicenseCard
 						:license_name="authUserLicenseData(sub).license_name"
@@ -84,6 +87,8 @@
 					/>
 				</n-list-item>
 			</n-checkbox-group>
+
+			<n-empty v-else size="large" :description="$t('no licenses_assigned')" m-a> </n-empty>
 		</n-list>
 
 		<n-list v-else class="bs-scroll s-purple" pr-2 :show-divider="false">
@@ -95,18 +100,26 @@
 					:id="lic.id"
 					@submit="modal.open(lic)"
 					:show_checkbox="false"
-				/>
+				>
+					<template #button-extra>
+						<ChangeLicenseModal
+							:total_licenses="lic.quantity"
+							:used_licenses="lic.assigned ?? 0"
+							:license="lic"
+						/>
+					</template>
+				</LicenseCard>
 			</n-list-item>
 		</n-list>
 
 		<LicenseAssignModal
 			v-model="modal.show"
-			:license_name="'Starter'"
+			:license_name="licenseName(modal.license)"
 			@submit="assignLicense"
 			:items="unlicensedMembers"
 			:loading="loading"
-		>
-		</LicenseAssignModal>
+			z-20
+		/>
 	</section>
 
 	<DeleteModal2
@@ -374,6 +387,14 @@ const isExternalUserLicense = (user_subscription: any) => {
 	)
 		return false;
 	return true;
+};
+
+const licenseName = (license: any) => {
+	if (license === undefined) return "";
+
+	let product = usePaymentsStore().products.find((p) => p.id === license.plan.product);
+
+	return product?.attributes.name;
 };
 </script>
 

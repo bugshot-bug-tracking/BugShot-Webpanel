@@ -4,18 +4,20 @@
 			<slot name="pre-header" />
 
 			<header>
-				<div>
-					<h3>
-						<slot name="header-text"> [PH] resource </slot>
-					</h3>
+				<div flex flex-col flex-1>
+					<slot name="header-content">
+						<n-h2 m-0 mb-2>
+							<slot name="header-text"> [PH] resource </slot>
+						</n-h2>
+					</slot>
 
 					<RouterLink
 						:to="{ name: 'home' }"
-						:style="{
-							'text-decoration': 'underline',
-							color: '#7a2ee6',
-							'font-size': '0.875rem',
-						}"
+						style="
+							text-decoration: underline;
+							color: var(--bs-purple);
+							font-size: 0.875rem;
+						"
 					>
 						{{ $t("back_to_al_projects") }}
 					</RouterLink>
@@ -137,9 +139,10 @@ const orderedList = computed(() => {
 header {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: flex-start;
 	text-align: left;
 	padding: 1rem;
+	gap: 1rem;
 
 	a.router-link-exact-active {
 		color: #9ba5d7 !important;

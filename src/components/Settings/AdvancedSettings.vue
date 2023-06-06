@@ -16,18 +16,8 @@
 			<p class="black-to-gray text-3.5">New bugs only</p>
 		</span>
 
-		<RouterLink
-			:to="{ name: 'settings-advanced' }"
-			self-end
-			mt4
-			capitalize
-			font-bold
-		>
-			<img
-				src="/src/assets/icons/edit.svg"
-				alt="edit"
-				class="black-to-purple"
-			/>
+		<RouterLink :to="{ name: 'settings-advanced' }" self-end mt4 font-bold>
+			<img src="/src/assets/icons/edit.svg" alt="edit" class="black-to-purple" />
 
 			{{ t("edit.settings") }}
 		</RouterLink>

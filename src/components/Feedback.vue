@@ -10,8 +10,14 @@
 			<div z--1 class="full-overlay"></div>
 			<form @submit.prevent="submit" @reset.prevent="cancel" class="bs-form bs-scroll">
 				<div flex justify-between px-2 style="width: 100%">
-					<h1 text-6>{{ t("feedback_form") }}</h1>
-					<img src="/src/assets/icons/close_2.svg" alt="close" @click="form.close" />
+					<n-h2 m-0 text-left font-bold>{{ t("feedback_form") }}</n-h2>
+
+					<img
+						src="/src/assets/icons/close_2.svg"
+						alt="close"
+						@click="form.close"
+						cursor-pointer
+					/>
 				</div>
 
 				<div class="bs-container" gap-4>
@@ -104,11 +110,14 @@
 
 <script setup lang="ts">
 import axios from "axios";
+import { useAuthStore } from "~/stores/auth";
 import getBrowser from "~/util/getBrowser";
 import getOS from "~/util/getOS";
 import toBase64 from "~/util/toBase64";
 
 const { t } = useI18n();
+
+let user = computed(() => useAuthStore().getUser);
 
 const formData = reactive({
 	email: "",
@@ -192,7 +201,10 @@ const form = reactive({
 	},
 	toggle: () => {
 		if (form.show) form.close();
-		else form.open();
+		else {
+			if (user.value?.id != undefined) formData.email = user.value.attributes.email;
+			form.open();
+		}
 	},
 });
 </script>

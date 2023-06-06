@@ -1,5 +1,5 @@
 <template>
-	<AssignmentTable :title="$t('team_members')" :list="members">
+	<AssignmentTable :title="$t('team_members')" :list="members" v-if="user">
 		<template #after-title>
 			<div ml-a>
 				<ManageMembers
@@ -10,6 +10,7 @@
 					:delete="deleteMember"
 					:deleteInvitation="deleteInvitation"
 					:preOpenCall="preCall"
+					infoKey="tooltips.organization_roles"
 				>
 					<template #button="{ loading }">
 						<img
@@ -241,7 +242,7 @@ const getCreatorSubscription = (subscriptions: any[]) => {
 
 	let sub = subscriptions.find(
 		(s) =>
-			s.subscription.attributes.subscription.attributes.billable.billing_addressable_id ===
+			s.subscription.attributes.subscription?.attributes.billable.billing_addressable_id ===
 			resource.value.id
 	);
 

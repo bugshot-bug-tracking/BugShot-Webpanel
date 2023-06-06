@@ -1,7 +1,7 @@
 <template>
 	<T2Page v-if="subscription">
 		<template #header>
-			<T2Header>
+			<T3Header>
 				<template #l-top>
 					{{ getSubscriptionName() }}
 				</template>
@@ -9,24 +9,28 @@
 				<template #l-bottom>
 					{{ resource.attributes.designation }}
 				</template>
-			</T2Header>
+
+				<template #center>
+					<SearchBar />
+				</template>
+			</T3Header>
 		</template>
 
 		<article class="bs-scroll">
 			<section name="info" p-8 class="bs-br" text-left>
 				<header flex flex-col items-start gap-2 mb-8>
-					<h3>
+					<n-h2 m-0 font-bold>
 						{{ getSubscriptionName() }}
-					</h3>
+					</n-h2>
 
 					<span order--1>{{ t("you_are_using") }}</span>
 				</header>
 
 				<div flex flex-col gap-12>
 					<div>
-						<h6 p-1 mb-4>
+						<n-h6 p-1 mb-4>
 							{{ t("billing_and_payments") }}
-						</h6>
+						</n-h6>
 
 						<div grid gap-4 style="grid-template-columns: 1fr 2fr">
 							<b>
@@ -45,7 +49,7 @@
 
 							<div style="color: var(--bs-gray)">
 								<p>
-									<b> {{ getSubscriptionPrice() }} € </b>
+									<b> {{ n(getSubscriptionPrice()) }} € </b>
 								</p>
 
 								<p v-if="!isSubscriptionCanceled()">
@@ -71,9 +75,9 @@
 					</div>
 
 					<div>
-						<h6 p-1 mb-4>
-							{{ t("number_of_licenses_n", getLicenseTotalQuantity()) }}
-						</h6>
+						<n-h6 p-1 mb-4>
+							{{ t("number_of_licenses_n", [getLicenseTotalQuantity()]) }}
+						</n-h6>
 
 						<div grid style="grid-template-columns: 1fr 2fr">
 							<p>
@@ -111,7 +115,7 @@ const props = defineProps({
 	},
 });
 
-const { t } = useI18n();
+const { t, d, n } = useI18n();
 
 const store = useOrganizationStore();
 
@@ -152,7 +156,7 @@ const getSubscriptionNextPayment = () => {
 
 	let date = new Date(end * 1000);
 
-	return date.toLocaleDateString();
+	return d(date);
 };
 
 const getSubscriptionPaymentType = () => {
@@ -194,10 +198,6 @@ article {
 
 section[name="info"] {
 	width: 30rem;
-}
-
-h3 {
-	font-weight: bold;
 }
 
 h6 {
