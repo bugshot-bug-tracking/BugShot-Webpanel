@@ -610,11 +610,11 @@
 	"approval_request_fulfilled": "{0} responded to an approval request!",
 	"view_comment": "View comment",
 	"view_pdf": "View PDF",
-	" ": "",
-	"": "",
-
 	"move_bug": "Move bug | Move bugs",
 	"select_bugs_to_move": "Select the bugs to be moved:",
 	"select_target_project": "Select the target project:",
-	"select_a_project": "Select project"
+	"select_a_project": "Select project",
+
+	" ": "",
+	"": ""
 }
