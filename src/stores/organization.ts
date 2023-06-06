@@ -90,6 +90,7 @@ export const useOrganizationStore = defineStore("organization", {
 			let response = (
 				await axios.put(`organizations/${this.organization_id}`, {
 					designation: payload.designation,
+					groups_wording: this.organization?.attributes.groups_wording,
 				})
 			).data.data;
 
