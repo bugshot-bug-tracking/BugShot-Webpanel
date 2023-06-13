@@ -11,13 +11,13 @@
 		</n-p>
 
 		<n-steps :current="steps.current" :status="steps.status" size="small">
-			<n-step :title="t('register_page.step_1')">
+			<n-step :title="t('register_page.step_1')" style="width: 30%; flex: unset">
 				<template #icon><div /></template>
 			</n-step>
-			<n-step :title="t('register_page.step_2')">
+			<n-step :title="t('register_page.step_2')" style="width: 50%; flex: unset">
 				<template #icon><div /></template>
 			</n-step>
-			<n-step :title="t('register_page.step_3')" max-w-fit>
+			<n-step :title="t('register_page.step_3')" max-w-fit style="width: auto; flex: unset">
 				<template #icon><div /></template>
 			</n-step>
 			<template #finish-icon><div /></template>
