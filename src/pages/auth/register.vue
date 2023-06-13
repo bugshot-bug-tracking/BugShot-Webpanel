@@ -2,18 +2,22 @@
 	<div min-w-100 text-left style="width: 40%">
 		<n-h1 text-6>
 			<n-text style="font-weight: 700">
-				{{ t("bugshot_registration") }}
+				{{ t("register_page.header") }}
 			</n-text>
 		</n-h1>
 
+		<n-p mb-8>
+			{{ t("register_page.subheader") }}
+		</n-p>
+
 		<n-steps :current="steps.current" :status="steps.status" size="small">
-			<n-step :title="t('account')">
+			<n-step :title="t('register_page.step_1')">
 				<template #icon><div /></template>
 			</n-step>
-			<n-step :title="t('personal_data')">
+			<n-step :title="t('register_page.step_2')">
 				<template #icon><div /></template>
 			</n-step>
-			<n-step :title="t('password')" max-w-fit>
+			<n-step :title="t('register_page.step_3')" max-w-fit>
 				<template #icon><div /></template>
 			</n-step>
 			<template #finish-icon><div /></template>
@@ -31,12 +35,12 @@
 				<div v-if="steps.current === 1" flex flex-col gap-4>
 					<n-h2 m-0>
 						<n-text type="primary" style="font-weight: 700">
-							{{ t("what_is_your_mail") }}
+							{{ t("register_page.step_1_header") }}
 						</n-text>
 					</n-h2>
 
 					<n-p style="font-size: 0.875rem" m-0>
-						{{ t("what_is_your_mail_subtext") }}
+						{{ t("register_page.step_1_subheader") }}
 					</n-p>
 
 					<n-form-item :label="t('email')" path="email">
@@ -57,7 +61,11 @@
 					<div flex items-center>
 						<n-form-item path="tos_pp" :show-label="false">
 							<n-checkbox mr-2 v-model:checked="form.data.tos_pp" :disabled="loading">
-								<i18n-t keypath="tos_and_pp" tag="p" scope="global">
+								<i18n-t
+									keypath="register_page.accept_tos_and_pp"
+									tag="p"
+									scope="global"
+								>
 									<template v-slot:tos>
 										<n-button
 											type="primary"
@@ -83,39 +91,35 @@
 											{{ $t("privacy_policy") }}
 										</n-button>
 									</template>
-								</i18n-t></n-checkbox
-							>
+								</i18n-t>
+							</n-checkbox>
 						</n-form-item>
 					</div>
 
-					<n-button
-						type="success"
-						round
-						strong
-						my-4
-						mr-a
-						@click="steps.next"
-						:disabled="loading"
-						:loading="loading"
-					>
-						{{ t("next_step") }}
-					</n-button>
+					<div flex flex-1 justify-between items-center my-4>
+						<n-button
+							type="success"
+							round
+							strong
+							@click="steps.next"
+							:disabled="loading"
+							:loading="loading"
+						>
+							{{ t("register_page.next_step") }}
+						</n-button>
+					</div>
 				</div>
 
 				<div v-else-if="steps.current === 2" flex flex-col gap-4>
-					<n-button text @click="steps.prev" mr-a my-2>
-						<template #icon>
-							<Icon-Arrow color="var(--bs-purple)" />
-						</template>
-					</n-button>
-
 					<n-h2 m-0>
 						<n-text type="primary" style="font-weight: 700">
-							{{ t("whats_your_name") }}
+							{{ t("register_page.step_2_header") }}
 						</n-text>
 					</n-h2>
 
-					<n-p style="font-size: 0.875rem" m-0> {{ t("whats_your_name_subtext") }} </n-p>
+					<n-p style="font-size: 0.875rem" m-0>
+						{{ t("register_page.step_2_subheader") }}
+					</n-p>
 
 					<div>
 						<n-form-item :label="t('first_name')" path="first_name">
@@ -143,36 +147,37 @@
 						</n-form-item>
 					</div>
 
-					<n-button
-						type="success"
-						round
-						strong
-						my-4
-						mr-a
-						@click="steps.next"
-						:disabled="loading"
-						:loading="loading"
-					>
-						{{ t("next_step") }}
-					</n-button>
+					<div flex flex-1 justify-between items-center my-4>
+						<n-button
+							type="success"
+							round
+							strong
+							@click="steps.next"
+							:disabled="loading"
+							:loading="loading"
+						>
+							{{ t("register_page.next_step") }}
+						</n-button>
+
+						<n-button
+							type="success"
+							round
+							strong
+							ghost
+							@click="steps.prev"
+							:disabled="loading"
+						>
+							{{ t("register_page.previous_step") }}
+						</n-button>
+					</div>
 				</div>
 
 				<div v-else-if="steps.current === 3" flex flex-col gap-4>
-					<n-button text @click="steps.prev" mr-a my-2>
-						<template #icon>
-							<Icon-Arrow color="var(--bs-purple)" />
-						</template>
-					</n-button>
-
 					<n-h2 m-0>
 						<n-text type="primary" style="font-weight: 700">
-							{{ t("lets_create_password") }}
+							{{ t("register_page.step_3_header") }}
 						</n-text>
 					</n-h2>
-
-					<n-p style="font-size: 0.875rem" m-0>
-						{{ t("lets_create_password_subtext") }}
-					</n-p>
 
 					<div>
 						<n-form-item :label="t('password')" path="password" :show-feedback="false">
@@ -229,48 +234,58 @@
 						/>
 					</div>
 
-					<n-button
-						type="success"
-						round
-						strong
-						my-4
-						mr-a
-						@click="onSubmit"
-						:disabled="loading"
-						:loading="loading"
-					>
-						{{ t("submit") }}
-					</n-button>
+					<div flex flex-1 justify-between items-center my-4>
+						<n-button
+							type="success"
+							round
+							strong
+							@click="onSubmit"
+							:disabled="loading"
+							:loading="loading"
+						>
+							{{ t("submit") }}
+						</n-button>
+
+						<n-button
+							type="success"
+							round
+							strong
+							ghost
+							@click="steps.prev"
+							:disabled="loading"
+						>
+							{{ t("register_page.previous_step") }}
+						</n-button>
+					</div>
 				</div>
 
 				<div v-else-if="steps.current === 10" flex flex-col gap-4>
 					<n-h2 m-0>
 						<n-text type="primary" style="font-weight: 700">
-							{{ t("success") }}!
+							{{ t("register_page.success_header") }}!
 						</n-text>
 					</n-h2>
 
-					<n-p style="font-size: 0.875rem" m-0> {{ t("yay_account_created") }} </n-p>
 					<n-p style="font-size: 0.875rem" m-0>
-						{{ t("yay_account_created_subtext") }}
+						{{ t("register_page.success_text") }}
 					</n-p>
 
 					<n-p style="font-size: 0.875rem; color: var(--bs-gray)" m-0 mt-2>
-						{{ t("email_not_received") }}
-
-						<n-button
-							:loading="resendLoading"
-							text
-							strong
-							type="tertiary"
-							underline
-							@click="resendEmail"
-							flex-row-reverse
-							gap-2
-							style="font-size: 0.875rem"
-						>
-							{{ t("resend_email") }}
-						</n-button>
+						<i18n-t keypath="register_page.success_resend_mail" scope="global">
+							<n-button
+								:loading="resendLoading"
+								text
+								strong
+								type="tertiary"
+								underline
+								@click="resendEmail"
+								flex-row-reverse
+								gap-2
+								style="font-size: 0.875rem"
+							>
+								{{ t("register_page.success_resend_mail_0") }}
+							</n-button>
+						</i18n-t>
 					</n-p>
 				</div>
 			</Transition>

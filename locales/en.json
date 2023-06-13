@@ -616,6 +616,33 @@
 	"select_target_project": "Select the target project:",
 	"select_a_project": "Select project",
 
+	"register_page": {
+		"header": "Welcome to BugShot",
+		"subheader": "Get started now with a free 14-day trial period",
+
+		"next_step": "Next step",
+		"previous_step": "Previous step",
+
+		"step_1": "Account",
+		"step_2": "Personal information",
+		"step_3": "Password",
+
+		"step_1_header": "Please enter your email address.",
+		"step_1_subheader": "Please confirm your email address after creating your account.",
+		"accept_tos_and_pp": "I agree to the {tos} and {pp} for BugShot S.R.L..",
+
+		"step_2_header": "What's your name?",
+		"step_2_subheader": "Enter your first and last name here:",
+
+		"step_3_header": "Please enter a password:",
+
+		"success_header": "Thank you for registering!",
+		"success_text": "Your account has been successfully created. Please confirm your registration using the verification link that you just received by email.",
+
+		"success_resend_mail": "You can resend the email {0}",
+		"success_resend_mail_0": "here"
+	},
+
 	" ": "",
 	"": ""
 }
