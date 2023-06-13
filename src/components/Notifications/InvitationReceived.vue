@@ -79,6 +79,10 @@ const props = defineProps({
 		type: Object as PropType<InvitationReceived>,
 		required: true,
 	},
+	notification_id: {
+		type: String,
+		required: true,
+	},
 });
 
 const store = useNotificationStore();
@@ -91,7 +95,7 @@ const invitation = reactive({
 		invitation.loading = "accepted";
 
 		try {
-			await store.acceptInvitation(props.value);
+			await store.acceptInvitation(props.value, props.notification_id);
 		} catch (error) {
 			console.log(error);
 		}
@@ -103,7 +107,7 @@ const invitation = reactive({
 		invitation.loading = "declined";
 
 		try {
-			await store.declineInvitation(props.value);
+			await store.declineInvitation(props.value, props.notification_id);
 		} catch (error) {
 			console.log(error);
 		}

@@ -19,10 +19,16 @@ export default {
 		return () => {
 			switch (props.data.attributes.data.type) {
 				case "InvitationReceived":
-					return h(InvitationReceived, { value: props.data.attributes.data });
+					return h(InvitationReceived, {
+						value: props.data.attributes.data,
+						notification_id: props.data.id,
+					});
 
 				case "TaggedInComment":
-					return h(TaggedInComment, { value: props.data.attributes.data });
+					return h(TaggedInComment, {
+						value: props.data.attributes.data,
+						notification_id: props.data.id,
+					});
 
 				case "ImplementationApprovalFormReceived":
 					return h(ImplementationApprovalFormReceived, {

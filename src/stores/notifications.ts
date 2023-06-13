@@ -27,7 +27,7 @@ export const useNotificationStore = defineStore("notification", {
 			}
 		},
 
-		async acceptInvitation(invite: InvitationReceived) {
+		async acceptInvitation(invite: InvitationReceived, notification_id: string) {
 			try {
 				let response = (
 					await axios.get(`users/${this.user?.id}/invitations/${invite.data.id}/accept`)
@@ -70,6 +70,8 @@ export const useNotificationStore = defineStore("notification", {
 						break;
 				}
 
+				await this.deleteNotification(notification_id);
+
 				return response;
 			} catch (error) {
 				console.log(error);
@@ -78,7 +80,7 @@ export const useNotificationStore = defineStore("notification", {
 			}
 		},
 
-		async declineInvitation(invite: InvitationReceived) {
+		async declineInvitation(invite: InvitationReceived, notification_id: string) {
 			try {
 				let response = (
 					await axios.get(`users/${this.user?.id}/invitations/${invite.data.id}/decline`)
@@ -86,6 +88,22 @@ export const useNotificationStore = defineStore("notification", {
 
 				this.message.info(this.i18n.t("messages.invitation_declined"));
 				invite.status = "declined";
+
+				await this.deleteNotification(notification_id);
+
+				return response;
+			} catch (error) {
+				console.log(error);
+
+				throw error;
+			}
+		},
+
+		async deleteNotification(notification_id: string) {
+			try {
+				let response = (
+					await axios.delete(`/users/${this.user?.id}/notifications/${notification_id}`)
+				).data.data;
 
 				return response;
 			} catch (error) {
