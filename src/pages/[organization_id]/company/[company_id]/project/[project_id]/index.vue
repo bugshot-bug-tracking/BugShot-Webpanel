@@ -274,17 +274,27 @@ const suggestOptions = computed(() => {
 const currentTab = ref("kanban");
 
 const BugWasOpened = ref(false);
+const BugWasOpenedId = ref<string | undefined>(undefined);
+const BugWasOpenedCommentId = ref<string | undefined>(undefined);
 
 watchEffect(async () => {
 	try {
 		// if no bug queried exit
-		if (route.query.b == undefined || BugWasOpened.value === true) return;
+		if (
+			route.query.b == undefined ||
+			(BugWasOpened.value === true &&
+				BugWasOpenedId.value === route.query.b &&
+				BugWasOpenedCommentId.value === route.query.c)
+		)
+			return;
 
 		const bug = reportsStore.getBugById(route.query.b as string);
 
 		if (bug?.id != undefined) {
 			await useBugStore().init(bug.id, bug.attributes.status_id);
 			BugWasOpened.value = true;
+			BugWasOpenedId.value = route.query.b as string;
+			BugWasOpenedCommentId.value = route.query.c as string | undefined;
 		}
 	} catch (error) {
 		console.log(error);
