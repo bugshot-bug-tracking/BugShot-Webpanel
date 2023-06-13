@@ -150,7 +150,8 @@
 		"attachment": "Anhang löschen | Anhänge löschen",
 		"member": "Mitglied löschen | Mitglieder löschen",
 		"team_member": "Teammitglied löschen | Teammitglied löschen",
-		"column": "Spalte löschen"
+		"column": "Spalte löschen",
+		"all": "Alles löschen"
 	},
 	"select": {
 		"select": "Auswählen",
@@ -614,7 +615,6 @@
 	"select_bugs_to_move": "Wähle die Bugs, die verschoben werden sollen:",
 	"select_target_project": "Wähle das Ziel-Projekt:",
 	"select_a_project": "Wähle ein Projekt",
-
 	" ": "",
 	"": ""
 }

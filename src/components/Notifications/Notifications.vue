@@ -18,6 +18,18 @@
 		<section class="popup">
 			<header mb-2>
 				<n-h4 m-0 p-2>{{ $t("notification", 2) }}</n-h4>
+
+				<n-button
+					v-if="notificationCount > 0"
+					text
+					type="tertiary"
+					:loading="deleteLoading"
+					@click="deleteAllNotifications"
+					strong
+					size="small"
+				>
+					{{ $t("delete.all") }}
+				</n-button>
 			</header>
 
 			<n-scrollbar v-if="notificationCount > 0" max-h-100 pr-2 mb-2>
@@ -53,6 +65,20 @@ const init = async () => {
 };
 
 onMounted(init);
+
+const deleteLoading = ref(false);
+
+const deleteAllNotifications = async () => {
+	try {
+		deleteLoading.value = true;
+
+		await store.deleteAllNotifications();
+	} catch (error) {
+		console.log(error);
+	} finally {
+		deleteLoading.value = false;
+	}
+};
 </script>
 
 <style scoped lang="scss">

@@ -112,6 +112,24 @@ export const useNotificationStore = defineStore("notification", {
 				throw error;
 			}
 		},
+
+		async deleteAllNotifications() {
+			try {
+				let result = await Promise.allSettled(
+					this.notifications.map(async (n) => {
+						return await axios.delete(`/users/${this.user?.id}/notifications/${n.id}`);
+					})
+				);
+
+				await this.fetchNotifications();
+
+				return result;
+			} catch (error) {
+				console.log(error);
+
+				throw error;
+			}
+		},
 	},
 
 	getters: {

@@ -150,7 +150,8 @@
 		"attachment": "Delete attachment | Delete attachments",
 		"member": "Delete member | Delete members",
 		"team_member": "Delete team member | Delete team members",
-		"column": "Delete column"
+		"column": "Delete column",
+		"all": "Delete all"
 	},
 	"select": {
 		"select": "Select",
