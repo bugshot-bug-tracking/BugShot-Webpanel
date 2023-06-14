@@ -634,10 +634,10 @@
 		"success_resend_mail": "You can resend the email {0}",
 		"success_resend_mail_0": "here"
 	},
-	"hour": "Hour | Hours",
-	"day": "Day | Days",
-	"week": "Week | Weeks",
-	"minute": "Minute | Minutes",
+	"hour": "hour | hours",
+	"day": "day | days",
+	"week": "week | weeks",
+	"minute": "minute | minutes",
 
 	" ": "",
 	"": ""

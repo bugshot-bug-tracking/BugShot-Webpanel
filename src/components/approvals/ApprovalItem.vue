@@ -184,13 +184,13 @@ const time_estimation = computed(() => {
 	switch (props.bug.attributes.time_estimation_type) {
 		default:
 		case "m":
-			return `${time} ${t("minute", time).toLocaleLowerCase()}`;
+			return `${time} ${t("minute", time)}`;
 		case "h":
-			return `${time} ${t("hour", time).toLocaleLowerCase()}`;
+			return `${time} ${t("hour", time)}`;
 		case "w":
-			return `${time} ${t("week", time).toLocaleLowerCase()}`;
+			return `${time} ${t("week", time)}`;
 		case "d":
-			return `${time} ${t("day", time).toLocaleLowerCase()}`;
+			return `${time} ${t("day", time)}`;
 	}
 });
 </script>
