@@ -239,11 +239,7 @@
 
 				<div flex items-center>
 					<n-text depth="3">
-						{{
-							store.bug.attributes.time_estimation
-								? t("x_minutes", [store.bug.attributes.time_estimation])
-								: "-"
-						}}
+						{{ time_estimation }}
 					</n-text>
 
 					<n-text
@@ -344,6 +340,24 @@ const onSubmit = async (list: { user: User; original: boolean; checked: boolean 
 
 	await store.fetchBugUsers();
 };
+
+const time_estimation = computed(() => {
+	let time = store.bug?.attributes.time_estimation;
+
+	if (time === undefined || time < 1) return "-";
+
+	switch (store.bug?.attributes.time_estimation_type) {
+		default:
+		case "m":
+			return `${time} ${t("minute", time).toLocaleLowerCase()}`;
+		case "h":
+			return `${time} ${t("hour", time).toLocaleLowerCase()}`;
+		case "w":
+			return `${time} ${t("week", time).toLocaleLowerCase()}`;
+		case "d":
+			return `${time} ${t("day", time).toLocaleLowerCase()}`;
+	}
+});
 </script>
 
 <style scoped lang="scss">

@@ -14,11 +14,11 @@
 			</RouterLink>
 
 			<div flex gap-4 items-center>
-				<n-text type="primary">
+				<!-- <n-text type="primary">
 					<i18n-t keypath="total_time_estimate_s" scope="global">
 						<b>{{ totalTime }}</b>
 					</i18n-t>
-				</n-text>
+				</n-text> -->
 
 				<ResponseApprovalModal
 					:submit="onSubmit"

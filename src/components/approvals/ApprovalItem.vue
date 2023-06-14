@@ -129,11 +129,7 @@
 			<div inline-flex gap-4>
 				<n-h6>{{ $t("time_estimate") + ":" }}</n-h6>
 				<n-text style="color: var(--bs-gray)">
-					{{
-						bug.attributes.time_estimation
-							? $t("x_minutes", [bug.attributes.time_estimation])
-							: "-"
-					}}
+					{{ time_estimation }}
 				</n-text>
 			</div>
 			<div inline-flex gap-4>
@@ -164,7 +160,7 @@
 import { Bug } from "~/models/Bug";
 import dateFix from "~/util/dateFixISO";
 
-defineProps({
+const props = defineProps({
 	bug: {
 		required: true,
 		type: Object as PropType<Bug>,
@@ -177,6 +173,26 @@ defineProps({
 });
 
 const emit = defineEmits(["approve", "reject"]);
+
+const { t } = useI18n();
+
+const time_estimation = computed(() => {
+	let time = props.bug.attributes.time_estimation;
+
+	if (time === undefined || time < 1) return "-";
+
+	switch (props.bug.attributes.time_estimation_type) {
+		default:
+		case "m":
+			return `${time} ${t("minute", time).toLocaleLowerCase()}`;
+		case "h":
+			return `${time} ${t("hour", time).toLocaleLowerCase()}`;
+		case "w":
+			return `${time} ${t("week", time).toLocaleLowerCase()}`;
+		case "d":
+			return `${time} ${t("day", time).toLocaleLowerCase()}`;
+	}
+});
 </script>
 
 <style scoped lang="scss">

@@ -615,33 +615,30 @@
 	"select_bugs_to_move": "Wähle die Bugs, die verschoben werden sollen:",
 	"select_target_project": "Wähle das Ziel-Projekt:",
 	"select_a_project": "Wähle ein Projekt",
-
 	"register_page": {
 		"header": "Willkommen bei BugShot",
 		"subheader": "Lege jetzt los mit deiner kostenlosen 14-tägigen Testphase",
-
 		"next_step": "Nächster Schritt",
 		"previous_step": "Vorheriger Schritt",
-
 		"step_1": "Account",
 		"step_2": "Persönliche Angaben",
 		"step_3": "Passwort",
-
 		"step_1_header": "Gib hier bitte deine E-Mail-Adresse ein.",
 		"step_1_subheader": "Bitte bestätige deine E-Mail-Adresse nach dem Erstellen deines Accounts.",
 		"accept_tos_and_pp": "Ich stimme den {tos} und der {pp} für die BugShot S.R.L. zu.",
-
 		"step_2_header": "Wie heißt du?",
 		"step_2_subheader": "Trage deinen Vor- und Nachnamen hier ein:",
-
 		"step_3_header": "Bitte vergib ein Passwort:",
-
 		"success_header": "Vielen Dank für deine Registrierung!",
 		"success_text": "Dein Account wurde erfolgreich angelegt. Bitte bestätige nun deine Registrierung über den Verifizierungslink, den du eben per Mail erhalten hast.",
-
 		"success_resend_mail": "Hier kannst du die Mail {0}",
 		"success_resend_mail_0": "erneut verschicken"
 	},
+
+	"hour": "Stunde | Stunden",
+	"day": "Tag | Tage",
+	"week": "Woche | Wochen",
+	"minute": "Minute | Minuten",
 
 	" ": "",
 	"": ""

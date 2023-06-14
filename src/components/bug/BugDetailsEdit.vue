@@ -99,7 +99,11 @@
 							v-model:value="data.time_estimation"
 							:disabled="loading"
 						/>
-						<n-input-group-label>{{ t("minutes") }}</n-input-group-label>
+						<n-select
+							v-model:value="data.time_estimation_type"
+							default-value="m"
+							:options="timeEstimateOptions"
+						/>
 					</n-input-group>
 				</div>
 			</div>
@@ -121,6 +125,7 @@ const props = defineProps({
 			status: string;
 			deadline: undefined | number;
 			time_estimation: undefined | number;
+			time_estimation_type: undefined | "m" | "h" | "d" | "w";
 		}>,
 		default: {
 			designation: "",
@@ -170,6 +175,25 @@ const changePriority = (value: { id: number; text: string; color: string }) => {
 const changeStatus = (item: Status) => {
 	props.data.status = item.id;
 };
+
+const timeEstimateOptions = computed(() => [
+	{
+		label: t("minute", 2),
+		value: "m",
+	},
+	{
+		label: t("hour", 2),
+		value: "h",
+	},
+	{
+		label: t("day", 2),
+		value: "d",
+	},
+	{
+		label: t("week", 2),
+		value: "w",
+	},
+]);
 </script>
 
 <style scoped lang="scss">

@@ -224,6 +224,7 @@ export const useBugStore = defineStore("bug", {
 			order_number?: number;
 			deadline?: string | null;
 			time_estimation?: number | null;
+			time_estimation_type?: string | null;
 		}) {
 			if (!this.bug) throw "Bug not set";
 
@@ -249,6 +250,12 @@ export const useBugStore = defineStore("bug", {
 					...{
 						time_estimation:
 							changes.time_estimation ?? this.bug.attributes.time_estimation,
+					},
+
+					...{
+						time_estimation_type:
+							changes.time_estimation_type ??
+							this.bug.attributes.time_estimation_type,
 					},
 
 					...{

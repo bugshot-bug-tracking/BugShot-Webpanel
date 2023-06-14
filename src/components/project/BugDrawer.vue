@@ -290,6 +290,7 @@ const newBugData = reactive({
 	status: "",
 	deadline: undefined as undefined | number,
 	time_estimation: undefined as undefined | number,
+	time_estimation_type: undefined as undefined | "m" | "h" | "d" | "w",
 });
 
 const startEditMode = () => {
@@ -306,6 +307,7 @@ const startEditMode = () => {
 	newBugData.time_estimation = store.bug?.attributes.time_estimation
 		? Number(store.bug?.attributes.time_estimation)
 		: undefined;
+	newBugData.time_estimation_type = store.bug?.attributes.time_estimation_type;
 
 	transitionDirection.value = "rotate-left";
 
@@ -330,6 +332,7 @@ const submitDetailChanges = async () => {
 			status_id: newBugData.status,
 			deadline: newBugData.deadline ? new Date(newBugData.deadline).toISOString() : undefined,
 			time_estimation: newBugData.time_estimation,
+			time_estimation_type: newBugData.time_estimation_type,
 		});
 	} catch (error) {
 		console.log(error);
