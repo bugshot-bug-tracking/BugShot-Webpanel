@@ -14,10 +14,21 @@ export const useNotificationStore = defineStore("notification", {
 	}),
 
 	actions: {
-		async fetchNotifications() {
+		async init() {
 			try {
 				this.$reset();
 
+				await this.fetchNotifications();
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+
+			return true;
+		},
+
+		async fetchNotifications() {
+			try {
 				let notifications = (await axios.get(`/users/${this.user?.id}/notifications`)).data
 					.data;
 

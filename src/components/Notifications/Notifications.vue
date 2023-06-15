@@ -59,7 +59,7 @@ const loading = ref(false);
 const init = async () => {
 	loading.value = true;
 
-	await store.fetchNotifications();
+	await store.init();
 
 	loading.value = false;
 };

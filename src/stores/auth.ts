@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 
 import axios from "axios";
 import { User } from "~/models/User";
+import { useHookStore } from "./hooks";
 
 export const useAuthStore = defineStore("auth", {
 	state: () => ({
@@ -87,6 +88,8 @@ export const useAuthStore = defineStore("auth", {
 				localStorage.removeItem("authToken");
 
 				return false;
+			} finally {
+				useHookStore().hookUser();
 			}
 		},
 
