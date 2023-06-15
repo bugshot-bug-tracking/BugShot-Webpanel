@@ -152,22 +152,22 @@
 							type="success"
 							round
 							strong
-							@click="steps.next"
+							ghost
+							@click="steps.prev"
 							:disabled="loading"
-							:loading="loading"
 						>
-							{{ t("register_page.next_step") }}
+							{{ t("register_page.previous_step") }}
 						</n-button>
 
 						<n-button
 							type="success"
 							round
 							strong
-							ghost
-							@click="steps.prev"
+							@click="steps.next"
 							:disabled="loading"
+							:loading="loading"
 						>
-							{{ t("register_page.previous_step") }}
+							{{ t("register_page.next_step") }}
 						</n-button>
 					</div>
 				</div>
@@ -239,22 +239,22 @@
 							type="success"
 							round
 							strong
-							@click="onSubmit"
+							ghost
+							@click="steps.prev"
 							:disabled="loading"
-							:loading="loading"
 						>
-							{{ t("submit") }}
+							{{ t("register_page.previous_step") }}
 						</n-button>
 
 						<n-button
 							type="success"
 							round
 							strong
-							ghost
-							@click="steps.prev"
+							@click="onSubmit"
 							:disabled="loading"
+							:loading="loading"
 						>
-							{{ t("register_page.previous_step") }}
+							{{ t("submit") }}
 						</n-button>
 					</div>
 				</div>
@@ -307,9 +307,10 @@ const steps = reactive({
 	current: 1,
 	status: "process" as StepsProps["status"],
 	next: async () => {
-		loading.value = true;
 		if (await steps.verifyStep()) {
 			formRef.value?.restoreValidation();
+
+			loading.value = true;
 
 			// improve UX by making the process slower so the animations have time to be visible
 			await new Promise((resolve) => setTimeout(resolve, 250));
