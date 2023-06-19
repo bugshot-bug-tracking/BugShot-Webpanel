@@ -640,6 +640,48 @@
 	"week": "Woche | Wochen",
 	"minute": "Minute | Minuten",
 
+	"welcome_page": {
+		"header": "Aboübersicht",
+		"subheader": "Bring frischen Wind in deine Zusammenarbeit beim Bug-Reporting in der Entwicklung von digitalen Produkten.",
+
+		"plans": {
+			"trial": {
+				"title": "Bugshot trial",
+				"highlight": "kostenlose 14-tägige Testphase",
+				"f_1": "Teste kostenlos alle Features, um herauszufinden, 0b wir zusammenpassen.",
+				"f_2": "Unbegrenzte Anzahl an Gruppen & Projekten",
+				"f_3": "Unbegrenzte Anzahl an Teammitgliedern",
+				"f_4": "Browser Extension für Chrome, Firefox & Safari",
+				"f_5": "iOS- & Android-App",
+				"f_6": "Gastzugang, mit dem die Browser-Extensions genutzt werden können",
+				"f_7": "Regelmäßige kostenlose Updates"
+			},
+			"individual": {
+				"title": "Bugshot Individual",
+				"highlight": "für Einzelpersonen und kleine Projekte",
+				"f_1": "Simples Bug-Reporting für dein Projekt. Behalte den Überblick über nötige Änderungen ohne viel Schnickschnack.",
+				"f_2": "Unbegrenzte Anzahl an Gruppen & Projekten",
+				"f_3": "Unbegrenzte Anzahl an Teammitgliedern",
+				"f_4": "Browser Extension für Chrome, Firefox & Safari",
+				"f_5": "iOS- & Android-App",
+				"f_6": "Gastzugang, mit dem die Browser-Extensions genutzt werden können",
+				"f_7": "Regelmäßige kostenlose Updates"
+			},
+			"team": {
+				"title": "Bugshot Team",
+				"highlight": "für Agenturen & Unternehmen",
+				"f_1": "Noch nie war es so einfach Bugs zu erfassen und gemeinsam die Qualitätssicherung an digitalen Produkten zu gewährleisten.",
+				"f_2": "2 Monate gratis bei Jahresabo",
+				"f_3": "Unbegrenzte Anzahl an Gruppen & Projekten",
+				"f_4": "Unbegrenzte Anzahl an Teammitgliedern",
+				"f_5": "Browser Extension für Chrome, Firefox & Safari",
+				"f_6": "iOS- & Android-App",
+				"f_7": "Gastzugang, mit dem die Browser-Extensions genutzt werden können",
+				"f_8": "Regelmäßige kostenlose Updates"
+			}
+		}
+	},
+
 	" ": "",
 	"": ""
 }
