@@ -467,6 +467,27 @@ export const useHookStore = defineStore("hooks", {
 				status.attributes.bugs?.push(newBug);
 			});
 		},
+
+		async hookUser() {
+			let existing = this.channels.get("user");
+			if (existing != undefined) echo.leave(existing);
+
+			if (this.authStore.user === undefined) return;
+
+			const api_channel = `user.${this.authStore.user.id}`;
+			let channel = echo.private(api_channel);
+
+			this.channels.set("user", api_channel);
+
+			channel.listen(".members.updated", async (data: any) => {
+				await this.organizationStore.fetchUsers();
+			});
+
+			channel.listen(".notification.created", (data: any) => {
+				console.log(data);
+				if (!(data && data.data.type === "Notification")) return console.log(data);
+			});
+		},
 	},
 
 	getters: {},

@@ -31,6 +31,7 @@
 			<ul>
 				<li v-for="comment of list" :key="comment.id">
 					<BugCommentsItem
+						:id="comment.id"
 						:content="comment.attributes.content"
 						:timestamp="comment.attributes.created_at"
 						:creator="{

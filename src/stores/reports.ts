@@ -7,8 +7,6 @@ import { Bug } from "~/models/Bug";
 import { useProjectStore } from "./project";
 import { useHookStore } from "./hooks";
 import { useBugStore } from "./bug";
-import { useDiscreteApi } from "~/composables/DiscreteApi";
-import { useGlobalI18n } from "~/composables/GlobalI18n";
 import dateFix from "~/util/dateFixISO";
 
 export const useReportsStore = defineStore("reports", {
@@ -72,11 +70,7 @@ export const useReportsStore = defineStore("reports", {
 
 			await this.refresh();
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.success(t("messages.status_created"));
+			this.message.success(this.i18n.t("messages.status_created"));
 		},
 
 		async updateStatus({
@@ -105,11 +99,7 @@ export const useReportsStore = defineStore("reports", {
 
 			const oldStatus = status;
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.success(t("messages.status_updated"));
+			this.message.success(this.i18n.t("messages.status_updated"));
 
 			if (oldStatus.attributes.order_number === newStatus.attributes.order_number)
 				return Object.assign(oldStatus.attributes, newStatus.attributes);
@@ -149,11 +139,7 @@ export const useReportsStore = defineStore("reports", {
 
 			this.refresh();
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.info(t("messages.status_deleted"));
+			this.message.info(this.i18n.t("messages.status_deleted"));
 		},
 
 		async createBug({
@@ -200,11 +186,7 @@ export const useReportsStore = defineStore("reports", {
 
 			this.refresh();
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.success(t("messages.bug_created"));
+			this.message.success(this.i18n.t("messages.bug_created"));
 
 			return response;
 		},
@@ -311,11 +293,7 @@ export const useReportsStore = defineStore("reports", {
 			let activeBug = useBugStore().bug;
 			if (activeBug && activeBug.id === newBug.id) useBugStore().refreshBug();
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.info(t("messages.bug_moved"));
+			this.message.info(this.i18n.t("messages.bug_moved"));
 		},
 
 		async fetchArchivedBugs() {
@@ -324,6 +302,25 @@ export const useReportsStore = defineStore("reports", {
 			let response = (await axios.get(`projects/${this.project.id}/archived-bugs`)).data.data;
 
 			this.archived = response;
+		},
+
+		async moveBugs(list: string[], target: string) {
+			if (!this.project?.id) throw new Error("No active project!");
+
+			let response = (
+				await axios.post(`/projects/${this.project.id}/bugs/move-to-new-project`, {
+					target_project_id: target,
+					bugs: list.map((s) => ({ id: s })),
+				})
+			).data.data;
+
+			this.statuses?.forEach((s) => {
+				s.attributes.bugs = s.attributes.bugs?.filter((b) => !list.includes(b.id));
+			});
+
+			this.message.success(this.i18n.t("messages.bug_moved", 2));
+
+			return response;
 		},
 	},
 

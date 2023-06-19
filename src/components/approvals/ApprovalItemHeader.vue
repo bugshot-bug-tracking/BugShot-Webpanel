@@ -30,11 +30,7 @@
 		<div flex items-center gap-2 style="font-size: 0.875rem">
 			<n-text strong> {{ t("time_estimate") }}</n-text>
 			<n-p style="color: var(--bs-gray)" m-0>
-				{{
-					bug.attributes.time_estimation
-						? t("x_minutes", [bug.attributes.time_estimation])
-						: "-"
-				}}
+				{{ time_estimation }}
 			</n-p>
 		</div>
 
@@ -96,5 +92,23 @@ const statusData = computed(() => {
 const locked = computed(() => {
 	if (props.defaultStatus === undefined || props.defaultStatus === "pending") return false;
 	return true;
+});
+
+const time_estimation = computed(() => {
+	let time = props.bug.attributes.time_estimation;
+
+	if (time === undefined || time < 1) return "-";
+
+	switch (props.bug.attributes.time_estimation_type) {
+		default:
+		case "m":
+			return `${time} ${t("minute", time)}`;
+		case "h":
+			return `${time} ${t("hour", time)}`;
+		case "w":
+			return `${time} ${t("week", time)}`;
+		case "d":
+			return `${time} ${t("day", time)}`;
+	}
 });
 </script>

@@ -73,7 +73,7 @@ const editFunction = async (data: { designation: string; color_hex: string; base
 	await useCompanyStore().updateResource(data);
 };
 
-const c_image = computed(() => (props.image !== "" ? atob(props.image) : undefined));
+const c_image = computed(() => props.image);
 </script>
 
 <style lang="scss" scoped>

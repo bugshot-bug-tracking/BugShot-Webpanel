@@ -1,4 +1,6 @@
 export interface Image {
-	id: string;
-	url: string;
+	type: "Image";
+	attributes: {
+		url: string;
+	};
 }

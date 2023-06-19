@@ -69,7 +69,7 @@
 	"show_mark": "Marker anzeigen",
 	"all_projects": "Alle Projekte",
 	"task_overview": "Task Übersicht",
-	"success": "Erfolg",
+	"success": "Super, das hat geklappt!",
 	"verifying": "Verifizieren",
 	"error": "Fehler",
 	"already_registered": "Bereits registriert",
@@ -93,7 +93,7 @@
 	"enter_project_url": "Gib eine Projekt-URL ein (optional)",
 	"problem_encountered": "Wir sind auf ein Problem gestoßen",
 	"no_new_notifications": "Sie haben im Moment keine Benachrichtigungen.",
-	"invited_to_join": "Du wurdest zum Betritt eingeladen ",
+	"invited_to_join": "Du wurdest eingeladen ",
 	"delete_company_and_projects": "Löschen von Gruppe und zugehörigen Projekten",
 	"cant_be_reverted": "kann nicht rückgängig gemacht werden",
 	"member_out_of": "{x} von {n}",
@@ -135,7 +135,11 @@
 		"team_member": "Teammitglied bearbeiten | Teammitglieder bearbeiten",
 		"settings": "Einstellungen bearbeiten",
 		"profile": "Profil bearbeiten",
-		"organization": "Organisation bearbeiten"
+		"organization": "Organisation bearbeiten",
+		"designation": "Titel anpassen",
+		"url": "URL anpassen",
+		"description": "Beschreibung anpassen",
+		"bug_details": "Bug-Eigenschaften ändern"
 	},
 	"delete": {
 		"delete": "Löschen",
@@ -146,7 +150,8 @@
 		"attachment": "Anhang löschen | Anhänge löschen",
 		"member": "Mitglied löschen | Mitglieder löschen",
 		"team_member": "Teammitglied löschen | Teammitglied löschen",
-		"column": "Spalte löschen"
+		"column": "Spalte löschen",
+		"all": "Alles löschen"
 	},
 	"select": {
 		"select": "Auswählen",
@@ -510,9 +515,9 @@
 		"organization_created": "Organisation erstellt!",
 		"organization_updated": "Organisation aktualisiert!",
 		"organization_deleted": "Organisation gelöscht!",
-		"company_created": "Unternehmen erstellt!",
-		"company_updated": "Unternehmen aktualisiert!",
-		"company_deleted": "Unternehmen gelöscht!",
+		"company_created": "Gruppe wurde erstellt!",
+		"company_updated": "Gruppe wurde aktualisiert!",
+		"company_deleted": "Gruppe wurde gelöscht!",
 		"project_created": "Projekt erstellt!",
 		"project_updated": "Projekt aktualisiert!",
 		"project_deleted": "Projekt gelöscht!",
@@ -522,7 +527,7 @@
 		"bug_created": "Bug erstellt!",
 		"bug_updated": "Bug aktualisiert!",
 		"bug_deleted": "Bug gelöscht!",
-		"bug_moved": "Bug verschoben!",
+		"bug_moved": "Bug verschoben! | Bugs verschoben!",
 		"invitation_sent": "Einladung geschickt!",
 		"invitation_deleted": "Einladung gelöscht!",
 		"invitation_accepted": "Einladung angenommen!",
@@ -600,6 +605,82 @@
 	"recover_email_sent": "Wir haben dir eine Anleitung zum Zurücksetzen deines Passwortes geschickt.",
 	"password_reset_success": "Dein Passwort wurde erfolgreich geändert!",
 	"recover_link_invalid": "Dieser Wiederherstellungslink ist leider ungültig. Bitte versuche den Vorgang noch einmal!",
+	"tagged_in_comment_by": "{0} hat dich in einem Kommentar erwähnt.",
+	"go": "Ansehen",
+	"new_approval_form_received": "{0} möchte deine Bestätigung für das Verschieben der Bugs im Projekt {1}.",
+	"approval_request_fulfilled": "{0} hat deine Bestätigungsanfrage bearbeitet.",
+	"view_comment": "Kommentar ansehen",
+	"view_pdf": "PDF ansehen",
+	"move_bug": "Bug verschieben | Bugs verschieben",
+	"select_bugs_to_move": "Wähle die Bugs, die verschoben werden sollen:",
+	"select_target_project": "Wähle das Ziel-Projekt:",
+	"select_a_project": "Wähle ein Projekt",
+	"register_page": {
+		"header": "Willkommen bei BugShot",
+		"subheader": "Lege jetzt los mit deiner kostenlosen 14-tägigen Testphase",
+		"next_step": "Nächster Schritt",
+		"previous_step": "Vorheriger Schritt",
+		"step_1": "Account",
+		"step_2": "Persönliche Angaben",
+		"step_3": "Passwort",
+		"step_1_header": "Gib hier bitte deine E-Mail-Adresse ein.",
+		"step_1_subheader": "Bitte bestätige deine E-Mail-Adresse nach dem Erstellen deines Accounts.",
+		"accept_tos_and_pp": "Ich stimme den {tos} und den {pp} für die BugShot S.R.L. zu.",
+		"step_2_header": "Wie heißt du?",
+		"step_2_subheader": "Trage deinen Vor- und Nachnamen hier ein:",
+		"step_3_header": "Bitte vergib ein Passwort:",
+		"success_header": "Vielen Dank für deine Registrierung!",
+		"success_text": "Dein Account wurde erfolgreich angelegt. Bitte bestätige nun deine Registrierung über den Verifizierungslink, den du eben per Mail erhalten hast.",
+		"success_resend_mail": "Hier kannst du die Mail {0}",
+		"success_resend_mail_0": "erneut verschicken"
+	},
+
+	"hour": "Stunde | Stunden",
+	"day": "Tag | Tage",
+	"week": "Woche | Wochen",
+	"minute": "Minute | Minuten",
+
+	"welcome_page": {
+		"header": "Aboübersicht",
+		"subheader": "Bring frischen Wind in deine Zusammenarbeit beim Bug-Reporting in der Entwicklung von digitalen Produkten.",
+
+		"plans": {
+			"trial": {
+				"title": "Bugshot trial",
+				"highlight": "kostenlose 14-tägige Testphase",
+				"f_1": "Teste kostenlos alle Features, um herauszufinden, 0b wir zusammenpassen.",
+				"f_2": "Unbegrenzte Anzahl an Gruppen & Projekten",
+				"f_3": "Unbegrenzte Anzahl an Teammitgliedern",
+				"f_4": "Browser Extension für Chrome, Firefox & Safari",
+				"f_5": "iOS- & Android-App",
+				"f_6": "Gastzugang, mit dem die Browser-Extensions genutzt werden können",
+				"f_7": "Regelmäßige kostenlose Updates"
+			},
+			"individual": {
+				"title": "Bugshot Individual",
+				"highlight": "für Einzelpersonen und kleine Projekte",
+				"f_1": "Simples Bug-Reporting für dein Projekt. Behalte den Überblick über nötige Änderungen ohne viel Schnickschnack.",
+				"f_2": "Unbegrenzte Anzahl an Gruppen & Projekten",
+				"f_3": "Unbegrenzte Anzahl an Teammitgliedern",
+				"f_4": "Browser Extension für Chrome, Firefox & Safari",
+				"f_5": "iOS- & Android-App",
+				"f_6": "Gastzugang, mit dem die Browser-Extensions genutzt werden können",
+				"f_7": "Regelmäßige kostenlose Updates"
+			},
+			"team": {
+				"title": "Bugshot Team",
+				"highlight": "für Agenturen & Unternehmen",
+				"f_1": "Noch nie war es so einfach Bugs zu erfassen und gemeinsam die Qualitätssicherung an digitalen Produkten zu gewährleisten.",
+				"f_2": "2 Monate gratis bei Jahresabo",
+				"f_3": "Unbegrenzte Anzahl an Gruppen & Projekten",
+				"f_4": "Unbegrenzte Anzahl an Teammitgliedern",
+				"f_5": "Browser Extension für Chrome, Firefox & Safari",
+				"f_6": "iOS- & Android-App",
+				"f_7": "Gastzugang, mit dem die Browser-Extensions genutzt werden können",
+				"f_8": "Regelmäßige kostenlose Updates"
+			}
+		}
+	},
 
 	" ": "",
 	"": ""

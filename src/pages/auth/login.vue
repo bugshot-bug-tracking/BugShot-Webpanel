@@ -12,6 +12,7 @@
 			:rules="form.rules"
 			:show-require-mark="false"
 			:disabled="loading"
+			@submit.prevent="submit"
 		>
 			<n-form-item :label="t('email')" path="email" my-4>
 				<n-input
@@ -55,7 +56,7 @@
 
 			<n-form-item>
 				<n-button
-					@click="submit"
+					attr-type="submit"
 					type="success"
 					round
 					strong

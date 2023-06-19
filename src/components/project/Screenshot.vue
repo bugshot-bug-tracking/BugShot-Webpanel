@@ -96,7 +96,7 @@ const next = () => {
 };
 
 let thumbnail = computed(() => {
-	if (props.screenshots.length > 0) return props.screenshots[0].attributes.base64;
+	if (props.screenshots.length > 0) return props.screenshots[0].attributes.url;
 	return "/";
 });
 
@@ -124,7 +124,7 @@ const showImage = computed(() => {
 				  (img.attributes.device_pixel_ratio ?? 1);
 	});
 
-	return img.attributes.base64;
+	return img.attributes.url;
 });
 
 const priority = computed(() => {

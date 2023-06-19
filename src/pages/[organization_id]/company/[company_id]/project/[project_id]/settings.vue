@@ -26,7 +26,7 @@
 						:project_name="project.attributes.designation"
 						:company_name="project.attributes.company.attributes.designation"
 						:url="project.attributes.url ?? ''"
-						:image="project.attributes.image?.url"
+						:image="project.attributes.image?.attributes.url"
 						:color="project.attributes.color_hex"
 					/>
 				</div>
@@ -180,7 +180,7 @@ const isAuthorized = computed(() => {
 	// temp code replace with proper ?global? logic
 	return (
 		project.value?.attributes.role?.id === 1 ||
-		project.value?.attributes.creator?.id === user.value.id ||
+		project.value?.attributes.creator?.id === user.value?.id ||
 		useCompanyStore().getCompany!.attributes.role?.id === 1
 	);
 });

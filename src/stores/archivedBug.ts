@@ -87,10 +87,6 @@ export const useArchivedBugStore = defineStore("archivedBug", {
 					})
 				).data.data as Bug;
 
-				response.attributes.screenshots?.forEach(
-					(x) => (x.attributes.base64 = atob(x.attributes.base64))
-				);
-
 				this.bug = response;
 				this.screenshots = response.attributes.screenshots;
 				this.attachments = response.attributes.attachments;

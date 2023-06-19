@@ -2,54 +2,88 @@ import { defineStore } from "pinia";
 
 import { useAuthStore } from "./auth";
 import axios from "axios";
-import { echo } from "~/composables/listeners";
-import { Invitation } from "~/models/Invitation";
-import { useDiscreteApi } from "~/composables/DiscreteApi";
-import { useGlobalI18n } from "~/composables/GlobalI18n";
+import { Notification } from "~/models/Notification";
+import { InvitationReceived } from "~/models/NotificationTypes/InvitationReceived";
+import { useMainStore } from "./main";
 
 export const useNotificationStore = defineStore("notification", {
 	state: () => ({
 		user: useAuthStore().user,
 
-		notifications: [] as Invitation[],
+		notifications: [] as Notification[],
 	}),
 
 	actions: {
-		// fetch all notifications
-		async fetchInvitations() {
+		async init() {
 			try {
-				this.unhook();
-				let notifications = (
-					await axios.get(`users/${this.user?.id}/invitations`, {
-						headers: {
-							"include-organization-id": true,
-						},
-					})
-				).data.data;
+				this.$reset();
+
+				await this.fetchNotifications();
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+
+			return true;
+		},
+
+		async fetchNotifications() {
+			try {
+				let notifications = (await axios.get(`/users/${this.user?.id}/notifications`)).data
+					.data;
 
 				this.notifications = notifications;
-
-				this.hook();
 			} catch (error) {
 				console.log(error);
 			}
 		},
 
-		async accept(id: number) {
+		async acceptInvitation(invite: InvitationReceived, notification_id: string) {
 			try {
-				let response = await axios.get(`users/${this.user?.id}/invitations/${id}/accept`);
+				let response = (
+					await axios.get(`users/${this.user?.id}/invitations/${invite.data.id}/accept`)
+				).data.data;
 
-				let item = this.notifications.find((x) => x.id === id);
+				this.message.info(this.i18n.t("messages.invitation_accepted"));
+				invite.status = "accepted";
 
-				if (item) item.status = "accepted";
+				await useMainStore().initOrganizations();
 
-				const { message } = useDiscreteApi();
-				// @ts-ignore
-				const { t } = useGlobalI18n();
+				switch (invite.data.invitable?.toLowerCase()) {
+					case "project":
+						this.router.push({
+							name: "project",
+							params: {
+								organization_id: invite.data.organization_id,
+								company_id: invite.data.company_id,
+								project_id: invite.data.project_id,
+							},
+						});
+						break;
 
-				message.info(t("messages.invitation_accepted"));
+					case "company":
+						this.router.push({
+							name: "company",
+							params: {
+								organization_id: invite.data.organization_id,
+								company_id: invite.data.company_id,
+							},
+						});
+						break;
 
-				return response.data;
+					case "organization":
+						this.router.push({
+							name: "organization-home",
+							params: {
+								organization_id: invite.data.organization_id,
+							},
+						});
+						break;
+				}
+
+				await this.deleteNotification(notification_id);
+
+				return response;
 			} catch (error) {
 				console.log(error);
 
@@ -57,21 +91,18 @@ export const useNotificationStore = defineStore("notification", {
 			}
 		},
 
-		async decline(id: number) {
+		async declineInvitation(invite: InvitationReceived, notification_id: string) {
 			try {
-				let response = await axios.get(`users/${this.user?.id}/invitations/${id}/decline`);
+				let response = (
+					await axios.get(`users/${this.user?.id}/invitations/${invite.data.id}/decline`)
+				).data.data;
 
-				let item = this.notifications.find((x) => x.id === id);
+				this.message.info(this.i18n.t("messages.invitation_declined"));
+				invite.status = "declined";
 
-				if (item) item.status = "declined";
+				await this.deleteNotification(notification_id);
 
-				const { message } = useDiscreteApi();
-				// @ts-ignore
-				const { t } = useGlobalI18n();
-
-				message.info(t("messages.invitation_declined"));
-
-				return response.data;
+				return response;
 			} catch (error) {
 				console.log(error);
 
@@ -79,34 +110,40 @@ export const useNotificationStore = defineStore("notification", {
 			}
 		},
 
-		async unhook() {
-			if (this.user === undefined) return;
+		async deleteNotification(notification_id: string) {
+			try {
+				let response = (
+					await axios.delete(`/users/${this.user?.id}/notifications/${notification_id}`)
+				).data.data;
 
-			const api_channel = `user.${this.user.id}`;
+				return response;
+			} catch (error) {
+				console.log(error);
 
-			echo.leave(api_channel);
+				throw error;
+			}
 		},
 
-		async hook() {
-			if (this.user === undefined) return;
+		async deleteAllNotifications() {
+			try {
+				let result = await Promise.allSettled(
+					this.notifications.map(async (n) => {
+						return await axios.delete(`/users/${this.user?.id}/notifications/${n.id}`);
+					})
+				);
 
-			const api_channel = `user.${this.user.id}`;
+				await this.fetchNotifications();
 
-			let channel = echo.private(api_channel);
+				return result;
+			} catch (error) {
+				console.log(error);
 
-			channel.listen(".invitation.created", (data: any) => {
-				if (!(data && data.data.type === "Invitation")) return console.log(data);
-
-				this.fetchInvitations();
-			});
+				throw error;
+			}
 		},
 	},
 
 	getters: {
-		getInvitations: (state) => state.notifications,
-
-		getInvitationById: (state) => (id: number) => state.notifications.find((x) => (x.id = id)),
-
-		getPendingInvitations: (state) => state.notifications.filter((i) => i.status == undefined),
+		getNotifications: (state) => state.notifications,
 	},
 });

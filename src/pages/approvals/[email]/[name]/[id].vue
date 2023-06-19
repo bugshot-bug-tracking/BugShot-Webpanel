@@ -14,11 +14,11 @@
 			</RouterLink>
 
 			<div flex gap-4 items-center>
-				<n-text type="primary">
+				<!-- <n-text type="primary">
 					<i18n-t keypath="total_time_estimate_s" scope="global">
 						<b>{{ totalTime }}</b>
 					</i18n-t>
-				</n-text>
+				</n-text> -->
 
 				<ResponseApprovalModal
 					:submit="onSubmit"
@@ -53,6 +53,10 @@ const props = defineProps({
 		type: String,
 		required: true,
 	},
+	name: {
+		type: String,
+		required: true,
+	},
 	id: {
 		type: String,
 		required: true,
@@ -61,7 +65,7 @@ const props = defineProps({
 
 const store = useApprovalsStore();
 
-onMounted(() => store.init(props.email, props.id));
+onMounted(() => store.init(props.email, props.name, props.id));
 
 const totalTime = ref(0);
 const setTotalTime = (value: number) => {

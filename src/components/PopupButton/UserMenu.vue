@@ -75,7 +75,7 @@ const menu = reactive({
 
 const logout = () => {
 	store.logout();
-	router.push({ name: "login" });
+	router.push({ name: "logout" });
 };
 
 const autoClose = (event: MouseEvent) => {

@@ -25,7 +25,7 @@
 					<CompanySettings
 						:company_name="company.attributes.designation"
 						:organization_name="company.attributes.organization.attributes.designation"
-						:image="company.attributes.image?.attributes.base64"
+						:image="company.attributes.image?.attributes.url"
 						:color="company.attributes.color_hex"
 					/>
 				</div>
@@ -172,7 +172,7 @@ const isAuthorized = computed(() => {
 	// temp code replace with proper ?global? logic
 	return (
 		company.value?.attributes.role?.id === 1 ||
-		company.value?.attributes.creator?.id === user.value.id
+		company.value?.attributes.creator?.id === user.value?.id
 	);
 });
 

@@ -135,7 +135,11 @@
 		"team_member": "Edit team member | Edit team members",
 		"settings": "Edit settings",
 		"profile": "Edit profile",
-		"organization": "Edit organization"
+		"organization": "Edit organization",
+		"designation": "Edit designation",
+		"url": "Edit URL",
+		"description": "Edit description",
+		"bug_details": "Edit bug details"
 	},
 	"delete": {
 		"delete": "Delete",
@@ -146,7 +150,8 @@
 		"attachment": "Delete attachment | Delete attachments",
 		"member": "Delete member | Delete members",
 		"team_member": "Delete team member | Delete team members",
-		"column": "Delete column"
+		"column": "Delete column",
+		"all": "Delete all"
 	},
 	"select": {
 		"select": "Select",
@@ -510,9 +515,9 @@
 		"organization_created": "Organization created!",
 		"organization_updated": "Organization updated!",
 		"organization_deleted": "Organization deleted!",
-		"company_created": "Company created!",
-		"company_updated": "Company updated!",
-		"company_deleted": "Company deleted!",
+		"company_created": "Group created!",
+		"company_updated": "Group updated!",
+		"company_deleted": "Group deleted!",
 		"project_created": "Project created!",
 		"project_updated": "Project updated!",
 		"project_deleted": "Project deleted!",
@@ -522,7 +527,7 @@
 		"bug_created": "Bug created!",
 		"bug_updated": "Bug updated!",
 		"bug_deleted": "Bug deleted!",
-		"bug_moved": "Bug moved!",
+		"bug_moved": "Bug moved! | Bugs moved!",
 		"invitation_sent": "Invitation sent!",
 		"invitation_deleted": "Invitation deleted!",
 		"invitation_accepted": "Invitation accepted!",
@@ -600,7 +605,85 @@
 	"recover_email_sent": "We've sent you the reset password instruction over email. Thank you!",
 	"password_reset_success": "The password was changed successfully!",
 	"recover_link_invalid": "This recovery link is invalid. Please retry the procedure again!",
+	"tagged_in_comment_by": "{0} tagged you in a comment.",
+	"go": "Go",
+	"new_approval_form_received": "{0} requests bug approvals for the project {1}.",
+	"approval_request_fulfilled": "{0} responded to an approval request!",
+	"view_comment": "View comment",
+	"view_pdf": "View PDF",
+	"move_bug": "Move bug | Move bugs",
+	"select_bugs_to_move": "Select the bugs to be moved:",
+	"select_target_project": "Select the target project:",
+	"select_a_project": "Select project",
+	"register_page": {
+		"header": "Welcome to BugShot",
+		"subheader": "Get started now with a free 14-day trial period",
+		"next_step": "Next step",
+		"previous_step": "Previous step",
+		"step_1": "Account",
+		"step_2": "Personal information",
+		"step_3": "Password",
+		"step_1_header": "Please enter your email address.",
+		"step_1_subheader": "Please confirm your email address after creating your account.",
+		"accept_tos_and_pp": "I agree to the {tos} and {pp} for BugShot S.R.L..",
+		"step_2_header": "What's your name?",
+		"step_2_subheader": "Enter your first and last name here:",
+		"step_3_header": "Please enter a password:",
+		"success_header": "Thank you for registering!",
+		"success_text": "Your account has been successfully created. Please confirm your registration using the verification link that you just received by email.",
+		"success_resend_mail": "You can resend the email {0}",
+		"success_resend_mail_0": "here"
+	},
+	"hour": "hour | hours",
+	"day": "day | days",
+	"week": "week | weeks",
+	"minute": "minute | minutes",
 
+	"welcome_page": {
+		"header": "Aboübersicht",
+		"subheader": "Bring frischen Wind in deine Zusammenarbeit beim Bug-Reporting in der Entwicklung von digitalen Produkten.",
+
+		"select_button": "Jetzt Starten",
+
+		"extra_licenses": "({0}€ pro weitere Lizenz)",
+
+		"plans": {
+			"trial": {
+				"title": "Bugshot trial",
+				"highlight": "kostenlose 14-tägige Testphase",
+				"f_1": "Teste kostenlos alle Features, um herauszufinden, 0b wir zusammenpassen.",
+				"f_2": "Unbegrenzte Anzahl an Gruppen & Projekten",
+				"f_3": "Unbegrenzte Anzahl an Teammitgliedern",
+				"f_4": "Browser Extension für Chrome, Firefox & Safari",
+				"f_5": "iOS- & Android-App",
+				"f_6": "Gastzugang, mit dem die Browser-Extensions genutzt werden können",
+				"f_7": "Regelmäßige kostenlose Updates"
+			},
+			"individual": {
+				"title": "Bugshot Individual",
+				"highlight": "für Einzelpersonen und kleine Projekte",
+				"f_1": "Simples Bug-Reporting für dein Projekt. Behalte den Überblick über nötige Änderungen ohne viel Schnickschnack.",
+				"f_2": "Unbegrenzte Anzahl an Gruppen & Projekten",
+				"f_3": "Unbegrenzte Anzahl an Teammitgliedern",
+				"f_4": "Browser Extension für Chrome, Firefox & Safari",
+				"f_5": "iOS- & Android-App",
+				"f_6": "Gastzugang, mit dem die Browser-Extensions genutzt werden können",
+				"f_7": "Regelmäßige kostenlose Updates"
+			},
+			"team": {
+				"title": "Bugshot Team",
+				"highlight": "für Agenturen & Unternehmen",
+				"f_1": "Noch nie war es so einfach Bugs zu erfassen und gemeinsam die Qualitätssicherung an digitalen Produkten zu gewährleisten.",
+				"f_2": "2 Monate gratis bei Jahresabo",
+				"f_3": "Unbegrenzte Anzahl an Gruppen & Projekten",
+				"f_4": "Unbegrenzte Anzahl an Teammitgliedern",
+				"f_5": "Browser Extension für Chrome, Firefox & Safari",
+				"f_6": "iOS- & Android-App",
+				"f_7": "Gastzugang, mit dem die Browser-Extensions genutzt werden können",
+				"f_8": "Regelmäßige kostenlose Updates"
+			}
+		}
+	},
 	" ": "",
 	"": ""
 }
