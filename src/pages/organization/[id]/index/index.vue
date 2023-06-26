@@ -83,10 +83,15 @@
 		:callback="deleteModal.callback"
 		@close="deleteModal.clear"
 	/>
+
+	<OverviewTourModal v-if="showOverviewTour" @close="showOverviewTour = false" />
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from "~/stores/auth";
 import { useOrganizationStore } from "~/stores/organization";
+import { useTourStore } from "~/stores/tour";
+import { Tours } from "~/tours/tours";
 
 // const props =
 defineProps({
@@ -127,6 +132,24 @@ const deleteModal = reactive({
 
 		deleteModal.show = true;
 	},
+});
+
+const showOverviewTour = ref(false);
+
+onMounted(() => {
+	showOverviewTour.value = false;
+
+	if (useTourStore().tour_state === "completed" || useTourStore().tour_state === "canceled")
+		return;
+
+	let id = useTourStore().step.match(/-([0-9]+)$/i);
+	if (id && parseInt(id[1]) <= 7) {
+		return useTourStore().StartTour(Tours.overview);
+	}
+
+	if (useAuthStore().new_user !== true) return;
+
+	showOverviewTour.value = true;
 });
 </script>
 

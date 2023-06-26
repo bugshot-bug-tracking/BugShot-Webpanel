@@ -1,3 +1,5 @@
+@import "shepherd.js/dist/css/shepherd.css";
+
 .vue-universal-modal {
 	z-index: 1;
 }
@@ -97,5 +99,105 @@ svg {
 	gap: 1rem;
 	.n-base-icon {
 		padding: 0;
+	}
+}
+
+.shepherd-element {
+	&.my-0 {
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+	&.my-1 {
+		margin-top: 1rem;
+		margin-bottom: 1rem;
+	}
+	&.my-2 {
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+	}
+	&.my--1 {
+		margin-top: -1rem;
+		margin-bottom: -1rem;
+	}
+	&.my--2 {
+		margin-top: -2rem;
+		margin-bottom: -2rem;
+	}
+
+	&.mx-0 {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	&.mx-1 {
+		margin-left: 1rem;
+		margin-right: 1rem;
+	}
+	&.mx-2 {
+		margin-left: 2rem;
+		margin-right: 2rem;
+	}
+	&.mx--1 {
+		margin-left: -1rem;
+		margin-right: -1rem;
+	}
+	&.mx--2 {
+		margin-left: -2rem;
+		margin-right: -2rem;
+	}
+}
+
+.shepherd-text {
+	white-space: pre-line;
+}
+
+.shepherd-element {
+	border-radius: 0.5rem;
+
+	.shepherd-header {
+		border-bottom: 1px solid var(--bs-purple-light);
+		background: white !important;
+		padding: 0.5rem 1rem !important;
+		border-radius: 0.5rem;
+
+		h3 {
+			font-weight: 600;
+			font-size: 1.25rem;
+		}
+
+		span {
+			color: var(--bs-purple);
+			font-size: 2.5rem;
+		}
+	}
+
+	.shepherd-footer {
+		justify-content: center;
+		gap: 1rem;
+
+		.shepherd-button {
+			background: var(--bs-green);
+			border: 1px solid var(--bs-green);
+			color: white;
+			font-weight: 600;
+			border-radius: 0.25rem;
+
+			&:hover {
+				background: var(--bs-green-dark);
+				border: 1px solid var(--bs-green-dark);
+				color: white;
+			}
+
+			&.sh-back-button {
+				background: white;
+				border: 1px solid var(--bs-green);
+				color: var(--bs-green);
+
+				&:hover {
+					background: var(--bs-green-light);
+					border: 1px solid var(--bs-green-dark);
+					color: var(--bs-green-dark);
+				}
+			}
+		}
 	}
 }

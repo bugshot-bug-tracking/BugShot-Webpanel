@@ -638,52 +638,160 @@
 	"day": "day | days",
 	"week": "week | weeks",
 	"minute": "minute | minutes",
-
 	"welcome_page": {
-		"header": "Aboübersicht",
-		"subheader": "Bring frischen Wind in deine Zusammenarbeit beim Bug-Reporting in der Entwicklung von digitalen Produkten.",
-
-		"select_button": "Jetzt Starten",
-
-		"extra_licenses": "({0}€ pro weitere Lizenz)",
-
+		"header": "Subscription summary",
+		"subheader": "Bring a breath of fresh air to your digital product development bug reporting collaboration.",
+		"select_button": "Start Now",
+		"extra_licenses": "({0}€ per additional license)",
 		"plans": {
 			"trial": {
 				"title": "Bugshot trial",
-				"highlight": "kostenlose 14-tägige Testphase",
-				"f_1": "Teste kostenlos alle Features, um herauszufinden, 0b wir zusammenpassen.",
-				"f_2": "Unbegrenzte Anzahl an Gruppen & Projekten",
-				"f_3": "Unbegrenzte Anzahl an Teammitgliedern",
-				"f_4": "Browser Extension für Chrome, Firefox & Safari",
-				"f_5": "iOS- & Android-App",
-				"f_6": "Gastzugang, mit dem die Browser-Extensions genutzt werden können",
-				"f_7": "Regelmäßige kostenlose Updates"
+				"highlight": "free 14 day trial",
+				"f_1": "Try all features for free to see if we're a good match.",
+				"f_2": "Unlimited groups & projects",
+				"f_3": "Unlimited number of team members",
+				"f_4": "Browser Extension for Chrome, Firefox & Safari",
+				"f_5": "iOS & Android App",
+				"f_6": "Guest access to use browser extensions",
+				"f_7": "Regular Free Updates"
 			},
 			"individual": {
 				"title": "Bugshot Individual",
-				"highlight": "für Einzelpersonen und kleine Projekte",
-				"f_1": "Simples Bug-Reporting für dein Projekt. Behalte den Überblick über nötige Änderungen ohne viel Schnickschnack.",
-				"f_2": "Unbegrenzte Anzahl an Gruppen & Projekten",
-				"f_3": "Unbegrenzte Anzahl an Teammitgliedern",
-				"f_4": "Browser Extension für Chrome, Firefox & Safari",
-				"f_5": "iOS- & Android-App",
-				"f_6": "Gastzugang, mit dem die Browser-Extensions genutzt werden können",
-				"f_7": "Regelmäßige kostenlose Updates"
+				"highlight": "for individuals and small projects",
+				"f_1": "Simple bug reporting for your project. Keep track of necessary changes without a lot of bells and whistles.",
+				"f_2": "Unlimited groups & projects",
+				"f_3": "Unlimited number of team members",
+				"f_4": "Browser Extension for Chrome, Firefox & Safari",
+				"f_5": "iOS & Android App",
+				"f_6": "Guest access to use browser extensions",
+				"f_7": "Regular Free Updates"
 			},
 			"team": {
 				"title": "Bugshot Team",
-				"highlight": "für Agenturen & Unternehmen",
-				"f_1": "Noch nie war es so einfach Bugs zu erfassen und gemeinsam die Qualitätssicherung an digitalen Produkten zu gewährleisten.",
-				"f_2": "2 Monate gratis bei Jahresabo",
-				"f_3": "Unbegrenzte Anzahl an Gruppen & Projekten",
-				"f_4": "Unbegrenzte Anzahl an Teammitgliedern",
-				"f_5": "Browser Extension für Chrome, Firefox & Safari",
-				"f_6": "iOS- & Android-App",
-				"f_7": "Gastzugang, mit dem die Browser-Extensions genutzt werden können",
-				"f_8": "Regelmäßige kostenlose Updates"
+				"highlight": "for agencies & enterprises",
+				"f_1": "It's never been easier to capture bugs and collaborate on quality assurance on digital products.",
+				"f_2": "2 months free with annual subscription",
+				"f_3": "Unlimited number of groups & projects",
+				"f_4": "Unlimited number of team members",
+				"f_5": "Browser Extension for Chrome, Firefox & Safari",
+				"f_6": "iOS & Android App",
+				"f_7": "Guest access to use browser extensions",
+				"f_8": "Regular Free Updates"
 			}
 		}
 	},
+	"start_tour": "Start Tour",
+	"tours": {
+		"overview": {
+			"introduction": {
+				"title": "Welcome",
+				"text": "I'm glad you decided to use BugShot. \nHere you can familiarize yourself with the most important features. \nFor quick reference, here is a short video:"
+			},
+			"step_1": {
+				"title": "Your first organization",
+				"text": "In your organization you can manage all your groups & projects. As a rule, the organization is your company, for example.\n\n In the License Management area you will find an overview of your subscription. You can make adjustments here at any time, these are always effective at the end of the month."
+			},
+			"step_2": {
+				"title": "Your first organization",
+				"text": "You can rename it here..."
+			},
+			"step_3": {
+				"title": "Your first organization",
+				"text": "...or create another one."
+			},
+			"step_4": {
+				"title": "Account",
+				"text": "Click here to view account relevant options"
+			},
+			"step_5": {
+				"title": "Account",
+				"text": "Below you will find all overviews and account settings as well as language selection."
+			},
+			"step_6": {
+				"title": "Our Applications",
+				"text": "In the applications section you will find various browser extensions for reporting bugs. Please install the appropriate plugin for your preferred browser here so we can provide the best user experience possible."
+			},
+			"step_7": {
+				"title": "Back to Dashboard",
+				"text": "The logo will always take you to the Main Dashboard with the overview of your groups and projects! Try it out right now!"
+			},
+			"step_8": {
+				"title": "Groups",
+				"text": "Create your first group now!"
+			},
+			"step_9": {
+				"title": "Groups",
+				"text": "Now fill in the desired information here."
+			},
+			"step_10": {
+				"title": "Groups",
+				"text": "Entering a group name is mandatory here."
+			},
+			"step_11": {
+				"title": "Create Group",
+				"text": "Click \"Create Group\" to finish."
+			},
+			"step_12": {
+				"title": "Group Settings",
+				"text": "This button will take you to the project/group settings respectively. Here you can change your project link, add or remove members, customize user roles, add images, change labels or delete the project/group."
+			},
+			"step_13": {
+				"title": "Group Settings",
+				"text": "But also the \"Three dots menu\" next to the respective group/project can be used for this."
+			},
+			"step_14": {
+				"title": "Group members",
+				"text": "Members of the current group can be managed here."
+			},
+			"step_15": {
+				"title": "Organization selection",
+				"text": "Use the dropdown in the top left to change your organization at any time if you are a member of multiple organizations."
+			},
+			"step_16": {
+				"title": "Create Project",
+				"text": "You can add as many groups and projects as you want at any time. Click the button to create your first project."
+			},
+			"step_17": {
+				"title": "Create Project",
+				"text": "You can add as many groups and projects as you want at any time. Click the button to create your first project."
+			},
+			"step_18": {
+				"title": "Create Project",
+				"text": "Now fill in the required information here."
+			},
+			"step_19": {
+				"title": "Create Project",
+				"text": "Entering a project name is also mandatory."
+			},
+			"step_20": {
+				"title": "Create Project",
+				"text": "Click \"Create Project\" to finish."
+			},
+			"step_21": {
+				"title": "Notifications",
+				"text": "Please click the bell to open the notifications menu."
+			},
+			"step_22": {
+				"title": "Notifications",
+				"text": "Use the bell on the left to receive notifications and accept or decline invitations to groups and projects."
+			},
+			"step_23": {
+				"title": "Select Project",
+				"text": "Now select your created project by clicking on it."
+			},
+			"step_24": {
+				"title": "Capture Bug",
+				"text": "In the projects, you can capture individual tasks or bugs either manually using the \"Add Bug\" button or conveniently using one of our browser extensions (The Applications). The advantage is that the browser extension automatically captures a screenshot and the technical info. Bug reporting has never been so easy."
+			},
+			"step_25": {
+				"title": "Feedback",
+				"text": "You have questions, feedback, requests or found a bug? Feel free to write us a message."
+			}
+		}
+	},
+	"back": "Back",
+	"next": "Next",
+
 	" ": "",
 	"": ""
 }

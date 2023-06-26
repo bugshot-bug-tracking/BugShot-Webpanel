@@ -25,11 +25,13 @@
 					:preOpenCall="preCall"
 					:suggestOptions="suggestOptions"
 					infoKey="tooltips.company_roles"
+					class="sh-company-members-button"
 				/>
 
 				<ProjectCreateModal
 					:primary_button="true"
 					v-if="isAuthorized || (company.attributes.role?.id ?? 9) < 3"
+					class="sh-project-create"
 				/>
 
 				<RouterLink
@@ -39,7 +41,13 @@
 					}"
 					v-if="isAuthorized"
 				>
-					<n-button type="success" ghost round size="large">
+					<n-button
+						type="success"
+						ghost
+						round
+						size="large"
+						class="sh-company-settings-button"
+					>
 						<template #icon>
 							<img
 								src="/src/assets/icons/gear.svg"

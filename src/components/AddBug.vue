@@ -1,5 +1,5 @@
 <template>
-	<n-button type="success" round size="large" @click="active = true">
+	<n-button type="success" round size="large" @click="active = true" class="sh-add-bug">
 		<template #icon>
 			<img src="/src/assets/icons/add.svg" alt="add" class="black-to-white" />
 		</template>

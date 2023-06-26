@@ -1,7 +1,7 @@
 <template>
 	<nav>
 		<div class="top">
-			<RouterLink :to="{ name: 'home' }" class="home-logo">
+			<RouterLink :to="{ name: 'home' }" class="home-logo sh-home-logo">
 				<img src="/src/assets/icons/bugshot.svg" alt="Home" />
 			</RouterLink>
 

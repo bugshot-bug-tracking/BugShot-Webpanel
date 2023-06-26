@@ -5,6 +5,7 @@
 		:primary_button="primary_button"
 		@close="reset"
 		:disabled="disabled"
+		class="sh-company-create"
 	>
 		<template #button-text>
 			<span>{{ $t("create.company") }}</span>
@@ -27,6 +28,7 @@
 					minlength="1"
 					maxlength="255"
 					v-model="data.designation"
+					class="sh-company-name-input"
 				/>
 			</div>
 

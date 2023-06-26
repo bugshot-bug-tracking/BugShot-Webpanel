@@ -1,10 +1,11 @@
 <template>
-	<div class="user-menu" ref="root" v-if="user">
+	<div class="user-menu sh-user-menu" ref="root" v-if="user">
 		<Avatar
 			:first_name="user?.attributes.first_name"
 			:last_name="user?.attributes.last_name"
 			@click="menu.toggle"
 			cursor-pointer
+			class="sh-user-avatar"
 		/>
 
 		<section class="popup" v-if="menu.visible">
@@ -23,7 +24,7 @@
 
 			<ul @click.capture="menu.toggle">
 				<hr />
-				<RouterLink :to="{ name: 'settings' }">
+				<RouterLink :to="{ name: 'settings' }" class="sh-user-settings">
 					<img src="/src/assets/icons/gear.svg" alt="gear" />
 					{{ $t("account_settings") }}
 				</RouterLink>
@@ -32,14 +33,14 @@
 				<RouterLink to="/webhook" v-if="false"> My Webhooks </RouterLink>
 				<hr />
 
-				<RouterLink :to="{ name: 'organization-index' }">
+				<RouterLink :to="{ name: 'organization-index' }" class="sh-user-organizations">
 					<img src="/src/assets/icons/organization.svg" alt="gear" />
 
 					{{ $t("organization", 2) }}
 				</RouterLink>
 				<hr />
 
-				<RouterLink :to="{ name: 'settings' }">
+				<RouterLink :to="{ name: 'settings' }" class="sh-user-apps">
 					<img src="/src/assets/icons/apps.svg" alt="apps" />
 
 					{{ $t("the_apps") }}
@@ -83,7 +84,7 @@ const autoClose = (event: MouseEvent) => {
 	let path: EventTarget[] = event.composedPath && event.composedPath();
 
 	// if clicking outside of this root close the popup
-	if (path.find((element) => element == root.value) == null) {
+	if (path.find((element) => element == root.value || element?.id === "sh-tour") == null) {
 		menu.visible = false;
 	}
 };

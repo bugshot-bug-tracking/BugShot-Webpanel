@@ -16,15 +16,17 @@
 
 		<template #modal-form>
 			<n-form-item :label="t('project_name')" path="designation">
-				<n-input
-					v-model:value="data.designation"
-					type="text"
-					:minlength="1"
-					:maxlength="255"
-					:placeholder="t('project_name')"
-					:disabled="loading"
-					required
-				/>
+				<div class="sh-project-name-input" flex-1>
+					<n-input
+						v-model:value="data.designation"
+						type="text"
+						:minlength="1"
+						:maxlength="255"
+						:placeholder="t('project_name')"
+						:disabled="loading"
+						required
+					/>
+				</div>
 			</n-form-item>
 
 			<n-form-item :label="t('project_url')" path="url">

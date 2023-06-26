@@ -634,21 +634,18 @@
 		"success_resend_mail": "Hier kannst du die Mail {0}",
 		"success_resend_mail_0": "erneut verschicken"
 	},
-
 	"hour": "Stunde | Stunden",
 	"day": "Tag | Tage",
 	"week": "Woche | Wochen",
 	"minute": "Minute | Minuten",
-
 	"welcome_page": {
 		"header": "Aboübersicht",
 		"subheader": "Bring frischen Wind in deine Zusammenarbeit beim Bug-Reporting in der Entwicklung von digitalen Produkten.",
-
 		"plans": {
 			"trial": {
 				"title": "Bugshot trial",
 				"highlight": "kostenlose 14-tägige Testphase",
-				"f_1": "Teste kostenlos alle Features, um herauszufinden, 0b wir zusammenpassen.",
+				"f_1": "Teste kostenlos alle Features, um herauszufinden, ob wir zusammenpassen.",
 				"f_2": "Unbegrenzte Anzahl an Gruppen & Projekten",
 				"f_3": "Unbegrenzte Anzahl an Teammitgliedern",
 				"f_4": "Browser Extension für Chrome, Firefox & Safari",
@@ -681,6 +678,113 @@
 			}
 		}
 	},
+	"start_tour": "Tour starten",
+	"tours": {
+		"overview": {
+			"step_1": {
+				"title": "Deine erste Organisation",
+				"text": "In deiner Organisation kannst du alle deine Gruppen & Projekte verwalten. Im Regelfall ist die Organisation z.B. dein Unternehmen.\n\n Im Bereich Lizenzverwaltung findest du die Übersicht über dein Abo. Du kannst hier jederzeit Anpassungen vornehmen, diese sind immer zum Monatsende wirksam."
+			},
+			"step_2": {
+				"title": "Deine erste Organisation",
+				"text": "Du kannst diese hier umbenennen..."
+			},
+			"step_3": {
+				"title": "Deine erste Organisation",
+				"text": "...oder auch eine Weitere erstellen."
+			},
+			"step_4": {
+				"title": "Account",
+				"text": "Klicke hier um Account relevante Optionen einzusehen"
+			},
+			"step_5": {
+				"title": "Account",
+				"text": "Hier unten findest du alle Übersichten und Account Einstellungen sowie die Sprachauswahl."
+			},
+			"step_6": {
+				"title": "Unsere Anwendungen",
+				"text": "Im Bereich Anwendungen findest du verschiedene Browser Extensions für das Reporten von Bugs. Bitte installiere hier das passende Plugin für deinen bevorzugten Browser, damit wir die bestmögliche Nutzererfahrung bieten können."
+			},
+			"step_7": {
+				"title": "Zurück zum Dashboard",
+				"text": "Über das Logo gelangst du immer zum Main Dashboard mit der Übersicht über deine Gruppen und Projekte! Probiere es gleich mal aus!"
+			},
+			"step_8": {
+				"title": "Gruppen",
+				"text": "Erstelle nun deine erste Gruppe!"
+			},
+			"step_9": {
+				"title": "Gruppen",
+				"text": "Fülle hier nun die gewünschten Informationen ein."
+			},
+			"step_10": {
+				"title": "Gruppen",
+				"text": "Das Eingeben eines Gruppennamens ist hierbei zwingend erforderlich."
+			},
+			"step_11": {
+				"title": "Gruppe erstellen",
+				"text": "Klicke zum Abschluss auf \"Gruppe anlegen\"."
+			},
+			"step_12": {
+				"title": "Gruppen Einstellungen",
+				"text": "Über diesen Button gelangst du jeweils zu den Projekt-/Gruppeneinstellungen. Hier kannst du deinen Projektlink ändern, Mitglieder hinzufügen oder entfernen, Nutzerrollen anpassen, Bilder hinterlegen, Bezeichnungen ändern oder das Projekt/die Gruppe löschen."
+			},
+			"step_13": {
+				"title": "Gruppen Einstellungen",
+				"text": "Aber auch das \"Drei Punkte Menu\" neben der/dem jeweiligen Gruppe/Projekt kann dafür verwendet werden."
+			},
+			"step_14": {
+				"title": "Gruppenmitglieder",
+				"text": "Hier können die Mitglieder der aktuellen Gruppe verwaltet werden."
+			},
+			"step_15": {
+				"title": "Organisationsauswahl",
+				"text": "Über das Dropdown oben links kannst du jederzeit deine Organisation wechseln, falls du Mitglied in mehreren Organisationen bist."
+			},
+			"step_16": {
+				"title": "Projekt erstellen",
+				"text": "Du kannst jederzeit beliebig viele Gruppen und Projekte hinzufügen. Klicke den Button um dein erstes Projekt zu erstellen."
+			},
+			"step_17": {
+				"title": "Projekt erstellen",
+				"text": "Du kannst jederzeit beliebig viele Gruppen und Projekte hinzufügen. Klicke den Button um dein erstes Projekt zu erstellen."
+			},
+			"step_18": {
+				"title": "Projekt erstellen",
+				"text": "Fülle hier nun die gewünschten Informationen ein."
+			},
+			"step_19": {
+				"title": "Projekt erstellen",
+				"text": "Das Eingeben eines Projektnamens ist ebenfalls zwingend erforderlich."
+			},
+			"step_20": {
+				"title": "Projekt erstellen",
+				"text": "Klicke zum Abschluss auf \"Projekt anlegen\"."
+			},
+			"step_21": {
+				"title": "Benachrichtigungen",
+				"text": "Bitte klicke auf die Glocke um das Benachrichtigungsmenu zu öffnen."
+			},
+			"step_22": {
+				"title": "Benachrichtigungen",
+				"text": "Über die Glocke auf der linken Seite erhältst du Notifications und kannst Einladungen zu Gruppen und Projekten akzeptieren oder ablehnen."
+			},
+			"step_23": {
+				"title": "Projekt auswählen",
+				"text": "Wähle nun dein erstelltes Projekt aus, indem du es anklickst."
+			},
+			"step_24": {
+				"title": "Bug erfassen",
+				"text": "In den Projekten kannst du einzelne Tasks oder Bugs entweder manuell über die Schaltfläche \"Bug hinzufügen\" erfassen oder bequem über eine unserer Browser Extensions (Die Anwendungen). Der Vorteil ist, dass über die Browser Extension automatisch ein Screenshot und die technischen Infos erfasst werden. Bug Reporting war noch nie so einfach."
+			},
+			"step_25": {
+				"title": "Feedback",
+				"text": "Du hast Fragen, Feedback, Wünsche oder einen Bug gefunden? Schreib uns gerne eine Nachricht."
+			}
+		}
+	},
+	"back": "Zurück",
+	"next": "Weiter",
 
 	" ": "",
 	"": ""

@@ -161,6 +161,7 @@ declare module 'vue' {
     OrganizationTeamTable: typeof import('./components/organization/OrganizationTeamTable.vue')['default']
     OrganizationUserCompaniesTable: typeof import('./components/organization/OrganizationUserCompaniesTable.vue')['default']
     OrganizationUserPlans: typeof import('./components/organization/OrganizationUserPlans.vue')['default']
+    OverviewTourModal: typeof import('./components/Modals/OverviewTourModal.vue')['default']
     PasswordChange: typeof import('./components/Settings/PasswordChange.vue')['default']
     PasswordRules: typeof import('./components/PasswordRules.vue')['default']
     Picker: typeof import('./components/Picker.vue')['default']
