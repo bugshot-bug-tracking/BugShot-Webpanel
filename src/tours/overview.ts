@@ -288,7 +288,7 @@ const useOverviewTour = ({
 			cancelIcon: { enabled: true },
 			canClickTarget: false,
 
-			attachTo: { element: ".sh-organization-switcher", on: "left-start" },
+			attachTo: { element: ".sh-organization-switcher", on: "right-start" },
 			classes: "mx-1",
 
 			id: "sh-overview-11",

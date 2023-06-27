@@ -16,7 +16,7 @@
 	</main>
 
 	<main class="main-empty" v-else>
-		<TrialBanner />
+		<TrialBanner absolute />
 
 		<section>
 			<OrganizationSwitcher />
