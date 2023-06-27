@@ -137,6 +137,7 @@ const deleteModal = reactive({
 const showOverviewTour = ref(false);
 
 onMounted(() => {
+	return useTourStore().StartTour(Tours.overview);
 	showOverviewTour.value = false;
 
 	if (useTourStore().tour_state === "completed" || useTourStore().tour_state === "canceled")

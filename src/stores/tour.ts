@@ -41,7 +41,7 @@ export const useTourStore = defineStore("tour", {
 
 			this.tour.start();
 
-			if (this.step !== "") this.tour.show(this.step);
+			// if (this.step !== "") this.tour.show(this.step);
 		},
 
 		// The return type should always be true, it is used as a confirmation signal that the tour can be canceled
