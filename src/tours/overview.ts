@@ -51,7 +51,10 @@ const useOverviewTour = ({
 			cancelIcon: { enabled: true },
 			canClickTarget: false,
 
-			attachTo: { element: ".sh-navbar-list", on: "right" },
+			attachTo: {
+				element: ".sh-navbar-list .sh-organization-nav-overview.router-link-active ",
+				on: "right",
+			},
 			classes: "mx-1",
 
 			id: "sh-overview-1",
@@ -70,14 +73,42 @@ const useOverviewTour = ({
 			cancelIcon: { enabled: true },
 			canClickTarget: false,
 
+			attachTo: {
+				element:
+					".sh-navbar-list .sh-organization-nav-overview.router-link-active~.sh-organization-nav-settings ",
+				on: "right",
+			},
+			classes: "mx-1",
+
+			id: "sh-overview-2",
+			title: t("tours.overview.step_2.title"),
+			text: t("tours.overview.step_2.text"),
+
+			buttons: [
+				{
+					text: t("back"),
+					action: prev,
+					classes: "sh-back-button",
+				},
+				{
+					text: t("next"),
+					action: next,
+				},
+			],
+		},
+
+		{
+			cancelIcon: { enabled: true },
+			canClickTarget: false,
+
 			attachTo: { element: ".sh-organization-settings", on: "bottom" },
 			classes: "my-1",
 			modalOverlayOpeningPadding: 2,
 			modalOverlayOpeningRadius: 8,
 
-			id: "sh-overview-2",
-			title: t("tours.overview.step_2.title"),
-			text: t("tours.overview.step_2.text"),
+			id: "sh-overview-3",
+			title: t("tours.overview.step_3.title"),
+			text: t("tours.overview.step_3.text"),
 
 			buttons: [
 				{
@@ -101,9 +132,9 @@ const useOverviewTour = ({
 			modalOverlayOpeningPadding: 2,
 			modalOverlayOpeningRadius: 20,
 
-			id: "sh-overview-3",
-			title: t("tours.overview.step_3.title"),
-			text: t("tours.overview.step_3.text"),
+			id: "sh-overview-4",
+			title: t("tours.overview.step_4.title"),
+			text: t("tours.overview.step_4.text"),
 
 			buttons: [
 				{
@@ -126,9 +157,9 @@ const useOverviewTour = ({
 			modalOverlayOpeningPadding: 8,
 			modalOverlayOpeningRadius: 28,
 
-			id: "sh-overview-4",
-			title: t("tours.overview.step_4.title"),
-			text: t("tours.overview.step_4.text"),
+			id: "sh-overview-5",
+			title: t("tours.overview.step_5.title"),
+			text: t("tours.overview.step_5.text"),
 
 			buttons: [
 				{
@@ -146,30 +177,6 @@ const useOverviewTour = ({
 			canClickTarget: false,
 
 			attachTo: { element: ".sh-user-settings", on: "right-end" },
-			classes: "mx-1",
-
-			id: "sh-overview-5",
-			title: t("tours.overview.step_5.title"),
-			text: t("tours.overview.step_5.text"),
-
-			buttons: [
-				{
-					text: t("back"),
-					action: prev,
-					classes: "sh-back-button",
-				},
-				{
-					text: t("next"),
-					action: next,
-				},
-			],
-		},
-
-		{
-			cancelIcon: { enabled: true },
-			canClickTarget: false,
-
-			attachTo: { element: ".sh-user-apps", on: "right-end" },
 			classes: "mx-1",
 
 			id: "sh-overview-6",
@@ -191,11 +198,10 @@ const useOverviewTour = ({
 
 		{
 			cancelIcon: { enabled: true },
+			canClickTarget: false,
 
-			attachTo: { element: ".sh-home-logo", on: "right-start" },
+			attachTo: { element: ".sh-user-organizations", on: "right-end" },
 			classes: "mx-1",
-			modalOverlayOpeningPadding: 12,
-			modalOverlayOpeningRadius: 16,
 
 			id: "sh-overview-7",
 			title: t("tours.overview.step_7.title"),
@@ -204,35 +210,44 @@ const useOverviewTour = ({
 			buttons: [
 				{
 					text: t("back"),
-					action: () => show("sh-overview-4"),
+					action: prev,
 					classes: "sh-back-button",
 				},
+				{
+					text: t("next"),
+					action: next,
+				},
 			],
-			advanceOn: { selector: ".sh-home-logo", event: "click" },
 		},
 
 		{
 			cancelIcon: { enabled: true },
 
-			attachTo: { element: ".sh-company-create", on: "right-end" },
+			attachTo: { element: ".sh-user-apps", on: "right-end" },
 			classes: "mx-1",
-			modalOverlayOpeningPadding: 2,
-			modalOverlayOpeningRadius: 20,
 
 			id: "sh-overview-8",
 			title: t("tours.overview.step_8.title"),
 			text: t("tours.overview.step_8.text"),
 
-			advanceOn: { selector: ".sh-company-create", event: "click" },
+			buttons: [
+				{
+					text: t("back"),
+					action: prev,
+					classes: "sh-back-button",
+				},
+			],
 
-			beforeShowPromise: () => findElementBeforeShow(".sh-company-create"),
+			advanceOn: { selector: ".sh-user-apps", event: "click" },
 		},
 
 		{
 			cancelIcon: { enabled: true },
 
-			attachTo: { element: ".sh-create-resource-modal", on: "right" },
-			classes: "mx-1",
+			attachTo: { element: ".sh-extensions", on: "left" },
+			classes: "mx--1",
+			modalOverlayOpeningPadding: 2,
+			modalOverlayOpeningRadius: 20,
 
 			id: "sh-overview-9",
 			title: t("tours.overview.step_9.title"),
@@ -244,15 +259,17 @@ const useOverviewTour = ({
 					action: next,
 				},
 			],
+
+			beforeShowPromise: () => findElementBeforeShow(".sh-extensions"),
 		},
 
 		{
 			cancelIcon: { enabled: true },
 
-			attachTo: { element: ".sh-company-name-input", on: "right" },
+			attachTo: { element: ".sh-home-logo", on: "right-start" },
 			classes: "mx-1",
-			modalOverlayOpeningPadding: 2,
-			modalOverlayOpeningRadius: 8,
+			modalOverlayOpeningPadding: 12,
+			modalOverlayOpeningRadius: 16,
 
 			id: "sh-overview-10",
 			title: t("tours.overview.step_10.title"),
@@ -261,109 +278,10 @@ const useOverviewTour = ({
 			buttons: [
 				{
 					text: t("back"),
-					action: prev,
-					classes: "sh-back-button",
-				},
-				{
-					text: t("next"),
-					action: next,
-				},
-			],
-		},
-
-		{
-			cancelIcon: { enabled: true },
-
-			attachTo: { element: ".sh-create-resource-modal-submit", on: "top" },
-			classes: "my--1",
-			modalOverlayOpeningPadding: 2,
-			modalOverlayOpeningRadius: 20,
-
-			id: "sh-overview-11",
-			title: t("tours.overview.step_11.title"),
-			text: t("tours.overview.step_11.text"),
-
-			advanceOn: { selector: ".sh-create-resource-modal-submit", event: "click" },
-			buttons: [
-				{
-					text: t("back"),
-					action: prev,
 					classes: "sh-back-button",
 				},
 			],
-		},
-
-		{
-			cancelIcon: { enabled: true },
-			canClickTarget: false,
-
-			attachTo: { element: ".sh-company-settings-button", on: "left-start" },
-			classes: "mx--1",
-			modalOverlayOpeningPadding: 2,
-			modalOverlayOpeningRadius: 20,
-
-			id: "sh-overview-12",
-			title: t("tours.overview.step_12.title"),
-			text: t("tours.overview.step_12.text"),
-
-			buttons: [
-				{
-					text: t("next"),
-					action: next,
-				},
-			],
-
-			beforeShowPromise: () => findElementBeforeShow(".sh-company-settings-button"),
-		},
-
-		{
-			cancelIcon: { enabled: true },
-			canClickTarget: false,
-
-			attachTo: { element: ".sh-navbar-list", on: "right" },
-			classes: "mx-1",
-
-			id: "sh-overview-13",
-			title: t("tours.overview.step_13.title"),
-			text: t("tours.overview.step_13.text"),
-
-			buttons: [
-				{
-					text: t("back"),
-					action: prev,
-					classes: "sh-back-button",
-				},
-				{
-					text: t("next"),
-					action: next,
-				},
-			],
-		},
-
-		{
-			cancelIcon: { enabled: true },
-			canClickTarget: false,
-
-			attachTo: { element: ".sh-company-members-button", on: "left-start" },
-			classes: "mx--1",
-			modalOverlayOpeningPadding: 2,
-			modalOverlayOpeningRadius: 20,
-
-			id: "sh-overview-14",
-			title: t("tours.overview.step_14.title"),
-			text: t("tours.overview.step_14.text"),
-
-			buttons: [
-				{
-					text: t("back"),
-					action: prev,
-					classes: "sh-back-button",
-				},
-				{
-					text: t("next"),
-					action: next,
-				},
-			],
+			advanceOn: { selector: ".sh-home-logo", event: "click" },
 		},
 
 		{
@@ -373,9 +291,9 @@ const useOverviewTour = ({
 			attachTo: { element: ".sh-organization-switcher", on: "left-start" },
 			classes: "mx-1",
 
-			id: "sh-overview-15",
-			title: t("tours.overview.step_15.title"),
-			text: t("tours.overview.step_15.text"),
+			id: "sh-overview-11",
+			title: t("tours.overview.step_11.title"),
+			text: t("tours.overview.step_11.text"),
 
 			buttons: [
 				{
@@ -388,93 +306,8 @@ const useOverviewTour = ({
 					action: next,
 				},
 			],
-		},
 
-		{
-			cancelIcon: { enabled: true },
-
-			attachTo: { element: ".sh-project-create", on: "bottom" },
-			classes: "my-1",
-			modalOverlayOpeningPadding: 2,
-			modalOverlayOpeningRadius: 20,
-
-			id: "sh-overview-16",
-			title: t("tours.overview.step_16.title"),
-			text: t("tours.overview.step_16.text"),
-
-			advanceOn: { selector: ".sh-project-create", event: "click" },
-			buttons: [
-				{
-					text: t("back"),
-					action: prev,
-					classes: "sh-back-button",
-				},
-			],
-		},
-
-		{
-			cancelIcon: { enabled: true },
-
-			attachTo: { element: ".sh-resource-create-modal", on: "right" },
-			classes: "mx-1",
-
-			id: "sh-overview-17",
-			title: t("tours.overview.step_17.title"),
-			text: t("tours.overview.step_17.text"),
-
-			buttons: [
-				{
-					text: t("next"),
-					action: next,
-				},
-			],
-		},
-
-		{
-			cancelIcon: { enabled: true },
-
-			attachTo: { element: ".sh-project-name-input", on: "right" },
-			classes: "mx-1",
-			modalOverlayOpeningPadding: 2,
-			modalOverlayOpeningRadius: 8,
-
-			id: "sh-overview-18",
-			title: t("tours.overview.step_18.title"),
-			text: t("tours.overview.step_18.text"),
-
-			buttons: [
-				{
-					text: t("back"),
-					action: prev,
-					classes: "sh-back-button",
-				},
-				{
-					text: t("next"),
-					action: next,
-				},
-			],
-		},
-
-		{
-			cancelIcon: { enabled: true },
-
-			attachTo: { element: ".sh-resource-create-modal-submit", on: "top" },
-			classes: "my--1",
-			modalOverlayOpeningPadding: 2,
-			modalOverlayOpeningRadius: 20,
-
-			id: "sh-overview-19",
-			title: t("tours.overview.step_19.title"),
-			text: t("tours.overview.step_19.text"),
-
-			advanceOn: { selector: ".sh-resource-create-modal-submit", event: "click" },
-			buttons: [
-				{
-					text: t("back"),
-					action: prev,
-					classes: "sh-back-button",
-				},
-			],
+			beforeShowPromise: () => findElementBeforeShow(".sh-organization-switcher"),
 		},
 
 		{
@@ -485,9 +318,9 @@ const useOverviewTour = ({
 			modalOverlayOpeningPadding: 8,
 			modalOverlayOpeningRadius: 28,
 
-			id: "sh-overview-20",
-			title: t("tours.overview.step_20.title"),
-			text: t("tours.overview.step_20.text"),
+			id: "sh-overview-12",
+			title: t("tours.overview.step_12.title"),
+			text: t("tours.overview.step_12.text"),
 
 			advanceOn: { selector: ".sh-notifications-button", event: "click" },
 		},
@@ -499,9 +332,9 @@ const useOverviewTour = ({
 			attachTo: { element: ".sh-notifications-popup", on: "right" },
 			classes: "mx-2",
 
-			id: "sh-overview-21",
-			title: t("tours.overview.step_21.title"),
-			text: t("tours.overview.step_21.text"),
+			id: "sh-overview-13",
+			title: t("tours.overview.step_13.title"),
+			text: t("tours.overview.step_13.text"),
 
 			buttons: [
 				{
@@ -521,52 +354,14 @@ const useOverviewTour = ({
 		{
 			cancelIcon: { enabled: true },
 
-			attachTo: { element: ".sh-group-container .project-card", on: "right" },
-			classes: "mx-1",
-			modalOverlayOpeningPadding: 2,
-			modalOverlayOpeningRadius: 8,
-
-			id: "sh-overview-22",
-			title: t("tours.overview.step_22.title"),
-			text: t("tours.overview.step_22.text"),
-
-			advanceOn: { selector: ".sh-group-container .project-card", event: "click" },
-		},
-
-		{
-			cancelIcon: { enabled: true },
-			canClickTarget: false,
-
-			attachTo: { element: ".sh-add-bug", on: "bottom" },
-			classes: "my-1",
-			modalOverlayOpeningPadding: 2,
-			modalOverlayOpeningRadius: 20,
-
-			id: "sh-overview-23",
-			title: t("tours.overview.step_23.title"),
-			text: t("tours.overview.step_23.text"),
-
-			buttons: [
-				{
-					text: t("next"),
-					action: next,
-				},
-			],
-
-			beforeShowPromise: () => findElementBeforeShow(".sh-add-bug"),
-		},
-
-		{
-			cancelIcon: { enabled: true },
-
 			attachTo: { element: ".sh-feedback-button", on: "left" },
 			classes: "mx--1",
 			modalOverlayOpeningPadding: 2,
 			modalOverlayOpeningRadius: { topLeft: 20, bottomLeft: 20, bottomRight: 0, topRight: 0 },
 
-			id: "sh-overview-23",
-			title: t("tours.overview.step_23.title"),
-			text: t("tours.overview.step_23.text"),
+			id: "sh-overview-14",
+			title: t("tours.overview.step_14.title"),
+			text: t("tours.overview.step_14.text"),
 
 			buttons: [
 				{
