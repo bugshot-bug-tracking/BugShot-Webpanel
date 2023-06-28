@@ -15,7 +15,17 @@
 
 				<div>
 					<n-p text-12 m-0>
-						{{ value.price ? value.price / 100 : 0 }}
+						{{
+							$n(
+								nicePrice(
+									!value.price
+										? 0
+										: value.yearly
+										? value.price / 1200
+										: value.price / 100
+								)
+							)
+						}}
 
 						<n-text text-6> € </n-text>
 						<n-text text-6 font-normal v-if="value.price && value.price > 0">
@@ -25,7 +35,15 @@
 					<n-p m-0 v-if="value.multiple" font-normal>
 						{{
 							$t("welcome_page.extra_licenses", [
-								value.extra_price ? value.extra_price / 100 : 0,
+								$n(
+									nicePrice(
+										!value.extra_price
+											? 0
+											: value.yearly
+											? value.extra_price / 1200
+											: value.extra_price / 100
+									)
+								),
 							])
 						}}
 					</n-p>
@@ -39,15 +57,34 @@
 					size="M"
 				/>
 
-				<n-button
-					type="primary"
-					size="large"
-					@click="emit('action', quantity)"
-					:loading="loading"
-					:disabled="disabled"
-				>
-					{{ $t("welcome_page.select_button") }}
-				</n-button>
+				<div flex items-center justify-between style="width: 100%">
+					<n-button
+						type="primary"
+						size="large"
+						@click="emit('action', quantity)"
+						:loading="loading"
+						:disabled="disabled"
+					>
+						{{ $t("welcome_page.select_button") }}
+					</n-button>
+
+					<n-text
+						depth="3"
+						v-if="value.yearly === true && value.price"
+						style="font-weight: normal"
+					>
+						{{
+							$t("s_billed_yearly", [
+								$n(
+									nicePrice(
+										(value.price + (quantity - 1) * (value.extra_price ?? 0)) /
+											100
+									)
+								),
+							])
+						}}
+					</n-text>
+				</div>
 			</div>
 		</template>
 
@@ -75,6 +112,7 @@ defineProps({
 			multiple?: boolean;
 			features?: string[];
 			color?: string;
+			yearly?: boolean;
 		}>,
 		required: true,
 	},
@@ -94,6 +132,11 @@ defineProps({
 const emit = defineEmits(["action"]);
 
 const quantity = ref(1);
+
+const nicePrice = (value: number) => {
+	if (value % 1 > 0) return Number(value.toPrecision(3));
+	else return value;
+};
 </script>
 
 <style scoped lang="scss">

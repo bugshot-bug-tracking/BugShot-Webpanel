@@ -189,7 +189,7 @@ const processedProducts = computed(() =>
 		.sort((a, b) => (a.prices.monthly?.unit_amount ?? 0) - (b.prices.monthly?.unit_amount ?? 0))
 );
 
-const onSubmit = (value: number, product: typeof processedProducts.value[0]) => {
+const onSubmit = (value: number, product: (typeof processedProducts.value)[0]) => {
 	cardLoading.value = product.id;
 
 	// just a safety measure
