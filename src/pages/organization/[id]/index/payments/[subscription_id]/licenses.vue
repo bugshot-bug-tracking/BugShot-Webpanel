@@ -57,7 +57,7 @@
 						:id="`${authUser.id}`"
 						@unassign="deleteModal.open(authUser, sub)"
 						:external="
-							sub.subscription.attributes.subscription.attributes.billable
+							sub.subscription?.attributes.subscription?.attributes.billable
 								.billing_addressable_id !== id
 						"
 						:show_checkbox="false"
@@ -65,7 +65,7 @@
 						<template #button>
 							<div
 								v-if="
-									sub.subscription.attributes.subscription.attributes.billable
+									sub.subscription?.attributes.subscription?.attributes.billable
 										.billing_addressable_id !== id
 								"
 							></div>
@@ -156,6 +156,10 @@ const props = defineProps({
 	},
 });
 
+const authUser = computed(() => {
+	return useAuthStore().getUser;
+});
+
 console.log(props);
 
 const store = useOrganizationStore();
@@ -197,11 +201,13 @@ const licensedMembers = computed(() => {
 const unlicensedMembers = computed(() => {
 	let members = store.getMembersWithoutLicenses;
 
-	let owner = authUser.value?.attributes.subscriptions?.find(
-		(s) =>
-			s.subscription.attributes.subscription.attributes.billable.billing_addressable_id ===
-			props.id
-	);
+	let owner = authUser.value?.attributes.subscriptions?.find((s) => {
+		let ss =
+			s.subscription?.attributes.subscription?.attributes.billable.billing_addressable_id ===
+			props.id;
+		console.log(ss);
+		return ss;
+	});
 	console.log("owner", owner);
 
 	if (!owner) return [authUser.value, ...(members ?? [])];
@@ -359,10 +365,6 @@ const deleteModal = reactive({
 	},
 });
 
-const authUser = computed(() => {
-	return useAuthStore().getUser;
-});
-
 const authUserLicenseData = (sub: any) => {
 	return {
 		license_name: usePaymentsStore().products.find(
@@ -371,10 +373,10 @@ const authUserLicenseData = (sub: any) => {
 
 		user_name: authUser.value.attributes.first_name + " " + authUser.value.attributes.last_name,
 		user_email: authUser.value.attributes.email,
-		assigned_on: new Date(sub.subscription.attributes.created_at).toLocaleDateString(),
-		available_until: sub.subscription.attributes.subscription.attributes.end_at
+		assigned_on: new Date(sub.subscription?.attributes.created_at).toLocaleDateString(),
+		available_until: sub.subscription?.attributes.subscription?.attributes.end_at
 			? new Date(
-					sub.subscription.attributes.subscription.attributes.end_at * 1000
+					sub.subscription?.attributes.subscription?.attributes.end_at * 1000
 			  ).toLocaleDateString()
 			: "∞",
 	};

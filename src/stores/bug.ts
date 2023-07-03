@@ -10,8 +10,6 @@ import { BugUserRole } from "~/models/BugUserRole";
 import { useHookStore } from "./hooks";
 import { Comment } from "~/models/Comment";
 import { useReportsStore } from "./reports";
-import { useDiscreteApi } from "~/composables/DiscreteApi";
-import { useGlobalI18n } from "~/composables/GlobalI18n";
 import dateFix from "~/util/dateFixISO";
 
 export const useBugStore = defineStore("bug", {
@@ -116,8 +114,6 @@ export const useBugStore = defineStore("bug", {
 					})
 				).data.data as Screenshot[];
 
-				screenshots.forEach((x) => (x.attributes.base64 = atob(x.attributes.base64)));
-
 				this.screenshots = screenshots;
 			} catch (error: any) {
 				console.log(error);
@@ -210,11 +206,7 @@ export const useBugStore = defineStore("bug", {
 
 				this.$reset();
 
-				const { message } = useDiscreteApi();
-				// @ts-ignore
-				const { t } = useGlobalI18n();
-
-				message.info(t("messages.bug_deleted"));
+				this.message.info(this.i18n.t("messages.bug_deleted"));
 			} catch (error: any) {
 				console.log(error);
 				throw error;
@@ -226,11 +218,13 @@ export const useBugStore = defineStore("bug", {
 		async updateBug(changes: {
 			designation?: string;
 			description?: string;
+			url?: string;
 			status_id?: string;
 			priority_id?: number;
 			order_number?: number;
 			deadline?: string | null;
 			time_estimation?: number | null;
+			time_estimation_type?: string | null;
 		}) {
 			if (!this.bug) throw "Bug not set";
 
@@ -242,7 +236,8 @@ export const useBugStore = defineStore("bug", {
 
 					...{ description: changes.description ?? this.bug.attributes.description },
 
-					url: this.bug.attributes.url,
+					...{ url: changes.url ?? this.bug.attributes.url },
+
 					operating_system: this.bug.attributes.operating_system,
 					browser: this.bug.attributes.browser,
 					selector: this.bug.attributes.selector,
@@ -255,6 +250,12 @@ export const useBugStore = defineStore("bug", {
 					...{
 						time_estimation:
 							changes.time_estimation ?? this.bug.attributes.time_estimation,
+					},
+
+					...{
+						time_estimation_type:
+							changes.time_estimation_type ??
+							this.bug.attributes.time_estimation_type,
 					},
 
 					...{
@@ -340,11 +341,7 @@ export const useBugStore = defineStore("bug", {
 			let externalBug = useReportsStore().getBugById(this.bug.id);
 			if (externalBug) Object.assign(externalBug.attributes, newBug.attributes);
 
-			const { message } = useDiscreteApi();
-			// @ts-ignore
-			const { t } = useGlobalI18n();
-
-			message.success(t("messages.bug_updated"));
+			this.message.success(this.i18n.t("messages.bug_updated"));
 		},
 
 		async createComment({ message, users }: { message: string; users: { user_id: number }[] }) {
@@ -362,6 +359,7 @@ export const useBugStore = defineStore("bug", {
 
 	getters: {
 		getStatus: (state) => state.statuses?.find((s) => s.id === state.bug?.attributes.status_id),
+		getStatusByID: (state) => (id: string) => state.statuses?.find((s) => s.id === id),
 
 		getScreenshots: (state) => state.screenshots ?? [],
 		getAttachments: (state) => state.attachments ?? [],

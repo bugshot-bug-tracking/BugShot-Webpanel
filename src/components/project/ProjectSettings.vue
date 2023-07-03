@@ -54,7 +54,7 @@ import { COLOR } from "~/util/colors";
 
 const { t } = useI18n();
 
-const props = defineProps({
+defineProps({
 	project_name: {
 		required: true,
 		type: String,

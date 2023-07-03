@@ -171,8 +171,26 @@ const sortedList = computed(() => {
 		case "estimate":
 			return props.list.sort(
 				(a, b) =>
-					(new Date(a.attributes.bug.attributes.time_estimation ?? 0).getTime() -
-						new Date(b.attributes.bug.attributes.time_estimation ?? 0).getTime()) *
+					((a.attributes.bug.attributes.time_estimation ?? 0) *
+						(a.attributes.bug.attributes.time_estimation_type === "m"
+							? 1
+							: a.attributes.bug.attributes.time_estimation_type === "h"
+							? 60
+							: a.attributes.bug.attributes.time_estimation_type === "d"
+							? 1440
+							: a.attributes.bug.attributes.time_estimation_type === "w"
+							? 10080
+							: 1) -
+						(b.attributes.bug.attributes.time_estimation ?? 0) *
+							(b.attributes.bug.attributes.time_estimation_type === "m"
+								? 1
+								: b.attributes.bug.attributes.time_estimation_type === "h"
+								? 60
+								: b.attributes.bug.attributes.time_estimation_type === "d"
+								? 1440
+								: b.attributes.bug.attributes.time_estimation_type === "w"
+								? 10080
+								: 1)) *
 					(sorting.order === "asc" ? 1 : -1)
 			);
 

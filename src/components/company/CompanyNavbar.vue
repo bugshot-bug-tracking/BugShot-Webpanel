@@ -251,7 +251,7 @@ const headerEdit = ref(false);
 const termValue = ref("");
 
 const companyTerm = computed(() => {
-	const orgTerm = useOrganizationStore().organization?.attributes.companyTerm;
+	const orgTerm = useOrganizationStore().organization?.attributes.groups_wording;
 	if (orgTerm != undefined) return orgTerm;
 	else return t("company", 2);
 });

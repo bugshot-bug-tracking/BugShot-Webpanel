@@ -132,6 +132,8 @@
 				</n-checkbox-group>
 
 				<BugDrawer />
+
+				<BugMoveModal v-model:show="bugMove.show" />
 			</n-tab-pane>
 
 			<n-tab-pane name="archive" display-directive="if">
@@ -163,6 +165,7 @@ import { useReportsStore } from "~/stores/reports";
 import IconSettings from "~/components/icons/Icon-Settings.vue";
 import IconTabular from "~/components/icons/Icon-Tabular.vue";
 import { useFlagsStore } from "~/stores/flags";
+import IconFolderMove from "~/components/icons/Icon-FolderMove.vue";
 
 const props = defineProps({
 	organization_id: {
@@ -271,17 +274,27 @@ const suggestOptions = computed(() => {
 const currentTab = ref("kanban");
 
 const BugWasOpened = ref(false);
+const BugWasOpenedId = ref<string | undefined>(undefined);
+const BugWasOpenedCommentId = ref<string | undefined>(undefined);
 
 watchEffect(async () => {
 	try {
 		// if no bug queried exit
-		if (route.query.b == undefined || BugWasOpened.value === true) return;
+		if (
+			route.query.b == undefined ||
+			(BugWasOpened.value === true &&
+				BugWasOpenedId.value === route.query.b &&
+				BugWasOpenedCommentId.value === route.query.c)
+		)
+			return;
 
 		const bug = reportsStore.getBugById(route.query.b as string);
 
 		if (bug?.id != undefined) {
 			await useBugStore().init(bug.id, bug.attributes.status_id);
 			BugWasOpened.value = true;
+			BugWasOpenedId.value = route.query.b as string;
+			BugWasOpenedCommentId.value = route.query.c as string | undefined;
 		}
 	} catch (error) {
 		console.log(error);
@@ -316,6 +329,17 @@ const more = computed(() => ({
 			props: {
 				onClick: () => {
 					kanbanState.startChecker();
+				},
+			},
+		},
+		{
+			label: t("move_bug", 2),
+			key: "move_bugs",
+			icon: () => h(IconFolderMove),
+			show: currentTab.value === "kanban" && useFlagsStore().canSeeEverything,
+			props: {
+				onClick: () => {
+					bugMove.show = true;
 				},
 			},
 		},
@@ -359,6 +383,10 @@ const onSubmitApprovals = async (recipients: { name: string; email: string }[]) 
 	await store.requestApprovals(kanbanState.checkList, recipients);
 	kanbanState.cancelChecker();
 };
+
+const bugMove = reactive({
+	show: false,
+});
 </script>
 
 <style lang="scss" scoped>

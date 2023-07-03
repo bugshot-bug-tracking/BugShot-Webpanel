@@ -74,7 +74,7 @@
 
 <script setup lang="ts">
 import axios from "axios";
-import debounce from "lodash.debounce";
+import { useDebounceFn } from "@vueuse/core";
 import useAutoClose from "~/composables/AutoClose";
 import { BugsSearchResult } from "~/models/search/BugsSearchResult";
 import { ProjectsSearchResult } from "~/models/search/ProjectsSearchResult";
@@ -143,7 +143,7 @@ const orders = computed(() => {
 
 const { root, active, open, close } = useAutoClose();
 
-const executeSearch = debounce(() => {
+const executeSearch = useDebounceFn(() => {
 	if (searchTerm.value.length < 1 || searchTerm.value === "") aggregateData.reset();
 	if (searchTerm.value.length < 3) return console.log("search term is < 3");
 

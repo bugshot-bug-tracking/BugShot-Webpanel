@@ -6,9 +6,9 @@ export interface Organization {
 	type: string;
 	attributes: {
 		designation: string;
-		creator: User;
+		creator?: User;
 		role?: Role;
-		companyTerm?: string;
+		groups_wording?: string;
 		created_at: string;
 		updated_at: string;
 	};

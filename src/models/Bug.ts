@@ -35,6 +35,7 @@ export interface Bug {
 		comments?: Comment[];
 
 		time_estimation?: number;
+		time_estimation_type?: "m" | "h" | "d" | "w";
 
 		approval_status: {
 			id: string;

@@ -8,6 +8,7 @@ import { Project } from "~/models/Project";
 export const useApprovalsStore = defineStore("approvals", {
 	state: () => ({
 		email: undefined as string | undefined,
+		name: undefined as string | undefined,
 		id: undefined as string | undefined,
 
 		bugs: undefined as BugExport[] | undefined,
@@ -16,9 +17,10 @@ export const useApprovalsStore = defineStore("approvals", {
 	}),
 
 	actions: {
-		async init(email: string, id: string) {
+		async init(email: string, name: string, id: string) {
 			try {
 				this.email = email;
+				this.name = name;
 				this.id = id;
 
 				await this.fetchBugs();
@@ -39,11 +41,6 @@ export const useApprovalsStore = defineStore("approvals", {
 					},
 				})
 			).data.data as Export;
-			response.attributes.bugs.forEach((bug) =>
-				bug.attributes.bug.attributes.screenshots?.forEach(
-					(s) => (s.attributes.base64 = atob(s.attributes.base64))
-				)
-			);
 
 			console.log(response);
 			this.bugs = response.attributes.bugs;
@@ -57,7 +54,7 @@ export const useApprovalsStore = defineStore("approvals", {
 		) {
 			let response = (
 				await axios.put(`projects/${this.project?.id}/exports/${this.id}`, {
-					evaluator: this.email,
+					evaluator: { name: this.name, email: this.email },
 					bugs: responses.map((x) => ({
 						id: x.id,
 						status_id: x.value === "approved" ? "2" : "3",

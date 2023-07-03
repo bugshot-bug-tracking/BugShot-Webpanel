@@ -1,5 +1,5 @@
 <template>
-	<div class="bs-btn-dropdown" ref="root">
+	<div class="bs-btn-dropdown" ref="root" :class="{ 'disabled-overlay': disabled }">
 		<div @click="active.toggle" flex>
 			<a
 				:style="{
@@ -75,6 +75,13 @@ const props = defineProps({
 		required: false,
 		default: false,
 		description: "Switch for enabling dropdown menu",
+	},
+
+	disabled: {
+		type: Boolean,
+		required: false,
+		default: false,
+		description: "Make the component look disabled",
 	},
 });
 

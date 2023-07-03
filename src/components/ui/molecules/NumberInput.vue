@@ -1,7 +1,7 @@
 <template>
 	<div :class="`size-${size}`" flex items-baseline>
 		<div flex>
-			<button @click="decrementValue">-</button>
+			<button @click="decrementValue" cursor-pointer>-</button>
 
 			<input
 				type="number"
@@ -11,10 +11,10 @@
 				@input="updateValue"
 			/>
 
-			<button @click="incrementValue">+</button>
+			<button @click="incrementValue" cursor-pointer>+</button>
 		</div>
 
-		<b ml-3>{{ labelText }}</b>
+		<n-text strong ml-3>{{ labelText }}</n-text>
 	</div>
 </template>
 
@@ -110,7 +110,7 @@ input {
 	}
 
 	&[type="number"] {
-		-moz-appearance: textfield; /* Firefox */
+		appearance: textfield; /* Firefox */
 	}
 }
 

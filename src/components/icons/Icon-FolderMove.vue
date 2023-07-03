@@ -1,0 +1,37 @@
+<template>
+	<n-icon
+		size="24"
+		@click.capture="onClick"
+		:class="{ 'custom_n-icon_button': button, 'custom_n-icon_button-disabled': disabled }"
+	>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			xmlns:xlink="http://www.w3.org/1999/xlink"
+			viewBox="0 0 24 24"
+		>
+			<path
+				d="M20 6h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V6h5.17l1.41 1.41l.59.59H20v10zm-7.84-6H8v2h4.16l-1.59 1.59L11.99 17L16 13.01L11.99 9l-1.41 1.41L12.16 12z"
+				fill="currentColor"
+			></path>
+		</svg>
+	</n-icon>
+</template>
+
+<script setup lang="ts">
+const props = defineProps({
+	disabled: {
+		type: Boolean,
+		default: false,
+	},
+	button: {
+		type: Boolean,
+		default: false,
+	},
+	filled: Boolean,
+});
+
+// in case it is disabled prevent click events
+const onClick = (event: MouseEvent) => {
+	if (props.disabled) event.stopPropagation();
+};
+</script>

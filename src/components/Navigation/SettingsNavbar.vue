@@ -69,7 +69,7 @@ const user = computed(() => useAuthStore().getUser);
 const logout = () => {
 	useAuthStore().logout();
 
-	router.push({ name: "login" });
+	router.push({ name: "logout" });
 };
 
 const minimized = ref(false);
