@@ -118,6 +118,7 @@ const optionsOpen = ref(false);
 	}
 
 	&.router-link-active {
+		background: var(--bs-green-light);
 		.item-options {
 			max-width: 2rem;
 			opacity: 1;
@@ -125,7 +126,7 @@ const optionsOpen = ref(false);
 	}
 
 	&.router-link-exact-active {
-		background: hsl(158, 79%, 87%);
+		background: var(--bs-green-light);
 
 		&.settings {
 			background: transparent;
