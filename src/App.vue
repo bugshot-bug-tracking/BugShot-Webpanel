@@ -10,10 +10,9 @@
 		:date-locale="dateLocale"
 		:theme="theme"
 		:theme-overrides="overrides"
-		flex
-		style="width: 100vw; position: relative"
 		:inline-theme-disabled="true"
 		:preflight-style-disabled="true"
+		class="ncp"
 		v-else
 	>
 		<n-global-style />
@@ -95,11 +94,21 @@ const dateLocale = computed(() => {
 @import "./styles/external.scss";
 </style>
 
-<style scoped>
+<style scoped lang="scss">
 .main-loading {
 	height: 100vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+.ncp {
+	display: flex;
+	width: 100vw;
+	position: relative;
+
+	@media (max-width: $breakpoint-l) {
+		flex-direction: column;
+	}
 }
 </style>

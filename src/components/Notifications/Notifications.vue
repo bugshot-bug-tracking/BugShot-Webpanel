@@ -6,6 +6,7 @@
 				:value="notificationCount"
 				:offset="['-25%', '50%']"
 				:processing="loading"
+				v-bind="$attrs"
 			>
 				<n-button text class="bell-button">
 					<template #icon>
