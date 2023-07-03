@@ -644,6 +644,9 @@
 		"header": "Aboübersicht",
 		"subheader": "Bring frischen Wind in deine Zusammenarbeit beim Bug-Reporting in der Entwicklung von digitalen Produkten.",
 
+		"save_n_%": "save {n}%",
+		"choose_right_plan": "Wähle das passende Paket für dich:",
+
 		"plans": {
 			"trial": {
 				"title": "Bugshot trial",
