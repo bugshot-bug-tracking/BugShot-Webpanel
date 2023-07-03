@@ -30,6 +30,7 @@
 				<ProjectCreateModal
 					:primary_button="true"
 					v-if="isAuthorized || (company.attributes.role?.id ?? 9) < 3"
+					multipleURL
 				/>
 
 				<RouterLink
@@ -64,7 +65,7 @@
 
 				<p>{{ $t("please_add_new_project") }}</p>
 
-				<ProjectCreateModal :primary_button="true" />
+				<ProjectCreateModal :primary_button="true" multipleURL />
 			</section>
 		</div>
 
