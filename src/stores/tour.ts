@@ -1,6 +1,7 @@
 import { useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
 import Shepherd from "shepherd.js";
+import { RouteLocationRaw } from "vue-router";
 import { Tours, useTours } from "~/tours/tours";
 
 export const useTourStore = defineStore("tour", {
@@ -37,6 +38,7 @@ export const useTourStore = defineStore("tour", {
 				cancel: this.CancelTour,
 				complete: this.CompleteTour,
 				show: this.ShowStep,
+				pushRoute: this.PushRoute,
 			});
 
 			this.tour.start();
@@ -82,6 +84,12 @@ export const useTourStore = defineStore("tour", {
 
 			this.tour.show(id);
 			this.step = this.tour.getCurrentStep()?.id ?? "";
+		},
+		async PushRoute(to: RouteLocationRaw) {
+			// if no tour in progress exit
+			if (this.tour == undefined) return;
+
+			await this.router.push(to);
 		},
 	},
 

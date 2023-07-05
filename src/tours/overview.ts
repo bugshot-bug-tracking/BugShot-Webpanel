@@ -1,5 +1,6 @@
 import Shepherd from "shepherd.js";
 import Step from "shepherd.js/src/types/step";
+import { RouteLocationRaw } from "vue-router";
 import { useGlobalI18n } from "~/composables/GlobalI18n";
 
 // @ts-ignore
@@ -23,12 +24,14 @@ const useOverviewTour = ({
 	cancel,
 	complete,
 	show,
+	pushRoute,
 }: {
 	next: () => void;
 	prev: () => void;
 	cancel: () => boolean;
 	complete: () => void;
-	show: (id: string) => void;
+	show?: (id: string) => void;
+	pushRoute?: (to: RouteLocationRaw) => Promise<void>;
 }) => {
 	const tour = new Shepherd.Tour({
 		tourName: "overview",
@@ -64,6 +67,10 @@ const useOverviewTour = ({
 			buttons: [
 				{
 					text: t("next"),
+					// action: async () => {
+					// 	if (pushRoute) await pushRoute({ name: "home" });
+					// 	if (show) show("sh-overview-11");
+					// },
 					action: next,
 				},
 			],
