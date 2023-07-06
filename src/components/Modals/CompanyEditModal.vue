@@ -91,8 +91,21 @@ const props = defineProps({
 		type: Function,
 		required: false,
 	},
+
+	open: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
 });
 
+const emit = defineEmits(["update:open"]);
+
+watchEffect(() => {
+	if (props.open === true) {
+		modal.open();
+	}
+});
 const { t } = useI18n();
 
 const modal = reactive({
@@ -111,6 +124,8 @@ const modal = reactive({
 		if (props.postOpenCall) await props.postOpenCall();
 		modal.show = false;
 		modal.loading = false;
+
+		emit("update:open", false);
 	},
 });
 

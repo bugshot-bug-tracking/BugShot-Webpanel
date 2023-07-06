@@ -1,8 +1,13 @@
 <template>
-	<a class="input-image" cursor-pointer @click="modal.open" v-bind="$attrs">
-		<img src="/src/assets/icons/edit.svg" alt="edit" class="black-to-purple" />
-		<b> {{ t("edit.profile") }}</b>
-	</a>
+	<div @click="modal.open" v-bind="$attrs">
+		<n-button text strong>
+			<template #icon>
+				<Icon-Edit color="var(--bs-purple)" />
+			</template>
+
+			{{ t("edit.profile") }}
+		</n-button>
+	</div>
 
 	<MyModal
 		v-model="modal.show"
