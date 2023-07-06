@@ -13,6 +13,10 @@
 				<template #center>
 					<SearchBar />
 				</template>
+
+				<template #actions>
+					<OrderPopover v-model:value="orderValue" />
+				</template>
 			</T3Header>
 		</template>
 
@@ -105,6 +109,8 @@ const goToProject = (company_id: string, project_id: string) => {
 		},
 	});
 };
+
+const orderValue = ref(11);
 </script>
 
 <style lang="scss" scoped>
