@@ -7,7 +7,7 @@
 			</div>
 		</div>
 
-		<div class="bs-input">
+		<div class="bs-input" @click="modalOpen = true">
 			<label>
 				{{ t("project_name") }}
 			</label>
@@ -15,7 +15,7 @@
 			<input type="text" :placeholder="t('project_name')" :value="project_name" disabled />
 		</div>
 
-		<div class="bs-input">
+		<div class="bs-input" @click="modalOpen = true">
 			<label>
 				{{ t("company") }}
 			</label>
@@ -23,7 +23,7 @@
 			<input type="text" :placeholder="t('company')" :value="company_name" disabled />
 		</div>
 
-		<div class="bs-input">
+		<div class="bs-input" @click="modalOpen = true">
 			<label>
 				{{ t("url") }}
 			</label>
@@ -37,6 +37,7 @@
 			:image="image"
 			:url="url"
 			:submit="editFunction"
+			v-model:open="modalOpen"
 		>
 			<template #button>
 				<a mt4 cursor-pointer>
@@ -91,6 +92,8 @@ const editFunction = async (data: {
 }) => {
 	await useProjectStore().updateResource(data);
 };
+
+const modalOpen = ref(false);
 </script>
 
 <style lang="scss" scoped>

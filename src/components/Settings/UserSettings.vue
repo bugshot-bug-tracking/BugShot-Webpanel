@@ -62,7 +62,11 @@
 			</a>
 		</div>
 
-		<UserSettingsModal self-end mt4 />
+		<div flex flex-1 items-center justify-between mt-4>
+			<UserDeleteModal />
+
+			<UserSettingsModal />
+		</div>
 	</div>
 </template>
 

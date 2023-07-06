@@ -5,6 +5,7 @@ import InvitationReceived from "./InvitationReceived.vue";
 import TaggedInComment from "./TaggedInComment.vue";
 import ImplementationApprovalFormReceived from "./ImplementationApprovalFormReceived.vue";
 import ApprovalReportReceived from "./ApprovalReportReceived.vue";
+import CommentCreated from "./CommentCreated.vue";
 
 export default {
 	props: {
@@ -37,6 +38,11 @@ export default {
 
 				case "ApprovalReportReceived":
 					return h(ApprovalReportReceived, {
+						value: props.data.attributes.data,
+					});
+
+				case "CommentCreated":
+					return h(CommentCreated, {
 						value: props.data.attributes.data,
 					});
 

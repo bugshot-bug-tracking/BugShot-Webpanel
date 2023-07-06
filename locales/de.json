@@ -151,7 +151,8 @@
 		"member": "Mitglied löschen | Mitglieder löschen",
 		"team_member": "Teammitglied löschen | Teammitglied löschen",
 		"column": "Spalte löschen",
-		"all": "Alles löschen"
+		"all": "Alles löschen",
+		"account": "Konto löschen"
 	},
 	"select": {
 		"select": "Auswählen",
@@ -538,7 +539,8 @@
 		"license_revoked": "Lizenz wurde widerrufen!",
 		"subscription_canceled": "Abonnement wurde gekündigt!",
 		"user_updated": "Nutzer wurde aktualisiert!",
-		"organization_term_updated": "Die Änderung war erfolgreich!"
+		"organization_term_updated": "Die Änderung war erfolgreich!",
+		"account_deleted_successfully": "Konto erfolgreich gelöscht!"
 	},
 	"rules": {
 		"designation_required": "Fehlername erforderlich!"
@@ -606,6 +608,7 @@
 	"password_reset_success": "Dein Passwort wurde erfolgreich geändert!",
 	"recover_link_invalid": "Dieser Wiederherstellungslink ist leider ungültig. Bitte versuche den Vorgang noch einmal!",
 	"tagged_in_comment_by": "{0} hat dich in einem Kommentar erwähnt.",
+	"new_comment_on_bug": "{0} hat einen Kommentar zu einem der von Ihnen erstellten Fehler hinzugefügt",
 	"go": "Ansehen",
 	"new_approval_form_received": "{0} möchte deine Bestätigung für das Verschieben der Bugs im Projekt {1}.",
 	"approval_request_fulfilled": "{0} hat deine Bestätigungsanfrage bearbeitet.",
@@ -683,6 +686,12 @@
 				"f_8": "Regelmäßige kostenlose Updates"
 			}
 		}
+	},
+	"user_delete_modal": {
+		"line_1": "Sie sind dabei, Ihr Konto zu löschen, und beachten Sie bitte, dass dieser Vorgang nicht rückgängig gemacht werden kann!",
+		"line_2": "Sobald das Konto gelöscht ist werden auch alle zugehörigen Organisationen gelöscht. Zudem werden alle aktiven Abonnements sofort storniert.",
+		"line_3": "Darüber hinaus werden Sie aus allen anderen Organisationen, in denen Sie Mitglied sind, entfernt. Bitte beachten Sie jedoch, dass Ressourcen wie Projekte, Fehler und Kommentare, die erstellt wurden, als Teil der Organisationsdaten erhalten bleiben.",
+		"line_4": "Wenn Sie Probleme haben oder Hilfe benötigen, zögern Sie bitte nicht, unser Team unter {0} zu kontaktieren."
 	},
 
 	" ": "",
