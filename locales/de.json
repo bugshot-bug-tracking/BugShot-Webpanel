@@ -608,6 +608,7 @@
 	"password_reset_success": "Dein Passwort wurde erfolgreich geändert!",
 	"recover_link_invalid": "Dieser Wiederherstellungslink ist leider ungültig. Bitte versuche den Vorgang noch einmal!",
 	"tagged_in_comment_by": "{0} hat dich in einem Kommentar erwähnt.",
+	"new_comment_on_bug": "{0} hat einen Kommentar zu einem der von Ihnen erstellten Fehler hinzugefügt",
 	"go": "Ansehen",
 	"new_approval_form_received": "{0} möchte deine Bestätigung für das Verschieben der Bugs im Projekt {1}.",
 	"approval_request_fulfilled": "{0} hat deine Bestätigungsanfrage bearbeitet.",

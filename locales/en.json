@@ -608,6 +608,7 @@
 	"password_reset_success": "The password was changed successfully!",
 	"recover_link_invalid": "This recovery link is invalid. Please retry the procedure again!",
 	"tagged_in_comment_by": "{0} tagged you in a comment.",
+	"new_comment_on_bug": "{0} added a comment to one of the bugs you created",
 	"go": "Go",
 	"new_approval_form_received": "{0} requests bug approvals for the project {1}.",
 	"approval_request_fulfilled": "{0} responded to an approval request!",

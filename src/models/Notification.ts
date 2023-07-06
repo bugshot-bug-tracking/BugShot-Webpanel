@@ -2,6 +2,7 @@ import { ApprovalReportReceived } from "./NotificationTypes/ApprovalReportReceiv
 import { ImplementationApprovalFormReceived } from "./NotificationTypes/ImplementationApprovalFormReceived";
 import { InvitationReceived } from "./NotificationTypes/InvitationReceived";
 import { TaggedInComment } from "./NotificationTypes/TaggedInComment";
+import { CommentCreated } from "./NotificationTypes/CommentCreated";
 
 export interface Notification {
 	id: string;
@@ -15,6 +16,7 @@ export interface Notification {
 			| InvitationReceived
 			| TaggedInComment
 			| ImplementationApprovalFormReceived
-			| ApprovalReportReceived;
+			| ApprovalReportReceived
+			| CommentCreated;
 	};
 }

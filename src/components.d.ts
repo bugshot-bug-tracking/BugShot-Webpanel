@@ -36,6 +36,7 @@ declare module 'vue' {
     ChangePasswordModal: typeof import('./components/Modals/ChangePasswordModal.vue')['default']
     Clients: typeof import('./components/Settings/Clients.vue')['default']
     Column: typeof import('./templates/Column.vue')['default']
+    CommentCreated: typeof import('./components/Notifications/CommentCreated.vue')['default']
     CompanyCreateModal: typeof import('./components/company/CompanyCreateModal.vue')['default']
     CompanyEditModal: typeof import('./components/Modals/CompanyEditModal.vue')['default']
     CompanyNavbar: typeof import('./components/company/CompanyNavbar.vue')['default']
