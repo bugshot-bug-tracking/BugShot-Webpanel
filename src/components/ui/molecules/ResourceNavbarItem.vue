@@ -201,6 +201,7 @@ const optionsOpen = ref(false);
 }
 
 .item-options {
+	min-width: 1.25rem;
 	max-width: 0;
 	overflow: hidden;
 	opacity: 0;

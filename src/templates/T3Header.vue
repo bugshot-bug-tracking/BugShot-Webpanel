@@ -3,11 +3,15 @@
 		<div class="left">
 			<slot name="left">
 				<div class="top">
-					<slot name="l-top" />
+					<n-ellipsis :line-clamp="1">
+						<slot name="l-top" />
+					</n-ellipsis>
 				</div>
 
 				<div class="bottom" v-if="$slots['l-bottom']">
-					<slot name="l-bottom" />
+					<n-ellipsis :line-clamp="1">
+						<slot name="l-bottom" />
+					</n-ellipsis>
 				</div>
 			</slot>
 		</div>
