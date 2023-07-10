@@ -7,7 +7,7 @@
 			</div>
 		</div>
 
-		<div class="bs-input">
+		<div class="bs-input" @click="modalOpen = true">
 			<label>
 				{{ t("company_name") }}
 			</label>
@@ -15,7 +15,7 @@
 			<input type="text" :placeholder="t('company_name')" :value="company_name" disabled />
 		</div>
 
-		<div class="bs-input">
+		<div class="bs-input" @click="modalOpen = true">
 			<label>
 				{{ t("organization_name") }}
 			</label>
@@ -28,7 +28,13 @@
 			/>
 		</div>
 
-		<CompanyEditModal :name="company_name" :color="color" :image="image" :submit="editFunction">
+		<CompanyEditModal
+			:name="company_name"
+			:color="color"
+			:image="image"
+			:submit="editFunction"
+			v-model:open="modalOpen"
+		>
 			<template #button>
 				<a mt4 cursor-pointer>
 					<img src="/src/assets/icons/edit.svg" alt="edit" class="black-to-purple" />
@@ -74,6 +80,8 @@ const editFunction = async (data: { designation: string; color_hex: string; base
 };
 
 const c_image = computed(() => props.image);
+
+const modalOpen = ref(false);
 </script>
 
 <style lang="scss" scoped>

@@ -31,17 +31,60 @@
 						:placeholder="$t('enter_project_name')"
 						:type="'text'"
 						required
+						maxlength="255"
 					/>
 				</div>
 
-				<div class="bs-input my-3">
+				<div class="my-4">
 					<label> <b>URL</b> </label>
 
-					<input
+					<UrlInput
 						v-model="projectParams.url"
-						:placeholder="$t('enter_project_url')"
-						:type="'url'"
+						:placeholder="t('enter_main_project_url')"
+						@click:suffix="projectParams.new_urls.push('')"
+						mt-2
 					/>
+
+					<div
+						v-if="
+							projectParams.extra_urls.length > 0 || projectParams.new_urls.length > 0
+						"
+						flex
+						flex-col
+						gap-4
+						mt-4
+					>
+						<UrlInput
+							v-for="(item, index) in projectParams.extra_urls"
+							:placeholder="t('other_project_url_optional')"
+							v-model="item.attributes.url"
+							@update:modelValue="editExtraUrl(item)"
+							@click:suffix="deleteExtraUrl(item, index)"
+						>
+							<template #suffix>
+								<img
+									src="/src/assets/icons/remove.svg"
+									alt=""
+									class="black-to-purple-middle"
+								/>
+							</template>
+						</UrlInput>
+
+						<UrlInput
+							v-for="(, index) in projectParams.new_urls"
+							:placeholder="t('other_project_url_optional')"
+							v-model="projectParams.new_urls[index]"
+							@click:suffix="projectParams.new_urls.splice(index, 1)"
+						>
+							<template #suffix>
+								<img
+									src="/src/assets/icons/remove.svg"
+									alt=""
+									class="black-to-purple-middle"
+								/>
+							</template>
+						</UrlInput>
+					</div>
 				</div>
 
 				<Picker
@@ -73,6 +116,7 @@
 <script setup lang="ts">
 import toBase64 from "~/util/toBase64";
 import colors from "~/util/colors";
+import { Url } from "~/models/Url";
 
 const props = defineProps({
 	name: {
@@ -92,6 +136,10 @@ const props = defineProps({
 		required: true,
 		type: String,
 	},
+	extra_urls: {
+		required: false,
+		type: Array as PropType<Url[]>,
+	},
 
 	submit: {
 		type: Function,
@@ -107,6 +155,20 @@ const props = defineProps({
 		type: Function,
 		required: false,
 	},
+
+	open: {
+		type: Boolean,
+		required: false,
+		default: false,
+	},
+});
+
+const emit = defineEmits(["update:open"]);
+
+watchEffect(() => {
+	if (props.open === true) {
+		modal.open();
+	}
 });
 
 const { t } = useI18n();
@@ -120,6 +182,8 @@ const modal = reactive({
 		if (props.preOpenCall) await props.preOpenCall();
 		modal.show = true;
 		modal.loading = false;
+		projectParams.set();
+		extra_urls_modified.value = undefined;
 	},
 	close: async () => {
 		if (modal.loading === true) return;
@@ -127,6 +191,8 @@ const modal = reactive({
 		if (props.postOpenCall) await props.postOpenCall();
 		modal.show = false;
 		modal.loading = false;
+
+		emit("update:open", false);
 	},
 });
 
@@ -135,12 +201,18 @@ const projectParams = reactive({
 	color: 3,
 	image: "",
 	url: "",
+	extra_urls: [] as Url[],
+	new_urls: [] as string[],
 
 	set: () => {
 		projectParams.name = props.name ?? "";
 		projectParams.color = colors.indexOf(props.color) ?? 3;
 		projectParams.image = props.image !== "" ? props.image : "";
 		projectParams.url = props.url ?? "";
+		projectParams.extra_urls = props.extra_urls
+			? JSON.parse(JSON.stringify(props.extra_urls))
+			: [];
+		projectParams.new_urls = [];
 	},
 
 	setImage: async (value: File | null) => {
@@ -155,7 +227,6 @@ const projectParams = reactive({
 	},
 });
 
-projectParams.set();
 watch(props, () => {
 	projectParams.set();
 });
@@ -164,12 +235,16 @@ const onSubmit = async () => {
 	try {
 		loadingModal.show = true;
 
-		await props.submit({
-			designation: projectParams.name,
-			url: projectParams.url,
-			color_hex: colors[projectParams.color],
-			base64: projectParams.image ? btoa(projectParams.image) : null,
-		});
+		await props.submit(
+			{
+				designation: projectParams.name,
+				url: projectParams.url,
+				color_hex: colors[projectParams.color],
+				base64: projectParams.image ? btoa(projectParams.image) : null,
+			},
+			projectParams.new_urls,
+			extra_urls_modified.value
+		);
 
 		loadingModal.state = 1;
 		loadingModal.message = t("project_edited_succ");
@@ -191,6 +266,22 @@ const loadingModal = reactive({
 		loadingModal.message = "";
 	},
 });
+
+const extra_urls_modified = ref<{ edited: Url[]; deleted: Url[] } | undefined>(undefined);
+
+const editExtraUrl = (item: Url) => {
+	if (extra_urls_modified.value === undefined)
+		extra_urls_modified.value = { edited: [], deleted: [] };
+	extra_urls_modified.value.edited.push(item);
+};
+
+const deleteExtraUrl = (item: Url, index: number) => {
+	if (extra_urls_modified.value === undefined)
+		extra_urls_modified.value = { edited: [], deleted: [] };
+	extra_urls_modified.value.deleted.push(item);
+
+	projectParams.extra_urls.splice(index, 1);
+};
 </script>
 
 <style lang="scss" scoped>

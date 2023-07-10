@@ -24,11 +24,7 @@
 				</div>
 
 				<div>
-					<OrderButton creation updated @change="onChangeOrder" :selected="order">
-						<template #header>
-							<slot name="order-text"> [PH] Order resource </slot>
-						</template>
-					</OrderButton>
+					<OrderPopover v-model:value="orderRef" :header="$t(`order.${resource}`)" />
 				</div>
 			</header>
 		</template>
@@ -66,35 +62,45 @@ const props = defineProps({
 		type: Array as PropType<Company[] | Organization[]>,
 		required: true,
 	},
+
+	resource: {
+		type: String as PropType<"organization" | "company">,
+		required: true,
+	},
 });
 
-const emit = defineEmits<{ (event: "change-order", value: number): void }>();
+const emit = defineEmits<{ (event: "update:order", value: number): void }>();
 
-const onChangeOrder = (value: number) => {
-	emit("change-order", value);
-};
+const orderRef = computed({
+	get() {
+		return props.order;
+	},
+	set(value) {
+		emit("update:order", value);
+	},
+});
 
 const orderedList = computed(() => {
 	// when the companies are updated set the navbar accordingly
 	// force();
 
 	// handle the ordering of companies
-	switch (props.order) {
+	switch (orderRef.value) {
 		// default case fallthrough to case 0
 		default:
-		case 0: // A-Z
+		case 11: // A-Z
 			return [...props.list].sort((a, b) => {
 				return a.attributes.designation.localeCompare(b.attributes.designation);
 			});
 			break;
 
-		case 1: // Z-A
+		case 12: // Z-A
 			return [...props.list].sort((a, b) => {
 				return a.attributes.designation.localeCompare(b.attributes.designation) * -1;
 			});
 			break;
 
-		case 2: //  Creation newest
+		case 21: //  Creation newest
 			return [...props.list].sort((a, b) => {
 				return (
 					(new Date(a.attributes.created_at).getTime() -
@@ -104,7 +110,7 @@ const orderedList = computed(() => {
 			});
 			break;
 
-		case 3: // Creation oldest
+		case 22: // Creation oldest
 			return [...props.list].sort((a, b) => {
 				return (
 					new Date(a.attributes.created_at).getTime() -
@@ -113,7 +119,7 @@ const orderedList = computed(() => {
 			});
 			break;
 
-		case 4: // Last edit ascending
+		case 31: // Last edit ascending
 			return [...props.list].sort((a, b) => {
 				return (
 					(new Date(a.attributes.updated_at).getTime() -
@@ -123,7 +129,7 @@ const orderedList = computed(() => {
 			});
 			break;
 
-		case 5: // Last edit descending
+		case 32: // Last edit descending
 			return [...props.list].sort((a, b) => {
 				return (
 					new Date(a.attributes.updated_at).getTime() -

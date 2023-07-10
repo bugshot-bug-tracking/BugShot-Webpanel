@@ -1,5 +1,5 @@
 <template>
-	<ResourceNavbar :list="resources" :order="order" @change-order="onChangeOrder">
+	<ResourceNavbar :list="resources" v-model:order="order" resource="company">
 		<template #pre-header>
 			<OrganizationSwitcher noLabel p-2 />
 		</template>
@@ -32,10 +32,6 @@
 				<Icon-Check button @click="saveEditTerm" :disabled="updateTermLoading" />
 				<Icon-X button @click="cancelEditTerm" :disabled="updateTermLoading" />
 			</div>
-		</template>
-
-		<template #order-text>
-			{{ $t("order_companies") }}
 		</template>
 
 		<template #item="{ item }: { item: Company }">
@@ -99,9 +95,12 @@
 										v-if="false"
 									/>
 
-									<span>
+									<n-ellipsis
+										:line-clamp="2"
+										:tooltip="{ contentStyle: { 'max-width': '66ch' } }"
+									>
 										{{ project.attributes.designation }}
-									</span>
+									</n-ellipsis>
 								</div>
 
 								<div
@@ -136,7 +135,7 @@
 							items-center
 							justify-center
 						>
-							<ProjectCreateModal :primary_button="false" :company="item">
+							<ProjectCreateModal :primary_button="false" :company="item" multipleURL>
 								<template #button>
 									<n-button
 										type="success"
@@ -185,11 +184,14 @@ import IconSettings from "../icons/Icon-Settings.vue";
 const { t } = useI18n();
 const router = useRouter();
 
-const order = computed(() => useSettingsStore().getCompaniesOrder);
-
-const onChangeOrder = (value: number) => {
-	useSettingsStore().setCompaniesOrder(value);
-};
+const order = computed({
+	get() {
+		return useSettingsStore().getCompaniesOrder;
+	},
+	set(value) {
+		useSettingsStore().setCompaniesOrder(value);
+	},
+});
 
 const resources = computed(() => useOrganizationStore().getCompanies);
 

@@ -151,7 +151,8 @@
 		"member": "Delete member | Delete members",
 		"team_member": "Delete team member | Delete team members",
 		"column": "Delete column",
-		"all": "Delete all"
+		"all": "Delete all",
+		"account": "Delete account"
 	},
 	"select": {
 		"select": "Select",
@@ -223,7 +224,6 @@
 	"ascending": "Ascending",
 	"descending": "Descending",
 	"apply_ordering": "Apply ordering",
-	"order_companies": "Order groups",
 	"unauthorized": "You are not authorized to complete this action!",
 	"my_account": "My Account",
 	"advanced_settings": "Advanced settings and notifications",
@@ -305,7 +305,6 @@
 	"no_organizations": "You don't have any organizations",
 	"please_add_new_one": "Please add a new one",
 	"organization_succ_created": "Organization successfully created",
-	"order_organizations": "Order organizations",
 	"overview": "Overview",
 	"delete_organization_and_projects": "Delete organization and associated groups",
 	"organization_settings": "Organization settings",
@@ -538,7 +537,8 @@
 		"license_revoked": "License revoked!",
 		"subscription_canceled": "Subscription canceled!",
 		"user_updated": "User updated!",
-		"organization_term_updated": "Term updated!"
+		"organization_term_updated": "Term updated!",
+		"account_deleted_successfully": "Account deleted successfully!"
 	},
 	"rules": {
 		"designation_required": "Bug name required!"
@@ -606,6 +606,7 @@
 	"password_reset_success": "The password was changed successfully!",
 	"recover_link_invalid": "This recovery link is invalid. Please retry the procedure again!",
 	"tagged_in_comment_by": "{0} tagged you in a comment.",
+	"new_comment_on_bug": "{0} added a comment to one of the bugs you created",
 	"go": "Go",
 	"new_approval_form_received": "{0} requests bug approvals for the project {1}.",
 	"approval_request_fulfilled": "{0} responded to an approval request!",
@@ -643,6 +644,9 @@
 		"subheader": "Bring a breath of fresh air to your digital product development bug reporting collaboration.",
 		"select_button": "Start Now",
 		"extra_licenses": "({0}€ per additional license)",
+
+		"save_n_%": "save {n}%",
+		"choose_right_plan": "Choose the right package for you:",
 		"plans": {
 			"trial": {
 				"title": "Bugshot trial",
@@ -747,6 +751,19 @@
 	},
 	"back": "Back",
 	"next": "Next",
+
+	"user_delete_modal": {
+		"line_1": "You are about to delete your account, and please note that this action is irreversible!",
+		"line_2": "Once the account is deleted, all associated organizations will also be deleted. Additionally, any active subscriptions you may have will be immediately canceled.",
+		"line_3": "Furthermore, if you were a member of any other organizations, we will remove you from those as well. However, please be informed that any resources such as projects, bugs, and comments that were created will still remain as part of the organization's data.",
+		"line_4": "If you encounter any issues or need assistance, please do not hesitate to contact our team at {0}"
+	},
+
+	"order": {
+		"organization": "Order organizations",
+		"company": "Order groups",
+		"porject": "Order projects"
+	},
 
 	" ": "",
 	"": ""

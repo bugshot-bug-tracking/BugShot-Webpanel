@@ -99,7 +99,32 @@
 							</div>
 						</n-form-item>
 
-						<n-form-item :label="t('assigned_to')" path="assignees">
+						<n-form-item
+							:label="t('time_estimate')"
+							path="estimate"
+							v-if="useFlagsStore().canSeeEverything"
+						>
+							<n-input-group>
+								<n-input-number
+									clearable
+									:min="0"
+									v-model:value="data.time_estimation"
+									:disabled="loading"
+								/>
+
+								<n-select
+									v-model:value="data.time_estimation_type"
+									default-value="m"
+									:options="timeEstimateOptions"
+								/>
+							</n-input-group>
+						</n-form-item>
+
+						<n-form-item
+							:label="t('assigned_to')"
+							path="assignees"
+							:show-feedback="false"
+						>
 							<AssignModal :assignedList="data.assignees" @submit="assigneesSubmit" />
 						</n-form-item>
 					</div>
@@ -153,6 +178,7 @@ import { useReportsStore } from "~/stores/reports";
 import { FormInst, FormRules } from "naive-ui";
 import { User } from "~/models/User";
 import axios from "axios";
+import { useFlagsStore } from "~/stores/flags";
 
 const store = useReportsStore();
 
@@ -170,6 +196,8 @@ const data = reactive({
 	images: [] as File[],
 	attachments: [] as File[],
 	assignees: [] as User[],
+	time_estimation: undefined as undefined | number,
+	time_estimation_type: undefined as undefined | "m" | "h" | "d" | "w",
 });
 
 const attachments = reactive({
@@ -218,6 +246,8 @@ const submit = async () => {
 			deadline: data.deadline,
 			images: images,
 			attachments: attachments,
+			time_estimation: data.time_estimation,
+			time_estimation_type: data.time_estimation_type,
 		});
 
 		await Promise.allSettled(
@@ -251,6 +281,8 @@ const resetData = () => {
 	data.images = [];
 	data.attachments = [];
 	data.assignees = [];
+	data.time_estimation = undefined;
+	data.time_estimation_type = undefined;
 };
 
 const loadingModal = reactive({
@@ -280,11 +312,33 @@ const assigneesSubmit = (list: { user: User; original: boolean; checked: boolean
 		if (element.checked === true) data.assignees.push(element.user);
 	});
 };
+
+const timeEstimateOptions = computed(() => [
+	{
+		label: t("minute", 2),
+		value: "m",
+	},
+	{
+		label: t("hour", 2),
+		value: "h",
+	},
+	{
+		label: t("day", 2),
+		value: "d",
+	},
+	{
+		label: t("week", 2),
+		value: "w",
+	},
+]);
 </script>
 
 <style scoped lang="scss">
 :deep(.n-drawer-header__main) {
 	display: flex;
 	flex: 1;
+}
+:deep(.n-select) {
+	width: 40%;
 }
 </style>

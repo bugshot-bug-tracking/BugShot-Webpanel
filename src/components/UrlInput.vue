@@ -8,25 +8,20 @@
 				:show-checkmark="false"
 			/>
 
-			<n-input
-				type="text"
-				:maxlength="65000"
-				v-model:value="urlValue"
-				:placeholder="placeholder"
-				:disabled="disabled"
-				:loading="loading"
-			/>
-
 			<n-tooltip
-				v-if="!noWildcard"
 				trigger="hover"
-				:content-style="{ fontSize: '1rem' }"
+				:content-style="{ fontSize: '0.875rem' }"
 				:disabled="finalValue == undefined"
 			>
 				<template #trigger>
-					<n-input-group-label>
-						<n-text> /* </n-text>
-					</n-input-group-label>
+					<n-input
+						type="text"
+						:maxlength="65000"
+						v-model:value="urlValue"
+						:placeholder="placeholder"
+						:disabled="disabled"
+						:loading="loading"
+					/>
 				</template>
 
 				{{ finalValue }}
@@ -131,14 +126,22 @@ const urlValue = computed({
 	},
 });
 
+// Define a computed property to compute the final value
 const finalValue = computed(() => {
-	if (url.value.length < 1) return undefined;
+	// Check if the url value is empty
+	if (url.value.length < 1) return undefined; // Return undefined if the url value is empty
 
-	if (url.value.charAt(url.value.length - 1) === "/") return `${url.protocol}://${url.value}*`;
-	else return `${url.protocol}://${url.value}/*`;
+	// Remove forward slashes at the end of the url value using regular expression
+	const trimmedUrl = url.value.replace(/\/+$/, "");
+
+	// Return the final formatted url value
+	return `${url.protocol}://${trimmedUrl}`;
 });
 
 watch(url, () => {
+	// Don't emit update if the values are the same (this treats the initialization case) and prevents recursive calls from watchEffect
+	if (finalValue.value === props.modelValue) return;
+
 	if (url.value.length < 1) emit("update:modelValue", "");
 	else {
 		if (props.onlyOrigin) {
@@ -146,6 +149,10 @@ watch(url, () => {
 			emit("update:modelValue", newValue);
 		} else emit("update:modelValue", finalValue.value);
 	}
+});
+
+watchEffect(() => {
+	urlValue.value = props.modelValue;
 });
 </script>
 

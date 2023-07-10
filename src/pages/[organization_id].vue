@@ -1,4 +1,6 @@
 <template>
+	<Banner />
+
 	<main class="main-loading" v-if="loading">
 		<img src="/src/assets/animations/loading.svg" alt="loading circle" />
 	</main>

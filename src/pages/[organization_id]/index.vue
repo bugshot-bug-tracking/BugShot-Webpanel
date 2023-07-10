@@ -13,6 +13,10 @@
 				<template #center>
 					<SearchBar />
 				</template>
+
+				<template #actions>
+					<OrderPopover v-model:value="orderRef" :header="$t('order.porject')" />
+				</template>
 			</T3Header>
 		</template>
 
@@ -73,6 +77,8 @@
 <script setup lang="ts">
 import timeToText from "~/util/timeToText";
 import { useOrganizationStore } from "~/stores/organization";
+import useOrderResource from "~/composables/OrderResource";
+import { useSettingsStore } from "~/stores/settings";
 
 const props = defineProps({
 	organization_id: {
@@ -93,7 +99,9 @@ const companies = computed(() => {
 		.sort((a, b) => (a.attributes.updated_at < b.attributes.updated_at ? 1 : -1));
 });
 
-const companyProjects = (id: string) => store.getCompanyProjects(id);
+const companyProjects = (id: string) => {
+	return orderedList(store.getCompanyProjects(id) ?? []);
+};
 
 const goToProject = (company_id: string, project_id: string) => {
 	router.push({
@@ -105,6 +113,16 @@ const goToProject = (company_id: string, project_id: string) => {
 		},
 	});
 };
+
+const { orderRef, orderedList } = useOrderResource();
+
+onMounted(() => {
+	orderRef.value = useSettingsStore().getProjectsOrder;
+});
+
+watch(orderRef, () => {
+	useSettingsStore().setProjectsOrder(orderRef.value);
+});
 </script>
 
 <style lang="scss" scoped>

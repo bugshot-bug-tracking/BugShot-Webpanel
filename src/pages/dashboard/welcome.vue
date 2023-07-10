@@ -14,6 +14,43 @@
 							</n-text>
 						</n-h1>
 						<n-p max-w-66ch text-balance>{{ t("welcome_page.subheader") }} </n-p>
+
+						<n-text>
+							{{ t("welcome_page.choose_right_plan") }}
+						</n-text>
+
+						<div flex gap-2 items-baseline mt-4 justify-center>
+							<n-button
+								text
+								text-5
+								style="font-weight: bold"
+								:class="{ 'selected-opt': isMonthly }"
+								@click="isMonthly = true"
+								:disabled="buttonLoading !== undefined"
+							>
+								{{ t("monthly") }}
+							</n-button>
+
+							<n-switch
+								size="small"
+								@click="isMonthly = !isMonthly"
+								:value="!isMonthly"
+								:disabled="buttonLoading !== undefined"
+							/>
+
+							<n-button
+								text
+								text-5
+								style="font-weight: bold"
+								:class="{ 'selected-opt': !isMonthly }"
+								@click="isMonthly = false"
+								:disabled="buttonLoading !== undefined"
+							>
+								{{ t("yearly") }}
+
+								<span text-4 ml-1ch> ({{ t("welcome_page.save_n_%", 17) }}) </span>
+							</n-button>
+						</div>
 					</div>
 
 					<n-list
@@ -40,16 +77,21 @@
 							<PlanCard2
 								:value="{
 									type: item.type,
-									price: item.prices.monthly.unit_amount,
+									price: isMonthly
+										? item.prices.monthly.unit_amount ?? 0
+										: item.prices.yearly.unit_amount ?? 0,
 									features: item.features,
 									multiple: item.prices.monthly.extra_unit_amount ? true : false,
-									extra_price: item.prices.monthly.extra_unit_amount,
+									extra_price: isMonthly
+										? item.prices.monthly.extra_unit_amount ?? 0
+										: item.prices.yearly.extra_unit_amount ?? 0,
 									color:
 										item.type === 'individual'
 											? 'var(--bs-green)'
 											: item.type === 'team'
 											? 'var(--bs-yellow)'
 											: undefined,
+									yearly: !isMonthly,
 								}"
 								@action="buyLicense(item, $event)"
 								:disabled="buttonLoading !== undefined"
@@ -112,7 +154,7 @@ const buyLicense = async (item: (typeof processedProducts.value)[0], quantity: n
 
 	await useOrganizationStore().init(org.id);
 
-	let mainPrice = item.prices.monthly.price;
+	let mainPrice = isMonthly.value ? item.prices.monthly.price : item.prices.yearly.price;
 
 	await store.createCheckout({
 		price: mainPrice!,
@@ -189,9 +231,15 @@ const processedProducts = computed(() =>
 		}))
 		.sort((a, b) => (a.prices.monthly?.unit_amount ?? 0) - (b.prices.monthly?.unit_amount ?? 0))
 );
+
+const isMonthly = ref(true);
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.selected-opt {
+	color: var(--bs-purple);
+}
+</style>
 
 <route lang="yaml">
 name: welcome

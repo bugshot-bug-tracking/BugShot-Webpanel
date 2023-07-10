@@ -26,6 +26,7 @@
 						:project_name="project.attributes.designation"
 						:company_name="project.attributes.company.attributes.designation"
 						:url="project.attributes.url ?? ''"
+						:extra_urls="store.extra_urls ?? []"
 						:image="project.attributes.image?.attributes.url"
 						:color="project.attributes.color_hex"
 					/>

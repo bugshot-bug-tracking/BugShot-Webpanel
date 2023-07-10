@@ -14,6 +14,22 @@
 					<SearchBar />
 				</template>
 
+				<template #actions>
+					<OrderPopover v-model:value="orderRef" :header="$t('order.porject')" />
+
+					<n-dropdown trigger="click" :options="more.options" v-if="isAuthorized">
+						<n-button text class="sh-company-settings-button">
+							<Icon-VerticalDots />
+						</n-button>
+					</n-dropdown>
+				</template>
+
+				<ProjectCreateModal
+					:primary_button="true"
+					v-if="isAuthorized || (company.attributes.role?.id ?? 9) < 3"
+					class="sh-project-create"
+				/>
+
 				<ManageMembers
 					v-if="isAuthorized"
 					:list="manageableMembers"
@@ -27,38 +43,6 @@
 					infoKey="tooltips.company_roles"
 					class="sh-company-members-button"
 				/>
-
-				<ProjectCreateModal
-					:primary_button="true"
-					v-if="isAuthorized || (company.attributes.role?.id ?? 9) < 3"
-					class="sh-project-create"
-				/>
-
-				<RouterLink
-					:to="{
-						name: 'company-settings',
-						params: { organization_id: organization_id, company_id: company.id },
-					}"
-					v-if="isAuthorized"
-				>
-					<n-button
-						type="success"
-						ghost
-						round
-						size="large"
-						class="sh-company-settings-button"
-					>
-						<template #icon>
-							<img
-								src="/src/assets/icons/gear.svg"
-								alt="project"
-								class="black-to-green"
-							/>
-						</template>
-
-						{{ $t("company_settings") }}
-					</n-button>
-				</RouterLink>
 			</T3Header>
 		</template>
 
@@ -72,7 +56,7 @@
 
 				<p>{{ $t("please_add_new_project") }}</p>
 
-				<ProjectCreateModal :primary_button="true" />
+				<ProjectCreateModal :primary_button="true" multipleURL />
 			</section>
 		</div>
 
@@ -127,8 +111,12 @@
 </template>
 
 <script setup lang="ts">
+import { DropdownOption } from "naive-ui";
+import IconSettings from "~/components/icons/Icon-Settings.vue";
+import useOrderResource from "~/composables/OrderResource";
 import { useCompanyStore } from "~/stores/company";
 import { useOrganizationStore } from "~/stores/organization";
+import { useSettingsStore } from "~/stores/settings";
 import timeToText from "~/util/timeToText";
 
 const props = defineProps({
@@ -145,13 +133,15 @@ const props = defineProps({
 	},
 });
 
+const { t } = useI18n();
+
 const store = useCompanyStore();
 
 const router = useRouter();
 
 const company = computed(() => store.getCompany!);
 
-const projects = computed(() => store.getProjects ?? []);
+const projects = computed(() => orderedList(store.getProjects ?? []));
 
 const isAuthorized = computed(() => {
 	//TODO temp code replace with proper ?global? logic
@@ -207,6 +197,38 @@ const suggestOptions = computed(() => {
 
 	return diffArray.map((m) => m.attributes.email);
 });
+
+const { orderRef, orderedList } = useOrderResource();
+
+onMounted(() => {
+	orderRef.value = useSettingsStore().getProjectsOrder;
+});
+
+watch(orderRef, () => {
+	useSettingsStore().setProjectsOrder(orderRef.value);
+});
+
+const more = computed(() => ({
+	options: [
+		{
+			label: t("company_settings"),
+			key: "settings",
+			icon: () => h(IconSettings),
+			show: isAuthorized.value,
+			props: {
+				onClick: () => {
+					router.push({
+						name: "company-settings",
+						params: {
+							organization_id: props.organization_id,
+							company_id: props.company_id,
+						},
+					});
+				},
+			},
+		},
+	] as DropdownOption[],
+}));
 </script>
 
 <route lang="yaml">

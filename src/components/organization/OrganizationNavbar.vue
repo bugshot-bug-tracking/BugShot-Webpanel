@@ -1,5 +1,5 @@
 <template>
-	<ResourceNavbar :list="organizations" :order="order" @change-order="onChangeOrder">
+	<ResourceNavbar :list="organizations" v-model:order="order" resource="organization">
 		<template> </template>
 
 		<template #header-text>
@@ -99,11 +99,14 @@ import { useMainStore } from "~/stores/main";
 import { Organization } from "~/models/Organization";
 import { useAuthStore } from "~/stores/auth";
 
-const order = computed(() => useSettingsStore().getOrganizationsOrder);
-
-const onChangeOrder = (value: number) => {
-	useSettingsStore().setOrganizationsOrder(value);
-};
+const order = computed({
+	get() {
+		return useSettingsStore().getCompaniesOrder;
+	},
+	set(value) {
+		useSettingsStore().setCompaniesOrder(value);
+	},
+});
 
 const organizations = computed(() => useMainStore().getMyOrganizations);
 
