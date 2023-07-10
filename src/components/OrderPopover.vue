@@ -10,10 +10,10 @@
 
 		<div p-2 flex flex-col>
 			<n-h6 class="bs-bb" pb-2 m-0>
-				<n-text strong> Order Projects </n-text>
+				<n-text strong> {{ header ?? "[PH] Order" }} </n-text>
 			</n-h6>
 
-			<n-radio-group v-model:value="value" name="radiogroup">
+			<n-radio-group v-model:value="valueRef" name="radiogroup">
 				<n-list>
 					<n-list-item>
 						<div flex flex-col gap-2>
@@ -36,6 +36,7 @@
 							</div>
 						</div>
 					</n-list-item>
+
 					<n-list-item>
 						<div flex flex-col gap-2>
 							<n-text style="font-size: 0.875rem"> {{ t("last_updated") }} </n-text>
@@ -48,8 +49,6 @@
 					</n-list-item>
 				</n-list>
 			</n-radio-group>
-
-			<n-button type="success" round mx-a mt-4 mb-2>{{ t("apply_ordering") }}</n-button>
 		</div>
 	</n-popover>
 </template>
@@ -68,17 +67,26 @@ const props = defineProps({
 	value: {
 		required: false,
 		type: Number as PropType<OrderType>,
-		default: 11,
+		default: undefined,
+	},
+	header: {
+		required: false,
+		type: String,
+		default: undefined,
 	},
 });
+
+const fallbackValue = ref<OrderType>(11);
+
 const emit = defineEmits(["update:value"]);
 
-const value = computed({
+const valueRef = computed({
 	get() {
-		return props.value;
+		return props.value ?? fallbackValue.value;
 	},
 	set(value) {
-		emit("update:value", value);
+		if (props.value != undefined) emit("update:value", value);
+		else fallbackValue.value = value;
 	},
 });
 

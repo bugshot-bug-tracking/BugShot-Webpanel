@@ -224,7 +224,6 @@
 	"ascending": "Aufsteigend",
 	"descending": "Absteigend",
 	"apply_ordering": "Übernehmen",
-	"order_companies": "Gruppen sortieren",
 	"unauthorized": "Du bist nicht autorisiert diese Handlung durchzuführen!",
 	"my_account": "Mein Account",
 	"advanced_settings": "Erweiterte Einstellungen und Benachrichtigungen",
@@ -306,7 +305,6 @@
 	"no_organizations": "Du hast noch keine Organisationen",
 	"please_add_new_one": "Bitte füge eine neue hinzu",
 	"organization_succ_created": "Organisation erfolgreich erstellt",
-	"order_organizations": "Organisationen sortieren",
 	"overview": "Übersicht",
 	"delete_organization_and_projects": "Organisation und ihre Gruppen löschen",
 	"organization_settings": "Organisations Einstellungen",
@@ -692,6 +690,12 @@
 		"line_2": "Sobald das Konto gelöscht ist werden auch alle zugehörigen Organisationen gelöscht. Zudem werden alle aktiven Abonnements sofort storniert.",
 		"line_3": "Darüber hinaus werden Sie aus allen anderen Organisationen, in denen Sie Mitglied sind, entfernt. Bitte beachten Sie jedoch, dass Ressourcen wie Projekte, Fehler und Kommentare, die erstellt wurden, als Teil der Organisationsdaten erhalten bleiben.",
 		"line_4": "Wenn Sie Probleme haben oder Hilfe benötigen, zögern Sie bitte nicht, unser Team unter {0} zu kontaktieren."
+	},
+
+	"order": {
+		"organization": "Organisationen sortieren",
+		"company": "Gruppen sortieren",
+		"porject": "Projekte sortieren"
 	},
 
 	" ": "",

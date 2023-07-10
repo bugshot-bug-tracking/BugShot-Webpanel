@@ -224,7 +224,6 @@
 	"ascending": "Ascending",
 	"descending": "Descending",
 	"apply_ordering": "Apply ordering",
-	"order_companies": "Order groups",
 	"unauthorized": "You are not authorized to complete this action!",
 	"my_account": "My Account",
 	"advanced_settings": "Advanced settings and notifications",
@@ -306,7 +305,6 @@
 	"no_organizations": "You don't have any organizations",
 	"please_add_new_one": "Please add a new one",
 	"organization_succ_created": "Organization successfully created",
-	"order_organizations": "Order organizations",
 	"overview": "Overview",
 	"delete_organization_and_projects": "Delete organization and associated groups",
 	"organization_settings": "Organization settings",
@@ -690,11 +688,18 @@
 			}
 		}
 	},
+
 	"user_delete_modal": {
 		"line_1": "You are about to delete your account, and please note that this action is irreversible!",
 		"line_2": "Once the account is deleted, all associated organizations will also be deleted. Additionally, any active subscriptions you may have will be immediately canceled.",
 		"line_3": "Furthermore, if you were a member of any other organizations, we will remove you from those as well. However, please be informed that any resources such as projects, bugs, and comments that were created will still remain as part of the organization's data.",
 		"line_4": "If you encounter any issues or need assistance, please do not hesitate to contact our team at {0}"
+	},
+
+	"order": {
+		"organization": "Order organizations",
+		"company": "Order groups",
+		"porject": "Order projects"
 	},
 
 	" ": "",
