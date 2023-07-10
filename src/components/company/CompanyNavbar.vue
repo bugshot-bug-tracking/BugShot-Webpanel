@@ -95,9 +95,12 @@
 										v-if="false"
 									/>
 
-									<span>
+									<n-ellipsis
+										:line-clamp="2"
+										:tooltip="{ contentStyle: { 'max-width': '66ch' } }"
+									>
 										{{ project.attributes.designation }}
-									</span>
+									</n-ellipsis>
 								</div>
 
 								<div

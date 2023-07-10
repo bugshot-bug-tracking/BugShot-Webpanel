@@ -31,6 +31,7 @@
 						:placeholder="$t('enter_project_name')"
 						:type="'text'"
 						required
+						maxlength="255"
 					/>
 				</div>
 

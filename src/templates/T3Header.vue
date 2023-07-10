@@ -3,13 +3,19 @@
 		<div class="left">
 			<slot name="left">
 				<div class="top">
-					<n-ellipsis :line-clamp="1">
+					<n-ellipsis
+						:line-clamp="1"
+						:tooltip="{ contentStyle: { 'max-width': '66ch' } }"
+					>
 						<slot name="l-top" />
 					</n-ellipsis>
 				</div>
 
 				<div class="bottom" v-if="$slots['l-bottom']">
-					<n-ellipsis :line-clamp="1">
+					<n-ellipsis
+						:line-clamp="1"
+						:tooltip="{ contentStyle: { 'max-width': '66ch' } }"
+					>
 						<slot name="l-bottom" />
 					</n-ellipsis>
 				</div>
