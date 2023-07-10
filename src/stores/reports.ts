@@ -149,6 +149,8 @@ export const useReportsStore = defineStore("reports", {
 			priority_id,
 			images,
 			attachments,
+			time_estimation,
+			time_estimation_type,
 		}: {
 			designation: string;
 			description: string;
@@ -156,6 +158,8 @@ export const useReportsStore = defineStore("reports", {
 			priority_id: number;
 			images?: { base64: string }[];
 			attachments?: { designation: string; base64: string }[];
+			time_estimation?: number;
+			time_estimation_type?: "m" | "h" | "d" | "w";
 		}) {
 			let status = this.getBacklogStatus;
 
@@ -169,6 +173,9 @@ export const useReportsStore = defineStore("reports", {
 					...{
 						deadline: deadline ? new Date(deadline).toISOString().slice(0, -1) : null,
 					},
+
+					time_estimation,
+					time_estimation_type,
 				})
 			).data.data;
 

@@ -212,6 +212,16 @@ export const useAuthStore = defineStore("auth", {
 
 			return response;
 		},
+
+		async deleteUser() {
+			if (this.user === undefined) throw new Error('User not set in "auth" store!');
+
+			let response = await axios.delete(`users/${this.user.id}`);
+
+			this.logout();
+
+			return response;
+		},
 	},
 
 	getters: {
