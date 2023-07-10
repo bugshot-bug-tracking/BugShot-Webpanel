@@ -54,7 +54,7 @@
 
 				<p>{{ $t("please_add_new_project") }}</p>
 
-				<ProjectCreateModal :primary_button="true" />
+				<ProjectCreateModal :primary_button="true" multipleURL />
 			</section>
 		</div>
 

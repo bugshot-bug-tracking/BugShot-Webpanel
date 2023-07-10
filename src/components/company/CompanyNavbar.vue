@@ -132,7 +132,7 @@
 							items-center
 							justify-center
 						>
-							<ProjectCreateModal :primary_button="false" :company="item">
+							<ProjectCreateModal :primary_button="false" :company="item" multipleURL>
 								<template #button>
 									<n-button
 										type="success"

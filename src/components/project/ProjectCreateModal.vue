@@ -33,23 +33,17 @@
 					:disabled="loading"
 					:placeholder="t('enter_main_project_url')"
 					@click:suffix="data.urlList.push('')"
-					noWildcard
-					onlyOrigin
 					:noActions="!multipleURL"
 				/>
 			</n-form-item>
 
 			<div v-if="multipleURL">
-				<n-form-item
-					v-for="(item, index) in data.urlList"
-					:label="t('other_project_url_optional')"
-				>
+				<n-form-item v-for="(item, index) in data.urlList" :show-label="false">
 					<UrlInput
-						:placeholder="t('enter_project_url')"
+						:placeholder="t('other_project_url_optional')"
 						v-model="data.urlList[index]"
 						:disabled="loading"
 						@click:suffix="data.urlList.splice(index, 1)"
-						noWildcard
 					>
 						<template #suffix>
 							<img

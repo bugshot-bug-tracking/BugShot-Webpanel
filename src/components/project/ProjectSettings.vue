@@ -36,6 +36,7 @@
 			:color="color"
 			:image="image"
 			:url="url"
+			:extra_urls="extra_urls"
 			:submit="editFunction"
 			v-model:open="modalOpen"
 		>
@@ -50,6 +51,7 @@
 </template>
 
 <script setup lang="ts">
+import { Url } from "~/models/Url";
 import { useProjectStore } from "~/stores/project";
 import { COLOR } from "~/util/colors";
 
@@ -71,6 +73,11 @@ defineProps({
 		type: String,
 	},
 
+	extra_urls: {
+		required: false,
+		type: Array as PropType<Url[]>,
+	},
+
 	image: {
 		required: false,
 		type: String,
@@ -84,13 +91,46 @@ defineProps({
 	},
 });
 
-const editFunction = async (data: {
-	designation: string;
-	url: string;
-	color_hex: string;
-	base64: string;
-}) => {
+const editFunction = async (
+	data: {
+		designation: string;
+		url: string;
+		color_hex: string;
+		base64: string;
+	},
+	new_urls: string[],
+	extra_urls_modified?: { edited: Url[]; deleted: Url[] }
+) => {
 	await useProjectStore().updateResource(data);
+
+	if (new_urls && (new_urls.length ?? 0) > 0) {
+		await Promise.allSettled(
+			new_urls.map(async (url) => await useProjectStore().addExtraUrl(url))
+		);
+	}
+
+	if (
+		extra_urls_modified &&
+		(extra_urls_modified.edited.length ?? 0) + (extra_urls_modified.deleted.length ?? 0) > 0
+	) {
+		if ((extra_urls_modified.edited.length ?? 0) > 0) {
+			await Promise.allSettled(
+				extra_urls_modified.edited.map(
+					async (url) => await useProjectStore().updateExtraUrl(url)
+				)
+			);
+		}
+
+		if ((extra_urls_modified.deleted.length ?? 0) > 0) {
+			await Promise.allSettled(
+				extra_urls_modified.deleted.map(
+					async (url) => await useProjectStore().deleteExtraUrl(url)
+				)
+			);
+		}
+	}
+
+	await useProjectStore().fetchProjectUrls();
 };
 
 const modalOpen = ref(false);
