@@ -6,7 +6,7 @@
 			</div>
 		</div>
 
-		<div class="bs-input">
+		<div class="bs-input" @click="modalOpen = true">
 			<label>
 				{{ $t("organization_name") }}
 			</label>
@@ -19,7 +19,11 @@
 			/>
 		</div>
 
-		<OrganizationEditModal :name="resource.attributes.designation" :submit="editResource">
+		<OrganizationEditModal
+			:name="resource.attributes.designation"
+			:submit="editResource"
+			v-model:open="modalOpen"
+		>
 			<template #button>
 				<a mt4 cursor-pointer>
 					<img src="/src/assets/icons/edit.svg" alt="edit" class="black-to-purple" />
@@ -41,6 +45,8 @@ const resource = computed(() => store.getOrganization!);
 const editResource = async (data: { designation: string }) => {
 	await store.updateResource(data);
 };
+
+const modalOpen = ref(false);
 </script>
 
 <style lang="scss" scoped>

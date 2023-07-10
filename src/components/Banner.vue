@@ -22,7 +22,7 @@ import { version } from "~/../package.json";
 import { useLocalStorage } from "@vueuse/core";
 
 let local = useLocalStorage("new_version", version);
-let visibility = useLocalStorage("new_version_visibility", true);
+let visibility = useLocalStorage("new_version_visibility", false);
 
 onMounted(() => {
 	let splitLocalVersion = local.value.split(".");
@@ -45,7 +45,7 @@ const { t } = useI18n({ inheritLocale: true });
 
 <style lang="scss" scoped>
 .announcement-wrapper {
-	width: max-content;
+	max-width: max-content;
 	position: absolute;
 	top: 0;
 	left: 0;

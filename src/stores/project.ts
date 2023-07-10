@@ -6,6 +6,7 @@ import { Invitation } from "~/models/Invitation";
 import { ProjectUserRole } from "~/models/ProjectUserRole";
 import { useCompanyStore } from "./company";
 import { useHookStore } from "./hooks";
+import { Url } from "~/models/Url";
 
 export const useProjectStore = defineStore("project", {
 	state: () => ({
@@ -14,6 +15,8 @@ export const useProjectStore = defineStore("project", {
 
 		project_id: undefined as string | undefined,
 		project: undefined as Project | undefined,
+
+		extra_urls: undefined as Url[] | undefined,
 
 		members: undefined as ProjectUserRole[] | undefined,
 		pendingInvitations: undefined as Invitation[] | undefined,
@@ -29,6 +32,7 @@ export const useProjectStore = defineStore("project", {
 
 				await this.load();
 				await this.fetchUsers();
+				await this.fetchProjectUrls();
 			} catch (error) {
 				this.$reset();
 
@@ -62,6 +66,12 @@ export const useProjectStore = defineStore("project", {
 			this.project = project;
 		},
 
+		async fetchProjectUrls() {
+			let urls = (await axios.get(`/project/${this.project_id}/urls`)).data.data;
+
+			this.extra_urls = urls as Url[];
+		},
+
 		async updateResource(payload: {
 			designation: string;
 			url: string;
@@ -82,6 +92,30 @@ export const useProjectStore = defineStore("project", {
 			this.message.success(this.i18n.t("messages.project_updated"));
 
 			await this.refresh();
+		},
+
+		async addExtraUrl(item: string) {
+			const response = await axios.post(`project/${this.project?.id}/urls`, {
+				url: item,
+				https: item.match(/^(https):\/\//) == null ? false : true,
+			});
+
+			return response;
+		},
+
+		async updateExtraUrl(item: Url) {
+			const response = await axios.put(`project/${this.project?.id}/urls/${item.id}`, {
+				url: item.attributes.url,
+				https: item.attributes.url.match(/^(https):\/\//) == null ? 0 : 1,
+			});
+
+			return response;
+		},
+
+		async deleteExtraUrl(item: Url) {
+			const response = await axios.delete(`project/${this.project?.id}/urls/${item.id}`);
+
+			return response;
 		},
 
 		async deleteResource() {
