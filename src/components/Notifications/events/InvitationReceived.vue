@@ -1,13 +1,13 @@
 <template>
-	<div class="notification-entry">
-		<div class="notification-header">
+	<NotificationTemplate>
+		<template #header>
 			<n-text>
 				{{ $t("invited_to_join") }}
 			</n-text>
 			<n-text strong>{{ value.data.invited_to }}</n-text>
-		</div>
+		</template>
 
-		<div class="notification-footer">
+		<template #footer>
 			<n-text style="color: var(--bs-gray)">
 				{{ $d(new Date(dateFix(value.data.created_at)), "short") }}
 
@@ -15,9 +15,9 @@
 
 				<b style="font-weight: 600">{{ value.data.invited_by }}</b>
 			</n-text>
-		</div>
+		</template>
 
-		<div class="notification-action">
+		<template #action>
 			<Transition mode="out-in" :name="invitation.transition_direction">
 				<div v-if="value.status === undefined && invitation.state === undefined">
 					<n-button
@@ -65,8 +65,8 @@
 					</n-tag>
 				</div>
 			</Transition>
-		</div>
-	</div>
+		</template>
+	</NotificationTemplate>
 </template>
 
 <script setup lang="ts">
