@@ -37,16 +37,24 @@
 							href="mailto:tech@bugshot.de"
 							style="user-select: auto"
 						>
-							tech@bugshot.de
+							hello@bugshot.de
 						</n-button>
 					</i18n-t>
 				</n-text>
 			</div>
 
 			<div flex flex-1 items-center justify-evenly mt-8>
-				<n-button type="success" ghost round size="large" :disabled="loading">{{
-					t("cancel")
-				}}</n-button>
+				<n-button
+					type="success"
+					ghost
+					round
+					size="large"
+					:disabled="loading"
+					@click="modal.close"
+				>
+					{{ t("cancel") }}
+				</n-button>
+
 				<n-button
 					type="error"
 					round
