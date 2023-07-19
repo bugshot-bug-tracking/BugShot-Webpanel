@@ -1,5 +1,5 @@
 <template>
-	<div w-100 text-left>
+	<div text-left>
 		<div v-if="!goodResponse">
 			<n-h1 mb-8>
 				<n-text type="primary" style="font-weight: 700">

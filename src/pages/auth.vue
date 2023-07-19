@@ -81,9 +81,15 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		align-items: center;
+		align-items: stretch;
 
 		padding: 1rem;
+
+		> div {
+			max-width: 30rem;
+			width: 100%;
+			align-self: center;
+		}
 	}
 
 	> footer {

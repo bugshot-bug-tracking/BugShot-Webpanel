@@ -1,5 +1,5 @@
 <template>
-	<div w-100 text-left>
+	<div text-left>
 		<n-h1>
 			<n-text type="primary" style="font-weight: 700">
 				{{ t("log_in") }}

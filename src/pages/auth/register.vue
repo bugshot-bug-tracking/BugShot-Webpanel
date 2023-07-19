@@ -1,5 +1,5 @@
 <template>
-	<div min-w-100 text-left style="width: 40%">
+	<div text-left>
 		<n-h1 text-6>
 			<n-text style="font-weight: 700">
 				{{ t("register_page.header") }}
