@@ -43,7 +43,7 @@
 							<template #icon>
 								<Icon-Edit color="var(--bs-purple)" />
 							</template>
-							{{ t("edit.bug_details") }}
+							{{ t("edit.bug") }}
 						</n-button>
 
 						<n-tooltip>

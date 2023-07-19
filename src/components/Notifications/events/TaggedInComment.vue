@@ -1,25 +1,25 @@
 <template>
-	<div class="notification-entry">
-		<div class="notification-header">
+	<NotificationTemplate>
+		<template #header>
 			<n-text>
 				<i18n-t keypath="tagged_in_comment_by" scope="global">
 					<n-text strong> {{ value.data.creator_name }}</n-text>
 				</i18n-t>
 			</n-text>
-		</div>
+		</template>
 
-		<div class="notification-footer">
+		<template #footer>
 			<n-text style="color: var(--bs-gray)" v-if="value.data.created_at">
 				{{ $d(new Date(dateFix(value.data.created_at)), "short") }}
 			</n-text>
-		</div>
+		</template>
 
-		<div class="notification-action">
+		<template #action>
 			<n-button type="primary" text underline @click="goToComment">
 				{{ $t("view_comment") }}
 			</n-button>
-		</div>
-	</div>
+		</template>
+	</NotificationTemplate>
 </template>
 
 <script setup lang="ts">

@@ -138,8 +138,7 @@
 		"organization": "Organisation bearbeiten",
 		"designation": "Titel anpassen",
 		"url": "URL anpassen",
-		"description": "Beschreibung anpassen",
-		"bug_details": "Bug-Eigenschaften ändern"
+		"description": "Beschreibung anpassen"
 	},
 	"delete": {
 		"delete": "Löschen",
@@ -752,10 +751,11 @@
 	"next": "Weiter",
 
 	"user_delete_modal": {
-		"line_1": "Sie sind dabei, Ihr Konto zu löschen, und beachten Sie bitte, dass dieser Vorgang nicht rückgängig gemacht werden kann!",
-		"line_2": "Sobald das Konto gelöscht ist werden auch alle zugehörigen Organisationen gelöscht. Zudem werden alle aktiven Abonnements sofort storniert.",
-		"line_3": "Darüber hinaus werden Sie aus allen anderen Organisationen, in denen Sie Mitglied sind, entfernt. Bitte beachten Sie jedoch, dass Ressourcen wie Projekte, Fehler und Kommentare, die erstellt wurden, als Teil der Organisationsdaten erhalten bleiben.",
-		"line_4": "Wenn Sie Probleme haben oder Hilfe benötigen, zögern Sie bitte nicht, unser Team unter {0} zu kontaktieren."
+		"line_1": "Oh no, schade, dass du dein Konto löschen möchtest.",
+		"line_2": "Bitte beachte, dass dieser Vorgang nicht rückgängig gemacht werden kann. Wenn du dein Konto löschst, werden alle zugehörigen Organisationen ebenfalls gelöscht.",
+		"line_3": "Du wirst auch aus allen anderen Organisationen, in denen du Mitglied bist, entfernt. Daten wie Projekte, Bugs oder Kommentare bleiben in externen Projekten weiterhin erhalten.",
+		"line_4": "Dein Abo endet je nach Abrechnungszeitraum entweder zum Ende des Monats oder zum Ende des gewählten Abrechnungszeitraums.",
+		"line_5": "Schreib uns gerne eine Mail an {0} mit deinem Feedback,was wir besser machen können."
 	},
 
 	"order": {

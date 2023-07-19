@@ -1,11 +1,11 @@
 <script lang="ts">
 import { h } from "vue";
 import { Notification } from "~/models/Notification";
-import InvitationReceived from "./InvitationReceived.vue";
-import TaggedInComment from "./TaggedInComment.vue";
-import ImplementationApprovalFormReceived from "./ImplementationApprovalFormReceived.vue";
-import ApprovalReportReceived from "./ApprovalReportReceived.vue";
-import CommentCreated from "./CommentCreated.vue";
+import InvitationReceived from "./events/InvitationReceived.vue";
+import TaggedInComment from "./events/TaggedInComment.vue";
+import ImplementationApprovalFormReceived from "./events/ImplementationApprovalFormReceived.vue";
+import ApprovalReportReceived from "./events/ApprovalReportReceived.vue";
+import CommentCreated from "./events/CommentCreated.vue";
 
 export default {
 	props: {
@@ -15,7 +15,9 @@ export default {
 		},
 	},
 
-	setup(props) {
+	emits: ["delete"],
+
+	setup(props, context) {
 		// return the render function
 		return () => {
 			switch (props.data.attributes.data.type) {
@@ -23,27 +25,32 @@ export default {
 					return h(InvitationReceived, {
 						value: props.data.attributes.data,
 						notification_id: props.data.id,
+						onDelete: () => context.emit("delete"),
 					});
 
 				case "TaggedInComment":
 					return h(TaggedInComment, {
 						value: props.data.attributes.data,
 						notification_id: props.data.id,
+						onDelete: () => context.emit("delete"),
 					});
 
 				case "ImplementationApprovalFormReceived":
 					return h(ImplementationApprovalFormReceived, {
 						value: props.data.attributes.data,
+						onDelete: () => context.emit("delete"),
 					});
 
 				case "ApprovalReportReceived":
 					return h(ApprovalReportReceived, {
 						value: props.data.attributes.data,
+						onDelete: () => context.emit("delete"),
 					});
 
 				case "CommentCreated":
 					return h(CommentCreated, {
 						value: props.data.attributes.data,
+						onDelete: () => context.emit("delete"),
 					});
 
 				default:
@@ -53,31 +60,3 @@ export default {
 	},
 };
 </script>
-
-<style lang="scss">
-.notification-entry {
-	display: grid;
-	grid-template-areas:
-		"header action"
-		"footer action";
-	grid-template-columns: 1fr auto;
-	grid-template-rows: auto 1fr;
-	gap: 0.25rem 1rem;
-}
-
-.notification-header {
-	grid-area: header;
-}
-.notification-footer {
-	grid-area: footer;
-	font-size: 0.875rem;
-}
-.notification-action {
-	grid-area: action;
-	align-self: center;
-
-	button {
-		padding: 0.5rem;
-	}
-}
-</style>

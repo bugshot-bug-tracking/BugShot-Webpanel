@@ -116,6 +116,9 @@ export const useNotificationStore = defineStore("notification", {
 					await axios.delete(`/users/${this.user?.id}/notifications/${notification_id}`)
 				).data.data;
 
+				let index = this.notifications.findIndex((n) => n.id === notification_id);
+				if (index !== -1) this.notifications.splice(index, 1);
+
 				return response;
 			} catch (error) {
 				console.log(error);

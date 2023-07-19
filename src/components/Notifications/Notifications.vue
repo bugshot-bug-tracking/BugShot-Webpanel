@@ -35,7 +35,7 @@
 			<n-scrollbar v-if="notificationCount > 0" max-h-100 pr-2 mb-2>
 				<ul px-2>
 					<li v-for="notif in notifications" my-2>
-						<NotificationItem :data="notif" />
+						<NotificationItem :data="notif" @delete="deleteNotification(notif.id)" />
 					</li>
 				</ul>
 			</n-scrollbar>
@@ -78,6 +78,10 @@ const deleteAllNotifications = async () => {
 	} finally {
 		deleteLoading.value = false;
 	}
+};
+
+const deleteNotification = (id: string) => {
+	store.deleteNotification(id);
 };
 </script>
 

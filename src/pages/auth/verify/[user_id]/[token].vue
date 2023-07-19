@@ -1,5 +1,5 @@
 <template>
-	<section w-100 text-left>
+	<section text-left>
 		<div class="loading" v-if="status === 0">
 			<img
 				src="/src/assets/animations/loading.svg"
