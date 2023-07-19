@@ -138,8 +138,7 @@
 		"organization": "Organisation bearbeiten",
 		"designation": "Titel anpassen",
 		"url": "URL anpassen",
-		"description": "Beschreibung anpassen",
-		"bug_details": "Bug-Eigenschaften ändern"
+		"description": "Beschreibung anpassen"
 	},
 	"delete": {
 		"delete": "Löschen",

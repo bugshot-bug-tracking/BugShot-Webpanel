@@ -138,8 +138,7 @@
 		"organization": "Edit organization",
 		"designation": "Edit designation",
 		"url": "Edit URL",
-		"description": "Edit description",
-		"bug_details": "Edit bug details"
+		"description": "Edit description"
 	},
 	"delete": {
 		"delete": "Delete",
