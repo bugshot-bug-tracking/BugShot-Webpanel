@@ -10,7 +10,7 @@
 			{{ t("register_page.subheader") }}
 		</n-p>
 
-		<n-steps :current="steps.current" :status="steps.status" size="small">
+		<n-steps :current="steps.current" :status="steps.status" size="small" class="steps">
 			<n-step :title="t('register_page.step_1')" style="width: 30%; flex: unset">
 				<template #icon><div /></template>
 			</n-step>
@@ -561,6 +561,12 @@ const transitionDirection = ref<
 :deep(.n-step-splitor) {
 	margin-top: 0;
 	align-self: center;
+}
+
+.steps {
+	@media (max-width: $breakpoint-xs) {
+		display: none;
+	}
 }
 </style>
 
