@@ -25,6 +25,13 @@
 					{{ $t("extension.install_plugin") }}
 				</a>
 			</div>
+			<div flex justify-evenly>
+				<img src="/src/assets/icons/edge.svg" alt="Edge Icon" w-16 m4 />
+
+				<a class="bs-btn green" :href="links.edge" target="_blank" uppercase>
+					{{ $t("extension.install_plugin") }}
+				</a>
+			</div>
 		</span>
 
 		<span flex flex-col items-center>
@@ -73,6 +80,7 @@
 const links = {
 	chrome: "https://chrome.google.com/webstore/detail/bugshot/dioobkjdnepaibmmhlniiolocpmdbblh",
 	firefox: "https://addons.mozilla.org/en-US/firefox/addon/bugshot",
+	edge: "https://microsoftedge.microsoft.com/addons/detail/bchmnooadpkbblafpdjgbhiholiggnaa",
 
 	windows: "https://dev-api.bugshot.de/api/v1/downloads/desktop-client",
 };
