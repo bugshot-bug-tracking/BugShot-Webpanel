@@ -307,8 +307,8 @@ const rules: FormRules = reactive({
 });
 
 const assigneesSubmit = (list: { user: User; original: boolean; checked: boolean }[]) => {
+	data.assignees = [];
 	list.forEach((element) => {
-		data.assignees = [];
 		if (element.checked === true) data.assignees.push(element.user);
 	});
 };
