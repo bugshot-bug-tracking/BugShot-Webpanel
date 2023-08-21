@@ -1,6 +1,6 @@
 import { I18nOptions } from "vue-i18n";
 
-const datetimeformat: I18nOptions["datetimeFormats"] = {
+export default {
 	en: {
 		short: {
 			year: "numeric",
@@ -37,6 +37,4 @@ const datetimeformat: I18nOptions["datetimeFormats"] = {
 			minute: "numeric",
 		},
 	},
-};
-
-export default datetimeformat;
+} as I18nOptions["datetimeFormats"];
