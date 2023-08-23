@@ -222,6 +222,14 @@ export const useAuthStore = defineStore("auth", {
 
 			return response;
 		},
+
+		async checkEmail(email: string) {
+			let response = await axios.post(`auth/check-email`, {
+				email,
+			});
+
+			return response;
+		},
 	},
 
 	getters: {

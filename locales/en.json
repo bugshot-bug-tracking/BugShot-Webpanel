@@ -632,7 +632,10 @@
 		"success_header": "Thank you for registering!",
 		"success_text": "Your account has been successfully created. Please confirm your registration using the verification link that you just received by email.",
 		"success_resend_mail": "You can resend the email {0}",
-		"success_resend_mail_0": "here"
+		"success_resend_mail_0": "here",
+		"errors": {
+			"email_taken": "This email address has already been taken."
+		}
 	},
 	"hour": "hour | hours",
 	"day": "day | days",

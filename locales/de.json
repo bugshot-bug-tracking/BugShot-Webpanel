@@ -632,21 +632,20 @@
 		"success_header": "Vielen Dank für deine Registrierung!",
 		"success_text": "Dein Account wurde erfolgreich angelegt. Bitte bestätige nun deine Registrierung über den Verifizierungslink, den du eben per Mail erhalten hast.",
 		"success_resend_mail": "Hier kannst du die Mail {0}",
-		"success_resend_mail_0": "erneut verschicken"
+		"success_resend_mail_0": "erneut verschicken",
+		"errors": {
+			"email_taken": "Diese E-Mail-Adresse ist bereits vergeben."
+		}
 	},
-
 	"hour": "Stunde | Stunden",
 	"day": "Tag | Tage",
 	"week": "Woche | Wochen",
 	"minute": "Minute | Minuten",
-
 	"welcome_page": {
 		"header": "Aboübersicht",
 		"subheader": "Bring frischen Wind in deine Zusammenarbeit beim Bug-Reporting in der Entwicklung von digitalen Produkten.",
-
 		"save_n_%": "save {n}%",
 		"choose_right_plan": "Wähle das passende Paket für dich:",
-
 		"plans": {
 			"trial": {
 				"title": "Bugshot trial",
@@ -691,13 +690,11 @@
 		"line_4": "Dein Abo endet je nach Abrechnungszeitraum entweder zum Ende des Monats oder zum Ende des gewählten Abrechnungszeitraums.",
 		"line_5": "Schreib uns gerne eine Mail an {0} mit deinem Feedback,was wir besser machen können."
 	},
-
 	"order": {
 		"organization": "Organisationen sortieren",
 		"company": "Gruppen sortieren",
 		"porject": "Projekte sortieren"
 	},
-
 	" ": "",
 	"": ""
 }
