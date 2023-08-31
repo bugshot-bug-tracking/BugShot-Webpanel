@@ -234,5 +234,10 @@
 	"Tooltip": {
 		"color": "rgba(255, 255, 255, 1)",
 		"textColor": "#1a2040FF"
+	},
+	"Notification": {
+		"borderRadius": "0.5rem",
+		"closeBorderRadius": "1rem",
+		"closeColorHover": "rgba(0, 0, 0, 0.05)"
 	}
 }

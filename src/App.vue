@@ -16,7 +16,9 @@
 	>
 		<n-global-style />
 
-		<RouterView />
+		<n-notification-provider>
+			<RouterView />
+		</n-notification-provider>
 	</n-config-provider>
 
 	<Feedback />
