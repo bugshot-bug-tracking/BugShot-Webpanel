@@ -78,11 +78,12 @@
 
 <script setup lang="ts">
 const links = {
-	chrome: "https://chrome.google.com/webstore/detail/bugshot/dioobkjdnepaibmmhlniiolocpmdbblh",
-	firefox: "https://addons.mozilla.org/en-US/firefox/addon/bugshot",
-	edge: "https://microsoftedge.microsoft.com/addons/detail/bchmnooadpkbblafpdjgbhiholiggnaa",
+	chrome: import.meta.env.VITE_EXTENSION_CHROME,
+	firefox: import.meta.env.VITE_EXTENSION_FIREFOX,
+	edge: import.meta.env.VITE_EXTENSION_EDGE,
+	safari: import.meta.env.VITE_EXTENSION_SAFARI,
 
-	windows: "https://dev-api.bugshot.de/api/v1/downloads/desktop-client",
+	windows: import.meta.env.VITE_APP_WINDOWS,
 };
 
 const chromeStore = () => {
