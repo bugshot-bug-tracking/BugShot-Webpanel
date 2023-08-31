@@ -82,6 +82,7 @@
 												text-left
 												clearable
 												class="project-select"
+												multiple
 											>
 												<template #arrow>
 													<img
@@ -216,8 +217,15 @@ const preCall = async () => {
 };
 
 const addMember = async (email: string, role_id: number) => {
-	if (projectSelected.value === undefined) await store.sendInvitation({ email, role_id });
-	else await useProjectStore().sendInvitationSpecific(projectSelected.value, { email, role_id });
+	if (projectSelected.value === undefined || projectSelected.value.length < 1)
+		await store.sendInvitation({ email, role_id });
+	else
+		await Promise.all(
+			projectSelected.value.map(
+				async (item) =>
+					await useProjectStore().sendInvitationSpecific(item, { email, role_id })
+			)
+		);
 };
 
 const editMember = async (user_id: number, role_id: number) => {
@@ -266,7 +274,7 @@ const suggestOptions = computed(() => {
 	return diffArray.map((m) => m.attributes.email);
 });
 
-const projectSelected = ref(undefined);
+const projectSelected = ref<undefined | string[]>(undefined);
 const projectOptions = computed(() => {
 	return store.getProjects?.map(
 		(item): SelectOption => ({
@@ -324,10 +332,18 @@ article {
 	min-height: 80vh;
 }
 
-.project-select .n-base-icon {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.project-select {
+	max-width: 48ch;
+
+	.n-base-icon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.n-tag__content {
+		max-width: 16ch;
+	}
 }
 </style>
 
