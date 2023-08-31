@@ -695,6 +695,11 @@
 		"company": "Gruppen sortieren",
 		"porject": "Projekte sortieren"
 	},
+	"extension_install_hint": {
+		"title": "Verpassen Sie zusätzliche Funktionen!",
+		"content": "Anscheinend haben Sie unsere Erweiterung noch nicht installiert. \nGehen Sie zu Ihrem Browser-Shop und holen Sie sich ihn jetzt, um Ihr Erlebnis zu verbessern!",
+		"action": "Laden eröffnen"
+	},
 	" ": "",
 	"": ""
 }

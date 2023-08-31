@@ -705,6 +705,12 @@
 		"porject": "Order projects"
 	},
 
+	"extension_install_hint": {
+		"title": "Missing Out on Additional Features!",
+		"content": "It seems like you haven't installed our extension yet. Head on over to your browser store and get it now to improve your experience!",
+		"action": "Open store"
+	},
+
 	" ": "",
 	"": ""
 }

@@ -8,6 +8,8 @@ export const useSettingsStore = defineStore("settings", {
 		projectsOrder: useStorage("projectsOrder", 11),
 
 		preferredOrganization: useStorage("pref-org", ""),
+
+		extensionInstallHint: useStorage("extensionInstallHint", 1),
 	}),
 
 	actions: {
@@ -44,6 +46,11 @@ export const useSettingsStore = defineStore("settings", {
 		setPreferredOrganization(id: string) {
 			this.preferredOrganization = id;
 		},
+
+		setExtensionInstallHint(value: boolean) {
+			console.log(value);
+			this.extensionInstallHint = value ? 1 : 0;
+		},
 	},
 
 	getters: {
@@ -51,5 +58,10 @@ export const useSettingsStore = defineStore("settings", {
 		getCompaniesOrder: (state) => state.companiesOrder,
 		getProjectsOrder: (state) => state.projectsOrder,
 		getPreferredOrganization: (state) => state.preferredOrganization,
+
+		getExtensionInstallHint: (state) => {
+			if (state.extensionInstallHint === 1) return true;
+			else return false;
+		},
 	},
 });

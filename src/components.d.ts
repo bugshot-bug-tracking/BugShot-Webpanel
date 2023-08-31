@@ -196,6 +196,7 @@ declare module 'vue' {
     SidebarMain: typeof import('./templates/pages/SidebarMain.vue')['default']
     Single: typeof import('./templates/pages/Single.vue')['default']
     StatusDeleteModal: typeof import('./components/Modals/StatusDeleteModal.vue')['default']
+    SuggestExtension: typeof import('./components/SuggestExtension.vue')['default']
     T2Header: typeof import('./templates/T2Header.vue')['default']
     T2Page: typeof import('./templates/T2Page.vue')['default']
     T3Header: typeof import('./templates/T3Header.vue')['default']
