@@ -6,13 +6,11 @@
 					<slot name="header-text">[PH] Header</slot>
 				</n-h3>
 
-				<img
-					src="/src/assets/icons/close_1.svg"
-					alt="close"
-					w-8
-					h-8
-					cursor-pointer
-					class="black-to-purple"
+				<Icon-X
+					button
+					alternative
+					size="2rem"
+					color="var(--bs-purple)"
 					@click="$emit('close')"
 					v-if="!noCloseButton"
 				/>
