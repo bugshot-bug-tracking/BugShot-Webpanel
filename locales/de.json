@@ -254,7 +254,6 @@
 	"empty": "Leer",
 	"invitation sent": "Einladung versendet!",
 	"user_role_updated": "Rolle des Users aktualisiert!",
-	"manage_members": "Mitglieder verwalten",
 	"member_list": "Mitgliederliste",
 	"want_to_remove": "Bist du dir sicher",
 	"pending_invitations": "Ausstehende Einladungen",
@@ -699,6 +698,13 @@
 		"title": "Verpassen Sie zusätzliche Funktionen!",
 		"content": "Anscheinend haben Sie unsere Erweiterung noch nicht installiert. \nGehen Sie zu Ihrem Browser-Shop und holen Sie sich ihn jetzt, um Ihr Erlebnis zu verbessern!",
 		"action": "Laden eröffnen"
+	},
+
+	"manage_members": {
+		"title": "Mitglieder verwalten",
+		"add": {
+			"assign_to_project": "Einem Projekt zuweisen?"
+		}
 	},
 	" ": "",
 	"": ""

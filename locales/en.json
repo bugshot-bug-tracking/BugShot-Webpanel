@@ -254,7 +254,6 @@
 	"empty": "Empty",
 	"invitation sent": "Invitation sent!",
 	"user_role_updated": "User role updated!",
-	"manage_members": "Manage members",
 	"member_list": "Member list",
 	"want_to_remove": "Are you sure you want to remove",
 	"pending_invitations": "Pending invitations",
@@ -709,6 +708,13 @@
 		"title": "Missing Out on Additional Features!",
 		"content": "It seems like you haven't installed our extension yet. Head on over to your browser store and get it now to improve your experience!",
 		"action": "Open store"
+	},
+
+	"manage_members": {
+		"title": "Manage members",
+		"add": {
+			"assign_to_project": "Assign to a project?"
+		}
 	},
 
 	" ": "",
