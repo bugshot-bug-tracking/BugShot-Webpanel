@@ -137,13 +137,13 @@ export const useAuthStore = defineStore("auth", {
 
 			console.log(response);
 
-			return response;
+			return response as User;
 		},
 
-		async resendVerification(id: number) {
+		async resendVerification(email: string) {
 			let response = (
 				await axios.post("/auth/email/verification-notification", {
-					user_id: id,
+					user_email: email,
 				})
 			).data;
 

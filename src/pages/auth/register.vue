@@ -535,7 +535,7 @@ const resendLoading = ref(false);
 const resendEmail = async () => {
 	try {
 		resendLoading.value = true;
-		if (userResponse.value) await store.resendVerification(userResponse.value.id);
+		if (userResponse.value) await store.resendVerification(userResponse.value.attributes.email);
 	} catch (error) {
 		console.log(error);
 	} finally {
