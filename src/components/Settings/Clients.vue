@@ -32,6 +32,13 @@
 					{{ $t("extension.install_plugin") }}
 				</a>
 			</div>
+			<div flex justify-evenly>
+				<Icon-Safari alt="Safari Icon" size="3.75rem" m-4 color="var(--bs-purple)" />
+
+				<a class="bs-btn green" :href="links.safari" target="_blank" uppercase>
+					{{ $t("extension.install_plugin") }}
+				</a>
+			</div>
 		</span>
 
 		<span flex flex-col items-center>

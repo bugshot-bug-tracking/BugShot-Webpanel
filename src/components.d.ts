@@ -63,6 +63,7 @@ declare module 'vue' {
     IconLock: typeof import('./components/icons/Icon-Lock.vue')['default']
     IconOrder: typeof import('./components/icons/Icon-Order.vue')['default']
     IconPassword: typeof import('./components/icons/Icon-Password.vue')['default']
+    IconSafari: typeof import('./components/icons/Icon-Safari.vue')['default']
     IconSelectAll: typeof import('./components/icons/Icon-SelectAll.vue')['default']
     IconSend: typeof import('./components/icons/Icon-Send.vue')['default']
     IconSettings: typeof import('./components/icons/Icon-Settings.vue')['default']
