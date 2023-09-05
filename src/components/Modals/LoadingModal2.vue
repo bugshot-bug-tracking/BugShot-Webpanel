@@ -117,6 +117,7 @@ watch(
 	.success,
 	.error {
 		gap: 1rem;
+		text-align: center;
 
 		img {
 			height: 50%;
