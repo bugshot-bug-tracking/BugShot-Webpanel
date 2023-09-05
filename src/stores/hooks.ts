@@ -484,9 +484,9 @@ export const useHookStore = defineStore("hooks", {
 			});
 
 			channel.listen(".notification.created", (data: any) => {
-				if (!(data && data.data.type === "Notification")) return console.log(data);
+				// if (!(data && data.data.type === "Notification")) return console.log(data);
 
-				useDebounceFn(this.notificationsStore.init, 500);
+				useDebounceFn(this.notificationsStore.init, 750)();
 			});
 		},
 	},
