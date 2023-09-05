@@ -164,7 +164,6 @@ import { useProjectStore } from "~/stores/project";
 import { useReportsStore } from "~/stores/reports";
 import IconSettings from "~/components/icons/Icon-Settings.vue";
 import IconTabular from "~/components/icons/Icon-Tabular.vue";
-import { useFlagsStore } from "~/stores/flags";
 import IconFolderMove from "~/components/icons/Icon-FolderMove.vue";
 
 const props = defineProps({
@@ -325,7 +324,7 @@ const more = computed(() => ({
 			label: t("request_approval", 2),
 			key: "approvals",
 			icon: () => h(IconTabular),
-			show: currentTab.value === "kanban" && useFlagsStore().canSeeEverything,
+			show: currentTab.value === "kanban" && isAuthorized.value,
 			props: {
 				onClick: () => {
 					kanbanState.startChecker();
@@ -336,7 +335,7 @@ const more = computed(() => ({
 			label: t("move_bug", 2),
 			key: "move_bugs",
 			icon: () => h(IconFolderMove),
-			show: currentTab.value === "kanban" && useFlagsStore().canSeeEverything,
+			show: currentTab.value === "kanban" && isAuthorized.value,
 			props: {
 				onClick: () => {
 					bugMove.show = true;
