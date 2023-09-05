@@ -254,7 +254,6 @@
 	"empty": "Empty",
 	"invitation sent": "Invitation sent!",
 	"user_role_updated": "User role updated!",
-	"manage_members": "Manage members",
 	"member_list": "Member list",
 	"want_to_remove": "Are you sure you want to remove",
 	"pending_invitations": "Pending invitations",
@@ -632,7 +631,10 @@
 		"success_header": "Thank you for registering!",
 		"success_text": "Your account has been successfully created. Please confirm your registration using the verification link that you just received by email.",
 		"success_resend_mail": "You can resend the email {0}",
-		"success_resend_mail_0": "here"
+		"success_resend_mail_0": "here",
+		"errors": {
+			"email_taken": "This email address has already been taken."
+		}
 	},
 	"hour": "hour | hours",
 	"day": "day | days",
@@ -763,6 +765,19 @@
 		"organization": "Order organizations",
 		"company": "Order groups",
 		"porject": "Order projects"
+	},
+
+	"extension_install_hint": {
+		"title": "Missing Out on Additional Features!",
+		"content": "It seems like you haven't installed our extension yet. Head on over to your browser store and get it now to improve your experience!",
+		"action": "Open store"
+	},
+
+	"manage_members": {
+		"title": "Manage members",
+		"add": {
+			"assign_to_project": "Assign to a project?"
+		}
 	},
 
 	" ": "",

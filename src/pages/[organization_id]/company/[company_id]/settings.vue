@@ -3,7 +3,7 @@
 		<template #header>
 			<T3Header>
 				<template #l-top>
-					{{ $t("company_settings") }}
+					{{ t("company_settings") }}
 				</template>
 
 				<template #l-bottom>
@@ -19,7 +19,7 @@
 		<article class="bs-scroll" p-8 content-start>
 			<div class="component-group" max-w-128>
 				<div class="group-header">
-					{{ $t("company_settings") }}
+					{{ t("company_settings") }}
 				</div>
 				<div class="group-content">
 					<CompanySettings
@@ -33,11 +33,11 @@
 
 			<div class="component-group" max-w-176 min-w-160>
 				<div class="group-header">
-					{{ $t("team_members") }}
+					{{ t("team_members") }}
 				</div>
 
 				<div class="group-content">
-					<AssignmentTable :title="$t('team_members')" :list="members">
+					<AssignmentTable :title="t('team_members')" :list="members">
 						<template #after-title>
 							<div ml-a>
 								<ManageMembers
@@ -51,6 +51,7 @@
 									:preOpenCall="preCall"
 									:suggestOptions="suggestOptions"
 									infoKey="tooltips.company_roles"
+									@invite-close="projectSelected = undefined"
 								>
 									<template #button="{ loading }">
 										<img
@@ -58,14 +59,39 @@
 											alt="gear"
 											:title="
 												!loading
-													? t('manage_members')
-													: $t('loading') + '...'
+													? t('manage_members.title')
+													: t('loading') + '...'
 											"
 											w-8
 											h-8
 											class="manage-button"
 											:class="{ loading: loading }"
 										/>
+									</template>
+
+									<template #extra-add>
+										<div style="width: 100%">
+											<n-text>
+												{{ t("manage_members.add.assign_to_project") }}
+											</n-text>
+
+											<n-select
+												v-model:value="projectSelected"
+												filterable
+												:options="projectOptions"
+												text-left
+												clearable
+												class="project-select"
+												multiple
+											>
+												<template #arrow>
+													<img
+														class="black-to-purple"
+														src="/src/assets/icons/caret_down.svg"
+													/>
+												</template>
+											</n-select>
+										</div>
 									</template>
 								</ManageMembers>
 							</div>
@@ -81,14 +107,14 @@
 								<template #role-badge>
 									<Badge
 										v-if="company.attributes.creator?.id === item.id"
-										:text="$t('owner')"
+										:text="t('owner')"
 										:preset="'gf'"
 									/>
 
 									<Badge
 										v-else-if="item.role?.attributes.designation"
 										:text="
-											$t(
+											t(
 												'roles.' +
 													item.role?.attributes.designation.toLocaleLowerCase()
 											)
@@ -106,7 +132,7 @@
 
 			<div v-if="false" class="component-group" max-w-128 :style="{ 'min-height': 'auto' }">
 				<div class="group-header">
-					{{ $t("resource_token") }}
+					{{ t("resource_token") }}
 				</div>
 				<div class="group-content">
 					<ResourceToken :type="'Company'" :id="company.id" />
@@ -115,7 +141,7 @@
 
 			<div class="component-group" max-w-128 :style="{ 'min-height': 'auto' }">
 				<div class="group-header">
-					{{ $t("actions") }}
+					{{ t("actions") }}
 				</div>
 				<div class="group-content">
 					<div class="delete-project" flex flex-col gap-2 p-6 py-8>
@@ -140,10 +166,12 @@
 </template>
 
 <script setup lang="ts">
+import { SelectOption } from "naive-ui";
 import { User } from "~/models/User";
 import { useAuthStore } from "~/stores/auth";
 import { useCompanyStore } from "~/stores/company";
 import { useOrganizationStore } from "~/stores/organization";
+import { useProjectStore } from "~/stores/project";
 
 const props = defineProps({
 	organization_id: {
@@ -189,7 +217,15 @@ const preCall = async () => {
 };
 
 const addMember = async (email: string, role_id: number) => {
-	await store.sendInvitation({ email, role_id });
+	if (projectSelected.value === undefined || projectSelected.value.length < 1)
+		await store.sendInvitation({ email, role_id });
+	else
+		await Promise.all(
+			projectSelected.value.map(
+				async (item) =>
+					await useProjectStore().sendInvitationSpecific(item, { email, role_id })
+			)
+		);
 };
 
 const editMember = async (user_id: number, role_id: number) => {
@@ -237,9 +273,19 @@ const suggestOptions = computed(() => {
 
 	return diffArray.map((m) => m.attributes.email);
 });
+
+const projectSelected = ref<undefined | string[]>(undefined);
+const projectOptions = computed(() => {
+	return store.getProjects?.map(
+		(item): SelectOption => ({
+			label: item.attributes.designation,
+			value: item.id,
+		})
+	);
+});
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 article {
 	display: flex;
 	flex-direction: column;
@@ -284,6 +330,20 @@ article {
 
 .component-group {
 	min-height: 80vh;
+}
+
+.project-select {
+	max-width: 48ch;
+
+	.n-base-icon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.n-tag__content {
+		max-width: 16ch;
+	}
 }
 </style>
 

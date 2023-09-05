@@ -19,7 +19,7 @@
 
 	<MyModal :modelValue="modal.show" :close="modal.close" z-100>
 		<ModalTemplate @close="modal.close">
-			<template #header-text> {{ $t("manage_members") }} </template>
+			<template #header-text> {{ $t("manage_members.title") }} </template>
 
 			<MemberList
 				:list="list"
@@ -52,6 +52,9 @@
 	>
 		<template #extra>
 			<slot name="extra" />
+
+			<slot name="extra-add" v-if="!inviteModal.editMode" />
+			<slot name="extra-edit" v-if="inviteModal.editMode" />
 		</template>
 	</InviteMemberModal>
 
@@ -129,6 +132,8 @@ const props = defineProps({
 	},
 });
 
+const emit = defineEmits<{ (event: "close"): void; (event: "invite-close"): void }>();
+
 const { t } = useI18n();
 
 const modal = reactive({
@@ -147,6 +152,8 @@ const modal = reactive({
 		if (props.postOpenCall) await props.postOpenCall();
 		modal.show = false;
 		modal.loading = false;
+
+		emit("close");
 	},
 });
 
@@ -161,6 +168,8 @@ const inviteModal = reactive({
 		inviteModal.show = false;
 		inviteModal.user = undefined;
 		inviteModal.editMode = false;
+
+		emit("invite-close");
 	},
 	openEdit: (user: User) => {
 		inviteModal.editMode = true;

@@ -8,9 +8,9 @@ export function useDiscreteApi() {
 		theme: theme.value,
 	}));
 
-	const { message } = createDiscreteApi(["message"], {
+	const { message, notification } = createDiscreteApi(["message", "notification"], {
 		configProviderProps: configProviderPropsRef,
 	});
 
-	return { message };
+	return { message, notification };
 }

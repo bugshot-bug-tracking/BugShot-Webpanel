@@ -16,7 +16,7 @@
 						<img
 							src="/src/assets/icons/gear.svg"
 							alt="gear"
-							:title="!loading ? $t('manage_members') : $t('loading') + '...'"
+							:title="!loading ? $t('manage_members.title') : $t('loading') + '...'"
 							w-8
 							h-8
 							class="manage-button"

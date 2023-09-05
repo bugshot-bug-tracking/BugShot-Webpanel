@@ -60,7 +60,7 @@
 											alt="gear"
 											:title="
 												!loading
-													? t('manage_members')
+													? t('manage_members.title')
 													: $t('loading') + '...'
 											"
 											w-8

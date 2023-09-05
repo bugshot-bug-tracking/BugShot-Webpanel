@@ -40,6 +40,8 @@
 
 		<NoLicenseOverlay />
 	</main>
+
+	<!-- <SuggestExtension /> -->
 </template>
 
 <script setup lang="ts">

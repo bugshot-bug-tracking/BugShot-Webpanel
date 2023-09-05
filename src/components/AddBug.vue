@@ -99,11 +99,7 @@
 							</div>
 						</n-form-item>
 
-						<n-form-item
-							:label="t('time_estimate')"
-							path="estimate"
-							v-if="useFlagsStore().canSeeEverything"
-						>
+						<n-form-item :label="t('time_estimate')" path="estimate">
 							<n-input-group>
 								<n-input-number
 									clearable
@@ -307,8 +303,8 @@ const rules: FormRules = reactive({
 });
 
 const assigneesSubmit = (list: { user: User; original: boolean; checked: boolean }[]) => {
+	data.assignees = [];
 	list.forEach((element) => {
-		data.assignees = [];
 		if (element.checked === true) data.assignees.push(element.user);
 	});
 };

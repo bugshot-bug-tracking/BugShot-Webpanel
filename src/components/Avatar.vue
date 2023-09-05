@@ -61,6 +61,7 @@ const background_color = computed(() => {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	line-height: 1;
 
 	.wrapper {
 		border-radius: 100%;
@@ -76,7 +77,9 @@ const background_color = computed(() => {
 		height: 2rem;
 		min-width: 2rem;
 		min-height: 2rem;
-		font-size: 0.75rem;
+		.initials {
+			font-size: 0.75rem;
+		}
 	}
 
 	&.S {
@@ -84,7 +87,9 @@ const background_color = computed(() => {
 		height: 2.5rem;
 		min-width: 2.5rem;
 		min-height: 2.5rem;
-		font-size: 1rem;
+		.initials {
+			font-size: 1rem;
+		}
 	}
 
 	//WIP no use found yet
@@ -93,7 +98,9 @@ const background_color = computed(() => {
 		height: 3.5rem;
 		min-width: 3.5rem;
 		min-height: 3.5rem;
-		font-size: 1.25rem;
+		.initials {
+			font-size: 1.25rem;
+		}
 	}
 
 	//WIP no use found yet
@@ -102,7 +109,9 @@ const background_color = computed(() => {
 		height: 4.5rem;
 		min-width: 4.5rem;
 		min-height: 4.5rem;
-		font-size: 2rem;
+		.initials {
+			font-size: 2rem;
+		}
 	}
 
 	&.XL {
@@ -110,7 +119,9 @@ const background_color = computed(() => {
 		height: 8rem;
 		min-width: 8rem;
 		min-height: 8rem;
-		font-size: 3.5rem;
+		.initials {
+			font-size: 3.5rem;
+		}
 	}
 }
 

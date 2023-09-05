@@ -10,7 +10,7 @@
 			{{ t("register_page.subheader") }}
 		</n-p>
 
-		<n-steps :current="steps.current" :status="steps.status" size="small">
+		<n-steps :current="steps.current" :status="steps.status" size="small" class="steps">
 			<n-step :title="t('register_page.step_1')" style="width: 30%; flex: unset">
 				<template #icon><div /></template>
 			</n-step>
@@ -303,14 +303,16 @@ const { t } = useI18n();
 
 const { message } = useDiscreteApi();
 
+const store = useAuthStore();
+
 const steps = reactive({
 	current: 1,
 	status: "process" as StepsProps["status"],
 	next: async () => {
+		loading.value = true;
+
 		if (await steps.verifyStep()) {
 			formRef.value?.restoreValidation();
-
-			loading.value = true;
 
 			// improve UX by making the process slower so the animations have time to be visible
 			await new Promise((resolve) => setTimeout(resolve, 250));
@@ -318,6 +320,7 @@ const steps = reactive({
 
 			steps.current++;
 		}
+
 		loading.value = false;
 	},
 	prev: () => {
@@ -400,12 +403,26 @@ const form = reactive({
 		tos_pp: false,
 	},
 	rules: {
-		email: {
-			required: true,
-			trigger: "blur",
-			type: "email",
-			message: t("please_input_a_valid_email"),
-		},
+		email: [
+			{
+				required: true,
+				trigger: "blur",
+				type: "email",
+				message: t("please_input_a_valid_email"),
+			},
+			{
+				async validator(rule: FormItemRule, value: string) {
+					try {
+						await store.checkEmail(value);
+					} catch (error) {
+						console.log(error);
+						throw new Error(t("register_page.errors.email_taken"));
+					}
+
+					return true;
+				},
+			},
+		],
 
 		first_name: {
 			required: true,
@@ -463,14 +480,14 @@ const loading = ref(false);
 
 const passwordRules = computed(() => [
 	{ text: t("limits.min_chars", { x: 8 }), value: form.data.password.length > 8 },
-	{ text: t("limits.letters"), value: form.data.password.match(/[a-zA-Z]/g) },
-	{ text: t("limits.numbers"), value: form.data.password.match(/[0-9]/g) },
+	{ text: t("limits.letters"), value: /[a-zA-Z]/g.test(form.data.password) },
+	{ text: t("limits.numbers"), value: /[0-9]/g.test(form.data.password) },
 ]);
 
 const confirmPasswordRules = computed(() => [
 	{ text: t("limits.min_chars", { x: 8 }), value: form.data.confirm_password.length > 8 },
-	{ text: t("limits.letters"), value: form.data.confirm_password.match(/[a-zA-Z]/g) },
-	{ text: t("limits.numbers"), value: form.data.confirm_password.match(/[0-9]/g) },
+	{ text: t("limits.letters"), value: /[a-zA-Z]/g.test(form.data.confirm_password) },
+	{ text: t("limits.numbers"), value: /[0-9]/g.test(form.data.confirm_password) },
 	{ text: t("limits.passwords_match"), value: form.data.password === form.data.confirm_password },
 ]);
 
@@ -483,7 +500,7 @@ const onSubmit = async () => {
 	try {
 		loading.value = true;
 
-		let response = await useAuthStore().register({
+		let response = await store.register({
 			email: form.data.email,
 			first_name: form.data.first_name,
 			last_name: form.data.last_name,
@@ -518,7 +535,7 @@ const resendLoading = ref(false);
 const resendEmail = async () => {
 	try {
 		resendLoading.value = true;
-		if (userResponse.value) await useAuthStore().resendVerification(userResponse.value.id);
+		if (userResponse.value) await store.resendVerification(userResponse.value.attributes.email);
 	} catch (error) {
 		console.log(error);
 	} finally {
@@ -561,6 +578,12 @@ const transitionDirection = ref<
 :deep(.n-step-splitor) {
 	margin-top: 0;
 	align-self: center;
+}
+
+.steps {
+	@media (max-width: $breakpoint-xs) {
+		display: none;
+	}
 }
 </style>
 

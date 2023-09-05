@@ -25,6 +25,20 @@
 					{{ $t("extension.install_plugin") }}
 				</a>
 			</div>
+			<div flex justify-evenly>
+				<img src="/src/assets/icons/edge.svg" alt="Edge Icon" w-16 m4 />
+
+				<a class="bs-btn green" :href="links.edge" target="_blank" uppercase>
+					{{ $t("extension.install_plugin") }}
+				</a>
+			</div>
+			<div flex justify-evenly>
+				<Icon-Safari alt="Safari Icon" size="3.75rem" m-4 color="var(--bs-purple)" />
+
+				<a class="bs-btn green" :href="links.safari" target="_blank" uppercase>
+					{{ $t("extension.install_plugin") }}
+				</a>
+			</div>
 		</span>
 
 		<span flex flex-col items-center>
@@ -71,10 +85,12 @@
 
 <script setup lang="ts">
 const links = {
-	chrome: "https://chrome.google.com/webstore/detail/bugshot/dioobkjdnepaibmmhlniiolocpmdbblh",
-	firefox: "https://addons.mozilla.org/en-US/firefox/addon/bugshot",
+	chrome: import.meta.env.VITE_EXTENSION_CHROME,
+	firefox: import.meta.env.VITE_EXTENSION_FIREFOX,
+	edge: import.meta.env.VITE_EXTENSION_EDGE,
+	safari: import.meta.env.VITE_EXTENSION_SAFARI,
 
-	windows: "https://dev-api.bugshot.de/api/v1/downloads/desktop-client",
+	windows: import.meta.env.VITE_APP_WINDOWS,
 };
 
 const chromeStore = () => {

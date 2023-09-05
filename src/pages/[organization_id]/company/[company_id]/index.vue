@@ -3,7 +3,7 @@
 		<template #header>
 			<T3Header>
 				<template #l-top>
-					{{ $t("project", 2) }}
+					{{ t("project", 2) }}
 				</template>
 
 				<template #l-bottom>
@@ -15,7 +15,7 @@
 				</template>
 
 				<template #actions>
-					<OrderPopover v-model:value="orderRef" :header="$t('order.porject')" />
+					<OrderPopover v-model:value="orderRef" :header="t('order.porject')" />
 
 					<n-dropdown trigger="click" :options="more.options" v-if="isAuthorized">
 						<n-button text class="sh-company-settings-button">
@@ -41,8 +41,32 @@
 					:preOpenCall="preCall"
 					:suggestOptions="suggestOptions"
 					infoKey="tooltips.company_roles"
+					@invite-close="projectSelected = undefined"
 					class="sh-company-members-button"
-				/>
+				>
+					<template #extra-add>
+						<div style="width: 100%">
+							<n-text> {{ t("manage_members.add.assign_to_project") }} </n-text>
+
+							<n-select
+								v-model:value="projectSelected"
+								filterable
+								:options="projectOptions"
+								text-left
+								clearable
+								class="project-select"
+								multiple
+							>
+								<template #arrow>
+									<img
+										class="black-to-purple"
+										src="/src/assets/icons/caret_down.svg"
+									/>
+								</template>
+							</n-select>
+						</div>
+					</template>
+				</ManageMembers>
 			</T3Header>
 		</template>
 
@@ -52,9 +76,9 @@
 			<section>
 				<img src="/src/assets/images/nothing_to_show.svg" alt="empty boxes" w-88 h-88 />
 
-				<n-h2 m-0 style="color: var(--bs-purple)">{{ $t("no_projects") }}</n-h2>
+				<n-h2 m-0 style="color: var(--bs-purple)">{{ t("no_projects") }}</n-h2>
 
-				<p>{{ $t("please_add_new_project") }}</p>
+				<p>{{ t("please_add_new_project") }}</p>
 
 				<ProjectCreateModal :primary_button="true" multipleURL />
 			</section>
@@ -77,7 +101,7 @@
 
 				<template #top-right>
 					{{
-						$t("last_update", {
+						t("last_update", {
 							time: timeToText(company.attributes.updated_at),
 						})
 					}}
@@ -111,11 +135,13 @@
 </template>
 
 <script setup lang="ts">
-import { DropdownOption } from "naive-ui";
+import { DropdownOption, SelectOption } from "naive-ui";
 import IconSettings from "~/components/icons/Icon-Settings.vue";
 import useOrderResource from "~/composables/OrderResource";
+import { Project } from "~/models/Project";
 import { useCompanyStore } from "~/stores/company";
 import { useOrganizationStore } from "~/stores/organization";
+import { useProjectStore } from "~/stores/project";
 import { useSettingsStore } from "~/stores/settings";
 import timeToText from "~/util/timeToText";
 
@@ -141,7 +167,7 @@ const router = useRouter();
 
 const company = computed(() => store.getCompany!);
 
-const projects = computed(() => orderedList(store.getProjects ?? []));
+const projects = computed(() => orderedList(store.getProjects ?? []) as Project[]);
 
 const isAuthorized = computed(() => {
 	//TODO temp code replace with proper ?global? logic
@@ -169,7 +195,15 @@ const preCall = async () => {
 };
 
 const addMember = async (email: string, role_id: number) => {
-	await store.sendInvitation({ email, role_id });
+	if (projectSelected.value === undefined || projectSelected.value.length < 1)
+		await store.sendInvitation({ email, role_id });
+	else
+		await Promise.all(
+			projectSelected.value.map(
+				async (item) =>
+					await useProjectStore().sendInvitationSpecific(item, { email, role_id })
+			)
+		);
 };
 
 const deleteInvitation = async (invitation_id: string) => {
@@ -229,7 +263,33 @@ const more = computed(() => ({
 		},
 	] as DropdownOption[],
 }));
+
+const projectSelected = ref<undefined | string[]>(undefined);
+const projectOptions = computed(() => {
+	return store.getProjects?.map(
+		(item): SelectOption => ({
+			label: item.attributes.designation,
+			value: item.id,
+		})
+	);
+});
 </script>
+
+<style lang="scss">
+.project-select {
+	max-width: 48ch;
+
+	.n-base-icon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.n-tag__content {
+		max-width: 16ch;
+	}
+}
+</style>
 
 <route lang="yaml">
 name: company
