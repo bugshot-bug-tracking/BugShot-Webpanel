@@ -1,6 +1,6 @@
 {
 	"name": "BugShot",
-	"version": "1.7.1",
+	"version": "1.8.0",
 	"private": true,
 	"scripts": {
 		"dev": "vite --port 8080",
@@ -8,7 +8,6 @@
 		"preview": "vite preview",
 		"typecheck": "vue-tsc --noEmit",
 		"dev-build": "vite build --mode=development",
-
 		"release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version major -m 'Release: %s' && git push origin && git push origin --tags",
 		"release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version minor -m 'Release: %s' && git push origin && git push origin --tags",
 		"release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version patch -m 'Release: %s' && git push origin && git push origin --tags"
