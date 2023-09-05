@@ -99,11 +99,7 @@
 							</div>
 						</n-form-item>
 
-						<n-form-item
-							:label="t('time_estimate')"
-							path="estimate"
-							v-if="useFlagsStore().canSeeEverything"
-						>
+						<n-form-item :label="t('time_estimate')" path="estimate">
 							<n-input-group>
 								<n-input-number
 									clearable

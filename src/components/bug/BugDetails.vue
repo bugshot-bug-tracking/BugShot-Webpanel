@@ -225,14 +225,7 @@
 				</n-text>
 			</div>
 
-			<div
-				flex
-				items-center
-				gap-2
-				class="bs-bb bs-bt"
-				py-4
-				v-if="useFlagsStore().canSeeEverything"
-			>
+			<div flex items-center gap-2 class="bs-bb bs-bt" py-4>
 				<n-h6 style="white-space: nowrap">
 					{{ $t("time_estimate") + ":" }}
 				</n-h6>
