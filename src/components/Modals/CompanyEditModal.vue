@@ -166,7 +166,7 @@ const onSubmit = async () => {
 			designation: data.name,
 			url: data.url,
 			color_hex: colors[data.color],
-			base64: data.image ? btoa(data.image) : null,
+			base64: data.image.match(/^(http|https):\/\/[^ "]+$/) ? data.image : btoa(data.image),
 		});
 
 		loadingModal.state = 1;

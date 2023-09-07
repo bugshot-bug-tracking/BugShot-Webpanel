@@ -79,11 +79,20 @@ export const useProjectStore = defineStore("project", {
 			base64: string;
 		}) {
 			let response = (
-				await axios.put(`companies/${this.company_id}/projects/${this.project_id}`, {
-					designation: payload.designation,
-					url: payload.url,
-					color_hex: payload.color_hex,
-					base64: payload.base64,
+				await axios.patch(`companies/${this.company_id}/projects/${this.project_id}`, {
+					designation:
+						this.project?.attributes.designation === payload.designation
+							? undefined
+							: payload.designation,
+					url: this.project?.attributes.url === payload.url ? undefined : payload.url,
+					color_hex:
+						this.project?.attributes.color_hex === payload.color_hex
+							? undefined
+							: payload.color_hex,
+					base64:
+						this.project?.attributes.image?.attributes.url === payload.base64
+							? undefined
+							: payload.base64,
 				})
 			).data.data;
 

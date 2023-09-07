@@ -75,12 +75,23 @@ export const useCompanyStore = defineStore("company", {
 			if (this.company_id === undefined) return;
 
 			let response = (
-				await axios.put(
+				await axios.patch(
 					`organizations/${this.organization_id}/companies/${this.company_id}`,
 					{
-						designation: payload.designation,
-						color_hex: payload.color_hex,
-						base64: payload.base64,
+						designation:
+							this.company?.attributes.designation === payload.designation
+								? undefined
+								: payload.designation,
+						color_hex:
+							this.company?.attributes.color_hex === payload.color_hex
+								? undefined
+								: payload.color_hex,
+						base64:
+							this.company?.attributes.image?.attributes.url === payload.base64
+								? undefined
+								: payload.base64 === ""
+								? null
+								: payload.base64,
 					}
 				)
 			).data.data;
