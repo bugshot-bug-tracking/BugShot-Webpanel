@@ -1,3 +1,12 @@
+#### 1.8.1 (2023-09-07)
+
+##### Bug Fixes
+
+* **API:**  change the way project/company settings are updated (d1b5a1e3)
+* **texts:**
+  *  change german text when confirming bug deletion (238ffb36)
+  *  make success and error text after loading modal be centered (57556020)
+
 ### 1.8.0 (2023-09-05)
 
 ##### Other Changes
