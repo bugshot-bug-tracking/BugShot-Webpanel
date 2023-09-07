@@ -506,7 +506,7 @@
 	"unauthorized_without_license_or_trial_0": "erwirb eine Lizenz",
 	"enter_new_column_title": "Neuen Spaltentitel eingeben",
 	"column_title": "Spaltentitel",
-	"want_to_delete_this_bug": " Sind Sie sicher, Sie wollen diesen Bug löschen?",
+	"want_to_delete_this_bug": "Bist du dir sicher, dass du diesen Bug löschen möchtest?",
 	"archiving_in": "Archiviert in",
 	"messages": {
 		"organization_created": "Organisation wurde erstellt!",

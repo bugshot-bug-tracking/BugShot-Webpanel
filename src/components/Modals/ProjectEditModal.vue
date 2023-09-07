@@ -240,7 +240,11 @@ const onSubmit = async () => {
 				designation: projectParams.name,
 				url: projectParams.url,
 				color_hex: colors[projectParams.color],
-				base64: projectParams.image ? btoa(projectParams.image) : null,
+				base64: projectParams.image
+					? projectParams.image.match(/^(http|https):\/\/[^ "]+$/)
+						? projectParams.image
+						: btoa(projectParams.image)
+					: null,
 			},
 			projectParams.new_urls,
 			extra_urls_modified.value
