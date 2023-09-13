@@ -717,6 +717,10 @@
 		}
 	},
 
+	"organization_switcher": {
+		"all_organizations": "All Organizations"
+	},
+
 	" ": "",
 	"": ""
 }

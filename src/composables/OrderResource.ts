@@ -5,14 +5,7 @@ import { Project } from "~/models/Project";
 export default function useOrderResource() {
 	const orderRef = ref(11);
 
-	const orderedList = (
-		list: (
-			| Organization
-			| Company
-			| Project
-			| { attributes: { designation: string; created_at: string; updated_at: string } }
-		)[]
-	) => {
+	const orderedList = (list: (Organization | Company | Project)[]) => {
 		// handle the ordering
 		switch (orderRef.value) {
 			// default case fallthrough to case 11

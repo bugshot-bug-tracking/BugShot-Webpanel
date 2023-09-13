@@ -41,7 +41,8 @@
 import { PropType } from "vue";
 import timeToText from "~/util/timeToText";
 
-const props = defineProps({
+// const props =
+defineProps({
 	title: {
 		required: true,
 		type: String,
@@ -68,7 +69,7 @@ const props = defineProps({
 
 	progress: {
 		required: true,
-		type: Object,
+		type: Object as PropType<{ done: number; total: number }>,
 		default: { done: 0, total: 0 },
 	},
 
@@ -79,7 +80,7 @@ const props = defineProps({
 	},
 
 	to_settings: {
-		type: Object as PropType<{ name: string; params: { id: string } }>,
+		type: Object as PropType<{ name: string; params?: {} }>,
 		required: false,
 	},
 });

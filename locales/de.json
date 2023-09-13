@@ -706,6 +706,11 @@
 			"assign_to_project": "Einem Projekt zuweisen?"
 		}
 	},
+
+	"organization_switcher": {
+		"all_organizations": "Alle Organisationen"
+	},
+
 	" ": "",
 	"": ""
 }

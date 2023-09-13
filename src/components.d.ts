@@ -10,6 +10,7 @@ declare module 'vue' {
     AddBug: typeof import('./components/AddBug.vue')['default']
     AddMembers: typeof import('./components/AddMembers.vue')['default']
     AdvancedSettings: typeof import('./components/Settings/AdvancedSettings.vue')['default']
+    AllCompanyNavbar: typeof import('./components/company/AllCompanyNavbar.vue')['default']
     ApprovalItem: typeof import('./components/approvals/ApprovalItem.vue')['default']
     ApprovalItemHeader: typeof import('./components/approvals/ApprovalItemHeader.vue')['default']
     ApprovalList: typeof import('./components/approvals/ApprovalList.vue')['default']

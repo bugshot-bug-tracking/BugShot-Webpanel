@@ -32,7 +32,7 @@
 		<template #main>
 			<div class="list-wrapper bs-scroll">
 				<ul>
-					<li v-for="item in orderedList" :key="item.id">
+					<li v-for="item in orderedList(list)" :key="item.id">
 						<slot name="item" v-bind="{ item }"> </slot>
 
 						<hr />
@@ -49,6 +49,7 @@
 
 <script setup lang="ts">
 import { PropType } from "vue";
+import useOrderResource from "~/composables/OrderResource";
 import { Company } from "~/models/Company";
 import { Organization } from "~/models/Organization";
 
@@ -71,73 +72,14 @@ const props = defineProps({
 
 const emit = defineEmits<{ (event: "update:order", value: number): void }>();
 
-const orderRef = computed({
-	get() {
-		return props.order;
-	},
-	set(value) {
-		emit("update:order", value);
-	},
+const { orderRef, orderedList } = useOrderResource();
+
+onMounted(() => {
+	orderRef.value = props.order;
 });
 
-const orderedList = computed(() => {
-	// when the companies are updated set the navbar accordingly
-	// force();
-
-	// handle the ordering of companies
-	switch (orderRef.value) {
-		// default case fallthrough to case 0
-		default:
-		case 11: // A-Z
-			return [...props.list].sort((a, b) => {
-				return a.attributes.designation.localeCompare(b.attributes.designation);
-			});
-			break;
-
-		case 12: // Z-A
-			return [...props.list].sort((a, b) => {
-				return a.attributes.designation.localeCompare(b.attributes.designation) * -1;
-			});
-			break;
-
-		case 21: //  Creation newest
-			return [...props.list].sort((a, b) => {
-				return (
-					(new Date(a.attributes.created_at).getTime() -
-						new Date(b.attributes.created_at).getTime()) *
-					-1
-				);
-			});
-			break;
-
-		case 22: // Creation oldest
-			return [...props.list].sort((a, b) => {
-				return (
-					new Date(a.attributes.created_at).getTime() -
-					new Date(b.attributes.created_at).getTime()
-				);
-			});
-			break;
-
-		case 31: // Last edit ascending
-			return [...props.list].sort((a, b) => {
-				return (
-					(new Date(a.attributes.updated_at).getTime() -
-						new Date(b.attributes.updated_at).getTime()) *
-					-1
-				);
-			});
-			break;
-
-		case 32: // Last edit descending
-			return [...props.list].sort((a, b) => {
-				return (
-					new Date(a.attributes.updated_at).getTime() -
-					new Date(b.attributes.updated_at).getTime()
-				);
-			});
-			break;
-	}
+watch(orderRef, () => {
+	emit("update:order", orderRef.value);
 });
 </script>
 
