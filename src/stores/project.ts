@@ -274,6 +274,22 @@ export const useProjectStore = defineStore("project", {
 			console.log(response);
 			return response;
 		},
+
+		async moveProject(target: string) {
+			if (!this.project?.id) throw new Error("No active project!");
+
+			let response = (
+				await axios.post(`/projects/${this.project.id}/move-to-new-company`, {
+					target_company_id: target,
+				})
+			).data.data;
+
+			useCompanyStore().moveProject(this.project.id, target);
+
+			this.message.success(this.i18n.t("messages.project_moved", 2));
+
+			return response;
+		},
 	},
 
 	getters: {
