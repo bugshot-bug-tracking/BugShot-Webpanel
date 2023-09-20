@@ -2,6 +2,9 @@ import { defineStore } from "pinia";
 
 import axios from "axios";
 import { useI18n } from "vue-i18n";
+import { useUserSettingsStore } from "./userSettings";
+import { SettingTypes, SettingValues } from "~/models/Setting";
+import { useAuthStore } from "./auth";
 
 export const useI18nStore = defineStore("i18n", {
 	state: () => ({
@@ -43,6 +46,8 @@ export const useI18nStore = defineStore("i18n", {
 
 			localStorage.setItem("locale", payload);
 			axios.defaults.headers.common["locale"] = locale;
+
+			this.setUserLanguage(locale === "de" ? SettingValues.de : SettingValues.en);
 		},
 
 		determineLocale() {
@@ -74,6 +79,17 @@ export const useI18nStore = defineStore("i18n", {
 
 			// return null to indicate default use
 			return null;
+		},
+
+		async setUserLanguage(value: SettingValues) {
+			if (!useAuthStore().getUser) return;
+
+			if (value === useUserSettingsStore().getUserLanguage?.attributes.value?.id) return;
+
+			await useUserSettingsStore().changeSetting(
+				SettingTypes.user_settings_interface_language,
+				value
+			);
 		},
 	},
 
