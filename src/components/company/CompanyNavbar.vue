@@ -5,14 +5,18 @@
 		</template>
 
 		<template #header-text v-if="!headerEdit">
-			{{ companyTerm }}
+			<RouterLink
+				:to="{ name: 'organization-home', params: { organization_id: organization.id } }"
+			>
+				{{ companyTerm }}
+			</RouterLink>
 
 			<Icon-Edit
 				size="0.875rem"
 				color="var(--bs-gray)"
 				v-if="useFlagsStore().canEditCompanyTerm"
 				@click="startEditTerm"
-				ml-1
+				ml-2
 				button
 			/>
 		</template>
