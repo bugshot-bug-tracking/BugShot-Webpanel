@@ -1,3 +1,18 @@
+### 1.9.0 (2023-09-17)
+
+##### Continuous Integration
+
+* **changelog:**  ignore chores in changelog (b77b00b5)
+
+##### New Features
+
+* **usability:**  add ability to move projects between groups (5dd7b150)
+* **Pages:**  add "all" dashboard page for displaying all the projects and groups (3cd6d070)
+
+##### Refactors
+
+* **banners:**  make trial banner to be hidden if the expiration is >60 days (was 400) (04ccba80)
+
 #### 1.8.1 (2023-09-07)
 
 ##### Bug Fixes

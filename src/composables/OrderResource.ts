@@ -2,17 +2,27 @@ import { Company } from "~/models/Company";
 import { Organization } from "~/models/Organization";
 import { Project } from "~/models/Project";
 
-export default function useOrderResource() {
-	const orderRef = ref(11);
+export default function useOrderResource(options?: {
+	initialValue?: number;
+	get?(): number;
+	set?(value: number): void;
+}) {
+	const orderValue = ref(options?.initialValue ?? 11);
 
-	const orderedList = (
-		list: (
-			| Organization
-			| Company
-			| Project
-			| { attributes: { designation: string; created_at: string; updated_at: string } }
-		)[]
-	) => {
+	const orderRef = computed({
+		get() {
+			if (options?.get) return options.get();
+
+			return orderValue.value;
+		},
+		set(value) {
+			if (options?.set) return options.set(value);
+
+			orderValue.value = value;
+		},
+	});
+
+	const orderedList = (list: (Organization | Company | Project)[]) => {
 		// handle the ordering
 		switch (orderRef.value) {
 			// default case fallthrough to case 11

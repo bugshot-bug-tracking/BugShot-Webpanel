@@ -53,6 +53,7 @@ import { useOrganizationStore } from "~/stores/organization";
 import { useCompanyStore } from "~/stores/company";
 import colors from "~/util/colors";
 import toBase64 from "~/util/toBase64";
+import { useMainStore } from "~/stores/main";
 
 const props = defineProps({
 	primary_button: {
@@ -106,6 +107,12 @@ const onSubmit = async () => {
 
 	if (data.image != null && data.image instanceof File) {
 		image = btoa((await toBase64(data.image)) as string);
+	}
+
+	// in case a user is on the All page and wants to create a group, line 116 can't run without an initialized organization
+	if (router.currentRoute.value.name === "dashboard-all") {
+		let anOrg = useMainStore().getMyOrganization;
+		if (anOrg?.id) await useOrganizationStore().init(anOrg.id);
 	}
 
 	let response = await useOrganizationStore().createCompany({

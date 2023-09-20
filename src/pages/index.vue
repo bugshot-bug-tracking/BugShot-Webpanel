@@ -14,6 +14,12 @@ const organizations = computed(() => store.organizations);
 const redirect = () => {
 	if (organizations.value === undefined) {
 		// redirect to new page
+
+		if (useAuthStore().user === undefined) return router.replace({ name: "login" });
+
+		router.replace({
+			name: "dashboard-all",
+		});
 	} else {
 		if (
 			authStore.new_user === true &&
@@ -26,20 +32,24 @@ const redirect = () => {
 			});
 		}
 
-		// redirect to first org page or the favorite org page
+		// // redirect to first org page or the favorite org page
 
-		const preferredOrganization = useSettingsStore().getPreferredOrganization;
+		// const preferredOrganization = useSettingsStore().getPreferredOrganization;
 
-		const isPrefAvailable = organizations.value.find((o) => o.id == preferredOrganization);
+		// const isPrefAvailable = organizations.value.find((o) => o.id == preferredOrganization);
+
+		// router.replace({
+		// 	name: "organization-home",
+		// 	params: {
+		// 		organization_id:
+		// 			preferredOrganization !== "" && isPrefAvailable !== undefined
+		// 				? preferredOrganization
+		// 				: store.getMyOrganization.id,
+		// 	},
+		// });
 
 		router.replace({
-			name: "organization-home",
-			params: {
-				organization_id:
-					preferredOrganization !== "" && isPrefAvailable !== undefined
-						? preferredOrganization
-						: store.getMyOrganization.id,
-			},
+			name: "dashboard-all",
 		});
 	}
 };

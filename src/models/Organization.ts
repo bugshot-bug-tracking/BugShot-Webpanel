@@ -1,3 +1,4 @@
+import { Company } from "./Company";
 import { Role } from "./Role";
 import { User } from "./User";
 
@@ -11,5 +12,6 @@ export interface Organization {
 		groups_wording?: string;
 		created_at: string;
 		updated_at: string;
+		companies: Company[];
 	};
 }

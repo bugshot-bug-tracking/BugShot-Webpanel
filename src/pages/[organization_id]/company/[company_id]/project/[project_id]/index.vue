@@ -134,6 +134,8 @@
 				<BugDrawer />
 
 				<BugMoveModal v-model:show="bugMove.show" />
+
+				<ProjectMoveModal v-model:show="projectMove.show" @success="projectMove.redirect" />
 			</n-tab-pane>
 
 			<n-tab-pane name="archive" display-directive="if">
@@ -165,6 +167,7 @@ import { useReportsStore } from "~/stores/reports";
 import IconSettings from "~/components/icons/Icon-Settings.vue";
 import IconTabular from "~/components/icons/Icon-Tabular.vue";
 import IconFolderMove from "~/components/icons/Icon-FolderMove.vue";
+import IconBoxesMove from "~/components/icons/Icon-BoxesMove.vue";
 
 const props = defineProps({
 	organization_id: {
@@ -334,11 +337,22 @@ const more = computed(() => ({
 		{
 			label: t("move_bug", 2),
 			key: "move_bugs",
-			icon: () => h(IconFolderMove),
+			icon: () => h(IconBoxesMove),
 			show: currentTab.value === "kanban" && isAuthorized.value,
 			props: {
 				onClick: () => {
 					bugMove.show = true;
+				},
+			},
+		},
+		{
+			label: t("project_page.more_options.move_project", 2),
+			key: "move_project",
+			icon: () => h(IconFolderMove),
+			show: currentTab.value === "kanban" && isAuthorized.value,
+			props: {
+				onClick: () => {
+					projectMove.show = true;
 				},
 			},
 		},
@@ -385,6 +399,16 @@ const onSubmitApprovals = async (recipients: { name: string; email: string }[]) 
 
 const bugMove = reactive({
 	show: false,
+});
+
+const projectMove = reactive({
+	show: false,
+	redirect: () => {
+		router.replace({
+			name: "organization-home",
+			params: { organization_id: props.organization_id },
+		});
+	},
 });
 </script>
 

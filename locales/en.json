@@ -536,7 +536,8 @@
 		"subscription_canceled": "Subscription canceled!",
 		"user_updated": "User updated!",
 		"organization_term_updated": "Term updated!",
-		"account_deleted_successfully": "Account deleted successfully!"
+		"account_deleted_successfully": "Account deleted successfully!",
+		"project_moved": "Project moved!"
 	},
 	"rules": {
 		"designation_required": "Bug name required!"
@@ -777,6 +778,18 @@
 		"title": "Manage members",
 		"add": {
 			"assign_to_project": "Assign to a project?"
+		}
+	},
+
+	"organization_switcher": {
+		"all_organizations": "All Organizations"
+	},
+
+	"project_page": {
+		"more_options": {
+			"move_project": "Move Project",
+			"select_target_group": "Chose the target group",
+			"select_group": "Select Group"
 		}
 	},
 

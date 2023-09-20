@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { User } from "~/models/User";
 import { useHookStore } from "./hooks";
+import { useUserSettingsStore } from "./userSettings";
 
 export const useAuthStore = defineStore("auth", {
 	state: () => ({
@@ -79,6 +80,8 @@ export const useAuthStore = defineStore("auth", {
 
 				// then save it to localStorage
 				localStorage.setItem("authToken", token);
+
+				useUserSettingsStore().init().then(useUserSettingsStore().applySettings);
 
 				return true;
 			} catch (error) {

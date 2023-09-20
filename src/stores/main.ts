@@ -10,6 +10,8 @@ export const useMainStore = defineStore("main", {
 		roles: undefined as Role[] | undefined,
 
 		organizations: undefined as Organization[] | undefined,
+
+		organizationsWithCompaniesAndProjects: undefined as Organization[] | undefined,
 	}),
 
 	actions: {
@@ -20,6 +22,19 @@ export const useMainStore = defineStore("main", {
 				await this.fetchRoles();
 
 				await this.initOrganizations();
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+
+			return true;
+		},
+
+		async initAll() {
+			try {
+				this.organizationsWithCompaniesAndProjects = undefined;
+
+				await this.initOrganizationsWithCompaniesAndProjects();
 			} catch (error) {
 				console.log(error);
 				throw error;
@@ -46,6 +61,25 @@ export const useMainStore = defineStore("main", {
 			).data.data;
 
 			this.organizations = response;
+
+			return response;
+		},
+
+		async initOrganizationsWithCompaniesAndProjects() {
+			let response = (
+				await axios.get(`organizations`, {
+					headers: {
+						"include-organization-role": true,
+						"include-company-role": true,
+						"include-project-role": true,
+						"include-companies": true,
+						"include-projects": true,
+						"include-project-image": true,
+					},
+				})
+			).data.data;
+
+			this.organizationsWithCompaniesAndProjects = response;
 
 			return response;
 		},
@@ -107,17 +141,43 @@ export const useMainStore = defineStore("main", {
 		getOrganizationById: (state) => (id: string) =>
 			state.organizations?.find((x) => x.id === id),
 
-		getMyOrganization: (state) =>
-			state.organizations?.find((o) => o.attributes.creator?.id === useAuthStore().user?.id)!,
+		getMyOrganization: (state) => {
+			if (state.organizations)
+				return state.organizations?.find(
+					(o) => o.attributes.creator?.id === useAuthStore().user?.id
+				);
 
-		getMyOrganizations: (state) =>
-			state.organizations?.filter(
-				(o) => o.attributes.creator?.id === useAuthStore().user?.id
-			),
+			if (state.organizationsWithCompaniesAndProjects)
+				return state.organizationsWithCompaniesAndProjects?.find(
+					(o) => o.attributes.creator?.id === useAuthStore().user?.id
+				);
+		},
 
-		getExternalOrganizations: (state) =>
-			state.organizations?.filter(
-				(o) => o.attributes.creator?.id !== useAuthStore().user?.id
-			),
+		getMyOrganizations: (state) => {
+			if (state.organizations)
+				return state.organizations?.filter(
+					(o) => o.attributes.creator?.id === useAuthStore().user?.id
+				);
+
+			if (state.organizationsWithCompaniesAndProjects)
+				return state.organizationsWithCompaniesAndProjects?.filter(
+					(o) => o.attributes.creator?.id === useAuthStore().user?.id
+				);
+		},
+
+		getExternalOrganizations: (state) => {
+			if (state.organizations)
+				return state.organizations?.filter(
+					(o) => o.attributes.creator?.id !== useAuthStore().user?.id
+				);
+
+			if (state.organizationsWithCompaniesAndProjects)
+				return state.organizationsWithCompaniesAndProjects?.filter(
+					(o) => o.attributes.creator?.id !== useAuthStore().user?.id
+				);
+		},
+		getAllOrganizations: (state) => {
+			return state.organizationsWithCompaniesAndProjects;
+		},
 	},
 });

@@ -79,6 +79,7 @@ import timeToText from "~/util/timeToText";
 import { useOrganizationStore } from "~/stores/organization";
 import useOrderResource from "~/composables/OrderResource";
 import { useSettingsStore } from "~/stores/settings";
+import { Project } from "~/models/Project";
 
 const props = defineProps({
 	organization_id: {
@@ -100,7 +101,7 @@ const companies = computed(() => {
 });
 
 const companyProjects = (id: string) => {
-	return orderedList(store.getCompanyProjects(id) ?? []);
+	return orderedList(store.getCompanyProjects(id) ?? []) as Project[];
 };
 
 const goToProject = (company_id: string, project_id: string) => {

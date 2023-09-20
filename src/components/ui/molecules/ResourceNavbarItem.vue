@@ -47,11 +47,11 @@ const props = defineProps({
 	},
 
 	to_resource: {
-		type: Object as PropType<{ name: string; params: { id: string } }>,
+		type: Object as PropType<{ name: string; params?: {} }>,
 		required: true,
 	},
 	to_settings: {
-		type: Object as PropType<{ name: string; params: { id: string } }>,
+		type: Object as PropType<{ name: string; params?: {} }>,
 		required: false,
 	},
 

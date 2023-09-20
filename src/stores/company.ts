@@ -282,7 +282,7 @@ export const useCompanyStore = defineStore("company", {
 		},
 
 		/**
-		 * Add an project to local store
+		 * Add a project to local store
 		 */
 		addProject(project: Project) {
 			if (project.attributes.company.id === this.company?.id) {
@@ -299,7 +299,7 @@ export const useCompanyStore = defineStore("company", {
 		},
 
 		/**
-		 * Update an project in local store
+		 * Update a project in local store
 		 */
 		updateProject(project: Project) {
 			if (!this.projects) return false;
@@ -322,7 +322,7 @@ export const useCompanyStore = defineStore("company", {
 		},
 
 		/**
-		 * Remove an project from local store
+		 * Remove a project from local store
 		 */
 		removeProject(id: string) {
 			if (!this.projects) return true;
@@ -330,6 +330,44 @@ export const useCompanyStore = defineStore("company", {
 			let index = this.projects?.findIndex((x) => x.id === id);
 
 			if (index == undefined || index === -1) return true;
+
+			this.projects.splice(index, 1);
+
+			if (this.projects.length === 0) this.projects = undefined;
+
+			let up_index = useOrganizationStore()
+				.companies?.find((c) => c.id === this.company?.id)
+				?.attributes.projects?.findIndex((x) => x.id === id);
+
+			if (up_index == undefined || up_index === -1) return true;
+
+			useOrganizationStore()
+				.companies?.find((c) => c.id === this.company?.id)
+				?.attributes.projects?.splice(up_index, 1);
+
+			return true;
+		},
+
+		/**
+		 * Move a project between local companies
+		 */
+		moveProject(id: string, target_company_id: string) {
+			if (!this.projects) return true;
+
+			let index = this.projects?.findIndex((x) => x.id === id);
+
+			if (index == undefined || index === -1) return true;
+
+			let up_target = useOrganizationStore().companies?.find(
+				(c) => c.id === target_company_id
+			);
+
+			// if the target is not in the current organization don't try to push the old project anywhere
+			if (up_target) {
+				if (!up_target.attributes.projects?.length) up_target.attributes.projects = [];
+
+				up_target.attributes.projects.push(this.projects[index]);
+			}
 
 			this.projects.splice(index, 1);
 

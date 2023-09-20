@@ -1,41 +1,11 @@
 <template>
-	<ResourceNavbar :list="resources" v-model:order="order" resource="company">
+	<ResourceNavbar :list="resources ?? []" v-model:order="order" resource="company">
 		<template #pre-header>
 			<OrganizationSwitcher noLabel p-2 />
 		</template>
 
-		<template #header-text v-if="!headerEdit">
-			<RouterLink
-				:to="{ name: 'organization-home', params: { organization_id: organization.id } }"
-			>
-				{{ companyTerm }}
-			</RouterLink>
-
-			<Icon-Edit
-				size="0.875rem"
-				color="var(--bs-gray)"
-				v-if="useFlagsStore().canEditCompanyTerm"
-				@click="startEditTerm"
-				ml-2
-				button
-			/>
-		</template>
-
-		<template #header-content v-else>
-			<div flex items-center gap-2 mb-2>
-				<n-input
-					type="text"
-					size="large"
-					:placeholder="t('company', 2)"
-					:default-value="companyTerm"
-					v-model:value="termValue"
-					:disabled="updateTermLoading"
-					:loading="updateTermLoading"
-				/>
-
-				<Icon-Check button @click="saveEditTerm" :disabled="updateTermLoading" />
-				<Icon-X button @click="cancelEditTerm" :disabled="updateTermLoading" />
-			</div>
+		<template #header-text>
+			{{ companyTerm }}
 		</template>
 
 		<template #item="{ item }: { item: Company }">
@@ -44,14 +14,14 @@
 				:to_resource="{
 					name: 'company',
 					params: {
-						organization_id: organization!.id,
+						organization_id: item.attributes.organization!.id,
 						company_id: item.id,
 					},
 				}"
 				:to_settings="{
 					name: 'company-settings',
 					params: {
-						organization_id: organization!.id,
+						organization_id: item.attributes.organization!.id,
 						company_id: item.id,
 					},
 				}"
@@ -66,13 +36,13 @@
 				"
 				:authorized="
 					(item.attributes.role?.id ?? 9) < 2 ||
-					(organization?.attributes.role?.id ?? 9) < 2
+					(item.attributes.organization?.attributes.role?.id ?? 9) < 2
 				"
 			>
 				<template #list>
 					<ul>
 						<li
-							v-for="project of companyProjects(item.id)"
+							v-for="project of item.attributes.projects"
 							flex
 							items-start
 							justify-between
@@ -81,7 +51,7 @@
 								:to="{
 									name: 'project',
 									params: {
-										organization_id: organization!.id,
+										organization_id: item.attributes.organization!.id,
 										company_id: item.id,
 										project_id: project.id,
 									},
@@ -118,7 +88,7 @@
 								>
 									<n-dropdown
 										trigger="click"
-										:options="more(organization!.id,item.id,project.id).options"
+										:options="more(item.attributes.organization!.id,item.id,project.id).options"
 										@clickoutside="optionsOpen = undefined"
 										placement="bottom-end"
 									>
@@ -133,7 +103,7 @@
 						<li
 							v-if="
 								(item.attributes.role?.id ?? 9) < 3 ||
-								(organization?.attributes.role?.id ?? 9) < 2
+								(item.attributes.organization?.attributes.role?.id ?? 9) < 2
 							"
 							flex
 							items-center
@@ -159,7 +129,7 @@
 											/>
 										</template>
 
-										{{ $t("create.project") }}
+										{{ t("create.project") }}
 									</n-button>
 								</template>
 							</ProjectCreateModal>
@@ -168,22 +138,17 @@
 				</template>
 			</ResourceNavbarItem>
 		</template>
-
-		<template #footer v-if="(useOrganizationStore().getUserRole?.id ?? 9) < 3">
-			<CompanyCreateModal :primary_button="false" redirect />
-		</template>
 	</ResourceNavbar>
 </template>
 
 <script setup lang="ts">
 import { useSettingsStore } from "~/stores/settings";
 import { useAuthStore } from "~/stores/auth";
-import { useFlagsStore } from "~/stores/flags";
-import { useOrganizationStore } from "~/stores/organization";
 import { Company } from "~/models/Company";
 import { COLOR } from "~/util/colors";
 import { DropdownOption } from "naive-ui";
 import IconSettings from "../icons/Icon-Settings.vue";
+import { useMainStore } from "~/stores/main";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -197,7 +162,11 @@ const order = computed({
 	},
 });
 
-const resources = computed(() => useOrganizationStore().getCompanies);
+const resources = computed(() =>
+	useMainStore().getAllOrganizations?.reduce((acc, org) => {
+		return acc.concat(org.attributes.companies);
+	}, [] as Company[])
+);
 
 const user = computed(() => useAuthStore().getUser);
 
@@ -243,49 +212,9 @@ const setOpen = () => {
 
 setOpen();
 
-const companyProjects = (company_id: string) => {
-	return (
-		useOrganizationStore()
-			.getCompanyProjects(company_id)
-			?.sort((a, b) => a.attributes.designation.localeCompare(b.attributes.designation)) ?? []
-	);
-};
-
-const organization = computed(() => useOrganizationStore().getOrganization);
-
-const headerEdit = ref(false);
-const termValue = ref("");
-
 const companyTerm = computed(() => {
-	const orgTerm = useOrganizationStore().organization?.attributes.groups_wording;
-	if (orgTerm != undefined) return orgTerm;
-	else return t("company", 2);
+	return t("company", 2);
 });
-
-const updateTermLoading = ref(false);
-
-const startEditTerm = () => {
-	headerEdit.value = true;
-	termValue.value = companyTerm.value;
-};
-
-const saveEditTerm = async () => {
-	try {
-		updateTermLoading.value = true;
-		await useOrganizationStore().changeCompanyTerm(termValue.value);
-
-		cancelEditTerm();
-	} catch (error) {
-		console.log(error);
-	} finally {
-		updateTermLoading.value = false;
-	}
-};
-
-const cancelEditTerm = () => {
-	headerEdit.value = false;
-	termValue.value = "";
-};
 
 const more = (org_id: string, company_id: string, proj_id: string) => ({
 	options: [

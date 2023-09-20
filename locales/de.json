@@ -536,7 +536,8 @@
 		"subscription_canceled": "Abonnement wurde gekündigt!",
 		"user_updated": "Nutzer wurde aktualisiert!",
 		"organization_term_updated": "Die Änderung war erfolgreich!",
-		"account_deleted_successfully": "Konto erfolgreich gelöscht!"
+		"account_deleted_successfully": "Konto erfolgreich gelöscht!",
+		"project_moved": "Projekt verschoben!"
 	},
 	"rules": {
 		"designation_required": "Fehlername erforderlich!"
@@ -772,6 +773,18 @@
 		"title": "Mitglieder verwalten",
 		"add": {
 			"assign_to_project": "Einem Projekt zuweisen?"
+		}
+	},
+
+	"organization_switcher": {
+		"all_organizations": "Alle Organisationen"
+	},
+
+	"project_page": {
+		"more_options": {
+			"move_project": "Projekt verschieben",
+			"select_group": "Wähle die Gruppe",
+			"select_target_group": "Wählen Sie die Zielgruppe"
 		}
 	},
 	" ": "",
