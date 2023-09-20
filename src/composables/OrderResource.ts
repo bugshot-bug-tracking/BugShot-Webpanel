@@ -2,8 +2,25 @@ import { Company } from "~/models/Company";
 import { Organization } from "~/models/Organization";
 import { Project } from "~/models/Project";
 
-export default function useOrderResource() {
-	const orderRef = ref(11);
+export default function useOrderResource(options?: {
+	initialValue?: number;
+	get?(): number;
+	set?(value: number): void;
+}) {
+	const orderValue = ref(options?.initialValue ?? 11);
+
+	const orderRef = computed({
+		get() {
+			if (options?.get) return options.get();
+
+			return orderValue.value;
+		},
+		set(value) {
+			if (options?.set) return options.set(value);
+
+			orderValue.value = value;
+		},
+	});
 
 	const orderedList = (list: (Organization | Company | Project)[]) => {
 		// handle the ordering

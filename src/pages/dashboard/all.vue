@@ -23,7 +23,10 @@
 						</template>
 
 						<template #actions>
-							<OrderPopover v-model:value="orderRef" :header="t('order.porject')" />
+							<OrderPopover
+								v-model:value="projectOrder.orderRef.value"
+								:header="t('order.porject')"
+							/>
 						</template>
 					</T3Header>
 				</template>
@@ -157,12 +160,15 @@ const companies = computed(() =>
 );
 
 const companiesWithProjects = computed(() =>
-	companies.value?.filter((c) => (c.attributes.projects?.length ?? 0) > 0)
+	companies.value
+		? (companyOrder.orderedList(
+				companies.value.filter((c) => (c.attributes.projects?.length ?? 0) > 0)
+		  ) as Company[])
+		: []
 );
 
-const companyProjects = (company: Company) => {
-	return orderedList(company.attributes.projects ?? []) as Project[];
-};
+const companyProjects = (company: Company) =>
+	projectOrder.orderedList(company.attributes.projects ?? []) as Project[];
 
 const goToProject = (organization_id: string, company_id: string, project_id: string) => {
 	router.push({
@@ -180,14 +186,19 @@ const getOrganizationRole = (company: Company) => {
 		.role;
 };
 
-const { orderRef, orderedList } = useOrderResource();
-
-onMounted(() => {
-	orderRef.value = useSettingsStore().getProjectsOrder;
+const projectOrder = useOrderResource({
+	get() {
+		return useSettingsStore().getProjectsOrder;
+	},
+	set(value) {
+		useSettingsStore().setProjectsOrder(value);
+	},
 });
 
-watch(orderRef, () => {
-	useSettingsStore().setProjectsOrder(orderRef.value);
+const companyOrder = useOrderResource({
+	get() {
+		return useSettingsStore().getCompaniesOrder;
+	},
 });
 </script>
 
