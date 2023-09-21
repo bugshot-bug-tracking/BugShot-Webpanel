@@ -28,7 +28,7 @@ const redirect = () => {
 			(store.organizations?.length ?? 0) <= 1
 		) {
 			return router.replace({
-				name: "new",
+				name: "welcome",
 			});
 		}
 
