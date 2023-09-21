@@ -88,7 +88,7 @@
 									color:
 										item.type === 'individual'
 											? 'var(--bs-green)'
-											: item.type === 'team'
+											: item.type === 'premium'
 											? 'var(--bs-yellow)'
 											: undefined,
 									yearly: !isMonthly,

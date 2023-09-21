@@ -680,6 +680,18 @@
 				"f_6": "iOS- & Android-App",
 				"f_7": "Gastzugang, mit dem die Browser-Extensions genutzt werden können",
 				"f_8": "Regelmäßige kostenlose Updates"
+			},
+			"premium": {
+				"title": "Bugshot Team",
+				"highlight": "Direkt durchstarten mit BugShot",
+				"f_1": "Noch nie war es so einfach Bugs zu erfassen und gemeinsam die Qualitätssicherung an digitalen Produkten zu gewährleisten.",
+				"f_2": "2 Monate gratis bei Jahresabo",
+				"f_3": "Unbegrenzte Anzahl an Gruppen & Projekten",
+				"f_4": "Unbegrenzte Anzahl an Teammitgliedern",
+				"f_5": "Browser Extension für Chrome, Firefox & Safari",
+				"f_6": "iOS- & Android-App",
+				"f_7": "Gastzugang, mit dem die Browser-Extensions genutzt werden können",
+				"f_8": "Regelmäßige kostenlose Updates"
 			}
 		}
 	},
