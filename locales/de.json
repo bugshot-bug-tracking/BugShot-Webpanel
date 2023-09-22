@@ -700,7 +700,7 @@
 		"overview": {
 			"introduction": {
 				"title": "Willkommen",
-				"text": "Ich freue mich, dass Sie sich für BugShot entschieden haben.\nHier können Sie sich mit den wichtigsten Funktionen vertraut machen.\n\n\nZum schnellen Nachschlagen hier ein kurzes Video:"
+				"text": "Ich freue mich, dass Sie sich für BugShot entschieden haben. Hier können Sie sich mit den wichtigsten Funktionen vertraut machen.\n\n\nZum schnellen Nachschlagen hier ein kurzes Video:"
 			},
 			"step_1": {
 				"title": "Deine erste Organisation",
@@ -762,7 +762,6 @@
 	},
 	"back": "Zurück",
 	"next": "Weiter",
-
 	"user_delete_modal": {
 		"line_1": "Oh no, schade, dass du dein Konto löschen möchtest.",
 		"line_2": "Bitte beachte, dass dieser Vorgang nicht rückgängig gemacht werden kann. Wenn du dein Konto löschst, werden alle zugehörigen Organisationen ebenfalls gelöscht.",
@@ -780,18 +779,15 @@
 		"content": "Anscheinend haben Sie unsere Erweiterung noch nicht installiert. \nGehen Sie zu Ihrem Browser-Shop und holen Sie sich ihn jetzt, um Ihr Erlebnis zu verbessern!",
 		"action": "Laden eröffnen"
 	},
-
 	"manage_members": {
 		"title": "Mitglieder verwalten",
 		"add": {
 			"assign_to_project": "Einem Projekt zuweisen?"
 		}
 	},
-
 	"organization_switcher": {
 		"all_organizations": "Alle Organisationen"
 	},
-
 	"project_page": {
 		"more_options": {
 			"move_project": "Projekt verschieben",
@@ -799,6 +795,7 @@
 			"select_target_group": "Wählen Sie die Zielgruppe"
 		}
 	},
+	"dont_show_again": "Nicht mehr anzeigen",
 	" ": "",
 	"": ""
 }

@@ -45,5 +45,8 @@ export const useUserSettingsStore = defineStore("user-settings", {
 			state.settings?.find(
 				(s) => s.attributes.setting.id === SettingTypes.user_settings_interface_language
 			),
+
+		getTourStatus: (state) =>
+			state.settings?.find((s) => s.attributes.setting.id === SettingTypes.tour_status),
 	},
 });

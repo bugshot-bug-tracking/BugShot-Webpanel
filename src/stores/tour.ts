@@ -3,6 +3,8 @@ import { defineStore } from "pinia";
 import Shepherd from "shepherd.js";
 import { RouteLocationRaw } from "vue-router";
 import { Tours, useTours } from "~/tours/tours";
+import { useUserSettingsStore } from "./userSettings";
+import { SettingTypes, SettingValues } from "~/models/Setting";
 
 export const useTourStore = defineStore("tour", {
 	state: () => ({
@@ -42,8 +44,6 @@ export const useTourStore = defineStore("tour", {
 			});
 
 			this.tour.start();
-
-			// if (this.step !== "") this.tour.show(this.step);
 		},
 
 		// The return type should always be true, it is used as a confirmation signal that the tour can be canceled
@@ -54,6 +54,8 @@ export const useTourStore = defineStore("tour", {
 			this.tour_state = "canceled";
 
 			this.tour = undefined;
+
+			useUserSettingsStore().changeSetting(SettingTypes.tour_status, SettingValues.canceled);
 
 			return true;
 		},
@@ -77,6 +79,8 @@ export const useTourStore = defineStore("tour", {
 
 			this.tour.complete();
 			this.tour_state = "completed";
+
+			useUserSettingsStore().changeSetting(SettingTypes.tour_status, SettingValues.complete);
 		},
 		ShowStep(id: string) {
 			// if no tour in progress exit

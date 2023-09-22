@@ -644,11 +644,8 @@
 	"welcome_page": {
 		"header": "We're thrilled you're here!",
 		"subheader": "Enhance your collaborative bug reporting process, breathing new life into the development of your digital products.",
-
 		"select_button": "Start now",
-
 		"extra_licenses": "({0}€ per additional license)",
-
 		"save_n_%": "save {n}%",
 		"choose_right_plan": "Choose the right package for you:",
 		"plans": {
@@ -700,13 +697,12 @@
 			}
 		}
 	},
-
 	"start_tour": "Start Tour",
 	"tours": {
 		"overview": {
 			"introduction": {
 				"title": "Welcome",
-				"text": "I'm glad you decided to use BugShot. \nHere you can familiarize yourself with the most important features. \n\nFor quick reference, here is a short video:"
+				"text": "I'm glad you decided to use BugShot. Here you can familiarize yourself with the most important features. \n\nFor quick reference, here is a short video:"
 			},
 			"step_1": {
 				"title": "Your first organization",
@@ -766,10 +762,8 @@
 			}
 		}
 	},
-
 	"back": "Back",
 	"next": "Next",
-
 	"user_delete_modal": {
 		"line_1": "Oh no, you are about to delete your account.",
 		"line_2": "Please note that this process is irreversible. If you delete your account, all associated organizations will also be deleted.",
@@ -777,30 +771,25 @@
 		"line_4": "Your subscription will end either at the end of the month or at the end of the selected billing period, depending on your chosen billing period.",
 		"line_5": "Feel free to send us a mail with your feedback to {0}"
 	},
-
 	"order": {
 		"organization": "Order organizations",
 		"company": "Order groups",
 		"porject": "Order projects"
 	},
-
 	"extension_install_hint": {
 		"title": "Missing Out on Additional Features!",
 		"content": "It seems like you haven't installed our extension yet. Head on over to your browser store and get it now to improve your experience!",
 		"action": "Open store"
 	},
-
 	"manage_members": {
 		"title": "Manage members",
 		"add": {
 			"assign_to_project": "Assign to a project?"
 		}
 	},
-
 	"organization_switcher": {
 		"all_organizations": "All Organizations"
 	},
-
 	"project_page": {
 		"more_options": {
 			"move_project": "Move Project",
@@ -808,6 +797,7 @@
 			"select_group": "Select Group"
 		}
 	},
+	"dont_show_again": "Don't show again",
 
 	" ": "",
 	"": ""

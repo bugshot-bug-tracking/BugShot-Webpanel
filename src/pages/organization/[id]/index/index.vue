@@ -84,14 +84,13 @@
 		@close="deleteModal.clear"
 	/>
 
-	<OverviewTourModal v-if="showOverviewTour" @close="showOverviewTour = false" />
+	<OverviewTourModal v-model:show="showOverviewTour" @permanent-close="handlePermanentClose" />
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from "~/stores/auth";
+import { SettingTypes, SettingValues } from "~/models/Setting";
 import { useOrganizationStore } from "~/stores/organization";
-import { useTourStore } from "~/stores/tour";
-import { Tours } from "~/tours/tours";
+import { useUserSettingsStore } from "~/stores/userSettings";
 
 // const props =
 defineProps({
@@ -137,21 +136,15 @@ const deleteModal = reactive({
 const showOverviewTour = ref(false);
 
 onMounted(() => {
-	return useTourStore().StartTour(Tours.overview);
-	showOverviewTour.value = false;
+	const status = useUserSettingsStore().getTourStatus;
 
-	if (useTourStore().tour_state === "completed" || useTourStore().tour_state === "canceled")
-		return;
-
-	let id = useTourStore().step.match(/-([0-9]+)$/i);
-	if (id && parseInt(id[1]) <= 7) {
-		return useTourStore().StartTour(Tours.overview);
-	}
-
-	if (useAuthStore().new_user !== true) return;
-
-	showOverviewTour.value = true;
+	if (status && status.attributes.value == null) showOverviewTour.value = true;
+	else showOverviewTour.value = false;
 });
+
+const handlePermanentClose = () => {
+	useUserSettingsStore().changeSetting(SettingTypes.tour_status, SettingValues.canceled);
+};
 </script>
 
 <style lang="scss" scoped>

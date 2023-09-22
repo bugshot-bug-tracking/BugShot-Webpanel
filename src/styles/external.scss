@@ -2,6 +2,13 @@
 
 .vue-universal-modal {
 	z-index: 1;
+
+	&:focus,
+	&:focus-visible,
+	&:hover {
+		border: unset;
+		outline: unset;
+	}
 }
 
 .n-button--success-type.quaternary {
