@@ -1,5 +1,5 @@
 <template>
-	<div flex items-center gap-4>
+	<div flex items-center gap-4 class="sh-organization-switcher">
 		<p v-if="!noLabel" class="black-to-purple" text-6 m-0>{{ t("organization") }}:</p>
 
 		<n-select v-model:value="organization" filterable :options="options" text-left>

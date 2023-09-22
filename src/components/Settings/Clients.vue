@@ -1,5 +1,5 @@
 <template>
-	<div class="bs-container" p5>
+	<div class="bs-container sh-extensions" p5>
 		<img src="/src/assets/images/bugshot-banner.svg" alt="BugShot" m6 />
 
 		<span flex flex-col items-center>

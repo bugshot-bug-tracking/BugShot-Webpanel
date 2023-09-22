@@ -1,5 +1,5 @@
 <template>
-	<div class="bs-container" flex flex-col gap-4>
+	<div class="bs-container sh-organization-settings" flex flex-col gap-4>
 		<div h-52 class="image">
 			<div :style="{ color: COLOR.PURPLE }" w-120>
 				<img src="/src/assets/icons/organization.svg" alt="project" />

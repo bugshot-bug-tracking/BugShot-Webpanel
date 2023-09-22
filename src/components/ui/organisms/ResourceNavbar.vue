@@ -30,7 +30,7 @@
 		</template>
 
 		<template #main>
-			<div class="list-wrapper bs-scroll">
+			<div class="list-wrapper bs-scroll sh-navbar-list">
 				<ul>
 					<li v-for="item in orderedList(list)" :key="item.id">
 						<slot name="item" v-bind="{ item }"> </slot>

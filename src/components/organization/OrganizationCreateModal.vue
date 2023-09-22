@@ -4,6 +4,7 @@
 		:success_message="$t('organization_succ_created')"
 		:primary_button="primary_button"
 		@close="reset"
+		class="sh-organization-create"
 	>
 		<template #button-text>
 			<span>{{ $t("create.organization") }}</span>

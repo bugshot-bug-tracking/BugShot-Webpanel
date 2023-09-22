@@ -18,7 +18,7 @@
 					<OrderPopover v-model:value="orderRef" :header="t('order.porject')" />
 
 					<n-dropdown trigger="click" :options="more.options" v-if="isAuthorized">
-						<n-button text>
+						<n-button text class="sh-company-settings-button">
 							<Icon-VerticalDots />
 						</n-button>
 					</n-dropdown>
@@ -27,6 +27,7 @@
 				<ProjectCreateModal
 					:primary_button="true"
 					v-if="isAuthorized || (company.attributes.role?.id ?? 9) < 3"
+					class="sh-project-create"
 				/>
 
 				<ManageMembers
@@ -41,6 +42,7 @@
 					:suggestOptions="suggestOptions"
 					infoKey="tooltips.company_roles"
 					@invite-close="projectSelected = undefined"
+					class="sh-company-members-button"
 				>
 					<template #extra-add>
 						<div style="width: 100%">

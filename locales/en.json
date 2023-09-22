@@ -641,18 +641,13 @@
 	"day": "day | days",
 	"week": "week | weeks",
 	"minute": "minute | minutes",
-
 	"welcome_page": {
 		"header": "We're thrilled you're here!",
 		"subheader": "Enhance your collaborative bug reporting process, breathing new life into the development of your digital products.",
-
 		"select_button": "Start now",
-
-		"extra_licenses": "({0}€ per additional license )",
-
+		"extra_licenses": "({0}€ per additional license)",
 		"save_n_%": "save {n}%",
 		"choose_right_plan": "Choose the right package for you:",
-
 		"plans": {
 			"trial": {
 				"title": "Bugshot trial",
@@ -702,7 +697,73 @@
 			}
 		}
 	},
-
+	"start_tour": "Start Tour",
+	"tours": {
+		"overview": {
+			"introduction": {
+				"title": "Welcome",
+				"text": "I'm glad you decided to use BugShot. Here you can familiarize yourself with the most important features. \n\nFor quick reference, here is a short video:"
+			},
+			"step_1": {
+				"title": "Your first organization",
+				"text": "In your organization you can manage all your groups & projects. As a rule of thumb, the organization is like a company, for example."
+			},
+			"step_2": {
+				"title": "Organization Licenses",
+				"text": "In the License Management area you will find an overview of your subscription. You can make adjustments here at any time, these are always effective at the end of the month."
+			},
+			"step_3": {
+				"title": "Organization Settings",
+				"text": "You can rename your organization here."
+			},
+			"step_4": {
+				"title": "New organization",
+				"text": "Or create another one."
+			},
+			"step_5": {
+				"title": "User Menu",
+				"text": "Click here to view account relevant options"
+			},
+			"step_6": {
+				"title": "Account Settings",
+				"text": "Here you can find your account settings"
+			},
+			"step_7": {
+				"title": "My Organizations",
+				"text": "This is where you can come back on this page to manage your organizations."
+			},
+			"step_8": {
+				"title": "Our Applications",
+				"text": "In the applications section you will find various browser extensions for reporting bugs. Lets go and see them!"
+			},
+			"step_9": {
+				"title": "Our Applications",
+				"text": "If you want you can install the appropriate plugin for your preferred browser here so we can provide the best user experience possible."
+			},
+			"step_10": {
+				"title": "Back to Dashboard",
+				"text": "The logo will always take you to the Main Dashboard with the overview of your groups and projects! Try it out right now!"
+			},
+			"step_11": {
+				"title": "Organization selection",
+				"text": "Use the dropdown here to change your active organization at any time if you are a member of multiple organizations."
+			},
+			"step_12": {
+				"title": "Notifications",
+				"text": "Please click the bell to open the notifications menu."
+			},
+			"step_13": {
+				"title": "Notifications",
+				"text": "Use the bell on the left to receive notifications and accept or decline invitations to groups and projects."
+			},
+			"step_14": {
+				"title": "Feedback",
+				"text": "You have questions, feedback, requests or found a bug? Feel free to write us a message."
+			}
+		}
+	},
+	"back": "Back",
+	"next": "Next",
 	"user_delete_modal": {
 		"line_1": "Oh no, you are about to delete your account.",
 		"line_2": "Please note that this process is irreversible. If you delete your account, all associated organizations will also be deleted.",
@@ -710,30 +771,25 @@
 		"line_4": "Your subscription will end either at the end of the month or at the end of the selected billing period, depending on your chosen billing period.",
 		"line_5": "Feel free to send us a mail with your feedback to {0}"
 	},
-
 	"order": {
 		"organization": "Order organizations",
 		"company": "Order groups",
 		"porject": "Order projects"
 	},
-
 	"extension_install_hint": {
 		"title": "Missing Out on Additional Features!",
 		"content": "It seems like you haven't installed our extension yet. Head on over to your browser store and get it now to improve your experience!",
 		"action": "Open store"
 	},
-
 	"manage_members": {
 		"title": "Manage members",
 		"add": {
 			"assign_to_project": "Assign to a project?"
 		}
 	},
-
 	"organization_switcher": {
 		"all_organizations": "All Organizations"
 	},
-
 	"project_page": {
 		"more_options": {
 			"move_project": "Move Project",
@@ -741,6 +797,7 @@
 			"select_group": "Select Group"
 		}
 	},
+	"dont_show_again": "Don't show again",
 
 	" ": "",
 	"": ""

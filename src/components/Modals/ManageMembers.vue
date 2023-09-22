@@ -1,5 +1,5 @@
 <template>
-	<div @click="modal.open">
+	<div @click="modal.open" v-bind="$attrs">
 		<slot name="button" v-bind="{ loading: modal.loading }">
 			<n-button type="primary" round size="large" :loading="modal.loading">
 				<template #icon>
