@@ -7,7 +7,7 @@
 				:offset="['-25%', '50%']"
 				:processing="loading"
 			>
-				<n-button text class="bell-button">
+				<n-button text class="bell-button sh-notifications-button">
 					<template #icon>
 						<Icon-Bell color="white" />
 					</template>
@@ -15,7 +15,7 @@
 			</n-badge>
 		</template>
 
-		<section class="popup">
+		<section class="popup sh-notifications-popup">
 			<header mb-2>
 				<n-h4 m-0 p-2>{{ $t("notification", 2) }}</n-h4>
 

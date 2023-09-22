@@ -650,7 +650,7 @@
 			"trial": {
 				"title": "Bugshot trial",
 				"highlight": "kostenlose 14-tägige Testphase",
-				"f_1": "Teste kostenlos alle Features, um herauszufinden, 0b wir zusammenpassen.",
+				"f_1": "Teste kostenlos alle Features, um herauszufinden, ob wir zusammenpassen.",
 				"f_2": "Unbegrenzte Anzahl an Gruppen & Projekten",
 				"f_3": "Unbegrenzte Anzahl an Teammitgliedern",
 				"f_4": "Browser Extension für Chrome, Firefox & Safari",
@@ -695,6 +695,73 @@
 			}
 		}
 	},
+	"start_tour": "Tour starten",
+	"tours": {
+		"overview": {
+			"introduction": {
+				"title": "Willkommen",
+				"text": "Ich freue mich, dass Sie sich für BugShot entschieden haben. Hier können Sie sich mit den wichtigsten Funktionen vertraut machen.\n\n\nZum schnellen Nachschlagen hier ein kurzes Video:"
+			},
+			"step_1": {
+				"title": "Deine erste Organisation",
+				"text": "In deiner Organisation kannst du alle deine Gruppen & Projekte verwalten. Im Regelfall ist die Organisation z.B. dein Unternehmen."
+			},
+			"step_2": {
+				"title": "Organization Licenses",
+				"text": "Im Bereich Lizenzverwaltung findest du die Übersicht über dein Abo. Du kannst hier jederzeit Anpassungen vornehmen, diese sind immer zum Monatsende wirksam."
+			},
+			"step_3": {
+				"title": "Organization Settings",
+				"text": "Du kannst diese hier umbenennen."
+			},
+			"step_4": {
+				"title": "New organization",
+				"text": "Oder auch eine Weitere erstellen."
+			},
+			"step_5": {
+				"title": "User Menu",
+				"text": "Klicke hier um Account relevante Optionen einzusehen"
+			},
+			"step_6": {
+				"title": "Account Settings",
+				"text": "Hier unten findest du alle Übersichten und Account Einstellungen sowie die Sprachauswahl."
+			},
+			"step_7": {
+				"title": "My Organizations",
+				"text": "This is where you can come back on this page to manage your organizations."
+			},
+			"step_8": {
+				"title": "Our Applications",
+				"text": "Im Bereich Anwendungen findest du verschiedene Browser Extensions für das Reporten von Bugs."
+			},
+			"step_9": {
+				"title": "Our Applications",
+				"text": "Bitte installiere hier das passende Plugin für deinen bevorzugten Browser, damit wir die bestmögliche Nutzererfahrung bieten können."
+			},
+			"step_10": {
+				"title": "Zurück zum Dashboard",
+				"text": "Über das Logo gelangst du immer zum Main Dashboard mit der Übersicht über deine Gruppen und Projekte! Probiere es gleich mal aus!"
+			},
+			"step_11": {
+				"title": "Organisationsauswahl",
+				"text": "Über das Dropdown oben links kannst du jederzeit deine Organisation wechseln, falls du Mitglied in mehreren Organisationen bist."
+			},
+			"step_12": {
+				"title": "Benachrichtigungen",
+				"text": "Bitte klicke auf die Glocke um das Benachrichtigungsmenu zu öffnen."
+			},
+			"step_13": {
+				"title": "Benachrichtigungen",
+				"text": "Über die Glocke auf der linken Seite erhältst du Notifications und kannst Einladungen zu Gruppen und Projekten akzeptieren oder ablehnen."
+			},
+			"step_14": {
+				"title": "Feedback",
+				"text": "Du hast Fragen, Feedback, Wünsche oder einen Bug gefunden? Schreib uns gerne eine Nachricht."
+			}
+		}
+	},
+	"back": "Zurück",
+	"next": "Weiter",
 	"user_delete_modal": {
 		"line_1": "Oh no, schade, dass du dein Konto löschen möchtest.",
 		"line_2": "Bitte beachte, dass dieser Vorgang nicht rückgängig gemacht werden kann. Wenn du dein Konto löschst, werden alle zugehörigen Organisationen ebenfalls gelöscht.",
@@ -712,18 +779,15 @@
 		"content": "Anscheinend haben Sie unsere Erweiterung noch nicht installiert. \nGehen Sie zu Ihrem Browser-Shop und holen Sie sich ihn jetzt, um Ihr Erlebnis zu verbessern!",
 		"action": "Laden eröffnen"
 	},
-
 	"manage_members": {
 		"title": "Mitglieder verwalten",
 		"add": {
 			"assign_to_project": "Einem Projekt zuweisen?"
 		}
 	},
-
 	"organization_switcher": {
 		"all_organizations": "Alle Organisationen"
 	},
-
 	"project_page": {
 		"more_options": {
 			"move_project": "Projekt verschieben",
@@ -731,6 +795,7 @@
 			"select_target_group": "Wählen Sie die Zielgruppe"
 		}
 	},
+	"dont_show_again": "Nicht mehr anzeigen",
 	" ": "",
 	"": ""
 }

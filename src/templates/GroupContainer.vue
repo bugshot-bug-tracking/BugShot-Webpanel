@@ -1,5 +1,5 @@
 <template>
-	<div class="group-container">
+	<div class="group-container sh-group-container">
 		<div class="top">
 			<div class="text-left">
 				<slot name="top-left"> [PH] Group </slot>

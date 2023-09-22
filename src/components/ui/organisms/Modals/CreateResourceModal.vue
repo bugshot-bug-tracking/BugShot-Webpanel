@@ -1,5 +1,5 @@
 <template>
-	<div @click.capture="modal.open">
+	<div @click.capture="modal.open" v-bind="$attrs">
 		<slot name="button" v-bind="{ loading: modal.loading }">
 			<n-button
 				type="success"
@@ -32,7 +32,7 @@
 	</div>
 
 	<MyModal :modelValue="modal.show" :close="modal.close" z-100>
-		<ModalTemplate @close="modal.close">
+		<ModalTemplate @close="modal.close" class="sh-create-resource-modal">
 			<template #header-text>
 				<slot name="modal-header">
 					{{ t("create") }}
@@ -49,6 +49,7 @@
 					:disabled="modal.loading"
 					m-a
 					attr-type="submit"
+					class="sh-create-resource-modal-submit"
 				>
 					<slot name="modal-submit_button">
 						{{ t("create") }}

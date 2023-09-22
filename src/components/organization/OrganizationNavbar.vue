@@ -15,7 +15,7 @@
 			<ResourceNavbarItem
 				:text="item.attributes.designation"
 				:to_resource="{ name: 'organization', params: { id: item.id } }"
-				:owner="user.id === item.attributes.creator.id"
+				:owner="user?.id === item.attributes.creator?.id"
 				@toggle="items_opened.toggle(item.id)"
 				:open="
 					items_opened.secondary === item.id
@@ -28,7 +28,7 @@
 				<template #list>
 					<RouterLink
 						:to="{ name: 'organization', params: { id: item.id } }"
-						class="route"
+						class="route sh-organization-nav-overview"
 						:style="{
 							'font-weight': 'bold',
 							width: 'auto',
@@ -66,7 +66,7 @@
 
 					<RouterLink
 						:to="{ name: 'organization-payments', params: { id: item.id } }"
-						class="route"
+						class="route sh-organization-nav-settings"
 						:style="{
 							'font-weight': 'bold',
 							width: 'auto',

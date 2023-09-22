@@ -83,10 +83,14 @@
 		:callback="deleteModal.callback"
 		@close="deleteModal.clear"
 	/>
+
+	<OverviewTourModal v-model:show="showOverviewTour" @permanent-close="handlePermanentClose" />
 </template>
 
 <script setup lang="ts">
+import { SettingTypes, SettingValues } from "~/models/Setting";
 import { useOrganizationStore } from "~/stores/organization";
+import { useUserSettingsStore } from "~/stores/userSettings";
 
 // const props =
 defineProps({
@@ -128,6 +132,19 @@ const deleteModal = reactive({
 		deleteModal.show = true;
 	},
 });
+
+const showOverviewTour = ref(false);
+
+onMounted(() => {
+	const status = useUserSettingsStore().getTourStatus;
+
+	if (status && status.attributes.value == null) showOverviewTour.value = true;
+	else showOverviewTour.value = false;
+});
+
+const handlePermanentClose = () => {
+	useUserSettingsStore().changeSetting(SettingTypes.tour_status, SettingValues.canceled);
+};
 </script>
 
 <style lang="scss" scoped>

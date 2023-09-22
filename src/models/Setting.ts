@@ -55,6 +55,8 @@ export enum SettingTypes {
 	"show_custom_show_edit_priority_button" = 25,
 	"show_custom_show_edit_deadline_button" = 26,
 	"show_custom_show_edit_status_button" = 27,
+
+	"tour_status" = 32,
 }
 
 export enum SettingValues {
@@ -96,4 +98,7 @@ export enum SettingValues {
 	"light_mode" = 36,
 	"dark_mode" = 37,
 	"system" = 38,
+
+	"complete" = 39,
+	"canceled" = 40,
 }
