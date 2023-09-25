@@ -30,6 +30,9 @@
 
 <script setup lang="ts">
 import { PropType } from "vue";
+import { Company } from "~/models/Company";
+import { Project } from "~/models/Project";
+import { User } from "~/models/User";
 
 // const props =
 defineProps({
@@ -42,9 +45,7 @@ defineProps({
 
 	list: {
 		required: false,
-		type: Array as PropType<
-			{ type: string; id: string; attributes: { designation: string } }[]
-		>,
+		type: Array as PropType<(Company | Project | User)[]>,
 		description: "List of items to show",
 		default: undefined,
 	},
