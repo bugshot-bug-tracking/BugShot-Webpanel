@@ -50,7 +50,7 @@ const props = defineProps({
 	},
 
 	color: {
-		tpe: String,
+		type: String,
 		required: false,
 		default: undefined,
 	},
