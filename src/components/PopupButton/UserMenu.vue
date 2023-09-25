@@ -25,7 +25,8 @@
 			<ul @click.capture="menu.toggle">
 				<hr />
 				<RouterLink :to="{ name: 'settings' }" class="sh-user-settings">
-					<img src="/src/assets/icons/gear.svg" alt="gear" />
+					<Icon-Settings size="1.5rem" />
+
 					{{ $t("account_settings") }}
 				</RouterLink>
 
@@ -156,6 +157,10 @@ ul {
 		transition: 0.3s;
 		cursor: pointer;
 
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+
 		&:last-of-type {
 			border: none;
 		}
@@ -173,6 +178,5 @@ ul {
 img {
 	width: 1.5rem;
 	height: 1.5rem;
-	margin-right: 0.5rem;
 }
 </style>

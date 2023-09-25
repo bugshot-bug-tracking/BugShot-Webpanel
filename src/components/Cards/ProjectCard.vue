@@ -26,11 +26,7 @@
 
 			<div class="right" v-if="actions">
 				<RouterLink :to="to_settings" v-if="to_settings">
-					<img
-						src="/src/assets/icons/gear.svg"
-						alt="settings"
-						:title="$t('setting', 2)"
-					/>
+					<Icon-Settings size="1.5rem" :title="$t('setting', 2)" vertical-middle />
 				</RouterLink>
 			</div>
 		</div>
@@ -213,11 +209,6 @@ const emit = defineEmits(["open", "edit", "delete"]);
 		padding: 0.25rem 1rem;
 		user-select: none;
 		cursor: pointer;
-
-		> img {
-			height: 1.5rem;
-			width: 1.5rem;
-		}
 
 		&:hover {
 			background-color: hsl(158, 79%, 87%);

@@ -34,13 +34,8 @@
 							width: 'auto',
 						}"
 					>
-						<img
-							src="/src/assets/icons/gear.svg"
-							alt="settings"
-							w-6
-							h-6
-							:title="$t('overview')"
-						/>
+						<Icon-Settings size="1.5rem" vertical-middle :title="$t('overview')" />
+
 						{{ $t("overview") }}
 					</RouterLink>
 

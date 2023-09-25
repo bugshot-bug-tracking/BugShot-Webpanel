@@ -13,15 +13,13 @@
 					infoKey="tooltips.organization_roles"
 				>
 					<template #button="{ loading }">
-						<img
-							src="/src/assets/icons/gear.svg"
-							alt="gear"
-							:title="!loading ? $t('manage_members.title') : $t('loading') + '...'"
-							w-8
-							h-8
-							class="manage-button"
-							:class="{ loading: loading }"
-						/>
+						<div class="manage-button" :class="{ loading: loading }">
+							<Icon-Settings
+								size="1.5rem"
+								:title="$t('setting', 2)"
+								vertical-middle
+							/>
+						</div>
 					</template>
 
 					<!--
@@ -268,7 +266,6 @@ const getCreatorSubscription = (subscriptions: any[]) => {
 
 		@keyframes spin {
 			100% {
-				-webkit-transform: rotate(360deg);
 				transform: rotate(360deg);
 			}
 		}

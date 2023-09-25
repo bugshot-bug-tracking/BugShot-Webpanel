@@ -31,11 +31,7 @@
 						}"
 						ml-a
 					>
-						<img
-							src="/src/assets/icons/gear.svg"
-							alt="settings"
-							:title="$t('setting', 2)"
-						/>
+						<Icon-Settings size="1.5rem" :title="$t('setting', 2)" vertical-middle />
 					</RouterLink>
 				</template>
 			</ResourceHeader>
