@@ -1,3 +1,23 @@
+### 1.10.0 (2023-09-25)
+
+##### New Features
+
+* **tutorial:**  implement overview tour for new users (015829d3)
+* **pages:**  change the "/new" page with a new "/dashboard/welcome" page (0b97d033)
+* **usability:**
+  *  save user preferences on server (83b7dc40)
+  *  clicking the "Group" on the group navigation bar will redirect to the organization main page (38c36346)
+  *  sync group ordering with the left menu on the dashboard/all page (c89adeed)
+
+##### Bug Fixes
+
+* **code:**  fix typo (bfbf652b)
+
+##### Refactors
+
+* **code:**  change prop types for AssignmentTable list (7e152295)
+* **UI:**  change settings icon (9bab96e1)
+
 ### 1.9.0 (2023-09-17)
 
 ##### Continuous Integration
