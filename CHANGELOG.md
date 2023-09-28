@@ -1,3 +1,11 @@
+#### 1.10.2 (2023-09-28)
+
+##### Refactors
+
+* **pages:**
+  *  move application and extension links to separate page (1e1c31bf)
+  *  change organization plan page to use the new plan cards (c16e1c27)
+
 #### 1.10.1 (2023-09-28)
 
 ##### Bug Fixes
