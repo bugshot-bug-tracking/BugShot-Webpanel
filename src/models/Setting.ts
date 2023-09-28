@@ -21,42 +21,15 @@ export interface Setting {
 }
 
 export enum SettingTypes {
-	"company_filter_alphabetical" = 1,
-	"company_filter_creation" = 2,
-	"company_filter_last_updated" = 3,
-	"project_filter_alphabetical" = 4,
-	"project_filter_creation" = 5,
-	"project_filter_last_updated" = 6,
-	"bug_filter_alphabetical" = 7,
-	"bug_filter_creation" = 8,
-	"bug_filter_priority" = 9,
-	"bug_filter_deadline" = 10,
-	"bug_filter_assigned_to" = 11,
-
-	"user_settings_interface_language" = 12,
-	"user_settings_show_ui_elements" = 13,
-	"user_settings_receive_mail_notifications" = 14,
-	"user_settings_select_notifications" = 15,
-	"user_settings_darkmode" = 16,
-
-	"custom_notifications_new_bug_added" = 17,
-	"custom_notifications_bug_change_of_status" = 18,
-	"custom_notifications_report_created_deleted" = 19,
-	"custom_notifications_report_finished" = 20,
-	"custom_notifications_assignation_to_client_project_task" = 21,
-	"custom_notifications_new_comments_and_replies" = 22,
-	"custom_notifications_new_tag_in_comment" = 23,
-	"custom_notifications_daily_summary" = 28,
-	"custom_notifications_invitation_received" = 29,
-	"custom_notifications_tagged_in_comment" = 30,
-	"custom_notifications_assigned_to_bug" = 31,
-
-	"show_custom_show_secondary_view_all_projects_button" = 24,
-	"show_custom_show_edit_priority_button" = 25,
-	"show_custom_show_edit_deadline_button" = 26,
-	"show_custom_show_edit_status_button" = 27,
-
-	"tour_status" = 32,
+	"user_settings_interface_language" = 1,
+	"user_settings_select_notifications" = 2,
+	"custom_notifications_tagged_in_comment" = 3,
+	"custom_notifications_assigned_to_bug" = 4,
+	"custom_notifications_daily_summary" = 5,
+	"custom_notifications_invitation_received" = 6,
+	"custom_notifications_implementation_approval_form_received" = 7,
+	"custom_notifications_report_created" = 8,
+	"tour_status" = 9,
 }
 
 export enum SettingValues {
