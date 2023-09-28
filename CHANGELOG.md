@@ -1,3 +1,9 @@
+#### 1.10.1 (2023-09-28)
+
+##### Bug Fixes
+
+* **API:**  update setting ids (6a0185a9)
+
 ### 1.10.0 (2023-09-25)
 
 ##### New Features
