@@ -48,7 +48,7 @@
 							>
 								{{ t("yearly") }}
 
-								<span text-4 ml-1ch> ({{ t("welcome_page.save_n_%", 17) }}) </span>
+								<span text-4 ml-1ch> ({{ t("welcome_page.save_n_%", 20) }}) </span>
 							</n-button>
 						</div>
 					</div>

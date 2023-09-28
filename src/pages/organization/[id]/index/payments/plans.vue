@@ -1,94 +1,127 @@
 <template>
-	<article class="bs-scroll" v-if="!loading">
-		<header>
-			<p>
-				<b>{{ $t("choose_the_plan") }}</b>
-			</p>
+	<Single flex>
+		<article class="main-loading" v-if="loading">
+			<img src="/src/assets/animations/loading.svg" alt="loading circle" />
+		</article>
 
-			<p text-5 flex gap-1 items-baseline>
-				<b
-					class="month-opt"
-					:class="{ 'selected-opt': isMonthly }"
-					@click="isMonthly = true"
-				>
-					{{ $t("monthly") }}
-				</b>
+		<article flex-1 max-h-100vh v-else>
+			<n-scrollbar>
+				<div flex flex-col items-center gap-12 justify-center py-8>
+					<div>
+						<n-h1>
+							<n-text type="primary" font-bold>
+								{{ t("welcome_page.choose_right_plan") }}
+							</n-text>
+						</n-h1>
 
-				<n-switch size="small" @click="isMonthly = !isMonthly" :value="!isMonthly" />
+						<div flex gap-2 items-baseline mt-4 justify-center>
+							<n-button
+								text
+								text-5
+								style="font-weight: bold"
+								:class="{ 'selected-opt': isMonthly }"
+								@click="isMonthly = true"
+								:disabled="buttonLoading !== undefined"
+							>
+								{{ t("monthly") }}
+							</n-button>
 
-				<b
-					class="year-opt"
-					:class="{ 'selected-opt': !isMonthly }"
-					@click="isMonthly = false"
-				>
-					{{ $t("yearly") }}
+							<n-switch
+								size="small"
+								@click="isMonthly = !isMonthly"
+								:value="!isMonthly"
+								:disabled="buttonLoading !== undefined"
+							/>
 
-					<span>{{ $t("n_months_free", 2) }}</span>
-				</b>
-			</p>
-		</header>
+							<n-button
+								text
+								text-5
+								style="font-weight: bold"
+								:class="{ 'selected-opt': !isMonthly }"
+								@click="isMonthly = false"
+								:disabled="buttonLoading !== undefined"
+							>
+								{{ t("yearly") }}
 
-		<div class="main bs-scroll" h-190 flex>
-			<ul v-if="(processedProducts.length ?? 0) > 0">
-				<li v-for="product in processedProducts" :key="product.id">
-					<PlanCard
-						:title="product.name"
-						:description="product.value.attributes.metadata.description"
-						:features="product.features"
-						:type="isMonthly ? 'month' : 'year'"
-						:price="
-							isMonthly
-								? (product.prices.monthly.unit_amount ?? 0) / 100
-								: (product.prices.yearly.unit_amount ?? 0) / 100
-						"
-						:extra_price="
-							isMonthly
-								? (product.prices.monthly.extra_unit_amount ?? 0) / 100
-								: (product.prices.yearly.extra_unit_amount ?? 0) / 100
-						"
-						@submit="onSubmit($event, product)"
-						:loading="cardLoading === product.id"
+								<span text-4 ml-1ch> ({{ t("welcome_page.save_n_%", 20) }}) </span>
+							</n-button>
+						</div>
+					</div>
+
+					<n-list
+						v-if="(processedProducts.length ?? 0) > 0"
+						flex
+						gap-8
+						style="background-color: transparent"
+						:show-divider="false"
+						items-start
+						justify-center
+						flex-wrap
+						px-4
+						py-2
 					>
-					</PlanCard>
-				</li>
-			</ul>
-			<n-empty
-				v-else
-				m-a
-				:description="
-					isMonthly
-						? $t('all_available_monthly_plans_purchased')
-						: $t('all_available_yearly_plans_purchased')
-				"
-				size="huge"
-			>
-				<template #extra>
-					<n-button
-						type="primary"
-						ghost
-						round
-						mt-4
-						strong
-						size="large"
-						@click="isMonthly = false"
+						<n-list-item v-for="item in processedProducts">
+							<PlanCard2
+								:value="{
+									type: item.type,
+									price: isMonthly
+										? item.prices.monthly.unit_amount ?? 0
+										: item.prices.yearly.unit_amount ?? 0,
+									features: item.features,
+									multiple: item.prices.monthly.extra_unit_amount ? true : false,
+									extra_price: isMonthly
+										? item.prices.monthly.extra_unit_amount ?? 0
+										: item.prices.yearly.extra_unit_amount ?? 0,
+									color:
+										item.type === 'individual'
+											? 'var(--bs-green)'
+											: item.type === 'premium'
+											? 'var(--bs-yellow)'
+											: undefined,
+									yearly: !isMonthly,
+								}"
+								@action="onSubmit($event, item)"
+								:disabled="cardLoading !== undefined"
+								:loading="cardLoading === item.id"
+							/>
+						</n-list-item>
+					</n-list>
+
+					<n-empty
+						v-else
+						my-32
+						:description="
+							isMonthly
+								? t('all_available_monthly_plans_purchased')
+								: t('all_available_yearly_plans_purchased')
+						"
+						size="huge"
 					>
-						{{ isMonthly ? $t("check_yearly_plans") : $t("check_monthly_plans") }}
-					</n-button>
-				</template>
-			</n-empty>
-		</div>
-
-		<div></div>
-	</article>
-
-	<article v-else justify-center>
-		<img src="/src/assets/animations/loading.svg" alt="loading" />
-	</article>
+						<template #extra>
+							<n-button
+								type="primary"
+								ghost
+								round
+								mt-4
+								strong
+								size="large"
+								@click="isMonthly = false"
+							>
+								{{ isMonthly ? t("check_yearly_plans") : t("check_monthly_plans") }}
+							</n-button>
+						</template>
+					</n-empty>
+				</div>
+			</n-scrollbar>
+		</article>
+	</Single>
 </template>
 
 <script setup lang="ts">
 import { useOrganizationStore } from "~/stores/organization";
 import { usePaymentsStore } from "~/stores/payments";
+
+const { t } = useI18n();
 
 const route = useRoute();
 
@@ -150,9 +183,13 @@ const processedProducts = computed(() =>
 					price: prod.attributes.prices.find(
 						(x) => x.attributes.recurring.interval === "month"
 					),
-					unit_amount: prod.attributes.prices
-						.find((x) => x.attributes.recurring.interval === "month")
-						?.attributes.tiers?.find((t) => t.up_to === 1)?.unit_amount,
+					unit_amount:
+						prod.attributes.prices
+							.find((x) => x.attributes.recurring.interval === "month")
+							?.attributes.tiers?.find((t) => t.up_to === 1)?.unit_amount ||
+						prod.attributes.prices.find(
+							(x) => x.attributes.recurring.interval === "month"
+						)?.attributes.unit_amount,
 
 					extra: prod.attributes.prices
 						.find((x) => x.attributes.recurring.interval === "month")
@@ -168,9 +205,13 @@ const processedProducts = computed(() =>
 						(x) => x.attributes.recurring.interval === "year"
 					),
 
-					unit_amount: prod.attributes.prices
-						.find((x) => x.attributes.recurring.interval === "year")
-						?.attributes.tiers?.find((t) => t.up_to === 1)?.unit_amount,
+					unit_amount:
+						prod.attributes.prices
+							.find((x) => x.attributes.recurring.interval === "year")
+							?.attributes.tiers?.find((t) => t.up_to === 1)?.unit_amount ||
+						prod.attributes.prices.find(
+							(x) => x.attributes.recurring.interval === "year"
+						)?.attributes.unit_amount,
 
 					extra: prod.attributes.prices
 						.find((x) => x.attributes.recurring.interval === "year")
@@ -183,6 +224,8 @@ const processedProducts = computed(() =>
 			},
 
 			features: prod.attributes.metadata.feature_list?.split(";"),
+
+			type: prod.attributes.metadata.type,
 
 			image: prod.attributes.metadata.image,
 		}))
@@ -203,7 +246,9 @@ const onSubmit = (value: number, product: (typeof processedProducts.value)[0]) =
 	});
 };
 
-const cardLoading = ref("");
+const cardLoading = ref<string | undefined>(undefined);
+
+const buttonLoading = ref<string | undefined>(undefined);
 </script>
 
 <style lang="scss" scoped>
