@@ -41,7 +41,7 @@
 				</RouterLink>
 				<hr />
 
-				<RouterLink :to="{ name: 'settings' }" class="sh-user-apps">
+				<RouterLink :to="{ name: 'settings-apps' }" class="sh-user-apps">
 					<img src="/src/assets/icons/apps.svg" alt="apps" />
 
 					{{ $t("the_apps") }}

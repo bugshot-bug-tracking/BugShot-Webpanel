@@ -14,39 +14,59 @@
 		</template>
 
 		<template #main>
-			<div class="user">
-				<span class="name">
-					<div>{{ $t("hello") + "," }}</div>
-					<div class="username">
-						{{ user?.attributes?.first_name }}
-					</div></span
-				>
-			</div>
-			<div class="account">
-				<n-h3>
-					{{ $t("setting", 2) }}
-				</n-h3>
-
-				<ul>
-					<router-link
-						:to="{
-							name: 'settings',
-						}"
-						class="item"
+			<div flex flex-col gap-4 flex-1>
+				<div class="user">
+					<span class="name">
+						<div>{{ $t("hello") + "," }}</div>
+						<div class="username">
+							{{ user?.attributes?.first_name }}
+						</div></span
 					>
-						{{ $t("account_settings") }}
-					</router-link>
+				</div>
 
-					<router-link
-						:to="{
-							name: 'payments',
-						}"
-						class="item"
-						v-if="false"
-					>
-						{{ $t("payments_and_plans") }}
-					</router-link>
-				</ul>
+				<div class="nav-group">
+					<n-h3>
+						{{ $t("setting", 2) }}
+					</n-h3>
+
+					<ul>
+						<router-link
+							:to="{
+								name: 'settings',
+							}"
+							class="item"
+						>
+							{{ $t("account_settings") }}
+						</router-link>
+
+						<router-link
+							:to="{
+								name: 'payments',
+							}"
+							class="item"
+							v-if="false"
+						>
+							{{ $t("payments_and_plans") }}
+						</router-link>
+					</ul>
+				</div>
+
+				<div class="nav-group">
+					<n-h3>
+						{{ $t("applications") }}
+					</n-h3>
+
+					<ul>
+						<router-link
+							:to="{
+								name: 'settings-apps',
+							}"
+							class="item"
+						>
+							{{ $t("extension.extension", 2) }}
+						</router-link>
+					</ul>
+				</div>
 			</div>
 		</template>
 
@@ -88,7 +108,7 @@ header {
 	padding: 1rem;
 }
 
-.account {
+.nav-group {
 	h3 {
 		text-align: left;
 		padding: 0.5rem 1.25rem;
@@ -97,6 +117,7 @@ header {
 		margin: 0.5rem;
 		font-size: 1.1rem;
 		text-transform: uppercase;
+		margin-top: 0;
 	}
 
 	ul {
@@ -121,7 +142,6 @@ header {
 	flex-direction: column;
 	align-items: flex-start;
 	margin: 0 1.25rem;
-	margin-bottom: 0.5rem;
 
 	.username {
 		font-weight: bold;
