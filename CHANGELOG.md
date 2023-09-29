@@ -1,3 +1,9 @@
+#### 1.10.3 (2023-09-29)
+
+##### Bug Fixes
+
+* **API:**  change settings values available in the api (bbda049c)
+
 #### 1.10.2 (2023-09-28)
 
 ##### Refactors
