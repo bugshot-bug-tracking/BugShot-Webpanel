@@ -1,3 +1,9 @@
+### 1.11.0 (2023-10-06)
+
+##### New Features
+
+* **project:**  add extension guest access via token (0bac928b)
+
 #### 1.10.3 (2023-09-29)
 
 ##### Bug Fixes
