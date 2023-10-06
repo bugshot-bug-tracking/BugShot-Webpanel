@@ -317,7 +317,6 @@
 	"member_plan": "Lizenz",
 	"view_details": "Details anzeigen",
 	"organization_members": "Mitglieder der Organisation",
-	"generate_token": "Token generieren",
 	"token": "Token",
 	"delete_token": "Token löschen",
 	"refresh": "Erneuern",
@@ -537,7 +536,9 @@
 		"user_updated": "Nutzer wurde aktualisiert!",
 		"organization_term_updated": "Die Änderung war erfolgreich!",
 		"account_deleted_successfully": "Konto erfolgreich gelöscht!",
-		"project_moved": "Projekt verschoben!"
+		"project_moved": "Projekt verschoben!",
+		"text_to_clipboard": "Text in die Zwischenablage kopiert!",
+		"text_to_clipboard_error": "Konnte nicht in die Zwischenablage kopieren!"
 	},
 	"rules": {
 		"designation_required": "Fehlername erforderlich!"
@@ -793,10 +794,18 @@
 			"move_project": "Projekt verschieben",
 			"select_group": "Wähle die Gruppe",
 			"select_target_group": "Wählen Sie die Zielgruppe"
+		},
+		"settings": {
+			"generate_token": "Token generieren",
+			"regenerate_token": "Token neu generieren",
+			"guest_token": "Gast-token"
 		}
 	},
 	"dont_show_again": "Nicht mehr anzeigen",
 	"applications": "Anwendungen",
+	"regenerate_token": "Token neu generieren",
+	"copy": "Kopieren",
+
 	" ": "",
 	"": ""
 }

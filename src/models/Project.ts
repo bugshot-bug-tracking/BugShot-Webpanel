@@ -22,6 +22,7 @@ export interface Project {
 		statuses?: Status[];
 		users?: User[];
 		role?: Role;
+		access_token?: string;
 	};
 	pending?: Invitation[];
 }

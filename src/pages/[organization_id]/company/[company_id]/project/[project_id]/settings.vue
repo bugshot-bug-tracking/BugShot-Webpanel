@@ -100,6 +100,16 @@
 				</div>
 			</div>
 
+			<div class="component-group min-h-a!">
+				<div class="group-header">
+					{{ $t("project_page.settings.guest_token") }}
+				</div>
+
+				<div class="group-content">
+					<GuestToken :id="project_id" />
+				</div>
+			</div>
+
 			<div class="component-group" max-w-128 :style="{ 'min-height': 'auto' }">
 				<div class="group-header">
 					{{ $t("resource_token") }}

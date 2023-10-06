@@ -290,6 +290,15 @@ export const useProjectStore = defineStore("project", {
 
 			return response;
 		},
+
+		async generateToken() {
+			if (!this.project?.id) throw new Error("No active project!");
+
+			let response = (await axios.post(`/projects/${this.project.id}/generate-access-token`))
+				.data.data;
+
+			this.project.attributes.access_token = response.access_token;
+		},
 	},
 
 	getters: {

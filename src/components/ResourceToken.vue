@@ -33,7 +33,7 @@
 
 		<div v-else class="generate-state">
 			<button class="bs-btn green" @click.prevent="actions.update">
-				{{ $t("generate_token") }}
+				{{ $t("project_page.settings.generate_token") }}
 			</button>
 		</div>
 	</div>

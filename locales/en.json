@@ -317,7 +317,6 @@
 	"member_plan": "Member plan",
 	"view_details": "View details",
 	"organization_members": "Organization members",
-	"generate_token": "Generate token",
 	"token": "Token",
 	"delete_token": "Delete token",
 	"refresh": "Refresh",
@@ -537,7 +536,9 @@
 		"user_updated": "User updated!",
 		"organization_term_updated": "Term updated!",
 		"account_deleted_successfully": "Account deleted successfully!",
-		"project_moved": "Project moved!"
+		"project_moved": "Project moved!",
+		"text_to_clipboard": "Text copied to clipboard!",
+		"text_to_clipboard_error": "Could not copy to clipboard!"
 	},
 	"rules": {
 		"designation_required": "Bug name required!"
@@ -795,10 +796,16 @@
 			"move_project": "Move Project",
 			"select_target_group": "Chose the target group",
 			"select_group": "Select Group"
+		},
+		"settings": {
+			"generate_token": "Generate token",
+			"regenerate_token": "Regenerate token",
+			"guest_token": "Guest token"
 		}
 	},
 	"dont_show_again": "Don't show again",
 	"applications": "Applications",
+	"copy": "Copy",
 
 	" ": "",
 	"": ""
