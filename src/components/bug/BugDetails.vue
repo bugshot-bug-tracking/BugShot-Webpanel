@@ -73,7 +73,7 @@
 						</template>
 
 						<template v-else>
-							{{ `${store.bug.attributes.selector ?? t("anonymous")}` }}
+							{{ t("anonymous") }}
 						</template>
 					</p>
 				</div>
