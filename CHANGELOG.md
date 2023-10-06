@@ -1,3 +1,9 @@
+#### 1.11.1 (2023-10-06)
+
+##### Bug Fixes
+
+* **Texts:**  wrong creator name for bugs created using a token (4c6ca8d8)
+
 ### 1.11.0 (2023-10-06)
 
 ##### New Features
