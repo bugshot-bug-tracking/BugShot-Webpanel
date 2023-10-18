@@ -64,6 +64,7 @@
 						@click="emit('action', quantity)"
 						:loading="loading"
 						:disabled="disabled"
+						strong
 					>
 						{{ $t("welcome_page.select_button") }}
 					</n-button>
@@ -90,6 +91,7 @@
 
 		<template #default>
 			<n-text strong> {{ $t(`welcome_page.plans.${value.type}.highlight`) }} </n-text>
+			<n-text> {{ $t(`welcome_page.plans.${value.type}.highlight-extra`) }} </n-text>
 		</template>
 
 		<template #footer>

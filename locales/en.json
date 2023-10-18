@@ -653,48 +653,42 @@
 			"trial": {
 				"title": "Bugshot trial",
 				"highlight": "free 14-day trial period",
-				"f_1": "Test all the features for free to find out whether we're a good fit.",
+				"highlight-extra": "",
+				"f_1": "Try all features for free to see if we're a good match",
 				"f_2": "Unlimited number of groups & projects",
 				"f_3": "Unlimited number of team members",
 				"f_4": "Browser extension for Chrome, Firefox & Safari",
 				"f_5": "iOS & Android-App",
-				"f_6": "Guest access that includes the use of the extensions",
-				"f_7": "Regular free updates"
+				"f_6": "Guest access to use the browser extensions",
+				"f_7": "Regular free updates",
+				"f_8": "Can be cancelled at any time"
 			},
 			"individual": {
-				"title": "Bugshot Individual",
+				"title": "Bugshot Basic",
 				"highlight": "for individuals and small projects",
-				"f_1": "Simple bug reporting for your project. Keep track of necessary changes without all the bells and whistles.",
+				"highlight-extra": "",
+				"f_1": "Simple bug reporting for your project. Keep track of necessary changes without a lot of bells and whistles",
 				"f_2": "Unlimited number of groups & projects",
 				"f_3": "Unlimited number of team members",
 				"f_4": "Browser extension for Chrome, Firefox & Safari",
 				"f_5": "iOS & Android-App",
-				"f_6": "Guest access that includes the use of the extensions",
-				"f_7": "Regular free updates"
-			},
-			"team": {
-				"title": "Bugshot Team",
-				"highlight": "for agencies & companies",
-				"f_1": "It has never been so easy to detect bugs and work together to ensure quality assurance on digital products.",
-				"f_2": "2 months free with an annual subscription",
-				"f_3": "Unlimited number of groups & projects",
-				"f_4": "Unlimited number of team members",
-				"f_5": "Browser extension for Chrome, Firefox & Safari",
-				"f_6": "iOS & Android-App",
-				"f_7": "Guest access that includes the use of the extensions",
-				"f_8": "Regular free updates"
+				"f_6": "Guest access to use the browser extensions",
+				"f_7": "Upgrade to BugShot Premium is possible at any time",
+				"f_8": "Regular free updates",
+				"f_9": "Can be cancelled at any time"
 			},
 			"premium": {
 				"title": "Bugshot Premium",
-				"highlight": "start using BugShot right away",
-				"f_1": "It has never been so easy to detect bugs and work together to ensure quality assurance on digital products.",
-				"f_2": "2 months free with an annual subscription",
-				"f_3": "Unlimited number of groups & projects",
-				"f_4": "Unlimited number of team members",
-				"f_5": "Browser extension for Chrome, Firefox & Safari",
-				"f_6": "iOS & Android-App",
-				"f_7": "Guest access that includes the use of the extensions",
-				"f_8": "Regular free updates"
+				"highlight": "for agencies & companies",
+				"highlight-extra": " (from two licenses)",
+				"f_1": "Simple bug reporting for your project. Keep track of necessary changes without a lot of bells and whistles",
+				"f_2": "Unlimited number of groups & projects",
+				"f_3": "Unlimited number of team members",
+				"f_4": "Browser extension for Chrome, Firefox & Safari",
+				"f_5": "iOS & Android-App",
+				"f_6": "Guest access to use the browser extensions",
+				"f_7": "Regular free updates",
+				"f_8": "Can be cancelled at any time"
 			}
 		}
 	},
