@@ -1,3 +1,9 @@
+#### 1.11.2 (2023-10-18)
+
+##### Refactors
+
+* **Texts:**  update welcome page and plan texts (974b8fed)
+
 #### 1.11.1 (2023-10-06)
 
 ##### Bug Fixes
