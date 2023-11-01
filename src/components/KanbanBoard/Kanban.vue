@@ -11,7 +11,7 @@
 				class="status-list"
 				handle=".status-handle"
 				@change="statusMove"
-				:disabled="mode === 'checker'"
+				:disabled="mode === 'checker' && moveable"
 			>
 				<template #header v-if="store.getBacklogStatus">
 					<KanbanItem
@@ -52,6 +52,12 @@ defineProps({
 		required: false,
 		default: undefined,
 		description: "Operational mode of the kanban; 'undefined' is the normal mode.",
+	},
+	moveable: {
+		type: Boolean,
+		required: false,
+		default: true,
+		description: "Enable/disable moving of elements",
 	},
 });
 

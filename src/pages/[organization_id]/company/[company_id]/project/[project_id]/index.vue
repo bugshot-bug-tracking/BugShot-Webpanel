@@ -128,7 +128,10 @@
 				</template>
 
 				<n-checkbox-group v-model:value="kanbanState.checkList" overflow-auto>
-					<Kanban :mode="kanbanState.mode" />
+					<Kanban
+						:mode="kanbanState.mode"
+						:moveable="store.getProject?.attributes.role?.id !== 3"
+					/>
 				</n-checkbox-group>
 
 				<BugDrawer />
