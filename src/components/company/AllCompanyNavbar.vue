@@ -149,6 +149,7 @@ import { COLOR } from "~/util/colors";
 import { DropdownOption } from "naive-ui";
 import IconSettings from "../icons/Icon-Settings.vue";
 import { useMainStore } from "~/stores/main";
+import IconBolt from "../icons/Icon-Bolt.vue";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -227,6 +228,24 @@ const more = (org_id: string, company_id: string, proj_id: string) => ({
 				onClick: () => {
 					router.push({
 						name: "project-settings",
+						params: {
+							organization_id: org_id,
+							company_id: company_id,
+							project_id: proj_id,
+						},
+					});
+				},
+			},
+		},
+		{
+			label: t("project_integrations.integration", 2),
+			key: "project_integrations",
+			icon: () => h(IconBolt),
+			show: true,
+			props: {
+				onClick: () => {
+					router.push({
+						name: "project-integrations",
 						params: {
 							organization_id: org_id,
 							company_id: company_id,
