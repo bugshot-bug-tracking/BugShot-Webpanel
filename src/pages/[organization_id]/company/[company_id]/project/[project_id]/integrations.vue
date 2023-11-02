@@ -60,6 +60,9 @@
 
 					<Jira
 						v-show="activeIntegration === 'jira'"
+						:configurable="store.getJiraState"
+						:connect="store.connectJira"
+						:disconnect="store.disconnectJira"
 					/>
 				</n-layout>
 			</n-layout>
@@ -103,6 +106,10 @@ const selectIntegration = async (value: undefined | "jira") => {
 	try {
 		switch (value) {
 			case "jira":
+				if (store.getJiraState) {
+					integrationLoading.value = true;
+					// do the init
+				}
 				activeIntegration.value = "jira";
 
 				break;
