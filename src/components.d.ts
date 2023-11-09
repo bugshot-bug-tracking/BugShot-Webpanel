@@ -88,6 +88,7 @@ declare module 'vue' {
     InviteMemberModal: typeof import('./components/Modals/InviteMemberModal.vue')['default']
     InvoiceList: typeof import('./components/InvoiceList.vue')['default']
     Jira: typeof import('./components/project/integrations/Jira/Jira.vue')['default']
+    JiraConfig: typeof import('./components/project/integrations/Jira/JiraConfig.vue')['default']
     Kanban: typeof import('./components/KanbanBoard/Kanban.vue')['default']
     KanbanActions: typeof import('./components/KanbanBoard/KanbanActions.vue')['default']
     KanbanItem: typeof import('./components/KanbanBoard/KanbanItem.vue')['default']

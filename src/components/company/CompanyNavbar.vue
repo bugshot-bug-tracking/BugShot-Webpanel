@@ -118,7 +118,7 @@
 								>
 									<n-dropdown
 										trigger="click"
-										:options="more(organization!.id,item.id,project.id).options"
+										:options="more(organization, item, project).options"
 										@clickoutside="optionsOpen = undefined"
 										placement="bottom-end"
 									>
@@ -185,6 +185,8 @@ import { COLOR } from "~/util/colors";
 import { DropdownOption } from "naive-ui";
 import IconSettings from "../icons/Icon-Settings.vue";
 import IconBolt from "../icons/Icon-Bolt.vue";
+import { Organization } from "~/models/Organization";
+import { Project } from "~/models/Project";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -288,46 +290,54 @@ const cancelEditTerm = () => {
 	termValue.value = "";
 };
 
-const more = (org_id: string, company_id: string, proj_id: string) => ({
-	options: [
-		{
-			label: t("project_settings"),
-			key: "project_settings",
-			icon: () => h(IconSettings),
-			show: true,
-			props: {
-				onClick: () => {
-					router.push({
-						name: "project-settings",
-						params: {
-							organization_id: org_id,
-							company_id: company_id,
-							project_id: proj_id,
-						},
-					});
+const more = (org: Organization, company: Company, proj: Project) => {
+	// temp code replace with proper ?global? logic
+	const isAuthorized =
+		(org.attributes.role?.id ?? 9) < 2 ||
+		(company.attributes.role?.id ?? 9) < 2 ||
+		(proj?.attributes.role?.id ?? 9) < 2;
+
+	return {
+		options: [
+			{
+				label: t("project_settings"),
+				key: "project_settings",
+				icon: () => h(IconSettings),
+				show: isAuthorized,
+				props: {
+					onClick: () => {
+						router.push({
+							name: "project-settings",
+							params: {
+								organization_id: org.id,
+								company_id: company.id,
+								project_id: proj.id,
+							},
+						});
+					},
 				},
 			},
-		},
-		{
-			label: t("project_integrations.integration", 2),
-			key: "project_integrations",
-			icon: () => h(IconBolt),
-			show: true,
-			props: {
-				onClick: () => {
-					router.push({
-						name: "project-integrations",
-						params: {
-							organization_id: org_id,
-							company_id: company_id,
-							project_id: proj_id,
-						},
-					});
+			{
+				label: t("project_integrations.integration", 2),
+				key: "project_integrations",
+				icon: () => h(IconBolt),
+				show: isAuthorized,
+				props: {
+					onClick: () => {
+						router.push({
+							name: "project-integrations",
+							params: {
+								organization_id: org.id,
+								company_id: company.id,
+								project_id: proj.id,
+							},
+						});
+					},
 				},
 			},
-		},
-	] as DropdownOption[],
-});
+		] as DropdownOption[],
+	};
+};
 
 const optionsOpen = ref<string | undefined>(undefined);
 </script>

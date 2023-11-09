@@ -26,7 +26,7 @@
 		>
 			<n-card class="search-results-card">
 				<div>
-					<n-list :show-divider="false" style="border-radius: 0.5rem" flex flex-col>
+					<n-list :show-divider="false" flex flex-col>
 						<n-list-item
 							style="padding: 0; margin: 0.5rem 0"
 							:class="`order-${orders.bugs}`"

@@ -50,20 +50,7 @@
 					content-style="padding: 1.5rem; display: flex; height: 100%;"
 					:native-scrollbar="false"
 				>
-					<div
-						v-if="integrationLoading"
-						class="absolute inset-0 z-1 flex items-center justify-center"
-						style="background: rgb(255 255 255 / 50%); cursor: wait"
-					>
-						<img src="/src/assets/animations/loading.svg" alt="loading circle" />
-					</div>
-
-					<Jira
-						v-show="activeIntegration === 'jira'"
-						:configurable="store.getJiraState"
-						:connect="store.connectJira"
-						:disconnect="store.disconnectJira"
-					/>
+					<Jira v-if="activeIntegration === 'jira'" :configurable="store.getJiraState" />
 				</n-layout>
 			</n-layout>
 		</n-layout>
@@ -72,6 +59,7 @@
 
 <script setup lang="ts">
 import { useProjectStore } from "~/stores/project";
+
 defineProps({
 	organization_id: {
 		type: String,
