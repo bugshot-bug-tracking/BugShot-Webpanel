@@ -52,6 +52,25 @@
 
 			<div v-if="errMessage" class="error-message">
 				{{ errMessage }}
+
+                <n-p style="font-size: 0.875rem; color: var(--bs-gray)" m-0 mt-2>
+					<i18n-t v-if="!mailResent" keypath="login_page.error_resend_verification_mail" scope="global">
+						<n-button
+							:loading="resendLoading"
+							text
+							strong
+							type="tertiary"
+							underline
+							@click="resendEmail"
+							flex-row-reverse
+							gap-2
+							style="font-size: 0.875rem"
+						>
+							{{ t("login_page.error_resend_verification_mail_0") }}
+						</n-button>
+					</i18n-t>
+                    <i18n-t v-else keypath="login_page.verification_mail_resent_successfully" scope="global"></i18n-t>
+				</n-p>
 			</div>
 
 			<n-form-item>
@@ -151,6 +170,20 @@ const submit = async () => {
 		form.inputStates = "error";
 	} finally {
 		loading.value = false;
+	}
+};
+
+const mailResent = ref(false);
+const resendLoading = ref(false);
+const resendEmail = async () => {
+	try {
+		resendLoading.value = true;
+		await store.resendVerification(form.data.email);
+	} catch (error) {
+		console.log(error);
+	} finally {
+		resendLoading.value = false;
+        mailResent.value = true;
 	}
 };
 </script>

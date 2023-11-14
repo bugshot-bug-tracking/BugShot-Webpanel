@@ -616,6 +616,11 @@
 	"select_bugs_to_move": "Wähle die Bugs, die verschoben werden sollen:",
 	"select_target_project": "Wähle das Ziel-Projekt:",
 	"select_a_project": "Wähle ein Projekt",
+    "login_page": {
+        "error_resend_verification_mail": "Hier kannst du die Verifizierungsmail {0}",
+		"error_resend_verification_mail_0": "erneut verschicken",
+        "verification_mail_resent_successfully": "Sollte die E-Mail-Adresse bei BugShot registriert sein, wurde die Mail erfolgreich versendet"
+    },
 	"register_page": {
 		"header": "Willkommen bei BugShot",
 		"subheader": "Lege jetzt los mit deiner kostenlosen 14-tägigen Testphase",

@@ -616,6 +616,11 @@
 	"select_bugs_to_move": "Select the bugs to be moved:",
 	"select_target_project": "Select the target project:",
 	"select_a_project": "Select project",
+    "login_page": {
+        "error_resend_verification_mail": "You can resend the verification email {0}",
+        "error_resend_verification_mail_0": "here",
+        "verification_mail_resent_successfully": "If the e-mail address is registered with BugShot, the e-mail has been sent successfully"
+    },
 	"register_page": {
 		"header": "Welcome to BugShot",
 		"subheader": "Get started now with a free 14-day trial period",
