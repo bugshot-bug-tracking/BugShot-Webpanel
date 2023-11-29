@@ -46,7 +46,7 @@ export const useJiraStore = defineStore("jira", {
 			url.searchParams.append("client_id", import.meta.env.VITE_JIRA_CLIENT_ID);
 			url.searchParams.append(
 				"scope",
-				"read:jira-work read:jira-user write:jira-work offline_access"
+				"read:jira-work read:jira-user write:jira-work offline_access manage:jira-webhook"
 			);
 			url.searchParams.append(
 				"redirect_uri",
