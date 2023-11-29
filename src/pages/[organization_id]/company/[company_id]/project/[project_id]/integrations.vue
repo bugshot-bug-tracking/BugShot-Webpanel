@@ -103,6 +103,8 @@ const selectIntegration = async (value: undefined | "jira") => {
 				break;
 
 			default:
+				activeIntegration.value = undefined;
+
 				break;
 		}
 	} catch (error) {

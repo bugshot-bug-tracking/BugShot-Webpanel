@@ -50,15 +50,26 @@ const state = computed(() => {
 onMounted(async () => {
 	console.log(route);
 
-	if (validateEnvironment()) {
-		await getToken();
+	try {
+		if (validateEnvironment()) {
+			await getToken();
 
-		status.value = 1;
+			status.value = 1;
+		}
+
+		setTimeout(() => {
+			window.close();
+		}, 3000);
+	} catch (error) {
+		console.log(error);
+
+		status.value = 2;
+		status.message = t("extra.integrations.atlassian.errors.500");
+
+		setTimeout(() => {
+			window.close();
+		}, 8000);
 	}
-
-	setTimeout(() => {
-		window.close();
-	}, 3000);
 });
 
 const validateEnvironment = () => {
@@ -115,6 +126,8 @@ const getToken = async () => {
 	} catch (error) {
 		// can be 400 if link already exists
 		console.log(error);
+
+		throw error;
 	}
 };
 </script>
