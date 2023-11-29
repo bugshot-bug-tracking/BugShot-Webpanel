@@ -800,7 +800,83 @@
 	"dont_show_again": "Don't show again",
 	"applications": "Applications",
 	"copy": "Copy",
-
+	"project_integrations": {
+		"integration": "Integration | Integrations",
+		"connect": "Connect",
+		"disconnect": "Disconnect",
+		"overview": "Overview",
+		"configurations": "Configurations",
+		"jira": {
+			"button": "Jira",
+			"header": "Jira integration",
+			"subheader": "Connect this project to your Jira account",
+			"disconnect": "Are you sure you want to disconnect this project from Jira?",
+			"overview": {
+				"line_1": "Connect your Jira Software account to automatically synchronize your BugShot tasks & comments to Jira.",
+				"list_header": "Our Jira integration enables you to:",
+				"list_item_1": "Create Task in Jira",
+				"list_item_2": "Sync Task updates to Jira",
+				"list_item_3": "Create comments in Jira",
+				"list_item_4": "Sync comments from Jira to BugShot",
+				"list_item_5": "Change BugShot status when completed in Jira"
+			},
+			"config": {
+				"label": {
+					"jira_project": "Jira project",
+					"optional_jira_epic": "Optional - Assign Jira Epic",
+					"jira_site": "Jira site"
+				},
+				"placeholder": {
+					"jira_project": "Project",
+					"jira_epic": "Epic"
+				},
+				"options": {
+					"bugs_to_jira": {
+						"header": "Automatically create Task in Jira",
+						"description": "When a bug is created in BugShot also create one in Jira."
+					},
+					"bugs_from_jira": {
+						"header": "Automatically create Task in Bugshot",
+						"description": "When a task is created in Jira, create a bug in BugShot."
+					},
+					"comments_to_jira": {
+						"header": "Sync comments from BugShot to Jira",
+						"description": "When a comment is added to a bug, send it to the matching Jira issue."
+					},
+					"comments_from_jira": {
+						"header": "Sync comments from Jira to BugShot",
+						"description": "When a comment is added to an issue in Jira, save it to the matching bug in BugShot."
+					},
+					"update_status_to": {
+						"header": "Update Jira status when completed in BugShot",
+						"description": "When a bug is done in BugShot, mark it as complete in Jira."
+					},
+					"update_status_from": {
+						"header": "Update BugShot status when completed in Jira",
+						"description": "When a task is completed in Jira, move it to a particular BugShot column."
+					}
+				},
+				"please_select_site_first": "Please select a site",
+				"site_select_placeholder": "Select site",
+				"project_select_placeholder": "Select project",
+				"please_select_project": "Please select a project"
+			}
+		}
+	},
+	"extra": {
+		"integrations": {
+			"atlassian": {
+				"errors": {
+					"500": "Please try again later",
+					"no_state": "No valid state",
+					"access_denied": "Access denied",
+					"token_mismatch": "Token mismatch",
+					"not_authenticated": "Not authenticated",
+					"invalid_state": "Invalid state"
+				}
+			}
+		}
+	},
 	" ": "",
 	"": ""
 }
