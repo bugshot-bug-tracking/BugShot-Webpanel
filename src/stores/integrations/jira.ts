@@ -111,6 +111,14 @@ export const useJiraStore = defineStore("jira", {
 			return response;
 		},
 
+		async getCreatemeta() {
+			if (!this.project?.id) throw new Error("No active project!");
+
+			let response = (await axios.get(`/projects/${this.project.id}/jira-createmeta`)).data;
+
+			return response;
+		},
+
 		async setProject(payload: { id: string; key: string; name: string }) {
 			if (!this.project?.id) throw new Error("No active project!");
 

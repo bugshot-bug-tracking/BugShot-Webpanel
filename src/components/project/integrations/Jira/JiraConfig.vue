@@ -36,13 +36,12 @@
 							"
 							:options="projectSelect.options"
 							:loading="projectSelect.loading"
-							filterable
 							clearable
 							remote
 							@search="projectSelect.onSearch"
 							@clear="projectSelect.onClear"
 							@update:value="projectSelect.onSelect"
-							@focus="projectSelect.onSearch('')"
+							@focus="projectSelect.onSearch"
 							text-left
 						/>
 					</n-form-item>
@@ -200,16 +199,17 @@ const projectSelect = reactive({
 	options: [] as SelectOption[],
 	loading: false,
 
-	onSearch: useDebounceFn(async (value: string) => {
+	onSearch: useDebounceFn(async () => {
 		try {
 			projectSelect.loading = true;
 
-			let response = await store.getProjects({ query: value });
+			let response = await store.getCreatemeta();
 
-			projectSelect.options = response?.values?.map((project: any) => ({
+			projectSelect.options = response?.projects.map((project: any) => ({
 				label: project.name,
 				value: project.id,
 				key: project.key,
+				disabled: (project.issuetypes?.length ?? 0) < 1,
 			}));
 		} catch (error) {
 			console.log(error);
