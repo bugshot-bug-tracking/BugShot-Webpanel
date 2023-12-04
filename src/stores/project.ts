@@ -300,38 +300,6 @@ export const useProjectStore = defineStore("project", {
 
 			this.project.attributes.access_token = response.access_token;
 		},
-
-		async connectJira() {
-			if (!this.project?.id) throw new Error("No active project!");
-
-			let state = btoa(`${useAuthStore().token.split("|")[1]}|${this.project.id}`);
-
-			let url = new URL("https://auth.atlassian.com/authorize");
-			url.searchParams.append("audience", "api.atlassian.com");
-			url.searchParams.append("client_id", import.meta.env.VITE_JIRA_CLIENT_ID);
-			url.searchParams.append(
-				"scope",
-				"read:jira-work read:jira-user write:jira-work offline_access"
-			);
-			url.searchParams.append(
-				"redirect_uri",
-				window.location.origin + "/extra/integrations/atlassian"
-			);
-			url.searchParams.append("state", state);
-			url.searchParams.append("response_type", "code");
-			url.searchParams.append("prompt", "consent");
-
-			window.open(url, "_blank", "popup");
-		},
-
-		async disconnectJira() {
-			if (!this.project?.id) throw new Error("No active project!");
-
-			// let response =
-			await axios.delete(`/projects/${this.project.id}/jira-link`);
-
-			this.project.attributes.integrations.jira = false;
-		},
 	},
 
 	getters: {
