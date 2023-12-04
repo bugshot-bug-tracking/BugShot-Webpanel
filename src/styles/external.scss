@@ -109,6 +109,13 @@ svg {
 	}
 }
 
+.n-switch.n-switch-on-off {
+	--n-button-color: #ffffff;
+	--n-rail-color: var(--bs-gray-middle);
+	--n-rail-color-active: var(--bs-green-middle);
+	--n-loading-color: var(--bs-purple);
+}
+
 .shepherd-element {
 	&.my-0 {
 		margin-top: 0;
