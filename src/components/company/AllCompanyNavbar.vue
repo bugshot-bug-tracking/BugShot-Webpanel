@@ -155,6 +155,7 @@ import { useMainStore } from "~/stores/main";
 import IconBolt from "../icons/Icon-Bolt.vue";
 import { Organization } from "~/models/Organization";
 import { Project } from "~/models/Project";
+import { useFlagsStore } from "~/stores/flags";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -253,7 +254,7 @@ const more = (org: Organization, company: Company, proj: Project) => {
 				label: t("project_integrations.integration", 2),
 				key: "project_integrations",
 				icon: () => h(IconBolt),
-				show: isAuthorized,
+				show: isAuthorized && useFlagsStore().isSpecialUser,
 				props: {
 					onClick: () => {
 						router.push({
