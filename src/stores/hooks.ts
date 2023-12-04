@@ -224,6 +224,14 @@ export const useHookStore = defineStore("hooks", {
 			channel.listen(".members.updated", async (data: any) => {
 				await this.projectStore.fetchUsers();
 			});
+
+			channel.listen(".jira.connected", async (data: any) => {
+				this.projectStore.project!.attributes.integrations.jira = true;
+			});
+
+			channel.listen(".jira.disconnected", async (data: any) => {
+				this.projectStore.project!.attributes.integrations.jira = false;
+			});
 		},
 
 		// register listeners for the active bug resources

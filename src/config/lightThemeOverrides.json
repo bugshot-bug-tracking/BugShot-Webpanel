@@ -239,5 +239,8 @@
 		"borderRadius": "0.5rem",
 		"closeBorderRadius": "1rem",
 		"closeColorHover": "rgba(0, 0, 0, 0.05)"
+	},
+	"List": {
+		"borderRadius": "0.5rem"
 	}
 }

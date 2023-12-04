@@ -7,6 +7,7 @@ import { ProjectUserRole } from "~/models/ProjectUserRole";
 import { useCompanyStore } from "./company";
 import { useHookStore } from "./hooks";
 import { Url } from "~/models/Url";
+import { useAuthStore } from "./auth";
 
 export const useProjectStore = defineStore("project", {
 	state: () => ({
@@ -317,5 +318,7 @@ export const useProjectStore = defineStore("project", {
 		getPendingInvitations: (state) => state.pendingInvitations,
 
 		getUserRole: (state) => state.project?.attributes.role,
+
+		getJiraState: (state) => state.project?.attributes.integrations.jira ?? false,
 	},
 });

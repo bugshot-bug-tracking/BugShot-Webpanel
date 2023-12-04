@@ -28,6 +28,7 @@
 		hue-rotate(331deg) brightness(87%) contrast(121%);
 
 	--bs-gray-light: #f8f8fc;
+	--bs-gray-middle: #d8dbef;
 	--bs-gray: #9ba5d7;
 	--bs-filter-gray: brightness(0) saturate(1) invert(73%) sepia(14%) saturate(897%)
 		hue-rotate(194deg) brightness(90%) contrast(86%);
@@ -427,6 +428,7 @@
 
 .disabled {
 	opacity: 0.5 !important;
+	cursor: not-allowed;
 
 	&:hover {
 		opacity: 0.5 !important;

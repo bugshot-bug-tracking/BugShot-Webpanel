@@ -23,6 +23,10 @@ export interface Project {
 		users?: User[];
 		role?: Role;
 		access_token?: string;
+
+		integrations: {
+			jira: boolean;
+		};
 	};
 	pending?: Invitation[];
 }
