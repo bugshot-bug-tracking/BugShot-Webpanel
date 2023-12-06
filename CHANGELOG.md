@@ -1,3 +1,13 @@
+### 1.12.0 (2023-12-06)
+
+##### Bug Fixes
+
+* **UI:**  disable bug movement if user is Client (ccd7c67c)
+
+##### New Features
+
+* **integrations:**  add jira integration (a88d39dc)
+
 #### 1.11.2 (2023-10-18)
 
 ##### Refactors
