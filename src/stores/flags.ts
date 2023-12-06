@@ -13,18 +13,12 @@ export const useFlagsStore = defineStore("flags", {
 	actions: {},
 
 	getters: {
-		canSeeEverything: (state) => {
-			if (state.user?.id) if (state.users?.some((u) => u === state.user?.id)) return true;
-			return false;
-		},
-
-		canEditCompanyTerm: (state) => {
-			if (state.user?.id) if (state.users?.some((u) => u === state.user?.id)) return true;
-			return false;
-		},
-
 		isSpecialUser: (state) => {
-			if (state.user?.id && state.users?.some((u) => u === state.user?.id)) return true;
+			if (
+				state.user?.id &&
+				(state.user?.attributes.admin || state.users?.some((u) => u === state.user?.id))
+			)
+				return true;
 			return false;
 		},
 	},

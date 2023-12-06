@@ -9,6 +9,7 @@ export interface User {
 		last_name: string;
 		phone?: string;
 		trial_end_date?: string;
+		admin: boolean;
 	};
 	role?: Role;
 }

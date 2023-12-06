@@ -14,7 +14,7 @@
 			<Icon-Edit
 				size="0.875rem"
 				color="var(--bs-gray)"
-				v-if="useFlagsStore().canEditCompanyTerm"
+				v-if="useFlagsStore().isSpecialUser"
 				@click="startEditTerm"
 				ml-2
 				button
