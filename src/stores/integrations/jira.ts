@@ -119,7 +119,7 @@ export const useJiraStore = defineStore("jira", {
 			return response;
 		},
 
-		async setProject(payload: { id: string; key: string; name: string }) {
+		async setProject(payload: { id: string; key: string; name: string; issuetype: string }) {
 			if (!this.project?.id) throw new Error("No active project!");
 
 			let response = (
@@ -127,6 +127,7 @@ export const useJiraStore = defineStore("jira", {
 					id: payload.id,
 					name: payload.name,
 					key: payload.key,
+					issuetype: payload.issuetype,
 				})
 			).data.data;
 

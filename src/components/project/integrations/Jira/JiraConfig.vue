@@ -210,6 +210,7 @@ const projectSelect = reactive({
 				value: project.id,
 				key: project.key,
 				disabled: (project.issuetypes?.length ?? 0) < 1,
+				object: project,
 			}));
 		} catch (error) {
 			console.log(error);
@@ -227,7 +228,12 @@ const projectSelect = reactive({
 		try {
 			projectSelect.loading = true;
 
-			await store.setProject({ id: option.value, name: option.label, key: option.key });
+			await store.setProject({
+				id: option.value,
+				name: option.label,
+				key: option.key,
+				issuetype: option.object.issuetypes[0]?.id,
+			});
 		} catch (error) {
 			console.log(error);
 		} finally {
