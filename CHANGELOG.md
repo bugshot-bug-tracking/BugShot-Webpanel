@@ -1,3 +1,10 @@
+#### 1.12.2 (2023-12-06)
+
+##### New Features
+
+* **UI:**  edit flag checks and include admin verification (7453f8bb)
+* **Integrations:**  save jira bug issuetype id when selecting project (726f263f)
+
 ### 1.12.0 (2023-12-06)
 
 ##### Bug Fixes
