@@ -53,23 +53,36 @@
 			<div v-if="errMessage" class="error-message">
 				{{ errMessage }}
 
-                <n-p style="font-size: 0.875rem; color: var(--bs-gray)" m-0 mt-2>
-					<i18n-t v-if="!mailResent" keypath="login_page.error_resend_verification_mail" scope="global">
+				<n-p
+					v-if="errCode === 2"
+					style="font-size: 0.875rem; color: var(--bs-red)"
+					m-0
+					mt-2
+				>
+					<i18n-t
+						v-if="!mailResent"
+						keypath="login_page.error_resend_verification_mail"
+						scope="global"
+					>
 						<n-button
 							:loading="resendLoading"
 							text
-							strong
-							type="tertiary"
+							type="error"
 							underline
 							@click="resendEmail"
 							flex-row-reverse
 							gap-2
-							style="font-size: 0.875rem"
+							style="font-size: 0.875rem; font-weight: bold"
 						>
 							{{ t("login_page.error_resend_verification_mail_0") }}
 						</n-button>
 					</i18n-t>
-                    <i18n-t v-else keypath="login_page.verification_mail_resent_successfully" scope="global"></i18n-t>
+
+					<i18n-t
+						v-else
+						keypath="login_page.verification_mail_resent_successfully"
+						scope="global"
+					/>
 				</n-p>
 			</div>
 
@@ -139,10 +152,12 @@ const form = reactive({
 	clearState: () => {
 		form.inputStates = undefined;
 		errMessage.value = undefined;
+		mailResent.value = false;
 	},
 });
 
 const errMessage = ref(undefined);
+const errCode = ref(0);
 
 const loading = ref(false);
 
@@ -167,6 +182,7 @@ const submit = async () => {
 		if (!valid) return;
 
 		errMessage.value = error.response.data.message;
+		errCode.value = error.response.data.code;
 		form.inputStates = "error";
 	} finally {
 		loading.value = false;
@@ -183,7 +199,7 @@ const resendEmail = async () => {
 		console.log(error);
 	} finally {
 		resendLoading.value = false;
-        mailResent.value = true;
+		mailResent.value = true;
 	}
 };
 </script>
