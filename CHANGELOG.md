@@ -1,3 +1,9 @@
+#### 1.12.5 (2023-12-13)
+
+##### New Features
+
+* **Usability:**  add resend email verification option at login (4fc0e297)
+
 #### 1.12.4 (2023-12-13)
 
 ##### New Features
