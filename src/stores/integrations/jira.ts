@@ -7,27 +7,26 @@ import { JiraProjectLink } from "~/models/Integrations/Jira/ProjectLink";
 
 export const useJiraStore = defineStore("jira", {
 	state: () => ({
-		project: useProjectStore().project,
-
 		link: undefined as undefined | JiraProjectLink,
 	}),
 
 	actions: {
 		async init() {
+			const project = useProjectStore().getProject;
+
 			try {
 				this.$reset();
 
-				if (!this.project?.id) throw new Error("No active project!");
+				if (!project?.id) throw new Error("No active project!");
 
-				let response = (await axios.get(`/projects/${this.project.id}/jira-link`)).data
-					.data;
+				let response = (await axios.get(`/projects/${project.id}/jira-link`)).data.data;
 
 				this.link = response;
 			} catch (error: any) {
 				this.$reset();
 
-				if (error?.response?.status === 404 && this.project)
-					this.project.attributes.integrations.jira = false;
+				if (error?.response?.status === 404 && project)
+					project.attributes.integrations.jira = false;
 
 				console.log(error);
 
@@ -37,9 +36,11 @@ export const useJiraStore = defineStore("jira", {
 		},
 
 		async connect() {
-			if (!this.project?.id) throw new Error("No active project!");
+			const project = useProjectStore().getProject;
 
-			let state = btoa(`${useAuthStore().token.split("|")[1]}|${this.project.id}`);
+			if (!project?.id) throw new Error("No active project!");
+
+			let state = btoa(`${useAuthStore().token.split("|")[1]}|${project.id}`);
 
 			let url = new URL("https://auth.atlassian.com/authorize");
 			url.searchParams.append("audience", "api.atlassian.com");
@@ -60,27 +61,33 @@ export const useJiraStore = defineStore("jira", {
 		},
 
 		async disconnect() {
-			if (!this.project?.id) throw new Error("No active project!");
+			const project = useProjectStore().getProject;
+
+			if (!project?.id) throw new Error("No active project!");
 
 			// let response =
-			await axios.delete(`/projects/${this.project.id}/jira-link`);
+			await axios.delete(`/projects/${project.id}/jira-link`);
 
-			this.project.attributes.integrations.jira = false;
+			project.attributes.integrations.jira = false;
 		},
 
 		async getSites() {
-			if (!this.project?.id) throw new Error("No active project!");
+			const project = useProjectStore().getProject;
 
-			let response = (await axios.get(`/projects/${this.project.id}/jira-sites`)).data;
+			if (!project?.id) throw new Error("No active project!");
+
+			let response = (await axios.get(`/projects/${project.id}/jira-sites`)).data;
 
 			return response;
 		},
 
 		async setSite(payload: { id: string; name: string; url: string }) {
-			if (!this.project?.id) throw new Error("No active project!");
+			const project = useProjectStore().getProject;
+
+			if (!project?.id) throw new Error("No active project!");
 
 			let response = (
-				await axios.post(`/projects/${this.project.id}/jira-site`, {
+				await axios.post(`/projects/${project.id}/jira-site`, {
 					id: payload.id,
 					name: payload.name,
 					url: payload.url,
@@ -91,19 +98,23 @@ export const useJiraStore = defineStore("jira", {
 		},
 
 		async deleteSite() {
-			if (!this.project?.id) throw new Error("No active project!");
+			const project = useProjectStore().getProject;
 
-			let response = (await axios.delete(`/projects/${this.project.id}/jira-site`)).data.data;
+			if (!project?.id) throw new Error("No active project!");
+
+			let response = (await axios.delete(`/projects/${project.id}/jira-site`)).data.data;
 
 			if (this.link) Object.assign(this.link, response);
 		},
 
 		async getProjects(payload?: { query?: string }) {
-			if (!this.project?.id) throw new Error("No active project!");
+			const project = useProjectStore().getProject;
+
+			if (!project?.id) throw new Error("No active project!");
 
 			let response = (
 				await axios.get(
-					`/projects/${this.project.id}/jira-projects` +
+					`/projects/${project.id}/jira-projects` +
 						(payload ? `?query=${payload.query}` : "")
 				)
 			).data;
@@ -112,18 +123,22 @@ export const useJiraStore = defineStore("jira", {
 		},
 
 		async getCreatemeta() {
-			if (!this.project?.id) throw new Error("No active project!");
+			const project = useProjectStore().getProject;
 
-			let response = (await axios.get(`/projects/${this.project.id}/jira-createmeta`)).data;
+			if (!project?.id) throw new Error("No active project!");
+
+			let response = (await axios.get(`/projects/${project.id}/jira-createmeta`)).data;
 
 			return response;
 		},
 
 		async setProject(payload: { id: string; key: string; name: string; issuetype: string }) {
-			if (!this.project?.id) throw new Error("No active project!");
+			const project = useProjectStore().getProject;
+
+			if (!project?.id) throw new Error("No active project!");
 
 			let response = (
-				await axios.post(`/projects/${this.project.id}/jira-project`, {
+				await axios.post(`/projects/${project.id}/jira-project`, {
 					id: payload.id,
 					name: payload.name,
 					key: payload.key,
@@ -135,10 +150,11 @@ export const useJiraStore = defineStore("jira", {
 		},
 
 		async deleteProject() {
-			if (!this.project?.id) throw new Error("No active project!");
+			const project = useProjectStore().getProject;
 
-			let response = (await axios.delete(`/projects/${this.project.id}/jira-project`)).data
-				.data;
+			if (!project?.id) throw new Error("No active project!");
+
+			let response = (await axios.delete(`/projects/${project.id}/jira-project`)).data.data;
 
 			if (this.link) Object.assign(this.link, response);
 		},
@@ -151,11 +167,12 @@ export const useJiraStore = defineStore("jira", {
 			update_status_to_jira?: boolean;
 			update_status_from_jira?: boolean;
 		}) {
-			if (!this.project?.id) throw new Error("No active project!");
+			const project = useProjectStore().getProject;
 
-			let response = (
-				await axios.patch(`/projects/${this.project.id}/jira-settings`, payload)
-			).data.data;
+			if (!project?.id) throw new Error("No active project!");
+
+			let response = (await axios.patch(`/projects/${project.id}/jira-settings`, payload))
+				.data.data;
 
 			return response;
 		},
