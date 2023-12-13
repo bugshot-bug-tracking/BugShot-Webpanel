@@ -1,3 +1,9 @@
+#### 1.12.3 (2023-12-13)
+
+##### Bug Fixes
+
+* **Integrations:**  fix wrong project in jira store when constantly moving between projects (f6496ebe)
+
 #### 1.12.2 (2023-12-06)
 
 ##### New Features
