@@ -1,3 +1,9 @@
+#### 1.12.4 (2023-12-13)
+
+##### New Features
+
+* **UI:**  add integrations redirect button on project page dropdown list (60f88648)
+
 #### 1.12.3 (2023-12-13)
 
 ##### Bug Fixes
