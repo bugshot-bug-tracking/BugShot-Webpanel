@@ -1,3 +1,10 @@
+#### 1.12.6 (2023-12-15)
+
+##### Chores
+
+*  add generate-changelog to project dependencies (ada71283)
+* **Pacakge:**  update node to v20 and vite to v5 (ecfdbefe)
+
 #### 1.12.5 (2023-12-13)
 
 ##### New Features
