@@ -2,21 +2,26 @@
 	<div class="bs-container">
 		<div v-if="token">
 			<n-form-item :label="t('project_page.settings.guest_token')">
-				<n-input type="text" size="large" :placeholder="t('token')" :value="token" disabled>
+				<n-input type="text" size="large" :placeholder="t('token')" :value="token" readonly>
 					<template #suffix>
 						<Icon-Clipboard-Copy
 							@click="copyToClipboard"
 							color="var(--bs-black)"
 							v-if="copyIconState === 'copy'"
 							:title="t('copy')"
+							cursor-copy
 						/>
 						<Icon-Clipboard-Success
 							color="var(--bs-green-dark)"
 							v-else-if="copyIconState === 'success'"
+							:title="t('success')"
+							cursor-default
 						/>
 						<Icon-Clipboard-Error
 							color="var(--bs-red)"
 							v-else-if="copyIconState === 'error'"
+							:title="t('error')"
+							cursor-default
 						/>
 					</template>
 				</n-input>

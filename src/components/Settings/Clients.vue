@@ -7,37 +7,71 @@
 				{{ $t("extension.the_plugin") }}
 			</p>
 
-			<p>
+			<n-text text-center text-balance>
 				{{ $t("extension.install_browser_extension") }}
-			</p>
+			</n-text>
 
-			<div flex mt-8 justify-evenly>
-				<img src="/src/assets/icons/chrome.svg" alt="Chrome Icon" w-16 m4 />
-				<a class="bs-btn green" :href="links.chrome" target="_blank" uppercase>
-					{{ $t("extension.install_plugin") }}
-				</a>
+			<div flex mt-8 justify-between px-12>
+				<img src="/src/assets/icons/chrome-logo.svg" alt="Chrome Icon" w-14 m-4 />
+
+				<n-button
+					text
+					strong
+					type="primary"
+					underline
+					tag="a"
+					:href="links.chrome"
+					target="_blank"
+				>
+					{{ $t("extension.install_ext_chrome") }}
+				</n-button>
 			</div>
 
-			<div flex justify-evenly>
-				<img src="/src/assets/icons/firefox.svg" alt="Firefox Icon" w-16 m4 />
+			<div flex justify-between px-12>
+				<img src="/src/assets/icons/firefox-logo.svg" alt="Firefox Icon" w-14 m-4 />
 
-				<a class="bs-btn green" :href="links.firefox" target="_blank" uppercase>
-					{{ $t("extension.install_plugin") }}
-				</a>
+				<n-button
+					text
+					strong
+					type="primary"
+					underline
+					tag="a"
+					:href="links.firefox"
+					target="_blank"
+				>
+					{{ $t("extension.install_ext_firefox") }}
+				</n-button>
 			</div>
-			<div flex justify-evenly>
-				<img src="/src/assets/icons/edge.svg" alt="Edge Icon" w-16 m4 />
+			<div flex justify-between px-12>
+				<img src="/src/assets/icons/edge-logo.svg" alt="Edge Icon" w-14 m-4 />
 
-				<a class="bs-btn green" :href="links.edge" target="_blank" uppercase>
-					{{ $t("extension.install_plugin") }}
-				</a>
+				<n-button
+					text
+					strong
+					type="primary"
+					underline
+					tag="a"
+					:href="links.edge"
+					target="_blank"
+				>
+					{{ $t("extension.install_ext_edge") }}
+				</n-button>
 			</div>
-			<div flex justify-evenly>
-				<Icon-Safari alt="Safari Icon" size="3.75rem" m-4 color="var(--bs-purple)" />
 
-				<a class="bs-btn green" :href="links.safari" target="_blank" uppercase>
-					{{ $t("extension.install_plugin") }}
-				</a>
+			<div flex justify-between px-12>
+				<Icon-Safari alt="Safari Icon" size="3.5rem" m-4 />
+
+				<n-button
+					text
+					strong
+					type="primary"
+					underline
+					tag="a"
+					:href="links.safari"
+					target="_blank"
+				>
+					{{ $t("extension.install_ext_safari") }}
+				</n-button>
 			</div>
 		</span>
 
@@ -46,12 +80,20 @@
 				{{ $t("extension.download_client_app") }}
 			</p>
 
-			<div flex justify-evenly>
-				<img src="/src/assets/icons/windows.svg" alt="Windows Icon" w-16 m4 />
+			<div flex justify-between px-12>
+				<img src="/src/assets/icons/microsoft-logo.svg" alt="Windows Icon" w-14 m-4 />
 
-				<a class="bs-btn green" :href="links.windows" uppercase>
-					{{ $t("download") }}
-				</a>
+				<n-button
+					text
+					strong
+					type="primary"
+					underline
+					tag="a"
+					:href="links.windows"
+					target="_blank"
+				>
+					{{ $t("extension.install_app_windows") }}
+				</n-button>
 			</div>
 		</span>
 
