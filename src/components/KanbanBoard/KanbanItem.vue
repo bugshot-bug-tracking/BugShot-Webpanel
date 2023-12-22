@@ -85,7 +85,7 @@
 
 		<n-scrollbar>
 			<draggable
-				:list="status.attributes.bugs"
+				:list="bugList"
 				:item-key="(item:Bug) => item"
 				:scroll-sensitivity="100"
 				:force-fallback="true"
@@ -225,6 +225,10 @@ const openBugInfo = async (bug_id: string, status_id: string) => {
 		cardLoading.value = undefined;
 	}
 };
+
+const bugList = computed(() => {
+	return store.getFilteredStatusBugs(props.status);
+});
 </script>
 
 <style scoped lang="scss">

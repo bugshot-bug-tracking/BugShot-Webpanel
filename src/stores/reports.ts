@@ -16,6 +16,12 @@ export const useReportsStore = defineStore("reports", {
 		statuses: undefined as Status[] | undefined,
 
 		archived: undefined as Bug[] | undefined,
+
+		filter: {
+			creators: [] as number[],
+			assignees: [] as number[],
+			priority: undefined as undefined | number,
+		},
 	}),
 
 	actions: {
@@ -364,5 +370,27 @@ export const useReportsStore = defineStore("reports", {
 		getBacklogStatus: (state) =>
 			state.statuses?.find((s) => s.attributes.permanent === "backlog"),
 		getDoneStatus: (state) => state.statuses?.find((s) => s.attributes.permanent === "done"),
+
+		getFilteredStatusBugs: (state) => (status: Status) =>
+			status.attributes.bugs?.filter((bug) => {
+				let value = true;
+
+				if (state.filter.priority)
+					value = value && bug.attributes.priority.id === state.filter.priority;
+
+				if (state.filter.creators.length > 0)
+					value =
+						value &&
+						state.filter.creators.some((id) => id === bug.attributes.creator.id);
+
+				if (state.filter.assignees.length > 0)
+					value =
+						value &&
+						state.filter.assignees.some((id) =>
+							bug.attributes.assigned_users?.some((user_id) => user_id === id)
+						);
+
+				return value;
+			}),
 	},
 });

@@ -120,14 +120,31 @@
 			flex-1
 			min-h-0
 		>
-			<n-tab-pane name="kanban" display-directive="show">
+			<n-tab-pane name="kanban" display-directive="show" flex flex-col>
 				<template #tab>
 					<Icon-Board mr-1 />
 
 					{{ $t("kanban") }}
 				</template>
 
-				<n-checkbox-group v-model:value="kanbanState.checkList" overflow-auto>
+				<div
+					flex
+					items-center
+					gap-2
+					class="max-w-100%"
+					v-if="useFlagsStore().isSpecialUser"
+				>
+					<n-text>Filters: </n-text>
+
+					<KanbanFilter
+						:users="store.getMembers"
+						@update:creator="handleCreatorsFilter"
+						@update:assignee="handleAssigneesFilter"
+						@update:priority="handlePriorityFilter"
+					/>
+				</div>
+
+				<n-checkbox-group v-model:value="kanbanState.checkList" overflow-auto flex-1>
 					<Kanban
 						:mode="kanbanState.mode"
 						:moveable="store.getProject?.attributes.role?.id !== 3"
@@ -433,6 +450,16 @@ const projectMove = reactive({
 		});
 	},
 });
+
+const handleCreatorsFilter = (value: number[]) => {
+	reportsStore.filter.creators = value;
+};
+const handleAssigneesFilter = (value: number[]) => {
+	reportsStore.filter.assignees = value;
+};
+const handlePriorityFilter = (value: number) => {
+	reportsStore.filter.priority = value;
+};
 </script>
 
 <style lang="scss" scoped>

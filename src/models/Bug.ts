@@ -46,5 +46,7 @@ export interface Bug {
 			name?: string;
 			email?: string;
 		};
+
+		assigned_users: number[];
 	};
 }
