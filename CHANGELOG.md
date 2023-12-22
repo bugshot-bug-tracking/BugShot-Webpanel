@@ -1,3 +1,16 @@
+### 1.13.0 (2023-12-22)
+
+##### New Features
+
+* **Usability:**  add filters to kanban board (9d234ee6)
+* **Texts:**
+  *  add new extensions texts (d71cffeb)
+  *  update display logic for bug creator to handle guest users (ee2352ba)
+
+##### Refactors
+
+* **UI:**  WEBPANEL#65 change client texts to include browser name and modify cursor icon on guest token copy button (be101dac)
+
 #### 1.12.6 (2023-12-15)
 
 ##### Chores
