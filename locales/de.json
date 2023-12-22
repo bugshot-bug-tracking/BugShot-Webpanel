@@ -173,11 +173,16 @@
 	},
 	"extension": {
 		"extension": "Erweiterung | Erweiterungen",
-		"the_plugin": "Plugins",
+		"the_plugin": "Browser-Erweiterungen",
 		"install_browser_extension": "Installiere die passende Browsererweiterung, um Bugs zu melden.",
 		"install_plugin": "Plugin installieren",
 		"the_apps": "Die Anwendungen",
-		"download_client_app": "Anwendungen herunterladen"
+		"download_client_app": "Anwendungen herunterladen",
+		"install_ext_chrome": "Holen Sie es für Google Chrome",
+		"install_ext_firefox": "Holen Sie es sich für Mozilla Firefox",
+		"install_ext_edge": "Holen Sie es sich für  Microsoft Edge",
+		"install_ext_safari": "Holen Sie es sich für Safari",
+		"install_app_windows": "Holen Sie es sich für Windows"
 	},
 	"interface": {
 		"interface": "Schnittstelle | Schnittstellen",
@@ -616,11 +621,11 @@
 	"select_bugs_to_move": "Wähle die Bugs, die verschoben werden sollen:",
 	"select_target_project": "Wähle das Ziel-Projekt:",
 	"select_a_project": "Wähle ein Projekt",
-    "login_page": {
-        "error_resend_verification_mail": "Hier kannst du die Verifizierungsmail {0}",
+	"login_page": {
+		"error_resend_verification_mail": "Hier kannst du die Verifizierungsmail {0}",
 		"error_resend_verification_mail_0": "erneut verschicken",
-        "verification_mail_resent_successfully": "Sollte die E-Mail-Adresse bei BugShot registriert sein, wurde die Mail erfolgreich versendet"
-    },
+		"verification_mail_resent_successfully": "Sollte die E-Mail-Adresse bei BugShot registriert sein, wurde die Mail erfolgreich versendet"
+	},
 	"register_page": {
 		"header": "Willkommen bei BugShot",
 		"subheader": "Lege jetzt los mit deiner kostenlosen 14-tägigen Testphase",

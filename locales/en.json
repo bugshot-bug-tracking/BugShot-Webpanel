@@ -173,11 +173,16 @@
 	},
 	"extension": {
 		"extension": "Extension | Extensions",
-		"the_plugin": "Plugins",
-		"install_browser_extension": "Install the appropriate browser extension to report bugs.",
+		"the_plugin": "Browser extensions",
+		"install_browser_extension": "Install the browser extension so you can give and receive feedback.",
 		"install_plugin": "Install plugin",
 		"the_apps": "The applications",
-		"download_client_app": "Download client applications"
+		"download_client_app": "Download client applications",
+		"install_ext_chrome": "Get it for Google Chrome",
+		"install_ext_firefox": "Get it for Mozilla Firefox",
+		"install_ext_edge": "Get it for Microsoft Edge",
+		"install_ext_safari": "Get it for Safari",
+		"install_app_windows": "Get it for Windows"
 	},
 	"interface": {
 		"interface": "Interface | Interfaces",
@@ -616,11 +621,11 @@
 	"select_bugs_to_move": "Select the bugs to be moved:",
 	"select_target_project": "Select the target project:",
 	"select_a_project": "Select project",
-    "login_page": {
-        "error_resend_verification_mail": "You can resend the verification email {0}",
-        "error_resend_verification_mail_0": "here",
-        "verification_mail_resent_successfully": "If the e-mail address is registered with BugShot, the e-mail has been sent successfully"
-    },
+	"login_page": {
+		"error_resend_verification_mail": "You can resend the verification email {0}",
+		"error_resend_verification_mail_0": "here",
+		"verification_mail_resent_successfully": "If the e-mail address is registered with BugShot, the e-mail has been sent successfully"
+	},
 	"register_page": {
 		"header": "Welcome to BugShot",
 		"subheader": "Get started now with a free 14-day trial period",
