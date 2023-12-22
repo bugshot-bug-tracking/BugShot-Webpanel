@@ -377,5 +377,25 @@ export const useBugStore = defineStore("bug", {
 				x.user.role = x.role;
 				return x.user;
 			}),
+
+		getCreatorDisplayName: (state) => {
+			if (state.bug == undefined) return undefined;
+
+			if (state.bug.attributes.creator)
+				return `${state.bug.attributes.creator.attributes.first_name} ${state.bug.attributes.creator.attributes.last_name}`;
+
+			if (state.bug.attributes.guest_creator) {
+				if (
+					state.bug.attributes.guest_creator.name ||
+					state.bug.attributes.guest_creator.email
+				)
+					return (
+						state.bug.attributes.guest_creator.name ??
+						state.bug.attributes.guest_creator.email
+					);
+			}
+
+			return state.i18n.t("anonymous");
+		},
 	},
 });

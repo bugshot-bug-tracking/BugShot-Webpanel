@@ -41,5 +41,10 @@ export interface Bug {
 			id: string;
 			designation?: "approved" | "declined" | "pending";
 		};
+
+		guest_creator?: {
+			name?: string;
+			email?: string;
+		};
 	};
 }

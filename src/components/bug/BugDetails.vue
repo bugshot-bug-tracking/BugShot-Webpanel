@@ -66,15 +66,7 @@
 					<n-h6>{{ $t("creator") }}</n-h6>
 
 					<p style="font-size: 0.875rem">
-						<template v-if="store.bug.attributes.creator">
-							{{
-								`${store.bug.attributes.creator.attributes.first_name} ${store.bug.attributes.creator.attributes.last_name}`
-							}}
-						</template>
-
-						<template v-else>
-							{{ t("anonymous") }}
-						</template>
+						{{ store.getCreatorDisplayName }}
 					</p>
 				</div>
 
