@@ -1,3 +1,9 @@
+#### 1.13.1 (2024-01-17)
+
+##### Bug Fixes
+
+* **Pacakge:**  fix build on kasserver not working, related to rollup upgrade in ecfdbefe1cb585976a4de60f167056cbeb528ace (130d8da3)
+
 ### 1.13.0 (2023-12-22)
 
 ##### New Features
