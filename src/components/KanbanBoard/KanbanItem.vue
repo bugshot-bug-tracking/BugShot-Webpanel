@@ -227,7 +227,9 @@ const openBugInfo = async (bug_id: string, status_id: string) => {
 };
 
 const bugList = computed(() => {
-	return store.getFilteredStatusBugs(props.status);
+	return store
+		.getFilteredStatusBugs(props.status)
+		?.sort((a, b) => a.attributes.order_number - b.attributes.order_number);
 });
 </script>
 
