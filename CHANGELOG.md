@@ -1,3 +1,9 @@
+#### 1.13.2 (2024-01-17)
+
+##### Bug Fixes
+
+* **UI:**  fix bugs not showing in the correct order (edcb70a5)
+
 #### 1.13.1 (2024-01-17)
 
 ##### Bug Fixes
