@@ -45,5 +45,8 @@
 		"vite-plugin-pages": "^0.32.0",
 		"vite-plugin-vue-layouts": "^0.11.0",
 		"vue-tsc": "^1.8.27"
+	},
+	"overrides": {
+		"rollup": "npm:@rollup/wasm-node"
 	}
 }
