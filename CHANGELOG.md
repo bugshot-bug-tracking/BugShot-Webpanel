@@ -1,3 +1,10 @@
+#### 1.13.3 (2024-01-22)
+
+##### New Features
+
+* **UI:**  add role tag after organization name in the organization switcher (707675b5)
+* **Usability:**  improve suggestions on coment tag, invite modal and assignable bug users to contain users from group and org (0c9b5364)
+
 #### 1.13.2 (2024-01-17)
 
 ##### Bug Fixes
