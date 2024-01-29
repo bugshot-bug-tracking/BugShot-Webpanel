@@ -27,7 +27,7 @@
 
 				<ManageMembers
 					v-if="isAuthorized"
-					:list="manageableMembers"
+					:list="store.getMembers"
 					:pending_list="pendingMembers"
 					:add="addMember"
 					:edit="editMember"
@@ -90,7 +90,7 @@
 				<n-divider :vertical="true" min-h-8 />
 
 				<RequestApprovalModal
-					:list="store.getMembers"
+					:list="store.getAssignableMembers"
 					:disabled="kanbanState.checkList.length < 1"
 					:submit="onSubmitApprovals"
 				/>
@@ -137,7 +137,7 @@
 					<n-text>Filters: </n-text>
 
 					<KanbanFilter
-						:users="store.getMembers"
+						:users="store.getAssignableMembers"
 						@update:creator="handleCreatorsFilter"
 						@update:assignee="handleAssigneesFilter"
 						@update:priority="handlePriorityFilter"
@@ -251,9 +251,6 @@ const deleteMember = async (user_id: number) => {
 	await store.deleteMember({ user_id });
 };
 
-//TODO replace this with members when ManageMember component ignores owner actions
-const manageableMembers = computed(() => store.getMembers);
-
 const pendingMembers = computed(() => store.getPendingInvitations);
 
 const reportsStore = useReportsStore();
@@ -287,12 +284,12 @@ watch(
 );
 
 const suggestOptions = computed(() => {
-	const all = useOrganizationStore().getMembers ?? [];
-	const inside = store.getMembers ?? [];
+	const allMembers = store.getAssignableMembers;
+	const insideMemberIds = store.getMembers.map((member) => member.id);
 
-	const diffArray = all.filter((am) => !inside.some((im) => am.id === im.id));
+	const difference = allMembers.filter((allMember) => !insideMemberIds.includes(allMember.id));
 
-	return diffArray.map((m) => m.attributes.email);
+	return difference.map((member) => member.attributes.email);
 });
 
 const currentTab = ref("kanban");

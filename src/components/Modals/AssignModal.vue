@@ -118,7 +118,7 @@ const modal = reactive({
 	open: () => {
 		list.value = [];
 
-		useProjectStore().getMembers.forEach((user) => {
+		useProjectStore().getAssignableMembers.forEach((user) => {
 			let checked = false;
 			if (props.assignedList.some((x) => x.id === user?.id)) checked = true;
 
