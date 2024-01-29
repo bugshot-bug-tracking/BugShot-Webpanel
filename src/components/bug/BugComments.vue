@@ -63,7 +63,7 @@
 				<MentionsInput
 					v-model="message"
 					v-model:users="taggedUsers"
-					:list="projectStore.getMembers"
+					:list="projectStore.getAssignableMembers"
 					:disabled="lock || disabled"
 				/>
 

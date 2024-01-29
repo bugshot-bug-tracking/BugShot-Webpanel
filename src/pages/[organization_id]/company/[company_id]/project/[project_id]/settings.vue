@@ -39,12 +39,12 @@
 				</div>
 
 				<div class="group-content">
-					<AssignmentTable :title="$t('team_members')" :list="members">
+					<AssignmentTable :title="$t('team_members')" :list="store.getMembers">
 						<template #after-title>
 							<div ml-a>
 								<ManageMembers
 									v-if="isAuthorized"
-									:list="manageableMembers"
+									:list="store.getMembers"
 									:pending_list="pendingMembers"
 									:add="addMember"
 									:edit="editMember"
@@ -149,7 +149,6 @@
 import { User } from "~/models/User";
 import { useAuthStore } from "~/stores/auth";
 import { useCompanyStore } from "~/stores/company";
-import { useOrganizationStore } from "~/stores/organization";
 import { useProjectStore } from "~/stores/project";
 
 const props = defineProps({
@@ -190,8 +189,6 @@ const isAuthorized = computed(() => {
 	);
 });
 
-const members = computed(() => store.getMembers);
-
 const preCall = async () => {
 	await store.fetchUsers();
 
@@ -218,11 +215,11 @@ const deleteModal = reactive({
 	show: false,
 	text: "test",
 	header: t("want_to_delete"),
-	callback: null as Function | null,
+	callback: undefined as Function | undefined,
 	clear: () => {
 		deleteModal.show = false;
 		deleteModal.text = "";
-		deleteModal.callback = null;
+		deleteModal.callback = undefined;
 	},
 	open: () => {
 		deleteModal.text = project.value.attributes.designation;
@@ -241,18 +238,15 @@ const deleteModal = reactive({
 	},
 });
 
-//TODO replace this with members when ManageMember component ignores owner actions
-const manageableMembers = computed(() => store.getMembers);
-
 const pendingMembers = computed(() => store.getPendingInvitations);
 
 const suggestOptions = computed(() => {
-	const all = useOrganizationStore().getMembers ?? [];
-	const inside = store.getMembers ?? [];
+	const allMembers = store.getAssignableMembers;
+	const insideMemberIds = store.getMembers.map((member) => member.id);
 
-	const diffArray = all.filter((am) => !inside.some((im) => am.id === im.id));
+	const difference = allMembers.filter((allMember) => !insideMemberIds.includes(allMember.id));
 
-	return diffArray.map((m) => m.attributes.email);
+	return difference.map((member) => member.attributes.email);
 });
 </script>
 
