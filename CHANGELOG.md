@@ -1,3 +1,9 @@
+#### 1.13.4 (2024-01-29)
+
+##### Bug Fixes
+
+* **UI:**  fis selected org role tag not properly positioned (57ea3b7c)
+
 #### 1.13.3 (2024-01-22)
 
 ##### New Features
