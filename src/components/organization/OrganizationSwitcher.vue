@@ -1,5 +1,5 @@
 <template>
-	<div flex items-center gap-4 class="sh-organization-switcher">
+	<div flex items-center gap-4 class="sh-organization-switcher organization-switcher">
 		<p v-if="!noLabel" class="black-to-purple" text-6 m-0>{{ t("organization") }}:</p>
 
 		<n-select
@@ -7,7 +7,6 @@
 			filterable
 			:options="options"
 			:render-label="renderOthersLabel"
-			text-left
 		>
 			<template #arrow>
 				<img class="black-to-purple" src="/src/assets/icons/caret_down.svg" />
@@ -175,6 +174,17 @@ img {
 	.n-tag__content {
 		width: 8ch;
 		text-align: center;
+	}
+}
+.organization-switcher {
+	.n-base-selection-overlay__wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		.n-tag {
+			margin: 0 0.5rem;
+		}
 	}
 }
 </style>
