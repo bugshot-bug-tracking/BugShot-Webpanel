@@ -49,10 +49,6 @@ export const useHookStore = defineStore("hooks", {
 
 			channel.listen(".members.updated", async (data: any) => {
 				await this.organizationStore.fetchUsers();
-
-				if (this.projectStore.project != undefined) {
-					this.projectStore.fetchAssignableMembers();
-				}
 			});
 
 			channel.listen(".company.updated", (data: any) => {

@@ -7,7 +7,7 @@ import { ProjectUserRole } from "~/models/ProjectUserRole";
 import { useCompanyStore } from "./company";
 import { useHookStore } from "./hooks";
 import { Url } from "~/models/Url";
-import { User } from "~/models/User";
+import { useAuthStore } from "./auth";
 
 export const useProjectStore = defineStore("project", {
 	state: () => ({
@@ -19,11 +19,7 @@ export const useProjectStore = defineStore("project", {
 
 		extra_urls: undefined as Url[] | undefined,
 
-		// these ar the users that belong to the project only
 		members: undefined as ProjectUserRole[] | undefined,
-		// this list contains all the users with access to the project (project users + group managers/owner + org managers/owner)
-		assignableMembers: undefined as User[] | undefined,
-
 		pendingInvitations: undefined as Invitation[] | undefined,
 	}),
 
@@ -37,7 +33,6 @@ export const useProjectStore = defineStore("project", {
 
 				await this.load();
 				await this.fetchUsers();
-				await this.fetchAssignableMembers();
 				await this.fetchProjectUrls();
 			} catch (error) {
 				this.$reset();
@@ -152,13 +147,6 @@ export const useProjectStore = defineStore("project", {
 			).data.data;
 
 			this.members = response;
-		},
-
-		async fetchAssignableMembers() {
-			let response = (await axios.get(`projects/${this.project_id}/assignable-users`)).data
-				.data;
-
-			this.assignableMembers = response;
 		},
 
 		async fetchInvitations() {
@@ -324,8 +312,6 @@ export const useProjectStore = defineStore("project", {
 					return x.user;
 				})
 				.sort((a, b) => (a.role?.id ?? 0) - (b.role?.id ?? 0)) ?? [],
-
-		getAssignableMembers: (state) => state.assignableMembers ?? [],
 
 		getCreator: (state) => state.project?.attributes?.creator,
 
