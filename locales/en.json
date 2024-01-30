@@ -922,7 +922,8 @@
 					"custom_notifications_assigned_to_bug": "Assigned to a bug",
 					"custom_notifications_daily_summary": "Daily summary",
 					"custom_notifications_invitation_received": "Invitation received",
-					"custom_notifications_implementation_approval_form_received": "Approval report received"
+					"custom_notifications_implementation_approval_form_received": "Approval report received",
+					"custom_notifications_report_created": "Approval report created"
 				}
 			},
 			"save_changes": "@:save_changes",
