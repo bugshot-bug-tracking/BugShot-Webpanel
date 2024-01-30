@@ -1,6 +1,7 @@
 <template>
 	<RouterLink :to="to_resource" class="route-header" :class="{ open: open }">
 		<div flex gap-2>
+			<slot name="text-extra" />
 			{{ text }}
 		</div>
 

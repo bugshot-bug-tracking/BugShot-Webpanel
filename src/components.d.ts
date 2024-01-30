@@ -204,6 +204,7 @@ declare module 'vue' {
     ResourceNavbarItem: typeof import('./components/ui/molecules/ResourceNavbarItem.vue')['default']
     ResourceToken: typeof import('./components/ResourceToken.vue')['default']
     ResponseApprovalModal: typeof import('./components/Modals/ResponseApprovalModal.vue')['default']
+    RoleDot: typeof import('./components/RoleDot.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Screenshot: typeof import('./components/project/Screenshot.vue')['default']

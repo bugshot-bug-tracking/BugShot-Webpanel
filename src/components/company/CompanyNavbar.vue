@@ -69,6 +69,13 @@
 					(organization?.attributes.role?.id ?? 9) < 2
 				"
 			>
+				<template #text-extra>
+					<RoleDot
+						:id="item.attributes.role?.id"
+						:name="item.attributes.role?.attributes.designation"
+					/>
+				</template>
+
 				<template #list>
 					<ul>
 						<li
@@ -90,13 +97,9 @@
 								justify-between
 							>
 								<div flex gap-2>
-									<div
-										class="dot"
-										:style="{
-											'background-color':
-												project.attributes.color_hex ?? COLOR.PURPLE,
-										}"
-										v-if="false"
+									<RoleDot
+										:id="project.attributes.role?.id"
+										:name="project.attributes.role?.attributes.designation"
 									/>
 
 									<n-ellipsis
