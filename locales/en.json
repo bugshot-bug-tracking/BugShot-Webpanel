@@ -887,6 +887,49 @@
 			}
 		}
 	},
+
+	"user_settings": {
+		"main_page": {
+			"advanced": {
+				"advanced_and_notifications": "Advanced settings and notifications",
+				"show_ui_elements": "Show UI elements",
+				"ui_elements_options": {
+					"all_elements": "All elements"
+				},
+				"notify_on": "Notify me on",
+				"notify_option": {
+					"everything": "Everything",
+					"custom": "Custom"
+				},
+				"edit_settings": "Edit settings"
+			}
+		},
+		"advanced_page": {
+			"notifications": {
+				"header": "@:notification",
+				"description": "You can change here how and on what you will be notified",
+
+				"where_to_receive": "Where you get notifications",
+				"in_app_notifications": "In app notifications",
+				"cant_be_changed": "(can't be changed)",
+				"email_notifications": "E-Mail notifications",
+
+				"what_email_to_receive": "What E-Mail notifications you want to receive",
+				"notify_on_everything": "Notify me on everything",
+				"custom_notifications": "Custom notifications",
+				"custom_notifications_options": {
+					"custom_notifications_tagged_in_comment": "Tagged in comment",
+					"custom_notifications_assigned_to_bug": "Assigned to a bug",
+					"custom_notifications_daily_summary": "Daily summary",
+					"custom_notifications_invitation_received": "Invitation received",
+					"custom_notifications_implementation_approval_form_received": "Approval report received"
+				}
+			},
+			"save_changes": "@:save_changes",
+			"cancel_changes": "Cancel changes"
+		}
+	},
+
 	" ": "",
 	"": ""
 }

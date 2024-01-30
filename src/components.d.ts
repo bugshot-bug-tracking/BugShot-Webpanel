@@ -148,6 +148,7 @@ declare module 'vue' {
     NoLicenseOverlay: typeof import('./components/NoLicenseOverlay.vue')['default']
     NotificationItem: typeof import('./components/Notifications/NotificationItem.vue')['default']
     Notifications: typeof import('./components/Notifications/Notifications.vue')['default']
+    NotificationSettings: typeof import('./components/Settings/User/Advanced/NotificationSettings.vue')['default']
     NotificationTemplate: typeof import('./templates/NotificationTemplate.vue')['default']
     NP: typeof import('naive-ui')['NP']
     NPagination: typeof import('naive-ui')['NPagination']
