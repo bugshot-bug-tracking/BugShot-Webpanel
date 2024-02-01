@@ -38,6 +38,14 @@
 					(item.attributes.role?.id ?? 9) < 2 ||
 					(item.attributes.organization?.attributes.role?.id ?? 9) < 2
 				"
+				:more_options="
+					companyMove.moreOptions(
+						item.attributes.organization.id,
+						item.id,
+						(item.attributes.role?.id ?? 9) < 2 ||
+							(item.attributes.organization?.attributes.role?.id ?? 9) < 2
+					)
+				"
 			>
 				<template #text-extra>
 					<RoleDot
@@ -145,13 +153,18 @@
 			</ResourceNavbarItem>
 		</template>
 	</ResourceNavbar>
+
+	<CompanyMoveModal
+		v-model:show="companyMove.show"
+		:company_id="companyMove.id"
+		:organization_id="companyMove.organization_id"
+	/>
 </template>
 
 <script setup lang="ts">
 import { useSettingsStore } from "~/stores/settings";
 import { useAuthStore } from "~/stores/auth";
 import { Company } from "~/models/Company";
-import { COLOR } from "~/util/colors";
 import { DropdownOption } from "naive-ui";
 import IconSettings from "../icons/Icon-Settings.vue";
 import { useMainStore } from "~/stores/main";
@@ -159,6 +172,7 @@ import IconBolt from "../icons/Icon-Bolt.vue";
 import { Organization } from "~/models/Organization";
 import { Project } from "~/models/Project";
 import { useFlagsStore } from "~/stores/flags";
+import IconBoxesMove from "../icons/Icon-BoxesMove.vue";
 
 const { t } = useI18n();
 const router = useRouter();
@@ -274,7 +288,29 @@ const more = (org: Organization, company: Company, proj: Project) => {
 		] as DropdownOption[],
 	};
 };
+
 const optionsOpen = ref<string | undefined>(undefined);
+
+const companyMove = reactive({
+	show: false,
+	id: "" as string,
+	organization_id: "" as string,
+	moreOptions: (organization_id: string, company_id: string, authorized: boolean) => [
+		{
+			label: t("navigation_sidebar.resource_options.move_group"),
+			key: "move-group",
+			icon: () => h(IconBoxesMove),
+			show: authorized,
+			props: {
+				onClick: () => {
+					companyMove.id = company_id;
+					companyMove.organization_id = organization_id;
+					companyMove.show = true;
+				},
+			},
+		},
+	],
+});
 </script>
 
 <style lang="scss" scoped>

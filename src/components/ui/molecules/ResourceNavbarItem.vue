@@ -9,7 +9,7 @@
 			<div
 				class="item-options"
 				:class="{ open: optionsOpen || open }"
-				v-if="owner || authorized"
+				v-if="more.options.length > 0 && to_settings && (owner || authorized)"
 			>
 				<n-dropdown
 					trigger="click"
@@ -34,6 +34,8 @@
 	<div class="collapsable">
 		<slot name="list"></slot>
 	</div>
+
+	<slot />
 </template>
 
 <script setup lang="ts">
@@ -54,6 +56,7 @@ const props = defineProps({
 	to_settings: {
 		type: Object as PropType<{ name: string; params?: {} }>,
 		required: false,
+		default: undefined,
 	},
 
 	open: {
@@ -72,6 +75,12 @@ const props = defineProps({
 		type: Boolean,
 		required: false,
 		default: false,
+	},
+
+	more_options: {
+		type: Array as PropType<DropdownOption[]>,
+		required: false,
+		default: [],
 	},
 });
 
@@ -94,6 +103,7 @@ const more = computed(() => ({
 				},
 			},
 		},
+		...props.more_options,
 	] as DropdownOption[],
 }));
 
