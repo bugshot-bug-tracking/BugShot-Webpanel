@@ -25,9 +25,9 @@
 			</div>
 		</div>
 
-		<div class="component-group" w-24rem v-if="false">
+		<div class="component-group">
 			<div class="group-header">
-				{{ $t("advanced_settings") }}
+				{{ $t("user_settings.main_page.advanced.advanced_and_notifications") }}
 			</div>
 			<div class="group-content">
 				<AdvancedSettings />

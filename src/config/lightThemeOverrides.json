@@ -242,5 +242,9 @@
 	},
 	"List": {
 		"borderRadius": "0.5rem"
+	},
+	"Radio": {
+		"colorActive": "#7A2EE6FF",
+		"dotColorActive": "#FFFFFFFF"
 	}
 }

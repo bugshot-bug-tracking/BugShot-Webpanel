@@ -187,7 +187,7 @@ import { useReportsStore } from "~/stores/reports";
 import IconSettings from "~/components/icons/Icon-Settings.vue";
 import IconTabular from "~/components/icons/Icon-Tabular.vue";
 import IconFolderMove from "~/components/icons/Icon-FolderMove.vue";
-import IconBoxesMove from "~/components/icons/Icon-BoxesMove.vue";
+import IconFileMove from "~/components/icons/Icon-FileMove.vue";
 import IconBolt from "~/components/icons/Icon-Bolt.vue";
 import { useFlagsStore } from "~/stores/flags";
 
@@ -354,17 +354,6 @@ const more = computed(() => ({
 			},
 		},
 		{
-			label: t("move_bug", 2),
-			key: "move_bugs",
-			icon: () => h(IconBoxesMove),
-			show: currentTab.value === "kanban" && isAuthorized.value,
-			props: {
-				onClick: () => {
-					bugMove.show = true;
-				},
-			},
-		},
-		{
 			label: t("project_page.more_options.move_project", 2),
 			key: "move_project",
 			icon: () => h(IconFolderMove),
@@ -372,6 +361,17 @@ const more = computed(() => ({
 			props: {
 				onClick: () => {
 					projectMove.show = true;
+				},
+			},
+		},
+		{
+			label: t("move_bug", 2),
+			key: "move_bugs",
+			icon: () => h(IconFileMove),
+			show: currentTab.value === "kanban" && isAuthorized.value,
+			props: {
+				onClick: () => {
+					bugMove.show = true;
 				},
 			},
 		},

@@ -4,6 +4,8 @@ import axios from "axios";
 import { Role } from "~/models/Role";
 import { Organization } from "~/models/Organization";
 import { useAuthStore } from "./auth";
+import { useOrganizationStore } from "./organization";
+import { useCompanyStore } from "./company";
 
 export const useMainStore = defineStore("main", {
 	state: () => ({
@@ -130,6 +132,84 @@ export const useMainStore = defineStore("main", {
 			this.organizations.splice(index, 1);
 
 			if (this.organizations.length === 0) this.organizations = undefined;
+		},
+
+		moveGroupLocal(
+			organization_id: string,
+			company_id: string,
+			target_organization_id: string
+		) {
+			if (!this.organizationsWithCompaniesAndProjects) return undefined;
+
+			const organization = this.organizationsWithCompaniesAndProjects?.find(
+				(x) => x.id === organization_id
+			);
+
+			if (organization === undefined) return undefined;
+
+			const oldCompanyIndex = organization.attributes.companies.findIndex(
+				(company) => company.id === company_id
+			);
+
+			if (oldCompanyIndex === -1) return undefined;
+
+			const company = organization.attributes.companies.splice(oldCompanyIndex, 1);
+
+			const newOrganization = this.organizationsWithCompaniesAndProjects.find(
+				(o) => o.id === target_organization_id
+			);
+
+			if (newOrganization === undefined) return undefined;
+
+			newOrganization.attributes.companies.push(company[0]);
+
+			return company[0];
+		},
+
+		async moveGroup(
+			organization_id: string,
+			company_id: string,
+			target_organization_id: string
+		) {
+			let response = undefined;
+			try {
+				response = (
+					await axios.post(`/companies/${company_id}/move-to-new-organization`, {
+						target_organization_id: target_organization_id,
+					})
+				).data.data;
+			} catch (error) {
+				console.log(error);
+				throw error;
+			}
+
+			const locallyMovedCompany = this.moveGroupLocal(
+				organization_id,
+				company_id,
+				target_organization_id
+			);
+
+			if (locallyMovedCompany !== undefined) Object.assign(locallyMovedCompany, response);
+
+			if (useOrganizationStore().organization_id === organization_id) {
+				useOrganizationStore().removeCompany(company_id);
+			}
+
+			if (useOrganizationStore().organization_id === target_organization_id) {
+				useOrganizationStore().fetchCompanies();
+			}
+
+			if (useCompanyStore().company_id === company_id) {
+				if (!this.router.currentRoute.value.path.match(/^\/dashboard\/?.*/i))
+					this.router.replace({
+						name: "organization-home",
+						params: { organization_id: organization_id },
+					});
+			}
+
+			this.message.success(this.i18n.t("messages.group_moved"));
+
+			return true;
 		},
 	},
 
