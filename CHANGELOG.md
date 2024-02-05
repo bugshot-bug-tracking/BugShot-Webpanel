@@ -1,3 +1,16 @@
+### 1.14.0 (2024-02-05)
+
+##### New Features
+
+* **Usability:**
+  *  add moving of groups between organizations (a588d14a)
+  *  add role dot before project/group name (a9d5c466)
+  *  add email notification settings page (bb468eca)
+
+##### Bug Fixes
+
+* **Texts:**  add missing en translation for email notifications (de0a6150)
+
 #### 1.13.4 (2024-01-29)
 
 ##### Bug Fixes
