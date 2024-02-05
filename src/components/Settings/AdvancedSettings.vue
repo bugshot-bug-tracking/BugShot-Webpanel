@@ -2,24 +2,28 @@
 	<div class="bs-container">
 		<span>
 			<p font-bold>
-				{{ t("show_ui_elements") }}
+				{{ t("user_settings.main_page.advanced.show_ui_elements") }}
 			</p>
 
-			<p class="black-to-gray text-3.5">All elements</p>
+			<p class="black-to-gray text-3.5">
+				{{ t("user_settings.main_page.advanced.ui_elements_options.all_elements") }}
+			</p>
 		</span>
 
 		<hr mb4 />
 
 		<span>
-			<p font-bold>{{ t("notify_me_on") }}</p>
+			<p font-bold>{{ t("user_settings.main_page.advanced.notify_on") }}</p>
 
-			<p class="black-to-gray text-3.5">New bugs only</p>
+			<p class="black-to-gray text-3.5">
+				{{ t("user_settings.main_page.advanced.notify_option.everything") }}
+			</p>
 		</span>
 
-		<RouterLink :to="{ name: 'settings-advanced' }" self-end mt4 font-bold>
+		<RouterLink :to="{ name: 'settings-advanced' }" self-end mt-4 font-bold>
 			<img src="/src/assets/icons/edit.svg" alt="edit" class="black-to-purple" />
 
-			{{ t("edit.settings") }}
+			{{ t("user_settings.main_page.advanced.edit_settings") }}
 		</RouterLink>
 	</div>
 </template>
