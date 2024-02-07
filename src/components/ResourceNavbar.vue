@@ -30,14 +30,16 @@
 		</template>
 
 		<template #main>
-			<div class="list-wrapper bs-scroll sh-navbar-list">
-				<ul>
-					<li v-for="item in orderedList(list)" :key="item.id">
-						<slot name="item" v-bind="{ item }"> </slot>
+			<div class="list-wrapper sh-navbar-list">
+				<n-scrollbar pr-2>
+					<ul>
+						<li v-for="item in orderedList(list)" :key="item.id">
+							<slot name="item" v-bind="{ item }"> </slot>
 
-						<hr />
-					</li>
-				</ul>
+							<hr />
+						</li>
+					</ul>
+				</n-scrollbar>
 			</div>
 		</template>
 
