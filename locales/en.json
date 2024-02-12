@@ -943,6 +943,11 @@
 		}
 	},
 
+	"legal": {
+		"tos_url": "https://www.bugshot.de/en/terms-of-use",
+		"privacy_policy_url": "https://www.bugshot.de/en/data-protection"
+	},
+
 	" ": "",
 	"": ""
 }

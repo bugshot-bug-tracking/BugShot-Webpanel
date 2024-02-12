@@ -1,3 +1,17 @@
+#### 1.14.1 (2024-02-12)
+
+##### New Features
+
+* **Events:**  live update the kanban bugs member list (8f7819e8)
+
+##### Bug Fixes
+
+* **API:**  change access token system (edb7ddc8)
+
+##### Refactors
+
+* **Links:**  update terms of service and privacy policy links (eb2350a7)
+
 ### 1.14.0 (2024-02-05)
 
 ##### New Features

@@ -229,6 +229,22 @@ export const useHookStore = defineStore("hooks", {
 				await this.projectStore.fetchUsers();
 			});
 
+			channel.listen(".bug.members.updated", async ({ data }: any) => {
+				const store = useReportsStore();
+
+				if (store.statuses === undefined) return;
+
+				const bug_status = store.statuses.find((status) => status.id === data.status_id);
+
+				if (bug_status == undefined) return;
+
+				const bug = bug_status.attributes.bugs?.find((bug) => bug.id === data.bug_id);
+
+				if (bug === undefined) return;
+
+				bug.attributes.assigned_users = data.users;
+			});
+
 			channel.listen(".jira.connected", async (data: any) => {
 				this.projectStore.project!.attributes.integrations.jira = true;
 			});
