@@ -2,7 +2,13 @@
 	<div class="bs-container">
 		<div v-if="token">
 			<n-form-item :label="t('project_page.settings.guest_token')">
-				<n-input type="text" size="large" :placeholder="t('token')" :value="token" readonly>
+				<n-input
+					type="text"
+					size="large"
+					:placeholder="t('token')"
+					:value="token.attributes.access_token"
+					readonly
+				>
 					<template #suffix>
 						<Icon-Clipboard-Copy
 							@click="copyToClipboard"
@@ -27,7 +33,7 @@
 				</n-input>
 			</n-form-item>
 
-			<n-button type="error" round mx-a @click.prevent="generateToken" :loading="loading">
+			<n-button type="error" round mx-a @click.prevent="regenerateToken" :loading="loading">
 				{{ t("project_page.settings.regenerate_token") }}
 			</n-button>
 		</div>
@@ -49,7 +55,12 @@ const { message } = useDiscreteApi();
 
 const store = useProjectStore();
 
-const token = computed(() => store.getProject?.attributes.access_token);
+const token = computed(() => {
+	const list = store.accessTokens;
+	if (list === undefined || list.length < 1) return undefined;
+
+	return list[0];
+});
 
 const loading = ref(false);
 const generateToken = async () => {
@@ -63,11 +74,22 @@ const generateToken = async () => {
 	}
 };
 
+const regenerateToken = async () => {
+	try {
+		loading.value = true;
+		await store.regenerateToken();
+	} catch (error) {
+		console.log(error);
+	} finally {
+		loading.value = false;
+	}
+};
+
 const copyIconState = ref<"copy" | "success" | "error">("copy");
 const copyToClipboard = () => {
 	if (token.value)
 		try {
-			navigator.clipboard.writeText(token.value);
+			navigator.clipboard.writeText(token.value.attributes.access_token);
 			console.log("Text is copied!");
 			message.success(t("messages.text_to_clipboard"));
 
