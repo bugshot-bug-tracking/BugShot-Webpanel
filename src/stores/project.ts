@@ -8,6 +8,7 @@ import { useCompanyStore } from "./company";
 import { useHookStore } from "./hooks";
 import { Url } from "~/models/Url";
 import { User } from "~/models/User";
+import { AccessToken } from "~/models/AccessToken";
 
 export const useProjectStore = defineStore("project", {
 	state: () => ({
@@ -25,6 +26,8 @@ export const useProjectStore = defineStore("project", {
 		assignableMembers: undefined as User[] | undefined,
 
 		pendingInvitations: undefined as Invitation[] | undefined,
+
+		accessTokens: undefined as undefined | AccessToken[],
 	}),
 
 	actions: {
@@ -39,6 +42,7 @@ export const useProjectStore = defineStore("project", {
 				await this.fetchUsers();
 				await this.fetchAssignableMembers();
 				await this.fetchProjectUrls();
+				await this.loadAccessTokens();
 			} catch (error) {
 				this.$reset();
 
@@ -70,6 +74,13 @@ export const useProjectStore = defineStore("project", {
 			).data.data;
 
 			this.project = project;
+		},
+
+		async loadAccessTokens() {
+			let accessTokens = (await axios.get(`projects/${this.project_id}/access-tokens`)).data
+				.data;
+
+			this.accessTokens = accessTokens;
 		},
 
 		async fetchProjectUrls() {
@@ -307,10 +318,31 @@ export const useProjectStore = defineStore("project", {
 		async generateToken() {
 			if (!this.project?.id) throw new Error("No active project!");
 
-			let response = (await axios.post(`/projects/${this.project.id}/generate-access-token`))
-				.data.data;
+			let response = (
+				await axios.post(`/projects/${this.project.id}/access-tokens`, {
+					description: "default",
+				})
+			).data.data;
 
-			this.project.attributes.access_token = response.access_token;
+			this.accessTokens = response;
+		},
+
+		async regenerateToken() {
+			if (!this.project?.id) throw new Error("No active project!");
+			if (!this.accessTokens || this.accessTokens.length < 1)
+				throw new Error("No access token to regenerate!");
+
+			await axios.delete(
+				`/projects/${this.project.id}/access-tokens/${this.accessTokens[0].id}`
+			);
+
+			let response2 = (
+				await axios.post(`/projects/${this.project.id}/access-tokens`, {
+					description: "default",
+				})
+			).data.data;
+
+			this.accessTokens = [response2];
 		},
 	},
 

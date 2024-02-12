@@ -71,7 +71,7 @@
 											type="primary"
 											text
 											tag="a"
-											href="https://www.bugshot.de/nutzungsbedingungen"
+											:href="t('legal.tos_url')"
 											target="_blank"
 											@click.stop
 										>
@@ -84,7 +84,7 @@
 											type="primary"
 											text
 											tag="a"
-											href="https://www.bugshot.de/datenschutz"
+											:href="t('legal.privacy_policy_url')"
 											target="_blank"
 											@click.stop
 										>
