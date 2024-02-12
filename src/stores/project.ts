@@ -324,7 +324,7 @@ export const useProjectStore = defineStore("project", {
 				})
 			).data.data;
 
-			this.accessTokens = response;
+			this.accessTokens = [response];
 		},
 
 		async regenerateToken() {
