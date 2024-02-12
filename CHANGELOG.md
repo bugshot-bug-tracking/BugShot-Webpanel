@@ -1,3 +1,9 @@
+#### 1.14.2 (2024-02-12)
+
+##### Bug Fixes
+
+* **Code:**  fix generation of access token not updateing the UI (8a1b5c25)
+
 #### 1.14.1 (2024-02-12)
 
 ##### New Features
