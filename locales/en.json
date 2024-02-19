@@ -113,7 +113,8 @@
 		"attachment": "Add attachment | Add attachments",
 		"member": "Add member | Add members",
 		"team_member": "Add team member | Add team members",
-		"column": "Add column"
+		"column": "Add column",
+		"token": "Add token"
 	},
 	"create": {
 		"create": "Create",
@@ -151,7 +152,8 @@
 		"team_member": "Delete team member | Delete team members",
 		"column": "Delete column",
 		"all": "Delete all",
-		"account": "Delete account"
+		"account": "Delete account",
+		"token": "Delete token"
 	},
 	"select": {
 		"select": "Select",
@@ -323,7 +325,6 @@
 	"view_details": "View details",
 	"organization_members": "Organization members",
 	"token": "Token",
-	"delete_token": "Delete token",
 	"refresh": "Refresh",
 	"profile": "Profile",
 	"member_since": "Member since",
@@ -544,7 +545,11 @@
 		"project_moved": "Project moved!",
 		"text_to_clipboard": "Text copied to clipboard!",
 		"text_to_clipboard_error": "Could not copy to clipboard!",
-		"group_moved": "Group moved!"
+		"group_moved": "Group moved!",
+		"token_created": "Token created successfully!",
+		"token_updated": "Token changed successfully!",
+		"token_deleted": "Token removed successfully!",
+		"error": "There's been an error, please try again later."
 	},
 	"rules": {
 		"designation_required": "Bug name required!"
@@ -805,7 +810,18 @@
 		"settings": {
 			"generate_token": "Generate token",
 			"regenerate_token": "Regenerate token",
-			"guest_token": "Guest token"
+			"guest_token": "Guest token",
+			"manage_tokens": "Manage tokens",
+
+			"guest_token_modal": {
+				"header": "@:project_page.settings.guest_token",
+				"no_token_generated": "No token generated",
+				"edit_description": "@:edit.description",
+				"delete_token": "@:delete.token",
+				"save_button": "@:save",
+				"cancel_button": "@:cancel",
+				"add_token": "@:add.token"
+			}
 		}
 	},
 	"dont_show_again": "Don't show again",

@@ -315,34 +315,50 @@ export const useProjectStore = defineStore("project", {
 			return response;
 		},
 
-		async generateToken() {
+		async generateToken(description: string) {
 			if (!this.project?.id) throw new Error("No active project!");
 
 			let response = (
 				await axios.post(`/projects/${this.project.id}/access-tokens`, {
-					description: "default",
+					description,
 				})
-			).data.data;
+			).data.data as AccessToken;
 
-			this.accessTokens = [response];
+			if (this.accessTokens) this.accessTokens.push(response);
+			else this.accessTokens = [response];
+
+			return response;
 		},
 
-		async regenerateToken() {
+		async updateToken(token: AccessToken, value: string) {
 			if (!this.project?.id) throw new Error("No active project!");
+
 			if (!this.accessTokens || this.accessTokens.length < 1)
-				throw new Error("No access token to regenerate!");
+				throw new Error("No access tokens present in store to change!");
 
-			await axios.delete(
-				`/projects/${this.project.id}/access-tokens/${this.accessTokens[0].id}`
-			);
-
-			let response2 = (
-				await axios.post(`/projects/${this.project.id}/access-tokens`, {
-					description: "default",
+			const response = (
+				await axios.patch(`/projects/${this.project.id}/access-tokens/${token.id}`, {
+					description: value,
 				})
-			).data.data;
+			).data.data as AccessToken;
 
-			this.accessTokens = [response2];
+			const accessToken = this.accessTokens.find((t) => t.id === token.id);
+
+			if (accessToken != undefined) Object.assign(accessToken, response);
+
+			return response;
+		},
+
+		async deleteToken(token: AccessToken) {
+			if (!this.project?.id) throw new Error("No active project!");
+
+			if (!this.accessTokens || this.accessTokens.length < 1) return;
+
+			await axios.delete(`/projects/${this.project.id}/access-tokens/${token.id}`);
+
+			const atIndex = this.accessTokens.findIndex((t) => t.id === token.id);
+
+			if (atIndex != undefined && atIndex !== -1) this.accessTokens.splice(atIndex, 1);
 		},
 	},
 
