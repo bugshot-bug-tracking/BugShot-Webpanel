@@ -19,7 +19,7 @@
 			</div>
 
 			<button class="bs-btn red" mx-a mt-4 @click.prevent="actions.delete(code?.id)">
-				{{ $t("delete_token") }}
+				{{ $t("delete.token") }}
 			</button>
 		</div>
 

@@ -106,7 +106,7 @@
 				</div>
 
 				<div class="group-content">
-					<GuestToken :id="project_id" />
+					<GuestToken />
 				</div>
 			</div>
 

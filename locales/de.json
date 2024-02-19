@@ -113,7 +113,8 @@
 		"attachment": "Anhang hinzufügen | Anhänge hinzufügen",
 		"member": "Mitglied hinzufügen | Mitglieder hinzufügen",
 		"team_member": "Teammitglied hinzufügen | Teammitglieder hinzufügen",
-		"column": "Spalte hinzufügen"
+		"column": "Spalte hinzufügen",
+		"token": "Token hinzufügen"
 	},
 	"create": {
 		"create": "Erstellen",
@@ -151,7 +152,8 @@
 		"team_member": "Teammitglied löschen | Teammitglied löschen",
 		"column": "Spalte löschen",
 		"all": "Alles löschen",
-		"account": "Konto löschen"
+		"account": "Konto löschen",
+		"token": "Token löschen"
 	},
 	"select": {
 		"select": "Auswählen",
@@ -323,7 +325,6 @@
 	"view_details": "Details anzeigen",
 	"organization_members": "Mitglieder der Organisation",
 	"token": "Token",
-	"delete_token": "Token löschen",
 	"refresh": "Erneuern",
 	"profile": "Profil",
 	"member_since": "Mitglied seit",
@@ -543,7 +544,12 @@
 		"account_deleted_successfully": "Konto erfolgreich gelöscht!",
 		"project_moved": "Projekt verschoben!",
 		"text_to_clipboard": "Text in die Zwischenablage kopiert!",
-		"text_to_clipboard_error": "Konnte nicht in die Zwischenablage kopieren!"
+		"text_to_clipboard_error": "Konnte nicht in die Zwischenablage kopieren!",
+
+		"token_created": "Token erfolgreich erstellt!",
+		"token_updated": "Token erfolgreich geändert!",
+		"token_deleted": "Token erfolgreich entfernt!",
+		"error": "Es gab einen Fehler, bitte versuchen Sie es später erneut."
 	},
 	"rules": {
 		"designation_required": "Fehlername erforderlich!"
@@ -804,7 +810,18 @@
 		"settings": {
 			"generate_token": "Token generieren",
 			"regenerate_token": "Token neu generieren",
-			"guest_token": "Gast-token"
+			"guest_token": "Gast-token",
+			"manage_tokens": "Token verwalten",
+
+			"guest_token_modal": {
+				"header": "@:project_page.settings.guest_token",
+				"no_token_generated": "Kein Token generiert",
+				"edit_description": "@:edit.description",
+				"delete_token": "@:delete.token",
+				"save_button": "@:save",
+				"cancel_button": "@:cancel",
+				"add_token": "@:add.token"
+			}
 		}
 	},
 	"dont_show_again": "Nicht mehr anzeigen",
