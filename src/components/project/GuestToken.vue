@@ -1,7 +1,7 @@
 <template>
 	<div class="bs-container">
 		<div v-if="token">
-			<n-form-item :label="t('project_page.settings.guest_token')">
+			<n-form-item :label="token.attributes.description">
 				<n-input
 					type="text"
 					size="large"
@@ -32,18 +32,20 @@
 					</template>
 				</n-input>
 			</n-form-item>
-
-			<n-button type="error" round mx-a @click.prevent="regenerateToken" :loading="loading">
-				{{ t("project_page.settings.regenerate_token") }}
-			</n-button>
 		</div>
 
-		<div v-else class="generate-state">
-			<n-button type="success" round mx-a @click.prevent="generateToken" :loading="loading">
-				{{ t("project_page.settings.generate_token") }}
-			</n-button>
-		</div>
+		<n-button type="success" round mx-a @click="modal = true" my-a>
+			{{ t("project_page.settings.manage_tokens") }}
+		</n-button>
 	</div>
+
+	<GuestTokenModal
+		v-model:show="modal"
+		:list="store.accessTokens"
+		:onAdd="store.generateToken"
+		:onChange="store.updateToken"
+		:onDelete="store.deleteToken"
+	/>
 </template>
 
 <script setup lang="ts">
@@ -61,29 +63,6 @@ const token = computed(() => {
 
 	return list[0];
 });
-
-const loading = ref(false);
-const generateToken = async () => {
-	try {
-		loading.value = true;
-		await store.generateToken();
-	} catch (error) {
-		console.log(error);
-	} finally {
-		loading.value = false;
-	}
-};
-
-const regenerateToken = async () => {
-	try {
-		loading.value = true;
-		await store.regenerateToken();
-	} catch (error) {
-		console.log(error);
-	} finally {
-		loading.value = false;
-	}
-};
 
 const copyIconState = ref<"copy" | "success" | "error">("copy");
 const copyToClipboard = () => {
@@ -105,6 +84,8 @@ const copyToClipboard = () => {
 			}, 1500);
 		}
 };
+
+const modal = ref(false);
 </script>
 
 <style lang="scss" scoped>

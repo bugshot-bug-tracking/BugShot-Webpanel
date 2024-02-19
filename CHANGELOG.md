@@ -1,3 +1,9 @@
+### 1.15.0 (2024-02-19)
+
+##### New Features
+
+* **Project:**  add multiple guest tokens with descriptions to a project (8dd5c6cb)
+
 #### 1.14.2 (2024-02-12)
 
 ##### Bug Fixes
