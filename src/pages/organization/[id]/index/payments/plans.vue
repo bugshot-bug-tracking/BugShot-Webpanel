@@ -4,8 +4,8 @@
 			<img src="/src/assets/animations/loading.svg" alt="loading circle" />
 		</article>
 
-		<article flex-1 max-h-100vh v-else>
-			<n-scrollbar>
+		<article flex-1 v-else>
+			<n-scrollbar style="max-height: calc(100vh - 2.5rem)">
 				<div flex flex-col items-center gap-12 justify-center py-8>
 					<div>
 						<n-h1>
