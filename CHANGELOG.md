@@ -1,3 +1,10 @@
+### 1.16.0 (2024-02-26)
+
+##### Refactors
+
+* **Feature:**  refactor kanban filter functionality (7a210fc6)
+* **UI:**  change subscription page component to show both monthly and yearly subscriptions side by side (78ce404e)
+
 ### 1.15.0 (2024-02-19)
 
 ##### New Features
