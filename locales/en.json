@@ -367,6 +367,8 @@
 	"created_at": "Created at",
 	"billing_and_payments": "Billing and payments",
 	"subscription": "Subscription | Subscriptions",
+	"monthly_subscription": "Monthly subscription | Monthly subscriptions",
+	"yearly_subscription": "Yearly subscription | Yearly subscriptions",
 	"paid_with": "Paid with",
 	"payment": "Payment | Payments",
 	"manage_subscription": "Manage subscription",
@@ -963,6 +965,9 @@
 		"tos_url": "https://www.bugshot.de/en/terms-of-use",
 		"privacy_policy_url": "https://www.bugshot.de/en/data-protection"
 	},
+
+	"assignee": "Assignee",
+	"filter": "Filter",
 
 	" ": "",
 	"": ""

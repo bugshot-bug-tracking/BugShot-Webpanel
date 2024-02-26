@@ -20,7 +20,7 @@ export const useReportsStore = defineStore("reports", {
 		filter: {
 			creators: [] as number[],
 			assignees: [] as number[],
-			priority: undefined as undefined | number,
+			priorities: [] as number[],
 		},
 	}),
 
@@ -375,13 +375,17 @@ export const useReportsStore = defineStore("reports", {
 			status.attributes.bugs?.filter((bug) => {
 				let value = true;
 
-				if (state.filter.priority)
-					value = value && bug.attributes.priority.id === state.filter.priority;
+				if (state.filter.priorities.length > 0)
+					value =
+						value &&
+						state.filter.priorities.some((pId) => pId === bug.attributes.priority.id);
 
 				if (state.filter.creators.length > 0)
 					value =
 						value &&
-						state.filter.creators.some((id) => id === bug.attributes.creator.id);
+						state.filter.creators.some(
+							(id) => id === (bug.attributes.creator?.id ?? -1)
+						);
 
 				if (state.filter.assignees.length > 0)
 					value =
@@ -392,5 +396,23 @@ export const useReportsStore = defineStore("reports", {
 
 				return value;
 			}),
+
+		getFilteredCreatorsData: (state) => {
+			let list = [];
+			list.push(
+				...(useProjectStore().assignableMembers?.filter((user) =>
+					state.filter.creators.some((id) => id === user.id)
+				) ?? [])
+			);
+
+			if (state.filter.creators.some((id) => id === -1)) list.push(undefined);
+
+			return list;
+		},
+
+		getFilteredAssigneesData: (state) =>
+			useProjectStore().assignableMembers?.filter((user) =>
+				state.filter.assignees.some((id) => id === user.id)
+			),
 	},
 });
