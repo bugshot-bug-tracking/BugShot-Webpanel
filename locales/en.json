@@ -966,6 +966,9 @@
 		"privacy_policy_url": "https://www.bugshot.de/en/data-protection"
 	},
 
+	"assignee": "Assignee",
+	"filter": "Filter",
+
 	" ": "",
 	"": ""
 }

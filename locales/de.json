@@ -836,6 +836,9 @@
 		"privacy_policy_url": "https://www.bugshot.de/datenschutz"
 	},
 
+	"assignee": "Beauftragter",
+	"filter": "Filter",
+
 	" ": "",
 	"": ""
 }
