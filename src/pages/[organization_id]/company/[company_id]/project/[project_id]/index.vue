@@ -41,7 +41,7 @@
 				<template #actions v-if="more.options.some((o) => o.show)">
 					<n-dropdown trigger="click" :options="more.options">
 						<n-button text>
-							<Icon-VerticalDots />
+							<IconVerticalDots />
 						</n-button>
 					</n-dropdown>
 				</template>
@@ -127,20 +127,14 @@
 					{{ $t("kanban") }}
 				</template>
 
-				<div
-					flex
-					items-center
-					gap-2
-					class="max-w-100%"
-					v-if="useFlagsStore().isSpecialUser"
-				>
-					<n-text>Filters: </n-text>
-
-					<KanbanFilter
-						:users="store.getAssignableMembers"
-						@update:creator="handleCreatorsFilter"
-						@update:assignee="handleAssigneesFilter"
-						@update:priority="handlePriorityFilter"
+				<div class="max-w-100% flex mb-4">
+					<FilterTagList
+						:creators="reportsStore.getFilteredCreatorsData"
+						:assignees="reportsStore.getFilteredAssigneesData"
+						:priorities="reportsStore.filter.priorities"
+						@remove:creator="removeCreatorFromFilter"
+						@remove:assignee="removeAssigneeFromFilter"
+						@remove:priority="removePriorityFromFilter"
 					/>
 				</div>
 
@@ -171,6 +165,13 @@
 			</n-tab-pane>
 
 			<template #suffix v-if="currentTab === 'kanban'">
+				<GroupPopselect
+					:button-title="t('filter')"
+					:groups="availableFilters"
+					@update:filter="handleFilterUpdate"
+					mr-4
+				/>
+
 				<KanbanActions />
 			</template>
 		</n-tabs>
@@ -190,6 +191,7 @@ import IconFolderMove from "~/components/icons/Icon-FolderMove.vue";
 import IconFileMove from "~/components/icons/Icon-FileMove.vue";
 import IconBolt from "~/components/icons/Icon-Bolt.vue";
 import { useFlagsStore } from "~/stores/flags";
+import { User } from "~/models/User";
 
 const props = defineProps({
 	organization_id: {
@@ -448,14 +450,98 @@ const projectMove = reactive({
 	},
 });
 
-const handleCreatorsFilter = (value: number[]) => {
-	reportsStore.filter.creators = value;
+const removeCreatorFromFilter = (user: User | undefined) => {
+	let entryIndex = reportsStore.filter.creators.findIndex((creator_id) =>
+		user ? creator_id === user.id : creator_id === -1
+	);
+
+	if (entryIndex != undefined && entryIndex != -1) {
+		reportsStore.filter.creators.splice(entryIndex, 1);
+	}
 };
-const handleAssigneesFilter = (value: number[]) => {
-	reportsStore.filter.assignees = value;
+const removeAssigneeFromFilter = (user: User) => {
+	let entryIndex = reportsStore.filter.assignees.findIndex(
+		(creator_id) => creator_id === user.id
+	);
+
+	if (entryIndex != undefined && entryIndex != -1) {
+		reportsStore.filter.assignees.splice(entryIndex, 1);
+	}
 };
-const handlePriorityFilter = (value: number) => {
-	reportsStore.filter.priority = value;
+const removePriorityFromFilter = (value: number) => {
+	let entryIndex = reportsStore.filter.priorities.findIndex(
+		(priority_id) => priority_id === value
+	);
+
+	if (entryIndex != undefined && entryIndex != -1) {
+		reportsStore.filter.priorities.splice(entryIndex, 1);
+	}
+};
+
+const availableFilters = computed(() => [
+	{
+		label: t("creator"),
+		key: "creators-filter",
+		children: [
+			...(store.assignableMembers?.map((user) => ({
+				label: `${user.attributes.first_name} ${user.attributes.last_name}`,
+				value: user.id,
+			})) ?? []),
+			{
+				label: t("anonymous"),
+				value: -1,
+			},
+		],
+	},
+	{
+		label: t("assignee"),
+		key: "assignees-filter",
+		children: [
+			...(store.assignableMembers?.map((user) => ({
+				label: `${user.attributes.first_name} ${user.attributes.last_name}`,
+				value: user.id,
+			})) ?? []),
+		],
+	},
+	{
+		label: t("priority"),
+		key: "priorities-filter",
+		children: [
+			{
+				label: t("critical"),
+				value: 4,
+			},
+			{
+				label: t("important"),
+				value: 3,
+			},
+			{
+				label: t("normal"),
+				value: 2,
+			},
+			{
+				label: t("minor"),
+				value: 1,
+			},
+		],
+	},
+]);
+
+// key is the availableFilters 'group' key and value is the children's value
+const handleFilterUpdate = (key: string, value: (string | number)[]) => {
+	switch (key) {
+		case "creators-filter":
+			reportsStore.filter.creators = value as number[];
+			break;
+		case "assignees-filter":
+			reportsStore.filter.assignees = value as number[];
+
+			break;
+		case "priorities-filter":
+			reportsStore.filter.priorities = value as number[];
+
+			break;
+	}
 };
 </script>
 

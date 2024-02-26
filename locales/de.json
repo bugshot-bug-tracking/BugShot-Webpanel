@@ -367,6 +367,8 @@
 	"created_at": "Erstellt am",
 	"billing_and_payments": "Rechnungen und Zahlungen",
 	"subscription": "Plan | Pläne",
+	"monthly_subscription": "Monatliches Plan | Monatliche Pläne",
+	"yearly_subscription": "Jährliches Plan | Jährliche Pläne",
 	"paid_with": "Bezahlt mit",
 	"payment": "Zahlung | Zahlungen",
 	"manage_subscription": "Pläne verwalten",
@@ -833,6 +835,9 @@
 		"tos_url": "https://www.bugshot.de/nutzungsbedingungen",
 		"privacy_policy_url": "https://www.bugshot.de/datenschutz"
 	},
+
+	"assignee": "Beauftragter",
+	"filter": "Filter",
 
 	" ": "",
 	"": ""
