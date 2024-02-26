@@ -1,3 +1,9 @@
+#### 1.16.1 (2024-02-26)
+
+##### Bug Fixes
+
+* **UI:**  fix scroll on payment/plan page (6f111142)
+
 ### 1.16.0 (2024-02-26)
 
 ##### Refactors
