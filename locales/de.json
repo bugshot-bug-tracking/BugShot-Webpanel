@@ -874,7 +874,7 @@
 				"label": {
 					"jira_project": "Jira-Projekt",
 					"jira_site": "Jira-Site",
-					"optional_jira_epic": "Optional – Jira Epic zuweisen"
+					"optional_jira_epic": "Optional - Jira Epic zuweisen"
 				},
 				"options": {
 					"bugs_from_jira": {
@@ -927,10 +927,33 @@
 		"overview": "Überblick"
 	},
 	"user_settings": {
+		"main_page": {
+			"advanced": {
+				"advanced_and_notifications": "Erweiterte Einstellungen und Benachrichtigungen",
+				"show_ui_elements": "UI-Elemente anzeigen",
+				"ui_elements_options": {
+					"all_elements": "Alle Elemente"
+				},
+				"notify_on": "Benachrichtigen Sie mich am",
+				"notify_option": {
+					"custom": "Brauch",
+					"everything": "Alles"
+				},
+				"edit_settings": "Einstellungen bearbeiten"
+			}
+		},
 		"advanced_page": {
-			"cancel_changes": "Änderungen verwerfen",
 			"notifications": {
+				"header": "@:notification",
+				"description": "Sie können hier ändern, wie und worüber Sie benachrichtigt werden",
+
+				"where_to_receive": "Wo Sie Benachrichtigungen erhalten",
+				"in_app_notifications": "In App-Benachrichtigungen",
 				"cant_be_changed": "(kann nicht geändert werden)",
+				"email_notifications": "E-Mail Benachrichtigungen",
+
+				"what_email_to_receive": "Welche E-Mail-Benachrichtigungen Sie erhalten möchten",
+				"notify_on_everything": "Benachrichtigen Sie mich über alles",
 				"custom_notifications": "Benutzerdefinierte Benachrichtigungen",
 				"custom_notifications_options": {
 					"custom_notifications_assigned_to_bug": "Einem Fehler zugeordnet",
@@ -939,31 +962,10 @@
 					"custom_notifications_invitation_received": "Einladung erhalten",
 					"custom_notifications_report_created": "Genehmigungsbericht erstellt",
 					"custom_notifications_tagged_in_comment": "Im Kommentar markiert"
-				},
-				"description": "Sie können hier ändern, wie und worüber Sie benachrichtigt werden",
-				"email_notifications": "E-Mail Benachrichtigungen",
-				"header": "@:Benachrichtigung",
-				"in_app_notifications": "In App-Benachrichtigungen",
-				"notify_on_everything": "Benachrichtigen Sie mich über alles",
-				"what_email_to_receive": "Welche E-Mail-Benachrichtigungen Sie erhalten möchten",
-				"where_to_receive": "Wo Sie Benachrichtigungen erhalten"
-			},
-			"save_changes": "@:Änderungen speichern"
-		},
-		"main_page": {
-			"advanced": {
-				"advanced_and_notifications": "Erweiterte Einstellungen und Benachrichtigungen",
-				"edit_settings": "Einstellungen bearbeiten",
-				"notify_on": "Benachrichtigen Sie mich am",
-				"notify_option": {
-					"custom": "Brauch",
-					"everything": "Alles"
-				},
-				"show_ui_elements": "UI-Elemente anzeigen",
-				"ui_elements_options": {
-					"all_elements": "Alle Elemente"
 				}
-			}
+			},
+			"save_changes": "@:save_changes",
+			"cancel_changes": "Änderungen verwerfen"
 		}
 	},
 
