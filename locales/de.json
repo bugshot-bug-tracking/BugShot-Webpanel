@@ -551,7 +551,8 @@
 		"token_created": "Token erfolgreich erstellt!",
 		"token_updated": "Token erfolgreich geändert!",
 		"token_deleted": "Token erfolgreich entfernt!",
-		"error": "Es gab einen Fehler, bitte versuchen Sie es später erneut."
+		"error": "Es gab einen Fehler, bitte versuchen Sie es später erneut.",
+		"group_moved": "Gruppe ist umgezogen!"
 	},
 	"rules": {
 		"designation_required": "Fehlername erforderlich!"
@@ -828,7 +829,6 @@
 	},
 	"dont_show_again": "Nicht mehr anzeigen",
 	"applications": "Anwendungen",
-	"regenerate_token": "Token neu generieren",
 	"copy": "Kopieren",
 
 	"legal": {
@@ -838,6 +838,134 @@
 
 	"assignee": "Beauftragter",
 	"filter": "Filter",
+
+	"extra": {
+		"integrations": {
+			"atlassian": {
+				"errors": {
+					"500": "Bitte versuchen Sie es später noch einmal",
+					"access_denied": "Zugriff abgelehnt",
+					"invalid_state": "Ungültiger Status",
+					"no_state": "Kein gültiger Status",
+					"not_authenticated": "nicht berechtigt",
+					"token_mismatch": "Nicht übereinstimmende Token"
+				}
+			}
+		}
+	},
+	"group_options": {
+		"move_group": "Gruppe verschieben",
+		"select_organization": "Organisation auswählen",
+		"select_target_organization": "Wählen Sie die Zielorganisation"
+	},
+	"navigation_sidebar": {
+		"resource_options": {
+			"move_group": "@:group_options.move_group"
+		}
+	},
+	"project_integrations": {
+		"configurations": "Konfigurationen",
+		"connect": "Verbinden",
+		"disconnect": "Trennen",
+		"integration": "Integration | \nIntegrationen",
+		"jira": {
+			"button": "Jira",
+			"config": {
+				"label": {
+					"jira_project": "Jira-Projekt",
+					"jira_site": "Jira-Site",
+					"optional_jira_epic": "Optional – Jira Epic zuweisen"
+				},
+				"options": {
+					"bugs_from_jira": {
+						"description": "Wenn eine Aufgabe in Jira erstellt wird, erstellen Sie einen Fehler in BugShot.",
+						"header": "Erstellen Sie automatisch eine Aufgabe in Bugshot"
+					},
+					"bugs_to_jira": {
+						"description": "Wenn in BugShot ein Fehler erstellt wird, erstellen Sie auch einen in Jira.",
+						"header": "Erstellen Sie automatisch eine Aufgabe in Jira"
+					},
+					"comments_from_jira": {
+						"description": "Wenn ein Kommentar zu einem Problem in Jira hinzugefügt wird, speichern Sie ihn im entsprechenden Fehler in BugShot.",
+						"header": "Synchronisieren Sie Kommentare von Jira mit BugShot"
+					},
+					"comments_to_jira": {
+						"description": "Wenn ein Kommentar zu einem Fehler hinzugefügt wird, senden Sie ihn an das entsprechende Jira-Problem.",
+						"header": "Synchronisieren Sie Kommentare von BugShot mit Jira"
+					},
+					"update_status_from": {
+						"description": "Wenn eine Aufgabe in Jira abgeschlossen ist, verschieben Sie sie in eine bestimmte BugShot-Spalte.",
+						"header": "Aktualisieren Sie den BugShot-Status nach Abschluss in Jira"
+					},
+					"update_status_to": {
+						"description": "Wenn ein Fehler in BugShot behoben ist, markieren Sie ihn in Jira als abgeschlossen.",
+						"header": "Aktualisieren Sie den Jira-Status nach Abschluss in BugShot"
+					}
+				},
+				"placeholder": {
+					"jira_epic": "Epos",
+					"jira_project": "Projekt"
+				},
+				"please_select_project": "Bitte wählen Sie ein Projekt aus",
+				"please_select_site_first": "Bitte wählen Sie eine Website aus",
+				"project_select_placeholder": "Projekt auswählen",
+				"site_select_placeholder": "Standort auswählen"
+			},
+			"disconnect": "Sind Sie sicher, dass Sie dieses Projekt von Jira trennen möchten?",
+			"header": "Jira-Integration",
+			"overview": {
+				"line_1": "Verbinden Sie Ihr Jira Software-Konto, um Ihre BugShot-Aufgaben automatisch zu synchronisieren",
+				"list_header": "Unsere Jira-Integration ermöglicht Ihnen:",
+				"list_item_1": "Erstellen Sie eine Aufgabe in Jira",
+				"list_item_2": "Synchronisieren Sie Aufgabenaktualisierungen mit Jira",
+				"list_item_3": "Erstellen Sie Kommentare in Jira",
+				"list_item_4": "Synchronisieren Sie Kommentare von Jira mit BugShot",
+				"list_item_5": "Ändern Sie den BugShot-Status nach Abschluss in Jira"
+			},
+			"subheader": "Verbinden Sie dieses Projekt mit Ihrem Jira-Konto"
+		},
+		"overview": "Überblick"
+	},
+	"user_settings": {
+		"advanced_page": {
+			"cancel_changes": "Änderungen verwerfen",
+			"notifications": {
+				"cant_be_changed": "(kann nicht geändert werden)",
+				"custom_notifications": "Benutzerdefinierte Benachrichtigungen",
+				"custom_notifications_options": {
+					"custom_notifications_assigned_to_bug": "Einem Fehler zugeordnet",
+					"custom_notifications_daily_summary": "Tägliche Zusammenfassung",
+					"custom_notifications_implementation_approval_form_received": "Genehmigungsbericht erhalten",
+					"custom_notifications_invitation_received": "Einladung erhalten",
+					"custom_notifications_report_created": "Genehmigungsbericht erstellt",
+					"custom_notifications_tagged_in_comment": "Im Kommentar markiert"
+				},
+				"description": "Sie können hier ändern, wie und worüber Sie benachrichtigt werden",
+				"email_notifications": "E-Mail Benachrichtigungen",
+				"header": "@:Benachrichtigung",
+				"in_app_notifications": "In App-Benachrichtigungen",
+				"notify_on_everything": "Benachrichtigen Sie mich über alles",
+				"what_email_to_receive": "Welche E-Mail-Benachrichtigungen Sie erhalten möchten",
+				"where_to_receive": "Wo Sie Benachrichtigungen erhalten"
+			},
+			"save_changes": "@:Änderungen speichern"
+		},
+		"main_page": {
+			"advanced": {
+				"advanced_and_notifications": "Erweiterte Einstellungen und Benachrichtigungen",
+				"edit_settings": "Einstellungen bearbeiten",
+				"notify_on": "Benachrichtigen Sie mich am",
+				"notify_option": {
+					"custom": "Brauch",
+					"everything": "Alles"
+				},
+				"show_ui_elements": "UI-Elemente anzeigen",
+				"ui_elements_options": {
+					"all_elements": "Alle Elemente"
+				}
+			}
+		}
+	},
 
 	" ": "",
 	"": ""
