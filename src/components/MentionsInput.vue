@@ -116,11 +116,16 @@ const options = reactive({
 const taggedUsers = ref([] as number[]);
 
 const handleInput = (event: any) => {
-	// textContent takes into consideration the hidden characters so that the limit includes the overhead for saving
-	messageLength.value = event.target.textContent.length;
-	emit("update:modelValue", event.target.textContent);
+	const textContentArray = [] as string[];
+	createText({ value: textContentArray, node: event.target });
+	textContentArray.shift();
+	const textContent = textContentArray.join("");
 
-	if (message.value == undefined) return;
+	// textContent takes into consideration the hidden characters so that the limit includes the overhead for saving
+	messageLength.value = textContent.length;
+	emit("update:modelValue", textContent);
+
+	if (!message.value) return;
 
 	const tagNodes = message.value.querySelectorAll("span[value].comment-tag");
 	taggedUsers.value = [];
@@ -130,6 +135,40 @@ const handleInput = (event: any) => {
 	});
 
 	emit("update:users", taggedUsers.value);
+};
+
+/**
+ * Function to create text from a given node and its children
+ *
+ * @param {Object} param - Object parameter.
+ * @param {string[]} param.value - Array that accumulates the text content.
+ * @param {Node} param.node - The current node from which to extract the text content.
+ */
+const createText = ({ value, node }: { value: string[]; node: Node }) => {
+	// If either the value array or the node do not exist, stop the function
+	if (!node || !value) return;
+
+	// If the current node is a line break and has a sibling node, add a new line to the value array
+	if (node.nodeName === "BR" && node.nextSibling) value.push("\n");
+
+	// If the current node is a DIV,
+	if (node.nodeName === "DIV") {
+		// Add a new line to the value array
+		value.push("\n");
+
+		// If the current node has child nodes,
+		if (node.childNodes)
+			// For each child node,
+			node.childNodes.forEach((childNode) => {
+				// If the child node exists, recursively call createText with the current value array and the child node
+				if (childNode) createText({ value, node: childNode });
+			});
+	}
+	// If the current node is not a DIV and has non-empty text content,
+	else if (node.textContent && node.textContent != "") {
+		// Add the text content to the value array
+		value.push(node.textContent);
+	}
 };
 
 onMounted(() => {
