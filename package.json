@@ -17,6 +17,7 @@
 		"@unocss/reset": "^0.58.5",
 		"@vueuse/core": "^10.8.0",
 		"axios": "^1.6.7",
+		"bowser": "^2.11.0",
 		"detect-browser": "^5.3.0",
 		"pinia": "^2.1.7",
 		"pusher-js": "^8.3.0",
