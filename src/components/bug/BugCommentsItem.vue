@@ -101,6 +101,7 @@ const highlightedComment = computed(() => {
 			margin: 0 0.5rem;
 			max-width: 75%;
 			overflow-wrap: anywhere;
+			white-space: pre-line;
 
 			&::before {
 				border-width: 0.6rem;

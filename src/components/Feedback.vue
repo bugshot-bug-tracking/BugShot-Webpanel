@@ -114,9 +114,8 @@
 
 <script setup lang="ts">
 import axios from "axios";
+import Bowser from "bowser";
 import { useAuthStore } from "~/stores/auth";
-import getBrowser from "~/util/getBrowser";
-import getOS from "~/util/getOS";
 import toBase64 from "~/util/toBase64";
 
 const { t } = useI18n();
@@ -152,7 +151,7 @@ const submit = async () => {
 	try {
 		loadingModal.show = true;
 
-		let browser = getBrowser();
+		const bowser = Bowser.getParser(window.navigator.userAgent);
 
 		let att_list = await Promise.all(
 			formData.attachments.map(async (x) => ({
@@ -165,8 +164,8 @@ const submit = async () => {
 			designation: formData.designation,
 			description: formData.description,
 			url: window.location.href,
-			operating_system: getOS(),
-			browser: `${browser.name} ${browser.version}`,
+			operating_system: `${bowser.getOSName()} ${bowser.getOS().versionName}`,
+			browser: `${bowser.getBrowserName()} ${bowser.getBrowserVersion().split(".")[0]}`,
 			selector: formData.email,
 			resolution: `${window.screen.width} x ${window.screen.height}`,
 			attachments: att_list,

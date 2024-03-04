@@ -515,6 +515,7 @@
 	"column_title": "Column title",
 	"want_to_delete_this_bug": "Are you sure you want to delete this bug?",
 	"archiving_in": "Archiving in",
+	"no_bugs_archived": "No bugs archived",
 	"messages": {
 		"organization_created": "Organization created!",
 		"organization_updated": "Organization updated!",

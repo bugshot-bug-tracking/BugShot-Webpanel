@@ -515,6 +515,7 @@
 	"column_title": "Spaltentitel",
 	"want_to_delete_this_bug": "Bist du dir sicher, dass du diesen Bug löschen möchtest?",
 	"archiving_in": "Archiviert in",
+	"no_bugs_archived": "Keine Bugs archiviert",
 	"messages": {
 		"organization_created": "Organisation wurde erstellt!",
 		"organization_updated": "Organisation wurde aktualisiert!",
@@ -551,7 +552,8 @@
 		"token_created": "Token erfolgreich erstellt!",
 		"token_updated": "Token erfolgreich geändert!",
 		"token_deleted": "Token erfolgreich entfernt!",
-		"error": "Es gab einen Fehler, bitte versuchen Sie es später erneut."
+		"error": "Es gab einen Fehler, bitte versuchen Sie es später erneut.",
+		"group_moved": "Gruppe wurde umgezogen!"
 	},
 	"rules": {
 		"designation_required": "Fehlername erforderlich!"
@@ -828,7 +830,6 @@
 	},
 	"dont_show_again": "Nicht mehr anzeigen",
 	"applications": "Anwendungen",
-	"regenerate_token": "Token neu generieren",
 	"copy": "Kopieren",
 
 	"legal": {
@@ -838,6 +839,136 @@
 
 	"assignee": "Beauftragter",
 	"filter": "Filter",
+
+	"extra": {
+		"integrations": {
+			"atlassian": {
+				"errors": {
+					"500": "Bitte versuchen Sie es später noch einmal",
+					"access_denied": "Zugriff abgelehnt",
+					"invalid_state": "Ungültiger Status",
+					"no_state": "Kein gültiger Status",
+					"not_authenticated": "nicht authentifiziert",
+					"token_mismatch": "Keine übereinstimmende Token"
+				}
+			}
+		}
+	},
+	"group_options": {
+		"move_group": "Gruppe verschieben",
+		"select_organization": "Organisation auswählen",
+		"select_target_organization": "Wählen Sie die Zielorganisation"
+	},
+	"navigation_sidebar": {
+		"resource_options": {
+			"move_group": "@:group_options.move_group"
+		}
+	},
+	"project_integrations": {
+		"configurations": "Konfigurationen",
+		"connect": "Verbinden",
+		"disconnect": "Trennen",
+		"integration": "Integration | \nIntegrationen",
+		"jira": {
+			"button": "Jira",
+			"config": {
+				"label": {
+					"jira_project": "Jira-Projekt",
+					"jira_site": "Jira-Site",
+					"optional_jira_epic": "Optional - Jira Epic zuweisen"
+				},
+				"options": {
+					"bugs_from_jira": {
+						"description": "Wenn ein neuer Vorgang in Jira erstellt wird, wird ein entsprechender Task in Bugshot erstellt.",
+						"header": "Erstellen Sie automatisch einen Task in Bugshot"
+					},
+					"bugs_to_jira": {
+						"description": "Wenn in BugShot ein Task erstellt wird, wird auch ein entsprechender Vorgang in Jira erstellt.",
+						"header": "Erstellen Sie automatisch einen Vorgang in Jira"
+					},
+					"comments_from_jira": {
+						"description": "Wenn ein Kommentar zu einem Vorgang in Jira hinzugefügt wird, wird dieser auch zum entsprechenden Task in BugShot hinzugefügt.",
+						"header": "Synchronisieren Sie Kommentare von Jira zu BugShot"
+					},
+					"comments_to_jira": {
+						"description": "Wenn ein Kommentar zu einem Task in BugShot hinzugefügt wird, wird dieser auch zum entsprechenden Vorgang in Jira hinzugefügt.",
+						"header": "Synchronisieren Sie Kommentare von BugShot mit Jira"
+					},
+					"update_status_from": {
+						"description": "Wenn ein Vorgang in Jira abgeschlossen wird, wird der entsprechende BugShot Task in eine neue Spalte (Status) verschoben.",
+						"header": "Aktualisieren Sie den BugShot-Status nach Abschluss in Jira"
+					},
+					"update_status_to": {
+						"description": "Wenn ein Vorgang in BugShot abgeschlossen wird, wird der entsprechende Vorgang in Jira als abgeschlossen markiert.",
+						"header": "Aktualisieren Sie den Jira-Status nach Abschluss in BugShot"
+					}
+				},
+				"placeholder": {
+					"jira_epic": "Epic",
+					"jira_project": "Projekt"
+				},
+				"please_select_project": "Bitte wählen Sie ein Projekt aus",
+				"please_select_site_first": "Bitte wählen Sie eine Seite aus",
+				"project_select_placeholder": "Projekt auswählen",
+				"site_select_placeholder": "Standort auswählen"
+			},
+			"disconnect": "Sind Sie sicher, dass Sie dieses Projekt von Jira trennen möchten?",
+			"header": "Jira-Integration",
+			"overview": {
+				"line_1": "Verbinden Sie Ihr Jira Software-Konto, um Ihre BugShot-Tasks automatisch zu synchronisieren",
+				"list_header": "Unsere Jira-Integration ermöglicht Ihnen:",
+				"list_item_1": "Erstellen Sie eine Aufgabe in Jira",
+				"list_item_2": "Synchronisieren Sie Aufgabenaktualisierungen mit Jira",
+				"list_item_3": "Erstellen Sie Kommentare in Jira",
+				"list_item_4": "Synchronisieren Sie Kommentare von Jira zu BugShot",
+				"list_item_5": "Ändern Sie den BugShot-Status nach Abschluss in Jira"
+			},
+			"subheader": "Verbinden Sie dieses Projekt mit Ihrem Jira-Konto"
+		},
+		"overview": "Überblick"
+	},
+	"user_settings": {
+		"main_page": {
+			"advanced": {
+				"advanced_and_notifications": "Erweiterte Einstellungen und Benachrichtigungen",
+				"show_ui_elements": "UI-Elemente anzeigen",
+				"ui_elements_options": {
+					"all_elements": "Alle Elemente"
+				},
+				"notify_on": "Benachrichtigen Sie mich am",
+				"notify_option": {
+					"custom": "Individuell",
+					"everything": "Alles"
+				},
+				"edit_settings": "Einstellungen bearbeiten"
+			}
+		},
+		"advanced_page": {
+			"notifications": {
+				"header": "@:notification",
+				"description": "Sie können hier ändern, wie und worüber Sie benachrichtigt werden",
+
+				"where_to_receive": "Wo Sie Benachrichtigungen erhalten",
+				"in_app_notifications": "In-App Benachrichtigungen",
+				"cant_be_changed": "(kann nicht geändert werden)",
+				"email_notifications": "E-Mail Benachrichtigungen",
+
+				"what_email_to_receive": "Welche E-Mail-Benachrichtigungen Sie erhalten möchten",
+				"notify_on_everything": "Benachrichtigen Sie mich über alles",
+				"custom_notifications": "Benutzerdefinierte Benachrichtigungen",
+				"custom_notifications_options": {
+					"custom_notifications_assigned_to_bug": "Einem Task zugeordnet",
+					"custom_notifications_daily_summary": "Tägliche Zusammenfassung",
+					"custom_notifications_implementation_approval_form_received": "Genehmigungsbericht erhalten",
+					"custom_notifications_invitation_received": "Einladung erhalten",
+					"custom_notifications_report_created": "Genehmigungsbericht erstellt",
+					"custom_notifications_tagged_in_comment": "Im Kommentar markiert"
+				}
+			},
+			"save_changes": "@:save_changes",
+			"cancel_changes": "Änderungen verwerfen"
+		}
+	},
 
 	" ": "",
 	"": ""
