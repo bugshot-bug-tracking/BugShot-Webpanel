@@ -7,7 +7,9 @@
 		<img src="/src/assets/animations/error_bug.gif" alt="error" />
 	</div>
 
-	<n-empty v-else-if="(bugs?.length ?? 0) < 1" m-a size="huge"> No archived bugs {{}} </n-empty>
+	<n-empty v-else-if="(bugs?.length ?? 0) < 1" m-a size="huge">
+		{{ t("no_bugs_archived") }}
+	</n-empty>
 
 	<article v-else>
 		<n-scrollbar>
@@ -32,6 +34,8 @@
 import { useArchivedBugStore } from "~/stores/archivedBug";
 import { useBugStore } from "~/stores/bug";
 import { useReportsStore } from "~/stores/reports";
+
+const { t } = useI18n();
 
 const store = useReportsStore();
 const bugStore = useArchivedBugStore();

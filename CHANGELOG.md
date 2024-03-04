@@ -1,3 +1,17 @@
+#### 1.16.2 (2024-03-04)
+
+##### Chores
+
+* **Texts:**  add auto translated DE texts (cdd98cec)
+
+##### New Features
+
+* **Usability:**  save new line characters on bug comments (be535a0f)
+
+##### Refactors
+
+* **Package:**  replace old way of getting os and browser info with Bowser package (547c6f2d)
+
 #### 1.16.1 (2024-02-26)
 
 ##### Bug Fixes
