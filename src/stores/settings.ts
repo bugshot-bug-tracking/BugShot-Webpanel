@@ -9,7 +9,7 @@ export const useSettingsStore = defineStore("settings", {
 
 		preferredOrganization: useStorage("pref-org", ""),
 
-		extensionInstallHint: useStorage("extensionInstallHint", 1),
+		extensionInstallHint: useStorage("extInstallHint", ""),
 	}),
 
 	actions: {
@@ -47,9 +47,8 @@ export const useSettingsStore = defineStore("settings", {
 			this.preferredOrganization = id;
 		},
 
-		setExtensionInstallHint(value: boolean) {
-			console.log(value);
-			this.extensionInstallHint = value ? 1 : 0;
+		setExtensionInstallHint(value: string) {
+			this.extensionInstallHint = value;
 		},
 	},
 
@@ -60,8 +59,14 @@ export const useSettingsStore = defineStore("settings", {
 		getPreferredOrganization: (state) => state.preferredOrganization,
 
 		getExtensionInstallHint: (state) => {
-			if (state.extensionInstallHint === 1) return true;
-			else return false;
+			try {
+				if (state.extensionInstallHint === "") return undefined;
+
+				return new Date(state.extensionInstallHint);
+			} catch (error) {
+				console.log(error);
+				return undefined;
+			}
 		},
 	},
 });

@@ -791,9 +791,12 @@
 		"porject": "Order projects"
 	},
 	"extension_install_hint": {
-		"title": "Missing Out on Additional Features!",
-		"content": "It seems like you haven't installed our extension yet. Head on over to your browser store and get it now to improve your experience!",
-		"action": "Open store"
+		"title": "Discover Our Browser Extension",
+		"content_1": "It appears that you may not be familiar with our browser extension. Don't try to make your life harder, check it out today.",
+		"content_2": "Our extension is readily available on all major platforms!",
+		"detected_browser": "Detected browser:",
+		"wrong_browser": "Wrong browser? Find all available stores {0}",
+		"wrong_browser_0": "here"
 	},
 	"manage_members": {
 		"title": "Manage members",

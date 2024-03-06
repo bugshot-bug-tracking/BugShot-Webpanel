@@ -98,5 +98,10 @@ export const useUserSettingsStore = defineStore("user-settings", {
 				)
 			);
 		},
+
+		getExtensionSuggestSetting: (state) =>
+			state.settings?.find(
+				(setting) => setting.attributes.setting.id === SettingTypes.extension_suggest
+			),
 	},
 });

@@ -180,9 +180,9 @@
 		"install_plugin": "Plugin installieren",
 		"the_apps": "Die Anwendungen",
 		"download_client_app": "Anwendungen herunterladen",
-		"install_ext_chrome": "Holen Sie es für Google Chrome",
+		"install_ext_chrome": "Holen Sie es sich für Google Chrome",
 		"install_ext_firefox": "Holen Sie es sich für Mozilla Firefox",
-		"install_ext_edge": "Holen Sie es sich für  Microsoft Edge",
+		"install_ext_edge": "Holen Sie es sich für Microsoft Edge",
 		"install_ext_safari": "Holen Sie es sich für Safari",
 		"install_app_windows": "Holen Sie es sich für Windows"
 	},
@@ -792,9 +792,12 @@
 		"porject": "Projekte sortieren"
 	},
 	"extension_install_hint": {
-		"title": "Verpassen Sie zusätzliche Funktionen!",
-		"content": "Anscheinend haben Sie unsere Erweiterung noch nicht installiert. \nGehen Sie zu Ihrem Browser-Shop und holen Sie sich ihn jetzt, um Ihr Erlebnis zu verbessern!",
-		"action": "Laden eröffnen"
+		"title": "Entdecken Sie unsere Browser-Erweiterung",
+		"content_1": "Es scheint, dass Sie unsere Browsererweiterung noch nicht kennen. Versuchen Sie nicht, sich das Leben schwer zu machen, probieren Sie sie noch heute aus.",
+		"content_2": "Unsere Erweiterung ist auf allen wichtigen Plattformen verfügbar!",
+		"detected_browser": "Erkannter Browser:",
+		"wrong_browser": "Falscher Browser? Finden Sie alle verfügbaren Shops {0}",
+		"wrong_browser_0": "hier"
 	},
 	"manage_members": {
 		"title": "Mitglieder verwalten",

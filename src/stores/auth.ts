@@ -48,6 +48,8 @@ export const useAuthStore = defineStore("auth", {
 					// 2xx
 					.then((response) => {
 						this.$reset();
+
+						localStorage.clear();
 						return true;
 					})
 					// 4xx, 5xx
@@ -89,6 +91,7 @@ export const useAuthStore = defineStore("auth", {
 				this.$reset();
 				axios.defaults.headers.common["Authorization"] = "";
 				localStorage.removeItem("authToken");
+				localStorage.clear();
 
 				return false;
 			} finally {
