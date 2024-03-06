@@ -1,3 +1,9 @@
+#### 1.16.3 (2024-03-06)
+
+##### New Features
+
+* **Tutorial:**  display message for users without extensions installed (db9aee6e)
+
 #### 1.16.2 (2024-03-04)
 
 ##### Chores
