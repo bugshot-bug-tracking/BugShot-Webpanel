@@ -39,7 +39,7 @@
 				</slot>
 			</template>
 
-			<form class="default-form bs-scroll" @submit.prevent="onSubmit">
+			<form class="default-form" @submit.prevent="onSubmit">
 				<slot name="modal-form"> </slot>
 
 				<n-button

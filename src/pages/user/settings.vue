@@ -32,5 +32,6 @@ section[name="sidebar"] {
 
 section[name="page"] {
 	grid-area: page;
+	overflow: auto;
 }
 </style>

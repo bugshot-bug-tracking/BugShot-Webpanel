@@ -103,78 +103,83 @@
 			</T2Header>
 		</template>
 
-		<TrialBanner mb-0 />
+		<template #main>
+			<TrialBanner mb-0 />
 
-		<div v-if="loading" class="loading">
-			<img src="/src/assets/animations/loading.svg" alt="loading circle" />
-		</div>
+			<div v-if="loading" class="loading">
+				<img src="/src/assets/animations/loading.svg" alt="loading circle" />
+			</div>
 
-		<n-tabs
-			v-else
-			type="bar"
-			v-model:value="currentTab"
-			animated
-			style="max-height: 100%"
-			px-8
-			py-4
-			flex-1
-			min-h-0
-		>
-			<n-tab-pane name="kanban" display-directive="show" flex flex-col>
-				<template #tab>
-					<Icon-Board mr-1 />
+			<n-tabs
+				v-else
+				type="bar"
+				v-model:value="currentTab"
+				animated
+				style="max-height: 100%"
+				px-8
+				py-4
+				flex-1
+				min-h-0
+			>
+				<n-tab-pane name="kanban" display-directive="show" flex flex-col>
+					<template #tab>
+						<Icon-Board mr-1 />
 
-					{{ $t("kanban") }}
-				</template>
+						{{ $t("kanban") }}
+					</template>
 
-				<div class="max-w-100% flex mb-4">
-					<FilterTagList
-						:creators="reportsStore.getFilteredCreatorsData"
-						:assignees="reportsStore.getFilteredAssigneesData"
-						:priorities="reportsStore.filter.priorities"
-						@remove:creator="removeCreatorFromFilter"
-						@remove:assignee="removeAssigneeFromFilter"
-						@remove:priority="removePriorityFromFilter"
+					<div class="max-w-100% flex mb-4">
+						<FilterTagList
+							:creators="reportsStore.getFilteredCreatorsData"
+							:assignees="reportsStore.getFilteredAssigneesData"
+							:priorities="reportsStore.filter.priorities"
+							@remove:creator="removeCreatorFromFilter"
+							@remove:assignee="removeAssigneeFromFilter"
+							@remove:priority="removePriorityFromFilter"
+						/>
+					</div>
+
+					<n-checkbox-group v-model:value="kanbanState.checkList" overflow-auto flex-1>
+						<Kanban
+							:mode="kanbanState.mode"
+							:moveable="store.getProject?.attributes.role?.id !== 3"
+						/>
+					</n-checkbox-group>
+
+					<BugDrawer />
+
+					<BugMoveModal v-model:show="bugMove.show" />
+
+					<ProjectMoveModal
+						v-model:show="projectMove.show"
+						@success="projectMove.redirect"
 					/>
-				</div>
+				</n-tab-pane>
 
-				<n-checkbox-group v-model:value="kanbanState.checkList" overflow-auto flex-1>
-					<Kanban
-						:mode="kanbanState.mode"
-						:moveable="store.getProject?.attributes.role?.id !== 3"
+				<n-tab-pane name="archive" display-directive="if">
+					<template #tab>
+						<Icon-Archive mr-1 />
+
+						{{ $t("archive") }}
+					</template>
+
+					<BugsArchive />
+
+					<ArchiveBugDrawer />
+				</n-tab-pane>
+
+				<template #suffix v-if="currentTab === 'kanban'">
+					<GroupPopselect
+						:button-title="t('filter')"
+						:groups="availableFilters"
+						@update:filter="handleFilterUpdate"
+						mr-4
 					/>
-				</n-checkbox-group>
 
-				<BugDrawer />
-
-				<BugMoveModal v-model:show="bugMove.show" />
-
-				<ProjectMoveModal v-model:show="projectMove.show" @success="projectMove.redirect" />
-			</n-tab-pane>
-
-			<n-tab-pane name="archive" display-directive="if">
-				<template #tab>
-					<Icon-Archive mr-1 />
-
-					{{ $t("archive") }}
+					<KanbanActions />
 				</template>
-
-				<BugsArchive />
-
-				<ArchiveBugDrawer />
-			</n-tab-pane>
-
-			<template #suffix v-if="currentTab === 'kanban'">
-				<GroupPopselect
-					:button-title="t('filter')"
-					:groups="availableFilters"
-					@update:filter="handleFilterUpdate"
-					mr-4
-				/>
-
-				<KanbanActions />
-			</template>
-		</n-tabs>
+			</n-tabs>
+		</template>
 	</T2Page>
 </template>
 

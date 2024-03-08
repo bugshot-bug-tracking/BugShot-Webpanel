@@ -16,8 +16,8 @@
 			</T3Header>
 		</template>
 
-		<article class="bs-scroll" p-8 content-start>
-			<div class="component-group" max-w-128>
+		<article p-8 content-start>
+			<div class="component-group">
 				<div class="group-header">
 					{{ t("company_settings") }}
 				</div>
@@ -31,7 +31,7 @@
 				</div>
 			</div>
 
-			<div class="component-group" max-w-176 min-w-160>
+			<div class="component-group">
 				<div class="group-header">
 					{{ t("team_members") }}
 				</div>
@@ -124,26 +124,28 @@
 				</div>
 			</div>
 
-			<div v-if="false" class="component-group" max-w-128 :style="{ 'min-height': 'auto' }">
-				<div class="group-header">
-					{{ t("resource_token") }}
+			<div>
+				<div v-if="false" class="component-group">
+					<div class="group-header">
+						{{ t("resource_token") }}
+					</div>
+					<div class="group-content">
+						<ResourceToken :type="'Company'" :id="company.id" />
+					</div>
 				</div>
-				<div class="group-content">
-					<ResourceToken :type="'Company'" :id="company.id" />
-				</div>
-			</div>
 
-			<div class="component-group" max-w-128 :style="{ 'min-height': 'auto' }">
-				<div class="group-header">
-					{{ t("actions") }}
-				</div>
-				<div class="group-content">
-					<div class="delete-project" flex flex-col gap-2 p-6 py-8>
-						<a style="color: var(--bs-red)" underline @click="deleteModal.open">
-							{{ t("delete_company_and_projects") }}?
-						</a>
+				<div class="component-group">
+					<div class="group-header">
+						{{ t("actions") }}
+					</div>
+					<div class="group-content">
+						<div class="delete-project" flex flex-col gap-2 p-6 py-8>
+							<a style="color: var(--bs-red)" underline @click="deleteModal.open">
+								{{ t("delete_company_and_projects") }}?
+							</a>
 
-						<p>({{ t("operation_cant_be_reverted") }})</p>
+							<p>({{ t("operation_cant_be_reverted") }})</p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -281,11 +283,12 @@ const projectOptions = computed(() => {
 
 <style lang="scss">
 article {
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	max-height: 100%;
-	column-gap: 3rem;
+	display: grid;
+	grid-template-columns: 32rem minmax(40rem, 60rem) 32rem;
+	grid-auto-flow: dense;
+	padding: 2.5rem;
+	padding-right: 1.5rem;
+	gap: 3rem;
 }
 
 .manage-button {
@@ -320,10 +323,6 @@ article {
 			color: #f23838;
 		}
 	}
-}
-
-.component-group {
-	min-height: 80vh;
 }
 
 .project-select {

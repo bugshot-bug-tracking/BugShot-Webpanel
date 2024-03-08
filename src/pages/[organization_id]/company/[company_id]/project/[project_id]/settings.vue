@@ -16,8 +16,8 @@
 			</T3Header>
 		</template>
 
-		<article class="bs-scroll" p-8 content-start>
-			<div class="component-group" max-w-128>
+		<article p-8 content-start>
+			<div class="component-group">
 				<div class="group-header">
 					{{ $t("project_settings") }}
 				</div>
@@ -33,7 +33,7 @@
 				</div>
 			</div>
 
-			<div class="component-group" max-w-176 min-w-160>
+			<div class="component-group">
 				<div class="group-header">
 					{{ $t("team_members") }}
 				</div>
@@ -100,36 +100,38 @@
 				</div>
 			</div>
 
-			<div class="component-group min-h-a!">
-				<div class="group-header">
-					{{ $t("project_page.settings.guest_token") }}
+			<div>
+				<div class="component-group">
+					<div class="group-header">
+						{{ $t("project_page.settings.guest_token") }}
+					</div>
+
+					<div class="group-content">
+						<GuestToken />
+					</div>
 				</div>
 
-				<div class="group-content">
-					<GuestToken />
+				<div class="component-group">
+					<div class="group-header">
+						{{ $t("resource_token") }}
+					</div>
+					<div class="group-content">
+						<ResourceToken :type="'Project'" :id="project.id" />
+					</div>
 				</div>
-			</div>
 
-			<div class="component-group" max-w-128 :style="{ 'min-height': 'auto' }">
-				<div class="group-header">
-					{{ $t("resource_token") }}
-				</div>
-				<div class="group-content">
-					<ResourceToken :type="'Project'" :id="project.id" />
-				</div>
-			</div>
+				<div class="component-group">
+					<div class="group-header">
+						{{ $t("actions") }}
+					</div>
+					<div class="group-content">
+						<div class="delete-project" flex flex-col gap-2 p-6 py-8>
+							<a style="color: var(--bs-red)" underline @click="deleteModal.open">
+								{{ t("delete_project_and_bugs") }}?
+							</a>
 
-			<div class="component-group" max-w-128 :style="{ 'min-height': 'auto' }">
-				<div class="group-header">
-					{{ $t("actions") }}
-				</div>
-				<div class="group-content">
-					<div class="delete-project" flex flex-col gap-2 p-6 py-8>
-						<a style="color: var(--bs-red)" underline @click="deleteModal.open">
-							{{ t("delete_project_and_bugs") }}?
-						</a>
-
-						<p>({{ t("operation_cant_be_reverted") }})</p>
+							<p>({{ t("operation_cant_be_reverted") }})</p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -252,11 +254,12 @@ const suggestOptions = computed(() => {
 
 <style lang="scss" scoped>
 article {
-	display: flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	max-height: 100%;
-	column-gap: 3rem;
+	display: grid;
+	grid-template-columns: 32rem minmax(40rem, 60rem) 32rem;
+	grid-auto-flow: dense;
+	padding: 2.5rem;
+	padding-right: 1.5rem;
+	gap: 3rem;
 }
 
 .manage-button {
@@ -291,10 +294,6 @@ article {
 			color: #f23838;
 		}
 	}
-}
-
-.component-group {
-	min-height: 80vh;
 }
 </style>
 
