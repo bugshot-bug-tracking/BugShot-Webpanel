@@ -57,6 +57,11 @@ import { SettingTypes, SettingValues } from "~/models/Setting";
 import { useSettingsStore } from "~/stores/settings";
 import { useUserSettingsStore } from "~/stores/userSettings";
 
+import ChromeLogo from "~/assets/icons/chrome-logo.svg";
+import FirefoxLogo from "~/assets/icons/firefox-logo.svg";
+import EdgeLogo from "~/assets/icons/edge-logo.svg";
+import SafariLogo from "~/assets/icons/safari-logo.svg";
+
 const { t } = useI18n();
 
 const store = useSettingsStore();
@@ -128,28 +133,28 @@ const detectedStore = computed(() => {
 				key: "chrome",
 				label: t("extension.install_ext_chrome"),
 				link: import.meta.env.VITE_EXTENSION_CHROME,
-				image: "/src/assets/icons/chrome-logo.svg",
+				image: ChromeLogo,
 			};
 		case "firefox":
 			return {
 				key: "firefox",
 				label: t("extension.install_ext_firefox"),
 				link: import.meta.env.VITE_EXTENSION_FIREFOX,
-				image: "/src/assets/icons/firefox-logo.svg",
+				image: FirefoxLogo,
 			};
 		case "edge":
 			return {
 				key: "edge",
 				label: t("extension.install_ext_edge"),
 				link: import.meta.env.VITE_EXTENSION_EDGE,
-				image: "/src/assets/icons/edge-logo.svg",
+				image: EdgeLogo,
 			};
 		case "safari":
 			return {
 				key: "safari",
 				label: t("extension.install_ext_safari"),
 				link: import.meta.env.VITE_EXTENSION_SAFARI,
-				image: "/src/assets/icons/safari-logo.svg",
+				image: SafariLogo,
 			};
 	}
 });
