@@ -404,19 +404,20 @@ const form = reactive({
 	},
 	rules: {
 		email: [
-			{
-				required: true,
-				trigger: "blur",
-				type: "email",
-				message: t("please_input_a_valid_email"),
-			},
+			// {
+			// 	required: true,
+			// 	trigger: "blur",
+			// 	type: "email",
+			// 	message: t("please_input_a_valid_email"),
+			// },
 			{
 				async validator(rule: FormItemRule, value: string) {
 					try {
 						await store.checkEmail(value);
 					} catch (error) {
 						console.log(error);
-						throw new Error(t("register_page.errors.email_taken"));
+						// throw new Error(t("register_page.errors.email_taken"));
+						throw new Error(error.response.data.message);
 					}
 
 					return true;
@@ -546,6 +547,16 @@ const resendEmail = async () => {
 const transitionDirection = ref<
 	"slide-up" | "slide-down" | "slide-left" | "slide-right" | "rotate-left" | "rotate-right"
 >("slide-up");
+
+const route = useRoute();
+onMounted(() => {
+	const urlEmail = route.query["email"];
+	if (urlEmail) {
+		nextTick(() => {
+			form.data.email = atob(urlEmail as string);
+		});
+	}
+});
 </script>
 
 <style scoped lang="scss">
