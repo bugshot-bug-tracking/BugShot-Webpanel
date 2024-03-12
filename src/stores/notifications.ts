@@ -49,14 +49,14 @@ export const useNotificationStore = defineStore("notification", {
 
 				await useMainStore().initOrganizations();
 
-				switch (invite.data.invitable?.toLowerCase()) {
+				switch (invite.data.invited_to_type?.toLowerCase()) {
 					case "project":
 						this.router.push({
 							name: "project",
 							params: {
-								organization_id: invite.data.organization_id,
-								company_id: invite.data.company_id,
-								project_id: invite.data.project_id,
+								organization_id: invite.data.invitable.organization_id,
+								company_id: invite.data.invitable.company_id,
+								project_id: invite.data.invitable.project_id,
 							},
 						});
 						break;
@@ -65,8 +65,8 @@ export const useNotificationStore = defineStore("notification", {
 						this.router.push({
 							name: "company",
 							params: {
-								organization_id: invite.data.organization_id,
-								company_id: invite.data.company_id,
+								organization_id: invite.data.invitable.organization_id,
+								company_id: invite.data.invitable.company_id,
 							},
 						});
 						break;
@@ -75,7 +75,7 @@ export const useNotificationStore = defineStore("notification", {
 						this.router.push({
 							name: "organization-home",
 							params: {
-								organization_id: invite.data.organization_id,
+								organization_id: invite.data.invitable.organization_id,
 							},
 						});
 						break;
