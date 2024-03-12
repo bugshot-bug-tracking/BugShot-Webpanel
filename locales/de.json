@@ -973,6 +973,17 @@
 		}
 	},
 
+	"comment_visibility": {
+		"intern": "Intern",
+		"public": "Öffentlich",
+		"internal_tooltip": "Interne Kommentare können nur von Mitgliedern mit einer Rolle von 'Team' oder höher eingesehen werden.",
+		"public_tooltip": "Öffentliche Kommentare sind nur für 'Client'-Mitglieder sichtbar."
+	},
+
+	"notifications": {
+		"delete_notification": "Benachrichtigung löschen"
+	},
+
 	" ": "",
 	"": ""
 }

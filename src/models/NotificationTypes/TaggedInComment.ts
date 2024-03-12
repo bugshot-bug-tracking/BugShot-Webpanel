@@ -7,7 +7,7 @@ export interface TaggedInComment {
 		project_id: string;
 		bug_id: string;
 		comment_id: string;
-
+		is_internal: boolean;
 		created_at: string;
 	};
 }

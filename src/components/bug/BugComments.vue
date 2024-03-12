@@ -22,12 +22,50 @@
 
 	<n-card v-else class="n-card-container">
 		<template #header>
-			<n-h4 m-0>
-				{{ t("comment", 2) }}
-			</n-h4>
+			<div flex justify-between>
+				<n-h4 m-0>
+					{{ t("comment", 2) }}
+				</n-h4>
+
+				<n-tooltip
+					v-if="canChangeVisibility"
+					:content-style="{
+						'font-size': '0.875rem',
+						'max-width': '40ch',
+					}"
+				>
+					<template #trigger>
+						<n-button
+							round
+							ghost
+							:type="commentsMode === 'internal' ? 'primary' : 'success'"
+							size="small"
+							icon-placement="right"
+							@click="changeCommentsMode"
+						>
+							<template #icon>
+								<IconEarthSlashed v-if="commentsMode === 'internal'" />
+								<IconEarth v-else />
+							</template>
+
+							{{
+								commentsMode === "internal"
+									? t("comment_visibility.internal")
+									: t("comment_visibility.public")
+							}}
+						</n-button>
+					</template>
+
+					{{
+						commentsMode === "internal"
+							? t("comment_visibility.internal_tooltip")
+							: t("comment_visibility.public_tooltip")
+					}}
+				</n-tooltip>
+			</div>
 		</template>
 
-		<n-scrollbar flex-1 h-88>
+		<n-scrollbar flex-1 h-88 pr-4>
 			<ul>
 				<li v-for="comment of list" :key="comment.id">
 					<BugCommentsItem
@@ -39,6 +77,12 @@
 							last_name: comment.attributes.user.last_name,
 						}"
 						:owner="authStore.user?.id === comment.attributes.user.id"
+						:show-visibility-change="canChangeVisibility"
+						:visibility="comment.attributes.is_internal"
+						@change-visibility="
+							changeCommentVisibility(comment.id, comment.attributes.is_internal)
+						"
+						mb-4
 					/>
 				</li>
 
@@ -68,7 +112,7 @@
 				/>
 
 				<n-button
-					type="success"
+					:type="commentsMode === 'internal' ? 'primary' : 'success'"
 					strong
 					:loading="lock"
 					:disabled="lock || message.length > 250 || disabled"
@@ -86,6 +130,7 @@
 <script setup lang="ts">
 import { Comment } from "~/models/Comment";
 import { useAuthStore } from "~/stores/auth";
+import { useBugStore } from "~/stores/bug";
 import { useProjectStore } from "~/stores/project";
 
 const props = defineProps({
@@ -109,6 +154,31 @@ const props = defineProps({
 		required: false,
 		default: [],
 	},
+	mode: {
+		type: String as PropType<"internal" | "public">,
+		required: false,
+		default: undefined,
+	},
+});
+
+const emit = defineEmits<{
+	(event: "update:mode", value: "internal" | "public"): void;
+}>();
+
+const modeRef = ref<"internal" | "public">("internal");
+
+const commentsMode = computed({
+	get() {
+		return modeRef.value;
+	},
+	set(value) {
+		if (props.mode != undefined) emit("update:mode", value);
+		else modeRef.value = value;
+	},
+});
+
+watch(props, (newValue) => {
+	if (newValue.mode && newValue.mode != modeRef.value) modeRef.value = newValue.mode;
 });
 
 const authStore = useAuthStore();
@@ -121,13 +191,15 @@ const scrollToEnd = () => {
 	end.value?.scrollIntoView({ behavior: "smooth" });
 };
 watchEffect(() => {
-	if (props.list.length > 2) nextTick(scrollToEnd);
+	if (props.loading === false && props.list.length > 2) nextTick(scrollToEnd);
 });
 
 const lock = ref(false);
 const onSubmit = async () => {
-	console.log("message: ", message.value);
-	console.log("users: ", taggedUsers.value);
+	// console.log("message: ", message.value);
+	// console.log("users: ", taggedUsers.value);
+	// console.log("commentMode: ", commentsMode.value);
+
 	if (props.submit == undefined || lock.value === true) return;
 
 	try {
@@ -145,10 +217,27 @@ const onSubmit = async () => {
 
 const message = ref("");
 const taggedUsers = ref([]);
+
+const canChangeVisibility = computed(() => {
+	const projectRole = projectStore.getUserRole?.id;
+
+	if (projectRole == undefined || projectRole === 4) return false;
+
+	return true;
+});
+
+const changeCommentsMode = () => {
+	if (commentsMode.value === "internal") commentsMode.value = "public";
+	else commentsMode.value = "internal";
+};
+
+const changeCommentVisibility = async (comment_id: string, is_internal: boolean) => {
+	try {
+		await useBugStore().changeCommentVisibility({ id: comment_id, is_internal: !is_internal });
+	} catch (error) {
+		console.log(error);
+	}
+};
 </script>
 
-<style scoped lang="scss">
-ul {
-	padding-right: 1rem;
-}
-</style>
+<style scoped lang="scss"></style>

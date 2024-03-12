@@ -973,6 +973,17 @@
 	"assignee": "Assignee",
 	"filter": "Filter",
 
+	"comment_visibility": {
+		"internal": "Internal",
+		"public": "Public",
+		"internal_tooltip": "Internal comments can be viewed only by members with a role of 'Team' or higher.",
+		"public_tooltip": "Public comments are the only ones visible to 'Client' members."
+	},
+
+	"notifications": {
+		"delete_notification": "Delete notification"
+	},
+
 	" ": "",
 	"": ""
 }

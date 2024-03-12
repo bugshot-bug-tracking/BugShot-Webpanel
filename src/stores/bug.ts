@@ -38,6 +38,8 @@ export const useBugStore = defineStore("bug", {
 		comments: undefined as Comment[] | undefined,
 
 		assignees: undefined as BugUserRole[] | undefined,
+
+		commentsMode: "internal" as "internal" | "public",
 	}),
 
 	actions: {
@@ -51,9 +53,16 @@ export const useBugStore = defineStore("bug", {
 					return await useHookStore().hookBug();
 				}
 
+				if (this.router.currentRoute.value.query["i"] === "y")
+					this.commentsMode = "internal";
+				else if (this.router.currentRoute.value.query["i"] === "n")
+					this.commentsMode = "public";
+
 				this.loading = true;
 
 				this.active = true;
+
+				if ((useProjectStore().getUserRole?.id ?? 4) === 4) this.commentsMode = "public";
 
 				await this.fetchBug(bug_id, status_id);
 
@@ -153,6 +162,9 @@ export const useBugStore = defineStore("bug", {
 				let comments = (
 					await axios.get(`bugs/${this.bug.id}/comments`, {
 						signal: this.controller.signal,
+						headers: {
+							"only-internals": `${this.commentsMode === "internal" ? true : false}`,
+						},
 					})
 				).data.data as Comment[];
 
@@ -347,13 +359,41 @@ export const useBugStore = defineStore("bug", {
 		async createComment({ message, users }: { message: string; users: { user_id: number }[] }) {
 			if (!this.bug) throw "Bug not set";
 
-			await axios.post(`bugs/${this.bug.id}/comments`, {
-				bug_id: this.bug.id,
-				content: message,
-				tagged: users,
-			});
+			const response = (
+				await axios.post(`bugs/${this.bug.id}/comments`, {
+					bug_id: this.bug.id,
+					content: message,
+					tagged: users,
+					is_internal: this.commentsMode === "internal" ? true : false,
+				})
+			).data.data;
 
-			this.fetchComments();
+			this.comments?.push(response);
+		},
+
+		async changeCommentVisibility({ id, is_internal }: { id: string; is_internal: boolean }) {
+			if (!this.bug) throw "Bug not set";
+
+			const commentIndex = this.comments?.findIndex((comment) => comment.id === id);
+
+			if (
+				commentIndex == undefined ||
+				commentIndex === -1 ||
+				this.comments == undefined ||
+				this.comments[commentIndex] == undefined
+			)
+				throw "The comment does not exist";
+
+			const response = (
+				await axios.put(`bugs/${this.bug.id}/comments/${id}`, {
+					content: this.comments[commentIndex].attributes.content,
+					is_internal,
+				})
+			).data.data as Comment;
+
+			this.comments.splice(commentIndex, 1);
+
+			return response;
 		},
 	},
 

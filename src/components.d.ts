@@ -66,6 +66,8 @@ declare module 'vue' {
     IconClipboardCopy: typeof import('./components/icons/Icon-Clipboard-Copy.vue')['default']
     IconClipboardError: typeof import('./components/icons/Icon-Clipboard-Error.vue')['default']
     IconClipboardSuccess: typeof import('./components/icons/Icon-Clipboard-Success.vue')['default']
+    IconEarth: typeof import('./components/icons/Icon-Earth.vue')['default']
+    IconEarthSlashed: typeof import('./components/icons/Icon-Earth-Slashed.vue')['default']
     IconEdit: typeof import('./components/icons/Icon-Edit.vue')['default']
     IconEmail: typeof import('./components/icons/Icon-Email.vue')['default']
     IconFileMove: typeof import('./components/icons/Icon-FileMove.vue')['default']
