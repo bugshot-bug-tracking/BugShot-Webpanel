@@ -103,5 +103,12 @@ export const useUserSettingsStore = defineStore("user-settings", {
 			state.settings?.find(
 				(setting) => setting.attributes.setting.id === SettingTypes.extension_suggest
 			),
+
+		getGeneralMailSetting: (state) =>
+			state.settings?.find(
+				(setting) =>
+					setting.attributes.setting.id ===
+					SettingTypes.user_settings_mail_select_notifications
+			),
 	},
 });

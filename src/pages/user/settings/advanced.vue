@@ -12,6 +12,7 @@
 				</div>
 				<div class="group-content">
 					<NotificationSettings
+						v-model:email-enabled="emailEnabled"
 						v-model:selection="selection"
 						:custom_options="currentCustomOptions.cloned"
 						@change:custom_options="handleCustomOptionsChange"
@@ -41,6 +42,31 @@ const { t } = useI18n();
 const store = useUserSettingsStore();
 
 const resetFlag = ref(false);
+
+const emailEnabledRef = ref<boolean | undefined>(undefined);
+
+const defaultEmailEnabled = computed(() => {
+	switch (store.getGeneralMailSetting?.attributes.value?.id) {
+		default:
+		case SettingValues.activated:
+			return true;
+		case SettingValues.deactivated:
+			return false;
+	}
+});
+
+const emailEnabled = computed({
+	get() {
+		if (emailEnabledRef.value != undefined && resetFlag.value === false) {
+			return emailEnabledRef.value;
+		}
+
+		return defaultEmailEnabled.value;
+	},
+	set(value) {
+		emailEnabledRef.value = value;
+	},
+});
 
 const defaultSelection = computed(() => {
 	switch (store.getNotificationsSelection?.attributes.value?.id) {
@@ -91,6 +117,20 @@ const handleSubmit = async () => {
 	const queue = [];
 
 	if (
+		store.getGeneralMailSetting &&
+		emailEnabledRef.value != undefined &&
+		emailEnabledRef.value !== defaultEmailEnabled.value
+	) {
+		const settingValue = emailEnabledRef.value
+			? SettingValues.activated
+			: SettingValues.deactivated;
+
+		queue.push(
+			store.changeSetting(store.getGeneralMailSetting.attributes.setting.id, settingValue)
+		);
+	}
+
+	if (
 		store.getNotificationsSelection &&
 		selectionRef.value &&
 		selectionRef.value !== defaultSelection.value
@@ -137,6 +177,7 @@ const handleSubmit = async () => {
 const handleCancel = () => {
 	resetFlag.value = true;
 
+	emailEnabledRef.value = emailEnabled.value;
 	selectionRef.value = selection.value;
 	optionChanges.value = new Map();
 
