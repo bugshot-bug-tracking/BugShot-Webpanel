@@ -61,6 +61,7 @@ import ChromeLogo from "~/assets/icons/chrome-logo.svg";
 import FirefoxLogo from "~/assets/icons/firefox-logo.svg";
 import EdgeLogo from "~/assets/icons/edge-logo.svg";
 import SafariLogo from "~/assets/icons/safari-logo.svg";
+import { useAuthStore } from "~/stores/auth";
 
 const { t } = useI18n();
 
@@ -103,6 +104,9 @@ onMounted(() => {
 
 		// Hide modal if the extension is already installed.
 		if (document.body.classList.contains("88857183727984")) return (modal.show = false);
+
+		// Hide modal if the user doesn't have an active license.
+		if (useAuthStore().isLicensed === false) return (modal.show = false);
 
 		// Show modal if no local record of showing exists.
 		if (!store.getExtensionInstallHint) return (modal.show = true);
