@@ -40,16 +40,16 @@ export const useNotificationStore = defineStore("notification", {
 
 		async acceptInvitation(invite: InvitationReceived, notification_id: string) {
 			try {
-				let response = (
-					await axios.get(`users/${this.user?.id}/invitations/${invite.data.id}/accept`)
-				).data.data;
+				let response = await axios.get(
+					`users/${this.user?.id}/invitations/${invite.data.id}/accept`
+				);
 
 				this.message.info(this.i18n.t("messages.invitation_accepted"));
 				invite.status = "accepted";
 
 				await useMainStore().initOrganizations();
 
-				switch (invite.data.invited_to_type?.toLowerCase()) {
+				switch (response.status === 200 && invite.data.invited_to_type?.toLowerCase()) {
 					case "project":
 						this.router.push({
 							name: "project",
@@ -83,7 +83,7 @@ export const useNotificationStore = defineStore("notification", {
 
 				await this.deleteNotification(notification_id);
 
-				return response;
+				return response.data.data;
 			} catch (error) {
 				console.log(error);
 

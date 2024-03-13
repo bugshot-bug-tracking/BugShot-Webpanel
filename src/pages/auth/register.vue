@@ -414,7 +414,7 @@ const form = reactive({
 				async validator(rule: FormItemRule, value: string) {
 					try {
 						await store.checkEmail(value);
-					} catch (error) {
+					} catch (error: any) {
 						console.log(error);
 						// throw new Error(t("register_page.errors.email_taken"));
 						throw new Error(error.response.data.message);
