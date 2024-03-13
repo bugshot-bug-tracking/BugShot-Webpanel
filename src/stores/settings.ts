@@ -4,8 +4,8 @@ import { useStorage } from "@vueuse/core";
 export const useSettingsStore = defineStore("settings", {
 	state: () => ({
 		organizationsOrder: useStorage("organizationsOrder", 11),
-		companiesOrder: useStorage("companiesOrder", 11),
-		projectsOrder: useStorage("projectsOrder", 11),
+		companiesOrder: useStorage("companiesOrder", 31),
+		projectsOrder: useStorage("projectsOrder", 31),
 
 		preferredOrganization: useStorage("pref-org", ""),
 
