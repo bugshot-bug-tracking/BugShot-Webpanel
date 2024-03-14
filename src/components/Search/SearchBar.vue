@@ -30,6 +30,7 @@
 						<n-list-item
 							style="padding: 0; margin: 0.5rem 0"
 							:class="`order-${orders.bugs}`"
+							class="first-of-type:mt-0!"
 						>
 							<n-spin :show="aggregateData.bugsLoading">
 								<SearchBarGroup
@@ -66,6 +67,23 @@
 							</n-spin>
 						</n-list-item>
 					</n-list>
+
+					<div text-end mb-2 mx-2>
+						<n-button
+							size="small"
+							:title="$t('search_modifiers.archived')"
+							text
+							@click="handleModifierChange({ archived: !modifiers.archived })"
+							:disabled="loading"
+						>
+							<template #icon>
+								<IconArchive
+									size="1rem"
+									:color="modifiers.archived ? 'var(--bs-green)' : 'currentColor'"
+								/>
+							</template>
+						</n-button>
+					</div>
 				</div>
 			</n-card>
 		</div>
@@ -89,6 +107,9 @@ const props = defineProps({
 });
 
 const searchTerm = ref("");
+const modifiers = reactive({
+	archived: false,
+});
 const loading = computed(
 	() =>
 		aggregateData.bugsLoading || aggregateData.projectsLoading || aggregateData.companiesLoading
@@ -163,6 +184,7 @@ const executeBugSearch = async () => {
 				headers: {
 					resource: "bugs",
 					"search-string": searchTerm.value,
+					"include-archived": modifiers.archived,
 				},
 			})
 		).data;
@@ -186,6 +208,7 @@ const executeProjectSearch = async () => {
 				headers: {
 					resource: "projects",
 					"search-string": searchTerm.value,
+					"include-archived": modifiers.archived,
 				},
 			})
 		).data;
@@ -209,6 +232,7 @@ const executeCompanySearch = async () => {
 				headers: {
 					resource: "companies",
 					"search-string": searchTerm.value,
+					"include-archived": modifiers.archived,
 				},
 			})
 		).data;
@@ -220,6 +244,13 @@ const executeCompanySearch = async () => {
 		console.log(error);
 	} finally {
 		aggregateData.companiesLoading = false;
+	}
+};
+
+const handleModifierChange = (change: { archived?: boolean }) => {
+	if (change.archived != undefined) {
+		modifiers.archived = change.archived;
+		executeSearch();
 	}
 };
 </script>

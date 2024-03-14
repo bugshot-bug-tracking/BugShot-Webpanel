@@ -994,6 +994,10 @@
 
 	"favorite": "Favorit",
 
+	"search_modifiers": {
+		"archived": "Archivierte Daten einbeziehen"
+	},
+
 	" ": "",
 	"": ""
 }
