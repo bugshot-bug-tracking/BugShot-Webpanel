@@ -553,7 +553,8 @@
 		"token_updated": "Token erfolgreich geändert!",
 		"token_deleted": "Token erfolgreich entfernt!",
 		"error": "Es gab einen Fehler, bitte versuchen Sie es später erneut.",
-		"group_moved": "Gruppe wurde umgezogen!"
+		"group_moved": "Gruppe wurde umgezogen!",
+		"settings_updated": "Einstellungen erfolgreich aktualisiert!"
 	},
 	"rules": {
 		"designation_required": "Fehlername erforderlich!"
@@ -967,6 +968,12 @@
 					"custom_notifications_report_created": "Genehmigungsbericht erstellt",
 					"custom_notifications_tagged_in_comment": "Im Kommentar markiert"
 				}
+			},
+			"experimental": {
+				"header": "Experimentelle Merkmale",
+				"disclaimer": "Möchten Sie die experimentellen Funktionen aktivieren? Bitte beachten Sie, dass diese Funktionen gelegentlich nicht perfekt konzipiert sind, aber dennoch funktionieren, oder sie werden zu Testzwecken eingeführt, um Rückmeldungen zu möglichen Problemen zu sammeln.",
+				"disclaimer_2": "Wenn Sie damit einverstanden sind, kreuzen Sie bitte das folgende Kästchen an:",
+				"acknowledgement": "Ich habe den Haftungsausschluss gelesen und möchte die experimentellen Funktionen ausprobieren."
 			},
 			"save_changes": "@:save_changes",
 			"cancel_changes": "Änderungen verwerfen"

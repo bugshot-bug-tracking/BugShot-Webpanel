@@ -110,5 +110,10 @@ export const useUserSettingsStore = defineStore("user-settings", {
 					setting.attributes.setting.id ===
 					SettingTypes.user_settings_mail_select_notifications
 			),
+
+		getBetaUserSetting: (state) =>
+			state.settings?.find(
+				(setting) => setting.attributes.setting.id === SettingTypes.beta_user
+			),
 	},
 });

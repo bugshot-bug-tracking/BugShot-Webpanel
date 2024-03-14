@@ -126,7 +126,7 @@ const localEmailEnabled = computed({
 	},
 	set(value) {
 		emailEnabledRef.value = value;
-		if (props.emailEnabled !== undefined) emit("update:emailEnabled", value);
+		emit("update:emailEnabled", value);
 	},
 });
 

@@ -552,7 +552,8 @@
 		"token_created": "Token created successfully!",
 		"token_updated": "Token changed successfully!",
 		"token_deleted": "Token removed successfully!",
-		"error": "There's been an error, please try again later."
+		"error": "There's been an error, please try again later.",
+		"settings_updated": "Settings updated successfully!"
 	},
 	"rules": {
 		"designation_required": "Bug name required!"
@@ -948,6 +949,12 @@
 					"custom_notifications_implementation_approval_form_received": "Approval report received",
 					"custom_notifications_report_created": "Approval report created"
 				}
+			},
+			"experimental": {
+				"header": "Experimental features",
+				"disclaimer": "Would you like to activate the experimental features? Please note, these features may occasionally be imperfectly designed but remain operational, or they are introduced for trial aims to accumulate feedback on potential issues.",
+				"disclaimer_2": "If you are comfortable with this, please check the box below:",
+				"acknowledgement": "I have read the disclaimer and I want to try the experimental features."
 			},
 			"save_changes": "@:save_changes",
 			"cancel_changes": "Cancel changes"
