@@ -553,7 +553,8 @@
 		"token_updated": "Token changed successfully!",
 		"token_deleted": "Token removed successfully!",
 		"error": "There's been an error, please try again later.",
-		"settings_updated": "Settings updated successfully!"
+		"settings_updated": "Settings updated successfully!",
+		"token_favorite_updated": "Favorite token updated!"
 	},
 	"rules": {
 		"designation_required": "Bug name required!"
@@ -990,6 +991,8 @@
 	"notifications": {
 		"delete_notification": "Delete notification"
 	},
+
+	"favorite": "Favorite",
 
 	" ": "",
 	"": ""

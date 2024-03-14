@@ -85,6 +85,7 @@ declare module 'vue' {
     IconSettings: typeof import('./components/icons/Icon-Settings.vue')['default']
     IconShare: typeof import('./components/icons/Icon-Share.vue')['default']
     IconSort: typeof import('./components/icons/Icon-Sort.vue')['default']
+    IconStar: typeof import('./components/icons/Icon-Star.vue')['default']
     IconTabular: typeof import('./components/icons/Icon-Tabular.vue')['default']
     IconVerticalDots: typeof import('./components/icons/Icon-VerticalDots.vue')['default']
     IconX: typeof import('./components/icons/Icon-X.vue')['default']

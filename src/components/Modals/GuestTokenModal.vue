@@ -12,9 +12,11 @@
 							<TokenManageCard
 								:description="token.attributes.description"
 								:token="token.attributes.access_token"
+								:is_favorite="token.attributes.is_favorite"
 								:loading="tokenCardLoading === token.id"
 								@change="handleChange(token, $event)"
 								@delete="handleDelete(token)"
+								@favorite="handleFavorite(token, $event)"
 							/>
 						</n-list-item>
 					</n-list>
@@ -106,6 +108,11 @@ const props = defineProps({
 		required: false,
 		default: undefined,
 	},
+	onFavorite: {
+		type: Function as PropType<{ (token: AccessToken, value: boolean): Promise<void> }>,
+		required: false,
+		default: undefined,
+	},
 });
 
 const emit = defineEmits(["update:show"]);
@@ -180,6 +187,22 @@ const handleDelete = async (token: AccessToken) => {
 			await props.onDelete(token);
 
 			message.success(t("messages.token_deleted"));
+		}
+	} catch (error) {
+		message.error(t("messages.error"));
+	} finally {
+		tokenCardLoading.value = "";
+	}
+};
+
+const handleFavorite = async (token: AccessToken, value: boolean) => {
+	try {
+		tokenCardLoading.value = token.id;
+
+		if (props.onFavorite) {
+			await props.onFavorite(token, value);
+
+			message.success(t("messages.token_favorite_updated"));
 		}
 	} catch (error) {
 		message.error(t("messages.error"));

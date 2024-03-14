@@ -6,11 +6,23 @@
 			</template>
 
 			<template #header-extra>
-				<n-dropdown trigger="click" :options="options">
-					<n-button text>
-						<IconVerticalDots size="1.25rem" cursor-pointer />
+				<div flex gap-4>
+					<n-button text @click="emit('favorite', !is_favorite)">
+						<IconStar
+							size="1.5rem"
+							cursor-pointer
+							:filled="is_favorite"
+							color="var(--bs-yellow)"
+							:title="t('favorite')"
+						/>
 					</n-button>
-				</n-dropdown>
+
+					<n-dropdown trigger="click" :options="options">
+						<n-button text>
+							<IconVerticalDots size="1.25rem" cursor-pointer />
+						</n-button>
+					</n-dropdown>
+				</div>
 			</template>
 
 			<n-input type="text" :placeholder="t('token')" :value="token" readonly>
@@ -94,9 +106,18 @@ const props = defineProps({
 		type: Boolean,
 		default: false,
 	},
+	is_favorite: {
+		required: false,
+		type: Boolean,
+		default: false,
+	},
 });
 
-const emit = defineEmits<{ (event: "delete"): void; (event: "change", value: string): void }>();
+const emit = defineEmits<{
+	(event: "delete"): void;
+	(event: "change", value: string): void;
+	(event: "favorite", value: boolean): void;
+}>();
 
 const { message } = useDiscreteApi();
 const { t } = useI18n();

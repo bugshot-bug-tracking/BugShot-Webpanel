@@ -554,7 +554,8 @@
 		"token_deleted": "Token erfolgreich entfernt!",
 		"error": "Es gab einen Fehler, bitte versuchen Sie es später erneut.",
 		"group_moved": "Gruppe wurde umgezogen!",
-		"settings_updated": "Einstellungen erfolgreich aktualisiert!"
+		"settings_updated": "Einstellungen erfolgreich aktualisiert!",
+		"token_favorite_updated": "Favoritentoken aktualisiert!"
 	},
 	"rules": {
 		"designation_required": "Fehlername erforderlich!"
@@ -990,6 +991,8 @@
 	"notifications": {
 		"delete_notification": "Benachrichtigung löschen"
 	},
+
+	"favorite": "Favorit",
 
 	" ": "",
 	"": ""
