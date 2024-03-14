@@ -1,6 +1,6 @@
 <template>
 	<div
-		v-if="useFlagsStore().isSpecialUser"
+		v-if="useFlagsStore().canAccessBetaFeatures"
 		:style="{
 			background: color,
 		}"

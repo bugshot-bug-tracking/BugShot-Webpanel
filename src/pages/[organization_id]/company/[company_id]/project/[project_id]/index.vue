@@ -195,7 +195,6 @@ import IconTabular from "~/components/icons/Icon-Tabular.vue";
 import IconFolderMove from "~/components/icons/Icon-FolderMove.vue";
 import IconFileMove from "~/components/icons/Icon-FileMove.vue";
 import IconBolt from "~/components/icons/Icon-Bolt.vue";
-import { useFlagsStore } from "~/stores/flags";
 import { User } from "~/models/User";
 
 const props = defineProps({
@@ -386,7 +385,7 @@ const more = computed(() => ({
 			label: t("project_integrations.integration", 2),
 			key: "project_integrations",
 			icon: () => h(IconBolt),
-			show: isAuthorized && useFlagsStore().isSpecialUser,
+			show: isAuthorized,
 			props: {
 				onClick: () => {
 					router.push({

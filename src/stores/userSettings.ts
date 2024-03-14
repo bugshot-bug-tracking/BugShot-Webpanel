@@ -90,7 +90,7 @@ export const useUserSettingsStore = defineStore("user-settings", {
 							  },
 					})) ?? [];
 
-			if (useFlagsStore().isSpecialUser) return list;
+			if (useFlagsStore().isAdmin) return list;
 
 			return list.filter((entry) =>
 				this.i18n.te(
