@@ -43,14 +43,5 @@ export const useFlagsStore = defineStore("flags", {
 			// If none of the above conditions are met, return false
 			return false;
 		},
-
-		isSpecialUser: (state) => {
-			if (
-				state.user?.id &&
-				(state.user?.attributes.admin || state.users?.some((u) => u === state.user?.id))
-			)
-				return true;
-			return false;
-		},
 	},
 });
