@@ -25,7 +25,9 @@
 						</template>
 					</n-button>
 				</template>
-				<n-text style="font-size: 0.875rem"> Delete notification </n-text>
+				<n-text style="font-size: 0.875rem">
+					{{ $t("notifications.delete_notification") }}
+				</n-text>
 			</n-tooltip>
 		</div>
 	</div>

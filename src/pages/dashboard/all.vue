@@ -31,66 +31,60 @@
 					</T3Header>
 				</template>
 
-				<n-scrollbar flex-1>
-					<TrialBanner />
+				<TrialBanner />
 
-					<GroupContainer v-for="company of companiesWithProjects" :key="company.id">
-						<template #top-left>
-							<RouterLink
-								:to="{
-									name: 'company',
-									params: {
-										organization_id: company.attributes.organization.id,
-										company_id: company.id,
-									},
-								}"
-							>
-								{{ company.attributes.designation }}
-							</RouterLink>
-						</template>
-
-						<template #top-right>
-							{{
-								t("last_update", {
-									time: timeToText(company.attributes.updated_at),
-								})
-							}}
-						</template>
-
-						<ProjectCard
-							v-for="project of companyProjects(company)"
-							:key="project.id"
-							:title="project.attributes.designation"
-							:lastEdit="project.attributes.updated_at"
-							:image="project.attributes.image?.attributes.url"
-							:color="project.attributes.color_hex"
-							:progress="{
-								done: project.attributes.bugsDone,
-								total: project.attributes.bugsTotal,
-							}"
-							:actions="
-								(getOrganizationRole(company)?.id ?? 9) < 2 ||
-								(company.attributes.role?.id ?? 9) < 2 ||
-								(project.attributes.role?.id ?? 9) < 2
-							"
-							@open="
-								goToProject(
-									company.attributes.organization.id,
-									company.id,
-									project.id
-								)
-							"
-							:to_settings="{
-								name: 'project-settings',
+				<GroupContainer v-for="company of companiesWithProjects" :key="company.id">
+					<template #top-left>
+						<RouterLink
+							:to="{
+								name: 'company',
 								params: {
 									organization_id: company.attributes.organization.id,
 									company_id: company.id,
-									project_id: project.id,
 								},
 							}"
-						/>
-					</GroupContainer>
-				</n-scrollbar>
+						>
+							{{ company.attributes.designation }}
+						</RouterLink>
+					</template>
+
+					<template #top-right>
+						{{
+							t("last_update", {
+								time: timeToText(company.attributes.updated_at),
+							})
+						}}
+					</template>
+
+					<ProjectCard
+						v-for="project of companyProjects(company)"
+						:key="project.id"
+						:title="project.attributes.designation"
+						:lastEdit="project.attributes.updated_at"
+						:image="project.attributes.image?.attributes.url"
+						:color="project.attributes.color_hex"
+						:progress="{
+							done: project.attributes.bugsDone,
+							total: project.attributes.bugsTotal,
+						}"
+						:actions="
+							(getOrganizationRole(company)?.id ?? 9) < 2 ||
+							(company.attributes.role?.id ?? 9) < 2 ||
+							(project.attributes.role?.id ?? 9) < 2
+						"
+						@open="
+							goToProject(company.attributes.organization.id, company.id, project.id)
+						"
+						:to_settings="{
+							name: 'project-settings',
+							params: {
+								organization_id: company.attributes.organization.id,
+								company_id: company.id,
+								project_id: project.id,
+							},
+						}"
+					/>
+				</GroupContainer>
 			</T2Page>
 		</section>
 

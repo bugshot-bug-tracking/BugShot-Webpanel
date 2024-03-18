@@ -25,6 +25,7 @@
 
 	.grid-page {
 		grid-area: page;
+		overflow: auto;
 	}
 }
 

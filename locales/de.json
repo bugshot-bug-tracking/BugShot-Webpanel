@@ -180,9 +180,9 @@
 		"install_plugin": "Plugin installieren",
 		"the_apps": "Die Anwendungen",
 		"download_client_app": "Anwendungen herunterladen",
-		"install_ext_chrome": "Holen Sie es für Google Chrome",
+		"install_ext_chrome": "Holen Sie es sich für Google Chrome",
 		"install_ext_firefox": "Holen Sie es sich für Mozilla Firefox",
-		"install_ext_edge": "Holen Sie es sich für  Microsoft Edge",
+		"install_ext_edge": "Holen Sie es sich für Microsoft Edge",
 		"install_ext_safari": "Holen Sie es sich für Safari",
 		"install_app_windows": "Holen Sie es sich für Windows"
 	},
@@ -553,7 +553,9 @@
 		"token_updated": "Token erfolgreich geändert!",
 		"token_deleted": "Token erfolgreich entfernt!",
 		"error": "Es gab einen Fehler, bitte versuchen Sie es später erneut.",
-		"group_moved": "Gruppe wurde umgezogen!"
+		"group_moved": "Gruppe wurde umgezogen!",
+		"settings_updated": "Einstellungen erfolgreich aktualisiert!",
+		"token_favorite_updated": "Favoritentoken aktualisiert!"
 	},
 	"rules": {
 		"designation_required": "Fehlername erforderlich!"
@@ -792,9 +794,12 @@
 		"porject": "Projekte sortieren"
 	},
 	"extension_install_hint": {
-		"title": "Verpassen Sie zusätzliche Funktionen!",
-		"content": "Anscheinend haben Sie unsere Erweiterung noch nicht installiert. \nGehen Sie zu Ihrem Browser-Shop und holen Sie sich ihn jetzt, um Ihr Erlebnis zu verbessern!",
-		"action": "Laden eröffnen"
+		"title": "Entdecken Sie unsere Browser-Erweiterung",
+		"content_1": "Es scheint, dass Sie unsere Browsererweiterung noch nicht kennen. Versuchen Sie nicht, sich das Leben schwer zu machen, probieren Sie sie noch heute aus.",
+		"content_2": "Unsere Erweiterung ist auf allen wichtigen Plattformen verfügbar!",
+		"detected_browser": "Erkannter Browser:",
+		"wrong_browser": "Falscher Browser? Finden Sie alle verfügbaren Shops {0}",
+		"wrong_browser_0": "hier"
 	},
 	"manage_members": {
 		"title": "Mitglieder verwalten",
@@ -965,9 +970,32 @@
 					"custom_notifications_tagged_in_comment": "Im Kommentar markiert"
 				}
 			},
+			"experimental": {
+				"header": "Experimentelle Funktionen",
+				"disclaimer": "Möchten Sie die experimentellen Funktionen aktivieren? Bitte beachten Sie, dass diese Funktionen gelegentlich nicht perfekt konzipiert sind, aber dennoch funktionieren, oder sie werden zu Testzwecken eingeführt, um Feedback zu möglichen Problemen zu sammeln.",
+				"disclaimer_2": "Wenn Sie zustimmen, kreuzen Sie bitte das folgende Kästchen an:",
+				"acknowledgement": "Ich habe den Haftungsausschluss gelesen und möchte die experimentellen Funktionen ausprobieren."
+			},
 			"save_changes": "@:save_changes",
 			"cancel_changes": "Änderungen verwerfen"
 		}
+	},
+
+	"comment_visibility": {
+		"intern": "Intern",
+		"public": "Öffentlich",
+		"internal_tooltip": "Interne Kommentare können nur von Mitgliedern mit einer Rolle von 'Team' oder höher eingesehen werden.",
+		"public_tooltip": "Öffentliche Kommentare sind nur für 'Client'-Mitglieder sichtbar."
+	},
+
+	"notifications": {
+		"delete_notification": "Benachrichtigung löschen"
+	},
+
+	"favorite": "Favorit",
+
+	"search_modifiers": {
+		"archived": "Archivierte Daten einbeziehen"
 	},
 
 	" ": "",

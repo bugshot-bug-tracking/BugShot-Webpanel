@@ -4,43 +4,45 @@
 			{{ invitationMode ? $t("pending_invitations") : $t("member_list") }}
 		</n-h4>
 
-		<ul class="user-list">
-			<li class="user-item" v-for="(item, index) in list" :key="index">
-				<div class="user-email">
-					{{
-						invitationMode
-							? (item as Invitation).attributes.target_email
-							: (item as User).attributes.email
-					}}
-				</div>
+		<n-scrollbar max-h-25vh>
+			<ul class="user-list">
+				<li class="user-item" v-for="(item, index) in list" :key="index">
+					<div class="user-email">
+						{{
+							invitationMode
+								? (item as Invitation).attributes.target_email
+								: (item as User).attributes.email
+						}}
+					</div>
 
-				<div
-					class="user-role"
-					v-if="!invitationMode && (item.type === 'User') && (item as User).role"
-				>
-					{{ (item as User).role?.attributes.designation }}
-				</div>
-				<div v-else />
-
-				<div class="actions">
-					<img
-						src="/src/assets/icons/edit.svg"
-						alt="edit"
-						class="edit black-to-gray"
-						@click="emit('edit', item as User)"
-						v-if="!invitationMode"
-					/>
+					<div
+						class="user-role"
+						v-if="!invitationMode && (item.type === 'User') && (item as User).role"
+					>
+						{{ (item as User).role?.attributes.designation }}
+					</div>
 					<div v-else />
 
-					<img
-						src="/src/assets/icons/close_1.svg"
-						alt="delete"
-						class="delete black-to-gray"
-						@click="emit('delete', item)"
-					/>
-				</div>
-			</li>
-		</ul>
+					<div class="actions">
+						<img
+							src="/src/assets/icons/edit.svg"
+							alt="edit"
+							class="edit black-to-gray"
+							@click="emit('edit', item as User)"
+							v-if="!invitationMode"
+						/>
+						<div v-else />
+
+						<img
+							src="/src/assets/icons/close_1.svg"
+							alt="delete"
+							class="delete black-to-gray"
+							@click="emit('delete', item)"
+						/>
+					</div>
+				</li>
+			</ul>
+		</n-scrollbar>
 
 		<a v-if="!invitationMode">
 			<img

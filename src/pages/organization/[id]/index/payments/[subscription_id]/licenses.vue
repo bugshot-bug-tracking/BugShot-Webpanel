@@ -20,7 +20,7 @@
 			</n-button>
 		</header>
 
-		<n-list v-if="showUsed" class="bs-scroll s-purple" pr-2 :show-divider="false" flex flex-col>
+		<n-list v-if="showUsed" :show-divider="false" flex flex-col>
 			<template #header v-if="false">
 				<div flex justify-between px-2>
 					<n-checkbox @update:checked="selectAll">
@@ -91,7 +91,7 @@
 			<n-empty v-else size="large" :description="$t('no licenses_assigned')" m-a> </n-empty>
 		</n-list>
 
-		<n-list v-else class="bs-scroll s-purple" pr-2 :show-divider="false">
+		<n-list v-else :show-divider="false">
 			<n-list-item v-for="lic in available_licenses" :key="lic.id">
 				<LicenseCard
 					:license_name="getLicenseName(lic)"

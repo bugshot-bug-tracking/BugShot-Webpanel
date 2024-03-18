@@ -5,8 +5,10 @@
 		</div>
 
 		<div class="main">
-			<slot>
-				<slot name="main" />
+			<slot name="main">
+				<n-scrollbar x-scrollable>
+					<slot />
+				</n-scrollbar>
 			</slot>
 		</div>
 	</div>
@@ -39,6 +41,8 @@
 		overflow: auto;
 		display: flex;
 		flex-direction: column;
+		max-width: 100%;
+		max-height: 100%;
 	}
 }
 </style>

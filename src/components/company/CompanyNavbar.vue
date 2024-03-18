@@ -14,7 +14,7 @@
 			<Icon-Edit
 				size="0.875rem"
 				color="var(--bs-gray)"
-				v-if="useFlagsStore().isSpecialUser"
+				v-if="useFlagsStore().canAccessBetaFeatures"
 				@click="startEditTerm"
 				ml-2
 				button
@@ -338,7 +338,7 @@ const more = (org: Organization, company: Company, proj: Project) => {
 				label: t("project_integrations.integration", 2),
 				key: "project_integrations",
 				icon: () => h(IconBolt),
-				show: isAuthorized && useFlagsStore().isSpecialUser,
+				show: isAuthorized,
 				props: {
 					onClick: () => {
 						router.push({

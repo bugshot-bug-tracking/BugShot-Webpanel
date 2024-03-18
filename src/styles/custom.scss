@@ -30,6 +30,7 @@
 	--bs-gray-light: #f8f8fc;
 	--bs-gray-middle: #d8dbef;
 	--bs-gray: #9ba5d7;
+	--bs-gray-dark: #7781b1;
 	--bs-filter-gray: brightness(0) saturate(1) invert(73%) sepia(14%) saturate(897%)
 		hue-rotate(194deg) brightness(90%) contrast(86%);
 
@@ -178,51 +179,6 @@
 	&.disabled {
 		// filter: grayscale(1);
 		cursor: default;
-	}
-}
-
-.bs-scroll {
-	overflow: auto;
-	overflow-y: auto;
-	scrollbar-gutter: stable;
-
-	scrollbar-width: thin;
-
-	scrollbar-color: hsl(263, 80%, 83%) hsl(0, 0%, 95%);
-
-	/* width */
-	&::-webkit-scrollbar {
-		width: 0.5rem;
-		height: 0.5rem;
-	}
-
-	/* Track */
-	&::-webkit-scrollbar-track {
-		background: #f1f1f1;
-	}
-
-	/* Handle */
-	&::-webkit-scrollbar-thumb {
-		border-radius: 0.5rem;
-
-		background: hsl(263, 80%, 83%);
-	}
-
-	/* Handle on hover */
-	&::-webkit-scrollbar-thumb:hover {
-		background: hsl(263, 80%, 73%);
-	}
-
-	&.s-green {
-		scrollbar-color: hsl(158, 80%, 47%) hsl(240, 100%, 95%);
-
-		&::-webkit-scrollbar-thumb {
-			background: hsl(158, 80%, 47%);
-		}
-
-		&::-webkit-scrollbar-thumb:hover {
-			background: hsl(158, 80%, 37%);
-		}
 	}
 }
 

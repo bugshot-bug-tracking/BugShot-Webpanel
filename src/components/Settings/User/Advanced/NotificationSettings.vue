@@ -17,13 +17,9 @@
 				</n-text>
 			</n-checkbox>
 
-			<n-checkbox disabled checked>
+			<n-checkbox v-model:checked="localEmailEnabled">
 				<n-text font-bold>
 					{{ t("user_settings.advanced_page.notifications.email_notifications") }}
-				</n-text>
-
-				<n-text ml-1>
-					{{ t("user_settings.advanced_page.notifications.cant_be_changed") }}
 				</n-text>
 			</n-checkbox>
 		</div>
@@ -34,11 +30,12 @@
 
 		<div flex flex-col gap-4>
 			<n-radio-group
+				v-model:value="localSelection"
+				@update:value="emit('update:selection', localSelection)"
+				:disabled="localEmailEnabled === false"
 				flex
 				flex-col
 				gap-4
-				v-model:value="localSelection"
-				@update:value="emit('update:selection', localSelection)"
 			>
 				<n-radio value="all">
 					<n-text font-bold>
@@ -57,6 +54,7 @@
 				v-if="localSelection === 'custom'"
 				v-model:value="customNotifications"
 				@update:value="updateCheckboxValue"
+				:disabled="localEmailEnabled === false"
 				flex
 				flex-col
 				gap-4
@@ -91,6 +89,12 @@ interface CustomNotificationOptions {
 }
 
 const props = defineProps({
+	emailEnabled: {
+		type: Boolean,
+		required: false,
+		default: undefined,
+	},
+
 	selection: {
 		type: String as PropType<"all" | "custom">,
 		required: false,
@@ -104,6 +108,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits<{
+	(event: "update:emailEnabled", value: boolean): void;
 	(event: "update:selection", value: "all" | "custom"): void;
 	(
 		event: "change:custom_options",
@@ -111,8 +116,19 @@ const emit = defineEmits<{
 	): void;
 }>();
 
+const emailEnabledRef = ref<boolean>(true);
 const localSelection = ref<"all" | "custom">("all");
 const localCustomOptions = ref<CustomNotificationOptions[]>([]);
+
+const localEmailEnabled = computed({
+	get() {
+		return emailEnabledRef.value;
+	},
+	set(value) {
+		emailEnabledRef.value = value;
+		emit("update:emailEnabled", value);
+	},
+});
 
 const customNotifications = ref<string[]>([]);
 
@@ -134,6 +150,13 @@ onMounted(() => {
 			.map((option) => option.setting.name);
 	}
 });
+
+watch(
+	() => props.emailEnabled,
+	(newVal, oldValue) => {
+		if (newVal !== undefined && newVal !== oldValue) localEmailEnabled.value = newVal;
+	}
+);
 
 watch(
 	() => props.selection,

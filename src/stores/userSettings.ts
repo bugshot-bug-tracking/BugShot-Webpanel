@@ -90,7 +90,7 @@ export const useUserSettingsStore = defineStore("user-settings", {
 							  },
 					})) ?? [];
 
-			if (useFlagsStore().isSpecialUser) return list;
+			if (useFlagsStore().isAdmin) return list;
 
 			return list.filter((entry) =>
 				this.i18n.te(
@@ -98,5 +98,22 @@ export const useUserSettingsStore = defineStore("user-settings", {
 				)
 			);
 		},
+
+		getExtensionSuggestSetting: (state) =>
+			state.settings?.find(
+				(setting) => setting.attributes.setting.id === SettingTypes.extension_suggest
+			),
+
+		getGeneralMailSetting: (state) =>
+			state.settings?.find(
+				(setting) =>
+					setting.attributes.setting.id ===
+					SettingTypes.user_settings_mail_select_notifications
+			),
+
+		getBetaUserSetting: (state) =>
+			state.settings?.find(
+				(setting) => setting.attributes.setting.id === SettingTypes.beta_user
+			),
 	},
 });

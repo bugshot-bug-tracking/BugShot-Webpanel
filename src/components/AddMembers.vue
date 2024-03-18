@@ -6,39 +6,41 @@
 	<div class="invite-members">
 		<span>{{ $t("add.team_member") }}</span>
 
-		<div class="user-list" v-if="displayList">
-			<div class="user-item" v-for="(item, index) in invites" :key="index">
-				<div class="user-email">{{ item.email }}</div>
+		<n-scrollbar max-h-25vh pr-4 mr--4>
+			<div class="user-list" v-if="displayList">
+				<div class="user-item" v-for="(item, index) in invites" :key="index">
+					<div class="user-email">{{ item.email }}</div>
 
-				<Badge
-					:text="
-						$t(
-							'roles.' +
-								roles
-									.find((x) => x.id === item.role_id)
-									?.attributes.designation.toLocaleLowerCase()
-						)
-					"
-					preset="pf"
-				/>
-
-				<div class="actions">
-					<img
-						src="/src/assets/icons/edit.svg"
-						alt="edit"
-						class="edit black-to-gray"
-						@click="inviteModal.openEdit(item)"
+					<Badge
+						:text="
+							$t(
+								'roles.' +
+									roles
+										.find((x) => x.id === item.role_id)
+										?.attributes.designation.toLocaleLowerCase()
+							)
+						"
+						preset="pf"
 					/>
 
-					<img
-						src="/src/assets/icons/close_1.svg"
-						alt="delete"
-						class="delete black-to-gray"
-						@click="deleteInvite(index)"
-					/>
+					<div class="actions">
+						<img
+							src="/src/assets/icons/edit.svg"
+							alt="edit"
+							class="edit black-to-gray"
+							@click="inviteModal.openEdit(item)"
+						/>
+
+						<img
+							src="/src/assets/icons/close_1.svg"
+							alt="delete"
+							class="delete black-to-gray"
+							@click="deleteInvite(index)"
+						/>
+					</div>
 				</div>
 			</div>
-		</div>
+		</n-scrollbar>
 
 		<img
 			src="/src/assets/icons/add.svg"

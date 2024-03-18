@@ -552,7 +552,9 @@
 		"token_created": "Token created successfully!",
 		"token_updated": "Token changed successfully!",
 		"token_deleted": "Token removed successfully!",
-		"error": "There's been an error, please try again later."
+		"error": "There's been an error, please try again later.",
+		"settings_updated": "Settings updated successfully!",
+		"token_favorite_updated": "Favorite token updated!"
 	},
 	"rules": {
 		"designation_required": "Bug name required!"
@@ -791,9 +793,12 @@
 		"porject": "Order projects"
 	},
 	"extension_install_hint": {
-		"title": "Missing Out on Additional Features!",
-		"content": "It seems like you haven't installed our extension yet. Head on over to your browser store and get it now to improve your experience!",
-		"action": "Open store"
+		"title": "Discover Our Browser Extension",
+		"content_1": "It appears that you may not be familiar with our browser extension. Don't try to make your life harder, check it out today.",
+		"content_2": "Our extension is readily available on all major platforms!",
+		"detected_browser": "Detected browser:",
+		"wrong_browser": "Wrong browser? Find all available stores {0}",
+		"wrong_browser_0": "here"
 	},
 	"manage_members": {
 		"title": "Manage members",
@@ -946,6 +951,12 @@
 					"custom_notifications_report_created": "Approval report created"
 				}
 			},
+			"experimental": {
+				"header": "Experimental features",
+				"disclaimer": "Would you like to activate the experimental features? Please note, these features may occasionally be imperfectly designed but remain operational, or they are introduced for trial aims to accumulate feedback on potential issues.",
+				"disclaimer_2": "If you are comfortable with this, please check the box below:",
+				"acknowledgement": "I have read the disclaimer and I want to try the experimental features."
+			},
 			"save_changes": "@:save_changes",
 			"cancel_changes": "Cancel changes"
 		}
@@ -969,6 +980,23 @@
 
 	"assignee": "Assignee",
 	"filter": "Filter",
+
+	"comment_visibility": {
+		"internal": "Internal",
+		"public": "Public",
+		"internal_tooltip": "Internal comments can be viewed only by members with a role of 'Team' or higher.",
+		"public_tooltip": "Public comments are the only ones visible to 'Client' members."
+	},
+
+	"notifications": {
+		"delete_notification": "Delete notification"
+	},
+
+	"favorite": "Favorite",
+
+	"search_modifiers": {
+		"archived": "Include archived data"
+	},
 
 	" ": "",
 	"": ""

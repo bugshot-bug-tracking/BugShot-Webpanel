@@ -36,6 +36,8 @@ export const useArchivedBugStore = defineStore("archivedBug", {
 		comments: undefined as Comment[] | undefined,
 
 		assignees: undefined as BugUserRole[] | undefined,
+
+		commentsMode: "internal" as "internal" | "public",
 	}),
 
 	actions: {
@@ -46,9 +48,16 @@ export const useArchivedBugStore = defineStore("archivedBug", {
 
 				if (bug_id === undefined) return;
 
+				if (this.router.currentRoute.value.query["i"] === "y")
+					this.commentsMode = "internal";
+				else if (this.router.currentRoute.value.query["i"] === "n")
+					this.commentsMode = "public";
+
 				this.loading = true;
 
 				this.active = true;
+
+				if ((useProjectStore().getUserRole?.id ?? 4) === 4) this.commentsMode = "public";
 
 				await this.fetchBug(bug_id, status_id);
 			} catch (error) {
@@ -83,6 +92,7 @@ export const useArchivedBugStore = defineStore("archivedBug", {
 							"include-screenshots": true,
 							"include-comments": true,
 							"include-bug-users": true,
+							"only-internals": `${this.commentsMode === "internal" ? true : false}`,
 						},
 					})
 				).data.data as Bug;
@@ -144,6 +154,9 @@ export const useArchivedBugStore = defineStore("archivedBug", {
 							signal: this.controller.signal,
 							headers: {
 								"include-comments": true,
+								"only-internals": `${
+									this.commentsMode === "internal" ? true : false
+								}`,
 							},
 						}
 					)

@@ -29,6 +29,11 @@
 						:list="store.getComments"
 						:loading="store.loading && store.loading_comments"
 						:disabled="true"
+						:mode="store.commentsMode"
+						@update:mode="
+							store.commentsMode = $event;
+							store.fetchComments();
+						"
 					/>
 				</div>
 			</n-scrollbar>

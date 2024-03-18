@@ -12,11 +12,18 @@
 
 		<div v-if="list === undefined" />
 
-		<ul class="bs-scroll" v-else-if="list.length > 0">
-			<li class="bs-bb" v-for="item of list" :key="item.id">
-				<slot name="item" v-bind="item"> </slot>
-			</li>
-		</ul>
+		<n-scrollbar v-else-if="list.length > 0" max-h-65vh>
+			<n-list pr-4>
+				<n-list-item
+					v-for="item of list"
+					:key="item.id"
+					style="padding: 0; margin: 0.5rem 0"
+					class="first-of-type:mt-0! last-of-type:mb-0!"
+				>
+					<slot name="item" v-bind="item" />
+				</n-list-item>
+			</n-list>
+		</n-scrollbar>
 
 		<div my-8 class="black-to-gray" v-else>
 			<b>{{ $t("no_resources") }}</b>
@@ -66,17 +73,5 @@ header {
 footer {
 	border-top: 1px solid #eee5fc;
 	padding-top: 0.5rem;
-}
-
-ul {
-	height: 100%;
-}
-
-li {
-	padding-bottom: 0.5rem;
-
-	&:last-of-type {
-		border: unset;
-	}
 }
 </style>
