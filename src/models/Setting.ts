@@ -30,6 +30,10 @@ export enum SettingTypes {
 	"custom_notifications_implementation_approval_form_received" = 7,
 	"custom_notifications_report_created" = 8,
 	"tour_status" = 9,
+	"user_settings_app_notifications" = 10,
+	"user_settings_mail_select_notifications" = 11,
+	"beta_user" = 12,
+	"extension_suggest" = 13,
 }
 
 export enum SettingValues {

@@ -2,6 +2,8 @@
 	<Navbar z-2 />
 
 	<RouterView />
+
+	<SuggestExtension />
 </template>
 
 <style lang="scss">

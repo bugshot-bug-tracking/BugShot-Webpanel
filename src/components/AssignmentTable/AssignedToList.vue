@@ -8,24 +8,28 @@
 			</slot>
 		</header>
 
-		<ul my-4 gap-2 flex flex-wrap max-w-40vw>
-			<li class="item" v-for="item of list" :key="item.id">
-				<slot name="text" v-bind="{ item: item }">{{ item.attributes.designation }}</slot>
+		<n-scrollbar max-h-20>
+			<ul my-4 gap-2 flex flex-wrap>
+				<li class="item" v-for="item of list" :key="item.id">
+					<slot name="text" v-bind="{ item: item }">{{
+						item.attributes.designation
+					}}</slot>
 
-				<img
-					v-if="removable"
-					src="/src/assets/icons/close_2.svg"
-					alt="x"
-					class="black-to-white"
-					cursor-pointer
-					@click="emit('remove', item)"
-					:title="$t('remove')"
-				/>
-			</li>
-		</ul>
+					<img
+						v-if="removable"
+						src="/src/assets/icons/close_2.svg"
+						alt="x"
+						class="black-to-white"
+						cursor-pointer
+						@click="emit('remove', item)"
+						:title="$t('remove')"
+					/>
+				</li>
+			</ul>
+		</n-scrollbar>
 	</section>
 
-	<div v-else text-start class="black-to-gray">
+	<div v-else text-start class="black-to-gray" mb-4>
 		{{ $t(type.toLowerCase() + "_no_resources") }}
 	</div>
 </template>

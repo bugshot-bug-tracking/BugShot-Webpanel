@@ -14,6 +14,7 @@ import { useProjectStore } from "./project";
 import { useReportsStore } from "./reports";
 import { useSettingsStore } from "./settings";
 import { useBugStore } from "./bug";
+import { Comment } from "~/models/Comment";
 
 export const useHookStore = defineStore("hooks", {
 	state: () => ({
@@ -302,10 +303,18 @@ export const useHookStore = defineStore("hooks", {
 				this.bugStore.attachments?.splice(index, 1);
 			});
 
-			channel.listen(".comment.created", (data: any) => {
-				if (!(data && data.data.type === "Comment")) return console.log(data);
+			channel.listen(".comment.created", ({ data }: any) => {
+				if (!(data && data.type === "Comment")) return console.log(data);
 
-				this.bugStore.comments?.push(data.data);
+				if (
+					(data as Comment).attributes.is_internal &&
+					(this.projectStore.getUserRole ?? 4) === 4
+				)
+					if (
+						this.bugStore.commentsMode ===
+						((data as Comment).attributes.is_internal ? "internal" : "public")
+					)
+						this.bugStore.comments?.push(data);
 			});
 		},
 

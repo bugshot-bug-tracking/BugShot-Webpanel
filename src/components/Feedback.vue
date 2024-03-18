@@ -12,92 +12,98 @@
 
 		<div class="feedback-form" v-if="form.show">
 			<div z--1 class="full-overlay"></div>
-			<form @submit.prevent="submit" @reset.prevent="cancel" class="bs-form bs-scroll">
-				<div flex justify-between px-2 style="width: 100%">
-					<n-h2 m-0 text-left font-bold>{{ t("feedback_form") }}</n-h2>
 
-					<img
-						src="/src/assets/icons/close_2.svg"
-						alt="close"
-						@click="form.close"
-						cursor-pointer
-					/>
-				</div>
+			<div class="feedback-modal">
+				<n-scrollbar max-w-50vw max-h-80vh>
+					<form @submit.prevent="submit" @reset.prevent="cancel" class="bs-form">
+						<div flex justify-between px-2 style="width: 100%">
+							<n-h2 m-0 text-left font-bold>{{ t("feedback_form") }}</n-h2>
 
-				<div class="bs-container" gap-4>
-					<div class="bs-input">
-						<label>
-							{{ `${t("email")} (${t("optional")})` }}
-						</label>
+							<img
+								src="/src/assets/icons/close_2.svg"
+								alt="close"
+								@click="form.close"
+								cursor-pointer
+							/>
+						</div>
 
-						<input
-							type="email"
-							:placeholder="t('email')"
-							class="!pr-12"
-							v-model="formData.email"
-							autocomplete="email"
-							minlength="1"
-							maxlength="255"
-						/>
+						<div class="bs-container" gap-4>
+							<div class="bs-input">
+								<label>
+									{{ `${t("email")} (${t("optional")})` }}
+								</label>
 
-						<a class="input-image">
-							<img src="/src/assets/icons/mail.svg" alt="mail" />
-						</a>
-					</div>
+								<input
+									type="email"
+									:placeholder="t('email')"
+									class="!pr-12"
+									v-model="formData.email"
+									autocomplete="email"
+									minlength="1"
+									maxlength="255"
+								/>
 
-					<div class="bs-input">
-						<label>
-							{{ t("title") }}
+								<a class="input-image">
+									<img src="/src/assets/icons/mail.svg" alt="mail" />
+								</a>
+							</div>
 
-							<span>{{ `${formData.designation.length}/250` }}</span>
-						</label>
+							<div class="bs-input">
+								<label>
+									{{ t("title") }}
 
-						<input
-							type="text"
-							:placeholder="t('title')"
-							v-model="formData.designation"
-							minlength="1"
-							maxlength="255"
-							required
-						/>
-					</div>
+									<span>{{ `${formData.designation.length}/250` }}</span>
+								</label>
 
-					<div class="bs-input">
-						<label>
-							{{ t("description") }}
-							<span>{{ `${formData.description.length}/1500` }}</span>
-						</label>
+								<input
+									type="text"
+									:placeholder="t('title')"
+									v-model="formData.designation"
+									minlength="1"
+									maxlength="255"
+									required
+								/>
+							</div>
 
-						<textarea
-							:placeholder="t('description')"
-							v-model="formData.description"
-							maxlength="1500"
-						/>
-					</div>
-				</div>
+							<div class="bs-input">
+								<label>
+									{{ t("description") }}
+									<span>{{ `${formData.description.length}/1500` }}</span>
+								</label>
 
-				<AttachmentsList
-					:list="formData.attachments"
-					:error="attachments.error"
-					@upload="attachments.upload"
-					local
-				>
-					<template #item="{ item, index }">
-						<AttachmentsItem
-							:name="item.name"
-							:id="index"
-							@delete="attachments.delete"
-							:download="false"
-						/>
-					</template>
-				</AttachmentsList>
+								<textarea
+									:placeholder="t('description')"
+									v-model="formData.description"
+									maxlength="1500"
+									class="max-w-100%"
+								/>
+							</div>
+						</div>
 
-				<div class="form-buttons">
-					<button class="bs-btn green" type="submit">
-						{{ t("submit_feedback") }}
-					</button>
-				</div>
-			</form>
+						<AttachmentsList
+							:list="formData.attachments"
+							:error="attachments.error"
+							@upload="attachments.upload"
+							local
+						>
+							<template #item="{ item, index }">
+								<AttachmentsItem
+									:name="item.name"
+									:id="index"
+									@delete="attachments.delete"
+									:download="false"
+								/>
+							</template>
+						</AttachmentsList>
+
+						<div class="form-buttons">
+							<button class="bs-btn green" type="submit">
+								{{ t("submit_feedback") }}
+							</button>
+						</div>
+					</form>
+				</n-scrollbar>
+			</div>
 		</div>
 	</section>
 
@@ -226,11 +232,10 @@ const form = reactive({
 	border-radius: 0.5rem;
 }
 
-form {
+.feedback-modal {
 	position: absolute;
 	bottom: 150%;
 	right: 100%;
-	max-height: 82vh;
 }
 
 .feedback-button {

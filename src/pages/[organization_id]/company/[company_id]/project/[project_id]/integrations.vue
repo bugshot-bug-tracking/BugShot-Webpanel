@@ -25,35 +25,44 @@
 			</T3Header>
 		</template>
 
-		<TrialBanner mb-0 />
+		<template #main>
+			<TrialBanner mb-0 />
 
-		<n-layout>
-			<n-layout position="absolute" has-sider>
-				<n-layout-sider content-style="padding: 1.5rem;" :native-scrollbar="false" bordered>
-					<n-list hoverable clickable>
-						<n-list-item
-							:class="{ active: activeIntegration === 'jira' }"
-							@click="selectIntegration('jira')"
-						>
-							<n-button text gap-2 strong>
-								<template #icon>
-									<Icon-Jira />
-								</template>
+			<n-layout>
+				<n-layout position="absolute" has-sider>
+					<n-layout-sider
+						content-style="padding: 1.5rem;"
+						:native-scrollbar="false"
+						bordered
+					>
+						<n-list hoverable clickable>
+							<n-list-item
+								:class="{ active: activeIntegration === 'jira' }"
+								@click="selectIntegration('jira')"
+							>
+								<n-button text gap-2 strong>
+									<template #icon>
+										<Icon-Jira />
+									</template>
 
-								{{ t("project_integrations.jira.button") }}
-							</n-button>
-						</n-list-item>
-					</n-list>
-				</n-layout-sider>
+									{{ t("project_integrations.jira.button") }}
+								</n-button>
+							</n-list-item>
+						</n-list>
+					</n-layout-sider>
 
-				<n-layout
-					content-style="padding: 1.5rem; display: flex; height: 100%;"
-					:native-scrollbar="false"
-				>
-					<Jira v-if="activeIntegration === 'jira'" :configurable="store.getJiraState" />
+					<n-layout
+						content-style="padding: 1.5rem; display: flex; height: 100%;"
+						:native-scrollbar="false"
+					>
+						<Jira
+							v-if="activeIntegration === 'jira'"
+							:configurable="store.getJiraState"
+						/>
+					</n-layout>
 				</n-layout>
 			</n-layout>
-		</n-layout>
+		</template>
 	</T2Page>
 </template>
 

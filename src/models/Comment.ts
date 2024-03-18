@@ -4,6 +4,7 @@ export interface Comment {
 	attributes: {
 		bug_id: string;
 		content: string;
+		is_internal: boolean;
 		created_at: string;
 		updated_at: string;
 		user: {

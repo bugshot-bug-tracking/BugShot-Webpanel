@@ -41,7 +41,7 @@
 		<NoLicenseOverlay />
 	</main>
 
-	<!-- <SuggestExtension /> -->
+	<SuggestExtension />
 </template>
 
 <script setup lang="ts">

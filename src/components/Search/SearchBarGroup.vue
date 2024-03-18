@@ -15,23 +15,20 @@
 		</div>
 
 		<div v-if="modelValue">
-			<n-list
-				v-if="(modelValue.data.length ?? 0) > 0"
-				:show-divider="false"
-				clickable
-				class="bs-scroll s-purple"
-				max-h-56
-			>
-				<n-list-item
-					v-for="item in modelValue.data"
-					:key="item.id"
-					style="padding: 0; margin: 0.5rem 0"
-				>
-					<SearchBarItem :data="item" :type="type" :searchString="searchString" />
-				</n-list-item>
+			<n-scrollbar v-if="(modelValue.data.length ?? 0) > 0" max-h-56>
+				<n-list :show-divider="false" clickable>
+					<n-list-item
+						v-for="item in modelValue.data"
+						:key="item.id"
+						style="padding: 0; margin: 0.5rem 0"
+						class="first-of-type:mt-0! last-of-type:mb-0!"
+					>
+						<SearchBarItem :data="item" :type="type" :searchString="searchString" />
+					</n-list-item>
 
-				<div ref="bottom" />
-			</n-list>
+					<div ref="bottom" h-1px />
+				</n-list>
+			</n-scrollbar>
 
 			<n-empty v-else :description="$t('no_results')" size="small" my-4 />
 		</div>

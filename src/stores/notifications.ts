@@ -40,23 +40,23 @@ export const useNotificationStore = defineStore("notification", {
 
 		async acceptInvitation(invite: InvitationReceived, notification_id: string) {
 			try {
-				let response = (
-					await axios.get(`users/${this.user?.id}/invitations/${invite.data.id}/accept`)
-				).data.data;
+				let response = await axios.get(
+					`users/${this.user?.id}/invitations/${invite.data.id}/accept`
+				);
 
 				this.message.info(this.i18n.t("messages.invitation_accepted"));
 				invite.status = "accepted";
 
 				await useMainStore().initOrganizations();
 
-				switch (invite.data.invitable?.toLowerCase()) {
+				switch (response.status === 200 && invite.data.invited_to_type?.toLowerCase()) {
 					case "project":
 						this.router.push({
 							name: "project",
 							params: {
-								organization_id: invite.data.organization_id,
-								company_id: invite.data.company_id,
-								project_id: invite.data.project_id,
+								organization_id: invite.data.invitable.organization_id,
+								company_id: invite.data.invitable.company_id,
+								project_id: invite.data.invitable.project_id,
 							},
 						});
 						break;
@@ -65,8 +65,8 @@ export const useNotificationStore = defineStore("notification", {
 						this.router.push({
 							name: "company",
 							params: {
-								organization_id: invite.data.organization_id,
-								company_id: invite.data.company_id,
+								organization_id: invite.data.invitable.organization_id,
+								company_id: invite.data.invitable.company_id,
 							},
 						});
 						break;
@@ -75,7 +75,7 @@ export const useNotificationStore = defineStore("notification", {
 						this.router.push({
 							name: "organization-home",
 							params: {
-								organization_id: invite.data.organization_id,
+								organization_id: invite.data.invitable.organization_id,
 							},
 						});
 						break;
@@ -83,7 +83,7 @@ export const useNotificationStore = defineStore("notification", {
 
 				await this.deleteNotification(notification_id);
 
-				return response;
+				return response.data.data;
 			} catch (error) {
 				console.log(error);
 

@@ -70,6 +70,8 @@
 			</T3Header>
 		</template>
 
+		<TrialBanner />
+
 		<div class="main-empty" v-if="projects.length < 1">
 			<TrialBanner />
 
@@ -84,9 +86,7 @@
 			</section>
 		</div>
 
-		<n-scrollbar flex-1 v-else>
-			<TrialBanner />
-
+		<div v-else>
 			<GroupContainer>
 				<template #top-left>
 					<RouterLink
@@ -130,7 +130,7 @@
 					}"
 				/>
 			</GroupContainer>
-		</n-scrollbar>
+		</div>
 	</T2Page>
 </template>
 

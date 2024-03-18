@@ -271,7 +271,7 @@ const more = (org: Organization, company: Company, proj: Project) => {
 				label: t("project_integrations.integration", 2),
 				key: "project_integrations",
 				icon: () => h(IconBolt),
-				show: isAuthorized && useFlagsStore().isSpecialUser,
+				show: isAuthorized,
 				props: {
 					onClick: () => {
 						router.push({

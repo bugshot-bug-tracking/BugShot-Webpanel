@@ -360,6 +360,26 @@ export const useProjectStore = defineStore("project", {
 
 			if (atIndex != undefined && atIndex !== -1) this.accessTokens.splice(atIndex, 1);
 		},
+
+		async favoriteToken(token: AccessToken, value: boolean) {
+			if (!this.project?.id) throw new Error("No active project!");
+
+			if (!this.accessTokens || this.accessTokens.length < 1) return;
+
+			const response = (
+				await axios.post(`/access-tokens/${token.id}/mark-as-favorite`, { value })
+			).data.data;
+
+			let currentFavorite = this.accessTokens.find(
+				(token) => token.attributes.is_favorite === true
+			);
+
+			if (currentFavorite != undefined) currentFavorite.attributes.is_favorite = false;
+
+			token.attributes.is_favorite = value;
+
+			return response;
+		},
 	},
 
 	getters: {

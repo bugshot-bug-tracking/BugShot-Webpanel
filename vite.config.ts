@@ -70,8 +70,6 @@ export default defineConfig({
 		Unocss(),
 
 		VueI18n({
-			runtimeOnly: true,
-			compositionOnly: true,
 			include: [path.resolve(__dirname, "locales/**")],
 		}),
 	],

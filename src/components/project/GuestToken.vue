@@ -1,40 +1,52 @@
 <template>
 	<div class="bs-container">
-		<div v-if="token">
-			<n-form-item :label="token.attributes.description">
-				<n-input
-					type="text"
-					size="large"
-					:placeholder="t('token')"
-					:value="token.attributes.access_token"
-					readonly
-				>
-					<template #suffix>
-						<Icon-Clipboard-Copy
-							@click="copyToClipboard"
-							color="var(--bs-black)"
-							v-if="copyIconState === 'copy'"
-							:title="t('copy')"
-							cursor-copy
-						/>
-						<Icon-Clipboard-Success
-							color="var(--bs-green-dark)"
-							v-else-if="copyIconState === 'success'"
-							:title="t('success')"
-							cursor-default
-						/>
-						<Icon-Clipboard-Error
-							color="var(--bs-red)"
-							v-else-if="copyIconState === 'error'"
-							:title="t('error')"
-							cursor-default
-						/>
-					</template>
-				</n-input>
-			</n-form-item>
+		<div v-if="token" flex flex-col gap-4>
+			<div flex justify-between flex-1>
+				<n-text>
+					{{ token.attributes.description }}
+				</n-text>
+
+				<IconStar
+					v-if="token.attributes.is_favorite"
+					size="1.5rem"
+					filled
+					color="var(--bs-yellow)"
+					:title="t('favorite')"
+				/>
+			</div>
+
+			<n-input
+				type="text"
+				size="large"
+				:placeholder="t('token')"
+				:value="token.attributes.access_token"
+				readonly
+			>
+				<template #suffix>
+					<IconClipboardCopy
+						@click="copyToClipboard"
+						color="var(--bs-black)"
+						v-if="copyIconState === 'copy'"
+						:title="t('copy')"
+						cursor-copy
+					/>
+					<IconClipboardSuccess
+						color="var(--bs-green-dark)"
+						v-else-if="copyIconState === 'success'"
+						:title="t('success')"
+						cursor-default
+					/>
+					<IconClipboardError
+						color="var(--bs-red)"
+						v-else-if="copyIconState === 'error'"
+						:title="t('error')"
+						cursor-default
+					/>
+				</template>
+			</n-input>
 		</div>
 
-		<n-button type="success" round mx-a @click="modal = true" my-a>
+		<n-button type="success" round mx-a @click="modal = true" mt-6>
 			{{ t("project_page.settings.manage_tokens") }}
 		</n-button>
 	</div>
@@ -45,6 +57,7 @@
 		:onAdd="store.generateToken"
 		:onChange="store.updateToken"
 		:onDelete="store.deleteToken"
+		:onFavorite="store.favoriteToken"
 	/>
 </template>
 
@@ -61,7 +74,9 @@ const token = computed(() => {
 	const list = store.accessTokens;
 	if (list === undefined || list.length < 1) return undefined;
 
-	return list[0];
+	const favorite = list.find((token) => token.attributes.is_favorite === true);
+
+	return favorite ?? list[0];
 });
 
 const copyIconState = ref<"copy" | "success" | "error">("copy");

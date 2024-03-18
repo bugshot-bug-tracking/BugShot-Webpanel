@@ -27,6 +27,11 @@
 							:list="store.getComments"
 							:loading="store.loading || store.loading_comments"
 							:submit="submitComment"
+							:mode="store.commentsMode"
+							@update:mode="
+								store.commentsMode = $event;
+								store.fetchComments();
+							"
 						/>
 					</div>
 				</n-scrollbar>
@@ -256,7 +261,7 @@ const deleteBug = async () => {
 };
 
 const submitComment = async (message: string, users: number[]) => {
-	await store.createComment({ message: message, users: users.map((u) => ({ user_id: u })) });
+	await store.createComment({ message, users: users.map((u) => ({ user_id: u })) });
 };
 
 const clipboardCopy = async () => {

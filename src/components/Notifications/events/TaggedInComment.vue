@@ -46,6 +46,7 @@ const goToComment = () => {
 		query: {
 			b: props.value.data.bug_id,
 			c: props.value.data.comment_id,
+			i: props.value.data.is_internal ? "y" : "n",
 		},
 	});
 };

@@ -16,7 +16,7 @@
 			</T3Header>
 		</template>
 
-		<article class="bs-scroll">
+		<article>
 			<section name="info" p-8 class="bs-br" text-left>
 				<header flex flex-col items-start gap-2 mb-8>
 					<n-h2 m-0 font-bold>

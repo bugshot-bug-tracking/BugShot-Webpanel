@@ -18,431 +18,391 @@
 
 		<TrialBanner />
 
-		<article flex-1>
-			<n-scrollbar x-scrollable>
-				<div flex gap-16 p-8 flex-wrap>
-					<div class="component-group" min-w-172 max-w-172>
-						<div class="group-content">
-							<Container text-left>
-								<template #title>
-									<n-h2 m-0 font-bold> {{ t("monthly_subscription", 2) }} </n-h2>
-								</template>
+		<article>
+			<div class="component-group">
+				<div class="group-content">
+					<Container text-left>
+						<template #title>
+							<n-h2 m-0 font-bold> {{ t("monthly_subscription", 2) }} </n-h2>
+						</template>
 
-								<n-list
-									v-if="(monthlySubscriptions?.length ?? 0) > 0"
-									flex
-									flex-col
-									gap-4
-								>
-									<n-list-item v-for="subscription of monthlySubscriptions">
-										<div class="plan-item">
-											<n-h3 m-0>
-												{{ getSubscriptionName(subscription) }}
-											</n-h3>
+						<n-list v-if="(monthlySubscriptions?.length ?? 0) > 0" flex flex-col gap-4>
+							<n-list-item v-for="subscription of monthlySubscriptions">
+								<div class="plan-item">
+									<n-h3 m-0>
+										{{ getSubscriptionName(subscription) }}
+									</n-h3>
 
-											<div grid grid-cols-2 gap-4 mt-6>
-												<div flex flex-col>
-													<n-h6 m-0>{{ t("billing_and_payments") }}</n-h6>
+									<div grid grid-cols-2 gap-4 mt-6>
+										<div flex flex-col>
+											<n-h6 m-0>{{ t("billing_and_payments") }}</n-h6>
 
-													<div grid grid-cols-2 gap-4>
+											<div grid grid-cols-2 gap-4>
+												<b>
+													{{ t("paid_with") }}
+												</b>
+
+												<p style="color: var(--bs-gray)">Stripe</p>
+											</div>
+
+											<hr my-2 />
+
+											<div grid grid-cols-2 gap-4>
+												<b>
+													{{ t("payment", 2) }}
+												</b>
+												<div style="color: var(--bs-gray)">
+													<p>
 														<b>
-															{{ t("paid_with") }}
+															{{
+																n(
+																	getSubscriptionPrice(
+																		subscription
+																	)
+																)
+															}}
+															€
 														</b>
+													</p>
 
-														<p style="color: var(--bs-gray)">Stripe</p>
-													</div>
+													<p v-if="!isSubscriptionCanceled(subscription)">
+														{{
+															$t("next_payment_on_s", [
+																getSubscriptionNextPayment(
+																	subscription
+																),
+															])
+														}}
+													</p>
 
-													<hr my-2 />
+													<p v-else style="color: var(--bs-red)">
+														{{
+															$t("subscription_wil_end_at_s", [
+																getSubscriptionNextPayment(
+																	subscription
+																),
+															])
+														}}
+													</p>
 
-													<div grid grid-cols-2 gap-4>
-														<b>
-															{{ t("payment", 2) }}
-														</b>
-														<div style="color: var(--bs-gray)">
+													<p>
+														{{ $t("monthly_payment_prepaid") }}
+													</p>
+												</div>
+											</div>
+
+											<RouterLink
+												:to="{
+													name: 'organization-payments-subscription-index',
+													params: {
+														subscription_id: subscription.id,
+													},
+												}"
+												mt-8
+												mx-a
+											>
+												<n-button strong ghost round type="success">
+													{{ t("manage_subscription") }}
+												</n-button>
+											</RouterLink>
+										</div>
+
+										<div flex flex-col>
+											<n-h6 m-0>
+												{{
+													t(
+														"number_of_licenses_n",
+														getLicenseTotalQuantity(subscription)
+													)
+												}}
+											</n-h6>
+
+											<n-list show-divider>
+												<n-list-item>
+													<div
+														grid
+														style="grid-template-columns: 1fr 2fr"
+													>
+														<p>
+															<b>{{ $t("license", 2) }} </b>
+														</p>
+
+														<div
+															flex
+															flex-col
+															gap-2
+															mb-2
+															style="color: var(--bs-gray)"
+														>
 															<p>
 																<b>
 																	{{
-																		n(
-																			getSubscriptionPrice(
+																		t(
+																			"n_licenses_used",
+																			getLicenseStatistics(
 																				subscription
-																			)
+																			).used
 																		)
 																	}}
-																	€
 																</b>
 															</p>
-
-															<p
-																v-if="
-																	!isSubscriptionCanceled(
-																		subscription
-																	)
-																"
-															>
-																{{
-																	$t("next_payment_on_s", [
-																		getSubscriptionNextPayment(
-																			subscription
-																		),
-																	])
-																}}
-															</p>
-
-															<p v-else style="color: var(--bs-red)">
-																{{
-																	$t(
-																		"subscription_wil_end_at_s",
-																		[
-																			getSubscriptionNextPayment(
-																				subscription
-																			),
-																		]
-																	)
-																}}
-															</p>
-
 															<p>
-																{{ $t("monthly_payment_prepaid") }}
+																{{
+																	t(
+																		"n_licenses_available",
+																		getLicenseStatistics(
+																			subscription
+																		).unused
+																	)
+																}}
 															</p>
 														</div>
 													</div>
+												</n-list-item>
+											</n-list>
 
-													<RouterLink
-														:to="{
-															name: 'organization-payments-subscription-index',
-															params: {
-																subscription_id: subscription.id,
-															},
-														}"
-														mt-8
-														mx-a
-													>
-														<n-button strong ghost round type="success">
-															{{ t("manage_subscription") }}
-														</n-button>
-													</RouterLink>
-												</div>
-
-												<div flex flex-col>
-													<n-h6 m-0>
-														{{
-															t(
-																"number_of_licenses_n",
-																getLicenseTotalQuantity(
-																	subscription
-																)
-															)
-														}}
-													</n-h6>
-
-													<n-list show-divider>
-														<n-list-item>
-															<div
-																grid
-																style="
-																	grid-template-columns: 1fr 2fr;
-																"
-															>
-																<p>
-																	<b>{{ $t("license", 2) }} </b>
-																</p>
-
-																<div
-																	flex
-																	flex-col
-																	gap-2
-																	mb-2
-																	style="color: var(--bs-gray)"
-																>
-																	<p>
-																		<b>
-																			{{
-																				t(
-																					"n_licenses_used",
-																					getLicenseStatistics(
-																						subscription
-																					).used
-																				)
-																			}}
-																		</b>
-																	</p>
-																	<p>
-																		{{
-																			t(
-																				"n_licenses_available",
-																				getLicenseStatistics(
-																					subscription
-																				).unused
-																			)
-																		}}
-																	</p>
-																</div>
-															</div>
-														</n-list-item>
-													</n-list>
-
-													<RouterLink
-														:to="{
-															name: 'organization-payments-subscription-licenses',
-															params: {
-																subscription_id: subscription.id,
-															},
-														}"
-														mt-a
-														mx-a
-													>
-														<n-button strong ghost round type="success">
-															{{ t("manage_licenses") }}
-														</n-button>
-													</RouterLink>
-												</div>
-											</div>
+											<RouterLink
+												:to="{
+													name: 'organization-payments-subscription-licenses',
+													params: {
+														subscription_id: subscription.id,
+													},
+												}"
+												mt-a
+												mx-a
+											>
+												<n-button strong ghost round type="success">
+													{{ t("manage_licenses") }}
+												</n-button>
+											</RouterLink>
 										</div>
-									</n-list-item>
-								</n-list>
-
-								<n-empty v-else :description="$t('no_monthly_subscriptions')" />
-
-								<div flex justify-around my-8>
-									<n-button
-										type="success"
-										@click="startTrial"
-										strong
-										round
-										v-if="user.attributes.trial_end_date == null"
-									>
-										{{ $t("start_trial") }}
-									</n-button>
-
-									<RouterLink
-										:to="{
-											name: 'organization-payments-plans',
-											params: { id: id },
-										}"
-										v-if="subscriptionsAvailable.monthly > 0"
-									>
-										<n-button strong round type="primary">
-											{{ $t("buy_a_subscription") }}
-										</n-button>
-									</RouterLink>
+									</div>
 								</div>
-							</Container>
+							</n-list-item>
+						</n-list>
+
+						<n-empty v-else :description="$t('no_monthly_subscriptions')" />
+
+						<div flex justify-around my-8>
+							<n-button
+								type="success"
+								@click="startTrial"
+								strong
+								round
+								v-if="user.attributes.trial_end_date == null"
+							>
+								{{ $t("start_trial") }}
+							</n-button>
+
+							<RouterLink
+								:to="{
+									name: 'organization-payments-plans',
+									params: { id: id },
+								}"
+								v-if="subscriptionsAvailable.monthly > 0"
+							>
+								<n-button strong round type="primary">
+									{{ $t("buy_a_subscription") }}
+								</n-button>
+							</RouterLink>
 						</div>
-					</div>
-
-					<div class="component-group" min-w-172 max-w-172>
-						<div class="group-content">
-							<Container text-left>
-								<template #title>
-									<n-h2 m-0 font-bold> {{ t("yearly_subscription", 2) }} </n-h2>
-								</template>
-
-								<n-list
-									v-if="(yearlySubscriptions?.length ?? 0) > 0"
-									flex
-									flex-col
-									gap-4
-								>
-									<n-list-item v-for="subscription of yearlySubscriptions">
-										<div class="plan-item">
-											<n-h3 m-0>
-												{{ getSubscriptionName(subscription) }}
-											</n-h3>
-
-											<div grid grid-cols-2 gap-4 mt-6>
-												<div flex flex-col>
-													<n-h6 m-0>{{ t("billing_and_payments") }}</n-h6>
-
-													<div grid grid-cols-2 gap-4>
-														<b>
-															{{ t("paid_with") }}
-														</b>
-
-														<p style="color: var(--bs-gray)">Stripe</p>
-													</div>
-
-													<hr my-2 />
-
-													<div grid grid-cols-2 gap-4>
-														<b>
-															{{ t("payment", 2) }}
-														</b>
-														<div style="color: var(--bs-gray)">
-															<p>
-																<b>
-																	{{
-																		n(
-																			getSubscriptionPrice(
-																				subscription
-																			)
-																		)
-																	}}
-																	€
-																</b>
-															</p>
-
-															<p
-																v-if="
-																	!isSubscriptionCanceled(
-																		subscription
-																	)
-																"
-															>
-																{{
-																	$t("next_payment_on_s", [
-																		getSubscriptionNextPayment(
-																			subscription
-																		),
-																	])
-																}}
-															</p>
-
-															<p v-else style="color: var(--bs-red)">
-																{{
-																	$t(
-																		"subscription_wil_end_at_s",
-																		[
-																			getSubscriptionNextPayment(
-																				subscription
-																			),
-																		]
-																	)
-																}}
-															</p>
-
-															<p>
-																{{ $t("yearly_payment_prepaid") }}
-															</p>
-														</div>
-													</div>
-
-													<RouterLink
-														:to="{
-															name: 'organization-payments-subscription-index',
-															params: {
-																subscription_id: subscription.id,
-															},
-														}"
-														mt-8
-														mx-a
-													>
-														<n-button strong ghost round type="success">
-															{{ t("manage_subscription") }}
-														</n-button>
-													</RouterLink>
-												</div>
-
-												<div flex flex-col>
-													<n-h6 m-0>
-														{{
-															t(
-																"number_of_licenses_n",
-																getLicenseTotalQuantity(
-																	subscription
-																)
-															)
-														}}
-													</n-h6>
-
-													<n-list show-divider>
-														<n-list-item>
-															<div
-																grid
-																style="
-																	grid-template-columns: 1fr 2fr;
-																"
-															>
-																<p>
-																	<b>{{ $t("license", 2) }} </b>
-																</p>
-
-																<div
-																	flex
-																	flex-col
-																	gap-2
-																	mb-2
-																	style="color: var(--bs-gray)"
-																>
-																	<p>
-																		<b>
-																			{{
-																				t(
-																					"n_licenses_used",
-																					getLicenseStatistics(
-																						subscription
-																					).used
-																				)
-																			}}
-																		</b>
-																	</p>
-																	<p>
-																		{{
-																			t(
-																				"n_licenses_available",
-																				getLicenseStatistics(
-																					subscription
-																				).unused
-																			)
-																		}}
-																	</p>
-																</div>
-															</div>
-														</n-list-item>
-													</n-list>
-
-													<RouterLink
-														:to="{
-															name: 'organization-payments-subscription-licenses',
-															params: {
-																subscription_id: subscription.id,
-															},
-														}"
-														mt-a
-														mx-a
-													>
-														<n-button strong ghost round type="success">
-															{{ t("manage_licenses") }}
-														</n-button>
-													</RouterLink>
-												</div>
-											</div>
-										</div>
-									</n-list-item>
-								</n-list>
-
-								<n-empty v-else :description="$t('no_yearly_subscriptions')" />
-
-								<div flex justify-around my-8>
-									<n-button
-										type="success"
-										@click="startTrial"
-										strong
-										round
-										v-if="user.attributes.trial_end_date == null"
-									>
-										{{ $t("start_trial") }}
-									</n-button>
-
-									<RouterLink
-										:to="{
-											name: 'organization-payments-plans',
-											params: { id: id },
-											query: {
-												t: 'y',
-											},
-										}"
-										v-if="subscriptionsAvailable.yearly > 0"
-									>
-										<n-button strong round type="primary">
-											{{ $t("buy_a_subscription") }}
-										</n-button>
-									</RouterLink>
-								</div>
-							</Container>
-						</div>
-					</div>
+					</Container>
 				</div>
-			</n-scrollbar>
+			</div>
+
+			<div class="component-group">
+				<div class="group-content">
+					<Container text-left>
+						<template #title>
+							<n-h2 m-0 font-bold> {{ t("yearly_subscription", 2) }} </n-h2>
+						</template>
+
+						<n-list v-if="(yearlySubscriptions?.length ?? 0) > 0" flex flex-col gap-4>
+							<n-list-item v-for="subscription of yearlySubscriptions">
+								<div class="plan-item">
+									<n-h3 m-0>
+										{{ getSubscriptionName(subscription) }}
+									</n-h3>
+
+									<div grid grid-cols-2 gap-4 mt-6>
+										<div flex flex-col>
+											<n-h6 m-0>{{ t("billing_and_payments") }}</n-h6>
+
+											<div grid grid-cols-2 gap-4>
+												<b>
+													{{ t("paid_with") }}
+												</b>
+
+												<p style="color: var(--bs-gray)">Stripe</p>
+											</div>
+
+											<hr my-2 />
+
+											<div grid grid-cols-2 gap-4>
+												<b>
+													{{ t("payment", 2) }}
+												</b>
+												<div style="color: var(--bs-gray)">
+													<p>
+														<b>
+															{{
+																n(
+																	getSubscriptionPrice(
+																		subscription
+																	)
+																)
+															}}
+															€
+														</b>
+													</p>
+
+													<p v-if="!isSubscriptionCanceled(subscription)">
+														{{
+															$t("next_payment_on_s", [
+																getSubscriptionNextPayment(
+																	subscription
+																),
+															])
+														}}
+													</p>
+
+													<p v-else style="color: var(--bs-red)">
+														{{
+															$t("subscription_wil_end_at_s", [
+																getSubscriptionNextPayment(
+																	subscription
+																),
+															])
+														}}
+													</p>
+
+													<p>
+														{{ $t("yearly_payment_prepaid") }}
+													</p>
+												</div>
+											</div>
+
+											<RouterLink
+												:to="{
+													name: 'organization-payments-subscription-index',
+													params: {
+														subscription_id: subscription.id,
+													},
+												}"
+												mt-8
+												mx-a
+											>
+												<n-button strong ghost round type="success">
+													{{ t("manage_subscription") }}
+												</n-button>
+											</RouterLink>
+										</div>
+
+										<div flex flex-col>
+											<n-h6 m-0>
+												{{
+													t(
+														"number_of_licenses_n",
+														getLicenseTotalQuantity(subscription)
+													)
+												}}
+											</n-h6>
+
+											<n-list show-divider>
+												<n-list-item>
+													<div
+														grid
+														style="grid-template-columns: 1fr 2fr"
+													>
+														<p>
+															<b>{{ $t("license", 2) }} </b>
+														</p>
+
+														<div
+															flex
+															flex-col
+															gap-2
+															mb-2
+															style="color: var(--bs-gray)"
+														>
+															<p>
+																<b>
+																	{{
+																		t(
+																			"n_licenses_used",
+																			getLicenseStatistics(
+																				subscription
+																			).used
+																		)
+																	}}
+																</b>
+															</p>
+															<p>
+																{{
+																	t(
+																		"n_licenses_available",
+																		getLicenseStatistics(
+																			subscription
+																		).unused
+																	)
+																}}
+															</p>
+														</div>
+													</div>
+												</n-list-item>
+											</n-list>
+
+											<RouterLink
+												:to="{
+													name: 'organization-payments-subscription-licenses',
+													params: {
+														subscription_id: subscription.id,
+													},
+												}"
+												mt-a
+												mx-a
+											>
+												<n-button strong ghost round type="success">
+													{{ t("manage_licenses") }}
+												</n-button>
+											</RouterLink>
+										</div>
+									</div>
+								</div>
+							</n-list-item>
+						</n-list>
+
+						<n-empty v-else :description="$t('no_yearly_subscriptions')" />
+
+						<div flex justify-around my-8>
+							<n-button
+								type="success"
+								@click="startTrial"
+								strong
+								round
+								v-if="user.attributes.trial_end_date == null"
+							>
+								{{ $t("start_trial") }}
+							</n-button>
+
+							<RouterLink
+								:to="{
+									name: 'organization-payments-plans',
+									params: { id: id },
+									query: {
+										t: 'y',
+									},
+								}"
+								v-if="subscriptionsAvailable.yearly > 0"
+							>
+								<n-button strong round type="primary">
+									{{ $t("buy_a_subscription") }}
+								</n-button>
+							</RouterLink>
+						</div>
+					</Container>
+				</div>
+			</div>
 		</article>
 	</T2Page>
 </template>
@@ -579,7 +539,12 @@ const subscriptionsAvailable = computed(() => {
 
 <style scoped lang="scss">
 article {
-	max-height: 100%;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, 42rem);
+	grid-auto-flow: dense;
+	padding: 2.5rem;
+	padding-right: 1.5rem;
+	gap: 3rem;
 }
 
 h6 {
