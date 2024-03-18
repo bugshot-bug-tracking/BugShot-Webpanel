@@ -1,3 +1,34 @@
+### 1.17.0 (2024-03-18)
+
+##### Chores
+
+* **Code:**  delete unused/old components (9ab350c4)
+
+##### New Features
+
+* **Feature:**
+  *  add option to include archived data when searching (33243a30)
+  *  separate comments into public and internal ones (a1834a4e)
+* **Usability:**
+  *  add individual project access token favorite option on the settings page (fcd809d2)
+  *  add experimental option in user settings and refactor code to be more clear (2298beec)
+  *  add function to disable all email notifications with one checkbox (ef3fc5f4)
+  *  fill mail automaticaly on register page if querry param present (9db60217)
+
+##### Bug Fixes
+
+* **UI:**
+  *  hide extension install suggest modal if the user doesn't have an active license/trial (72de9749)
+  *  fix image incorrect path for build (6f3c3e50)
+* **API:**  update invitation model and property uses for redirecting after user accepts an invitation (b0bfe187)
+
+##### Refactors
+
+* **Feature:**  replace old way of determinig special users by env id list with DB user setting (296a6e2a)
+* **UI:**
+  *  change default order settings for companies and projects (bf16d7ed)
+  *  replace bs-scroll with <n-scrollbar> (22e51953)
+
 #### 1.16.3 (2024-03-06)
 
 ##### New Features
