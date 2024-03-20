@@ -203,15 +203,29 @@ const projectSelect = reactive({
 		try {
 			projectSelect.loading = true;
 
-			let response = await store.getCreatemeta();
+			let response = await store.getProjects();
 
-			projectSelect.options = response?.projects.map((project: any) => ({
-				label: project.name,
-				value: project.id,
-				key: project.key,
-				disabled: (project.issuetypes?.length ?? 0) < 1,
-				object: project,
-			}));
+			projectSelect.options = response?.values.map((project: any) => {
+				const bugIssueTypeIndex = project.issueTypes?.findIndex(
+					(it) => it.name.toLowerCase() === "bug"
+				);
+				const taskIssueTypeIndex = project.issueTypes?.findIndex(
+					(it) => it.name.toLowerCase() === "task"
+				);
+
+				return {
+					label: project.name,
+					value: project.id,
+					key: project.key,
+					disabled:
+						(project.issueTypes?.length ?? 0) < 1 ||
+						bugIssueTypeIndex === -1 ||
+						taskIssueTypeIndex === -1,
+					object: project,
+					bugIssueTypeIndex,
+					taskIssueTypeIndex,
+				};
+			});
 		} catch (error) {
 			console.log(error);
 		} finally {
@@ -232,7 +246,12 @@ const projectSelect = reactive({
 				id: option.value,
 				name: option.label,
 				key: option.key,
-				issuetype: option.object.issuetypes[0]?.id,
+				issuetype:
+					option.object.issueTypes[
+						option.bugIssueTypeIndex > -1
+							? option.bugIssueTypeIndex
+							: option.taskIssueTypeIndex
+					].id,
 			});
 		} catch (error) {
 			console.log(error);
