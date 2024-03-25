@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { acceptHMRUpdate, defineStore } from "pinia";
 
 import axios from "axios";
 
@@ -214,6 +214,97 @@ export const useReportsStore = defineStore("reports", {
 			let bug = this.getBugById(bug_id);
 			if (!bug) throw "Bug not found!";
 
+			// vvv--- update status orders in memory so we don't need to make and wait for an update request for all bugs ---vvv
+
+			const oldBug = bug;
+
+			const oldStatus = this.getStatusById(bug.attributes.status_id);
+			const newStatus = this.getStatusById(changes.status_id);
+
+			let sameStatus = oldStatus?.id === newStatus?.id;
+
+			let order_number = changes.order_number ?? 0;
+			if (
+				order_number != 0 &&
+				(this.filter.creators.length > 0 ||
+					this.filter.assignees.length > 0 ||
+					this.filter.priorities.length > 0)
+			) {
+				let lastBug = undefined;
+				if (sameStatus) {
+					lastBug = oldStatus?.attributes.bugs?.reduce((prev, current) =>
+						prev.attributes.order_number > current.attributes.order_number
+							? prev
+							: current
+					);
+				} else {
+					lastBug = newStatus?.attributes.bugs?.reduce((prev, current) =>
+						prev.attributes.order_number > current.attributes.order_number
+							? prev
+							: current
+					);
+				}
+
+				order_number = lastBug ? lastBug.attributes.order_number + 1 : 0;
+			}
+
+			// if they are the same status but different order, update just the bugs in that status
+			if (sameStatus) {
+				oldStatus?.attributes.bugs?.forEach((bug) => {
+					// if the move was to the right (ex. bug 1 was moved after 4), all the bugs in interval (1, 4] or [2, 4] should be -1
+					if (oldBug!.attributes.order_number < order_number) {
+						if (
+							bug.attributes.order_number > oldBug!.attributes.order_number &&
+							bug.attributes.order_number <= order_number
+						) {
+							bug.attributes.order_number--;
+						}
+
+						// else if the move was to the left (ex. bug 6 was moved before 1), all the bugs in interval [1, 6) or [1, 5] should be +1
+					} else {
+						if (
+							bug.attributes.order_number >= order_number &&
+							bug.attributes.order_number < oldBug!.attributes.order_number
+						) {
+							bug.attributes.order_number++;
+						}
+					}
+				});
+			} else {
+				// remove old bug
+				let oldIndex = oldStatus?.attributes.bugs?.findIndex((x) => x.id === oldBug.id);
+
+				if (oldIndex != undefined && oldIndex != -1)
+					oldStatus?.attributes.bugs?.splice(oldIndex, 1);
+
+				// decrease all the bugs with order_number greater than the one removed
+				oldStatus?.attributes.bugs?.forEach((bug) => {
+					if (bug.attributes.order_number > oldBug!.attributes.order_number)
+						bug.attributes.order_number--;
+				});
+
+				let newBugFoundInNewStatus = false;
+
+				// increase all the bugs with order_number the same or greater than the one who will be pushed
+				newStatus?.attributes.bugs?.forEach((bug) => {
+					// in case external factors added the newBug to the newStatus set the flag and continue iterating
+					if (bug.id === oldBug.id) return (newBugFoundInNewStatus = true);
+
+					if (bug.attributes.order_number >= order_number) bug.attributes.order_number++;
+				});
+
+				// if the flag was not raised add the bug to the new status
+				if (!newBugFoundInNewStatus) newStatus?.attributes.bugs?.push(oldBug);
+			}
+
+			// update the bug in this store with the provided changes
+			Object.assign(oldBug.attributes, {
+				...{ status_id: changes.status_id ?? bug.attributes.status_id },
+				...{
+					order_number: order_number ?? bug.attributes.order_number,
+				},
+			});
+
 			const newBug = (
 				await axios.put(`statuses/${bug.attributes.status_id}/bugs/${bug.id}`, {
 					ai_id: bug.attributes.ai_id,
@@ -233,73 +324,14 @@ export const useReportsStore = defineStore("reports", {
 					priority_id: bug.attributes.priority.id,
 
 					...{
-						order_number: changes.order_number ?? bug.attributes.order_number,
+						order_number: order_number ?? bug.attributes.order_number,
 					},
 
 					deadline: dateFix(bug.attributes.deadline)?.slice(0, -1),
 				})
 			).data.data;
 
-			// vvv--- update status orders in memory so we don't need to make and wait for an update request for all bugs ---vvv
-
-			const oldBug = bug;
-
-			const oldStatus = this.getStatusById(bug.attributes.status_id);
-			const newStatus = this.getStatusById(changes.status_id);
-
-			let sameStatus = oldStatus?.id === newStatus?.id;
-
-			// if they are the same status but different order, update just the bugs in that status
-			if (sameStatus) {
-				oldStatus?.attributes.bugs?.forEach((bug) => {
-					// if the move was to the right (ex. bug 1 was moved after 4), all the bugs in interval (1, 4] or [2, 4] should be -1
-					if (oldBug!.attributes.order_number < newBug.attributes.order_number) {
-						if (
-							bug.attributes.order_number > oldBug!.attributes.order_number &&
-							bug.attributes.order_number <= newBug.attributes.order_number
-						) {
-							bug.attributes.order_number--;
-						}
-
-						// else if the move was to the left (ex. bug 6 was moved before 1), all the bugs in interval [1, 6) or [1, 5] should be +1
-					} else {
-						if (
-							bug.attributes.order_number >= newBug.attributes.order_number &&
-							bug.attributes.order_number < oldBug!.attributes.order_number
-						) {
-							bug.attributes.order_number++;
-						}
-					}
-				});
-			} else {
-				// remove old bug
-				let oldIndex = oldStatus?.attributes.bugs?.findIndex((x) => x.id === newBug.id);
-
-				if (oldIndex != undefined && oldIndex != -1)
-					oldStatus?.attributes.bugs?.splice(oldIndex, 1);
-
-				// decrease all the bugs with order_number greater than the one removed
-				oldStatus?.attributes.bugs?.forEach((bug) => {
-					if (bug.attributes.order_number > oldBug!.attributes.order_number)
-						bug.attributes.order_number--;
-				});
-
-				let newBugFoundInNewStatus = false;
-
-				// increase all the bugs with order_number the same or greater than the one who will be pushed
-				newStatus?.attributes.bugs?.forEach((bug) => {
-					// in case external factors added the newBug to the newStatus set the flag and continue iterating
-					if (bug.id === newBug.id) return (newBugFoundInNewStatus = true);
-
-					if (bug.attributes.order_number >= newBug.attributes.order_number)
-						bug.attributes.order_number++;
-				});
-
-				// if the flag was not raised add the bug to the new status
-				if (!newBugFoundInNewStatus) newStatus?.attributes.bugs?.push(newBug);
-			}
-
-			// update the bug in this store
+			// update the bug in this store with the data from server
 			Object.assign(oldBug.attributes, newBug.attributes);
 
 			// update the bug in the status list also
@@ -416,3 +448,7 @@ export const useReportsStore = defineStore("reports", {
 			),
 	},
 });
+
+if (import.meta.hot) {
+	import.meta.hot.accept(acceptHMRUpdate(useReportsStore, import.meta.hot));
+}
