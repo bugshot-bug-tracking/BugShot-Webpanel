@@ -1,3 +1,18 @@
+#### 1.17.1 (2024-03-25)
+
+##### Bug Fixes
+
+* **Kanban:**  change how bugs are moved to not have a ruber band effect (aeb2b601)
+
+##### Other Changes
+
+* 30000/bugshot/web/webpanel (297f3ffc)
+* 30000/bugshot/web/webpanel into staging (2b4afc91)
+
+##### Refactors
+
+* **Integrations:**  update jira integration to prevent future incompatibility (f60d0330)
+
 ### 1.17.0 (2024-03-18)
 
 ##### Chores
