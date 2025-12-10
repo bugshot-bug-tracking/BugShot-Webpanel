@@ -70,11 +70,7 @@
 			</T3Header>
 		</template>
 
-		<TrialBanner />
-
 		<div class="main-empty" v-if="projects.length < 1">
-			<TrialBanner />
-
 			<section>
 				<img src="/src/assets/images/nothing_to_show.svg" alt="empty boxes" w-88 h-88 />
 

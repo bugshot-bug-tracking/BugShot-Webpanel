@@ -244,6 +244,7 @@ export const useAuthStore = defineStore("auth", {
 		getLicenses: (state) => state.user?.attributes.subscriptions ?? [],
 
 		isLicensed: (state) => {
+			return true;
 			const hasSubscription = (state.user?.attributes.subscriptions?.length ?? 0) > 1;
 			const trialEndDate = state.user?.attributes.trial_end_date;
 

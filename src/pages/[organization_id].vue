@@ -13,13 +13,9 @@
 		<section class="grid-page">
 			<RouterView />
 		</section>
-
-		<NoLicenseOverlay />
 	</main>
 
 	<main class="main-empty" v-else>
-		<TrialBanner absolute />
-
 		<section>
 			<OrganizationSwitcher />
 
@@ -37,8 +33,6 @@
 
 			<CompanyCreateModal :primary_button="true" redirect />
 		</section>
-
-		<NoLicenseOverlay />
 	</main>
 
 	<SuggestExtension />

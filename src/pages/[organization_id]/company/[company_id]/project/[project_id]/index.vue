@@ -104,8 +104,6 @@
 		</template>
 
 		<template #main>
-			<TrialBanner mb-0 />
-
 			<div v-if="loading" class="loading">
 				<img src="/src/assets/animations/loading.svg" alt="loading circle" />
 			</div>

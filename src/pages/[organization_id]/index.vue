@@ -20,8 +20,6 @@
 			</T3Header>
 		</template>
 
-		<TrialBanner />
-
 		<GroupContainer v-for="company of companies" :key="company.id">
 			<template #top-left>
 				<RouterLink

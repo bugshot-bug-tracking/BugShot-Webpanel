@@ -183,6 +183,8 @@ const loadingModal = reactive({
 	width: calc(100% + 2rem);
 	margin-left: -1rem;
 	margin-right: -1rem;
+	max-height:70vh;
+	overflow: auto;
 }
 
 .item {

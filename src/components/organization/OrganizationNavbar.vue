@@ -58,25 +58,6 @@
 						/>
 						{{ $t("team_members") }}
 					</RouterLink>
-
-					<RouterLink
-						:to="{ name: 'organization-payments', params: { id: item.id } }"
-						class="route sh-organization-nav-settings"
-						:style="{
-							'font-weight': 'bold',
-							width: 'auto',
-						}"
-					>
-						<img
-							src="/src/assets/icons/euro.svg"
-							alt="settings"
-							w-6
-							h-6
-							p-1
-							:title="$t('payments_and_plans')"
-						/>
-						{{ $t("payments_and_plans") }}
-					</RouterLink>
 				</template>
 			</ResourceNavbarItem>
 		</template>

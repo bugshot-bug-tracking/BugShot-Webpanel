@@ -26,8 +26,6 @@
 		</template>
 
 		<template #main>
-			<TrialBanner mb-0 />
-
 			<n-layout>
 				<n-layout position="absolute" has-sider>
 					<n-layout-sider

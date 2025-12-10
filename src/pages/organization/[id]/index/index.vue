@@ -16,8 +16,6 @@
 			</T3Header>
 		</template>
 
-		<TrialBanner />
-
 		<article p-8 content-start>
 			<div>
 				<div class="component-group">

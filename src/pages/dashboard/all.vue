@@ -31,8 +31,6 @@
 					</T3Header>
 				</template>
 
-				<TrialBanner />
-
 				<GroupContainer v-for="company of companiesWithProjects" :key="company.id">
 					<template #top-left>
 						<RouterLink
@@ -87,13 +85,9 @@
 				</GroupContainer>
 			</T2Page>
 		</section>
-
-		<NoLicenseOverlay />
 	</main>
 
 	<main class="main-empty" v-else>
-		<TrialBanner />
-
 		<section>
 			<OrganizationSwitcher />
 
@@ -111,8 +105,6 @@
 
 			<CompanyCreateModal :primary_button="true" redirect />
 		</section>
-
-		<NoLicenseOverlay />
 	</main>
 </template>
 
