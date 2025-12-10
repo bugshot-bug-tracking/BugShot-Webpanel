@@ -1,3 +1,9 @@
+#### 1.17.3 (2025-12-10)
+
+##### New Features
+
+*  remove payment and license logic to make the app free to use (f74eb084)
+
 #### 1.17.2 (2024-03-28)
 
 #### 1.17.1 (2024-03-25)
