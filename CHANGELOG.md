@@ -1,3 +1,17 @@
+#### 1.17.4 (2025-12-10)
+
+##### Chores
+
+*  update lock file version (34f1a89a)
+
+##### New Features
+
+*  remove payment and license logic to make the app free to use (f74eb084)
+
+##### Other Changes
+
+*  1.17.3 (0fcb7988)
+
 #### 1.17.3 (2025-12-10)
 
 ##### Chores
