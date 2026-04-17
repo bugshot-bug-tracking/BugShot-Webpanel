@@ -143,7 +143,7 @@ const emit = defineEmits(["update:checkbox", "unassign", "submit"]);
 .license-card {
 	line-height: 1.25;
 
-	:deep(.n-card__content) {
+	:deep(.n-card-content) {
 		padding: 0;
 		padding-bottom: 1rem !important;
 	}

@@ -270,7 +270,7 @@ const handleModifierChange = (change: { archived?: boolean }) => {
 }
 
 :deep(.n-card) {
-	.n-card__content {
+	.n-card-content {
 		padding: 0rem;
 	}
 }

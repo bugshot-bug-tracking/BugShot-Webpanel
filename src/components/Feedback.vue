@@ -171,7 +171,7 @@ const submit = async () => {
 			description: formData.description,
 			url: window.location.href,
 			operating_system: `${bowser.getOSName()} ${bowser.getOS().versionName}`,
-			browser: `${bowser.getBrowserName()} ${bowser.getBrowserVersion().split(".")[0]}`,
+			browser: `${bowser.getBrowserName()} ${bowser.getBrowserVersion()?.split(".")[0]}`,
 			selector: formData.email,
 			resolution: `${window.screen.width} x ${window.screen.height}`,
 			attachments: att_list,

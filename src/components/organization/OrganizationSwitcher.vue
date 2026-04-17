@@ -164,14 +164,14 @@ img {
 		display: none;
 	}
 
-	.n-base-select-option__content {
+	.n-base-select-option-content {
 		width: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
 
-	.n-tag__content {
+	.n-tag-content {
 		width: 8ch;
 		text-align: center;
 	}

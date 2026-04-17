@@ -227,7 +227,7 @@ const handleFavorite = async (token: AccessToken, value: boolean) => {
 
 <style lang="scss">
 .add-token-card {
-	.n-card__content {
+	.n-card-content {
 		padding: 0 !important;
 	}
 }

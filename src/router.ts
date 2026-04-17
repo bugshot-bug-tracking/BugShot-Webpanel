@@ -11,7 +11,7 @@ const router = createRouter({
 	routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, from) => {
 	if (
 		to.query.lang != undefined &&
 		typeof to.query.lang === "string" &&
@@ -29,11 +29,11 @@ router.beforeEach((to, from, next) => {
 	//? does the route have auth requirement
 	if (to.matched.some((record) => record.meta.requiresAuth)) {
 		// if the user is authenticated continue
-		if (localStorage.getItem("authToken")) next();
+		if (localStorage.getItem("authToken")) return;
 		// else redirect to login
-		else next({ name: "login" });
+		else return ({ name: "login" });
 	} else {
-		next();
+		return ;
 	}
 });
 

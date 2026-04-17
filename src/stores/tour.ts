@@ -1,6 +1,6 @@
 import { useStorage } from "@vueuse/core";
 import { defineStore } from "pinia";
-import Shepherd from "shepherd.js";
+import { Tour } from "shepherd.js";
 import { RouteLocationRaw } from "vue-router";
 import { Tours, useTours } from "~/tours/tours";
 import { useUserSettingsStore } from "./userSettings";
@@ -8,7 +8,7 @@ import { SettingTypes, SettingValues } from "~/models/Setting";
 
 export const useTourStore = defineStore("tour", {
 	state: () => ({
-		tour: undefined as undefined | Shepherd.Tour,
+		tour: undefined as undefined | Tour,
 
 		tour_type: useStorage<Tours | "">("sh-tour-type", ""),
 		step: useStorage<string>("sh-tour-step", ""),

@@ -334,7 +334,7 @@ article {
 		align-items: center;
 	}
 
-	.n-tag__content {
+	.n-tag-content {
 		max-width: 16ch;
 	}
 }

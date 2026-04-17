@@ -997,6 +997,8 @@
 	"search_modifiers": {
 		"archived": "Include archived data"
 	},
+	"new_version_released": "A new version was released",
+	"banner_info": "If you encounter any problems or bugs, please use the feedback form in the lower right corner to tell us about them.",
 
 	" ": "",
 	"": ""

@@ -5,7 +5,7 @@ import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 
 import Pages from "vite-plugin-pages";
-import Layouts from "vite-plugin-vue-layouts";
+import Layouts from "vite-plugin-vue-layouts-next";
 import Unocss from "unocss/vite";
 import VueI18n from "@intlify/unplugin-vue-i18n/vite";
 import { NaiveUiResolver } from "unplugin-vue-components/resolvers";

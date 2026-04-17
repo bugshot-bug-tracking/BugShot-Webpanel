@@ -110,7 +110,7 @@ const loadMore = async () => {
 
 <style scoped lang="scss">
 :deep(.n-statistic-value) {
-	.n-statistic-value__content,
+	.n-statistic-value-content,
 	.n-statistic-value__suffix {
 		font-size: 1rem;
 		color: var(--bs-gray);

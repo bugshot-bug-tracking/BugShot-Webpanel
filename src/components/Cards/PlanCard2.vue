@@ -161,7 +161,7 @@ const nicePrice = (value: number) => {
 	}
 }
 
-:deep(.n-card__content),
+:deep(.n-card-content),
 :deep(.n-card__footer) {
 	border-width: 2px !important;
 }

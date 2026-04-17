@@ -1,5 +1,4 @@
-import Shepherd from "shepherd.js";
-import Step from "shepherd.js/src/types/step";
+import Shepherd, { StepOptions } from "shepherd.js";
 import { RouteLocationRaw } from "vue-router";
 import { useGlobalI18n } from "~/composables/GlobalI18n";
 
@@ -382,7 +381,7 @@ const useOverviewTour = ({
 				},
 			],
 		},
-	] as Step.StepOptions[]);
+	] as StepOptions[]);
 
 	return tour;
 };

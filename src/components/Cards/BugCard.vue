@@ -185,7 +185,7 @@ h6 {
 	:deep(.n-card-header) {
 		padding: 1rem 1rem 0 1rem;
 	}
-	:deep(.n-card__content) {
+	:deep(.n-card-content) {
 		padding: 0.5rem 1rem 1rem 1rem;
 	}
 

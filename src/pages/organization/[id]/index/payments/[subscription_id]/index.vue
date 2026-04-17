@@ -102,7 +102,7 @@ section {
 	padding: 2rem;
 	border-radius: 0.5rem;
 
-	.n-card__content,
+	.n-card-content,
 	.n-card__footer {
 		padding-bottom: 0;
 	}
