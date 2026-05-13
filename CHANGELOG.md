@@ -1,3 +1,9 @@
+#### 1.17.6 (2026-05-13)
+
+##### Chores
+
+*  add pnpm-workspace.yaml to enable esbuild builds (6eb17833)
+
 #### 1.17.5 (2026-04-17)
 
 ##### Chores
