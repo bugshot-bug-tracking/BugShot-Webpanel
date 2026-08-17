@@ -160,7 +160,6 @@ declare module 'vue' {
     NotificationSettings: typeof import('./components/Settings/User/Advanced/NotificationSettings.vue')['default']
     NotificationTemplate: typeof import('./templates/NotificationTemplate.vue')['default']
     NP: typeof import('naive-ui')['NP']
-    NPagination: typeof import('naive-ui')['NPagination']
     NPopconfirm: typeof import('naive-ui')['NPopconfirm']
     NPopover: typeof import('naive-ui')['NPopover']
     NPopselect: typeof import('naive-ui')['NPopselect']

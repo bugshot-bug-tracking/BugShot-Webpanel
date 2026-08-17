@@ -18,21 +18,17 @@
 					<BugCard
 						:bug="bug"
 						:active="bug.id === bugStore.bug?.id"
-						:key="bug.id"
 						@open="openBugInfo"
 						:loading="cardLoading === bug.id && bugStore.loading_bug"
 					/>
 				</li>
 			</ul>
 		</n-scrollbar>
-
-		<n-pagination v-model:page="page" :page-count="100" mx-a my-4 size="large" v-if="false" />
 	</article>
 </template>
 
 <script setup lang="ts">
 import { useArchivedBugStore } from "~/stores/archivedBug";
-import { useBugStore } from "~/stores/bug";
 import { useReportsStore } from "~/stores/reports";
 
 const { t } = useI18n();
@@ -40,16 +36,20 @@ const { t } = useI18n();
 const store = useReportsStore();
 const bugStore = useArchivedBugStore();
 
-const bugs = computed(() =>
-	store.getArchivedBugs?.sort((a, b) =>
-		a.attributes.archived_at < b.attributes.archived_at ? 1 : -1
-	)
-);
-
-const page = ref(1);
-
 const loading = ref(false);
 const error = ref(false);
+const cardLoading = ref<string | undefined>(undefined);
+
+// Create a sorted copy only when the source data changes, not on every access
+const bugs = computed(() => {
+	const archivedBugs = store.getArchivedBugs;
+	if (!archivedBugs) return [];
+
+	// Create a new sorted array without mutating the original
+	return [...archivedBugs].sort((a, b) =>
+		a.attributes.archived_at < b.attributes.archived_at ? 1 : -1,
+	);
+});
 
 const init = async () => {
 	try {
@@ -58,7 +58,7 @@ const init = async () => {
 
 		await store.fetchArchivedBugs();
 	} catch (err: any) {
-		console.log(err);
+		console.error(err);
 		error.value = true;
 	} finally {
 		loading.value = false;
@@ -67,31 +67,14 @@ const init = async () => {
 
 onMounted(init);
 
-const infoTab = reactive({
-	show: false,
-	id: undefined as string | undefined,
-	open: (bug_id: string, status_id: string) => {
-		infoTab.show = true;
-		infoTab.id = bug_id;
-		useBugStore().init(bug_id, status_id);
-	},
-	close: () => {
-		infoTab.show = false;
-		infoTab.id = undefined;
-	},
-});
-
-const cardLoading = ref(undefined as string | undefined);
 const openBugInfo = async (bug_id: string, status_id: string) => {
-	if (cardLoading.value != undefined) return;
+	if (cardLoading.value) return;
 
 	try {
 		cardLoading.value = bug_id;
-
-		let r = await bugStore.init(bug_id, status_id);
-		console.log(r);
+		await bugStore.init(bug_id, status_id);
 	} catch (error: any) {
-		console.log(error);
+		console.error(error);
 	} finally {
 		cardLoading.value = undefined;
 	}

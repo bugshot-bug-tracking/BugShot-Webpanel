@@ -284,7 +284,7 @@ watch(
 	() => {
 		initStore();
 	},
-	{ deep: true }
+	{ deep: true },
 );
 
 const suggestOptions = computed(() => {
@@ -416,7 +416,7 @@ const kanbanState = reactive({
 });
 
 const allBugsSelected = computed(
-	() => kanbanState.checkList.length === reportsStore.getBacklogStatus?.attributes.bugs?.length
+	() => kanbanState.checkList.length === reportsStore.getBacklogStatus?.attributes.bugs?.length,
 );
 
 const toggleSelectAll = () => {
@@ -454,7 +454,7 @@ const projectMove = reactive({
 
 const removeCreatorFromFilter = (user: User | undefined) => {
 	let entryIndex = reportsStore.filter.creators.findIndex((creator_id) =>
-		user ? creator_id === user.id : creator_id === -1
+		user ? creator_id === user.id : creator_id === -1,
 	);
 
 	if (entryIndex != undefined && entryIndex != -1) {
@@ -463,7 +463,7 @@ const removeCreatorFromFilter = (user: User | undefined) => {
 };
 const removeAssigneeFromFilter = (user: User) => {
 	let entryIndex = reportsStore.filter.assignees.findIndex(
-		(creator_id) => creator_id === user.id
+		(creator_id) => creator_id === user.id,
 	);
 
 	if (entryIndex != undefined && entryIndex != -1) {
@@ -472,7 +472,7 @@ const removeAssigneeFromFilter = (user: User) => {
 };
 const removePriorityFromFilter = (value: number) => {
 	let entryIndex = reportsStore.filter.priorities.findIndex(
-		(priority_id) => priority_id === value
+		(priority_id) => priority_id === value,
 	);
 
 	if (entryIndex != undefined && entryIndex != -1) {
