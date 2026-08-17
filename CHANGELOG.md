@@ -1,3 +1,9 @@
+#### 1.17.7 (2026-08-17)
+
+##### Bug Fixes
+
+*  update lock file to latest format and fix bad archive bug tab performance/crash (43abe730)
+
 #### 1.17.6 (2026-05-13)
 
 ##### Chores
